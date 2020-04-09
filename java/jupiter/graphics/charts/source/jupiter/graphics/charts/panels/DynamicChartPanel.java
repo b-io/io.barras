@@ -205,19 +205,19 @@ public class DynamicChartPanel
 		xCrosshair = Charts.createCrosshair(true, xFormat);
 		crosshairOverlay.addDomainCrosshair(xCrosshair);
 		yCrosshairs = new Crosshair[rangeAxisCount];
-		for (int i = 0; i < rangeAxisCount; ++i) {
-			yCrosshairs[i] = Charts.createCrosshair(true, yFormats[i], i);
-			crosshairOverlay.addRangeCrosshair(yCrosshairs[i]);
-			crosshairOverlay.mapCrosshairToRangeAxis(i, i);
+		for (int rai = 0; rai < rangeAxisCount; ++rai) {
+			yCrosshairs[rai] = Charts.createCrosshair(true, yFormats[rai], rai);
+			crosshairOverlay.addRangeCrosshair(yCrosshairs[rai]);
+			crosshairOverlay.mapCrosshairToRangeAxis(rai, rai);
 		}
 		addOverlay(crosshairOverlay);
 
 		// Add an overlay for the selections
 		final XYSelectionOverlay selectionOverlay = new XYSelectionOverlay();
 		selections = new XYSelection[rangeAxisCount];
-		for (int i = 0; i < rangeAxisCount; ++i) {
-			selections[i] = new XYSelection(i, new XY<Format>(xFormat, yFormats[i]));
-			selectionOverlay.addSelection(selections[i]);
+		for (int rai = 0; rai < rangeAxisCount; ++rai) {
+			selections[rai] = new XYSelection(rai, new XY<Format>(xFormat, yFormats[rai]));
+			selectionOverlay.addSelection(selections[rai]);
 		}
 		addOverlay(selectionOverlay);
 	}
@@ -266,33 +266,33 @@ public class DynamicChartPanel
 		}
 
 		// Update the coordinates of all the selections
-		for (int i = 0; i < rangeAxisCount; ++i) {
+		for (int rai = 0; rai < rangeAxisCount; ++rai) {
 			// Set the mouse coordinates
 			double x = java2DToDomainValue(mousePosition);
-			double y = java2DToRangeValue(i, mousePosition);
+			double y = java2DToRangeValue(rai, mousePosition);
 
 			// Find the closest item points
 			final XYPlot plot = getPlot(mousePosition);
 			double minDistance = Double.POSITIVE_INFINITY;
 			int seriesIndex = -1, from = 0, to = 0;
-			final XYDataset dataset = plot.getDataset(i);
+			final XYDataset dataset = plot.getDataset(rai);
 			final int seriesCount = dataset.getSeriesCount();
-			for (int s = 0; s < seriesCount; ++s) {
-				final int itemCount = dataset.getItemCount(s);
+			for (int si = 0; si < seriesCount; ++si) {
+				final int itemCount = dataset.getItemCount(si);
 				if (itemCount > 0) {
 					int itemIndex = 0;
-					while (itemIndex < itemCount - 1 && dataset.getXValue(s, itemIndex) < x) {
+					while (itemIndex < itemCount - 1 && dataset.getXValue(si, itemIndex) < x) {
 						++itemIndex;
 					}
-					final double xItem = dataset.getXValue(s, itemIndex);
+					final double xItem = dataset.getXValue(si, itemIndex);
 					if (!SHOW_CROSSHAIR_OUTSIDE && (xItem < x ||
 							xItem == x && (itemIndex == 0 || itemIndex == itemCount - 1))) {
 						continue;
 					}
-					final double distance = Maths.delta(dataset.getYValue(s, itemIndex), y);
+					final double distance = Maths.delta(dataset.getYValue(si, itemIndex), y);
 					if (distance < minDistance) {
 						minDistance = distance;
-						seriesIndex = s;
+						seriesIndex = si;
 						from = itemIndex > 0 ? itemIndex - 1 : itemIndex;
 						to = itemIndex;
 					}
@@ -318,7 +318,7 @@ public class DynamicChartPanel
 			}
 
 			// Update the coordinates of the selection
-			selections[i].setCoordinates(x, y);
+			selections[rai].setCoordinates(x, y);
 		}
 
 		// Update the coordinates of all the crosshairs
@@ -338,8 +338,8 @@ public class DynamicChartPanel
 			}
 			// • The range crosshairs
 			if (DRAW_Y_CROSSHAIR) {
-				for (int i = 0; i < rangeAxisCount; ++i) {
-					yCrosshairs[i].setValue(selections[i].getY());
+				for (int rai = 0; rai < rangeAxisCount; ++rai) {
+					yCrosshairs[rai].setValue(selections[rai].getY());
 				}
 			}
 		}

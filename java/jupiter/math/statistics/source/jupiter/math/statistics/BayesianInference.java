@@ -122,8 +122,8 @@ public abstract class BayesianInference
 	 *                 {@code P(E|H)} for all hypothesis {@code H}
 	 */
 	protected void updateLikelihoods(final double evidence) {
-		for (int i = 0; i < hypothesisCount; ++i) {
-			likelihoods[i] += getLikelihood(i, evidence);
+		for (int hi = 0; hi < hypothesisCount; ++hi) {
+			likelihoods[hi] += getLikelihood(hi, evidence);
 		}
 	}
 
@@ -137,14 +137,14 @@ public abstract class BayesianInference
 	public void updateHypothesisProbabilities(final double evidence) {
 		// Compute the marginal likelihood P(E) = Σ[P(H) * P(E|H)] over H (law of total probability)
 		double marginalLikelihood = 0.;
-		for (int i = 0; i < hypothesisCount; ++i) {
-			marginalLikelihood += hypothesisProbabilities[i] * likelihoods[i];
+		for (int hi = 0; hi < hypothesisCount; ++hi) {
+			marginalLikelihood += hypothesisProbabilities[hi] * likelihoods[hi];
 		}
 		// Update the hypothesis probability P(H) for all hypothesis H
-		for (int i = 0; i < hypothesisCount; ++i) {
+		for (int hi = 0; hi < hypothesisCount; ++hi) {
 			// Compute the posterior probability P(H|E) = P(H) * P(E|H) / P(E) (Bayes' rule) and
 			// replace the prior probability P(H) by it
-			hypothesisProbabilities[i] *= likelihoods[i] / marginalLikelihood;
+			hypothesisProbabilities[hi] *= likelihoods[hi] / marginalLikelihood;
 		}
 	}
 }

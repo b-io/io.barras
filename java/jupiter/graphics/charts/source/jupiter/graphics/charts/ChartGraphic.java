@@ -212,15 +212,15 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 		final XYItemRenderer renderer = new XYLineAndShapeRenderer();
 		final XYDataset dataset = getDataset(axisDatasetIndex);
 		final int seriesCount = dataset.getSeriesCount();
-		for (int s = 0; s < seriesCount; ++s) {
-			final SeriesStyle style = styles.get(new Pair<Integer, Integer>(axisDatasetIndex, s));
+		for (int si = 0; si < seriesCount; ++si) {
+			final SeriesStyle style = styles.get(new Pair<Integer, Integer>(axisDatasetIndex, si));
 			if (style != null) {
-				renderer.setSeriesPaint(s, style.getColor());
-				renderer.setSeriesShape(s, style.getShape());
-				renderer.setSeriesStroke(s, style.getStroke());
+				renderer.setSeriesPaint(si, style.getColor());
+				renderer.setSeriesShape(si, style.getShape());
+				renderer.setSeriesStroke(si, style.getStroke());
 			} else {
-				renderer.setSeriesPaint(s, Charts.COLORS.get(s % Charts.COLORS.size()));
-				renderer.setSeriesStroke(s, Charts.STROKE);
+				renderer.setSeriesPaint(si, Charts.COLORS.get(si % Charts.COLORS.size()));
+				renderer.setSeriesStroke(si, Charts.STROKE);
 			}
 		}
 		return renderer;
@@ -373,8 +373,8 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 				// Create the chart panel
 				final JFreeChart chart = createChart();
 				final XYPlot plot = (XYPlot) chart.getPlot();
-				for (int i = 0; i < axisDatasets.size(); ++i) {
-					plot.setRenderer(i, createRenderer(i));
+				for (int adi = 0; adi < axisDatasets.size(); ++adi) {
+					plot.setRenderer(adi, createRenderer(adi));
 				}
 				final ChartPanel chartPanel = createChartPanel(chart);
 				setContentPane(chartPanel);

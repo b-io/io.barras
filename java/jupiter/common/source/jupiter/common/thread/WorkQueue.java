@@ -191,7 +191,7 @@ public class WorkQueue<I, O>
 	public int createWorkers(final int workerToCreateCount) {
 		int createdWorkerCount = 0;
 		try {
-			for (int i = 0; i < workerToCreateCount; ++i) {
+			for (int wi = 0; wi < workerToCreateCount; ++wi) {
 				createdWorkerCount += createWorker();
 			}
 		} catch (final IllegalOperationException ex) {

@@ -64,7 +64,7 @@ public class CalculatorTest
 		// Process
 		Calculator.parallelize();
 		try {
-			for (int t = 0; t < testCount; ++t) {
+			for (int ti = 0; ti < testCount; ++ti) {
 				// Initialize
 				final Map<String, Element> context = new ExtendedHashMap<String, Element>();
 				final Matrix matrix = Matrix.random(matrixSize);
@@ -81,14 +81,14 @@ public class CalculatorTest
 				chrono.stop();
 				IO.debug("Element1: ", tree1);
 				IO.debug("Element1: ", chrono.getMilliseconds(), " [ms]");
-				elementTimes[2 * t] = chrono.getMilliseconds();
+				elementTimes[2 * ti] = chrono.getMilliseconds();
 				chrono.start();
 				final Result<Entity> entityResult1 = Calculator.evaluateTree(element1, context);
 				final Entity entity1 = entityResult1.getOutput();
 				chrono.stop();
 				IO.debug("Entity1: ", entityResult1);
 				IO.debug("Entity1: ", chrono.getMilliseconds(), " [ms]");
-				entityTimes[2 * t] = chrono.getMilliseconds();
+				entityTimes[2 * ti] = chrono.getMilliseconds();
 
 				// Test the parsing and evaluation of the element and entity #2
 				chrono.start();
@@ -97,14 +97,14 @@ public class CalculatorTest
 				chrono.stop();
 				IO.debug("Element2: ", element2);
 				IO.debug("Element2: ", chrono.getMilliseconds(), " [ms]");
-				elementTimes[2 * t + 1] = chrono.getMilliseconds();
+				elementTimes[2 * ti + 1] = chrono.getMilliseconds();
 				chrono.start();
 				final Result<Entity> entityResult2 = Calculator.evaluateTree(element2, context);
 				final Entity entity2 = entityResult2.getOutput();
 				chrono.stop();
 				IO.debug("Entity2: ", entity2);
 				IO.debug("Entity2: ", chrono.getMilliseconds(), " [ms]");
-				entityTimes[2 * t + 1] = chrono.getMilliseconds();
+				entityTimes[2 * ti + 1] = chrono.getMilliseconds();
 
 				// Verify the results
 				assertEquals(entity1, entity2);

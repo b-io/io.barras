@@ -665,9 +665,9 @@ public class Files {
 				final File[] files = source.listFiles();
 				if (PARALLELIZE) {
 					final long[] ids = new long[files.length];
-					for (int i = 0; i < files.length; ++i) {
-						final File file = files[i];
-						ids[i] = COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file,
+					for (int fi = 0; fi < files.length; ++fi) {
+						final File file = files[fi];
+						ids[fi] = COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file,
 								new File(targetDirPath.concat(SEPARATOR)
 										.concat(getRelativePath(source, file))), force));
 					}

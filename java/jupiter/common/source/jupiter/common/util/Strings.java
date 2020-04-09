@@ -618,7 +618,7 @@ public class Strings {
 		// Capitalize all the words of the text separated by the delimiters
 		final char[] array = text.toCharArray();
 		boolean capitalize = true;
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < array.length; ++i) {
 			final char token = array[i];
 			if (Characters.contains(delimiters, token)) {
 				capitalize = true;
@@ -710,7 +710,7 @@ public class Strings {
 		// Uncapitalize all the words of the text separated by the delimiters
 		final char[] array = text.toCharArray();
 		boolean uncapitalize = true;
-		for (int i = 0; i < array.length; i++) {
+		for (int i = 0; i < array.length; ++i) {
 			final char token = array[i];
 			if (Characters.contains(delimiters, token)) {
 				uncapitalize = true;
@@ -2069,9 +2069,9 @@ public class Strings {
 	public static int findFirst(final String text, final char[] tokens, final int fromIndex) {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (Characters.contains(tokens, text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (Characters.contains(tokens, text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2110,9 +2110,9 @@ public class Strings {
 			final int fromIndex) {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (tokens.contains(text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (tokens.contains(text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2241,9 +2241,9 @@ public class Strings {
 	public static int findLast(final String text, final char[] tokens, final int fromIndex) {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (Characters.contains(tokens, text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i >= 0; --i) {
+				if (Characters.contains(tokens, text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2285,9 +2285,9 @@ public class Strings {
 			final int fromIndex) {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (tokens.contains(text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i >= 0; --i) {
+				if (tokens.contains(text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2420,9 +2420,9 @@ public class Strings {
 	public static int findFirstNotEqualTo(final String text, final char token,
 			final int fromIndex) {
 		if (isNonEmpty(text) && Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (text.charAt(index) != token) {
-					return index;
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (text.charAt(i) != token) {
+					return i;
 				}
 			}
 		}
@@ -2461,9 +2461,9 @@ public class Strings {
 	public static int findFirstStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
 		if (isNonEmpty(text) && isNonEmpty(token) && Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); index += token.length()) {
-				if (!isToken(text, index, token)) {
-					return index;
+			for (int i = fromIndex; i < text.length(); i += token.length()) {
+				if (!isToken(text, i, token)) {
+					return i;
 				}
 			}
 		}
@@ -2504,9 +2504,9 @@ public class Strings {
 	 */
 	public static int findLastNotEqualTo(final String text, final char token, final int fromIndex) {
 		if (isNonEmpty(text) && Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (text.charAt(index) != token) {
-					return index;
+			for (int i = fromIndex; i >= 0; --i) {
+				if (text.charAt(i) != token) {
+					return i;
 				}
 			}
 		}
@@ -2548,9 +2548,9 @@ public class Strings {
 	public static int findLastStringNotEqualTo(final String text, final String token,
 			final int fromIndex) {
 		if (isNonEmpty(text) && isNonEmpty(token) && Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; index -= token.length()) {
-				if (!isTokenTo(text, index, token)) {
-					return index;
+			for (int i = fromIndex; i >= 0; i -= token.length()) {
+				if (!isTokenTo(text, i, token)) {
+					return i;
 				}
 			}
 		}
@@ -2589,9 +2589,9 @@ public class Strings {
 	public static int findFirstNotIn(final String text, final char[] tokens, final int fromIndex) {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (!Characters.contains(tokens, text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (!Characters.contains(tokens, text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2631,9 +2631,9 @@ public class Strings {
 			final int fromIndex) {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (!tokens.contains(text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (!tokens.contains(text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2734,9 +2734,9 @@ public class Strings {
 	protected static int getTokenIndex(final String text, final String[] tokens,
 			final int fromIndex) {
 		if (Arrays.isBetween(fromIndex, text.length())) {
-			for (int i = 0; i < tokens.length; ++i) {
-				if (isToken(text, fromIndex, tokens[i])) {
-					return i;
+			for (int ti = 0; ti < tokens.length; ++ti) {
+				if (isToken(text, fromIndex, tokens[ti])) {
+					return ti;
 				}
 			}
 		}
@@ -2793,9 +2793,9 @@ public class Strings {
 	public static int findLastNotIn(final String text, final char[] tokens, final int fromIndex) {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (!Characters.contains(tokens, text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i >= 0; --i) {
+				if (!Characters.contains(tokens, text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2838,9 +2838,9 @@ public class Strings {
 			final int fromIndex) {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
-			for (int index = fromIndex; index >= 0; --index) {
-				if (!tokens.contains(text.charAt(index))) {
-					return index;
+			for (int i = fromIndex; i >= 0; --i) {
+				if (!tokens.contains(text.charAt(i))) {
+					return i;
 				}
 			}
 		}
@@ -2947,9 +2947,9 @@ public class Strings {
 	protected static int getLastTokenIndex(final String text, final String[] tokens,
 			final int toIndex) {
 		if (Arrays.isBetween(toIndex, text.length(), true)) {
-			for (int i = 0; i < tokens.length; ++i) {
-				if (isToken(text, toIndex - tokens[i].length(), tokens[i])) {
-					return i;
+			for (int ti = 0; ti < tokens.length; ++ti) {
+				if (isToken(text, toIndex - tokens[ti].length(), tokens[ti])) {
+					return ti;
 				}
 			}
 		}
@@ -3073,9 +3073,9 @@ public class Strings {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			final char[] array = text.toCharArray();
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (Characters.contains(tokens, array[index])) {
-					indices.add(index);
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (Characters.contains(tokens, array[i])) {
+					indices.add(i);
 				}
 			}
 		}
@@ -3102,9 +3102,9 @@ public class Strings {
 		if (isNonEmpty(text) && Characters.isNonEmpty(tokens) &&
 				Arrays.isBetween(toIndex, text.length(), true)) {
 			final char[] array = text.toCharArray();
-			for (int index = 0; index < toIndex; ++index) {
-				if (Characters.contains(tokens, array[index])) {
-					indices.add(index);
+			for (int i = 0; i < toIndex; ++i) {
+				if (Characters.contains(tokens, array[i])) {
+					indices.add(i);
 				}
 			}
 		}
@@ -3149,9 +3149,9 @@ public class Strings {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(fromIndex, text.length())) {
 			final char[] array = text.toCharArray();
-			for (int index = fromIndex; index < text.length(); ++index) {
-				if (tokens.contains(array[index])) {
-					indices.add(index);
+			for (int i = fromIndex; i < text.length(); ++i) {
+				if (tokens.contains(array[i])) {
+					indices.add(i);
 				}
 			}
 		}
@@ -3179,9 +3179,9 @@ public class Strings {
 		if (isNonEmpty(text) && Collections.isNonEmpty(tokens) &&
 				Arrays.isBetween(toIndex, text.length(), true)) {
 			final char[] array = text.toCharArray();
-			for (int index = 0; index < toIndex; ++index) {
-				if (tokens.contains(array[index])) {
-					indices.add(index);
+			for (int i = 0; i < toIndex; ++i) {
+				if (tokens.contains(array[i])) {
+					indices.add(i);
 				}
 			}
 		}

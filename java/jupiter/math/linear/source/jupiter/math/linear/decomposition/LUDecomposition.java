@@ -306,7 +306,7 @@ public class LUDecomposition
 			}
 		}
 
-		// Solve U * X = Y
+		// Solve U * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
 			for (int j = 0; j < xColumnDimension; ++j) {
 				xElements[k * xColumnDimension + j] /= LU[k][k];
@@ -318,7 +318,6 @@ public class LUDecomposition
 				}
 			}
 		}
-
 		return X;
 	}
 }

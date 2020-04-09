@@ -342,8 +342,8 @@ public class NeuralNetwork
 					.subtract(0.5)
 					.multiply(Maths.sqrt(2. / featureCount)); // (nh x n)
 			final double scalingFactor = Maths.sqrt(2. / hiddenLayerSize);
-			for (int l = 1; l < layerCount - 1; ++l) {
-				W[l] = Matrix.random(hiddenLayerSize, hiddenLayerSize)
+			for (int li = 1; li < layerCount - 1; ++li) {
+				W[li] = Matrix.random(hiddenLayerSize, hiddenLayerSize)
 						.subtract(0.5)
 						.multiply(scalingFactor); // (nh x nh)
 			}
@@ -354,8 +354,8 @@ public class NeuralNetwork
 		// • The bias vectors
 		if (b == null) {
 			b = new Vector[layerCount];
-			for (int l = 0; l < layerCount - 1; ++l) {
-				b[l] = new Vector(W[l].getRowDimension()); // (nh x 1)
+			for (int li = 0; li < layerCount - 1; ++li) {
+				b[li] = new Vector(W[li].getRowDimension()); // (nh x 1)
 			}
 			b[layerCount - 1] = new Vector(classCount); // (k x 1)
 		}
@@ -387,9 +387,9 @@ public class NeuralNetwork
 		// Train
 		for (int i = 0; i < maxIterationCount; ++i) {
 			// Perform the forward propagation step (n -> nh... -> 1)
-			for (int l = 0; l < layerCount - 1; ++l) {
+			for (int li = 0; li < layerCount - 1; ++li) {
 				// • Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
-				A[l + 1] = activationFunction.apply(computeForward(l)); // (nh x m)
+				A[li + 1] = activationFunction.apply(computeForward(li)); // (nh x m)
 			}
 			// • Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
 			A[layerCount] = outputActivationFunction.apply(computeForward(layerCount - 1)); // (k x m)
@@ -401,31 +401,31 @@ public class NeuralNetwork
 			}
 
 			// Perform the backward propagation step (n <- nh... <- 1)
-			for (int l = layerCount - 1; l >= 0; --l) {
+			for (int li = layerCount - 1; li >= 0; --li) {
 				// • Compute the derivative with respect to Z
-				if (l == layerCount - 1) {
-					dZ = A[l + 1].minus(Y); // (k x m)
+				if (li == layerCount - 1) {
+					dZ = A[li + 1].minus(Y); // (k x m)
 				} else {
-					dZ = dA.arrayMultiply(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
+					dZ = dA.arrayMultiply(activationFunction.derive(A[li + 1]).toMatrix()); // (nh x m)
 				}
-				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+				dA = W[li].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
 				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
 
 				// • Compute the derivatives with respect to W and b
-				Matrix dW = A[l].times(dZT)
+				Matrix dW = A[li].times(dZT)
 						.transpose()
 						.divide(trainingExampleCount)
-						.add(regularizationFunction.derive(trainingExampleCount, W[l]))
+						.add(regularizationFunction.derive(trainingExampleCount, W[li]))
 						.toMatrix(); // (nh x n) <- (nh x nh)... <- (k x nh)
 				Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (k x 1)
 				if (dwOptimizer != null && dbOptimizer != null) {
-					dW = dwOptimizer.optimize(l, dW).toMatrix();
-					db = dbOptimizer.optimize(l, db).toVector();
+					dW = dwOptimizer.optimize(li, dW).toMatrix();
+					db = dbOptimizer.optimize(li, db).toVector();
 				}
 
 				// • Update the weights and bias
-				W[l].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (k x nh)
-				b[l].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
+				W[li].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (k x nh)
+				b[li].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
 			}
 		}
 		IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
@@ -491,8 +491,8 @@ public class NeuralNetwork
 		// Estimate the binary (logistic) or multinary (softmax) response
 		final int layerCount = W.length; // or b.length
 		Entity estimate = X; // (n x m)
-		for (int l = 0; l < layerCount - 1; ++l) {
-			estimate = activationFunction.apply(computeForward(l, estimate)); // (nh x m)
+		for (int li = 0; li < layerCount - 1; ++li) {
+			estimate = activationFunction.apply(computeForward(li, estimate)); // (nh x m)
 		}
 		return outputActivationFunction.apply(computeForward(layerCount - 1, estimate)); // (k x m)
 	}

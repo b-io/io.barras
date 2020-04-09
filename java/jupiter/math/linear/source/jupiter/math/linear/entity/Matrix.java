@@ -1117,15 +1117,15 @@ public class Matrix
 			// • Create the magic square of the size (of odd order)
 			final int a = (size + 1) / 2;
 			final int b = size + 1;
-			for (int j = 0; j < size; j++) {
-				for (int i = 0; i < size; i++) {
+			for (int i = 0; i < size; ++i) {
+				for (int j = 0; j < size; ++j) {
 					values[i][j] = size * ((i + j + a) % size) + (i + 2 * j + b) % size + 1;
 				}
 			}
 		} else if (size % 4 == 0) {
 			// • Create the magic square of the size (of doubly even order)
-			for (int j = 0; j < size; j++) {
-				for (int i = 0; i < size; i++) {
+			for (int i = 0; i < size; ++i) {
+				for (int j = 0; j < size; ++j) {
 					if ((i + 1) / 2 % 2 == (j + 1) / 2 % 2) {
 						values[i][j] = size * size - size * i - j;
 					} else {
@@ -1138,8 +1138,8 @@ public class Matrix
 			final int p = size / 2;
 			final int k = (size - 2) / 4;
 			final Matrix A = magic(p);
-			for (int j = 0; j < p; j++) {
-				for (int i = 0; i < p; i++) {
+			for (int i = 0; i < p; ++i) {
+				for (int j = 0; j < p; ++j) {
 					final double aij = A.get(i, j);
 					values[i][j] = aij;
 					values[i][j + p] = aij + 2 * p * p;
@@ -1147,13 +1147,13 @@ public class Matrix
 					values[i + p][j + p] = aij + p * p;
 				}
 			}
-			for (int i = 0; i < p; i++) {
-				for (int j = 0; j < k; j++) {
+			for (int i = 0; i < p; ++i) {
+				for (int j = 0; j < k; ++j) {
 					final double value = values[i][j];
 					values[i][j] = values[i + p][j];
 					values[i + p][j] = value;
 				}
-				for (int j = size - k + 1; j < size; j++) {
+				for (int j = size - k + 1; j < size; ++j) {
 					final double value = values[i][j];
 					values[i][j] = values[i + p][j];
 					values[i + p][j] = value;

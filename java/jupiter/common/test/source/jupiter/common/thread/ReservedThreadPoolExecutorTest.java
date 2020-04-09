@@ -61,10 +61,10 @@ public class ReservedThreadPoolExecutorTest
 		// Submit the tasks
 		chrono.start();
 		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>(taskCount);
-		for (int i = 0; i < taskCount; ++i) {
+		for (int ti = 0; ti < taskCount; ++ti) {
 			Future<Integer> future;
 			//do {
-			future = queue.submit((Callable<Integer>) new SimpleWorker(i));
+			future = queue.submit((Callable<Integer>) new SimpleWorker(ti));
 			//} while (future == null);
 			futures.add(future);
 		}
@@ -91,8 +91,8 @@ public class ReservedThreadPoolExecutorTest
 
 		// Report the number of completed tasks
 		int completedTaskCount = 0;
-		for (int i = 0; i < taskCount; ++i) {
-			if (results.contains(i)) {
+		for (int ti = 0; ti < taskCount; ++ti) {
+			if (results.contains(ti)) {
 				++completedTaskCount;
 			}
 		}

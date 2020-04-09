@@ -110,8 +110,8 @@ public class Classes {
 
 		// Get the common ancestor of the classes
 		Class<?> ancestor = classes[0];
-		for (int i = 1; i < classes.length; ++i) {
-			ancestor = Classes.getCommonAncestor(ancestor, classes[i]);
+		for (int ci = 1; ci < classes.length; ++ci) {
+			ancestor = Classes.getCommonAncestor(ancestor, classes[ci]);
 		}
 		return ancestor;
 	}

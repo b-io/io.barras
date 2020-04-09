@@ -100,11 +100,11 @@ public class MatrixTest
 				// • Test the normal version
 				IO.test("- Normal:");
 				Matrix expected = null;
-				for (int t = 0; t < testCount; ++t) {
+				for (int ti = 0; ti < testCount; ++ti) {
 					chrono.start();
 					expected = A.times(B).toMatrix();
 					chrono.stop();
-					times[t] = chrono.getMilliseconds();
+					times[ti] = chrono.getMilliseconds();
 				}
 				Tests.printTimes(times);
 				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
@@ -118,11 +118,11 @@ public class MatrixTest
 				}
 				try {
 					Matrix found = null;
-					for (int t = 0; t < testCount; ++t) {
+					for (int ti = 0; ti < testCount; ++ti) {
 						chrono.start();
 						found = A.times(B).toMatrix();
 						chrono.stop();
-						times[t] = chrono.getMilliseconds();
+						times[ti] = chrono.getMilliseconds();
 					}
 					//found.toTable().save("parallel.values.csv");
 
@@ -142,11 +142,11 @@ public class MatrixTest
 					CL.setActive(true);
 					try {
 						Matrix found = null;
-						for (int t = 0; t < testCount; ++t) {
+						for (int ti = 0; ti < testCount; ++ti) {
 							chrono.start();
 							found = A.times(B).toMatrix();
 							chrono.stop();
-							times[t] = chrono.getMilliseconds();
+							times[ti] = chrono.getMilliseconds();
 						}
 						//found.toTable().save("gpu.values.csv");
 
@@ -169,11 +169,11 @@ public class MatrixTest
 				}
 				try {
 					Matrix found = null;
-					for (int t = 0; t < testCount; ++t) {
+					for (int ti = 0; ti < testCount; ++ti) {
 						chrono.start();
 						found = A.times(B).toMatrix();
 						chrono.stop();
-						times[t] = chrono.getMilliseconds();
+						times[ti] = chrono.getMilliseconds();
 					}
 					//found.toTable().save("hybrid.values.csv");
 
@@ -256,11 +256,11 @@ public class MatrixTest
 				// • Test the normal version
 				IO.test("- Normal:");
 				Matrix expected = null;
-				for (int t = 0; t < testCount; ++t) {
+				for (int ti = 0; ti < testCount; ++ti) {
 					chrono.start();
 					expected = A.forward(B, C).toMatrix();
 					chrono.stop();
-					times[t] = chrono.getMilliseconds();
+					times[ti] = chrono.getMilliseconds();
 				}
 				Tests.printTimes(times);
 				normalStats.set(rowIndex, columnIndex, Statistics.mean(times));
@@ -274,11 +274,11 @@ public class MatrixTest
 				}
 				try {
 					Matrix found = null;
-					for (int t = 0; t < testCount; ++t) {
+					for (int ti = 0; ti < testCount; ++ti) {
 						chrono.start();
 						found = A.forward(B, C).toMatrix();
 						chrono.stop();
-						times[t] = chrono.getMilliseconds();
+						times[ti] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
 					parallelStats.set(rowIndex, columnIndex, Statistics.mean(times));
@@ -294,11 +294,11 @@ public class MatrixTest
 					CL.setActive(true);
 					try {
 						Matrix found = null;
-						for (int t = 0; t < testCount; ++t) {
+						for (int ti = 0; ti < testCount; ++ti) {
 							chrono.start();
 							found = A.forward(B, C).toMatrix();
 							chrono.stop();
-							times[t] = chrono.getMilliseconds();
+							times[ti] = chrono.getMilliseconds();
 						}
 						Tests.printTimes(times);
 						//found.toTable().save("gpu.values.csv");
@@ -317,11 +317,11 @@ public class MatrixTest
 				}
 				try {
 					Matrix found = null;
-					for (int t = 0; t < testCount; ++t) {
+					for (int ti = 0; ti < testCount; ++ti) {
 						chrono.start();
 						found = A.forward(B, C).toMatrix();
 						chrono.stop();
-						times[t] = chrono.getMilliseconds();
+						times[ti] = chrono.getMilliseconds();
 					}
 					Tests.printTimes(times);
 					hybridStats.set(rowIndex, columnIndex, Statistics.mean(times));

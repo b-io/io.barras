@@ -85,7 +85,7 @@ public class NeuralNetworkTest
 		final Chronometer chrono = new Chronometer();
 
 		IO.test("Test the classifier");
-		for (int t = 0; t < testCount; ++t) {
+		for (int ti = 0; ti < testCount; ++ti) {
 			model.setFeatureVectors(featureVectors); // (n x m)
 			model.setClasses(classes); // (1 x m)
 			model.setWeights(weights);
@@ -95,7 +95,7 @@ public class NeuralNetworkTest
 			chrono.start();
 			final int iterationCount = model.train(1.2, 1E-8, 10000, hiddenLayerCount,
 					hiddenLayerSize);
-			times[t] = chrono.stop();
+			times[ti] = chrono.stop();
 
 			// Report the statistics
 			final double accuracy = model.computeAccuracy();
@@ -129,8 +129,8 @@ public class NeuralNetworkTest
 		IO.test("Test the classifier");
 		try {
 			IO.test("A) Test the activation function TANH");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
+			for (int ti = 0; ti < testCount; ++ti) {
+				times[ti] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
 						RegularizationFunctions.NONE, 0.75, 0.75, 0.5, 0.25);
 			}
 			Tests.printTimes(times);
@@ -140,22 +140,22 @@ public class NeuralNetworkTest
 					0.75, 0.75, 0.5, 0.25);
 
 			IO.test("C) Test the L2 regularization");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
+			for (int ti = 0; ti < testCount; ++ti) {
+				times[ti] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
 						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("D) Test the Adam optimization");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+			for (int ti = 0; ti < testCount; ++ti) {
+				times[ti] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
 						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
 
 			IO.test("E) Test the last activation function SOFTMAX");
-			for (int t = 0; t < testCount; ++t) {
-				times[t] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
+			for (int ti = 0; ti < testCount; ++ti) {
+				times[ti] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
 						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
 			}
 			Tests.printTimes(times);
@@ -201,10 +201,10 @@ public class NeuralNetworkTest
 		try {
 			final int layerCount = hiddenLayerCount + 1; // L
 			final Matrix[] weights = new Matrix[layerCount];
-			for (int l = 0; l < layerCount; ++l) {
-				weights[l] = Matrix.create(
-						Strings.join("test/resources/", example, "/W", l + 1, ".csv"));
-				IO.test("W", l + 1, " loaded");
+			for (int li = 0; li < layerCount; ++li) {
+				weights[li] = Matrix.create(
+						Strings.join("test/resources/", example, "/W", li + 1, ".csv"));
+				IO.test("W", li + 1, " loaded");
 			}
 			model.setWeights(weights);
 		} catch (final IOException ignored) {

@@ -138,19 +138,19 @@ public class MemoryTest
 
 		final ProgressBar progressBar = new ProgressBar(5 * memorySizeCount);
 		progressBar.start();
-		for (int i = 0; i < memorySizeCount; ++i) {
+		for (int msi = 0; msi < memorySizeCount; ++msi) {
 			progressBar.printSymbols(5);
-			memorySizes[i] = Maths.pow2(minExponent) + i;
-			final double bandwidth = computeBandwidth(memorySizes[i], memoryMode, accessMode);
-			bandwidths[i] = bandwidth;
+			memorySizes[msi] = Maths.pow2(minExponent) + msi;
+			final double bandwidth = computeBandwidth(memorySizes[msi], memoryMode, accessMode);
+			bandwidths[msi] = bandwidth;
 		}
 		progressBar.end();
 
 		IO.test("Bandwidths for ", memoryMode, " and ", accessMode);
-		for (int i = 0; i < memorySizeCount; ++i) {
-			final String s = String.format("%10d", memorySizes[i]);
-			final String b = String.format(Locale.ENGLISH, "%5.3f", bandwidths[i]);
-			IO.test(s, " bytes : ", b, " [MB/s]");
+		for (int msi = 0; msi < memorySizeCount; ++msi) {
+			final String memorySize = String.format("%10d", memorySizes[msi]);
+			final String bandwidth = String.format(Locale.ENGLISH, "%5.3f", bandwidths[msi]);
+			IO.test(memorySize, " bytes : ", bandwidth, " [MB/s]");
 		}
 	}
 
@@ -248,7 +248,7 @@ public class MemoryTest
 		final double duration = chrono.getSeconds();
 		final double bandwidth = memorySize * MEMCOPY_ITERATION_COUNT / (duration * Maths.pow2(20)); // [MB/s]
 
-		// Release the memory
+		// Release the memory and return the bandwidth
 		if (deviceBuffer != null) {
 			clReleaseMemObject(deviceBuffer);
 		}
@@ -256,7 +256,6 @@ public class MemoryTest
 			clEnqueueUnmapMemObject(commandQueue, pinnedHostBuffer, hostBuffer, 0, null, null);
 			clReleaseMemObject(pinnedHostBuffer);
 		}
-
 		return bandwidth;
 	}
 

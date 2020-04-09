@@ -51,9 +51,9 @@ public class LockedWorkQueueTest
 		// Test the locked work queue
 		final LockedWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
 				new SimpleWorker());
-		for (int i = 0; i < testCount; ++i) {
-			testTimes[i] = test(workQueue);
-			threadCounts[i] = workQueue.getWorkerCount();
+		for (int ti = 0; ti < testCount; ++ti) {
+			testTimes[ti] = test(workQueue);
+			threadCounts[ti] = workQueue.getWorkerCount();
 			workQueue.restart();
 		}
 		Tests.printTimes(testTimes);

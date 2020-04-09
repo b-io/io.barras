@@ -322,30 +322,30 @@ public class EigenvalueDecomposition
 		final double eps = Maths.TOLERANCE;
 
 		// Iterate over the row and column index
-		for (int l = 0; l < dimension; ++l) {
+		for (int di = 0; di < dimension; ++di) {
 			// Find a small subdiagonal element
-			tst1 = Math.max(tst1, Maths.abs(d[l]) + Maths.abs(e[l]));
-			int m = l;
+			tst1 = Math.max(tst1, Maths.abs(d[di]) + Maths.abs(e[di]));
+			int m = di;
 			while (m < dimension && Maths.abs(e[m]) > eps * tst1) {
 				++m;
 			}
 			// If m == l, d[l] is an eigenvalue, iterate otherwise
-			if (m > l) {
+			if (m > di) {
 				//int iterationCount = 0;
 				do {
 					//++iterationCount; // @todo test to avoid too many iterations
 					// Apply the implicit shift
-					double g = d[l];
-					double p = (d[l + 1] - g) / (2. * e[l]);
+					double g = d[di];
+					double p = (d[di + 1] - g) / (2. * e[di]);
 					double r = Norms.getEuclideanNorm(p, 1.);
 					if (p < 0) {
 						r = -r;
 					}
-					d[l] = e[l] / (p + r);
-					d[l + 1] = e[l] * (p + r);
-					final double dl1 = d[l + 1];
-					double h = g - d[l];
-					for (int i = l + 2; i < dimension; ++i) {
+					d[di] = e[di] / (p + r);
+					d[di + 1] = e[di] * (p + r);
+					final double dl1 = d[di + 1];
+					double h = g - d[di];
+					for (int i = di + 2; i < dimension; ++i) {
 						d[i] -= h;
 					}
 					f += h;
@@ -354,10 +354,10 @@ public class EigenvalueDecomposition
 					double c = 1.;
 					double c2 = c;
 					double c3 = c;
-					final double el1 = e[l + 1];
+					final double el1 = e[di + 1];
 					double s = 0.;
 					double s2 = 0.;
-					for (int i = m - 1; i >= l; --i) {
+					for (int i = m - 1; i >= di; --i) {
 						c3 = c2;
 						c2 = c;
 						s2 = s;
@@ -376,13 +376,13 @@ public class EigenvalueDecomposition
 							V[k][i] = c * V[k][i] - s * h;
 						}
 					}
-					p = -s * s2 * c3 * el1 * e[l] / dl1;
-					e[l] = s * p;
-					d[l] = c * p;
-				} while (Maths.abs(e[l]) > eps * tst1); // test the convergence
+					p = -s * s2 * c3 * el1 * e[di] / dl1;
+					e[di] = s * p;
+					d[di] = c * p;
+				} while (Maths.abs(e[di]) > eps * tst1); // test the convergence
 			}
-			d[l] += f;
-			e[l] = 0.;
+			d[di] += f;
+			e[di] = 0.;
 		}
 
 		// Sort the eigenvalues and corresponding vectors
@@ -419,49 +419,49 @@ public class EigenvalueDecomposition
 		final int high = dimension - 1;
 
 		// Iterate over the row and column index
-		for (int m = low + 1; m <= high - 1; ++m) {
+		for (int mi = low + 1; mi <= high - 1; ++mi) {
 			// Scale the column
 			double scale = 0.;
-			for (int i = m; i <= high; ++i) {
-				scale += Maths.abs(H[i][m - 1]);
+			for (int i = mi; i <= high; ++i) {
+				scale += Maths.abs(H[i][mi - 1]);
 			}
 			if (scale != 0.) {
 				// Apply the Householder transformation
 				double h = 0.;
-				for (int i = high; i >= m; --i) {
-					ort[i] = H[i][m - 1] / scale;
+				for (int i = high; i >= mi; --i) {
+					ort[i] = H[i][mi - 1] / scale;
 					h += ort[i] * ort[i];
 				}
 				double g = Maths.sqrt(h);
-				if (ort[m] > 0) {
+				if (ort[mi] > 0) {
 					g = -g;
 				}
-				h -= ort[m] * g;
-				ort[m] -= g;
+				h -= ort[mi] * g;
+				ort[mi] -= g;
 				// Apply the Householder similarity transformation
 				// H := (I - u * u' / h) * H * (I - u * u' * / h)
-				for (int j = m; j < dimension; ++j) {
+				for (int j = mi; j < dimension; ++j) {
 					double f = 0.;
-					for (int i = high; i >= m; --i) {
+					for (int i = high; i >= mi; --i) {
 						f += ort[i] * H[i][j];
 					}
 					f /= h;
-					for (int i = m; i <= high; ++i) {
+					for (int i = mi; i <= high; ++i) {
 						H[i][j] -= f * ort[i];
 					}
 				}
 				for (int i = 0; i <= high; ++i) {
 					double f = 0.;
-					for (int j = high; j >= m; --j) {
+					for (int j = high; j >= mi; --j) {
 						f += ort[j] * H[i][j];
 					}
 					f /= h;
-					for (int j = m; j <= high; ++j) {
+					for (int j = mi; j <= high; ++j) {
 						H[i][j] -= f * ort[j];
 					}
 				}
-				ort[m] = scale * ort[m];
-				H[m][m - 1] = scale * g;
+				ort[mi] = scale * ort[mi];
+				H[mi][mi - 1] = scale * g;
 			}
 		}
 

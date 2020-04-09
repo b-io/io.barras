@@ -237,30 +237,30 @@ public class ComparableSort
 	 * but {@code O(n^2)} data movement (worst case).
 	 * <p>
 	 * If the initial part of the specified range is already sorted, this method can take advantage
-	 * of it: the method assumes that the elements from index {@code lo}, inclusive, to
+	 * of it: the method assumes that the elements from index {@code li}, inclusive, to
 	 * {@code start}, exclusive are already sorted.
 	 * <p>
 	 * @param array the array in which a range is to be sorted
-	 * @param lo    the index of the first element in the range to sort
+	 * @param li    the index of the first element in the range to sort
 	 * @param hi    the index after the last element in the range to sort
 	 * @param start the index of the first element in the range that is not already known to sort
-	 *              ({@code lo <= start <= hi})
+	 *              ({@code li <= start <= hi})
 	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
-	protected static void binarySort(final Object[] array, final int lo, final int hi, int start) {
-		assert lo <= start && start <= hi;
-		if (start == lo) {
+	protected static void binarySort(final Object[] array, final int li, final int hi, int start) {
+		assert li <= start && start <= hi;
+		if (start == li) {
 			++start;
 		}
 		for (; start < hi; ++start) {
 			final Comparable pivot = (Comparable) array[start];
 
 			// Set left (and right) to the index where a[start] (pivot) belongs
-			int left = lo, right = start;
+			int left = li, right = start;
 			assert left <= right;
 			// Invariants:
-			// • pivot >= all in [lo, left) and
+			// • pivot >= all in [li, left) and
 			// • pivot < all in [right, start).
 			while (left < right) {
 				final int mid = left + right >>> 1;
@@ -273,7 +273,7 @@ public class ComparableSort
 			assert left == right;
 
 			// The invariants still hold:
-			// • pivot >= all in [lo, left) and
+			// • pivot >= all in [li, left) and
 			// • pivot < all in [left, start), so pivot belongs at left.
 			// Note that if there are elements equal to pivot, left points to the first slot after
 			// them - that is why this sort is stable. Slide elements over to make room for pivot.
@@ -297,59 +297,58 @@ public class ComparableSort
 	 * reverses the run if it is descending (ensuring that the run will always be ascending when the
 	 * method returns).
 	 * <p>
-	 * A run is the longest ascending sequence with {@code a[lo] <= a[lo + 1] <= a[lo + 2] <= ...}
-	 * or the longest descending sequence with {@code a[lo] > a[lo + 1] > a[lo + 2] > ...}.
+	 * A run is the longest ascending sequence with {@code a[li] <= a[li + 1] <= a[li + 2] <= ...}
+	 * or the longest descending sequence with {@code a[li] > a[li + 1] > a[li + 2] > ...}.
 	 * <p>
 	 * For its intended use in a stable merge sort, the strictness of the definition of "descending"
 	 * is needed so that the call can safely reverse a descending sequence without violating
 	 * stability.
 	 * <p>
 	 * @param array the array in which a run is to be counted and possibly reversed
-	 * @param lo    the index of the first element in the run
+	 * @param li    the index of the first element in the run
 	 * @param hi    the index after the last element that may be contained in the run. It is
-	 *              required that {@code lo < hi}.
+	 *              required that {@code li < hi}.
 	 * <p>
 	 * @return the length of the run beginning at the specified position in the specified array
 	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared
 	 */
-	protected static int countRunAndMakeAscending(final Object[] array, final int lo,
+	protected static int countRunAndMakeAscending(final Object[] array, final int li,
 			final int hi) {
-		assert lo < hi;
-		int runHi = lo + 1;
+		assert li < hi;
+		int runHi = li + 1;
 		if (runHi == hi) {
 			return 1;
 		}
 
 		// Find end of run and reverse range if descending
-		if (Comparables.compareCast(array[runHi++], array[lo]) < 0) {
+		if (Comparables.compareCast(array[runHi++], array[li]) < 0) {
 			// Descending
 			while (runHi < hi && Comparables.compareCast(array[runHi], array[runHi - 1]) < 0) {
 				++runHi;
 			}
-			reverseRange(array, lo, runHi);
+			reverseRange(array, li, runHi);
 		} else {
 			// Ascending
 			while (runHi < hi && Comparables.compareCast(array[runHi], array[runHi - 1]) >= 0) {
 				++runHi;
 			}
 		}
-
-		return runHi - lo;
+		return runHi - li;
 	}
 
 	/**
 	 * Reverse the specified range of the specified array.
 	 * <p>
 	 * @param array the array in which a range is to be reversed
-	 * @param lo    the index of the first element in the range to reverse
+	 * @param li    the index of the first element in the range to reverse
 	 * @param hi    the index after the last element in the range to reverse
 	 */
-	protected static void reverseRange(final Object[] array, int lo, int hi) {
+	protected static void reverseRange(final Object[] array, int li, int hi) {
 		--hi;
-		while (lo < hi) {
-			final Object t = array[lo];
-			array[lo++] = array[hi];
+		while (li < hi) {
+			final Object t = array[li];
+			array[li++] = array[hi];
 			array[hi--] = t;
 		}
 	}

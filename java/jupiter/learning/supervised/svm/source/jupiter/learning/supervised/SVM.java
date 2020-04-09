@@ -336,11 +336,11 @@ public class SVM {
 
 		// Classify the example
 		final svm_node[] nodes = new svm_node[featureCount];
-		for (int i = 0; i < featureCount; ++i) {
+		for (int fi = 0; fi < featureCount; ++fi) {
 			final svm_node node = new svm_node();
-			node.index = i;
-			node.value = example[i];
-			nodes[i] = node;
+			node.index = fi;
+			node.value = example[fi];
+			nodes[fi] = node;
 		}
 		final int classCount = model.nr_class;
 		final int[] labels = new int[classCount];
@@ -348,8 +348,8 @@ public class SVM {
 		final double[] probabilityEstimatesPerClass = new double[classCount];
 		final int estimatedClass = Maths.roundToInt(
 				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
-		for (int i = 0; i < classCount; ++i) {
-			probabilityEstimates.put(labels[i], probabilityEstimatesPerClass[i]);
+		for (int ci = 0; ci < classCount; ++ci) {
+			probabilityEstimates.put(labels[ci], probabilityEstimatesPerClass[ci]);
 		}
 		// Return the estimated class
 		return estimatedClass;
@@ -377,14 +377,14 @@ public class SVM {
 		if (featureVectors.length > 0) {
 			trainingExampleCount = featureVectors.length;
 			updateProblem();
-			for (int i = 0; i < trainingExampleCount; ++i) {
-				final int n = featureVectors[i].length;
+			for (int tei = 0; tei < trainingExampleCount; ++tei) {
+				final int n = featureVectors[tei].length;
 				if (n < featureCount) {
 					throw new IllegalArgumentException("The feature vector size is wrong at row " +
-							i + SPACE + Arguments.atLeastExpectedButFound(n, featureCount));
+							tei + SPACE + Arguments.atLeastExpectedButFound(n, featureCount));
 				}
-				updateClassification(i, classes[i]);
-				updateFeatureVector(i, featureVectors[i]);
+				updateClassification(tei, classes[tei]);
+				updateFeatureVector(tei, featureVectors[tei]);
 			}
 		} else {
 			IO.warn("No training examples found");
@@ -417,11 +417,11 @@ public class SVM {
 			}
 			trainingExampleCount = m;
 			updateProblem();
-			for (int i = 0; i < trainingExampleCount; ++i) {
-				updateClassification(i,
-						Integers.convert(trainingExamples.get(i, classesIndex)));
-				for (int j = 0; j < featureCount; ++j) {
-					updateValue(i, j, Doubles.convert(trainingExamples.get(i, j)));
+			for (int tei = 0; tei < trainingExampleCount; ++tei) {
+				updateClassification(tei,
+						Integers.convert(trainingExamples.get(tei, classesIndex)));
+				for (int fi = 0; fi < featureCount; ++fi) {
+					updateValue(tei, fi, Doubles.convert(trainingExamples.get(tei, fi)));
 				}
 			}
 		} else {
@@ -457,8 +457,8 @@ public class SVM {
 	 */
 	protected void updateFeatureVector(final int trainingExampleIndex,
 			final double... featureVector) {
-		for (int featureIndex = 0; featureIndex < featureCount; ++featureIndex) {
-			updateValue(trainingExampleIndex, featureIndex, featureVector[featureIndex]);
+		for (int fi = 0; fi < featureCount; ++fi) {
+			updateValue(trainingExampleIndex, fi, featureVector[fi]);
 		}
 	}
 

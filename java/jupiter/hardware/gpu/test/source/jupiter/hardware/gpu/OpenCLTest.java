@@ -100,12 +100,12 @@ public class OpenCLTest
 
 			// Verify the result
 			boolean isPassed = true;
-			for (int e = 0; e < result.length; ++e) {
-				final double x = result[e];
+			for (int ri = 0; ri < result.length; ++ri) {
+				final double x = result[ri];
 
 				double y = 0.;
-				final int rowOffset = e / bColumnDimension;
-				final int columnOffset = e % bColumnDimension;
+				final int rowOffset = ri / bColumnDimension;
+				final int columnOffset = ri % bColumnDimension;
 				for (int i = 0; i < aColumnDimension; ++i) {
 					y += A[rowOffset * aColumnDimension + i] *
 							B[i * bColumnDimension + columnOffset];
@@ -152,17 +152,17 @@ public class OpenCLTest
 
 			// Verify the result
 			boolean isPassed = true;
-			for (int e = 0; e < result.length; ++e) {
-				final double x = result[e];
+			for (int ri = 0; ri < result.length; ++ri) {
+				final double x = result[ri];
 
 				double y = 0.;
-				final int rowOffset = e / bColumnDimension;
-				final int columnOffset = e % bColumnDimension;
+				final int rowOffset = ri / bColumnDimension;
+				final int columnOffset = ri % bColumnDimension;
 				for (int i = 0; i < aColumnDimension; ++i) {
 					y += A[rowOffset * aColumnDimension + i] *
 							B[i * bColumnDimension + columnOffset];
 				}
-				y += C[e % cColumnDimension];
+				y += C[ri % cColumnDimension];
 
 				if (!Doubles.equals(x, y)) {
 					isPassed = false;

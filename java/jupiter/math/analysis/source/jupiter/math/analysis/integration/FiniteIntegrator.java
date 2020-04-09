@@ -419,6 +419,7 @@ public class FiniteIntegrator
 		final double toCorrection = Maths.remainderMinSteps(initialValue, b, step, toIndex) *
 				DY[boundIndex(toIndex)];
 
+		// Return the sampling sum
 		return Maths.sumInterval(boundIndex(fromIndex - 1), boundIndex(toIndex - 1) + 1, DY) +
 				fromCorrection + toCorrection;
 	}

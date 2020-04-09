@@ -67,8 +67,8 @@ public class WorkQueueTest
 		// Process the tasks
 		chrono.start();
 		final List<Long> ids = new ExtendedList<Long>(taskCount);
-		for (int i = 0; i < taskCount; ++i) {
-			ids.add(workQueue.submit(i));
+		for (int ti = 0; ti < taskCount; ++ti) {
+			ids.add(workQueue.submit(ti));
 		}
 		final Set<Integer> results = new HashSet<Integer>(ids.size());
 		for (final long id : ids) {
@@ -77,8 +77,8 @@ public class WorkQueueTest
 		chrono.stop();
 
 		// Verify the results
-		for (int i = 0; i < taskCount; ++i) {
-			assertTrue(results.contains(i));
+		for (int ti = 0; ti < taskCount; ++ti) {
+			assertTrue(results.contains(ti));
 		}
 		return chrono.getMilliseconds();
 	}

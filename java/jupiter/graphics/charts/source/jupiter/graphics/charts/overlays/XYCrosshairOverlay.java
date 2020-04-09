@@ -150,12 +150,12 @@ public class XYCrosshairOverlay
 			}
 		}
 		// • The range crosshairs
-		for (int i = 0; i < yCrosshairs.size(); ++i) {
-			final Crosshair yCrosshair = yCrosshairs.get(i);
+		for (int ci = 0; ci < yCrosshairs.size(); ++ci) {
+			final Crosshair yCrosshair = yCrosshairs.get(ci);
 			if (!yCrosshair.isVisible()) {
 				continue;
 			}
-			final int rangeAxisIndex = rangeAxisIndices.getOrDefault(i, 0);
+			final int rangeAxisIndex = rangeAxisIndices.getOrDefault(ci, 0);
 			if (rangeAxisIndex >= plot.getRangeAxisCount()) {
 				continue;
 			}

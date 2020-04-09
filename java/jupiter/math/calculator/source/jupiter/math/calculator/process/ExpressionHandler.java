@@ -427,17 +427,17 @@ public class ExpressionHandler
 
 		// Get the delimiting intervals
 		int parenthesisCount = 0, lowerBound, upperBound = -1;
-		for (int index = expression.length() - 1; index >= 0; --index) {
-			final Element.Type type = getType(expression.charAt(index));
+		for (int i = expression.length() - 1; i >= 0; --i) {
+			final Element.Type type = getType(expression.charAt(i));
 			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
 				if (parenthesisCount == 0) {
-					upperBound = index;
+					upperBound = i;
 				}
 				++parenthesisCount;
 			} else if (type == Element.Type.LEFT_PARENTHESIS || type == Element.Type.LEFT_BRACKET) {
 				--parenthesisCount;
 				if (parenthesisCount == 0) {
-					lowerBound = index;
+					lowerBound = i;
 					delimitingIntervals.add(new Interval<Integer>(lowerBound, upperBound));
 				}
 			}

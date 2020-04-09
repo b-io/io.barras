@@ -95,9 +95,9 @@ public class OptimizationAdam
 		setDefaultParameters();
 		V = new Vector[layerCount];
 		S = new Vector[layerCount];
-		for (int l = 0; l < layerCount; ++l) {
-			V[l] = new Vector(models[l].getDimension(), models[l].isTransposed());
-			S[l] = new Vector(models[l].getDimension(), models[l].isTransposed());
+		for (int li = 0; li < layerCount; ++li) {
+			V[li] = new Vector(models[li].getDimension(), models[li].isTransposed());
+			S[li] = new Vector(models[li].getDimension(), models[li].isTransposed());
 		}
 	}
 
@@ -115,9 +115,9 @@ public class OptimizationAdam
 		setDefaultParameters();
 		V = new Matrix[layerCount];
 		S = new Matrix[layerCount];
-		for (int l = 0; l < layerCount; ++l) {
-			V[l] = new Matrix(models[l].getDimensions());
-			S[l] = new Matrix(models[l].getDimensions());
+		for (int li = 0; li < layerCount; ++li) {
+			V[li] = new Matrix(models[li].getDimensions());
+			S[li] = new Matrix(models[li].getDimensions());
 		}
 	}
 

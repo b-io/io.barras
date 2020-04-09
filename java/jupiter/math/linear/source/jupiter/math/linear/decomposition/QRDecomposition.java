@@ -258,7 +258,7 @@ public class QRDecomposition
 			}
 		}
 
-		// Solve R * X = Y
+		// Solve R * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
 			for (int j = 0; j < xColumnDimension; ++j) {
 				xElements[k * xColumnDimension + j] /= Rdiag[k];
@@ -270,7 +270,6 @@ public class QRDecomposition
 				}
 			}
 		}
-
 		return X;
 	}
 }

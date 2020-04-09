@@ -328,8 +328,8 @@ public class SpeedChecker {
 		Charts.DATE_FORMAT = Formats.DATE_TIME_FORMAT;
 		final TimeSeriesGraphic graph = new TimeSeriesGraphic("Network Speed", "Time",
 				"Downloading Speed [Mbits/s]");
-		for (int i = 0; i < dataFileHandlers.length; ++i) {
-			loadSeries(graph, 0, dataFileHandlers[i].getPath());
+		for (int dfhi = 0; dfhi < dataFileHandlers.length; ++dfhi) {
+			loadSeries(graph, 0, dataFileHandlers[dfhi].getPath());
 		}
 		graph.display();
 	}

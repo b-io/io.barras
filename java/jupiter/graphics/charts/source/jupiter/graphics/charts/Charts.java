@@ -450,9 +450,9 @@ public class Charts {
 		final XYItemRenderer renderer = plot.getRenderer();
 		if (renderer instanceof StandardXYItemRenderer) {
 			final int datasetCount = plot.getDatasetCount();
-			for (int i = 0; i < datasetCount; ++i) {
-				renderer.setSeriesPaint(i, colors[i % colors.length]);
-				renderer.setSeriesStroke(i, strokes[i % strokes.length]);
+			for (int di = 0; di < datasetCount; ++di) {
+				renderer.setSeriesPaint(di, colors[di % colors.length]);
+				renderer.setSeriesStroke(di, strokes[di % strokes.length]);
 			}
 		}
 	}

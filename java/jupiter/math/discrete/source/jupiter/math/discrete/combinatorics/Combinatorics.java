@@ -256,11 +256,11 @@ public class Combinatorics {
 		final int[][] allPermutations = new int[allPermutationCount][];
 
 		// Generate all the permutations
-		int p = 0;
+		int api = 0;
 		for (int k = 0; k <= n; ++k) {
 			final int[][] permutations = createKPermutations(n, k, sort);
 			for (final int[] permutation : permutations) {
-				allPermutations[p++] = permutation;
+				allPermutations[api++] = permutation;
 			}
 		}
 		return allPermutations;
@@ -303,7 +303,7 @@ public class Combinatorics {
 			Booleans.fill(directions, LEFT);
 		}
 		permutations[0] = permutation.clone();
-		for (int p = 1; p < permutationCount; ++p) {
+		for (int pi = 1; pi < permutationCount; ++pi) {
 			if (sort) {
 				// Generate in lexicographic order
 				int fromIndex = n - 1;
@@ -335,13 +335,13 @@ public class Combinatorics {
 				Integers.swap(permutation, largestMobileIndex, largestMobileIndex + offset);
 				Booleans.swap(directions, largestMobileIndex, largestMobileIndex + offset);
 				// • Reverse the direction of all the integers larger than the largest index
-				for (int i = 0; i < permutation.length; i++) {
-					if (permutation[i] > largestIndex) {
-						directions[i] = !directions[i];
+				for (int di = 0; di < directions.length; ++di) {
+					if (permutation[di] > largestIndex) {
+						directions[di] = !directions[di];
 					}
 				}
 			}
-			permutations[p] = permutation.clone();
+			permutations[pi] = permutation.clone();
 		}
 		return permutations;
 	}
@@ -427,11 +427,11 @@ public class Combinatorics {
 				}
 			}
 		} else {
-			int p = 0;
+			int pi = 0;
 			for (final int[] combination : combinations) {
 				final int[][] subpermutations = createPermutations(combination);
 				for (final int[] subpermutation : subpermutations) {
-					permutations[p++] = subpermutation;
+					permutations[pi++] = subpermutation;
 				}
 			}
 		}
@@ -465,9 +465,9 @@ public class Combinatorics {
 		// Create the k-permutations with the finite multiplicities
 		while (permutations.getFirst().length < k) {
 			final int[] permutation = permutations.remove();
-			for (int i = 0; i < ms.length; ++i) {
-				if (Integers.count(permutation, i) < ms[i]) {
-					permutations.add(Integers.merge(permutation, i));
+			for (int mi = 0; mi < ms.length; ++mi) {
+				if (Integers.count(permutation, mi) < ms[mi]) {
+					permutations.add(Integers.merge(permutation, mi));
 				}
 			}
 		}
@@ -506,21 +506,21 @@ public class Combinatorics {
 
 		// Generate all the combinations
 		if (sort) {
-			int c = 0;
+			int aci = 0;
 			for (int k = 0; k <= n; ++k) {
 				final int[][] combinations = createKCombinations(n, k);
 				for (final int[] combination : combinations) {
-					allCombinations[c++] = combination;
+					allCombinations[aci++] = combination;
 				}
 			}
 		} else {
-			for (int c = 0; c < allCombinationCount; ++c) {
-				allCombinations[c] = new int[Integer.bitCount(c)];
-				int index = 0;
+			for (int aci = 0; aci < allCombinationCount; ++aci) {
+				allCombinations[aci] = new int[Integer.bitCount(aci)];
+				int ci = 0;
 				for (int i = 0; i < n; ++i) {
 					// Use the binary representation of c as a mask to select the elements
-					if ((c & Maths.pow2(i)) != 0) {
-						allCombinations[c][index++] = i;
+					if ((aci & Maths.pow2(i)) != 0) {
+						allCombinations[aci][ci++] = i;
 					}
 				}
 			}
@@ -548,7 +548,7 @@ public class Combinatorics {
 
 		// Generate the k-combinations in lexicographic order
 		combinations[0] = combination.clone();
-		for (int c = 1; c < combinationCount; ++c) {
+		for (int ci = 1; ci < combinationCount; ++ci) {
 			int fromIndex = k - 1;
 			while (fromIndex > 0 && combination[fromIndex] == n - k + fromIndex) {
 				--fromIndex;
@@ -557,7 +557,7 @@ public class Combinatorics {
 			for (int i = fromIndex + 1; i < k; ++i) {
 				combination[i] = combination[i - 1] + 1;
 			}
-			combinations[c] = combination.clone();
+			combinations[ci] = combination.clone();
 		}
 		return combinations;
 	}
@@ -591,10 +591,10 @@ public class Combinatorics {
 		while (combinations.getFirst().length < k) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
-			for (int i = from; i < ms.length; ++i) {
-				final int index = Integers.findFirstIndex(combination, i);
-				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
-					combinations.add(Integers.merge(combination, i));
+			for (int mi = from; mi < ms.length; ++mi) {
+				final int index = Integers.findFirstIndex(combination, mi);
+				if ((index < 0 ? 0 : combination.length - index) < ms[mi]) {
+					combinations.add(Integers.merge(combination, mi));
 				}
 			}
 		}
@@ -778,8 +778,8 @@ public class Combinatorics {
 			return Maths.factorial(n) / Maths.product(FACTORIAL.applyToPrimitiveArray(ms));
 		}
 		double result = Maths.productSeries(ms[0] + 1., n);
-		for (int i = 1; i < ms.length; ++i) {
-			result /= Maths.factorial(ms[i]);
+		for (int mi = 1; mi < ms.length; ++mi) {
+			result /= Maths.factorial(ms[mi]);
 		}
 		return result;
 	}
@@ -810,12 +810,12 @@ public class Combinatorics {
 		int result = 0;
 		while (permutations.isNonEmpty()) {
 			final int[] permutation = permutations.remove();
-			for (int i = 0; i < ms.length; ++i) {
-				if (Integers.count(permutation, i) < ms[i]) {
+			for (int mi = 0; mi < ms.length; ++mi) {
+				if (Integers.count(permutation, mi) < ms[mi]) {
 					if (permutation.length + 1 == k) {
 						++result;
 					} else {
-						permutations.add(Integers.merge(permutation, i));
+						permutations.add(Integers.merge(permutation, mi));
 					}
 				}
 			}
@@ -949,13 +949,13 @@ public class Combinatorics {
 		while (combinations.isNonEmpty()) {
 			final int[] combination = combinations.remove();
 			final int from = combination.length == 0 ? 0 : combination[combination.length - 1];
-			for (int i = from; i < ms.length; ++i) {
-				final int index = Integers.findFirstIndex(combination, i);
-				if ((index < 0 ? 0 : combination.length - index) < ms[i]) {
+			for (int mi = from; mi < ms.length; ++mi) {
+				final int index = Integers.findFirstIndex(combination, mi);
+				if ((index < 0 ? 0 : combination.length - index) < ms[mi]) {
 					if (combination.length + 1 == k) {
 						++result;
 					} else {
-						combinations.add(Integers.merge(combination, i));
+						combinations.add(Integers.merge(combination, mi));
 					}
 				}
 			}

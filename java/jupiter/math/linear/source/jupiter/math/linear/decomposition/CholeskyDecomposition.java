@@ -186,7 +186,7 @@ public class CholeskyDecomposition
 			}
 		}
 
-		// Solve L' * X = Y
+		// Solve L' * X = Y and return X
 		for (int k = dimension - 1; k >= 0; --k) {
 			for (int j = 0; j < xColumnDimension; ++j) {
 				for (int i = k + 1; i < dimension; ++i) {
@@ -196,7 +196,6 @@ public class CholeskyDecomposition
 				xElements[k * xColumnDimension + j] /= L[k][k];
 			}
 		}
-
 		return X;
 	}
 }
