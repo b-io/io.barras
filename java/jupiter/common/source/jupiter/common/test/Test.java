@@ -23,11 +23,11 @@
  */
 package jupiter.common.test;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import junit.framework.TestCase;
 
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.InputOutput.SeverityLevel;
 
 public class Test
 		extends TestCase {

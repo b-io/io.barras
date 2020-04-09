@@ -23,7 +23,7 @@
  */
 package jupiter.common.map.parser;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import jupiter.common.map.ObjectToIntegerMapper;
 import jupiter.common.model.ICloneable;

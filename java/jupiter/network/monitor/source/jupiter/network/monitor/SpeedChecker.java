@@ -23,7 +23,7 @@
  */
 package jupiter.network.monitor;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;

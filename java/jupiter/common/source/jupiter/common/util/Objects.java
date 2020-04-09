@@ -23,7 +23,7 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.COLON;
 import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.NULL;

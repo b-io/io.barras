@@ -23,7 +23,7 @@
  */
 package jupiter.gui.console;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.VERSION;
 import static jupiter.common.util.Strings.EMPTY;
@@ -36,8 +36,8 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import jupiter.common.io.IO.SeverityLevel;
-import jupiter.common.io.IO.Type;
+import jupiter.common.io.InputOutput.SeverityLevel;
+import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.Message;
 import jupiter.common.io.Resources;
 import jupiter.common.io.console.ConsoleHandler.Color;
@@ -92,7 +92,7 @@ public abstract class GraphicalConsole
 		// Create the console
 		console = new JConsole();
 		frame.add(console);
-		// Redirect the input of IO to this input
+		// Redirect the IO input to the console
 		IO.setConsole(console);
 		try {
 			// Redirect the system output to the console

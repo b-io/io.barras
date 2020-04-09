@@ -23,12 +23,12 @@
  */
 package jupiter.common.io;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Strings.EMPTY;
 
-import jupiter.common.io.IO.SeverityLevel;
-import jupiter.common.io.IO.Type;
+import jupiter.common.io.InputOutput.SeverityLevel;
+import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.console.SystemConsole;
 import jupiter.common.test.Test;

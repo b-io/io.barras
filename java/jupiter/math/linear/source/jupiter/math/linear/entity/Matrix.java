@@ -23,7 +23,7 @@
  */
 package jupiter.math.linear.entity;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Characters.SPACE;
@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
@@ -2784,8 +2785,8 @@ public class Matrix
 		 *              side operand {@link Matrix} and the right-hand side operand {@link Matrix}
 		 *              to process
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
-		 *         otherwise for each execution slice
+		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
+		 *         {@link InputOutput#EXIT_FAILURE} otherwise for each execution slice
 		 */
 		protected int[] divideAndConquer(final Triple<Matrix, Matrix, Matrix> input) {
 			return divideAndConquer(input, 0, input.getFirst().m);
@@ -2800,8 +2801,8 @@ public class Matrix
 		 *                 {@link Matrix} to process
 		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-		 *         {@code IO.EXIT_FAILURE} otherwise
+		 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
 		@Override
 		protected int conquer(final Triple<Matrix, Matrix, Matrix> input,
@@ -2818,8 +2819,8 @@ public class Matrix
 		 * @param left   the left-hand side operand {@link Matrix}
 		 * @param right  the right-hand side operand {@link Matrix}
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
-		 *         otherwise
+		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
+		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
 		protected static int process(final Matrix result, final Matrix left, final Matrix right) {
 			return process(result, left, right, 0, left.m);
@@ -2836,8 +2837,8 @@ public class Matrix
 		 * @param fromIndex the index to start multiplying from (inclusive)
 		 * @param toIndex   the index to finish multiplying at (exclusive)
 		 * <p>
-		 * @return {@code IO.EXIT_SUCCESS} if the multiplication succeeds, {@code IO.EXIT_FAILURE}
-		 *         otherwise
+		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
+		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
 		protected static int process(final Matrix result, final Matrix left, final Matrix right,
 				final int fromIndex, final int toIndex) {

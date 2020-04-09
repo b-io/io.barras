@@ -23,13 +23,15 @@
  */
 package jupiter.log;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import jupiter.common.io.IO;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.InputOutput;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
@@ -57,11 +59,11 @@ public class IOLog4j
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link IO}.
+	 * The {@link InputOutput}.
 	 */
-	protected final IO io;
+	protected final InputOutput io;
 	/**
-	 * The internal {@link Lock} of the {@link IO}.
+	 * The internal {@link Lock} of the {@link InputOutput}.
 	 */
 	protected final Lock ioLock = new ReentrantLock(true);
 
@@ -75,7 +77,7 @@ public class IOLog4j
 	 */
 	public IOLog4j() {
 		super();
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	/**
@@ -85,7 +87,7 @@ public class IOLog4j
 	 */
 	public IOLog4j(final SeverityLevel severityLevel) {
 		super();
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	/**
@@ -97,7 +99,7 @@ public class IOLog4j
 	 */
 	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		super();
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
@@ -112,8 +114,8 @@ public class IOLog4j
 	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		super();
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
-				logHandler);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+				consoleHandler, logHandler);
 	}
 
 
@@ -138,7 +140,7 @@ public class IOLog4j
 			final File log4j = new File(Files.getPath().concat(Files.SEPARATOR).concat(fileName));
 			System.setProperty("log4j.configuration", "file:///" + Files.getCanonicalPath(log4j));
 		} catch (final IOException ex) {
-			IO.IO.error(ex);
+			IO.error(ex);
 		}
 	}
 

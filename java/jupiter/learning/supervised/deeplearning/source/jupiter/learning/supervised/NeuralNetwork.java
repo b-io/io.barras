@@ -23,7 +23,7 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.io.IOException;
 

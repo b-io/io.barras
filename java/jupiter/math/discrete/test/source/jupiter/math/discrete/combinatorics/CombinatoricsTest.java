@@ -23,7 +23,7 @@
  */
 package jupiter.math.discrete.combinatorics;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.struct.list.ExtendedLinkedList;

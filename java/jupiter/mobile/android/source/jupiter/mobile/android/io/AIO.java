@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 
-import jupiter.common.io.IO;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.InputOutput;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
@@ -68,9 +68,9 @@ public class AIO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link IO}.
+	 * The {@link InputOutput}.
 	 */
-	protected IO io;
+	protected InputOutput io;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ public class AIO
 	 * Constructs an {@link AIO} by default.
 	 */
 	public AIO() {
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class AIO
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public AIO(final SeverityLevel severityLevel) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class AIO
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
 	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
 				consoleHandler);
 	}
 
@@ -115,8 +115,8 @@ public class AIO
 	 */
 	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
-		io = new IO(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel, consoleHandler,
-				logHandler);
+		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
+				consoleHandler, logHandler);
 	}
 
 

@@ -23,7 +23,7 @@
  */
 package jupiter.graphics.charts;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.text.ParseException;
 import java.util.Date;

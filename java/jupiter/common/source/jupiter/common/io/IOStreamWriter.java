@@ -82,7 +82,7 @@ public class IOStreamWriter
 	@Override
 	public Integer call(final InputStream input) {
 		printer.println(input, isError);
-		return IO.EXIT_SUCCESS;
+		return InputOutput.EXIT_SUCCESS;
 	}
 
 

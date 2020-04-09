@@ -23,7 +23,7 @@
  */
 package jupiter.common.math;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.util.Collection;
 import java.util.ListIterator;

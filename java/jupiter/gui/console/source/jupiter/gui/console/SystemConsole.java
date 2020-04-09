@@ -23,7 +23,7 @@
  */
 package jupiter.gui.console;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.SPACE;
 
 import java.io.IOException;

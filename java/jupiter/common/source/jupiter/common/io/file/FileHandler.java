@@ -23,7 +23,7 @@
  */
 package jupiter.common.io.file;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
 

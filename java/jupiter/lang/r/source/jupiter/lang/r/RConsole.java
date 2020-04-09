@@ -23,7 +23,7 @@
  */
 package jupiter.lang.r;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import jupiter.gui.console.GraphicalConsole;
 

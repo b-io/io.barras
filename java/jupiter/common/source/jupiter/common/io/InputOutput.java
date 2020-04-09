@@ -49,8 +49,8 @@ import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class IO
-		implements ICloneable<IO>, Serializable {
+public class InputOutput
+		implements ICloneable<InputOutput>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -96,9 +96,9 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default {@link IO}.
+	 * The default {@link InputOutput}.
 	 */
-	public static final IO IO = new IO();
+	public static final InputOutput IO = new InputOutput();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -151,59 +151,59 @@ public class IO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IO} by default.
+	 * Constructs an {@link InputOutput} by default.
 	 */
-	public IO() {
+	public InputOutput() {
 		this(Message.DEFAULT_STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index.
+	 * Constructs an {@link InputOutput} with the specified stack index.
 	 * <p>
 	 * @param stackIndex a stack index
 	 */
-	public IO(final int stackIndex) {
+	public InputOutput(final int stackIndex) {
 		this(stackIndex, DEFAULT_SEVERITY_LEVEL);
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index and {@link SeverityLevel}.
+	 * Constructs an {@link InputOutput} with the specified stack index and {@link SeverityLevel}.
 	 * <p>
 	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
-	public IO(final int stackIndex, final SeverityLevel severityLevel) {
+	public InputOutput(final int stackIndex, final SeverityLevel severityLevel) {
 		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, DEFAULT_LOG_HANDLER);
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
 	 * {@link ConsoleHandler}.
 	 * <p>
 	 * @param stackIndex     the stack index
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
-	public IO(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler) {
 		this(stackIndex, severityLevel, consoleHandler, DEFAULT_LOG_HANDLER);
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
 	 * {@link LogHandler}.
 	 * <p>
 	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param logHandler    the {@link LogHandler}
 	 */
-	public IO(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
 			final LogHandler logHandler) {
 		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, logHandler);
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel},
+	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel},
 	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
 	 * @param stackIndex     the stack index
@@ -211,20 +211,20 @@ public class IO
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
-	public IO(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
 		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(consoleHandler, logHandler));
 	}
 
 	/**
-	 * Constructs an {@link IO} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
 	 * {@link List} of {@link IOHandler}.
 	 * <p>
 	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param handlers      the {@link List} of {@link IOHandler}
 	 */
-	public IO(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
 			final List<? extends IOHandler> handlers) {
 		// Set the stack index and severity level
 		this.stackIndex = stackIndex;
@@ -999,9 +999,9 @@ public class IO
 	 * @see ICloneable
 	 */
 	@Override
-	public IO clone() {
+	public InputOutput clone() {
 		try {
-			final IO clone = (IO) super.clone();
+			final InputOutput clone = (InputOutput) super.clone();
 			clone.printer = Objects.clone(printer);
 			clone.handlers = Objects.clone(handlers);
 			clone.consoleHandler = Objects.clone(consoleHandler);
@@ -1028,10 +1028,10 @@ public class IO
 		if (this == other) {
 			return true;
 		}
-		if (other == null || !(other instanceof IO)) {
+		if (other == null || !(other instanceof InputOutput)) {
 			return false;
 		}
-		final IO otherIO = (IO) other;
+		final InputOutput otherIO = (InputOutput) other;
 		return Objects.equals(stackIndex, otherIO.stackIndex) &&
 				Objects.equals(severityLevel, otherIO.severityLevel) &&
 				Objects.equals(printer, otherIO.printer) &&

@@ -23,7 +23,7 @@
  */
 package jupiter.common.math;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.math.IntervalTest.A1;
 import static jupiter.common.math.IntervalTest.A2;
 import static jupiter.common.math.IntervalTest.A3;

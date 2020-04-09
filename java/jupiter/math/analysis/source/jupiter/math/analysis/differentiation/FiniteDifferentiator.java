@@ -23,7 +23,7 @@
  */
 package jupiter.math.analysis.differentiation;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.math.Intervals;

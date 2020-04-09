@@ -23,7 +23,7 @@
  */
 package jupiter.transfer.mail;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;

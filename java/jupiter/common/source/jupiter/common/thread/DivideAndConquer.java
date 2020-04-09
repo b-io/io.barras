@@ -25,6 +25,7 @@ package jupiter.common.thread;
 
 import java.io.Serializable;
 
+import jupiter.common.io.InputOutput;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
@@ -105,8 +106,8 @@ public abstract class DivideAndConquer<I>
 	 * @param fromIndex the index to start dividing from (inclusive)
 	 * @param toIndex   the index to finish dividing at (exclusive)
 	 * <p>
-	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-	 *         {@code IO.EXIT_FAILURE} otherwise for all of them
+	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@link InputOutput#EXIT_FAILURE} otherwise for all of them
 	 */
 	public int[] divideAndConquer(final I input, final int fromIndex, final int toIndex) {
 		return divideAndConquer(input, fromIndex, toIndex, 1);
@@ -121,8 +122,8 @@ public abstract class DivideAndConquer<I>
 	 * @param toIndex      the index to finish dividing at (exclusive)
 	 * @param minSliceSize the minimum execution slice size
 	 * <p>
-	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-	 *         {@code IO.EXIT_FAILURE} otherwise for all of them
+	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@link InputOutput#EXIT_FAILURE} otherwise for all of them
 	 */
 	public int[] divideAndConquer(final I input, final int fromIndex, final int toIndex,
 			final int minSliceSize) {
@@ -179,8 +180,8 @@ public abstract class DivideAndConquer<I>
 	 * <p>
 	 * @param ids the identifiers of the execution slices to conquer
 	 * <p>
-	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-	 *         {@code IO.EXIT_FAILURE} otherwise for all of them
+	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@link InputOutput#EXIT_FAILURE} otherwise for all of them
 	 */
 	protected int[] conquer(final long... ids) {
 		final int[] outputs = new int[ids.length];
@@ -198,8 +199,8 @@ public abstract class DivideAndConquer<I>
 	 * @param fromIndex the index to start conquering from (inclusive)
 	 * @param toIndex   the index to finish conquering at (exclusive)
 	 * <p>
-	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-	 *         {@code IO.EXIT_FAILURE} otherwise
+	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
 	protected int conquer(final I input, final int fromIndex, final int toIndex) {
 		return conquer(input, new Interval<Integer>(fromIndex, toIndex));
@@ -211,8 +212,8 @@ public abstract class DivideAndConquer<I>
 	 * @param input    the {@code I} input to process
 	 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
 	 * <p>
-	 * @return {@code IO.EXIT_SUCCESS} if conquering the execution slice succeeds,
-	 *         {@code IO.EXIT_FAILURE} otherwise
+	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
+	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
 	protected abstract int conquer(final I input, final Interval<Integer> interval);
 

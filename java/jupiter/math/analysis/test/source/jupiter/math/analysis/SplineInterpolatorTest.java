@@ -23,7 +23,7 @@
  */
 package jupiter.math.analysis;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 

@@ -23,7 +23,7 @@
  */
 package jupiter.hardware.gpu;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Formats.NEW_LINE;
 

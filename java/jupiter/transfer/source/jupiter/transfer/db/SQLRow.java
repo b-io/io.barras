@@ -23,7 +23,7 @@
  */
 package jupiter.transfer.db;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.string.Stringifiers.STRINGIFIER;
 
 import java.lang.reflect.Constructor;

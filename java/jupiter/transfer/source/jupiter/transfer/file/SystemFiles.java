@@ -23,7 +23,7 @@
  */
 package jupiter.transfer.file;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.STAR;
 

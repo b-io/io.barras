@@ -28,8 +28,8 @@ import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.Serializable;
 
-import jupiter.common.io.IO.SeverityLevel;
-import jupiter.common.io.IO.Type;
+import jupiter.common.io.InputOutput.SeverityLevel;
+import jupiter.common.io.InputOutput.Type;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;

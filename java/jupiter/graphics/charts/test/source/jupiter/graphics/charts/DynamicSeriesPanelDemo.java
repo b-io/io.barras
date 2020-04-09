@@ -23,7 +23,7 @@
  */
 package jupiter.graphics.charts;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.COS;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 

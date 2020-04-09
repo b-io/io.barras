@@ -23,7 +23,7 @@
  */
 package jupiter.hardware.gpu;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static org.jocl.CL.CL_CONTEXT_PLATFORM;
 import static org.jocl.CL.CL_DEVICE_GLOBAL_MEM_SIZE;
 import static org.jocl.CL.CL_DEVICE_LOCAL_MEM_SIZE;

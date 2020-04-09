@@ -23,7 +23,7 @@
  */
 package jupiter.common.test;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.util.Collection;
 

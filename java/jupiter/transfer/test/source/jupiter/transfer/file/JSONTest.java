@@ -23,7 +23,7 @@
  */
 package jupiter.transfer.file;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.string.Stringifiers.JSON;
 import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Strings.EMPTY;

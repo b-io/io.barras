@@ -24,7 +24,7 @@
 package jupiter.common.io;
 
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.model.ICloneable;
 
 public abstract class IOAppender

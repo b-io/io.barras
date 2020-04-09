@@ -23,7 +23,7 @@
  */
 package jupiter.transfer.db;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_BRACE;
 import static jupiter.common.util.Characters.RIGHT_BRACE;
 import static jupiter.common.util.Strings.BRACKETER;

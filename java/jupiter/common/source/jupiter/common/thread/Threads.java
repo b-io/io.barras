@@ -23,7 +23,7 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 public class Threads {
 

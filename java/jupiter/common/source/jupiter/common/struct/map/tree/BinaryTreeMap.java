@@ -23,7 +23,7 @@
  */
 package jupiter.common.struct.map.tree;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.NEW_LINE;
 
 import java.util.Comparator;

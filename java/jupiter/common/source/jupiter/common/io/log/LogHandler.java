@@ -23,7 +23,7 @@
  */
 package jupiter.common.io.log;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.io.File;
 import java.io.IOException;

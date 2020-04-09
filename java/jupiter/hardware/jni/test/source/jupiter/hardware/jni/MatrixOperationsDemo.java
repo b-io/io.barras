@@ -23,7 +23,7 @@
  */
 package jupiter.hardware.jni;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.hardware.jni.MatrixOperations.multiply;
 import static jupiter.hardware.jni.MatrixOperations.test;
 

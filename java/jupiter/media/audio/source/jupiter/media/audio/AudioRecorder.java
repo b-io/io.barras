@@ -23,7 +23,7 @@
  */
 package jupiter.media.audio;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.media.audio.Audio.DEFAULT_AUDIO_FORMAT;
 
 import java.awt.HeadlessException;

@@ -23,7 +23,7 @@
  */
 package jupiter.gui.console;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
@@ -71,7 +71,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import jupiter.common.io.IO.SeverityLevel;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.ConsoleHandler.Color;
 import jupiter.common.io.console.IConsole;

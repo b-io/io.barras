@@ -23,7 +23,7 @@
  */
 package jupiter.common.struct.table;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BAR;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;

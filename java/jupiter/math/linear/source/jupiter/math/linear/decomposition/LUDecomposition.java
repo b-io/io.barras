@@ -23,7 +23,7 @@
  */
 package jupiter.math.linear.decomposition;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.io.Serializable;
 

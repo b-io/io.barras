@@ -23,7 +23,7 @@
  */
 package jupiter.math.filters;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.linear.entity.Scalar;

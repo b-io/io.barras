@@ -23,7 +23,7 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import java.io.IOException;
