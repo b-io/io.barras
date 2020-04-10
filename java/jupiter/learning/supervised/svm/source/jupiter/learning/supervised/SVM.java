@@ -293,7 +293,7 @@ public class SVM {
 		// Set the hyper-parameters
 		hyperParameters.weight = weights;
 		hyperParameters.nr_weight = weights.length;
-		hyperParameters.weight_label = ROUND.applyToIntPrimitiveArray(problem.y);
+		hyperParameters.weight_label = ROUND.applyToPrimitiveIntArray(problem.y);
 	}
 
 

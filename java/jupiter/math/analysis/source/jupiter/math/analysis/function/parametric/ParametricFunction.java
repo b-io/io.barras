@@ -24,10 +24,12 @@
 package jupiter.math.analysis.function.parametric;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Floats;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
@@ -139,6 +141,14 @@ public abstract class ParametricFunction
 
 	//////////////////////////////////////////////
 
+	public byte applyToByte(final double x, final double... parameters) {
+		return Bytes.convert(apply(x, parameters));
+	}
+
+	public short applyToShort(final double x, final double... parameters) {
+		return Shorts.convert(apply(x, parameters));
+	}
+
 	public int applyToInt(final double x, final double... parameters) {
 		return Integers.convert(apply(x, parameters));
 	}
@@ -171,7 +181,23 @@ public abstract class ParametricFunction
 
 	//////////////////////////////////////////////
 
-	public int[] applyToIntPrimitiveArray(final double[] array, final double... parameters) {
+	public byte[] applyToPrimitiveByteArray(final double[] array, final double... parameters) {
+		final byte[] result = new byte[array.length];
+		for (int i = 0; i < array.length; ++i) {
+			result[i] = applyToByte(array[i], parameters);
+		}
+		return result;
+	}
+
+	public short[] applyToPrimitiveShortArray(final double[] array, final double... parameters) {
+		final short[] result = new short[array.length];
+		for (int i = 0; i < array.length; ++i) {
+			result[i] = applyToShort(array[i], parameters);
+		}
+		return result;
+	}
+
+	public int[] applyToPrimitiveIntArray(final double[] array, final double... parameters) {
 		final int[] result = new int[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = applyToInt(array[i], parameters);
@@ -179,7 +205,7 @@ public abstract class ParametricFunction
 		return result;
 	}
 
-	public long[] applyToLongPrimitiveArray(final double[] array, final double... parameters) {
+	public long[] applyToPrimitiveLongArray(final double[] array, final double... parameters) {
 		final long[] result = new long[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = applyToLong(array[i], parameters);
@@ -187,7 +213,7 @@ public abstract class ParametricFunction
 		return result;
 	}
 
-	public float[] applyToFloatPrimitiveArray(final double[] array, final double... parameters) {
+	public float[] applyToPrimitiveFloatArray(final double[] array, final double... parameters) {
 		final float[] result = new float[array.length];
 		for (int i = 0; i < array.length; ++i) {
 			result[i] = applyToFloat(array[i], parameters);
@@ -217,29 +243,47 @@ public abstract class ParametricFunction
 
 	//////////////////////////////////////////////
 
-	public int[][] applyToIntPrimitiveArray2D(final double[][] array2D,
+	public byte[][] applyToPrimitiveByteArray2D(final double[][] array2D,
+			final double... parameters) {
+		final byte[][] result = new byte[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = applyToPrimitiveByteArray(array2D[i], parameters);
+		}
+		return result;
+	}
+
+	public short[][] applyToPrimitiveShortArray2D(final double[][] array2D,
+			final double... parameters) {
+		final short[][] result = new short[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = applyToPrimitiveShortArray(array2D[i], parameters);
+		}
+		return result;
+	}
+
+	public int[][] applyToPrimitiveIntArray2D(final double[][] array2D,
 			final double... parameters) {
 		final int[][] result = new int[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = applyToIntPrimitiveArray(array2D[i], parameters);
+			result[i] = applyToPrimitiveIntArray(array2D[i], parameters);
 		}
 		return result;
 	}
 
-	public long[][] applyToLongPrimitiveArray2D(final double[][] array2D,
+	public long[][] applyToPrimitiveLongArray2D(final double[][] array2D,
 			final double... parameters) {
 		final long[][] result = new long[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = applyToLongPrimitiveArray(array2D[i], parameters);
+			result[i] = applyToPrimitiveLongArray(array2D[i], parameters);
 		}
 		return result;
 	}
 
-	public float[][] applyToFloatPrimitiveArray2D(final double[][] array2D,
+	public float[][] applyToPrimitiveFloatArray2D(final double[][] array2D,
 			final double... parameters) {
 		final float[][] result = new float[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = applyToFloatPrimitiveArray(array2D[i], parameters);
+			result[i] = applyToPrimitiveFloatArray(array2D[i], parameters);
 		}
 		return result;
 	}
@@ -266,29 +310,47 @@ public abstract class ParametricFunction
 
 	//////////////////////////////////////////////
 
-	public int[][][] applyToIntPrimitiveArray3D(final double[][][] array3D,
+	public byte[][][] applyToPrimitiveByteArray3D(final double[][][] array3D,
+			final double... parameters) {
+		final byte[][][] result = new byte[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = applyToPrimitiveByteArray2D(array3D[i], parameters);
+		}
+		return result;
+	}
+
+	public short[][][] applyToPrimitiveShortArray3D(final double[][][] array3D,
+			final double... parameters) {
+		final short[][][] result = new short[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = applyToPrimitiveShortArray2D(array3D[i], parameters);
+		}
+		return result;
+	}
+
+	public int[][][] applyToPrimitiveIntArray3D(final double[][][] array3D,
 			final double... parameters) {
 		final int[][][] result = new int[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = applyToIntPrimitiveArray2D(array3D[i], parameters);
+			result[i] = applyToPrimitiveIntArray2D(array3D[i], parameters);
 		}
 		return result;
 	}
 
-	public long[][][] applyToLongPrimitiveArray3D(final double[][][] array3D,
+	public long[][][] applyToPrimitiveLongArray3D(final double[][][] array3D,
 			final double... parameters) {
 		final long[][][] result = new long[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = applyToLongPrimitiveArray2D(array3D[i], parameters);
+			result[i] = applyToPrimitiveLongArray2D(array3D[i], parameters);
 		}
 		return result;
 	}
 
-	public float[][][] applyToFloatPrimitiveArray3D(final double[][][] array3D,
+	public float[][][] applyToPrimitiveFloatArray3D(final double[][][] array3D,
 			final double... parameters) {
 		final float[][][] result = new float[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = applyToFloatPrimitiveArray2D(array3D[i], parameters);
+			result[i] = applyToPrimitiveFloatArray2D(array3D[i], parameters);
 		}
 		return result;
 	}

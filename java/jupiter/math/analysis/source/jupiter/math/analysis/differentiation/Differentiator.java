@@ -203,21 +203,33 @@ public abstract class Differentiator
 	//////////////////////////////////////////////
 
 	@Override
-	public int[] applyToIntPrimitiveArray(final double... array) {
+	public byte[] applyToPrimitiveByteArray(final double... array) {
 		differentiateAll();
-		return super.applyToIntPrimitiveArray(array);
+		return super.applyToPrimitiveByteArray(array);
 	}
 
 	@Override
-	public long[] applyToLongPrimitiveArray(final double... array) {
+	public short[] applyToPrimitiveShortArray(final double... array) {
 		differentiateAll();
-		return super.applyToLongPrimitiveArray(array);
+		return super.applyToPrimitiveShortArray(array);
 	}
 
 	@Override
-	public float[] applyToFloatPrimitiveArray(final double... array) {
+	public int[] applyToPrimitiveIntArray(final double... array) {
 		differentiateAll();
-		return super.applyToFloatPrimitiveArray(array);
+		return super.applyToPrimitiveIntArray(array);
+	}
+
+	@Override
+	public long[] applyToPrimitiveLongArray(final double... array) {
+		differentiateAll();
+		return super.applyToPrimitiveLongArray(array);
+	}
+
+	@Override
+	public float[] applyToPrimitiveFloatArray(final double... array) {
+		differentiateAll();
+		return super.applyToPrimitiveFloatArray(array);
 	}
 
 

@@ -24,6 +24,7 @@
 package jupiter.common.math;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Numbers;
@@ -137,6 +138,11 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// NUMBER
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public byte byteValue() {
+		return Bytes.convert(value);
+	}
 
 	@Override
 	public short shortValue() {

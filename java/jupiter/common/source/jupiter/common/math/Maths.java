@@ -166,6 +166,10 @@ public class Maths {
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static byte floorToByte(final double value) {
+		return Bytes.convert(floor(value));
+	}
+
 	public static short floorToShort(final double value) {
 		return Shorts.convert(floor(value));
 	}
@@ -184,6 +188,10 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
+	public static byte ceilToByte(final double value) {
+		return Bytes.convert(ceil(value));
+	}
+
 	public static short ceilToShort(final double value) {
 		return Shorts.convert(ceil(value));
 	}
@@ -201,6 +209,10 @@ public class Maths {
 	}
 
 	//////////////////////////////////////////////
+
+	public static byte roundToByte(final double value) {
+		return Bytes.convert(round(value));
+	}
 
 	public static short roundToShort(final double value) {
 		return Shorts.convert(round(value));
@@ -1851,7 +1863,7 @@ public class Maths {
 
 	//////////////////////////////////////////////
 
-	public static byte minToShort(final byte... values) {
+	public static byte minToByte(final byte... values) {
 		// Check the arguments
 		ByteArguments.requireNonEmpty(values);
 
