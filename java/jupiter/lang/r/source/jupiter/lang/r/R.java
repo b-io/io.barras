@@ -459,16 +459,16 @@ public class R {
 			this.printer = printer;
 		}
 
+		public void setWorkQueueToMonitor(final WorkQueue<?, ?> workQueueToMonitor) {
+			this.workQueueToMonitor = workQueueToMonitor;
+		}
+
 		/**
 		 * Clears the printer {@link IOHandler}.
 		 */
 		@Override
 		public void clear() {
 			printer.clear();
-		}
-
-		public void setWorkQueueToMonitor(final WorkQueue<?, ?> workQueueToMonitor) {
-			this.workQueueToMonitor = workQueueToMonitor;
 		}
 
 		@Override

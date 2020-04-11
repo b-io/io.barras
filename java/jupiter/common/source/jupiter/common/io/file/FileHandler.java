@@ -401,7 +401,7 @@ public class FileHandler
 			createWriter(append);
 
 			// Append the text
-			writer.write(text + NEW_LINE);
+			writer.write(text.concat(NEW_LINE));
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {

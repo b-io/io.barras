@@ -365,21 +365,22 @@ public class InputOutput
 		}
 	}
 
-	/**
-	 * Prints the indication of an input line with the {@link ConsoleHandler}.
-	 */
-	public void printInput() {
-		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, EMPTY,
-				stackIndex + STACK_INDEX_OFFSET), false);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Prints an empty line with the {@link IOPrinter}.
 	 */
 	public void println() {
 		println(EMPTY, false);
+	}
+
+	/**
+	 * Prints the specified {@link Message} and terminates the line with the {@link IOPrinter}.
+	 * <p>
+	 * @param message the {@link Message} to print
+	 */
+	public void println(final Message message) {
+		printer.println(message);
 	}
 
 	/**
@@ -410,15 +411,6 @@ public class InputOutput
 		}
 	}
 
-	/**
-	 * Prints the specified {@link Message} and terminates the line with the {@link IOPrinter}.
-	 * <p>
-	 * @param message the {@link Message} to print
-	 */
-	public void println(final Message message) {
-		printer.println(message);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -439,6 +431,16 @@ public class InputOutput
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints the indication of an input line with the {@link ConsoleHandler}.
+	 */
+	public void input() {
+		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, EMPTY,
+				stackIndex + STACK_INDEX_OFFSET), false);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
@@ -774,6 +776,9 @@ public class InputOutput
 		}
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -782,9 +787,9 @@ public class InputOutput
 	 * <p>
 	 * @return the input line of the {@link ConsoleHandler}
 	 */
-	public String input() {
+	public String getInputLine() {
 		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
-				consoleHandler.input(), stackIndex + STACK_INDEX_OFFSET);
+				consoleHandler.getInputLine(), stackIndex + STACK_INDEX_OFFSET);
 		for (final IOHandler handler : handlers) {
 			if (handler != consoleHandler) {
 				handler.println(message);
@@ -793,10 +798,7 @@ public class InputOutput
 		return message.getContent();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// READERS / WRITERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.

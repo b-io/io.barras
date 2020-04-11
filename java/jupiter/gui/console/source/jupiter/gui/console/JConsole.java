@@ -183,6 +183,86 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears the {@link JTextPane}.
+	 */
+	public void clear() {
+		textPane.setText(EMPTY);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void print(final Icon icon) {
+		if (icon != null) {
+			append(icon);
+		}
+	}
+
+	public void print(final Object content) {
+		append(content);
+	}
+
+	public void print(final Object content, final Font font) {
+		print(content, font, null);
+	}
+
+	public void print(final Object content, final java.awt.Color color) {
+		print(content, null, color);
+	}
+
+	public void print(final Object content, final Font font, final java.awt.Color color) {
+		final AttributeSet old = getStyle();
+		setStyle(font, color);
+		append(content);
+		setStyle(old, true);
+	}
+
+	public void print(final Object content, final String fontFamilyName, final int size,
+			final java.awt.Color color) {
+		print(content, fontFamilyName, size, color, false, false, false);
+	}
+
+	public void print(final Object content, final String fontFamilyName, final int size,
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
+		final AttributeSet old = getStyle();
+		setStyle(fontFamilyName, size, color, bold, italic, underline);
+		append(content);
+		setStyle(old, true);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Terminates the line.
+	 */
+	public void println() {
+		print(NEW_LINE);
+	}
+
+	public void println(final Icon icon) {
+		print(icon);
+		println();
+	}
+
+	public void println(final Object content) {
+		append(Objects.toString(content).concat(NEW_LINE));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void error(final Object content) {
+		print(content, java.awt.Color.RED);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -246,6 +326,75 @@ public class JConsole
 		// Start the inpipe watcher
 		new Thread(this).start();
 		requestFocus();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// READERS / WRITERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link InputStream}.
+	 * <p>
+	 * @return the {@link InputStream}
+	 */
+	public InputStream getIn() {
+		return in;
+	}
+
+	/**
+	 * Returns the input line.
+	 * <p>
+	 * @return the input line
+	 */
+	public String getInputLine() {
+		String inputLine;
+		synchronized (inputLines) {
+			while (inputLines.isEmpty()) {
+				try {
+					inputLines.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+			inputLine = inputLines.removeFirst();
+		}
+		return inputLine;
+	}
+
+	public InputStream getInputStream() {
+		return inPipe;
+	}
+
+	public String getLastLine() {
+		return history.get(historicalLineIndex);
+	}
+
+	public List<String> getLines() {
+		return history;
+	}
+
+	public Reader getReader() {
+		return new InputStreamReader(in, DEFAULT_CHARSET);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link PrintStream}.
+	 * <p>
+	 * @return the {@link PrintStream}
+	 */
+	public PrintStream getOut() {
+		return out;
+	}
+
+	/**
+	 * Returns the error {@link PrintStream}.
+	 * <p>
+	 * @return the error {@link PrintStream}
+	 */
+	public PrintStream getErr() {
+		return out;
 	}
 
 
@@ -346,90 +495,6 @@ public class JConsole
 		replaceRange(showline, commandStart, getTextLength());
 		textPane.setCaretPosition(getTextLength());
 		textPane.repaint();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT / OUTPUT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Reader getReader() {
-		return new InputStreamReader(in, DEFAULT_CHARSET);
-	}
-
-	public InputStream getInputStream() {
-		return inPipe;
-	}
-
-	public List<String> getLines() {
-		return history;
-	}
-
-	public String getLastLine() {
-		return history.get(historicalLineIndex);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void print(final Object content) {
-		append(content);
-	}
-
-	/**
-	 * Terminates the line.
-	 */
-	public void println() {
-		print(NEW_LINE);
-	}
-
-	public void println(final Object content) {
-		append(Objects.toString(content) + NEW_LINE);
-	}
-
-	public void error(final Object content) {
-		print(content, java.awt.Color.RED);
-	}
-
-	//////////////////////////////////////////////
-
-	public void println(final Icon icon) {
-		print(icon);
-		println();
-	}
-
-	public void print(final Icon icon) {
-		if (icon != null) {
-			append(icon);
-		}
-	}
-
-	public void print(final Object s, final Font font) {
-		print(s, font, null);
-	}
-
-	public void print(final Object s, final java.awt.Color color) {
-		print(s, null, color);
-	}
-
-	public void print(final Object content, final Font font, final java.awt.Color color) {
-		final AttributeSet old = getStyle();
-		setStyle(font, color);
-		append(content);
-		setStyle(old, true);
-	}
-
-	public void print(final Object s, final String fontFamilyName, final int size,
-			final java.awt.Color color) {
-		print(s, fontFamilyName, size, color, false, false, false);
-	}
-
-	public void print(final Object content, final String fontFamilyName, final int size,
-			final java.awt.Color color, final boolean bold, final boolean italic,
-			final boolean underline) {
-		final AttributeSet old = getStyle();
-		setStyle(fontFamilyName, size, color, bold, italic, underline);
-		append(content);
-		setStyle(old, true);
 	}
 
 
@@ -547,52 +612,6 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ICONSOLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public String input() {
-		String input;
-		synchronized (inputLines) {
-			while (inputLines.isEmpty()) {
-				try {
-					inputLines.wait();
-				} catch (final InterruptedException ignored) {
-				}
-			}
-			input = inputLines.removeFirst();
-		}
-		return input;
-	}
-
-	/**
-	 * Returns the {@link InputStream}.
-	 * <p>
-	 * @return the {@link InputStream}
-	 */
-	public InputStream getIn() {
-		return in;
-	}
-
-	/**
-	 * Returns the {@link PrintStream}.
-	 * <p>
-	 * @return the {@link PrintStream}
-	 */
-	public PrintStream getOut() {
-		return out;
-	}
-
-	/**
-	 * Returns the error {@link PrintStream}.
-	 * <p>
-	 * @return the error {@link PrintStream}
-	 */
-	public PrintStream getErr() {
-		return out;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ACTION LISTENER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -615,15 +634,6 @@ public class JConsole
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// KEY LISTENER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clears the {@link JTextPane}.
-	 */
-	public void clear() {
-		textPane.setText(EMPTY);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -746,7 +756,7 @@ public class JConsole
 		String command = getCommand();
 		// Special hack for empty return
 		if (command.length() == 0) {
-			command = ";" + NEW_LINE;
+			command = ";".concat(NEW_LINE);
 		} else {
 			history.add(command);
 			synchronized (inputLines) {

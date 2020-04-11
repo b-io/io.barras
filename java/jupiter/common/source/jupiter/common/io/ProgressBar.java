@@ -141,6 +141,8 @@ public class ProgressBar
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Prints a progress bar of {@code i / n * length} symbols.
 	 * <p>

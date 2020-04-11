@@ -1350,13 +1350,13 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public static Matrix create(final String path)
+	public static Matrix load(final String path)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
 		BufferedReader reader = null;
 		try {
 			reader = fileHandler.createReader();
-			return create(reader, fileHandler.countLines(true), false);
+			return load(reader, fileHandler.countLines(true), false);
 		} finally {
 			Resources.close(reader);
 		}
@@ -1372,13 +1372,13 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public static Matrix create(final String path, final boolean transpose)
+	public static Matrix load(final String path, final boolean transpose)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
 		BufferedReader reader = null;
 		try {
 			reader = fileHandler.createReader();
-			return create(reader, fileHandler.countLines(true), transpose);
+			return load(reader, fileHandler.countLines(true), transpose);
 		} finally {
 			Resources.close(reader);
 		}
@@ -1395,7 +1395,7 @@ public class Matrix
 	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
-	public static Matrix create(final BufferedReader reader, final int lineCount,
+	public static Matrix load(final BufferedReader reader, final int lineCount,
 			final boolean transpose)
 			throws IOException {
 		final int m = lineCount;

@@ -295,6 +295,8 @@ public class LogHandler
 		appendToLogLine(content, isError);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
 	 * buffer if {@code isError}) and flushes it.

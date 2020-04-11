@@ -323,10 +323,10 @@ public abstract class Classifier
 			final boolean transpose)
 			throws IOException {
 		// Load the feature vectors
-		setFeatureVectors(Matrix.create(featureVectorsPath, transpose));
+		setFeatureVectors(Matrix.load(featureVectorsPath, transpose));
 
 		// Load the classes
-		setClasses(Matrix.create(classesPath, transpose));
+		setClasses(Matrix.load(classesPath, transpose));
 	}
 
 

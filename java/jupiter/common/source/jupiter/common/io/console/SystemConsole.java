@@ -81,20 +81,8 @@ public class SystemConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT / OUTPUT
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the input line {@link String}.
-	 * <p>
-	 * @return the input line {@link String}
-	 */
-	public String input() {
-		IO.printInput();
-		return scanner.nextLine();
-	}
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Returns the standard input {@link InputStream}.
@@ -103,6 +91,16 @@ public class SystemConsole
 	 */
 	public InputStream getIn() {
 		return System.in;
+	}
+
+	/**
+	 * Returns the input line.
+	 * <p>
+	 * @return the input line
+	 */
+	public String getInputLine() {
+		IO.input();
+		return scanner.nextLine();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

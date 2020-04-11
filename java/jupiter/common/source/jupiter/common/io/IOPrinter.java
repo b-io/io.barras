@@ -111,6 +111,20 @@ public class IOPrinter
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Prints the specified {@link Message} and terminates the line.
+	 * <p>
+	 * @param message the {@link Message} to print
+	 */
+	@Override
+	public void println(final Message message) {
+		for (final IOHandler handler : handlers) {
+			handler.println(message);
+		}
+	}
+
 	/**
 	 * Prints the specified content {@link Object} in the standard output (or in the standard error
 	 * if {@code isError}) and terminates the line with the {@link List} of {@link IOHandler}.
@@ -123,18 +137,6 @@ public class IOPrinter
 	public void println(final Object content, final boolean isError) {
 		for (final IOHandler handler : handlers) {
 			handler.println(content, isError);
-		}
-	}
-
-	/**
-	 * Prints the specified {@link Message} and terminates the line.
-	 * <p>
-	 * @param message the {@link Message} to print
-	 */
-	@Override
-	public void println(final Message message) {
-		for (final IOHandler handler : handlers) {
-			handler.println(message);
 		}
 	}
 

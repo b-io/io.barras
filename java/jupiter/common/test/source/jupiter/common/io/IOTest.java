@@ -55,16 +55,6 @@ public class IOTest
 		IO.println();
 	}
 
-	/**
-	 * Tests printInput method, of class IO.
-	 */
-	public void testPrintInput() {
-		IO.test(BULLET, " printInput");
-
-		IO.printInput();
-		IO.println();
-	}
-
 	//////////////////////////////////////////////
 
 	/**
@@ -99,6 +89,18 @@ public class IOTest
 		IO.test(BULLET, " bar");
 
 		IO.bar();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests input method, of class IO.
+	 */
+	public void testInput() {
+		IO.test(BULLET, " input");
+
+		IO.input();
+		IO.println();
 	}
 
 	//////////////////////////////////////////////

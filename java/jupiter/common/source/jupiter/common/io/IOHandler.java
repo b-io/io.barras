@@ -83,15 +83,7 @@ public abstract class IOHandler
 	 */
 	public abstract void print(final Object content, final boolean isError);
 
-	/**
-	 * Prints the specified content {@link Object} in the standard output (or in the standard error
-	 * if {@code isError}) and terminates the line.
-	 * <p>
-	 * @param content the content {@link Object} to print
-	 * @param isError the flag specifying whether to print in the standard error or in the standard
-	 *                output
-	 */
-	public abstract void println(final Object content, final boolean isError);
+	//////////////////////////////////////////////
 
 	/**
 	 * Prints the specified {@link Message} in the standard output (or in the standard error if
@@ -102,6 +94,16 @@ public abstract class IOHandler
 	public void println(final Message message) {
 		println(message, message.getLevel().isError());
 	}
+
+	/**
+	 * Prints the specified content {@link Object} in the standard output (or in the standard error
+	 * if {@code isError}) and terminates the line.
+	 * <p>
+	 * @param content the content {@link Object} to print
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
+	 */
+	public abstract void println(final Object content, final boolean isError);
 
 	/**
 	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if

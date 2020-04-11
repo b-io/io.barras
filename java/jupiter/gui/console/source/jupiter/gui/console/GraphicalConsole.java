@@ -31,9 +31,11 @@ import static jupiter.common.util.Strings.EMPTY;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.Message;
@@ -138,6 +140,20 @@ public abstract class GraphicalConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints the specified message {@link String} in the {@link JConsole}.
+	 * <p>
+	 * @param message the message {@link String} to print
+	 */
+	public void println(final String message) {
+		console.println(message);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -156,7 +172,7 @@ public abstract class GraphicalConsole
 		do {
 			// Process the input expression
 			IO.print(Color.BLUE.getStyledText(getPrefix()), false);
-			final String inputExpression = IO.input().trim();
+			final String inputExpression = IO.getInputLine().trim();
 			if (Strings.toLowerCase(inputExpression).contains("clear")) {
 				clear();
 			} else if (Strings.toLowerCase(inputExpression).contains("exit")) {
@@ -167,35 +183,6 @@ public abstract class GraphicalConsole
 				execute(inputExpression);
 			}
 		} while (isRunning);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the input line of the {@link JConsole}.
-	 * <p>
-	 * @return the input line of the {@link JConsole}
-	 */
-	public String input() {
-		return console.input();
-	}
-
-	/**
-	 * Returns the last line of the {@link JConsole}.
-	 * <p>
-	 * @return the last line of the {@link JConsole}
-	 */
-	public String getLastLine() {
-		return console.getLastLine();
-	}
-
-	/**
-	 * Prints the specified message {@link String} in the {@link JConsole}.
-	 * <p>
-	 * @param message the message {@link String} to print
-	 */
-	public void println(final String message) {
-		console.println(message);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,5 +203,28 @@ public abstract class GraphicalConsole
 		Swings.hide(frame);
 		Resources.close(printStream);
 		System.exit(status);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// READERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the input line of the {@link JConsole}.
+	 * <p>
+	 * @return the input line of the {@link JConsole}
+	 */
+	public String getInputLine() {
+		return console.getInputLine();
+	}
+
+	/**
+	 * Returns the last line of the {@link JConsole}.
+	 * <p>
+	 * @return the last line of the {@link JConsole}
+	 */
+	public String getLastLine() {
+		return console.getLastLine();
 	}
 }

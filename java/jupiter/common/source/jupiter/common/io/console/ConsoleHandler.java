@@ -172,6 +172,24 @@ public class ConsoleHandler
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Prints the specified {@link Message} (in color if {@code USE_COLORS}) and terminates the
+	 * line.
+	 * <p>
+	 * @param message the {@link Message} to print
+	 */
+	@Override
+	public void println(final Message message) {
+		if (USE_COLORS) {
+			println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
+					message.getLevel().isError());
+		} else {
+			println(message, message.getLevel().isError());
+		}
+	}
+
 	/**
 	 * Prints the specified content {@link Object} in the output console (or in the error console if
 	 * {@code isError}) and terminates the line.
@@ -194,29 +212,18 @@ public class ConsoleHandler
 		printStream.println(text);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// READERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Prints the specified {@link Message} (in color if {@code USE_COLORS}) and terminates the
-	 * line.
+	 * Returns the input line.
 	 * <p>
-	 * @param message the {@link Message} to print
+	 * @return the input line
 	 */
-	@Override
-	public void println(final Message message) {
-		if (USE_COLORS) {
-			println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
-					message.getLevel().isError());
-		} else {
-			println(message, message.getLevel().isError());
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public String input() {
-		return console.input();
+	public String getInputLine() {
+		return console.getInputLine();
 	}
 
 

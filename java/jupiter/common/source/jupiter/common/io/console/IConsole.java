@@ -29,17 +29,8 @@ import java.io.PrintStream;
 public interface IConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT / OUTPUT
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the input line.
-	 * <p>
-	 * @return the input line
-	 */
-	public String input();
-
-	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link InputStream}.
@@ -47,6 +38,13 @@ public interface IConsole {
 	 * @return the {@link InputStream}
 	 */
 	public InputStream getIn();
+
+	/**
+	 * Returns the input line.
+	 * <p>
+	 * @return the input line
+	 */
+	public String getInputLine();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
