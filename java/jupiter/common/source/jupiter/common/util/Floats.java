@@ -1230,17 +1230,13 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void reverse(final float... array) {
-		reverse(array, 0, array.length - 1);
-	}
-
-	public static void reverse(final float[] array, final int fromIndex) {
-		reverse(array, fromIndex, array.length - 1);
+		reverse(array, 0, array.length);
 	}
 
 	public static void reverse(final float[] array, final int fromIndex, final int toIndex) {
-		final int limit = Integers.middleUp(toIndex - fromIndex);
+		final int limit = Integers.middle(toIndex - fromIndex);
 		for (int i = 0; i < limit; ++i) {
-			swap(array, fromIndex + i, toIndex - i);
+			swap(array, fromIndex + i, toIndex - 1 - i);
 		}
 	}
 
@@ -1253,16 +1249,6 @@ public class Floats {
 	 */
 	public static void shuffle(final float... array) {
 		shuffle(array, 0, array.length);
-	}
-
-	/**
-	 * Shuffles the specified {@code float} array from the specified index.
-	 * <p>
-	 * @param array     the {@code float} array to shuffle
-	 * @param fromIndex the index to start shuffling from (inclusive)
-	 */
-	public static void shuffle(final float[] array, final int fromIndex) {
-		shuffle(array, fromIndex, array.length);
 	}
 
 	/**
@@ -1287,10 +1273,6 @@ public class Floats {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static float[] take(final float... array) {
-		return take(array, 0, array.length);
-	}
 
 	public static float[] take(final float[] array, final int fromIndex, final int length) {
 		final int maxLength = Math.min(length, array.length - fromIndex);
@@ -1873,7 +1855,7 @@ public class Floats {
 	 *         {@code false} otherwise
 	 */
 	public static boolean equals(final float a, final float b, final float tolerance) {
-		return Maths.delta(a, b) <= tolerance;
+		return Maths.distance(a, b) <= tolerance;
 	}
 
 	//////////////////////////////////////////////

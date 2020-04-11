@@ -303,9 +303,9 @@ public class FiniteIntegrator
 		// - Update the constant
 		final double C;
 		if (!hasLocalMin && !hasLocalMax) {
-			C = -interpolator.apply((X[minIndex] + X[maxIndex]) / 2.);
+			C = -interpolator.apply(Maths.mean(X[minIndex], X[maxIndex]));
 		} else if (hasLocalMin && hasLocalMax) {
-			C = -(interpolator.apply(X[minIndex]) + interpolator.apply(X[maxIndex])) / 2.;
+			C = -Maths.mean(interpolator.apply(X[minIndex]), interpolator.apply(X[maxIndex]));
 		} else if (hasLocalMin) {
 			C = -interpolator.apply(X[minIndex]);
 		} else {
@@ -374,7 +374,7 @@ public class FiniteIntegrator
 		// Compute the finite integral approximation Y using the midpoint rule
 		DX = new double[size];
 		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step);
+		Maths.add(DX, step);
 		DY = new double[size];
 		for (int i = 0; i < size; ++i) {
 			DY[i] = (i == 0 ? C : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
@@ -476,10 +476,10 @@ public class FiniteIntegrator
 		// Compute the finite integral approximation Y using the midpoint rule
 		DX = new double[size];
 		System.arraycopy(X, 0, DX, 0, size);
-		Maths.sum(DX, step);
+		Maths.add(DX, step);
 		DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			DY[i] = step * (Y[i] + Y[i + 1]) / 2.;
+			DY[i] = step * Maths.mean(Y[i], Y[i + 1]);
 		}
 		return true;
 	}

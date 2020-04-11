@@ -337,7 +337,7 @@ public class EigenvalueDecomposition
 					// Apply the implicit shift
 					double g = d[l];
 					double p = (d[l + 1] - g) / (2. * e[l]);
-					double r = Norms.getEuclideanNorm(p, 1.);
+					double r = Norms.euclideanNorm(p, 1.);
 					if (p < 0) {
 						r = -r;
 					}
@@ -363,7 +363,7 @@ public class EigenvalueDecomposition
 						s2 = s;
 						g = c * e[i];
 						h = c * p;
-						r = Norms.getEuclideanNorm(p, e[i]);
+						r = Norms.euclideanNorm(p, e[i]);
 						e[i + 1] = s * r;
 						s = e[i] / r;
 						c = p / r;

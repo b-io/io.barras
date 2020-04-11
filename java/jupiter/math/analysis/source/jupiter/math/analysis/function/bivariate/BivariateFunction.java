@@ -26,6 +26,11 @@ package jupiter.math.analysis.function.bivariate;
 import jupiter.common.math.Domain;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.IntervalArguments;
+import jupiter.common.util.Bytes;
+import jupiter.common.util.Floats;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
+import jupiter.common.util.Shorts;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 /**
@@ -258,6 +263,250 @@ public abstract class BivariateFunction
 	 */
 	public double apply(final Number x1, final Number x2) {
 		return apply(x1.doubleValue(), x2.doubleValue());
+	}
+
+	//////////////////////////////////////////////
+
+	public byte applyToByte(final double x1, final double x2) {
+		return Bytes.convert(apply(x1, x2));
+	}
+
+	public short applyToShort(final double x1, final double x2) {
+		return Shorts.convert(apply(x1, x2));
+	}
+
+	public int applyToInt(final double x1, final double x2) {
+		return Integers.convert(apply(x1, x2));
+	}
+
+	public long applyToLong(final double x1, final double x2) {
+		return Longs.convert(apply(x1, x2));
+	}
+
+	public float applyToFloat(final double x1, final double x2) {
+		return Floats.convert(apply(x1, x2));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public double[] slideToPrimitiveArray(final double... array) {
+		final double[] result = new double[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = apply(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = apply(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	public double[] slideToPrimitiveArray(final Number[] array) {
+		final double[] result = new double[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = apply(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = apply(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	public byte[] slideToPrimitiveByteArray(final double... array) {
+		final byte[] result = new byte[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = applyToByte(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = applyToByte(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	public short[] slideToPrimitiveShortArray(final double... array) {
+		final short[] result = new short[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = applyToShort(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = applyToShort(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	public int[] slideToPrimitiveIntArray(final double... array) {
+		final int[] result = new int[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = applyToInt(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = applyToInt(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	public long[] slideToPrimitiveLongArray(final double... array) {
+		final long[] result = new long[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = applyToLong(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = applyToLong(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	public float[] slideToPrimitiveFloatArray(final double... array) {
+		final float[] result = new float[array.length];
+		int i = 0;
+		if (i < array.length) {
+			result[i] = applyToFloat(array[i]);
+			++i;
+		}
+		while (i < array.length) {
+			result[i] = applyToFloat(array[i - 1], array[i]);
+			++i;
+		}
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public double[][] slideToPrimitiveArray2D(final double[]... array2D) {
+		final double[][] result = new double[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveArray(array2D[i]);
+		}
+		return result;
+	}
+
+	public double[][] slideToPrimitiveArray2D(final Number[]... array2D) {
+		final double[][] result = new double[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveArray(array2D[i]);
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	public byte[][] slideToPrimitiveByteArray2D(final double[]... array2D) {
+		final byte[][] result = new byte[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveByteArray(array2D[i]);
+		}
+		return result;
+	}
+
+	public short[][] slideToPrimitiveShortArray2D(final double[]... array2D) {
+		final short[][] result = new short[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveShortArray(array2D[i]);
+		}
+		return result;
+	}
+
+	public int[][] slideToPrimitiveIntArray2D(final double[]... array2D) {
+		final int[][] result = new int[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveIntArray(array2D[i]);
+		}
+		return result;
+	}
+
+	public long[][] slideToPrimitiveLongArray2D(final double[]... array2D) {
+		final long[][] result = new long[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveLongArray(array2D[i]);
+		}
+		return result;
+	}
+
+	public float[][] slideToPrimitiveFloatArray2D(final double[]... array2D) {
+		final float[][] result = new float[array2D.length][];
+		for (int i = 0; i < array2D.length; ++i) {
+			result[i] = slideToPrimitiveFloatArray(array2D[i]);
+		}
+		return result;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public double[][][] slideToPrimitiveArray3D(final double[][]... array3D) {
+		final double[][][] result = new double[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	public double[][][] slideToPrimitiveArray3D(final Number[][]... array3D) {
+		final double[][][] result = new double[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	public byte[][][] slideToPrimitiveByteArray3D(final double[][]... array3D) {
+		final byte[][][] result = new byte[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveByteArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	public short[][][] slideToPrimitiveShortArray3D(final double[][]... array3D) {
+		final short[][][] result = new short[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveShortArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	public int[][][] slideToPrimitiveIntArray3D(final double[][]... array3D) {
+		final int[][][] result = new int[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveIntArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	public long[][][] slideToPrimitiveLongArray3D(final double[][]... array3D) {
+		final long[][][] result = new long[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveLongArray2D(array3D[i]);
+		}
+		return result;
+	}
+
+	public float[][][] slideToPrimitiveFloatArray3D(final double[][]... array3D) {
+		final float[][][] result = new float[array3D.length][][];
+		for (int i = 0; i < array3D.length; ++i) {
+			result[i] = slideToPrimitiveFloatArray2D(array3D[i]);
+		}
+		return result;
 	}
 
 

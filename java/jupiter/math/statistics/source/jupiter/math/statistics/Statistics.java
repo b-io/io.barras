@@ -57,7 +57,7 @@ public class Statistics {
 	 * @return the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 *         event {@code E} using Baye's theorem
 	 */
-	public static double getConditionalProbability(final double peh, final double ph,
+	public static double conditionalProbability(final double peh, final double ph,
 			final double pe) {
 		return peh * ph / pe;
 	}
@@ -78,8 +78,8 @@ public class Statistics {
 	 *         event {@code E} using Baye's theorem and the law of total probability where
 	 *         {@code P(E) = Σ[P(H) * P(E|H)]} over {@code H}
 	 */
-	public static double getConditionalProbability(final double peh, final double ph,
+	public static double conditionalProbability(final double peh, final double ph,
 			final double[] pehs, final double[] phs) {
-		return getConditionalProbability(peh, ph, Maths.weightedSum(pehs, phs));
+		return conditionalProbability(peh, ph, Maths.weightedSum(pehs, phs));
 	}
 }

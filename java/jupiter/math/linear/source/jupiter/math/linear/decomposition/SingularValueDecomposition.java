@@ -121,7 +121,7 @@ public class SingularValueDecomposition
 				// Compute the 2-norm of the k-th column without under/overflow
 				sigma[k] = 0;
 				for (int i = k; i < m; ++i) {
-					sigma[k] = Norms.getEuclideanNorm(sigma[k], elements[i * n + k]);
+					sigma[k] = Norms.euclideanNorm(sigma[k], elements[i * n + k]);
 				}
 				if (sigma[k] != 0.) {
 					if (elements[k * n + k] < 0.) {
@@ -161,7 +161,7 @@ public class SingularValueDecomposition
 				// Compute the 2-norm without under/overflow
 				e[k] = 0;
 				for (int i = k + 1; i < n; ++i) {
-					e[k] = Norms.getEuclideanNorm(e[k], e[i]);
+					e[k] = Norms.euclideanNorm(e[k], e[i]);
 				}
 				if (e[k] != 0.) {
 					if (e[k + 1] < 0.) {
@@ -327,7 +327,7 @@ public class SingularValueDecomposition
 					double f = e[p - 2];
 					e[p - 2] = 0.;
 					for (int j = p - 2; j >= k; --j) {
-						double t = Norms.getEuclideanNorm(sigma[j], f);
+						double t = Norms.euclideanNorm(sigma[j], f);
 						final double cs = sigma[j] / t;
 						final double sn = f / t;
 						sigma[j] = t;
@@ -351,7 +351,7 @@ public class SingularValueDecomposition
 					double f = e[k - 1];
 					e[k - 1] = 0.;
 					for (int j = k; j < p; ++j) {
-						double t = Norms.getEuclideanNorm(sigma[j], f);
+						double t = Norms.euclideanNorm(sigma[j], f);
 						final double cs = sigma[j] / t;
 						final double sn = f / t;
 						sigma[j] = t;
@@ -379,7 +379,7 @@ public class SingularValueDecomposition
 					final double epm1 = e[p - 2] / scale;
 					final double sk = sigma[k] / scale;
 					final double ek = e[k] / scale;
-					final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.;
+					final double b = Maths.mean((spm1 + sp) * (spm1 - sp), epm1 * epm1);
 					final double c = sp * epm1 * (sp * epm1);
 					double shift = 0.;
 					if (b != 0. | c != 0.) {
@@ -394,7 +394,7 @@ public class SingularValueDecomposition
 
 					// Chase the zeros
 					for (int j = k; j < p - 1; ++j) {
-						double t = Norms.getEuclideanNorm(f, g);
+						double t = Norms.euclideanNorm(f, g);
 						double cs = f / t;
 						double sn = g / t;
 						if (j != k) {
@@ -411,7 +411,7 @@ public class SingularValueDecomposition
 								V[i][j] = t;
 							}
 						}
-						t = Norms.getEuclideanNorm(f, g);
+						t = Norms.euclideanNorm(f, g);
 						cs = f / t;
 						sn = g / t;
 						sigma[j] = t;

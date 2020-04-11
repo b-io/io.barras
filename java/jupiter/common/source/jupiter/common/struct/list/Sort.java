@@ -71,13 +71,13 @@ public class Sort<T>
 	protected static final int MIN_GALLOP = 7;
 
 	/**
-	 * The maximum initial size of {@code tempArray} used for merging. The array can grow to
-	 * accommodate demand.
+	 * The maximum initial size of {@code temp} used for merging. The array can grow to accommodate
+	 * demand.
 	 * <p>
 	 * Unlike Tim's original C version, we do not allocate this much storage when sorting smaller
 	 * arrays. This change was required for performance.
 	 */
-	protected static final int INITIAL_TEMP_STORAGE_LENGTH = 256;
+	protected static final int INITIAL_TEMP_STORAGE_SIZE = 256;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,9 @@ public class Sort<T>
 	 * The temporary storage for merges. A workspace array may optionally be provided in constructor
 	 * and if so will be used as long as it is big enough.
 	 */
-	protected T[] tempArray;
-	protected int tempArrayBase; // base of temp array slice
-	protected int tempArrayLength; // length of temp array slice
+	protected T[] temp;
+	protected int tempBase; // base of temp array slice
+	protected int tempLength; // length of temp array slice
 
 	/**
 	 * A stack of pending runs yet to be merged. Run {@code i} starts at address {@code base[i]} and
@@ -135,27 +135,27 @@ public class Sort<T>
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param work       a workspace array (slice) (may be {@code null})
 	 * @param workBase   the origin of the usable space in the work array
-	 * @param workLength the usable size of the work array
+	 * @param workSize   the usable size of the work array
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	protected Sort(final T[] array, final Comparator<? super T> comparator, final T[] work,
-			final int workBase, final int workLength) {
+			final int workBase, final int workSize) {
 		this.array = array;
 		this.comparator = comparator;
 
 		// Allocate temporary storage (which may be increased later if necessary)
 		final int length = array.length;
-		final int tempLength = length < 2 * INITIAL_TEMP_STORAGE_LENGTH ? length >>> 1 :
-				INITIAL_TEMP_STORAGE_LENGTH;
-		if (work == null || workLength < tempLength || workBase + tempLength > work.length) {
-			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), tempLength);
-			tempArray = newArray;
-			tempArrayBase = 0;
-			tempArrayLength = tempLength;
+		final int tempSize = length < 2 * INITIAL_TEMP_STORAGE_SIZE ? length >>> 1 :
+				INITIAL_TEMP_STORAGE_SIZE;
+		if (work == null || workSize < tempSize || workBase + tempSize > work.length) {
+			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), tempSize);
+			temp = newArray;
+			tempBase = 0;
+			tempLength = tempSize;
 		} else {
-			tempArray = work;
-			tempArrayBase = workBase;
-			tempArrayLength = workLength;
+			temp = work;
+			tempBase = workBase;
+			tempLength = workSize;
 		}
 
 		/*
@@ -170,9 +170,9 @@ public class Sort<T>
 		 * scenario. More explanations are specified in section 4 of:
 		 * http://envisage-project.eu/wp-content/uploads/2015/02/sorting.pdf
 		 */
-		final int stackLength = length < 120 ? 5 : length < 1542 ? 10 : length < 119151 ? 24 : 49;
-		runBase = new int[stackLength];
-		runLength = new int[stackLength];
+		final int stackSize = length < 120 ? 5 : length < 1542 ? 10 : length < 119151 ? 24 : 49;
+		runBase = new int[stackSize];
+		runLength = new int[stackSize];
 	}
 
 
@@ -193,14 +193,14 @@ public class Sort<T>
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param work       a workspace array (slice)
 	 * @param workBase   the origin of the usable space in the work array
-	 * @param workLength the usable size of the work array
+	 * @param workSize   the usable size of the work array
 	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be mutually compared using
 	 *                            {@code comparator}
 	 */
 	public static <T> void sort(final T[] array, int fromIndex, final int toIndex,
 			final Comparator<? super T> comparator, final T[] work, final int workBase,
-			final int workLength) {
+			final int workSize) {
 		assert comparator != null && array != null && fromIndex >= 0 && fromIndex <= toIndex &&
 				toIndex <= array.length;
 
@@ -220,7 +220,7 @@ public class Sort<T>
 		 * March over the array once, left to right, finding natural runs, extending short natural
 		 * runs to minRun elements and merging runs to maintain stack invariant.
 		 */
-		final Sort<T> ts = new Sort<T>(array, comparator, work, workBase, workLength);
+		final Sort<T> ts = new Sort<T>(array, comparator, work, workBase, workSize);
 		final int minRun = minRunLength(nRemaining);
 		do {
 			// Identify next run
@@ -510,8 +510,7 @@ public class Sort<T>
 		}
 
 		/*
-		 * Merge remaining runs, using {@code tempArray} with {@code min(length1, length2)}
-		 * elements.
+		 * Merge remaining runs, using {@code temp} with {@code min(length1, length2)} elements.
 		 */
 		if (length1 <= length2) {
 			mergeLo(base1, length1, base2, length2);
@@ -588,9 +587,9 @@ public class Sort<T>
 			}
 
 			// Make offsets relative to base
-			final int tempArray = lastOfs;
+			final int temp = lastOfs;
 			lastOfs = hint - ofs;
-			ofs = hint - tempArray;
+			ofs = hint - temp;
 		}
 		assert -1 <= lastOfs && lastOfs < ofs && ofs <= length;
 
@@ -657,9 +656,9 @@ public class Sort<T>
 			}
 
 			// Make offsets relative to b
-			final int tempArray = lastOfs;
+			final int temp = lastOfs;
 			lastOfs = hint - ofs;
-			ofs = hint - tempArray;
+			ofs = hint - temp;
 		} else {
 			// a[b + hint] <= key
 			/*
@@ -724,21 +723,21 @@ public class Sort<T>
 
 		// Copy first run into temporary array
 		final T[] array = this.array; // for performance
-		final T[] tempArray = ensureCapacity(length1);
-		int cursor1 = tempArrayBase; // indices into temp array
+		final T[] temp = ensureCapacity(length1);
+		int cursor1 = tempBase; // indices into temp array
 		int cursor2 = base2; // indices into a
 		int dest = base1; // indices into a
-		System.arraycopy(array, base1, tempArray, cursor1, length1);
+		System.arraycopy(array, base1, temp, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases
 		array[dest++] = array[cursor2++];
 		if (--length2 == 0) {
-			System.arraycopy(tempArray, cursor1, array, dest, length1);
+			System.arraycopy(temp, cursor1, array, dest, length1);
 			return;
 		}
 		if (length1 == 1) {
 			System.arraycopy(array, cursor2, array, dest, length2);
-			array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
+			array[dest + length2] = temp[cursor1]; // last elt of run 1 to end of merge
 			return;
 		}
 
@@ -754,7 +753,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 1 && length2 > 0;
-				if (comparator.compare(array[cursor2], tempArray[cursor1]) < 0) {
+				if (comparator.compare(array[cursor2], temp[cursor1]) < 0) {
 					array[dest++] = array[cursor2++];
 					++count2;
 					count1 = 0;
@@ -762,7 +761,7 @@ outer:  while (true) {
 						break outer;
 					}
 				} else {
-					array[dest++] = tempArray[cursor1++];
+					array[dest++] = temp[cursor1++];
 					++count1;
 					count2 = 0;
 					if (--length1 == 1) {
@@ -778,9 +777,9 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 1 && length2 > 0;
-				count1 = gallopRight(array[cursor2], tempArray, cursor1, length1, 0, comparator);
+				count1 = gallopRight(array[cursor2], temp, cursor1, length1, 0, comparator);
 				if (count1 != 0) {
-					System.arraycopy(tempArray, cursor1, array, dest, count1);
+					System.arraycopy(temp, cursor1, array, dest, count1);
 					dest += count1;
 					cursor1 += count1;
 					length1 -= count1;
@@ -794,7 +793,7 @@ outer:  while (true) {
 					break outer;
 				}
 
-				count2 = gallopLeft(tempArray[cursor1], array, cursor2, length2, 0, comparator);
+				count2 = gallopLeft(temp[cursor1], array, cursor2, length2, 0, comparator);
 				if (count2 != 0) {
 					System.arraycopy(array, cursor2, array, dest, count2);
 					dest += count2;
@@ -804,7 +803,7 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				array[dest++] = tempArray[cursor1++];
+				array[dest++] = temp[cursor1++];
 				if (--length1 == 1) {
 					break outer;
 				}
@@ -821,7 +820,7 @@ outer:  while (true) {
 			case 1:
 				assert length2 > 0;
 				System.arraycopy(array, cursor2, array, dest, length2);
-				array[dest + length2] = tempArray[cursor1]; // last elt of run 1 to end of merge
+				array[dest + length2] = temp[cursor1]; // last elt of run 1 to end of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -829,7 +828,7 @@ outer:  while (true) {
 			default:
 				assert length2 == 0;
 				assert length1 > 1;
-				System.arraycopy(tempArray, cursor1, array, dest, length1);
+				System.arraycopy(temp, cursor1, array, dest, length1);
 		}
 	}
 
@@ -849,25 +848,25 @@ outer:  while (true) {
 
 		// Copy second run into temporary array
 		final T[] array = this.array; // for performance
-		final T[] tempArray = ensureCapacity(length2);
-		final int tempArrayBase = this.tempArrayBase;
-		System.arraycopy(array, base2, tempArray, tempArrayBase, length2);
+		final T[] temp = ensureCapacity(length2);
+		final int tempBase = this.tempBase;
+		System.arraycopy(array, base2, temp, tempBase, length2);
 
 		int cursor1 = base1 + length1 - 1; // indices into a
-		int cursor2 = tempArrayBase + length2 - 1; // indices into temp array
+		int cursor2 = tempBase + length2 - 1; // indices into temp array
 		int dest = base2 + length2 - 1; // indices into a
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];
 		if (--length1 == 0) {
-			System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
+			System.arraycopy(temp, tempBase, array, dest - (length2 - 1), length2);
 			return;
 		}
 		if (length2 == 1) {
 			dest -= length1;
 			cursor1 -= length1;
 			System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
-			array[dest] = tempArray[cursor2];
+			array[dest] = temp[cursor2];
 			return;
 		}
 
@@ -883,7 +882,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 0 && length2 > 1;
-				if (comparator.compare(tempArray[cursor2], array[cursor1]) < 0) {
+				if (comparator.compare(temp[cursor2], array[cursor1]) < 0) {
 					array[dest--] = array[cursor1--];
 					++count1;
 					count2 = 0;
@@ -891,7 +890,7 @@ outer:  while (true) {
 						break outer;
 					}
 				} else {
-					array[dest--] = tempArray[cursor2--];
+					array[dest--] = temp[cursor2--];
 					++count2;
 					count1 = 0;
 					if (--length2 == 1) {
@@ -907,7 +906,7 @@ outer:  while (true) {
 			 */
 			do {
 				assert length1 > 0 && length2 > 1;
-				count1 = length1 - gallopRight(tempArray[cursor2], array, base1, length1,
+				count1 = length1 - gallopRight(temp[cursor2], array, base1, length1,
 						length1 - 1, comparator);
 				if (count1 != 0) {
 					dest -= count1;
@@ -918,18 +917,18 @@ outer:  while (true) {
 						break outer;
 					}
 				}
-				array[dest--] = tempArray[cursor2--];
+				array[dest--] = temp[cursor2--];
 				if (--length2 == 1) {
 					break outer;
 				}
 
-				count2 = length2 - gallopLeft(array[cursor1], tempArray, tempArrayBase, length2,
-						length2 - 1, comparator);
+				count2 = length2 - gallopLeft(array[cursor1], temp, tempBase, length2, length2 - 1,
+						comparator);
 				if (count2 != 0) {
 					dest -= count2;
 					cursor2 -= count2;
 					length2 -= count2;
-					System.arraycopy(tempArray, cursor2 + 1, array, dest + 1, count2);
+					System.arraycopy(temp, cursor2 + 1, array, dest + 1, count2);
 					if (length2 <= 1) {
 						break outer; // length2 == 1 || length2 == 0
 					}
@@ -953,7 +952,7 @@ outer:  while (true) {
 				dest -= length1;
 				cursor1 -= length1;
 				System.arraycopy(array, cursor1 + 1, array, dest + 1, length1);
-				array[dest] = tempArray[cursor2]; // move first elt of run2 to front of merge
+				array[dest] = temp[cursor2]; // move first elt of run2 to front of merge
 				break;
 			case 0:
 				throw new IllegalArgumentException(
@@ -961,22 +960,22 @@ outer:  while (true) {
 			default:
 				assert length1 == 0;
 				assert length2 > 0;
-				System.arraycopy(tempArray, tempArrayBase, array, dest - (length2 - 1), length2);
+				System.arraycopy(temp, tempBase, array, dest - (length2 - 1), length2);
 		}
 	}
 
 	/**
-	 * Ensures that the external array {@code tempArray} has at least the specified number of
-	 * elements, increasing its size if necessary. The size increases exponentially to ensure
-	 * amortized linear time complexity.
+	 * Ensures that the external array {@code temp} has at least the specified number of elements,
+	 * increasing its size if necessary. The size increases exponentially to ensure amortized linear
+	 * time complexity.
 	 * <p>
-	 * @param minCapacity the minimum required capacity of {@code tempArray}
+	 * @param minCapacity the minimum required capacity of {@code temp}
 	 * <p>
-	 * @return {@code tempArray}, whether or not it grew
+	 * @return {@code temp}, whether or not it grew
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	protected T[] ensureCapacity(final int minCapacity) {
-		if (tempArrayLength < minCapacity) {
+		if (tempLength < minCapacity) {
 			// Compute the smallest power of 2 > minCapacity
 			int newSize = minCapacity;
 			newSize |= newSize >> 1;
@@ -994,10 +993,10 @@ outer:  while (true) {
 			}
 
 			final T[] newArray = (T[]) Arrays.create(Arrays.getComponentClass(array), newSize);
-			tempArray = newArray;
-			tempArrayLength = newSize;
-			tempArrayBase = 0;
+			temp = newArray;
+			tempLength = newSize;
+			tempBase = 0;
 		}
-		return tempArray;
+		return temp;
 	}
 }

@@ -21,33 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.bivariate;
+package jupiter.common.util;
 
-/**
- * {@link BivariateFunctions} is a collection of {@link BivariateFunction}.
- */
-public class BivariateFunctions {
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
+import jupiter.common.test.Test;
 
-	public static final Addition ADD = new Addition();
-	public static final Multiplication MULTI = new Multiplication();
+public class IntegersTest
+		extends Test {
 
-	public static final Mean MEAN = new Mean();
+	public IntegersTest(final String name) {
+		super(name);
+	}
 
-	public static final Min MIN = new Min();
-	public static final Max MAX = new Max();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link BivariateFunctions}.
+	 * Tests reverse method, of class Integers.
 	 */
-	protected BivariateFunctions() {
+	public void testReverse() {
+		IO.test(BULLET, " reverse");
+
+		int[] array = Integers.EMPTY_PRIMITIVE_ARRAY;
+		Integers.reverse(array);
+		assertEquals(Objects.hashCode(Integers.EMPTY_PRIMITIVE_ARRAY), Objects.hashCode(array));
+		array = Integers.createSequence(4);
+		Integers.reverse(array);
+		assertEquals(Objects.hashCode(new int[] {3, 2, 1, 0}), Objects.hashCode(array));
+		array = Integers.createSequence(5);
+		Integers.reverse(array);
+		assertEquals(Objects.hashCode(new int[] {4, 3, 2, 1, 0}), Objects.hashCode(array));
 	}
 }

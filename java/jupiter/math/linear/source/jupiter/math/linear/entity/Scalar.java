@@ -176,7 +176,7 @@ public class Scalar
 			this.value = value;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 	}
 
@@ -300,7 +300,7 @@ public class Scalar
 			value = constant;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 	}
 
@@ -421,7 +421,7 @@ public class Scalar
 			value += scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 		return this;
 	}
@@ -492,7 +492,7 @@ public class Scalar
 			value -= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 		return this;
 	}
@@ -585,7 +585,7 @@ public class Scalar
 			value *= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 		return this;
 	}
@@ -663,7 +663,7 @@ public class Scalar
 			value /= scalar;
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 		return this;
 	}
@@ -737,7 +737,7 @@ public class Scalar
 			value = Maths.pow(value, scalar);
 		} else {
 			throw new IllegalOperationException(
-					"Cannot change the value of a immutable " + getName());
+					"Cannot change the value of an immutable " + getName());
 		}
 		return this;
 	}

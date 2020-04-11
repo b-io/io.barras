@@ -54,7 +54,7 @@ public class StatisticsTest
 		IO.test(BULLET, " normalCDFInverse");
 
 		final double normalCDFInverse = Statistics.normalCDFInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: ", Maths.delta(normalCDFInverse, Maths.DEFAULT_Z));
+		IO.test("Accuracy: ", Maths.distance(normalCDFInverse, Maths.DEFAULT_Z));
 		assertEquals(Maths.DEFAULT_Z, normalCDFInverse, Maths.TOLERANCE);
 	}
 }

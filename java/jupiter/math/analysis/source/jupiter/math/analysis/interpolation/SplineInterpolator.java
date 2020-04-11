@@ -135,7 +135,7 @@ public class SplineInterpolator
 		// Compute the tangents as the average of the secant lines
 		M[0] = D[0];
 		for (int i = 1; i < n - 1; ++i) {
-			M[i] = (D[i - 1] + D[i]) / 2.;
+			M[i] = Maths.mean(D[i - 1], D[i]);
 		}
 		M[n - 1] = D[n - 2];
 		// Update the tangents to preserve monotonicity

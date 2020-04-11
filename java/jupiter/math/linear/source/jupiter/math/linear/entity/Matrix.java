@@ -1333,7 +1333,7 @@ public class Matrix
 		double result = 0.;
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				result = Norms.getEuclideanNorm(result, elements[i * n + j]);
+				result = Norms.euclideanNorm(result, elements[i * n + j]);
 			}
 		}
 		return result;
@@ -1573,6 +1573,40 @@ public class Matrix
 				elements[i * n + j] += broadcastedMatrix.elements[i * broadcastedMatrix.n + j];
 			}
 		}
+		return this;
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets.
+	 * <p>
+	 * @param B       the {@code double} array to multiply
+	 * @param c       the constant {@code c} to multiply
+	 * @param offset  the offset of {@code this}
+	 * @param bOffset the offset of {@code B}
+	 * <p>
+	 * @return {@code this += c * B}
+	 */
+	public Matrix arrayAdd(final double[] B, final double c, final int offset, final int bOffset) {
+		Maths.arrayAdd(elements, B, c, offset, bOffset, 0, n);
+		return this;
+	}
+
+	/**
+	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
+	 * between the specified indices.
+	 * <p>
+	 * @param B         the {@code double} array to multiply
+	 * @param c         the constant {@code c} to multiply
+	 * @param offset    the offset of {@code this}
+	 * @param bOffset   the offset of {@code B}
+	 * @param fromIndex the index to start summing from (inclusive)
+	 * @param toIndex   the index to finish summing at (exclusive)
+	 * <p>
+	 * @return {@code this += c * B}
+	 */
+	public Matrix arrayAdd(final double[] B, final double c, final int offset, final int bOffset,
+			final int fromIndex, final int toIndex) {
+		Maths.arrayAdd(elements, B, c, offset, bOffset, fromIndex, toIndex);
 		return this;
 	}
 
@@ -2097,36 +2131,6 @@ public class Matrix
 			}
 		}
 		return this;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets.
-	 * <p>
-	 * @param B       the {@code double} array to multiply
-	 * @param c       the constant {@code c} to multiply
-	 * @param offset  the offset of {@code this}
-	 * @param bOffset the offset of {@code B}
-	 */
-	public void arraySum(final double[] B, final double c, final int offset, final int bOffset) {
-		Maths.arraySum(elements, B, c, offset, bOffset, 0, n);
-	}
-
-	/**
-	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
-	 * between the specified indices.
-	 * <p>
-	 * @param B         the {@code double} array to multiply
-	 * @param c         the constant {@code c} to multiply
-	 * @param offset    the offset of {@code this}
-	 * @param bOffset   the offset of {@code B}
-	 * @param fromIndex the index to start summing from (inclusive)
-	 * @param toIndex   the index to finish summing at (exclusive)
-	 */
-	public void arraySum(final double[] B, final double c, final int offset, final int bOffset,
-			final int fromIndex, final int toIndex) {
-		Maths.arraySum(elements, B, c, offset, bOffset, fromIndex, toIndex);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2845,7 +2849,7 @@ public class Matrix
 			final int innerDimension = left.n; // or right.m
 			for (int i = fromIndex; i < toIndex; ++i) {
 				for (int k = 0; k < innerDimension; ++k) {
-					result.arraySum(right.elements, left.elements[i * left.n + k],
+					result.arrayAdd(right.elements, left.elements[i * left.n + k],
 							i * result.n, k * right.n);
 				}
 			}

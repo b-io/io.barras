@@ -50,7 +50,7 @@ public class Norms {
 	 * <p>
 	 * @return the Euclidean norm of {@code a} and {@code b}
 	 */
-	public static double getEuclideanNorm(final double a, final double b) {
+	public static double euclideanNorm(final double a, final double b) {
 		double euclideanNorm;
 		final double absA = Maths.abs(a);
 		final double absB = Maths.abs(b);

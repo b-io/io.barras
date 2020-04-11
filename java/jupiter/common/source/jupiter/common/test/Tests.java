@@ -75,8 +75,8 @@ public class Tests {
 	}
 
 	public static void printValues(final String label, final Number[] values) {
-		final double mean = Statistics.getMean(values);
-		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
+		final double mean = Statistics.mean(values);
+		final double stddev = Statistics.sampleStandardDeviationWith(values, mean);
 		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.length, mean,
 				stddev);
 		printAverageValue(label, mean, confidenceInterval);
@@ -84,8 +84,8 @@ public class Tests {
 	}
 
 	public static void printValues(final String label, final Collection<? extends Number> values) {
-		final double mean = Statistics.getMean(values);
-		final double stddev = Statistics.getSampleStandardDeviationWith(values, mean);
+		final double mean = Statistics.mean(values);
+		final double stddev = Statistics.sampleStandardDeviationWith(values, mean);
 		final DoubleInterval confidenceInterval = Statistics.confidenceInterval(values.size(),
 				mean, stddev);
 		printAverageValue(label, mean, confidenceInterval);

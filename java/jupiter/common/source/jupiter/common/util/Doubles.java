@@ -89,7 +89,7 @@ public class Doubles {
 	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double getDecimalPart(final double value) {
+	public static double decimalPart(final double value) {
 		return value - Maths.floor(value);
 	}
 
@@ -1217,17 +1217,13 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void reverse(final double... array) {
-		reverse(array, 0, array.length - 1);
-	}
-
-	public static void reverse(final double[] array, final int fromIndex) {
-		reverse(array, fromIndex, array.length - 1);
+		reverse(array, 0, array.length);
 	}
 
 	public static void reverse(final double[] array, final int fromIndex, final int toIndex) {
-		final int limit = Integers.middleUp(toIndex - fromIndex);
+		final int limit = Integers.middle(toIndex - fromIndex);
 		for (int i = 0; i < limit; ++i) {
-			swap(array, fromIndex + i, toIndex - i);
+			swap(array, fromIndex + i, toIndex - 1 - i);
 		}
 	}
 
@@ -1240,16 +1236,6 @@ public class Doubles {
 	 */
 	public static void shuffle(final double... array) {
 		shuffle(array, 0, array.length);
-	}
-
-	/**
-	 * Shuffles the specified {@code double} array from the specified index.
-	 * <p>
-	 * @param array     the {@code double} array to shuffle
-	 * @param fromIndex the index to start shuffling from (inclusive)
-	 */
-	public static void shuffle(final double[] array, final int fromIndex) {
-		shuffle(array, fromIndex, array.length);
 	}
 
 	/**
@@ -1274,10 +1260,6 @@ public class Doubles {
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static double[] take(final double... array) {
-		return take(array, 0, array.length);
-	}
 
 	public static double[] take(final double[] array, final int fromIndex, final int length) {
 		final int maxLength = Math.min(length, array.length - fromIndex);
@@ -1860,7 +1842,7 @@ public class Doubles {
 	 *         {@code false} otherwise
 	 */
 	public static boolean equals(final double a, final double b, final double tolerance) {
-		return Maths.delta(a, b) <= tolerance;
+		return Maths.distance(a, b) <= tolerance;
 	}
 
 	//////////////////////////////////////////////

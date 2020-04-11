@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2020 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2019 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,31 +23,38 @@
  */
 package jupiter.math.analysis.function.bivariate;
 
-/**
- * {@link BivariateFunctions} is a collection of {@link BivariateFunction}.
- */
-public class BivariateFunctions {
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
+import static jupiter.math.analysis.function.bivariate.BivariateFunctions.MEAN;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
+import jupiter.common.math.Maths;
+import jupiter.common.test.Test;
+import jupiter.common.util.Doubles;
 
-	public static final Addition ADD = new Addition();
-	public static final Multiplication MULTI = new Multiplication();
+public class BivariateFunctionTest
+		extends Test {
 
-	public static final Mean MEAN = new Mean();
+	public BivariateFunctionTest(final String name) {
+		super(name);
+	}
 
-	public static final Min MIN = new Min();
-	public static final Max MAX = new Max();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link BivariateFunctions}.
+	 * Test of slideToPrimitiveIntArray method, of class BivariateFunction.
 	 */
-	protected BivariateFunctions() {
+	public void testSlideToPrimitiveIntArray() {
+		IO.test(BULLET, " slideToPrimitiveIntArray");
+
+		// Initialize
+		final int size = 10;
+		final double[] sequence = Doubles.createSequence(size);
+		final double[] array = Maths.add(MEAN.slideToPrimitiveArray(Doubles.createSequence(size)),
+				0.5, 1, size);
+
+		// Verify the method
+		for (int i = 0; i < size; ++i) {
+			assertEquals(sequence[i], array[i], Maths.TOLERANCE);
+		}
 	}
 }

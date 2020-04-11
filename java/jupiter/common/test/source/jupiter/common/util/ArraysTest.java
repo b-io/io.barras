@@ -70,12 +70,12 @@ public class ArraysTest
 	public void testToArray() {
 		IO.test(BULLET, " toArray");
 
-		assertEquals(Objects.hashCode(new String[] {}),
-				Objects.hashCode(Arrays.toArray(new String[] {})));
-		assertEquals(Objects.hashCode(new String[] {}),
-				Objects.hashCode(Arrays.toArray(new String[][] {})));
-		assertEquals(Objects.hashCode(new String[] {}),
-				Objects.hashCode(Arrays.toArray(new String[][][] {})));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY),
+				Objects.hashCode(Arrays.toArray(Strings.EMPTY_ARRAY)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY),
+				Objects.hashCode(Arrays.toArray(Strings.EMPTY_ARRAY_2D)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY),
+				Objects.hashCode(Arrays.toArray(Strings.EMPTY_ARRAY_3D)));
 
 		assertEquals(Objects.hashCode(new String[] {"a", "b", "c"}),
 				Objects.hashCode(Arrays.toArray(new String[] {"a", "b", "c"})));
@@ -91,12 +91,12 @@ public class ArraysTest
 	public void testToArray2D() {
 		IO.test(BULLET, " toArray2D");
 
-		assertEquals(Objects.hashCode(new String[][] {}),
-				Objects.hashCode(Arrays.toArray2D(new String[] {}, 0)));
-		assertEquals(Objects.hashCode(new String[][] {}),
-				Objects.hashCode(Arrays.toArray2D(new String[][] {})));
-		assertEquals(Objects.hashCode(new String[][] {}),
-				Objects.hashCode(Arrays.toArray2D(new String[][][] {})));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_2D),
+				Objects.hashCode(Arrays.toArray2D(Strings.EMPTY_ARRAY, 0)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_2D),
+				Objects.hashCode(Arrays.toArray2D(Strings.EMPTY_ARRAY_2D)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_2D),
+				Objects.hashCode(Arrays.toArray2D(Strings.EMPTY_ARRAY_3D)));
 
 		assertEquals(Objects.hashCode(new String[][] {{"a"}, {"b"}, {"c"}}),
 				Objects.hashCode(Arrays.toArray2D(new String[] {"a", "b", "c"}, 3)));
@@ -112,12 +112,12 @@ public class ArraysTest
 	public void testToArray3D() {
 		IO.test(BULLET, " toArray3D");
 
-		assertEquals(Objects.hashCode(new String[][][] {}),
-				Objects.hashCode(Arrays.toArray3D(new String[] {}, 0, 0)));
-		assertEquals(Objects.hashCode(new String[][][] {}),
-				Objects.hashCode(Arrays.toArray3D(new String[][] {}, 0)));
-		assertEquals(Objects.hashCode(new String[][][] {}),
-				Objects.hashCode(Arrays.toArray3D(new String[][][] {})));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_3D),
+				Objects.hashCode(Arrays.toArray3D(Strings.EMPTY_ARRAY, 0, 0)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_3D),
+				Objects.hashCode(Arrays.toArray3D(Strings.EMPTY_ARRAY_2D, 0)));
+		assertEquals(Objects.hashCode(Strings.EMPTY_ARRAY_3D),
+				Objects.hashCode(Arrays.toArray3D(Strings.EMPTY_ARRAY_3D)));
 
 		assertEquals(Objects.hashCode(new String[][][] {{{"a"}}, {{"b"}}, {{"c"}}}),
 				Objects.hashCode(Arrays.toArray3D(new String[] {"a", "b", "c"}, 3, 1)));
@@ -145,8 +145,7 @@ public class ArraysTest
 	public void testFilterAll() {
 		IO.test(BULLET, " filterAll");
 
-		assertEquals(Objects.hashCode(
-				new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}}),
+		assertEquals(Objects.hashCode(new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}}),
 				Objects.hashCode(Arrays.<String>filterAll(ARRAY,
 						new int[][] {new int[] {0, 0, 2, 3, 3, 5}})));
 	}
@@ -172,9 +171,6 @@ public class ArraysTest
 		IO.test(BULLET, " take");
 
 		// • 1D
-		assertEquals(Objects.hashCode(ARRAY), Objects.hashCode(Arrays.<String>take(ARRAY)));
-		assertEquals(Objects.hashCode(new String[] {"e", "f"}),
-				Objects.hashCode(Arrays.<String>take(ARRAY, 4)));
 		assertEquals(Objects.hashCode(new String[] {"e", "f"}),
 				Objects.hashCode(Arrays.<String>take(ARRAY, 4, 2)));
 		assertEquals(Objects.hashCode(new String[] {"e", "f"}),
@@ -186,8 +182,6 @@ public class ArraysTest
 		assertEquals(Objects.hashCode(FLAT_ARRAY_2D),
 				Objects.hashCode(Arrays.<String>take(ARRAY_2D)));
 		assertEquals(Objects.hashCode(ARRAY),
-				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1)));
-		assertEquals(Objects.hashCode(ARRAY),
 				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 1)));
 		assertEquals(Objects.hashCode(ARRAY),
 				Objects.hashCode(Arrays.<String>take(ARRAY_2D, 1, 10)));
@@ -197,8 +191,6 @@ public class ArraysTest
 		// • 3D
 		assertEquals(Objects.hashCode(FLAT_ARRAY_3D),
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D)));
-		assertEquals(Objects.hashCode(FLAT_ARRAY_2D),
-				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1)));
 		assertEquals(Objects.hashCode(FLAT_ARRAY_2D),
 				Objects.hashCode(Arrays.<String>take(ARRAY_3D, 1, 1)));
 		assertEquals(Objects.hashCode(FLAT_ARRAY_2D),
@@ -236,6 +228,23 @@ public class ArraysTest
 				true));
 		assertTrue(Arrays.isBetween(ARRAY, new String[] {"a", "b", "c", "d", "e"},
 				new String[] {"a", "b", "c", "d", "g"}, false, false));
+	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests clone method, of class Arrays.
+	 */
+	public void testClone() {
+		IO.test(BULLET, " clone");
+
+		// • 1D
+		assertEquals(Objects.hashCode(ARRAY), Objects.hashCode(Arrays.<String>clone(ARRAY)));
+
+		// • 2D
+		assertEquals(Objects.hashCode(ARRAY_2D), Objects.hashCode(Arrays.<String>clone(ARRAY_2D)));
+
+		// • 3D
+		assertEquals(Objects.hashCode(ARRAY_3D), Objects.hashCode(Arrays.<String>clone(ARRAY_3D)));
 	}
 }

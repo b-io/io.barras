@@ -93,16 +93,16 @@ public class MathsTest
 	}
 
 	/**
-	 * Tests getGreatCircleDistance method, of class Maths.
+	 * Tests greatCircleDistance method, of class Maths.
 	 */
-	public void testGetGreatCircleDistance() {
-		IO.test(BULLET, " getGreatCircleDistance");
+	public void testGreatCircleDistance() {
+		IO.test(BULLET, " greatCircleDistance");
 
 		// Initialize
 		final double earthRadius = 6371.; // [km]
 
 		// Verify the orthodromic distance between the Statue of Liberty and the Eiffel Tower
-		assertEquals(5837.44, Maths.getGreatCircleDistance(earthRadius,
+		assertEquals(5837.44, Maths.greatCircleDistance(earthRadius,
 				40.689247 * DEGREE_TO_RADIAN, -74.044502 * DEGREE_TO_RADIAN,
 				48.858093 * DEGREE_TO_RADIAN, 2.294694 * DEGREE_TO_RADIAN), 0.01);
 	}

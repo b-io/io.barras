@@ -289,7 +289,7 @@ public class DynamicChartPanel
 							xItem == x && (itemIndex == 0 || itemIndex == itemCount - 1))) {
 						continue;
 					}
-					final double distance = Maths.delta(dataset.getYValue(si, itemIndex), y);
+					final double distance = Maths.distance(dataset.getYValue(si, itemIndex), y);
 					if (distance < minDistance) {
 						minDistance = distance;
 						seriesIndex = si;

@@ -266,7 +266,7 @@ public class FiniteDifferentiator
 		// Compute the derivative approximation y' using the Crank–Nicolson method
 		final double[] dX = new double[size];
 		System.arraycopy(X, 0, dX, 0, size);
-		Maths.sum(dX, step / 2.);
+		Maths.add(dX, step / 2.);
 		final double[] dY = new double[size];
 		for (int i = 0; i < size; ++i) {
 			dY[i] = (Y[i + 1] - Y[i]) / step;
@@ -329,7 +329,7 @@ public class FiniteDifferentiator
 		// Compute the derivative approximation y' using the Crank–Nicolson method
 		final double[] dX = new double[size];
 		System.arraycopy(X, 0, dX, 0, size);
-		Maths.sum(dX, step / 2.);
+		Maths.add(dX, step / 2.);
 		final double[] dY = new double[size];
 		for (int i = 0; i < size; ++i) {
 			dY[i] = (Y[i + 1] - Y[i]) / step;

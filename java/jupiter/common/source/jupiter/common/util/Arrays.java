@@ -958,17 +958,6 @@ public class Arrays {
 	}
 
 	/**
-	 * Shuffles the specified {@code T} array from the specified index.
-	 * <p>
-	 * @param <T>       the component type of the array to shuffle
-	 * @param array     the {@code T} array to shuffle
-	 * @param fromIndex the index to start shuffling from (inclusive)
-	 */
-	public static <T> void shuffle(final T[] array, final int fromIndex) {
-		shuffle(array, fromIndex, array.length);
-	}
-
-	/**
 	 * Shuffles the specified {@code T} array between the specified indices.
 	 * <p>
 	 * @param <T>       the component type of the array to shuffle
@@ -1023,54 +1012,6 @@ public class Arrays {
 	 */
 	public static void sort(final Object[] array) {
 		ComparableSort.sort(array, 0, array.length, null, 0, 0);
-	}
-
-	/**
-	 * Sorts the specified array into ascending order, according to the
-	 * {@linkplain Comparable natural ordering} of its elements from index {@code fromIndex},
-	 * inclusive. All elements in the array must implement the {@link Comparable} interface.
-	 * Furthermore, all elements in the array must be <i>mutually comparable</i> (that is,
-	 * {@code e1.compareTo(e2)} must not throw a {@link ClassCastException} for any elements
-	 * {@code e1} and {@code e2} in the array).
-	 * <p>
-	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
-	 * of the sort.
-	 * <dl>
-	 * <dt><b>Note:</b></dt>
-	 * <dd>This implementation is a stable, adaptive, iterative merge sort that requires far less
-	 * than {@code n log n} comparisons when the input array is partially sorted, while offering the
-	 * performance of a traditional merge sort when the input array is randomly ordered. If the
-	 * input array is nearly sorted, the implementation requires approximately {@code n}
-	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
-	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
-	 * <p>
-	 * The implementation takes equal advantage of ascending and descending order in its input array
-	 * and can take advantage of ascending and descending order in different parts of the same input
-	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
-	 * and sort the resulting array.
-	 * <p>
-	 * The implementation was adapted from Tim Peters's list sort for Python
-	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
-	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
-	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
-	 * Algorithms, pp 467-474, January 1993.</dd>
-	 * </dl>
-	 * <p>
-	 * @param array     the array to sort
-	 * @param fromIndex the index of the first element to sort (inclusive)
-	 * <p>
-	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
-	 *                                  (e.g. a {@link String} and an {@link Integer})
-	 * @throws IllegalArgumentException if {@code fromIndex} is out of bounds or (optional) if the
-	 *                                  natural ordering of the {@code array} elements is found to
-	 *                                  violate the {@link Comparable} contract
-	 */
-	public static void sort(final Object[] array, final int fromIndex) {
-		// Check the arguments
-		ArrayArguments.requireIndex(fromIndex, array.length);
-
-		// Sort the array
-		ComparableSort.sort(array, fromIndex, array.length, null, 0, 0);
 	}
 
 	/**
@@ -1232,17 +1173,13 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> void reverse(final T[] array) {
-		reverse(array, 0, array.length - 1);
-	}
-
-	public static <T> void reverse(final T[] array, final int fromIndex) {
-		reverse(array, fromIndex, array.length - 1);
+		reverse(array, 0, array.length);
 	}
 
 	public static <T> void reverse(final T[] array, final int fromIndex, final int toIndex) {
-		final int limit = Integers.middleUp(toIndex - fromIndex);
+		final int limit = Integers.middle(toIndex - fromIndex);
 		for (int i = 0; i < limit; ++i) {
-			swap(array, fromIndex + i, toIndex - i);
+			swap(array, fromIndex + i, toIndex - 1 - i);
 		}
 	}
 
@@ -1256,14 +1193,6 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> T[] take(final T[] array) {
-		return take(array, 0);
-	}
-
-	public static <T> T[] take(final T[] array, final int fromIndex) {
-		return take(array, fromIndex, array.length);
-	}
-
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] take(final T[] array, final int fromIndex, final int length) {
 		final int maxLength = Math.min(length, array.length - fromIndex);
@@ -1275,20 +1204,11 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	public static <T> T[] take(final T[][] array2D) {
-		return take(array2D, 0);
-	}
-
-	public static <T> T[] take(final T[][] array2D, final int fromRow) {
-		return take(array2D, fromRow, array2D.length);
+		return take(array2D, 0, array2D.length);
 	}
 
 	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount) {
-		return take(array2D, fromRow, rowCount, 0);
-	}
-
-	public static <T> T[] take(final T[][] array2D, final int fromRow, final int rowCount,
-			final int fromColumn) {
-		return take(array2D, fromRow, rowCount, fromColumn, array2D[0].length);
+		return take(array2D, fromRow, rowCount, 0, array2D[0].length);
 	}
 
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1308,31 +1228,16 @@ public class Arrays {
 	//////////////////////////////////////////////
 
 	public static <T> T[] take(final T[][][] array3D) {
-		return take(array3D, 0);
-	}
-
-	public static <T> T[] take(final T[][][] array3D, final int fromRow) {
-		return take(array3D, fromRow, array3D.length);
+		return take(array3D, 0, array3D.length);
 	}
 
 	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount) {
-		return take(array3D, fromRow, rowCount, 0);
-	}
-
-	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
-			final int fromColumn) {
-		return take(array3D, fromRow, rowCount, fromColumn, array3D[0].length);
+		return take(array3D, fromRow, rowCount, 0, array3D[0].length);
 	}
 
 	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
 			final int fromColumn, final int columnCount) {
-		return take(array3D, fromRow, rowCount, fromColumn, columnCount, 0);
-	}
-
-	public static <T> T[] take(final T[][][] array3D, final int fromRow, final int rowCount,
-			final int fromColumn, final int columnCount, final int fromDepth) {
-		return take(array3D, fromRow, rowCount, fromColumn, columnCount, fromDepth,
-				array3D[0][0].length);
+		return take(array3D, fromRow, rowCount, fromColumn, columnCount, 0, array3D[0][0].length);
 	}
 
 	@SuppressWarnings({"cast", "unchecked"})

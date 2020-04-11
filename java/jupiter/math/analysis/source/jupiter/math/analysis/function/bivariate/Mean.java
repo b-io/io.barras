@@ -23,22 +23,20 @@
  */
 package jupiter.math.analysis.function.bivariate;
 
-/**
- * {@link BivariateFunctions} is a collection of {@link BivariateFunction}.
- */
-public class BivariateFunctions {
+import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
+
+public class Mean
+		extends BivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final Addition ADD = new Addition();
-	public static final Multiplication MULTI = new Multiplication();
-
-	public static final Mean MEAN = new Mean();
-
-	public static final Min MIN = new Min();
-	public static final Max MAX = new Max();
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,8 +44,53 @@ public class BivariateFunctions {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link BivariateFunctions}.
+	 * Constructs a {@link Mean} by default.
 	 */
-	protected BivariateFunctions() {
+	protected Mean() {
+		this(0.);
+	}
+
+	/**
+	 * Constructs a {@link Mean} with the specified initial value.
+	 * <p>
+	 * @param initialValue the initial {@code double} value
+	 */
+	public Mean(final double initialValue) {
+		super(initialValue);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FUNCTIONS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the mean function to the specified values.
+	 * <p>
+	 * @param x1 a {@code double} value (on the abscissa)
+	 * @param x2 another {@code double} value
+	 * <p>
+	 * @return {@code mean(x1, x2)}
+	 */
+	@Override
+	protected double a(final double x1, final double x2) {
+		return Maths.mean(x1, x2);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Mean clone() {
+		return (Mean) super.clone();
 	}
 }

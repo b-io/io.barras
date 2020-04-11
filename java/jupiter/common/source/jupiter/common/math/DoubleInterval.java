@@ -157,7 +157,8 @@ public class DoubleInterval
 	 * @return the distance between the {@link LowerBound} and the specified value
 	 */
 	public double getLowerDistance(final Double value) {
-		return value != null ? Maths.delta(value, getLowerBoundValue()) : Double.POSITIVE_INFINITY;
+		return value != null ? Maths.distance(value, getLowerBoundValue()) :
+				Double.POSITIVE_INFINITY;
 	}
 
 	/**
@@ -168,7 +169,8 @@ public class DoubleInterval
 	 * @return the distance between the {@link UpperBound} and the specified value
 	 */
 	public double getUpperDistance(final Double value) {
-		return value != null ? Maths.delta(value, getUpperBoundValue()) : Double.POSITIVE_INFINITY;
+		return value != null ? Maths.distance(value, getUpperBoundValue()) :
+				Double.POSITIVE_INFINITY;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

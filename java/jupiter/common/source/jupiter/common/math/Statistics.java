@@ -55,7 +55,7 @@ public class Statistics {
 		return Maths.sumWithoutNaN(values) / values.length;
 	}
 
-	public static double getMean(final Number[] numbers) {
+	public static double mean(final Number[] numbers) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
@@ -63,7 +63,7 @@ public class Statistics {
 		return Maths.sumWithoutNaN(numbers) / numbers.length;
 	}
 
-	public static double getMean(final Collection<? extends Number> numbers) {
+	public static double mean(final Collection<? extends Number> numbers) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
@@ -77,12 +77,12 @@ public class Statistics {
 		return varianceWith(values, mean(values));
 	}
 
-	public static double getVariance(final Number[] numbers) {
-		return Statistics.getVarianceWith(numbers, Statistics.getMean(numbers));
+	public static double variance(final Number[] numbers) {
+		return Statistics.varianceWith(numbers, Statistics.mean(numbers));
 	}
 
-	public static double getVariance(final Collection<? extends Number> numbers) {
-		return getVarianceWith(numbers, getMean(numbers));
+	public static double variance(final Collection<? extends Number> numbers) {
+		return varianceWith(numbers, mean(numbers));
 	}
 
 	public static double varianceWith(final double[] values, final double mean) {
@@ -93,7 +93,7 @@ public class Statistics {
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / values.length;
 	}
 
-	public static double getVarianceWith(final Number[] numbers, final double mean) {
+	public static double varianceWith(final Number[] numbers, final double mean) {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
@@ -101,7 +101,7 @@ public class Statistics {
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.length;
 	}
 
-	public static double getVarianceWith(final Collection<? extends Number> numbers,
+	public static double varianceWith(final Collection<? extends Number> numbers,
 			final double mean) {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
@@ -116,12 +116,12 @@ public class Statistics {
 		return sampleVarianceWith(values, mean(values));
 	}
 
-	public static double getSampleVariance(final Number[] numbers) {
-		return Statistics.getSampleVarianceWith(numbers, Statistics.getMean(numbers));
+	public static double sampleVariance(final Number[] numbers) {
+		return Statistics.sampleVarianceWith(numbers, Statistics.mean(numbers));
 	}
 
-	public static double getSampleVariance(final Collection<? extends Number> numbers) {
-		return getSampleVarianceWith(numbers, getMean(numbers));
+	public static double sampleVariance(final Collection<? extends Number> numbers) {
+		return sampleVarianceWith(numbers, mean(numbers));
 	}
 
 	public static double sampleVarianceWith(final double[] values, final double mean) {
@@ -132,7 +132,7 @@ public class Statistics {
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / (values.length - 1);
 	}
 
-	public static double getSampleVarianceWith(final Number[] numbers, final double mean) {
+	public static double sampleVarianceWith(final Number[] numbers, final double mean) {
 		// Check the arguments
 		ArrayArguments.requireMinLength(numbers, 2);
 
@@ -140,7 +140,7 @@ public class Statistics {
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / (numbers.length - 1);
 	}
 
-	public static double getSampleVarianceWith(final Collection<? extends Number> numbers,
+	public static double sampleVarianceWith(final Collection<? extends Number> numbers,
 			final double mean) {
 		// Check the arguments
 		CollectionArguments.requireMinSize(numbers, 2);
@@ -155,25 +155,25 @@ public class Statistics {
 		return Maths.sqrt(variance(values));
 	}
 
-	public static double getStandardDeviation(final Number[] numbers) {
-		return Maths.sqrt(Statistics.getVariance(numbers));
+	public static double standardDeviation(final Number[] numbers) {
+		return Maths.sqrt(Statistics.variance(numbers));
 	}
 
-	public static double getStandardDeviation(final Collection<? extends Number> numbers) {
-		return Maths.sqrt(getVariance(numbers));
+	public static double standardDeviation(final Collection<? extends Number> numbers) {
+		return Maths.sqrt(variance(numbers));
 	}
 
 	public static double standardDeviationWith(final double[] values, final double mean) {
 		return Maths.sqrt(varianceWith(values, mean));
 	}
 
-	public static double getStandardDeviationWith(final Number[] numbers, final double mean) {
-		return Maths.sqrt(Statistics.getVarianceWith(numbers, mean));
+	public static double standardDeviationWith(final Number[] numbers, final double mean) {
+		return Maths.sqrt(Statistics.varianceWith(numbers, mean));
 	}
 
-	public static double getStandardDeviationWith(final Collection<? extends Number> numbers,
+	public static double standardDeviationWith(final Collection<? extends Number> numbers,
 			final double mean) {
-		return Maths.sqrt(getVarianceWith(numbers, mean));
+		return Maths.sqrt(varianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,25 +182,25 @@ public class Statistics {
 		return Maths.sqrt(sampleVariance(values));
 	}
 
-	public static double getSampleStandardDeviation(final Number[] numbers) {
-		return Maths.sqrt(Statistics.getSampleVariance(numbers));
+	public static double sampleStandardDeviation(final Number[] numbers) {
+		return Maths.sqrt(Statistics.sampleVariance(numbers));
 	}
 
-	public static double getSampleStandardDeviation(final Collection<? extends Number> collection) {
-		return Maths.sqrt(getSampleVariance(collection));
+	public static double sampleStandardDeviation(final Collection<? extends Number> collection) {
+		return Maths.sqrt(sampleVariance(collection));
 	}
 
 	public static double sampleStandardDeviationWith(final double[] values, final double mean) {
 		return Maths.sqrt(sampleVarianceWith(values, mean));
 	}
 
-	public static double getSampleStandardDeviationWith(final Number[] numbers, final double mean) {
-		return Maths.sqrt(Statistics.getSampleVarianceWith(numbers, mean));
+	public static double sampleStandardDeviationWith(final Number[] numbers, final double mean) {
+		return Maths.sqrt(Statistics.sampleVarianceWith(numbers, mean));
 	}
 
-	public static double getSampleStandardDeviationWith(final Collection<? extends Number> numbers,
+	public static double sampleStandardDeviationWith(final Collection<? extends Number> numbers,
 			final double mean) {
-		return Maths.sqrt(getSampleVarianceWith(numbers, mean));
+		return Maths.sqrt(sampleVarianceWith(numbers, mean));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -102,7 +102,7 @@ public class QRDecomposition
 			// Compute the 2-norm of the k-th column without under/overflow
 			double norm = 0.;
 			for (int i = k; i < m; ++i) {
-				norm = Norms.getEuclideanNorm(norm, QR[i][k]);
+				norm = Norms.euclideanNorm(norm, QR[i][k]);
 			}
 			if (norm != 0.) {
 				// Form the k-th Householder vector

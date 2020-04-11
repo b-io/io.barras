@@ -316,7 +316,7 @@ public class Combinatorics {
 					--toIndex;
 				}
 				Integers.swap(permutation, fromIndex - 1, toIndex);
-				Integers.reverse(permutation, fromIndex);
+				Integers.reverse(permutation, fromIndex, permutation.length);
 			} else {
 				// Generate with minimal changes (use the Steinhaus-Johnson-Trotter algorithm)
 				// • Find the largest mobile index
