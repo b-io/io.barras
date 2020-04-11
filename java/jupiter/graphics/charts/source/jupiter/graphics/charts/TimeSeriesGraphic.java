@@ -87,7 +87,7 @@ public class TimeSeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -137,7 +137,53 @@ public class TimeSeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads the time series from the specified {@link StringTable}.
+	 * <p>
+	 * @param axisDatasetIndex the
+	 * @param coordinates      the {@link StringTable} containing the {@link Date} and coordinates
+	 * @param xColumnIndex     the index of the column containing the domain coordinates
+	 * @param yColumnIndex     the index of the column containing the range coordinates
+	 * @param hasTime          the flag specifying whether to parse the domain coordinates with time
+	 * <p>
+	 * @throws ParseException if there is a problem with parsing the domain coordinates to
+	 *                        {@link Date}
+	 */
+	public void load(final int axisDatasetIndex, final StringTable coordinates,
+			final int xColumnIndex, final int yColumnIndex, final boolean hasTime)
+			throws ParseException {
+		// Check the arguments
+		Arguments.requireNonNull(coordinates, "coordinates");
+
+		// Load the time series
+		final int m = coordinates.getRowCount();
+		if (m > 0) {
+			final int n = coordinates.getColumnCount();
+			if (xColumnIndex < n && yColumnIndex < n) {
+				final int timeSeriesIndex = addSeries(axisDatasetIndex,
+						coordinates.getColumnName(yColumnIndex));
+				for (int i = 0; i < m; ++i) {
+					addPoint(axisDatasetIndex, timeSeriesIndex,
+							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
+									Dates.parse(coordinates.get(i, xColumnIndex)),
+							Doubles.convert(coordinates.get(i, yColumnIndex)));
+				}
+			} else if (xColumnIndex >= n) {
+				IO.error("The column of the domain coordinates is missing");
+			} else {
+				IO.error("The column of the range coordinates is missing");
+			}
+		} else {
+			IO.warn("No coordinates found");
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -265,11 +311,10 @@ public class TimeSeriesGraphic
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
-	 * @param yCoordinate      the {@code double} range coordinate of the point to append
+	 * @param y                the {@code double} range coordinate of the point to append
 	 */
-	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex,
-			final double yCoordinate) {
-		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, yCoordinate);
+	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final double y) {
+		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, y);
 	}
 
 	/**
@@ -293,10 +338,10 @@ public class TimeSeriesGraphic
 	 * <p>
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
-	 * @param yCoordinates     the {@code double} range coordinate of each point to append
+	 * @param Y                the {@code double} range coordinate of each point to append
 	 */
-	public void addPointToAll(final int axisDatasetIndex, final double[] yCoordinates) {
-		getDataset(axisDatasetIndex).addPointToAll(yCoordinates);
+	public void addPointToAll(final int axisDatasetIndex, final double[] Y) {
+		getDataset(axisDatasetIndex).addPointToAll(Y);
 	}
 
 	//////////////////////////////////////////////
@@ -308,11 +353,10 @@ public class TimeSeriesGraphic
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
-	 * @param yCoordinate      the range coordinate {@link Number} of the point to append
+	 * @param y                the range coordinate {@link Number} of the point to append
 	 */
-	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex,
-			final Number yCoordinate) {
-		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, yCoordinate);
+	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final Number y) {
+		getDataset(axisDatasetIndex).addPoint(timeSeriesIndex, y);
 	}
 
 	/**
@@ -336,56 +380,10 @@ public class TimeSeriesGraphic
 	 * <p>
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
-	 * @param yCoordinates     the range coordinate {@link Number} of each point to append
+	 * @param Y                the range coordinate {@link Number} of each point to append
 	 */
-	public void addPointToAll(final int axisDatasetIndex, final Number[] yCoordinates) {
-		getDataset(axisDatasetIndex).addPointToAll(yCoordinates);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads the time series from the specified {@link StringTable}.
-	 * <p>
-	 * @param axisDatasetIndex the
-	 * @param coordinates      the {@link StringTable} containing the {@link Date} and coordinates
-	 * @param xColumnIndex     the index of the column containing the domain coordinates
-	 * @param yColumnIndex     the index of the column containing the range coordinates
-	 * @param hasTime          the flag specifying whether to parse the domain coordinates with time
-	 * <p>
-	 * @throws ParseException if there is a problem with parsing the domain coordinates to
-	 *                        {@link Date}
-	 */
-	public void load(final int axisDatasetIndex, final StringTable coordinates,
-			final int xColumnIndex, final int yColumnIndex, final boolean hasTime)
-			throws ParseException {
-		// Check the arguments
-		Arguments.requireNonNull(coordinates, "coordinates");
-
-		// Load the time series
-		final int m = coordinates.getRowCount();
-		if (m > 0) {
-			final int n = coordinates.getColumnCount();
-			if (xColumnIndex < n && yColumnIndex < n) {
-				final int timeSeriesIndex = addSeries(axisDatasetIndex,
-						coordinates.getColumnName(yColumnIndex));
-				for (int i = 0; i < m; ++i) {
-					addPoint(axisDatasetIndex, timeSeriesIndex,
-							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
-									Dates.parse(coordinates.get(i, xColumnIndex)),
-							Doubles.convert(coordinates.get(i, yColumnIndex)));
-				}
-			} else if (xColumnIndex >= n) {
-				IO.error("The column of the domain coordinates is missing");
-			} else {
-				IO.error("The column of the range coordinates is missing");
-			}
-		} else {
-			IO.warn("No coordinates found");
-		}
+	public void addPointToAll(final int axisDatasetIndex, final Number[] Y) {
+		getDataset(axisDatasetIndex).addPointToAll(Y);
 	}
 
 

@@ -66,7 +66,7 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> Class<?> getComponentClass(final T[] array) {
@@ -102,6 +102,91 @@ public class Arrays {
 			c = Classes.getCommonAncestor(c, Classes.get(array[i]));
 		}
 		return c != null ? c : Object.class;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T> the self {@link Comparable} component type of the arrays to compare
+	 * @param a   the array of {@link Comparable} of {@code T} type to compare (may be {@code null})
+	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against (may be
+	 *            {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 * <p>
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
+	 *                            elements of {@code b}
+	 */
+	public static <T extends Comparable<? super T>> int compare(final T[] a, final T[] b) {
+		return compare(a, b, Comparables.<T>createComparator());
+	}
+
+	/**
+	 * Compares the specified {@code T} arrays for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T> the component type of the arrays to compare
+	 * @param a   the {@code T} array to compare (may be {@code null})
+	 * @param b   the other {@code T} array to compare against (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 * <p>
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
+	 *                            elements of {@code b}
+	 */
+	public static <T> int compareCast(final T[] a, final T[] b) {
+		return compare(a, b, Comparables.<T>createCastComparator());
+	}
+
+	/**
+	 * Compares the specified arrays for order using the specified {@link Comparator}. Returns a
+	 * negative integer, {@code 0} or a positive integer as {@code a} is less than, equal to or
+	 * greater than {@code b} (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T>        the component type of the arrays to compare for order
+	 * @param a          the {@code T} array to compare for order (may be {@code null})
+	 * @param b          the other {@code T} array to compare against for order (may be
+	 *                   {@code null})
+	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 * <p>
+	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
+	 *                            elements of {@code b} using {@code comparator}
+	 */
+	public static <T> int compare(final T[] a, final T[] b,
+			final Comparator<? super T> comparator) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order using the comparator
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = comparator.compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
 	}
 
 
@@ -564,7 +649,7 @@ public class Arrays {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1783,91 +1868,6 @@ public class Arrays {
 			}
 		}
 		return false;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
-	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
-	 * (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param <T> the self {@link Comparable} component type of the arrays to compare
-	 * @param a   the array of {@link Comparable} of {@code T} type to compare (may be {@code null})
-	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against (may be
-	 *            {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
-	 *                            elements of {@code b}
-	 */
-	public static <T extends Comparable<? super T>> int compare(final T[] a, final T[] b) {
-		return compare(a, b, Comparables.<T>createComparator());
-	}
-
-	/**
-	 * Compares the specified {@code T} arrays for order. Returns a negative integer, {@code 0} or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param <T> the component type of the arrays to compare
-	 * @param a   the {@code T} array to compare (may be {@code null})
-	 * @param b   the other {@code T} array to compare against (may be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
-	 *                            elements of {@code b}
-	 */
-	public static <T> int compareCast(final T[] a, final T[] b) {
-		return compare(a, b, Comparables.<T>createCastComparator());
-	}
-
-	/**
-	 * Compares the specified arrays for order using the specified {@link Comparator}. Returns a
-	 * negative integer, {@code 0} or a positive integer as {@code a} is less than, equal to or
-	 * greater than {@code b} (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param <T>        the component type of the arrays to compare for order
-	 * @param a          the {@code T} array to compare for order (may be {@code null})
-	 * @param b          the other {@code T} array to compare against for order (may be
-	 *                   {@code null})
-	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 * <p>
-	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
-	 *                            elements of {@code b} using {@code comparator}
-	 */
-	public static <T> int compare(final T[] a, final T[] b,
-			final Comparator<? super T> comparator) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the arrays for order using the comparator
-		final int limit = Math.min(a.length, b.length);
-		for (int i = 0; i < limit; ++i) {
-			final int comparison = comparator.compare(a[i], b[i]);
-			if (comparison != 0) {
-				return comparison;
-			}
-		}
-		return Integers.compare(a.length, b.length);
 	}
 
 

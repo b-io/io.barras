@@ -264,7 +264,7 @@ public class Table<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -331,7 +331,7 @@ public class Table<E>
 		return elements;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
@@ -380,7 +380,7 @@ public class Table<E>
 		return header[j];
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the element at the specified row and column indices.
@@ -419,7 +419,7 @@ public class Table<E>
 		return elements[i][j];
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the elements of the specified row.
@@ -479,7 +479,7 @@ public class Table<E>
 		return row;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the elements of the specified column.
@@ -589,9 +589,6 @@ public class Table<E>
 		return column;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -607,7 +604,7 @@ public class Table<E>
 		this.header = header;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the element at the specified row and column indices.
@@ -629,7 +626,7 @@ public class Table<E>
 		elements[i][j] = value;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the elements of the specified row.
@@ -698,7 +695,7 @@ public class Table<E>
 		setRow(i, values.toArray(createArray(n)));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the elements of the specified column.
@@ -769,7 +766,7 @@ public class Table<E>
 		setColumn(j, values.toArray(createArray(m)));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets all the elements.
@@ -795,6 +792,18 @@ public class Table<E>
 		for (int i = 0; i < m; ++i) {
 			setRow(i, values[i]);
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears {@code this}.
+	 */
+	public void clear() {
+		elements = createArray2D(m, n);
 	}
 
 
@@ -883,7 +892,148 @@ public class Table<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// IMPORTERS / EXPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads {@code this} from the file denoted by the specified path.
+	 * <p>
+	 * @param parser    the {@link IParser} of {@code E} element type of the file to load
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
+			throws IOException {
+		final FileHandler fileHandler = new FileHandler(path);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			load(parser, reader, fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
+		} finally {
+			Resources.close(reader);
+		}
+	}
+
+	/**
+	 * Loads {@code this} from the specified {@link BufferedReader}.
+	 * <p>
+	 * @param parser    the {@link IParser} of {@code E} element type of the lines to load
+	 * @param reader    the {@link BufferedReader} of the lines to load
+	 * @param rowCount  the number of lines to load
+	 * @param hasHeader the flag specifying whether the first line is a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public void load(final IParser<E> parser, final BufferedReader reader, final int rowCount,
+			final boolean hasHeader)
+			throws ClassCastException, IOException {
+		m = rowCount;
+		n = 0;
+		// Parse the file
+		String line;
+		if ((line = reader.readLine()) != null) {
+			// Find the delimiter (take the first one in the array in case of different delimiters)
+			Character delimiter = null;
+			for (final char d : COLUMN_DELIMITERS) {
+				final int occurrenceCount = Strings.count(line, d);
+				if (occurrenceCount > 0) {
+					if (n == 0) {
+						delimiter = d;
+						n = occurrenceCount;
+					} else {
+						IO.warn("The file contains different delimiters; ",
+								Strings.quote(delimiter), " is selected");
+						break;
+					}
+				}
+			}
+			if (delimiter == null) {
+				delimiter = COLUMN_DELIMITERS[0];
+			}
+			++n;
+			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
+			// Create the replacer for the delimiter
+			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
+					Objects.toString(delimiter));
+			// Clear the table
+			clear();
+			// Scan the file line by line
+			int i = 0;
+			String[] values = loadLine(line, delimiter, replacer);
+			if (hasHeader) {
+				header = values;
+			} else {
+				setRow(i++, parser.parseToArray(values));
+			}
+			while ((line = reader.readLine()) != null) {
+				values = loadLine(line, delimiter, replacer);
+				if (Arrays.isNullOrEmpty(values)) {
+					IO.warn("There is no element at line ", i, SPACE,
+							Arguments.expectedButFound(0, n));
+				} else if (values.length < n) {
+					IO.error("There are not enough elements at line ", i, SPACE,
+							Arguments.expectedButFound(values.length, n));
+				} else {
+					if (values.length > n) {
+						IO.warn("There are too many elements at line ", i, SPACE,
+								Arguments.expectedButFound(values.length, n));
+					}
+					setRow(i++, parser.parseToArray(values));
+				}
+			}
+			// Resize if there are any empty rows or columns
+			resize();
+		}
+	}
+
+	protected String[] loadLine(final String line, final char delimiter,
+			final StringReplacer replacer) {
+		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
+				new char[] {delimiter}, String.valueOf(BAR));
+		final String[] values = Strings.split(l, delimiter).toArray();
+		return replacer != null ? replacer.callToArray(values) : values;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Saves {@code this} to the file denoted by the specified path.
+	 * <p>
+	 * @param path       the path to the file to save to
+	 * @param saveHeader the flag specifying whether to save the header
+	 * <p>
+	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
+	 *         {@code false} otherwise
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
+	 */
+	public boolean save(final String path, final boolean saveHeader)
+			throws FileNotFoundException {
+		final FileHandler fileHandler = new FileHandler(path);
+		fileHandler.createWriter(false);
+		// Export the header
+		if (saveHeader &&
+				!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
+			fileHandler.closeWriter();
+			return false;
+		}
+		// Export the elements
+		for (int i = 0; i < m; ++i) {
+			if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
+				fileHandler.closeWriter();
+				return false;
+			}
+		}
+		fileHandler.closeWriter();
+		return true;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -938,13 +1088,6 @@ public class Table<E>
 				setColumn(columnOffset + j, table.getColumn(j));
 			}
 		}
-	}
-
-	/**
-	 * Resets {@code this}.
-	 */
-	public void reset() {
-		elements = createArray2D(m, n);
 	}
 
 	/**
@@ -1095,150 +1238,6 @@ public class Table<E>
 		elements = Arrays.<E>transpose(c, elements);
 		n = m;
 		m = elements.length;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads {@code this} from the file denoted by the specified path.
-	 * <p>
-	 * @param parser    the {@link IParser} of {@code E} element type of the file to load
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
-			throws IOException {
-		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
-		try {
-			reader = fileHandler.createReader();
-			load(parser, reader, fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
-		} finally {
-			Resources.close(reader);
-		}
-	}
-
-	/**
-	 * Loads {@code this} from the specified {@link BufferedReader}.
-	 * <p>
-	 * @param parser    the {@link IParser} of {@code E} element type of the lines to load
-	 * @param reader    the {@link BufferedReader} of the lines to load
-	 * @param rowCount  the number of lines to load
-	 * @param hasHeader the flag specifying whether the first line is a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading with {@code reader}
-	 */
-	public void load(final IParser<E> parser, final BufferedReader reader, final int rowCount,
-			final boolean hasHeader)
-			throws ClassCastException, IOException {
-		m = rowCount;
-		n = 0;
-		// Parse the file
-		String line;
-		if ((line = reader.readLine()) != null) {
-			// Find the delimiter (take the first one in the array in case of different delimiters)
-			Character delimiter = null;
-			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.count(line, d);
-				if (occurrenceCount > 0) {
-					if (n == 0) {
-						delimiter = d;
-						n = occurrenceCount;
-					} else {
-						IO.warn("The file contains different delimiters; ",
-								Strings.quote(delimiter), " is selected");
-						break;
-					}
-				}
-			}
-			if (delimiter == null) {
-				delimiter = COLUMN_DELIMITERS[0];
-			}
-			++n;
-			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
-			// Create the replacer for the delimiter
-			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
-					Objects.toString(delimiter));
-			// Reset the table
-			reset();
-			// Scan the file line by line
-			int i = 0;
-			String[] values = loadLine(line, delimiter, replacer);
-			if (hasHeader) {
-				header = values;
-			} else {
-				setRow(i++, parser.parseToArray(values));
-			}
-			while ((line = reader.readLine()) != null) {
-				values = loadLine(line, delimiter, replacer);
-				if (Arrays.isNullOrEmpty(values)) {
-					IO.warn("There is no element at line ", i, SPACE,
-							Arguments.expectedButFound(0, n));
-				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, SPACE,
-							Arguments.expectedButFound(values.length, n));
-				} else {
-					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, SPACE,
-								Arguments.expectedButFound(values.length, n));
-					}
-					setRow(i++, parser.parseToArray(values));
-				}
-			}
-			// Resize if there are any empty rows or columns
-			resize();
-		}
-	}
-
-	protected String[] loadLine(final String line, final char delimiter,
-			final StringReplacer replacer) {
-		final String l = Strings.replaceInside(line, new char[] {SINGLE_QUOTE, DOUBLE_QUOTE},
-				new char[] {delimiter}, String.valueOf(BAR));
-		final String[] values = Strings.split(l, delimiter).toArray();
-		return replacer != null ? replacer.callToArray(values) : values;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// EXPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Saves {@code this} to the file denoted by the specified path.
-	 * <p>
-	 * @param path       the path to the file to save to
-	 * @param saveHeader the flag specifying whether to save the header
-	 * <p>
-	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
-	 *         {@code false} otherwise
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
-	 *                               by {@code path}
-	 */
-	public boolean save(final String path, final boolean saveHeader)
-			throws FileNotFoundException {
-		final FileHandler fileHandler = new FileHandler(path);
-		fileHandler.createWriter(false);
-		// Export the header
-		if (saveHeader &&
-				!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
-			fileHandler.closeWriter();
-			return false;
-		}
-		// Export the elements
-		for (int i = 0; i < m; ++i) {
-			if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
-				fileHandler.closeWriter();
-				return false;
-			}
-		}
-		fileHandler.closeWriter();
-		return true;
 	}
 
 

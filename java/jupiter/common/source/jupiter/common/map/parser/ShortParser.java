@@ -61,34 +61,6 @@ public class ShortParser
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Short call(final Object input) {
-		if (input == null) {
-			return null;
-		}
-		if (input instanceof Short) {
-			return (Short) input;
-		}
-		if (input instanceof Number) {
-			return ((Number) input).shortValue();
-		}
-		final String value = Objects.toStringWithNull(input);
-		if (value == null) {
-			return null;
-		}
-		try {
-			return Short.valueOf(value);
-		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +96,34 @@ public class ShortParser
 
 	public Short[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Short call(final Object input) {
+		if (input == null) {
+			return null;
+		}
+		if (input instanceof Short) {
+			return (Short) input;
+		}
+		if (input instanceof Number) {
+			return ((Number) input).shortValue();
+		}
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Short.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 

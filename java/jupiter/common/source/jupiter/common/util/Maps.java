@@ -50,7 +50,7 @@ public class Maps
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -126,7 +126,7 @@ public class Maps
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -181,8 +181,8 @@ public class Maps
 	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to remove
 	 * <p>
-	 * @return the {@code V} values of the key-value mappings removed from the specified {@link Map}
-	 *         or {@code null} for the keys that are not present in an {@link ExtendedList}
+	 * @return the previous associated {@code V} values and {@code null} for the {@code map} keys
+	 *         that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}

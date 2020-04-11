@@ -199,7 +199,7 @@ public abstract class Classifier
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -258,9 +258,6 @@ public abstract class Classifier
 		return YT;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public synchronized void setFeatureVectors(final Matrix featureVectors) {
@@ -285,6 +282,51 @@ public abstract class Classifier
 		} else {
 			outputActivationFunction = ActivationFunctions.SOFTMAX;
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads the training examples (feature vectors and classes) from the files denoted by the
+	 * specified paths.
+	 * <p>
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} to load
+	 * @param classesPath        the path to the file containing the classes of size {@code m} to
+	 *                           load
+	 * <p>
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
+	 */
+	public void load(final String featureVectorsPath, final String classesPath)
+			throws IOException {
+		load(featureVectorsPath, classesPath, false);
+	}
+
+	/**
+	 * Loads the training examples (feature vectors and classes) from the files denoted by the
+	 * specified paths and flag specifying whether to transpose the feature vectors and classes.
+	 * <p>
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           classes
+	 * <p>
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
+	 */
+	public void load(final String featureVectorsPath, final String classesPath,
+			final boolean transpose)
+			throws IOException {
+		// Load the feature vectors
+		setFeatureVectors(Matrix.create(featureVectorsPath, transpose));
+
+		// Load the classes
+		setClasses(Matrix.create(classesPath, transpose));
 	}
 
 
@@ -461,51 +503,6 @@ public abstract class Classifier
 		final double precision = computePrecision(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
 		final double recall = computeRecall(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
 		return Maths.safeDivision(2., Maths.safeInverse(precision) + Maths.safeInverse(recall));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads the training examples (feature vectors and classes) from the files denoted by the
-	 * specified paths.
-	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size
-	 *                           {@code n x m} to load
-	 * @param classesPath        the path to the file containing the classes of size {@code m} to
-	 *                           load
-	 * <p>
-	 * @throws IOException if there is a problem with reading the files denoted by
-	 *                     {@code featureVectorsPath} or {@code classesPath}
-	 */
-	public void load(final String featureVectorsPath, final String classesPath)
-			throws IOException {
-		load(featureVectorsPath, classesPath, false);
-	}
-
-	/**
-	 * Loads the training examples (feature vectors and classes) from the files denoted by the
-	 * specified paths and flag specifying whether to transpose the feature vectors and classes.
-	 * <p>
-	 * @param featureVectorsPath the path to the file containing the feature vectors of size
-	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
-	 * @param classesPath        the path to the file containing the classes of size {@code m}
-	 * @param transpose          the flag specifying whether to transpose the feature vectors and
-	 *                           classes
-	 * <p>
-	 * @throws IOException if there is a problem with reading the files denoted by
-	 *                     {@code featureVectorsPath} or {@code classesPath}
-	 */
-	public void load(final String featureVectorsPath, final String classesPath,
-			final boolean transpose)
-			throws IOException {
-		// Load the feature vectors
-		setFeatureVectors(Matrix.create(featureVectorsPath, transpose));
-
-		// Load the classes
-		setClasses(Matrix.create(classesPath, transpose));
 	}
 
 

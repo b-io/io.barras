@@ -53,7 +53,6 @@ import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Formats;
-import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.Charts;
 import jupiter.graphics.charts.TimeSeriesGraphic;
@@ -65,7 +64,7 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static volatile int RUNS_COUNT = 2880;
-	public static volatile int TIME_INTERVAL = 30000; // [ms]
+	public static volatile int TIME_INTERVAL = 5000; // [ms]
 	public static volatile int TIME_OUT = 15000; // [ms]
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,11 +76,17 @@ public class SpeedChecker {
 			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test");
 
 	/**
-	 * The {@link FileHandler} of the data files storing the downloading speeds of the URLs
-	 * associated to their URL names.
+	 * The {@link FileHandler} of the data files storing the downloading speeds (in Mbits/s) of the
+	 * URLs associated to their URL names.
 	 */
 	protected static final ExtendedHashMap<String, FileHandler> DATA_FILES = new ExtendedHashMap<String, FileHandler>(
 			URL_NAMES.size());
+
+	/**
+	 * The {@link TimeSeriesGraphic} showing the downloading speeds (in Mbits/s) of the URLs.
+	 */
+	protected static final TimeSeriesGraphic GRAPH = new TimeSeriesGraphic("Network Speed", "Time",
+			"Downloading Speed [Mbits/s]");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -90,9 +95,29 @@ public class SpeedChecker {
 	 */
 	protected static volatile boolean PARALLELIZE = false;
 	/**
-	 * The {@link WorkQueue} used for checking the downloading speeds.
+	 * The {@link WorkQueue} used for checking the downloading speeds (in Mbits/s).
 	 */
 	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// MAIN
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Starts the {@link SpeedChecker}.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
+	public static void main(final String[] args) {
+		start();
+		show();
+		for (int ri = 0; ri < RUNS_COUNT; ++ri) {
+			SpeedChecker.downloadAll();
+			Threads.sleep(TIME_INTERVAL);
+		}
+		stop();
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,27 +132,7 @@ public class SpeedChecker {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Starts the {@link SpeedChecker}.
-	 * <p>
-	 * @param args the array of command line arguments
-	 */
-	public static void main(final String[] args) {
-		start();
-		for (int ri = 0; ri < RUNS_COUNT; ++ri) {
-			SpeedChecker.downloadAll();
-			Threads.sleep(TIME_INTERVAL);
-		}
-		show();
-		stop();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -144,12 +149,13 @@ public class SpeedChecker {
 	}
 
 	/**
-	 * Returns the path to the data file storing the downloading speeds of the specified
-	 * {@link URL}.
+	 * Returns the path to the data file storing the downloading speeds (in Mbits/s) of the
+	 * specified {@link URL}.
 	 * <p>
 	 * @param url an {@link URL}
 	 * <p>
-	 * @return the path to the data file storing the downloading speeds of the specified {@link URL}
+	 * @return the path to the data file storing the downloading speeds (in Mbits/s) of the
+	 *         specified {@link URL}
 	 */
 	public static String getDataFilePath(final URL url) {
 		return Strings.join(Files.TEMP_DIR_PATH, Files.SEPARATOR,
@@ -158,7 +164,40 @@ public class SpeedChecker {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Deletes the data files.
+	 */
+	public static void clear() {
+		final FileHandler[] dataFileHandlers = Collections.toArray(DATA_FILES.values());
+		for (final FileHandler dataFileHandler : dataFileHandlers) {
+			dataFileHandler.delete();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
+			final String path) {
+		try {
+			final StringTable coordinates = new StringTable(new String[] {"Time",
+				Files.getNameWithoutExtension(path)}, path, false);
+			graph.load(axisDatasetIndex, coordinates, 0, 1, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -235,18 +274,24 @@ public class SpeedChecker {
 			int i = 0;
 			for (final long id : ids) {
 				final Result<Double> result = WORK_QUEUE.get(id);
-				final String output = Objects.toString(result.getOutput());
-				IO.info(output, " [Mbits/s]");
-				DATA_FILES.get(URL_NAMES.get(i++)).writeLine(Strings.join(Dates.getDateTime(),
-						Arrays.DELIMITER, output));
+				final double downloadingSpeed = result.getOutput();
+				IO.info(downloadingSpeed, " [Mbits/s]");
+				DATA_FILES.get(URL_NAMES.get(i)).writeLine(Strings.join(Dates.getDateTime(),
+						Arrays.DELIMITER, downloadingSpeed));
+				GRAPH.addPoint(0, i, downloadingSpeed);
+				++i;
 			}
 		} else {
+			// Collect the results
+			int i = 0;
 			for (final String urlName : URL_NAMES) {
 				final Result<Double> result = download(urlName);
-				final String output = Objects.toString(result.getOutput());
-				IO.info(output, " [Mbits/s]");
+				final double downloadingSpeed = result.getOutput();
+				IO.info(downloadingSpeed, " [Mbits/s]");
 				DATA_FILES.get(urlName).writeLine(Strings.join(Dates.getDateTime(),
-						Arrays.DELIMITER, output));
+						Arrays.DELIMITER, downloadingSpeed));
+				GRAPH.addPoint(0, i, downloadingSpeed);
+				++i;
 			}
 		}
 	}
@@ -311,45 +356,16 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Shows the downloading speeds (in Mbits/s) in a {@link TimeSeriesGraphic}.
+	 * Shows the downloading speeds (in Mbits/s) contained in the data files in the
+	 * {@link TimeSeriesGraphic}.
 	 */
 	public static void show() {
-		show(Collections.toArray(DATA_FILES.values()));
-	}
-
-	/**
-	 * Shows the downloading speeds (in Mbits/s) contained in the specified array of data
-	 * {@link FileHandler} in a {@link TimeSeriesGraphic}.
-	 * <p>
-	 * @param dataFileHandlers the array of data {@link FileHandler} containing the downloading
-	 *                         speeds (in Mbits/s) to show
-	 */
-	public static void show(final FileHandler... dataFileHandlers) {
+		final FileHandler[] dataFileHandlers = Collections.toArray(DATA_FILES.values());
 		Charts.DATE_FORMAT = Formats.DATE_TIME_FORMAT;
-		final TimeSeriesGraphic graph = new TimeSeriesGraphic("Network Speed", "Time",
-				"Downloading Speed [Mbits/s]");
 		for (int dfhi = 0; dfhi < dataFileHandlers.length; ++dfhi) {
-			loadSeries(graph, 0, dataFileHandlers[dfhi].getPath());
+			loadSeries(GRAPH, 0, dataFileHandlers[dfhi].getPath());
 		}
-		graph.display();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
-			final String path) {
-		try {
-			final StringTable coordinates = new StringTable(new String[] {"Time",
-				Files.getNameWithoutExtension(path)}, path, false);
-			graph.load(axisDatasetIndex, coordinates, 0, 1, true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
+		GRAPH.display();
 	}
 
 

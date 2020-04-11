@@ -382,7 +382,7 @@ public class Matrix
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -432,7 +432,7 @@ public class Matrix
 		return elements;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the element at the specified row and column indices.
@@ -448,7 +448,7 @@ public class Matrix
 		return elements[i * n + j];
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@code double} values of the elements of the specified row.
@@ -498,7 +498,7 @@ public class Matrix
 		return row;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@code double} values of the elements of the specified column.
@@ -550,7 +550,7 @@ public class Matrix
 		return column;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
@@ -666,9 +666,6 @@ public class Matrix
 		return submatrix;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -697,7 +694,7 @@ public class Matrix
 		elements[i * n + j] = Doubles.convert(value);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the elements of the specified row.
@@ -751,7 +748,7 @@ public class Matrix
 		setRow(i, Doubles.collectionToPrimitiveArray(values));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the elements of the specified column.
@@ -808,7 +805,7 @@ public class Matrix
 		setColumn(j, Doubles.collectionToPrimitiveArray(values));
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets all the elements.
@@ -834,7 +831,7 @@ public class Matrix
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
@@ -1341,17 +1338,147 @@ public class Matrix
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// IMPORTERS / EXPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills {@code this} with the specified constant.
+	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
 	 * <p>
-	 * @param constant the {@code double} constant to fill with
+	 * @param path the path to the file to load
+	 * <p>
+	 * @return a {@link Matrix} loaded from the file denoted by the specified path
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	@Override
-	public void fill(final double constant) {
-		Doubles.fill(elements, constant);
+	public static Matrix create(final String path)
+			throws IOException {
+		final FileHandler fileHandler = new FileHandler(path);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			return create(reader, fileHandler.countLines(true), false);
+		} finally {
+			Resources.close(reader);
+		}
+	}
+
+	/**
+	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param transpose the flag specifying whether to transpose
+	 * <p>
+	 * @return a {@link Matrix} loaded from the file denoted by the specified path
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public static Matrix create(final String path, final boolean transpose)
+			throws IOException {
+		final FileHandler fileHandler = new FileHandler(path);
+		BufferedReader reader = null;
+		try {
+			reader = fileHandler.createReader();
+			return create(reader, fileHandler.countLines(true), transpose);
+		} finally {
+			Resources.close(reader);
+		}
+	}
+
+	/**
+	 * Creates a {@link Matrix} loaded from the specified reader.
+	 * <p>
+	 * @param reader    the {@link BufferedReader} of the lines to load
+	 * @param lineCount the number of lines to load
+	 * @param transpose the flag specifying whether to transpose
+	 * <p>
+	 * @return a {@link Matrix} loaded from the specified reader
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public static Matrix create(final BufferedReader reader, final int lineCount,
+			final boolean transpose)
+			throws IOException {
+		final int m = lineCount;
+		int n = 0;
+		// Parse the file
+		String line;
+		if ((line = reader.readLine()) != null) {
+			// Find the delimiter (take the first one in the list in case of different delimiters)
+			Character delimiter = null;
+			for (final char d : COLUMN_DELIMITERS) {
+				final int occurrenceCount = Strings.getIndices(line, d).size();
+				if (occurrenceCount > 0) {
+					if (n == 0) {
+						delimiter = d;
+						n = occurrenceCount;
+					} else {
+						IO.warn("The file contains different delimiters; ",
+								Strings.quote(delimiter), " is selected");
+						break;
+					}
+				}
+			}
+			if (delimiter == null) {
+				delimiter = COLUMN_DELIMITERS[0];
+			}
+			++n;
+			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
+			// Create the matrix
+			final Matrix matrix;
+			if (transpose) {
+				matrix = new Matrix(n, m);
+			} else {
+				matrix = new Matrix(m, n);
+			}
+			// Scan the file line by line
+			int i = 0;
+			String[] values = Strings.split(line, delimiter).toArray();
+			if (transpose) {
+				matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
+			} else {
+				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
+			}
+			while ((line = reader.readLine()) != null) {
+				values = Strings.split(line, delimiter).toArray();
+				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
+					IO.warn("There is no element at line ", i, SPACE,
+							Arguments.expectedButFound(0, n));
+				} else if (values.length < n) {
+					IO.error("There are not enough elements at line ", i, SPACE,
+							Arguments.expectedButFound(values.length, n));
+				} else {
+					if (values.length > n) {
+						IO.warn("There are too many elements at line ", i, SPACE,
+								Arguments.expectedButFound(values.length, n));
+					}
+					if (transpose) {
+						matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
+					} else {
+						matrix.setRow(i++, Doubles.toPrimitiveArray(values));
+					}
+				}
+			}
+			return matrix;
+		}
+		return null;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Saves {@code this} to the file denoted by the specified path.
+	 * <p>
+	 * @param path the path to the file to save to
+	 * <p>
+	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
+	 *         {@code false} otherwise
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
+	 *                               by {@code path}
+	 */
+	public boolean save(final String path)
+			throws FileNotFoundException {
+		return toTable().save(path, false);
 	}
 
 
@@ -2157,6 +2284,189 @@ public class Matrix
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARALLELIZERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (MULTIPLICATION == null) {
+			MULTIPLICATION = new Multiplication();
+			PARALLELIZE = true;
+		} else {
+			IO.debug("The work queue ", MULTIPLICATION, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (MULTIPLICATION != null) {
+			PARALLELIZE = false;
+			MULTIPLICATION.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
+	 * <p>
+	 * @param expression the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
+	 *         {@code null} if there is a problem with parsing
+	 */
+	public static Matrix parse(final String expression) {
+		try {
+			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
+			final List<Integer> indices = Strings.getIndices(expression, delimiters);
+			if (indices.size() == 2) {
+				final int fromIndex = indices.get(0);
+				final int toIndex = indices.get(1);
+				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
+						expression.charAt(toIndex) == delimiters[1]) {
+					// Get the rows
+					final String content = expression.substring(fromIndex + 1, toIndex).trim();
+					final ExtendedLinkedList<String> rows = Strings.removeEmpty(
+							Strings.split(content, ROW_DELIMITER));
+					// Count the numbers of rows and columns
+					final int m = rows.size();
+					final int n = Strings.removeEmpty(
+							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
+					// Fill the matrix row by row
+					final double[] elements = new double[m * n];
+					final Iterator<String> rowIterator = rows.iterator();
+					for (int i = 0; i < m; ++i) {
+						final Iterator<String> elementIterator = Strings.removeEmpty(
+								Strings.split(rowIterator.next().trim(), COLUMN_DELIMITERS))
+								.iterator();
+						for (int j = 0; j < n; ++j) {
+							elements[i * n + j] = Doubles.convert(elementIterator.next());
+						}
+					}
+					return new Matrix(m, elements);
+				}
+			} else {
+				final int indexCount = indices.size();
+				if (indexCount > 2) {
+					throw new ParseException("There are too many square brackets " +
+							Arguments.expectedButFound(indexCount, 2), indices.get(2));
+				}
+				throw new ParseException("There are not enough square brackets " +
+						Arguments.expectedButFound(indexCount, 2), 0);
+			}
+		} catch (final NumberFormatException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fills {@code this} with the specified constant.
+	 * <p>
+	 * @param constant the {@code double} constant to fill with
+	 */
+	@Override
+	public void fill(final double constant) {
+		Doubles.fill(elements, constant);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is square.
+	 * <p>
+	 * @return {@code true} if {@code this} is square, {@code false} otherwise
+	 */
+	public boolean isSquare() {
+		return m == n;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link String} is parsable to a {@link Matrix}.
+	 * <p>
+	 * @param text a {@link String}
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is parsable to a {@link Matrix},
+	 *         {@code false} otherwise
+	 */
+	public static boolean isParsableFrom(final String text) {
+		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
+		final List<Integer> indices = Strings.getIndices(text.trim(), delimiters);
+		if (indices.size() == 2) {
+			final int fromIndex = indices.get(0);
+			final int toIndex = indices.get(1);
+			if (fromIndex < toIndex && text.charAt(fromIndex) == delimiters[0] &&
+					text.charAt(toIndex) == delimiters[1]) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if the dimensions of {@code this} and {@code matrix} do not
+	 *                                  agree
+	 */
+	public void requireDimensions(final Matrix matrix) {
+		MatrixArguments.requireDimensions(matrix, m, n);
+	}
+
+	/**
+	 * Requires the specified {@link Matrix} to have the row dimension equals to the column
+	 * dimension of {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
+	 */
+	public void requireInnerDimension(final Matrix matrix) {
+		MatrixArguments.requireInnerDimension(matrix, n);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// DECOMPOSITIONS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2310,322 +2620,6 @@ public class Matrix
 			trace += elements[i * n + i];
 		}
 		return trace;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
-	 * @param path the path to the file to load
-	 * <p>
-	 * @return a {@link Matrix} loaded from the file denoted by the specified path
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public static Matrix create(final String path)
-			throws IOException {
-		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
-		try {
-			reader = fileHandler.createReader();
-			return create(reader, fileHandler.countLines(true), false);
-		} finally {
-			Resources.close(reader);
-		}
-	}
-
-	/**
-	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
-	 * @param path      the path to the file to load
-	 * @param transpose the flag specifying whether to transpose
-	 * <p>
-	 * @return a {@link Matrix} loaded from the file denoted by the specified path
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public static Matrix create(final String path, final boolean transpose)
-			throws IOException {
-		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
-		try {
-			reader = fileHandler.createReader();
-			return create(reader, fileHandler.countLines(true), transpose);
-		} finally {
-			Resources.close(reader);
-		}
-	}
-
-	/**
-	 * Creates a {@link Matrix} loaded from the specified reader.
-	 * <p>
-	 * @param reader    the {@link BufferedReader} of the lines to load
-	 * @param lineCount the number of lines to load
-	 * @param transpose the flag specifying whether to transpose
-	 * <p>
-	 * @return a {@link Matrix} loaded from the specified reader
-	 * <p>
-	 * @throws IOException if there is a problem with reading with {@code reader}
-	 */
-	public static Matrix create(final BufferedReader reader, final int lineCount,
-			final boolean transpose)
-			throws IOException {
-		final int m = lineCount;
-		int n = 0;
-		// Parse the file
-		String line;
-		if ((line = reader.readLine()) != null) {
-			// Find the delimiter (take the first one in the list in case of different delimiters)
-			Character delimiter = null;
-			for (final char d : COLUMN_DELIMITERS) {
-				final int occurrenceCount = Strings.getIndices(line, d).size();
-				if (occurrenceCount > 0) {
-					if (n == 0) {
-						delimiter = d;
-						n = occurrenceCount;
-					} else {
-						IO.warn("The file contains different delimiters; ",
-								Strings.quote(delimiter), " is selected");
-						break;
-					}
-				}
-			}
-			if (delimiter == null) {
-				delimiter = COLUMN_DELIMITERS[0];
-			}
-			++n;
-			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
-			// Create the matrix
-			final Matrix matrix;
-			if (transpose) {
-				matrix = new Matrix(n, m);
-			} else {
-				matrix = new Matrix(m, n);
-			}
-			// Scan the file line by line
-			int i = 0;
-			String[] values = Strings.split(line, delimiter).toArray();
-			if (transpose) {
-				matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
-			} else {
-				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
-			}
-			while ((line = reader.readLine()) != null) {
-				values = Strings.split(line, delimiter).toArray();
-				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
-					IO.warn("There is no element at line ", i, SPACE,
-							Arguments.expectedButFound(0, n));
-				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, SPACE,
-							Arguments.expectedButFound(values.length, n));
-				} else {
-					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, SPACE,
-								Arguments.expectedButFound(values.length, n));
-					}
-					if (transpose) {
-						matrix.setColumn(i++, Doubles.toPrimitiveArray(values));
-					} else {
-						matrix.setRow(i++, Doubles.toPrimitiveArray(values));
-					}
-				}
-			}
-			return matrix;
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// EXPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Saves {@code this} to the file denoted by the specified path.
-	 * <p>
-	 * @param path the path to the file to save to
-	 * <p>
-	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
-	 *         {@code false} otherwise
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
-	 *                               by {@code path}
-	 */
-	public boolean save(final String path)
-			throws FileNotFoundException {
-		return toTable().save(path, false);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
-	 * <p>
-	 * @param expression the expression {@link String} to parse
-	 * <p>
-	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
-	 *         {@code null} if there is a problem with parsing
-	 */
-	public static Matrix parse(final String expression) {
-		try {
-			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-			final List<Integer> indices = Strings.getIndices(expression, delimiters);
-			if (indices.size() == 2) {
-				final int fromIndex = indices.get(0);
-				final int toIndex = indices.get(1);
-				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
-						expression.charAt(toIndex) == delimiters[1]) {
-					// Get the rows
-					final String content = expression.substring(fromIndex + 1, toIndex).trim();
-					final ExtendedLinkedList<String> rows = Strings.removeEmpty(
-							Strings.split(content, ROW_DELIMITER));
-					// Count the numbers of rows and columns
-					final int m = rows.size();
-					final int n = Strings.removeEmpty(
-							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
-					// Fill the matrix row by row
-					final double[] elements = new double[m * n];
-					final Iterator<String> rowIterator = rows.iterator();
-					for (int i = 0; i < m; ++i) {
-						final Iterator<String> elementIterator = Strings.removeEmpty(
-								Strings.split(rowIterator.next().trim(), COLUMN_DELIMITERS))
-								.iterator();
-						for (int j = 0; j < n; ++j) {
-							elements[i * n + j] = Doubles.convert(elementIterator.next());
-						}
-					}
-					return new Matrix(m, elements);
-				}
-			} else {
-				final int indexCount = indices.size();
-				if (indexCount > 2) {
-					throw new ParseException("There are too many square brackets " +
-							Arguments.expectedButFound(indexCount, 2), indices.get(2));
-				}
-				throw new ParseException("There are not enough square brackets " +
-						Arguments.expectedButFound(indexCount, 2), 0);
-			}
-		} catch (final NumberFormatException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZATION
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (MULTIPLICATION == null) {
-			MULTIPLICATION = new Multiplication();
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The work queue ", MULTIPLICATION, " has already started");
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (MULTIPLICATION != null) {
-			PARALLELIZE = false;
-			MULTIPLICATION.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is square.
-	 * <p>
-	 * @return {@code true} if {@code this} is square, {@code false} otherwise
-	 */
-	public boolean isSquare() {
-		return m == n;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Tests whether the specified {@link String} is parsable to a {@link Matrix}.
-	 * <p>
-	 * @param text a {@link String}
-	 * <p>
-	 * @return {@code true} if the specified {@link String} is parsable to a {@link Matrix},
-	 *         {@code false} otherwise
-	 */
-	public static boolean isParsableFrom(final String text) {
-		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-		final List<Integer> indices = Strings.getIndices(text.trim(), delimiters);
-		if (indices.size() == 2) {
-			final int fromIndex = indices.get(0);
-			final int toIndex = indices.get(1);
-			if (fromIndex < toIndex && text.charAt(fromIndex) == delimiters[0] &&
-					text.charAt(toIndex) == delimiters[1]) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the dimensions of {@code this} and {@code matrix} do not
-	 *                                  agree
-	 */
-	public void requireDimensions(final Matrix matrix) {
-		MatrixArguments.requireDimensions(matrix, m, n);
-	}
-
-	/**
-	 * Requires the specified {@link Matrix} to have the row dimension equals to the column
-	 * dimension of {@code this}.
-	 * <p>
-	 * @param matrix a {@link Matrix}
-	 * <p>
-	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
-	 *                                  do not agree
-	 */
-	public void requireInnerDimension(final Matrix matrix) {
-		MatrixArguments.requireInnerDimension(matrix, n);
 	}
 
 

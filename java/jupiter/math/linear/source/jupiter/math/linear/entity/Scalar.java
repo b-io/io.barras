@@ -118,7 +118,7 @@ public class Scalar
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -159,9 +159,6 @@ public class Scalar
 		return value;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -280,28 +277,6 @@ public class Scalar
 	@Override
 	public Scalar sequence() {
 		return ONE;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Fills {@code this} with the specified constant.
-	 * <p>
-	 * @param constant the {@code double} constant to fill with
-	 * <p>
-	 * @throws IllegalOperationException if {@code this} is immutable
-	 */
-	@Override
-	public void fill(final double constant) {
-		if (!isImmutable) {
-			value = constant;
-		} else {
-			throw new IllegalOperationException(
-					"Cannot change the value of an immutable " + getName());
-		}
 	}
 
 
@@ -758,6 +733,28 @@ public class Scalar
 			}
 		}
 		return matrix;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fills {@code this} with the specified constant.
+	 * <p>
+	 * @param constant the {@code double} constant to fill with
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public void fill(final double constant) {
+		if (!isImmutable) {
+			value = constant;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
 	}
 
 

@@ -115,7 +115,7 @@ public class SVM {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -145,9 +145,6 @@ public class SVM {
 		return probabilityEstimates;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -298,65 +295,6 @@ public class SVM {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODEL
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Trains the model with the problem and hyper-parameters.
-	 * <p>
-	 * @return the trained model
-	 */
-	public svm_model train() {
-		if (trainingExampleCount == 0) {
-			IO.error("No training examples found");
-			return null;
-		}
-		model = svm.svm_train(problem, hyperParameters);
-		return model;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLASSIFIER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Classifies the specified example.
-	 * <p>
-	 * @param example the example to classify
-	 * <p>
-	 * @return the estimated class
-	 */
-	public Integer classify(final double... example) {
-		// Check the arguments
-		if (model == null) {
-			IO.error("No model found");
-			return null;
-		}
-
-		// Classify the example
-		final svm_node[] nodes = new svm_node[featureCount];
-		for (int fi = 0; fi < featureCount; ++fi) {
-			final svm_node node = new svm_node();
-			node.index = fi;
-			node.value = example[fi];
-			nodes[fi] = node;
-		}
-		final int classCount = model.nr_class;
-		final int[] labels = new int[classCount];
-		svm.svm_get_labels(model, labels);
-		final double[] probabilityEstimatesPerClass = new double[classCount];
-		final int estimatedClass = Maths.roundToInt(
-				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
-		for (int ci = 0; ci < classCount; ++ci) {
-			probabilityEstimates.put(labels[ci], probabilityEstimatesPerClass[ci]);
-		}
-		// Return the estimated class
-		return estimatedClass;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// IMPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -482,5 +420,64 @@ public class SVM {
 		if (featureIndex == featureCount - 1) {
 			IO.debug(RIGHT_PARENTHESIS);
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// MODEL
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Trains the model with the problem and hyper-parameters.
+	 * <p>
+	 * @return the trained model
+	 */
+	public svm_model train() {
+		if (trainingExampleCount == 0) {
+			IO.error("No training examples found");
+			return null;
+		}
+		model = svm.svm_train(problem, hyperParameters);
+		return model;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLASSIFIER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Classifies the specified example.
+	 * <p>
+	 * @param example the example to classify
+	 * <p>
+	 * @return the estimated class
+	 */
+	public Integer classify(final double... example) {
+		// Check the arguments
+		if (model == null) {
+			IO.error("No model found");
+			return null;
+		}
+
+		// Classify the example
+		final svm_node[] nodes = new svm_node[featureCount];
+		for (int fi = 0; fi < featureCount; ++fi) {
+			final svm_node node = new svm_node();
+			node.index = fi;
+			node.value = example[fi];
+			nodes[fi] = node;
+		}
+		final int classCount = model.nr_class;
+		final int[] labels = new int[classCount];
+		svm.svm_get_labels(model, labels);
+		final double[] probabilityEstimatesPerClass = new double[classCount];
+		final int estimatedClass = Maths.roundToInt(
+				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
+		for (int ci = 0; ci < classCount; ++ci) {
+			probabilityEstimates.put(labels[ci], probabilityEstimatesPerClass[ci]);
+		}
+		// Return the estimated class
+		return estimatedClass;
 	}
 }

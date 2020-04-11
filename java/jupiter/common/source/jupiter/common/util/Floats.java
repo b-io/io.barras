@@ -88,11 +88,77 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static float getDecimalPart(final float value) {
 		return value - Maths.floorToShort(value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code float} values for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@code float} value to compare for order
+	 * @param b the other {@code float} value to compare against for order
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final float a, final float b) {
+		if (a < b) {
+			return -1; // neither value is NaN
+		}
+		if (a > b) {
+			return 1; // neither value is NaN
+		}
+		// @note cannot use floatToRawIntBits because of NaNs
+		final int aBits = Float.floatToIntBits(a);
+		final int bBits = Float.floatToIntBits(b);
+		return aBits == bBits ? 0 : // the values are equal
+				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code float} arrays for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@code float} array to compare for order (may be {@code null})
+	 * @param b the other {@code float} array to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final float[] a, final float[] b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
 	}
 
 
@@ -780,6 +846,35 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the formatted representative {@link String} of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 * <p>
+	 * @return the formatted representative {@link String} of the specified {@code float} value
+	 */
+	public static String format(final float value) {
+		return DECIMAL_FORMAT.format(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the percentage representative {@link String} of the specified {@code float} value.
+	 * <p>
+	 * @param value a {@code float} value
+	 * <p>
+	 * @return the percentage representative {@link String} of the specified {@code float} value
+	 */
+	public static String formatPercent(final float value) {
+		return format(value * 100f) + "%";
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -912,36 +1007,7 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FORMATTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the formatted representative {@link String} of the specified {@code float} value.
-	 * <p>
-	 * @param value a {@code float} value
-	 * <p>
-	 * @return the formatted representative {@link String} of the specified {@code float} value
-	 */
-	public static String format(final float value) {
-		return DECIMAL_FORMAT.format(value);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the percentage representative {@link String} of the specified {@code float} value.
-	 * <p>
-	 * @param value a {@code float} value
-	 * <p>
-	 * @return the percentage representative {@link String} of the specified {@code float} value
-	 */
-	public static String formatPercent(final float value) {
-		return format(value * 100f) + "%";
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1697,72 +1763,6 @@ public class Floats {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code float} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
-	 * @param a the {@code float} value to compare for order
-	 * @param b the other {@code float} value to compare against for order
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final float a, final float b) {
-		if (a < b) {
-			return -1; // neither value is NaN
-		}
-		if (a > b) {
-			return 1; // neither value is NaN
-		}
-		// @note cannot use floatToRawIntBits because of NaNs
-		final int aBits = Float.floatToIntBits(a);
-		final int bBits = Float.floatToIntBits(b);
-		return aBits == bBits ? 0 : // the values are equal
-				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code float} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@code float} array to compare for order (may be {@code null})
-	 * @param b the other {@code float} array to compare against for order (may be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final float[] a, final float[] b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the arrays for order
-		final int limit = Math.min(a.length, b.length);
-		for (int i = 0; i < limit; ++i) {
-			final int comparison = compare(a[i], b[i]);
-			if (comparison != 0) {
-				return comparison;
-			}
-		}
-		return Integers.compare(a.length, b.length);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1798,8 +1798,7 @@ public class Floats {
 		}
 
 		// Clone the 2D array
-		final float[][] clone = new float[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final float[][] clone = new float[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1821,9 +1820,7 @@ public class Floats {
 		}
 
 		// Clone the 3D array
-		final float[][][] clone = new float[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final float[][][] clone = new float[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

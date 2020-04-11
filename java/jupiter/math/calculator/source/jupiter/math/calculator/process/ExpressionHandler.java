@@ -105,6 +105,50 @@ public class ExpressionHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARALLELIZERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (PARALLELIZE) {
+			if (WORK_QUEUE == null) {
+				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
+						new Parser());
+			} else {
+				IO.debug("The work queue ", WORK_QUEUE, " has already started");
+			}
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -486,50 +530,6 @@ public class ExpressionHandler
 				return Element.Type.RIGHT_BRACKET;
 		}
 		return Element.Type.ENTITY;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZATION
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
-						new Parser());
-			} else {
-				IO.debug("The work queue ", WORK_QUEUE, " has already started");
-			}
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (WORK_QUEUE != null) {
-			WORK_QUEUE.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
 	}
 
 

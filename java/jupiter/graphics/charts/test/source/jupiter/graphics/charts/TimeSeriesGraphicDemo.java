@@ -63,7 +63,7 @@ public class TimeSeriesGraphicDemo {
 	protected static TimeSeriesList createTimeSeriesList(final int count) {
 		// Initialize
 		final TimeSeriesList dataset = new TimeSeriesList();
-		final Double[] yCoordinates = new Double[2];
+		final Double[] Y = new Double[2];
 		final Chronometer chrono = new Chronometer();
 
 		// Create the time series list
@@ -73,9 +73,9 @@ public class TimeSeriesGraphicDemo {
 		for (int i = 0; i < count; ++i) {
 			chrono.stop();
 			chrono.start();
-			yCoordinates[0] = chrono.getMilliseconds();
-			yCoordinates[1] = Doubles.random();
-			dataset.addPointToAll(yCoordinates);
+			Y[0] = chrono.getMilliseconds();
+			Y[1] = Doubles.random();
+			dataset.addPointToAll(Y);
 		}
 		return dataset;
 	}

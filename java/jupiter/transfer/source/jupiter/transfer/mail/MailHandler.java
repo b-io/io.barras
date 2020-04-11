@@ -154,7 +154,7 @@ public class MailHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -220,9 +220,6 @@ public class MailHandler
 		return password;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -365,7 +362,33 @@ public class MailHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads {@code this} from the specified {@link Properties}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public void load(final Properties properties) {
+		// Check the arguments
+		Arguments.requireNonNull(properties, "properties");
+
+		// Load the properties
+		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
+		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
+		hostName = properties.getProperty("hostName");
+		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
+				Objects.toString(inProtocol.getPort()))));
+		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
+				Objects.toString(outProtocol.getPort()))));
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -520,32 +543,6 @@ public class MailHandler
 				" to ", Strings.quote(recipients),
 				" at ", Dates.formatWithTime(mail.getSentDate()));
 		Transport.send(mail);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads {@code this} from the specified {@link Properties}.
-	 * <p>
-	 * @param properties the {@link Properties} to load
-	 */
-	public void load(final Properties properties) {
-		// Check the arguments
-		Arguments.requireNonNull(properties, "properties");
-
-		// Load the properties
-		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
-		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
-		hostName = properties.getProperty("hostName");
-		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
-				Objects.toString(inProtocol.getPort()))));
-		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
-				Objects.toString(outProtocol.getPort()))));
-		userName = properties.getProperty("userName");
-		password = properties.getProperty("password");
 	}
 
 

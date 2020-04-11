@@ -122,7 +122,7 @@ public class SafeDateFormat
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -152,9 +152,6 @@ public class SafeDateFormat
 		return super.getDateFormatSymbols();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -232,7 +229,45 @@ public class SafeDateFormat
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parses the {@link Date} encoded in the specified {@link String}.
+	 * <p>
+	 * The method attempts to parse {@code text} starting at the index specified by
+	 * {@code position}. If parsing succeeds, then the {@code position} index is updated to the
+	 * index after the last {@code char} token used (parsing does not necessarily use all characters
+	 * up to the end of the {@link String}) and the parsed date is returned. The updated
+	 * {@code position} can be used to indicate the starting point for the next call to this method.
+	 * If an error occurs, then the {@code position} index is not changed, the error index of
+	 * {@code position} is set to the index of the {@code char} token where the error occurred and
+	 * {@code null} is returned.
+	 * <p>
+	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
+	 * {@link Date}. All the date-time fields of {@code calendar} are
+	 * {@linkplain Calendar#clear() cleared} before parsing and the {@code calendar} default values
+	 * of the date-time fields are used for any missing date-time information. For example, the year
+	 * value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year value is
+	 * specified from the parsing operation. The {@link TimeZone} value may be overwritten,
+	 * depending on the specified pattern and the time zone value in {@code text}. Any
+	 * {@link TimeZone} value that has previously been set by a call to the method
+	 * {@link #setTimeZone(TimeZone)} may need to be restored for further operations.
+	 * <p>
+	 * @param text     the {@link String} to partially parse
+	 * @param position a {@link ParsePosition} object with index and error index information as
+	 *                 described above
+	 * <p>
+	 * @return a {@link Date} parsed from the {@link String}, or {@code null} in case of error
+	 */
+	@Override
+	public synchronized Date parse(final String text, final ParsePosition position) {
+		return super.parse(text, position);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -279,44 +314,6 @@ public class SafeDateFormat
 	@Override
 	public synchronized void applyLocalizedPattern(final String pattern) {
 		super.applyLocalizedPattern(pattern);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parses the {@link Date} encoded in the specified {@link String}.
-	 * <p>
-	 * The method attempts to parse {@code text} starting at the index specified by
-	 * {@code position}. If parsing succeeds, then the {@code position} index is updated to the
-	 * index after the last {@code char} token used (parsing does not necessarily use all characters
-	 * up to the end of the {@link String}) and the parsed date is returned. The updated
-	 * {@code position} can be used to indicate the starting point for the next call to this method.
-	 * If an error occurs, then the {@code position} index is not changed, the error index of
-	 * {@code position} is set to the index of the {@code char} token where the error occurred and
-	 * {@code null} is returned.
-	 * <p>
-	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
-	 * {@link Date}. All the date-time fields of {@code calendar} are
-	 * {@linkplain Calendar#clear() cleared} before parsing and the {@code calendar} default values
-	 * of the date-time fields are used for any missing date-time information. For example, the year
-	 * value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year value is
-	 * specified from the parsing operation. The {@link TimeZone} value may be overwritten,
-	 * depending on the specified pattern and the time zone value in {@code text}. Any
-	 * {@link TimeZone} value that has previously been set by a call to the method
-	 * {@link #setTimeZone(TimeZone)} may need to be restored for further operations.
-	 * <p>
-	 * @param text     the {@link String} to partially parse
-	 * @param position a {@link ParsePosition} object with index and error index information as
-	 *                 described above
-	 * <p>
-	 * @return a {@link Date} parsed from the {@link String}, or {@code null} in case of error
-	 */
-	@Override
-	public synchronized Date parse(final String text, final ParsePosition position) {
-		return super.parse(text, position);
 	}
 
 

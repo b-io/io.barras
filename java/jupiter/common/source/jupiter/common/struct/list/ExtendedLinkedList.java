@@ -88,7 +88,7 @@ public class ExtendedLinkedList<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -113,9 +113,6 @@ public class ExtendedLinkedList<E>
 		return get(Integers.middle(size()));
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -131,6 +128,19 @@ public class ExtendedLinkedList<E>
 	@Override
 	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements from {@code this}.
+	 */
+	@Override
+	public synchronized void clear() {
+		super.clear();
 	}
 
 
@@ -167,7 +177,7 @@ public class ExtendedLinkedList<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -257,7 +267,7 @@ public class ExtendedLinkedList<E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Removes the first occurrence of the specified {@link Object}.
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -268,7 +278,7 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Removes the last occurrence of the specified {@link Object}.
+	 * Removes the last occurrence of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -279,7 +289,7 @@ public class ExtendedLinkedList<E>
 	}
 
 	/**
-	 * Removes all the occurrences of the specified {@link Object}.
+	 * Removes all the occurrences of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -294,13 +304,6 @@ public class ExtendedLinkedList<E>
 	@Override
 	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized void clear() {
-		super.clear();
 	}
 
 

@@ -86,11 +86,77 @@ public class Doubles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double decimalPart(final double value) {
 		return value - Maths.floor(value);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code double} values for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@code double} value to compare for order
+	 * @param b the other {@code double} value to compare against for order
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final double a, final double b) {
+		if (a < b) {
+			return -1; // neither value is NaN
+		}
+		if (a > b) {
+			return 1; // neither value is NaN
+		}
+		// @note cannot use doubleToRawLongBits because of NaNs
+		final long aBits = Double.doubleToLongBits(a);
+		final long bBits = Double.doubleToLongBits(b);
+		return aBits == bBits ? 0 : // the values are equal
+				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
+						1; // (0., -0.) or (NaN, !NaN)
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code double} arrays for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@code double} array to compare for order (may be {@code null})
+	 * @param b the other {@code double} array to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final double[] a, final double[] b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
 	}
 
 
@@ -767,6 +833,35 @@ public class Doubles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the formatted representative {@link String} of the specified {@code double} value.
+	 * <p>
+	 * @param value a {@code double} value
+	 * <p>
+	 * @return the formatted representative {@link String} of the specified {@code double} value
+	 */
+	public static String format(final double value) {
+		return DECIMAL_FORMAT.format(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the percentage representative {@link String} of the specified {@code double} value.
+	 * <p>
+	 * @param value a {@code double} value
+	 * <p>
+	 * @return the percentage representative {@link String} of the specified {@code double} value
+	 */
+	public static String formatPercent(final double value) {
+		return format(value * 100.) + "%";
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -899,36 +994,7 @@ public class Doubles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FORMATTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the formatted representative {@link String} of the specified {@code double} value.
-	 * <p>
-	 * @param value a {@code double} value
-	 * <p>
-	 * @return the formatted representative {@link String} of the specified {@code double} value
-	 */
-	public static String format(final double value) {
-		return DECIMAL_FORMAT.format(value);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the percentage representative {@link String} of the specified {@code double} value.
-	 * <p>
-	 * @param value a {@code double} value
-	 * <p>
-	 * @return the percentage representative {@link String} of the specified {@code double} value
-	 */
-	public static String formatPercent(final double value) {
-		return format(value * 100.) + "%";
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1684,72 +1750,6 @@ public class Doubles {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code double} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
-	 * @param a the {@code double} value to compare for order
-	 * @param b the other {@code double} value to compare against for order
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final double a, final double b) {
-		if (a < b) {
-			return -1; // neither value is NaN
-		}
-		if (a > b) {
-			return 1; // neither value is NaN
-		}
-		// @note cannot use doubleToRawLongBits because of NaNs
-		final long aBits = Double.doubleToLongBits(a);
-		final long bBits = Double.doubleToLongBits(b);
-		return aBits == bBits ? 0 : // the values are equal
-				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code double} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@code double} array to compare for order (may be {@code null})
-	 * @param b the other {@code double} array to compare against for order (may be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final double[] a, final double[] b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the arrays for order
-		final int limit = Math.min(a.length, b.length);
-		for (int i = 0; i < limit; ++i) {
-			final int comparison = compare(a[i], b[i]);
-			if (comparison != 0) {
-				return comparison;
-			}
-		}
-		return Integers.compare(a.length, b.length);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1785,8 +1785,7 @@ public class Doubles {
 		}
 
 		// Clone the 2D array
-		final double[][] clone = new double[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final double[][] clone = new double[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1808,9 +1807,7 @@ public class Doubles {
 		}
 
 		// Clone the 3D array
-		final double[][][] clone = new double[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final double[][][] clone = new double[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

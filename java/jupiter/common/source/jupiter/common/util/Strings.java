@@ -135,6 +135,55 @@ public class Strings {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@link String} for lexicographic order. Returns a negative integer,
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
+	 * @param b the other {@link String} to compare against for lexicographic order (may be
+	 *          {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final String a, final String b) {
+		return Comparables.compare(a, b);
+	}
+
+	/**
+	 * Compares the specified {@link String} for lexicographic order, ignoring case differences.
+	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
+	 * @param b the other {@link String} to compare against for lexicographic order (may be
+	 *          {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compareIgnoreCase(final String a, final String b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the strings for lexicographic order, ignoring case differences
+		return a.compareToIgnoreCase(b);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -546,7 +595,7 @@ public class Strings {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -4140,55 +4189,6 @@ public class Strings {
 			}
 		}
 		return false;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@link String} for lexicographic order. Returns a negative integer,
-	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
-	 * (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
-	 * @param b the other {@link String} to compare against for lexicographic order (may be
-	 *          {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final String a, final String b) {
-		return Comparables.compare(a, b);
-	}
-
-	/**
-	 * Compares the specified {@link String} for lexicographic order, ignoring case differences.
-	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
-	 * @param b the other {@link String} to compare against for lexicographic order (may be
-	 *          {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compareIgnoreCase(final String a, final String b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the strings for lexicographic order, ignoring case differences
-		return a.compareToIgnoreCase(b);
 	}
 
 

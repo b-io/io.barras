@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import jupiter.common.math.Comparables;
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
@@ -107,7 +106,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -133,7 +132,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 		return Maths.floorToInt(Maths.log(size()) / Maths.LOG_2) + 1;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Performs the in-order traversal.
@@ -189,7 +188,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the first node (according to the key-sort function), or {@code null} if {@code this}
@@ -324,9 +323,6 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 		return null;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -338,11 +334,91 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key {@link Object}.
+	 * Removes all the key-value mappings from {@code this}.
+	 */
+	@Override
+	public synchronized void clear() {
+		root = null;
+		size = 0;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints {@code this}.
+	 */
+	@Override
+	public void print() {
+		print(root);
+	}
+
+	/**
+	 * Prints the specified {@code N} tree.
+	 * <p>
+	 * @param tree the {@code N} tree to print
+	 */
+	protected void print(final N tree) {
+		IO.result(tree);
+		if (tree.left != null) {
+			print(tree.left);
+		}
+		if (tree.right != null) {
+			print(tree.right);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Performs the in-order traversal of {@code this}. The iterator of the {@link Set} returns the
+	 * entries in ascending key order. The {@link Set} is backed by {@code this}, so changes to
+	 * {@code this} are reflected in the {@link Set} and vice-versa. If {@code this} is modified
+	 * while an iteration over the {@link Set} is in progress (except through the operations
+	 * {@code remove} or {@code setValue} of the iterator), the results of the iteration are
+	 * undefined. The set supports element removal, which removes the corresponding key-value
+	 * mapping, via the {@link Iterator#remove},
+	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
+	 * does not support the {@code add} or {@code addAll} operations.
+	 * <p>
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types
+	 */
+	@Override
+	public Set<Entry<K, V>> entrySet() {
+		return entrySet(root, new LinkedHashSet<Entry<K, V>>());
+	}
+
+	/**
+	 * Performs the in-order traversal of the specified {@code N} tree.
+	 * <p>
+	 * @param tree a {@code N} tree (may be {@code null})
+	 * @param set  a {@link Set} of {@link Entry} of {@code K} and {@code V} types
+	 * <p>
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types of
+	 *         the visited nodes added to the specified {@link Set}
+	 */
+	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {
+		if (tree != null) {
+			entrySet(tree.left, set);
+			set.add(tree);
+			entrySet(tree.right, set);
+		}
+		return set;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the key-value mapping of the specified key {@link Object} from {@code this}.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping to remove
 	 * <p>
@@ -366,7 +442,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	}
 
 	/**
-	 * Removes the specified {@code N} node.
+	 * Removes the specified {@code N} node from {@code this}.
 	 * <p>
 	 * @param node the {@code N} node to remove
 	 */
@@ -388,7 +464,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	 */
 	protected abstract void balanceAfterDeletion(N node);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Rotates the specified {@code N} tree to the left. Corrects a RR imbalance.
@@ -468,45 +544,8 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PRINTERS
+	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Prints {@code this}.
-	 */
-	@Override
-	public void print() {
-		print(root);
-	}
-
-	/**
-	 * Prints the specified {@code N} tree.
-	 * <p>
-	 * @param tree the {@code N} tree to print
-	 */
-	protected void print(final N tree) {
-		IO.result(tree);
-		if (tree.left != null) {
-			print(tree.left);
-		}
-		if (tree.right != null) {
-			print(tree.right);
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ABSTRACT MAP
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Removes all the key-value mappings.
-	 */
-	@Override
-	public synchronized void clear() {
-		root = null;
-		size = 0;
-	}
 
 	/**
 	 * Tests whether a key-value mapping for the specified key {@link Object} exists.
@@ -546,42 +585,6 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Performs the in-order traversal of {@code this}. The iterator of the {@link Set} returns the
-	 * entries in ascending key order. The {@link Set} is backed by {@code this}, so changes to
-	 * {@code this} are reflected in the {@link Set} and vice-versa. If {@code this} is modified
-	 * while an iteration over the {@link Set} is in progress (except through the operations
-	 * {@code remove} or {@code setValue} of the iterator), the results of the iteration are
-	 * undefined. The set supports element removal, which removes the corresponding key-value
-	 * mapping, via the {@link Iterator#remove},
-	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
-	 * does not support the {@code add} or {@code addAll} operations.
-	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types
-	 */
-	@Override
-	public Set<Entry<K, V>> entrySet() {
-		return entrySet(root, new LinkedHashSet<Entry<K, V>>());
-	}
-
-	/**
-	 * Performs the in-order traversal of the specified {@code N} tree.
-	 * <p>
-	 * @param tree a {@code N} tree (may be {@code null})
-	 * @param set  a {@link Set} of {@link Entry} of {@code K} and {@code V} types
-	 * <p>
-	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types of
-	 *         the visited nodes added to the specified {@link Set}
-	 */
-	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {
-		if (tree != null) {
-			entrySet(tree.left, set);
-			set.add(tree);
-			entrySet(tree.right, set);
-		}
-		return set;
 	}
 
 

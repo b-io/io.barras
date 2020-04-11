@@ -50,7 +50,7 @@ public class Dates {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -82,7 +82,7 @@ public class Dates {
 		return new SafeDateFormat(pattern).format(new Date());
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link Date} of the last day of the current month.
@@ -132,7 +132,7 @@ public class Dates {
 		return calendar.getTime();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@link Date} of Good Friday for the specified year.
@@ -222,7 +222,7 @@ public class Dates {
 		return calendar.getTime();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the Swiss public holidays in an {@link ExtendedList}.
@@ -252,6 +252,33 @@ public class Dates {
 		// Add St. Stephen's Day
 		publicHolidays.add(createDate(year, 12, 26));
 		return publicHolidays;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the formatted {@link String} of the specified {@link Date}.
+	 * <p>
+	 * @param date the {@link Date} to format
+	 * <p>
+	 * @return the formatted {@link String} of the specified {@link Date}
+	 */
+	public static String format(final Date date) {
+		return DATE_FORMAT.format(date);
+	}
+
+	/**
+	 * Returns the formatted {@link String} of the specified {@link Date} with time.
+	 * <p>
+	 * @param date the {@link Date} to format
+	 * <p>
+	 * @return the formatted {@link String} of the specified {@link Date} with time
+	 */
+	public static String formatWithTime(final Date date) {
+		return DATE_TIME_FORMAT.format(date);
 	}
 
 
@@ -319,91 +346,6 @@ public class Dates {
 	 */
 	public static long createTimestamp() {
 		return new Date().getTime();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FORMATTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the formatted {@link String} of the specified {@link Date}.
-	 * <p>
-	 * @param date the {@link Date} to format
-	 * <p>
-	 * @return the formatted {@link String} of the specified {@link Date}
-	 */
-	public static String format(final Date date) {
-		return DATE_FORMAT.format(date);
-	}
-
-	/**
-	 * Returns the formatted {@link String} of the specified {@link Date} with time.
-	 * <p>
-	 * @param date the {@link Date} to format
-	 * <p>
-	 * @return the formatted {@link String} of the specified {@link Date} with time
-	 */
-	public static String formatWithTime(final Date date) {
-		return DATE_TIME_FORMAT.format(date);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the number of business days with the specified {@link List} of public holidays for
-	 * the specified year.
-	 * <p>
-	 * @param year           an {@code int} value
-	 * @param publicHolidays the {@link List} of public holidays for the year
-	 * <p>
-	 * @return the number of business days with the specified {@link List} of public holidays for
-	 *         the specified year
-	 */
-	public static int countBusinessDays(final int year, final List<? extends Date> publicHolidays) {
-		return countBusinessDaysBetween(createDate(year, 1, 1), createDate(year, 12, 31),
-				publicHolidays);
-	}
-
-	/**
-	 * Returns the number of business days with the specified {@link List} of public holidays for
-	 * the specified period of time.
-	 * <p>
-	 * @param startDate      the start of the period of time (inclusive)
-	 * @param endDate        the end of the period of time (inclusive)
-	 * @param publicHolidays the {@link List} of public holidays for the period of time
-	 * <p>
-	 * @return the number of business days with the specified {@link List} of public holidays for
-	 *         the specified period of time
-	 */
-	public static int countBusinessDaysBetween(final Date startDate, final Date endDate,
-			List<? extends Date> publicHolidays) {
-		// Create the calendars for the start and end dates
-		final Calendar start = Calendar.getInstance();
-		start.setTime(startDate);
-		final Calendar end = Calendar.getInstance();
-		end.setTime(endDate);
-		// Count the business days
-		int workDays = 0, year = start.get(Calendar.YEAR);
-		do {
-			// • Update the number of business days
-			if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
-					start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
-					!publicHolidays.contains(start.getTime())) {
-				++workDays;
-			}
-			// • Increment the current day
-			start.add(Calendar.DAY_OF_MONTH, 1);
-			// • Update the public holidays if required
-			if (year != start.get(Calendar.YEAR)) {
-				year = start.get(Calendar.YEAR);
-				publicHolidays = getSwissPublicHolidays(year);
-			}
-		} while (start.getTimeInMillis() <= end.getTimeInMillis());
-		return workDays;
 	}
 
 
@@ -485,6 +427,64 @@ public class Dates {
 		} catch (final ParseException ignored) {
 		}
 		return defaultDateTime;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the number of business days with the specified {@link List} of public holidays for
+	 * the specified year.
+	 * <p>
+	 * @param year           an {@code int} value
+	 * @param publicHolidays the {@link List} of public holidays for the year
+	 * <p>
+	 * @return the number of business days with the specified {@link List} of public holidays for
+	 *         the specified year
+	 */
+	public static int countBusinessDays(final int year, final List<? extends Date> publicHolidays) {
+		return countBusinessDaysBetween(createDate(year, 1, 1), createDate(year, 12, 31),
+				publicHolidays);
+	}
+
+	/**
+	 * Returns the number of business days with the specified {@link List} of public holidays for
+	 * the specified period of time.
+	 * <p>
+	 * @param startDate      the start of the period of time (inclusive)
+	 * @param endDate        the end of the period of time (inclusive)
+	 * @param publicHolidays the {@link List} of public holidays for the period of time
+	 * <p>
+	 * @return the number of business days with the specified {@link List} of public holidays for
+	 *         the specified period of time
+	 */
+	public static int countBusinessDaysBetween(final Date startDate, final Date endDate,
+			List<? extends Date> publicHolidays) {
+		// Create the calendars for the start and end dates
+		final Calendar start = Calendar.getInstance();
+		start.setTime(startDate);
+		final Calendar end = Calendar.getInstance();
+		end.setTime(endDate);
+		// Count the business days
+		int workDays = 0, year = start.get(Calendar.YEAR);
+		do {
+			// • Update the number of business days
+			if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
+					start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
+					!publicHolidays.contains(start.getTime())) {
+				++workDays;
+			}
+			// • Increment the current day
+			start.add(Calendar.DAY_OF_MONTH, 1);
+			// • Update the public holidays if required
+			if (year != start.get(Calendar.YEAR)) {
+				year = start.get(Calendar.YEAR);
+				publicHolidays = getSwissPublicHolidays(year);
+			}
+		} while (start.getTimeInMillis() <= end.getTimeInMillis());
+		return workDays;
 	}
 
 

@@ -61,34 +61,6 @@ public class IntegerParser
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Integer call(final Object input) {
-		if (input == null) {
-			return null;
-		}
-		if (input instanceof Integer) {
-			return (Integer) input;
-		}
-		if (input instanceof Number) {
-			return ((Number) input).intValue();
-		}
-		final String value = Objects.toStringWithNull(input);
-		if (value == null) {
-			return null;
-		}
-		try {
-			return Integer.valueOf(value);
-		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -124,6 +96,34 @@ public class IntegerParser
 
 	public Integer[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Integer call(final Object input) {
+		if (input == null) {
+			return null;
+		}
+		if (input instanceof Integer) {
+			return (Integer) input;
+		}
+		if (input instanceof Number) {
+			return ((Number) input).intValue();
+		}
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Integer.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 

@@ -28,7 +28,6 @@ import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
@@ -141,7 +140,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -153,7 +152,7 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 		return Maps.getElementClass(keySet());
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@code V} value associated to the specified key {@link Object}, or {@code null}
@@ -278,7 +277,17 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints {@code this}.
+	 */
+	public abstract void print();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -331,8 +340,8 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	 * <p>
 	 * @param keys the array of key {@link Object} of the key-value mappings to remove
 	 * <p>
-	 * @return the {@code V} values of the key-value mappings removed from {@code this} or
-	 *         {@code null} for the keys that are not present in an {@link ExtendedList}
+	 * @return the previous associated {@code V} values and {@code null} for the specified keys that
+	 *         are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
@@ -340,16 +349,6 @@ public abstract class ComparableTreeMap<K extends Comparable<? super K>, V, N ex
 	public synchronized ExtendedList<V> removeAll(final Object... keys) {
 		return Maps.<V>removeAll(this, keys);
 	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PRINTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Prints {@code this}.
-	 */
-	public abstract void print();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

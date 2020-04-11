@@ -88,6 +88,61 @@ public class Bytes {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code byte} values for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
+	 * <p>
+	 * @param a the {@code byte} value to compare for order
+	 * @param b the other {@code byte} value to compare against for order
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final byte a, final byte b) {
+		return a - b;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@code byte} arrays for order. Returns a negative integer, {@code 0}
+	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@code byte} array to compare for order (may be {@code null})
+	 * @param b the other {@code byte} array to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final byte[] a, final byte[] b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the arrays for order
+		final int limit = Math.min(a.length, b.length);
+		for (int i = 0; i < limit; ++i) {
+			final int comparison = compare(a[i], b[i]);
+			if (comparison != 0) {
+				return comparison;
+			}
+		}
+		return Integers.compare(a.length, b.length);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1125,7 +1180,62 @@ public class Bytes {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a {@code byte} array converted from the specified binary representative
+	 * {@link String}.
+	 * <p>
+	 * @param binaryString the binary representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified binary representative
+	 *         {@link String}
+	 */
+	public static byte[] parseBinaryString(final String binaryString) {
+		final byte[] array = new byte[binaryString.length() >> 3];
+		for (int i = 0; i < binaryString.length(); i += 8) {
+			array[i >> 3] = (byte) Integers.parseUnsignedInt(binaryString.substring(i, i + 8), 2);
+		}
+		return array;
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified octal representative
+	 * {@link String}.
+	 * <p>
+	 * @param octalString the octal representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified octal representative {@link String}
+	 */
+	public static byte[] parseOctalString(final String octalString) {
+		final byte[] array = new byte[octalString.length() >> 2];
+		for (int i = 0; i < octalString.length(); i += 4) {
+			array[i >> 2] = (byte) Integers.parseUnsignedInt(octalString.substring(i, i + 4), 8);
+		}
+		return array;
+	}
+
+	/**
+	 * Returns a {@code byte} array converted from the specified hexadecimal representative
+	 * {@link String}.
+	 * <p>
+	 * @param hexString the hexadecimal representative {@link String} to parse
+	 * <p>
+	 * @return a {@code byte} array converted from the specified hexadecimal representative
+	 *         {@link String}
+	 */
+	public static byte[] parseHexString(final String hexString) {
+		final byte[] array = new byte[hexString.length() >> 1];
+		for (int i = 0; i < hexString.length(); i += 2) {
+			array[i >> 1] = (byte) Integers.parseUnsignedInt(hexString.substring(i, i + 2), 16);
+		}
+		return array;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1640,61 +1750,6 @@ public class Bytes {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a {@code byte} array converted from the specified binary representative
-	 * {@link String}.
-	 * <p>
-	 * @param binaryString the binary representative {@link String} to parse
-	 * <p>
-	 * @return a {@code byte} array converted from the specified binary representative
-	 *         {@link String}
-	 */
-	public static byte[] parseBinaryString(final String binaryString) {
-		final byte[] array = new byte[binaryString.length() >> 3];
-		for (int i = 0; i < binaryString.length(); i += 8) {
-			array[i >> 3] = (byte) Integers.parseUnsignedInt(binaryString.substring(i, i + 8), 2);
-		}
-		return array;
-	}
-
-	/**
-	 * Returns a {@code byte} array converted from the specified octal representative
-	 * {@link String}.
-	 * <p>
-	 * @param octalString the octal representative {@link String} to parse
-	 * <p>
-	 * @return a {@code byte} array converted from the specified octal representative {@link String}
-	 */
-	public static byte[] parseOctalString(final String octalString) {
-		final byte[] array = new byte[octalString.length() >> 2];
-		for (int i = 0; i < octalString.length(); i += 4) {
-			array[i >> 2] = (byte) Integers.parseUnsignedInt(octalString.substring(i, i + 4), 8);
-		}
-		return array;
-	}
-
-	/**
-	 * Returns a {@code byte} array converted from the specified hexadecimal representative
-	 * {@link String}.
-	 * <p>
-	 * @param hexString the hexadecimal representative {@link String} to parse
-	 * <p>
-	 * @return a {@code byte} array converted from the specified hexadecimal representative
-	 *         {@link String}
-	 */
-	public static byte[] parseHexString(final String hexString) {
-		final byte[] array = new byte[hexString.length() >> 1];
-		for (int i = 0; i < hexString.length(); i += 2) {
-			array[i >> 1] = (byte) Integers.parseUnsignedInt(hexString.substring(i, i + 2), 16);
-		}
-		return array;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1947,61 +2002,6 @@ public class Bytes {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code byte} values for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
-	 * @param a the {@code byte} value to compare for order
-	 * @param b the other {@code byte} value to compare against for order
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final byte a, final byte b) {
-		return a - b;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@code byte} arrays for order. Returns a negative integer, {@code 0}
-	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@code byte} array to compare for order (may be {@code null})
-	 * @param b the other {@code byte} array to compare against for order (may be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final byte[] a, final byte[] b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the arrays for order
-		final int limit = Math.min(a.length, b.length);
-		for (int i = 0; i < limit; ++i) {
-			final int comparison = compare(a[i], b[i]);
-			if (comparison != 0) {
-				return comparison;
-			}
-		}
-		return Integers.compare(a.length, b.length);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2036,8 +2036,7 @@ public class Bytes {
 		}
 
 		// Clone the 2D array
-		final byte[][] clone = new byte[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final byte[][] clone = new byte[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -2058,9 +2057,7 @@ public class Bytes {
 		}
 
 		// Clone the 3D array
-		final byte[][][] clone = new byte[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final byte[][][] clone = new byte[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

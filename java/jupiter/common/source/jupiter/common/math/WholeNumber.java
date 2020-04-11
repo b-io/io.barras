@@ -70,7 +70,7 @@ public class WholeNumber
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -82,9 +82,6 @@ public class WholeNumber
 		return value;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -98,7 +95,31 @@ public class WholeNumber
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param other the other {@link ComparableNumber} to compare against for order (may be
+	 *              {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
+	 */
+	@Override
+	public int compareTo(final ComparableNumber other) {
+		if (other instanceof WholeNumber) {
+			return Longs.compare(value, ((WholeNumber) other).value);
+		}
+		return Numbers.compare(value, other);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -167,30 +188,6 @@ public class WholeNumber
 	@Override
 	public double doubleValue() {
 		return value;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param other the other {@link ComparableNumber} to compare against for order (may be
-	 *              {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other}
-	 */
-	@Override
-	public int compareTo(final ComparableNumber other) {
-		if (other instanceof WholeNumber) {
-			return Longs.compare(value, ((WholeNumber) other).value);
-		}
-		return Numbers.compare(value, other);
 	}
 
 

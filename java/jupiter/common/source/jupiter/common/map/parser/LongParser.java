@@ -61,34 +61,6 @@ public class LongParser
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Long call(final Object input) {
-		if (input == null) {
-			return null;
-		}
-		if (input instanceof Long) {
-			return (Long) input;
-		}
-		if (input instanceof Number) {
-			return ((Number) input).longValue();
-		}
-		final String value = Objects.toStringWithNull(input);
-		if (value == null) {
-			return null;
-		}
-		try {
-			return Long.valueOf(value);
-		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -125,6 +97,35 @@ public class LongParser
 	public Long[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Long call(final Object input) {
+		if (input == null) {
+			return null;
+		}
+		if (input instanceof Long) {
+			return (Long) input;
+		}
+		if (input instanceof Number) {
+			return ((Number) input).longValue();
+		}
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Long.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT

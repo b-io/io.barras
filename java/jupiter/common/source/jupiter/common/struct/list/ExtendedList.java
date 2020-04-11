@@ -100,7 +100,7 @@ public class ExtendedList<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -112,7 +112,7 @@ public class ExtendedList<E>
 		return Lists.getElementClass(this);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the first element.
@@ -153,9 +153,6 @@ public class ExtendedList<E>
 		return get(size() - 1);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -171,6 +168,19 @@ public class ExtendedList<E>
 	@Override
 	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements from {@code this}.
+	 */
+	@Override
+	public synchronized void clear() {
+		super.clear();
 	}
 
 
@@ -207,7 +217,7 @@ public class ExtendedList<E>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -297,7 +307,7 @@ public class ExtendedList<E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Removes the first occurrence of the specified {@link Object}.
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -308,7 +318,7 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Removes the last occurrence of the specified {@link Object}.
+	 * Removes the last occurrence of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -319,7 +329,7 @@ public class ExtendedList<E>
 	}
 
 	/**
-	 * Removes all the occurrences of the specified {@link Object}.
+	 * Removes all the occurrences of the specified {@link Object} from {@code this}.
 	 * <p>
 	 * @param object the {@link Object} to remove (may be {@code null})
 	 * <p>
@@ -334,13 +344,6 @@ public class ExtendedList<E>
 	@Override
 	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public synchronized void clear() {
-		super.clear();
 	}
 
 

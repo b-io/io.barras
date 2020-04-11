@@ -70,22 +70,25 @@ public abstract class StatisticalInference
 	public StatisticalInference(final int hypothesisCount) {
 		this.hypothesisCount = hypothesisCount;
 		hypothesisProbabilities = new double[hypothesisCount];
-		reset();
+		clear();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Resets {@code this}.
+	 * Clears the hypothesis probability {@code P(H)} for all hypothesis {@code H} to equal
+	 * probabilities.
 	 */
-	public void reset() {
-		// Reset the hypothesis probability P(H) for all hypothesis H to equal probabilities
+	public void clear() {
 		Doubles.fill(hypothesisProbabilities, 1. / hypothesisCount);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

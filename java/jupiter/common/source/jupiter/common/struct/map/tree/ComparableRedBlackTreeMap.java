@@ -94,7 +94,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -145,9 +145,6 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 		return 2 * getOptimalHeight();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -167,11 +164,12 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified {@code V} value to the specified {@code K} key.
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
 	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
@@ -229,7 +227,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified {@link ComparableRedBlackTreeNode}.
+	 * Removes the specified {@link ComparableRedBlackTreeNode} from {@code this}.
 	 * <p>
 	 * @param node the {@link ComparableRedBlackTreeNode} of {@code K} and {@code V} types to remove
 	 */

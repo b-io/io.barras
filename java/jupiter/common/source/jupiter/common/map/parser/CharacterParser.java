@@ -58,34 +58,6 @@ public class CharacterParser
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Character call(final Object input) {
-		if (input == null) {
-			return null;
-		}
-		if (input instanceof Character) {
-			return (Character) input;
-		}
-		final CharSequence inputCharSequence;
-		if (input instanceof CharSequence) {
-			inputCharSequence = (CharSequence) input;
-		} else {
-			inputCharSequence = Objects.toStringWithNull(input);
-			if (inputCharSequence == null) {
-				return null;
-			}
-		}
-		if (inputCharSequence.length() > 0) {
-			return inputCharSequence.charAt(0);
-		}
-		return null;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -121,6 +93,34 @@ public class CharacterParser
 
 	public Character[][][] parseAsArray3D(final Object[][]... input3D) {
 		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public Character call(final Object input) {
+		if (input == null) {
+			return null;
+		}
+		if (input instanceof Character) {
+			return (Character) input;
+		}
+		final CharSequence inputCharSequence;
+		if (input instanceof CharSequence) {
+			inputCharSequence = (CharSequence) input;
+		} else {
+			inputCharSequence = Objects.toStringWithNull(input);
+			if (inputCharSequence == null) {
+				return null;
+			}
+		}
+		if (inputCharSequence.length() > 0) {
+			return inputCharSequence.charAt(0);
+		}
+		return null;
 	}
 
 

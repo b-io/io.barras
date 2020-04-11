@@ -183,7 +183,7 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void init(final InputStream inputStream, final OutputStream outputStream) {
@@ -246,139 +246,6 @@ public class JConsole
 		// Start the inpipe watcher
 		new Thread(this).start();
 		requestFocus();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ICONSOLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public String input() {
-		String input;
-		synchronized (inputLines) {
-			while (inputLines.isEmpty()) {
-				try {
-					inputLines.wait();
-				} catch (final InterruptedException ignored) {
-				}
-			}
-			input = inputLines.removeFirst();
-		}
-		return input;
-	}
-
-	/**
-	 * Returns the {@link InputStream}.
-	 * <p>
-	 * @return the {@link InputStream}
-	 */
-	public InputStream getIn() {
-		return in;
-	}
-
-	/**
-	 * Returns the {@link PrintStream}.
-	 * <p>
-	 * @return the {@link PrintStream}
-	 */
-	public PrintStream getOut() {
-		return out;
-	}
-
-	/**
-	 * Returns the error {@link PrintStream}.
-	 * <p>
-	 * @return the error {@link PrintStream}
-	 */
-	public PrintStream getErr() {
-		return out;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Reader getReader() {
-		return new InputStreamReader(in, DEFAULT_CHARSET);
-	}
-
-	public InputStream getInputStream() {
-		return inPipe;
-	}
-
-	public List<String> getLines() {
-		return history;
-	}
-
-	public String getLastLine() {
-		return history.get(historicalLineIndex);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void print(final Object content) {
-		append(content);
-	}
-
-	/**
-	 * Terminates the line.
-	 */
-	public void println() {
-		print(NEW_LINE);
-	}
-
-	public void println(final Object content) {
-		append(Objects.toString(content) + NEW_LINE);
-	}
-
-	public void error(final Object content) {
-		print(content, java.awt.Color.RED);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void println(final Icon icon) {
-		print(icon);
-		println();
-	}
-
-	public void print(final Icon icon) {
-		if (icon != null) {
-			append(icon);
-		}
-	}
-
-	public void print(final Object s, final Font font) {
-		print(s, font, null);
-	}
-
-	public void print(final Object s, final java.awt.Color color) {
-		print(s, null, color);
-	}
-
-	public void print(final Object content, final Font font, final java.awt.Color color) {
-		final AttributeSet old = getStyle();
-		setStyle(font, color);
-		append(content);
-		setStyle(old, true);
-	}
-
-	public void print(final Object s, final String fontFamilyName, final int size,
-			final java.awt.Color color) {
-		print(s, fontFamilyName, size, color, false, false, false);
-	}
-
-	public void print(final Object content, final String fontFamilyName, final int size,
-			final java.awt.Color color, final boolean bold, final boolean italic,
-			final boolean underline) {
-		final AttributeSet old = getStyle();
-		setStyle(fontFamilyName, size, color, bold, italic, underline);
-		append(content);
-		setStyle(old, true);
 	}
 
 
@@ -483,6 +350,90 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// INPUT / OUTPUT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Reader getReader() {
+		return new InputStreamReader(in, DEFAULT_CHARSET);
+	}
+
+	public InputStream getInputStream() {
+		return inPipe;
+	}
+
+	public List<String> getLines() {
+		return history;
+	}
+
+	public String getLastLine() {
+		return history.get(historicalLineIndex);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void print(final Object content) {
+		append(content);
+	}
+
+	/**
+	 * Terminates the line.
+	 */
+	public void println() {
+		print(NEW_LINE);
+	}
+
+	public void println(final Object content) {
+		append(Objects.toString(content) + NEW_LINE);
+	}
+
+	public void error(final Object content) {
+		print(content, java.awt.Color.RED);
+	}
+
+	//////////////////////////////////////////////
+
+	public void println(final Icon icon) {
+		print(icon);
+		println();
+	}
+
+	public void print(final Icon icon) {
+		if (icon != null) {
+			append(icon);
+		}
+	}
+
+	public void print(final Object s, final Font font) {
+		print(s, font, null);
+	}
+
+	public void print(final Object s, final java.awt.Color color) {
+		print(s, null, color);
+	}
+
+	public void print(final Object content, final Font font, final java.awt.Color color) {
+		final AttributeSet old = getStyle();
+		setStyle(font, color);
+		append(content);
+		setStyle(old, true);
+	}
+
+	public void print(final Object s, final String fontFamilyName, final int size,
+			final java.awt.Color color) {
+		print(s, fontFamilyName, size, color, false, false, false);
+	}
+
+	public void print(final Object content, final String fontFamilyName, final int size,
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
+		final AttributeSet old = getStyle();
+		setStyle(fontFamilyName, size, color, bold, italic, underline);
+		append(content);
+		setStyle(old, true);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// LINE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -578,29 +529,6 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// RUNNABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void run() {
-		try {
-			inPipeWatcher();
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-	}
-
-	protected void inPipeWatcher()
-			throws IOException {
-		// Arbitrary blocking factor
-		final byte[] ba = new byte[256];
-		int read;
-		while ((read = inPipe.read(ba)) >= 0) {
-			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// TEXT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -615,6 +543,52 @@ public class JConsole
 		textPane.replaceSelection(selection);
 		textPane.repaint();
 		return selection;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ICONSOLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String input() {
+		String input;
+		synchronized (inputLines) {
+			while (inputLines.isEmpty()) {
+				try {
+					inputLines.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+			input = inputLines.removeFirst();
+		}
+		return input;
+	}
+
+	/**
+	 * Returns the {@link InputStream}.
+	 * <p>
+	 * @return the {@link InputStream}
+	 */
+	public InputStream getIn() {
+		return in;
+	}
+
+	/**
+	 * Returns the {@link PrintStream}.
+	 * <p>
+	 * @return the {@link PrintStream}
+	 */
+	public PrintStream getOut() {
+		return out;
+	}
+
+	/**
+	 * Returns the error {@link PrintStream}.
+	 * <p>
+	 * @return the error {@link PrintStream}
+	 */
+	public PrintStream getErr() {
+		return out;
 	}
 
 
@@ -641,6 +615,15 @@ public class JConsole
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// KEY LISTENER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears the {@link JTextPane}.
+	 */
+	public void clear() {
+		textPane.setText(EMPTY);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -836,10 +819,6 @@ public class JConsole
 		}
 	}
 
-	public void clear() {
-		textPane.setText(EMPTY);
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// MOUSE LISTENER
@@ -875,6 +854,29 @@ public class JConsole
 	public void propertyChange(final PropertyChangeEvent event) {
 		if (event.getPropertyName().equals("lookAndFeel")) {
 			SwingUtilities.updateComponentTreeUI(menu);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// RUNNABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void run() {
+		try {
+			inPipeWatcher();
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+	}
+
+	protected void inPipeWatcher()
+			throws IOException {
+		// Arbitrary blocking factor
+		final byte[] ba = new byte[256];
+		int read;
+		while ((read = inPipe.read(ba)) >= 0) {
+			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
 		}
 	}
 

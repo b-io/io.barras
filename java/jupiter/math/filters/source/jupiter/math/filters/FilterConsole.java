@@ -42,6 +42,29 @@ public class FilterConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// MAIN
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Starts the {@link FilterConsole}.
+	 * <p>
+	 * @param args the array of command line arguments
+	 */
+	public static void main(final String[] args) {
+		int status = IO.EXIT_SUCCESS;
+		final FilterConsole console = new FilterConsole();
+		try {
+			// Get the measurements to update and predict the state (using the Kalman filter)
+			console.run();
+		} catch (final Exception ignored) {
+			status = IO.EXIT_FAILURE;
+		} finally {
+			console.exit(status);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,27 +87,7 @@ public class FilterConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MAIN
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Starts the {@link FilterConsole}.
-	 * <p>
-	 * @param args the array of command line arguments
-	 */
-	public static void main(final String[] args) {
-		int status = IO.EXIT_SUCCESS;
-		final FilterConsole console = new FilterConsole();
-		try {
-			// Get the measurements to update and predict the state (using the Kalman filter)
-			console.run();
-		} catch (final Exception ignored) {
-			status = IO.EXIT_FAILURE;
-		} finally {
-			console.exit(status);
-		}
-	}
-
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

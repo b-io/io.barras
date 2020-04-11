@@ -255,7 +255,7 @@ public class R {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int installPackage(final String name) {
@@ -459,6 +459,14 @@ public class R {
 			this.printer = printer;
 		}
 
+		/**
+		 * Clears the printer {@link IOHandler}.
+		 */
+		@Override
+		public void clear() {
+			printer.clear();
+		}
+
 		public void setWorkQueueToMonitor(final WorkQueue<?, ?> workQueueToMonitor) {
 			this.workQueueToMonitor = workQueueToMonitor;
 		}
@@ -488,11 +496,6 @@ public class R {
 				IO.error(text);
 				workQueueToMonitor.restart(true);
 			}
-		}
-
-		@Override
-		public void clear() {
-			printer.clear();
 		}
 
 		/**

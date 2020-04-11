@@ -159,7 +159,7 @@ public class AvlTreeMap<K, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -193,6 +193,8 @@ public class AvlTreeMap<K, V>
 		return node != null ? node.height + 1 : 0;
 	}
 
+	//////////////////////////////////////////////
+
 	public ExtendedList<Integer> getBalances() {
 		updateAll();
 		return getBalances(root, new ExtendedList<Integer>(size));
@@ -208,6 +210,8 @@ public class AvlTreeMap<K, V>
 		return list;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the flag specifying whether to update the tree {@link AvlTreeNode}.
 	 * <p>
@@ -217,9 +221,6 @@ public class AvlTreeMap<K, V>
 		return update;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -237,11 +238,12 @@ public class AvlTreeMap<K, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified {@code V} value to the specified {@code K} key.
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
 	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
@@ -299,7 +301,7 @@ public class AvlTreeMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified {@link AvlTreeNode}.
+	 * Removes the specified {@link AvlTreeNode} from {@code this}.
 	 * <p>
 	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */

@@ -63,6 +63,127 @@ public class Numbers {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@link Number} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link Number} to compare for order (may be {@code null})
+	 * @param b the other {@link Number} to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final Number a, final Number b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the numbers for order
+		if (a instanceof BigDecimal || b instanceof BigDecimal) {
+			return Comparables.compare(toBigDecimal(a), toBigDecimal(b));
+		}
+		return Doubles.compare(a.doubleValue(), b.doubleValue());
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
+	 * value).
+	 * <p>
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
+	 */
+	public static boolean isLessThan(final Number a, final Number b) {
+		return compare(a, b) < 0;
+	}
+
+	/**
+	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean isLessOrEqualTo(final Number a, final Number b) {
+		return compare(a, b) <= 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
+	 */
+	public static boolean isGreaterThan(final Number a, final Number b) {
+		return compare(a, b) > 0;
+	}
+
+	/**
+	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param a the {@link Number} to compare (may be {@code null})
+	 * @param b the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
+		return compare(a, b) >= 0;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T> the {@link Number} type
+	 * @param a   the {@link Number} to compare (may be {@code null})
+	 * @param b   the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
+	 */
+	public static <T extends Number> T getMin(final T a, final T b) {
+		return compare(a, b) <= 0 ? a : b;
+	}
+
+	/**
+	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param <T> the {@link Number} type
+	 * @param a   the {@link Number} to compare (may be {@code null})
+	 * @param b   the other {@link Number} to compare against (may be {@code null})
+	 * <p>
+	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
+	 */
+	public static <T extends Number> T getMax(final T a, final T b) {
+		return compare(a, b) >= 0 ? a : b;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -186,127 +307,6 @@ public class Numbers {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares the specified {@link Number} for order. Returns a negative integer, {@code 0} or a
-	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param a the {@link Number} to compare for order (may be {@code null})
-	 * @param b the other {@link Number} to compare against for order (may be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
-	 *         to or greater than {@code b}
-	 */
-	public static int compare(final Number a, final Number b) {
-		// Check the arguments
-		if (a == b) {
-			return 0;
-		}
-		if (a == null) {
-			return -1;
-		}
-		if (b == null) {
-			return 1;
-		}
-
-		// Compare the numbers for order
-		if (a instanceof BigDecimal || b instanceof BigDecimal) {
-			return Comparables.compare(toBigDecimal(a), toBigDecimal(b));
-		}
-		return Doubles.compare(a.doubleValue(), b.doubleValue());
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
-	 * value).
-	 * <p>
-	 * @param a the {@link Number} to compare (may be {@code null})
-	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
-	 */
-	public static boolean isLessThan(final Number a, final Number b) {
-		return compare(a, b) < 0;
-	}
-
-	/**
-	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
-	 * minimum value).
-	 * <p>
-	 * @param a the {@link Number} to compare (may be {@code null})
-	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 */
-	public static boolean isLessOrEqualTo(final Number a, final Number b) {
-		return compare(a, b) <= 0;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
-	 * minimum value).
-	 * <p>
-	 * @param a the {@link Number} to compare (may be {@code null})
-	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
-	 */
-	public static boolean isGreaterThan(final Number a, final Number b) {
-		return compare(a, b) > 0;
-	}
-
-	/**
-	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
-	 * minimum value).
-	 * <p>
-	 * @param a the {@link Number} to compare (may be {@code null})
-	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 */
-	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
-		return compare(a, b) >= 0;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param <T> the {@link Number} type
-	 * @param a   the {@link Number} to compare (may be {@code null})
-	 * @param b   the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
-	 */
-	public static <T extends Number> T getMin(final T a, final T b) {
-		return compare(a, b) <= 0 ? a : b;
-	}
-
-	/**
-	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param <T> the {@link Number} type
-	 * @param a   the {@link Number} to compare (may be {@code null})
-	 * @param b   the other {@link Number} to compare against (may be {@code null})
-	 * <p>
-	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
-	 */
-	public static <T extends Number> T getMax(final T a, final T b) {
-		return compare(a, b) >= 0 ? a : b;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -384,7 +384,7 @@ public class Numbers {
 		}
 		return integerDigitCount > MAX_INTEGER_DIGITS ||
 				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD ?
-						SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
-						numberString;
+				SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
+				numberString;
 	}
 }

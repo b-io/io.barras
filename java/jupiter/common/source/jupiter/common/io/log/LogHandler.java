@@ -135,7 +135,7 @@ public class LogHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -149,9 +149,6 @@ public class LogHandler
 		return Files.getPath(logDir).concat(Files.SEPARATOR).concat(logName);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -196,6 +193,61 @@ public class LogHandler
 		errorLogLock.lock();
 		try {
 			errorLog = new File(getPath(errorLogName));
+		} finally {
+			errorLogLock.unlock();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Deletes the logs.
+	 */
+	@Override
+	public void clear() {
+		if (Files.exists(logDir)) {
+			outputLogLock.lock();
+			deleteOutputLog();
+			try {
+				errorLogLock.lock();
+				deleteErrorLog();
+				try {
+					Files.delete(logDir);
+				} finally {
+					errorLogLock.unlock();
+				}
+			} finally {
+				outputLogLock.unlock();
+			}
+		}
+	}
+
+	/**
+	 * Deletes the output log.
+	 */
+	public void deleteOutputLog() {
+		outputLogLock.lock();
+		try {
+			if (Files.exists(outputLog)) {
+				Files.delete(outputLog);
+			}
+		} finally {
+			outputLogLock.unlock();
+		}
+	}
+
+	/**
+	 * Deletes the error log.
+	 */
+	public void deleteErrorLog() {
+		errorLogLock.lock();
+		try {
+			if (Files.exists(errorLog)) {
+				Files.delete(errorLog);
+			}
 		} finally {
 			errorLogLock.unlock();
 		}
@@ -313,61 +365,6 @@ public class LogHandler
 	public void flush(final boolean isError) {
 		Files.writeLine(getLogLine(isError), isError ? errorLog : outputLog);
 		clearLogLine(isError);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEANERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Deletes the logs.
-	 */
-	@Override
-	public void clear() {
-		if (Files.exists(logDir)) {
-			outputLogLock.lock();
-			deleteOutputLog();
-			try {
-				errorLogLock.lock();
-				deleteErrorLog();
-				try {
-					Files.delete(logDir);
-				} finally {
-					errorLogLock.unlock();
-				}
-			} finally {
-				outputLogLock.unlock();
-			}
-		}
-	}
-
-	/**
-	 * Deletes the output log.
-	 */
-	public void deleteOutputLog() {
-		outputLogLock.lock();
-		try {
-			if (Files.exists(outputLog)) {
-				Files.delete(outputLog);
-			}
-		} finally {
-			outputLogLock.unlock();
-		}
-	}
-
-	/**
-	 * Deletes the error log.
-	 */
-	public void deleteErrorLog() {
-		errorLogLock.lock();
-		try {
-			if (Files.exists(errorLog)) {
-				Files.delete(errorLog);
-			}
-		} finally {
-			errorLogLock.unlock();
-		}
 	}
 
 

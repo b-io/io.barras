@@ -109,7 +109,7 @@ public class Files {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -198,9 +198,6 @@ public class Files {
 		return fileName.substring(fileName.lastIndexOf('.') + 1);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -344,291 +341,50 @@ public class Files {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// READERS
+	// PARALLELIZERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link BufferedReader} of the specified {@link File}.
-	 * <p>
-	 * @param file the {@link File} to read
-	 * <p>
-	 * @return a {@link BufferedReader} of the specified {@link File}
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
+	 * Parallelizes {@code this}.
 	 */
-	public static BufferedReader createReader(final File file)
-			throws FileNotFoundException {
-		return createReader(file, DEFAULT_CHARSET);
-	}
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
 
-	/**
-	 * Creates a {@link BufferedReader} of the specified {@link File} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to read
-	 * @param charset the {@link Charset} of the {@link File} to read
-	 * <p>
-	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
-	 *         {@link Charset}
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code file}
-	 */
-	public static BufferedReader createReader(final File file, final Charset charset)
-			throws FileNotFoundException {
-		return IO.createReader(createInputStream(file), charset);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link Content} of the specified {@link File}.
-	 * <p>
-	 * @param file the {@link File} to read
-	 * <p>
-	 * @return the {@link Content} of the specified {@link File}
-	 */
-	public static Content read(final File file) {
-		return read(file, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Returns the {@link Content} of the specified {@link File} with the specified {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to read
-	 * @param charset the {@link Charset} of the {@link File} to read
-	 * <p>
-	 * @return the {@link Content} of the specified {@link File} with the specified {@link Charset}
-	 */
-	public static Content read(final File file, final Charset charset) {
-		try {
-			return IO.read(createInputStream(file), charset);
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
+		// Initialize
+		if (COPIER_QUEUE == null) {
+			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
+			PARALLELIZE = true;
+		} else {
+			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
 		}
-		return null;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the unzipped {@link Content} of the specified ZIP {@link File}.
-	 * <p>
-	 * @param file the {@link File} to unzip
-	 * <p>
-	 * @return the unzipped {@link Content} of the specified ZIP {@link File}
-	 */
-	public static Content unzip(final File file) {
-		return unzip(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the unzipped {@link Content} of the specified ZIP {@link File} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to unzip
-	 * @param charset the {@link Charset} of the {@link File} to unzip
-	 * <p>
-	 * @return the unzipped {@link Content} of the specified ZIP {@link File} with the specified
-	 *         {@link Charset}
+	 * Unparallelizes {@code this}.
 	 */
-	public static Content unzip(final File file, final Charset charset) {
-		try {
-			return IO.read(new ZipInputStream(createInputStream(file)), charset);
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (COPIER_QUEUE != null) {
+			PARALLELIZE = false;
+			COPIER_QUEUE.shutdown();
 		}
-		return null;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File}.
-	 * <p>
-	 * @param file the {@link File} to ungzip
-	 * <p>
-	 * @return the ungzipped {@link Content} of the specified GZIP {@link File}
-	 */
-	public static Content ungzip(final File file) {
-		return ungzip(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to ungzip
-	 * @param charset the {@link Charset} of the {@link File} to ungzip
-	 * <p>
-	 * @return the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
-	 *         {@link Charset}
+	 * Reparallelizes {@code this}.
 	 */
-	public static Content ungzip(final File file, final Charset charset) {
-		try {
-			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return null;
-	}
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the number of lines of the specified {@link File}.
-	 * <p>
-	 * @param file the {@link File} to count the lines from
-	 * <p>
-	 * @return the number of lines of the specified {@link File}
-	 */
-	public static int countLines(final File file) {
-		return countLines(file, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Returns the number of lines of the specified {@link File} with the specified {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to count the lines from
-	 * @param charset the {@link Charset} of the {@link File} to count the lines from
-	 * <p>
-	 * @return the number of lines of the specified {@link File} with the specified {@link Charset}
-	 */
-	public static int countLines(final File file, final Charset charset) {
-		return countLines(file, charset, false);
-	}
-
-	/**
-	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link File}.
-	 * <p>
-	 * @param file           the {@link File} to count the lines from
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link File}
-	 */
-	public static int countLines(final File file, final boolean skipEmptyLines) {
-		return countLines(file, DEFAULT_CHARSET, skipEmptyLines);
-	}
-
-	/**
-	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link File} with the specified {@link Charset}.
-	 * <p>
-	 * @param file           the {@link File} to count the lines from
-	 * @param charset        the {@link Charset} of the {@link File} to count the lines from
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link File} with the specified {@link Charset}
-	 */
-	public static int countLines(final File file, final Charset charset,
-			final boolean skipEmptyLines) {
-		try {
-			return IO.countLines(createInputStream(file), charset);
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return -1;
+		unparallelize();
+		parallelize();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WRITERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link BufferedWriter} of the specified {@link File}.
-	 * <p>
-	 * @param file   the {@link File} to write to
-	 * @param append the flag specifying whether to append
-	 * <p>
-	 * @return a {@link BufferedWriter} of the specified {@link File}
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
-	 */
-	public static BufferedWriter createWriter(final File file, final boolean append)
-			throws FileNotFoundException {
-		return createWriter(file, DEFAULT_CHARSET, append);
-	}
-
-	/**
-	 * Creates a {@link BufferedWriter} of the specified {@link File} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param file    the {@link File} to write to
-	 * @param charset the {@link Charset} of the {@link File} to write to
-	 * @param append  the flag specifying whether to append
-	 * <p>
-	 * @return a {@link BufferedWriter} of the specified {@link File} with the specified
-	 *         {@link Charset}
-	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
-	 */
-	public static BufferedWriter createWriter(final File file, final Charset charset,
-			final boolean append)
-			throws FileNotFoundException {
-		return IO.createWriter(createOutputStream(file, append), charset);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Writes the specified {@link String} to the specified {@link File}.
-	 * <p>
-	 * @param content the content {@link String} to write
-	 * @param file    the {@link File} to write to
-	 * <p>
-	 * @return {@code true} if the specified {@link String} is written to the specified
-	 *         {@link File}, {@code false} otherwise
-	 */
-	public static boolean writeLine(final String content, final File file) {
-		return writeLine(content, file, true, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Writes or appends the specified {@link String} to the specified {@link File} with the
-	 * specified {@link Charset}.
-	 * <p>
-	 * @param content the content {@link String} to write
-	 * @param file    the {@link File} to write to
-	 * @param append  the flag specifying whether to append
-	 * @param charset the {@link Charset} of the {@link File} to write to
-	 * <p>
-	 * @return {@code true} if the specified {@link String} is written to the specified {@link File}
-	 *         with the specified {@link Charset}, {@code false} otherwise
-	 */
-	public static boolean writeLine(final String content, final File file, final boolean append,
-			final Charset charset) {
-		boolean isWritten = false;
-		BufferedWriter writer = null;
-		try {
-			// Create the file writer with the charset
-			writer = IO.createWriter(createOutputStream(file, append), charset);
-			// Write or append the content to the file
-			writer.write(content + NEW_LINE);
-			isWritten = true;
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} finally {
-			Resources.close(writer);
-		}
-		return isWritten;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -1200,45 +956,283 @@ public class Files {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZATION
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Parallelizes {@code this}.
+	 * Creates a {@link BufferedReader} of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to read
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (COPIER_QUEUE == null) {
-			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
-		}
+	public static BufferedReader createReader(final File file)
+			throws FileNotFoundException {
+		return createReader(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Unparallelizes {@code this}.
+	 * Creates a {@link BufferedReader} of the specified {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to read
+	 * @param charset the {@link Charset} of the {@link File} to read
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
+	 *         {@link Charset}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+	public static BufferedReader createReader(final File file, final Charset charset)
+			throws FileNotFoundException {
+		return IO.createReader(createInputStream(file), charset);
+	}
 
-		// Shutdown
-		if (COPIER_QUEUE != null) {
-			PARALLELIZE = false;
-			COPIER_QUEUE.shutdown();
-		}
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Content} of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to read
+	 * <p>
+	 * @return the {@link Content} of the specified {@link File}
+	 */
+	public static Content read(final File file) {
+		return read(file, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Reparallelizes {@code this}.
+	 * Returns the {@link Content} of the specified {@link File} with the specified {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to read
+	 * @param charset the {@link Charset} of the {@link File} to read
+	 * <p>
+	 * @return the {@link Content} of the specified {@link File} with the specified {@link Charset}
 	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+	public static Content read(final File file, final Charset charset) {
+		try {
+			return IO.read(createInputStream(file), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
 
-		unparallelize();
-		parallelize();
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the unzipped {@link Content} of the specified ZIP {@link File}.
+	 * <p>
+	 * @param file the {@link File} to unzip
+	 * <p>
+	 * @return the unzipped {@link Content} of the specified ZIP {@link File}
+	 */
+	public static Content unzip(final File file) {
+		return unzip(file, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the unzipped {@link Content} of the specified ZIP {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to unzip
+	 * @param charset the {@link Charset} of the {@link File} to unzip
+	 * <p>
+	 * @return the unzipped {@link Content} of the specified ZIP {@link File} with the specified
+	 *         {@link Charset}
+	 */
+	public static Content unzip(final File file, final Charset charset) {
+		try {
+			return IO.read(new ZipInputStream(createInputStream(file)), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File}.
+	 * <p>
+	 * @param file the {@link File} to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified GZIP {@link File}
+	 */
+	public static Content ungzip(final File file) {
+		return ungzip(file, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to ungzip
+	 * @param charset the {@link Charset} of the {@link File} to ungzip
+	 * <p>
+	 * @return the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
+	 *         {@link Charset}
+	 */
+	public static Content ungzip(final File file, final Charset charset) {
+		try {
+			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of lines of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to count the lines from
+	 * <p>
+	 * @return the number of lines of the specified {@link File}
+	 */
+	public static int countLines(final File file) {
+		return countLines(file, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the number of lines of the specified {@link File} with the specified {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to count the lines from
+	 * @param charset the {@link Charset} of the {@link File} to count the lines from
+	 * <p>
+	 * @return the number of lines of the specified {@link File} with the specified {@link Charset}
+	 */
+	public static int countLines(final File file, final Charset charset) {
+		return countLines(file, charset, false);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * {@link File}.
+	 * <p>
+	 * @param file           the {@link File} to count the lines from
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         {@link File}
+	 */
+	public static int countLines(final File file, final boolean skipEmptyLines) {
+		return countLines(file, DEFAULT_CHARSET, skipEmptyLines);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * {@link File} with the specified {@link Charset}.
+	 * <p>
+	 * @param file           the {@link File} to count the lines from
+	 * @param charset        the {@link Charset} of the {@link File} to count the lines from
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         {@link File} with the specified {@link Charset}
+	 */
+	public static int countLines(final File file, final Charset charset,
+			final boolean skipEmptyLines) {
+		try {
+			return IO.countLines(createInputStream(file), charset);
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return -1;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link File}.
+	 * <p>
+	 * @param file   the {@link File} to write to
+	 * @param append the flag specifying whether to append
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 */
+	public static BufferedWriter createWriter(final File file, final boolean append)
+			throws FileNotFoundException {
+		return createWriter(file, DEFAULT_CHARSET, append);
+	}
+
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to write to
+	 * @param charset the {@link Charset} of the {@link File} to write to
+	 * @param append  the flag specifying whether to append
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link File} with the specified
+	 *         {@link Charset}
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 */
+	public static BufferedWriter createWriter(final File file, final Charset charset,
+			final boolean append)
+			throws FileNotFoundException {
+		return IO.createWriter(createOutputStream(file, append), charset);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Writes the specified {@link String} to the specified {@link File}.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * @param file    the {@link File} to write to
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is written to the specified
+	 *         {@link File}, {@code false} otherwise
+	 */
+	public static boolean writeLine(final String content, final File file) {
+		return writeLine(content, file, true, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Writes or appends the specified {@link String} to the specified {@link File} with the
+	 * specified {@link Charset}.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * @param file    the {@link File} to write to
+	 * @param append  the flag specifying whether to append
+	 * @param charset the {@link Charset} of the {@link File} to write to
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is written to the specified {@link File}
+	 *         with the specified {@link Charset}, {@code false} otherwise
+	 */
+	public static boolean writeLine(final String content, final File file, final boolean append,
+			final Charset charset) {
+		boolean isWritten = false;
+		BufferedWriter writer = null;
+		try {
+			// Create the file writer with the charset
+			writer = IO.createWriter(createOutputStream(file, append), charset);
+			// Write or append the content to the file
+			writer.write(content + NEW_LINE);
+			isWritten = true;
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.close(writer);
+		}
+		return isWritten;
 	}
 
 

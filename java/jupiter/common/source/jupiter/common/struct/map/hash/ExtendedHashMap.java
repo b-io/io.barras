@@ -134,7 +134,7 @@ public class ExtendedHashMap<K, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -146,7 +146,7 @@ public class ExtendedHashMap<K, V>
 		return Maps.getElementClass(keySet());
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the {@code V} value associated to the specified key, or the specified default
@@ -209,11 +209,25 @@ public class ExtendedHashMap<K, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified {@code V} value to the specified {@code K} key.
+	 * Removes all the key-value mappings from {@code this}.
+	 */
+	@Override
+	public synchronized void clear() {
+		super.clear();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
 	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
@@ -269,7 +283,7 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key {@link Object}.
+	 * Removes the key-value mapping of the specified key {@link Object} from {@code this}.
 	 * <p>
 	 * @param key the key {@link Object} of the key-value mapping to remove
 	 * <p>
@@ -287,23 +301,13 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @param keys the array of key {@link Object} of the key-value mappings to remove
 	 * <p>
-	 * @return the {@code V} values of the key-value mappings removed from {@code this} or
-	 *         {@code null} for the keys that are not present in an {@link ExtendedList}
+	 * @return the previous associated {@code V} values and {@code null} for the specified keys that
+	 *         are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public synchronized ExtendedList<V> removeAll(final Object... keys) {
 		return Maps.<V>removeAll(this, keys);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Removes all the key-value mappings.
-	 */
-	@Override
-	public synchronized void clear() {
-		super.clear();
 	}
 
 

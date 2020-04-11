@@ -246,7 +246,7 @@ public class InputOutput
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -271,9 +271,6 @@ public class InputOutput
 		return printer;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -326,280 +323,14 @@ public class InputOutput
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// READERS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.
-	 * <p>
-	 * @param input the {@link InputStream} to read from
-	 * <p>
-	 * @return a {@link BufferedReader} of the specified {@link InputStream}
+	 * Clears {@code this}.
 	 */
-	public static BufferedReader createReader(final InputStream input) {
-		return createReader(input, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Creates a {@link BufferedReader} of the specified {@link InputStream} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param input   the {@link InputStream} to read from
-	 * @param charset the {@link Charset} of the data to read
-	 * <p>
-	 * @return a {@link BufferedReader} of the specified {@link InputStream} with the specified
-	 *         {@link Charset}
-	 */
-	public static BufferedReader createReader(final InputStream input, final Charset charset) {
-		return new BufferedReader(new InputStreamReader(input, charset));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link Content} of the specified {@link InputStream}.
-	 * <p>
-	 * @param input the {@link InputStream} to read from
-	 * <p>
-	 * @return the {@link Content} of the specified {@link InputStream}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static Content read(final InputStream input)
-			throws IOException {
-		return read(input, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Returns the number of lines of the specified {@link InputStream} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param input   the {@link InputStream} to read from
-	 * @param charset the {@link Charset} of the data to read
-	 * <p>
-	 * @return the number of lines of the specified {@link InputStream} with the specified
-	 *         {@link Charset}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static Content read(final InputStream input, final Charset charset)
-			throws IOException {
-		final StringBuilder builder = Strings.createBuilder();
-		int lineCount = 0;
-		BufferedReader reader = null;
-		try {
-			// Create the input reader with the charset
-			reader = createReader(input, charset);
-			// Iterate over the lines
-			String line;
-			while ((line = reader.readLine()) != null) {
-				builder.append(line).append(NEW_LINE);
-				++lineCount;
-			}
-		} finally {
-			Resources.close(reader);
-		}
-		return new Content(builder.toString(), charset, lineCount);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the number of lines of the specified {@link InputStream}.
-	 * <p>
-	 * @param input the {@link InputStream} to count the lines from
-	 * <p>
-	 * @return the number of lines of the specified {@link InputStream}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static int countLines(final InputStream input)
-			throws IOException {
-		return countLines(input, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Returns the number of lines of the specified {@link InputStream} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param input   the {@link InputStream} to count the lines from
-	 * @param charset the {@link Charset} of the lines to count
-	 * <p>
-	 * @return the number of lines of the specified {@link InputStream} with the specified
-	 *         {@link Charset}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static int countLines(final InputStream input, final Charset charset)
-			throws IOException {
-		return countLines(input, charset, false);
-	}
-
-	/**
-	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link InputStream}.
-	 * <p>
-	 * @param input          the {@link InputStream} to count the lines from
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link InputStream}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static int countLines(final InputStream input, final boolean skipEmptyLines)
-			throws IOException {
-		return countLines(input, DEFAULT_CHARSET, skipEmptyLines);
-	}
-
-	/**
-	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 * {@link InputStream} with the specified {@link Charset}.
-	 * <p>
-	 * @param input          the {@link InputStream} to count the lines from
-	 * @param charset        the {@link Charset} of the lines to count
-	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
-	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
-	 *         {@link InputStream} with the specified {@link Charset}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input}
-	 */
-	public static int countLines(final InputStream input, final Charset charset,
-			final boolean skipEmptyLines)
-			throws IOException {
-		int lineCount = 0;
-		BufferedReader reader = null;
-		try {
-			// Create the input reader with the charset
-			reader = createReader(input, charset);
-			// Iterate over the lines
-			while (reader.readLine() != null) {
-				++lineCount;
-			}
-		} finally {
-			Resources.close(reader);
-		}
-		return lineCount;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WRITERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream}.
-	 * <p>
-	 * @param outputStream the {@link OutputStream} to write to
-	 * <p>
-	 * @return a {@link BufferedWriter} of the specified {@link OutputStream}
-	 */
-	public static BufferedWriter createWriter(final OutputStream outputStream) {
-		return createWriter(outputStream, DEFAULT_CHARSET);
-	}
-
-	/**
-	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
-	 * {@link Charset}.
-	 * <p>
-	 * @param outputStream the {@link OutputStream} to write to
-	 * @param charset      the {@link Charset} of the data to write
-	 * <p>
-	 * @return a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
-	 *         {@link Charset}
-	 */
-	public static BufferedWriter createWriter(final OutputStream outputStream,
-			final Charset charset) {
-		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Reads the data from the specified {@link InputStream} and writes it to the specified
-	 * {@link OutputStream}.
-	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param output the {@link OutputStream} to write to
-	 * <p>
-	 * @return the number of copied {@code byte}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input} or writing to
-	 *                     {@code output}
-	 */
-	public static long copy(final InputStream input, final OutputStream output)
-			throws IOException {
-		return copy(input, output, new byte[BUFFER_SIZE]);
-	}
-
-	/**
-	 * Reads the data from the specified {@link InputStream} and writes it to the specified
-	 * {@link OutputStream} with the specified buffer.
-	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param output the {@link OutputStream} to write to
-	 * @param buffer the buffer {@code byte} array used for copying
-	 * <p>
-	 * @return the number of copied {@code byte}
-	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input} or writing to
-	 *                     {@code output}
-	 */
-	public static long copy(final InputStream input, final OutputStream output, final byte[] buffer)
-			throws IOException {
-		long writtenByteCount = 0L;
-		int readByteCount;
-		while ((readByteCount = input.read(buffer)) != EOF) {
-			output.write(buffer, 0, readByteCount);
-			writtenByteCount += readByteCount;
-		}
-		return writtenByteCount;
-	}
-
-	/**
-	 * Copies the data of the specified {@link BufferedReader} with the specified
-	 * {@link PrintWriter} from the specified line index.
-	 * <p>
-	 * @param reader   the {@link BufferedReader} to read with
-	 * @param writer   the {@link PrintWriter} to write with
-	 * @param fromLine the line index to start copying forward from
-	 * <p>
-	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
-	 *                     {@code writer}
-	 */
-	public static void copy(final BufferedReader reader, final PrintWriter writer,
-			final int fromLine)
-			throws IOException {
-		int i = 0;
-		String line;
-		while ((line = reader.readLine()) != null) {
-			if (i++ >= fromLine) {
-				writer.println(line);
-			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the input line of the {@link ConsoleHandler} and prints it with all the
-	 * {@link IOHandler} (except the {@link ConsoleHandler}).
-	 * <p>
-	 * @return the input line of the {@link ConsoleHandler}
-	 */
-	public String input() {
-		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
-				consoleHandler.input(), stackIndex + STACK_INDEX_OFFSET);
-		for (final IOHandler handler : handlers) {
-			if (handler != consoleHandler) {
-				handler.println(message);
-			}
-		}
-		return message.getContent();
+	public void clear() {
+		printer.clear();
 	}
 
 
@@ -976,14 +707,277 @@ public class InputOutput
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEANERS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears {@code this}.
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified
+	 * {@link OutputStream}.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code output}
 	 */
-	public void clear() {
-		printer.clear();
+	public static long copy(final InputStream input, final OutputStream output)
+			throws IOException {
+		return copy(input, output, new byte[BUFFER_SIZE]);
+	}
+
+	/**
+	 * Reads the data from the specified {@link InputStream} and writes it to the specified
+	 * {@link OutputStream} with the specified buffer.
+	 * <p>
+	 * @param input  the {@link InputStream} to read from
+	 * @param output the {@link OutputStream} to write to
+	 * @param buffer the buffer {@code byte} array used for copying
+	 * <p>
+	 * @return the number of copied {@code byte}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input} or writing to
+	 *                     {@code output}
+	 */
+	public static long copy(final InputStream input, final OutputStream output, final byte[] buffer)
+			throws IOException {
+		long writtenByteCount = 0L;
+		int readByteCount;
+		while ((readByteCount = input.read(buffer)) != EOF) {
+			output.write(buffer, 0, readByteCount);
+			writtenByteCount += readByteCount;
+		}
+		return writtenByteCount;
+	}
+
+	/**
+	 * Copies the data of the specified {@link BufferedReader} with the specified
+	 * {@link PrintWriter} from the specified line index.
+	 * <p>
+	 * @param reader   the {@link BufferedReader} to read with
+	 * @param writer   the {@link PrintWriter} to write with
+	 * @param fromLine the line index to start copying forward from
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
+	 *                     {@code writer}
+	 */
+	public static void copy(final BufferedReader reader, final PrintWriter writer,
+			final int fromLine)
+			throws IOException {
+		int i = 0;
+		String line;
+		while ((line = reader.readLine()) != null) {
+			if (i++ >= fromLine) {
+				writer.println(line);
+			}
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the input line of the {@link ConsoleHandler} and prints it with all the
+	 * {@link IOHandler} (except the {@link ConsoleHandler}).
+	 * <p>
+	 * @return the input line of the {@link ConsoleHandler}
+	 */
+	public String input() {
+		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
+				consoleHandler.input(), stackIndex + STACK_INDEX_OFFSET);
+		for (final IOHandler handler : handlers) {
+			if (handler != consoleHandler) {
+				handler.println(message);
+			}
+		}
+		return message.getContent();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// READERS / WRITERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.
+	 * <p>
+	 * @param input the {@link InputStream} to read from
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link InputStream}
+	 */
+	public static BufferedReader createReader(final InputStream input) {
+		return createReader(input, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Creates a {@link BufferedReader} of the specified {@link InputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param input   the {@link InputStream} to read from
+	 * @param charset the {@link Charset} of the data to read
+	 * <p>
+	 * @return a {@link BufferedReader} of the specified {@link InputStream} with the specified
+	 *         {@link Charset}
+	 */
+	public static BufferedReader createReader(final InputStream input, final Charset charset) {
+		return new BufferedReader(new InputStreamReader(input, charset));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Content} of the specified {@link InputStream}.
+	 * <p>
+	 * @param input the {@link InputStream} to read from
+	 * <p>
+	 * @return the {@link Content} of the specified {@link InputStream}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static Content read(final InputStream input)
+			throws IOException {
+		return read(input, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the number of lines of the specified {@link InputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param input   the {@link InputStream} to read from
+	 * @param charset the {@link Charset} of the data to read
+	 * <p>
+	 * @return the number of lines of the specified {@link InputStream} with the specified
+	 *         {@link Charset}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static Content read(final InputStream input, final Charset charset)
+			throws IOException {
+		final StringBuilder builder = Strings.createBuilder();
+		int lineCount = 0;
+		BufferedReader reader = null;
+		try {
+			// Create the input reader with the charset
+			reader = createReader(input, charset);
+			// Iterate over the lines
+			String line;
+			while ((line = reader.readLine()) != null) {
+				builder.append(line).append(NEW_LINE);
+				++lineCount;
+			}
+		} finally {
+			Resources.close(reader);
+		}
+		return new Content(builder.toString(), charset, lineCount);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of lines of the specified {@link InputStream}.
+	 * <p>
+	 * @param input the {@link InputStream} to count the lines from
+	 * <p>
+	 * @return the number of lines of the specified {@link InputStream}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static int countLines(final InputStream input)
+			throws IOException {
+		return countLines(input, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Returns the number of lines of the specified {@link InputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param input   the {@link InputStream} to count the lines from
+	 * @param charset the {@link Charset} of the lines to count
+	 * <p>
+	 * @return the number of lines of the specified {@link InputStream} with the specified
+	 *         {@link Charset}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static int countLines(final InputStream input, final Charset charset)
+			throws IOException {
+		return countLines(input, charset, false);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * {@link InputStream}.
+	 * <p>
+	 * @param input          the {@link InputStream} to count the lines from
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         {@link InputStream}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static int countLines(final InputStream input, final boolean skipEmptyLines)
+			throws IOException {
+		return countLines(input, DEFAULT_CHARSET, skipEmptyLines);
+	}
+
+	/**
+	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 * {@link InputStream} with the specified {@link Charset}.
+	 * <p>
+	 * @param input          the {@link InputStream} to count the lines from
+	 * @param charset        the {@link Charset} of the lines to count
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
+	 *         {@link InputStream} with the specified {@link Charset}
+	 * <p>
+	 * @throws IOException if there is a problem with reading {@code input}
+	 */
+	public static int countLines(final InputStream input, final Charset charset,
+			final boolean skipEmptyLines)
+			throws IOException {
+		int lineCount = 0;
+		BufferedReader reader = null;
+		try {
+			// Create the input reader with the charset
+			reader = createReader(input, charset);
+			// Iterate over the lines
+			while (reader.readLine() != null) {
+				++lineCount;
+			}
+		} finally {
+			Resources.close(reader);
+		}
+		return lineCount;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream}.
+	 * <p>
+	 * @param outputStream the {@link OutputStream} to write to
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link OutputStream}
+	 */
+	public static BufferedWriter createWriter(final OutputStream outputStream) {
+		return createWriter(outputStream, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param outputStream the {@link OutputStream} to write to
+	 * @param charset      the {@link Charset} of the data to write
+	 * <p>
+	 * @return a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
+	 *         {@link Charset}
+	 */
+	public static BufferedWriter createWriter(final OutputStream outputStream,
+			final Charset charset) {
+		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
 	}
 
 

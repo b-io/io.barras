@@ -95,7 +95,57 @@ public abstract class DivideAndConquer<I>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PARALLELIZERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the {@link LockedWorkQueue} is running.
+	 * <p>
+	 * @return {@code true} if the {@link LockedWorkQueue} is running, {@code false} otherwise
+	 */
+	public boolean isRunning() {
+		return workQueue.isRunning();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Shutdowns the {@link LockedWorkQueue}.
+	 */
+	public void shutdown() {
+		workQueue.shutdown();
+	}
+
+	/**
+	 * Shutdowns the {@link LockedWorkQueue}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
+	 */
+	public void shutdown(final boolean force) {
+		workQueue.shutdown(force);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Restarts the {@link LockedWorkQueue}.
+	 */
+	public void restart() {
+		workQueue.restart();
+	}
+
+	/**
+	 * Restarts the {@link LockedWorkQueue}.
+	 * <p>
+	 * @param force the flag specifying whether to force restarting
+	 */
+	public void restart(final boolean force) {
+		workQueue.restart(force);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -216,56 +266,6 @@ public abstract class DivideAndConquer<I>
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
 	protected abstract int conquer(final I input, final Interval<Integer> interval);
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// POOL
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether the {@link LockedWorkQueue} is running.
-	 * <p>
-	 * @return {@code true} if the {@link LockedWorkQueue} is running, {@code false} otherwise
-	 */
-	public boolean isRunning() {
-		return workQueue.isRunning();
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Shutdowns the {@link LockedWorkQueue}.
-	 */
-	public void shutdown() {
-		workQueue.shutdown();
-	}
-
-	/**
-	 * Shutdowns the {@link LockedWorkQueue}.
-	 * <p>
-	 * @param force the flag specifying whether to force shutdowning
-	 */
-	public void shutdown(final boolean force) {
-		workQueue.shutdown(force);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Restarts the {@link LockedWorkQueue}.
-	 */
-	public void restart() {
-		workQueue.restart();
-	}
-
-	/**
-	 * Restarts the {@link LockedWorkQueue}.
-	 * <p>
-	 * @param force the flag specifying whether to force restarting
-	 */
-	public void restart(final boolean force) {
-		workQueue.restart(force);
-	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

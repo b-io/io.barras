@@ -109,7 +109,7 @@ public class TimeSeriesList
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -140,11 +140,11 @@ public class TimeSeriesList
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
 	 * <p>
-	 * @param index       the index of the {@link TimeSeries} to append to
-	 * @param yCoordinate the {@code double} range coordinate of the point to append
+	 * @param index the index of the {@link TimeSeries} to append to
+	 * @param y     the {@code double} range coordinate of the point to append
 	 */
-	public void addPoint(final int index, final double yCoordinate) {
-		addPoint(index, new Date(), yCoordinate);
+	public void addPoint(final int index, final double y) {
+		addPoint(index, new Date(), y);
 	}
 
 	/**
@@ -163,17 +163,17 @@ public class TimeSeriesList
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
 	 * <p>
-	 * @param yCoordinates the {@code double} range coordinate of each point to append
+	 * @param Y the {@code double} range coordinate of each point to append
 	 */
-	public void addPointToAll(final double[] yCoordinates) {
+	public void addPointToAll(final double[] Y) {
 		// Check the arguments
-		DoubleArguments.requireMinLength(yCoordinates, timeSeriesList.size());
+		DoubleArguments.requireMinLength(Y, timeSeriesList.size());
 
 		// Add or update the points
 		final Iterator<TimeSeries> timeSeriesIterator = timeSeriesList.iterator();
 		int i = 0;
 		while (timeSeriesIterator.hasNext()) {
-			timeSeriesIterator.next().addOrUpdate(new Millisecond(), yCoordinates[i++]);
+			timeSeriesIterator.next().addOrUpdate(new Millisecond(), Y[i++]);
 		}
 	}
 
@@ -182,11 +182,11 @@ public class TimeSeriesList
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
 	 * <p>
-	 * @param index       the index of the {@link TimeSeries} to append to
-	 * @param yCoordinate the range coordinate {@link Number} of the point to append
+	 * @param index the index of the {@link TimeSeries} to append to
+	 * @param y     the range coordinate {@link Number} of the point to append
 	 */
-	public void addPoint(final int index, final Number yCoordinate) {
-		addPoint(index, new Date(), yCoordinate);
+	public void addPoint(final int index, final Number y) {
+		addPoint(index, new Date(), y);
 	}
 
 	/**
@@ -206,11 +206,11 @@ public class TimeSeriesList
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
 	 * <p>
-	 * @param yCoordinates the range coordinate {@link Number} of each point to append
+	 * @param Y the range coordinate {@link Number} of each point to append
 	 */
-	public void addPointToAll(final Number[] yCoordinates) {
+	public void addPointToAll(final Number[] Y) {
 		// Check the arguments
-		ArrayArguments.requireMinLength(yCoordinates, timeSeriesList.size());
+		ArrayArguments.requireMinLength(Y, timeSeriesList.size());
 
 		// Add or update the points
 		final Iterator<TimeSeries> timeSeriesIterator = timeSeriesList.iterator();
@@ -218,7 +218,7 @@ public class TimeSeriesList
 		while (timeSeriesIterator.hasNext()) {
 			timeSeriesIterator.next()
 					.addOrUpdate(new Millisecond(),
-							Arguments.requireNonNull(yCoordinates[i++], "y-coordinate"));
+							Arguments.requireNonNull(Y[i++], "y-coordinate"));
 		}
 	}
 

@@ -102,7 +102,7 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -138,6 +138,8 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 		return node != null ? node.height + 1 : 0;
 	}
 
+	//////////////////////////////////////////////
+
 	public ExtendedList<Integer> getBalances() {
 		updateAll();
 		return getBalances(root, new ExtendedList<Integer>(size));
@@ -153,6 +155,8 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 		return list;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
 	 * Returns the flag specifying whether to update the tree {@link ComparableAvlTreeNode}.
 	 * <p>
@@ -162,9 +166,6 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 		return update;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -183,11 +184,12 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified {@code V} value to the specified {@code K} key.
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
 	 * @param key   the {@code K} key of the key-value mapping to put
 	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
@@ -245,7 +247,7 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified {@link ComparableAvlTreeNode}.
+	 * Removes the specified {@link ComparableAvlTreeNode} from {@code this}.
 	 * <p>
 	 * @param node a {@link ComparableAvlTreeNode} of {@code K} and {@code V} types
 	 */

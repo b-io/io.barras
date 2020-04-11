@@ -123,7 +123,7 @@ public class Interval<T extends Comparable<? super T>>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -144,9 +144,6 @@ public class Interval<T extends Comparable<? super T>>
 		return upperBound;
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -190,7 +187,41 @@ public class Interval<T extends Comparable<? super T>>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// FUNCTIONS
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param other the other {@link Interval} of {@code T} type to compare against for order (may
+	 *              be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
+	 */
+	@Override
+	public int compareTo(final Interval<T> other) {
+		// Check the arguments
+		if (this == other) {
+			return 0;
+		}
+		if (other == null) {
+			return 1;
+		}
+
+		// Compare the intervals for order
+		final int comparison = Comparables.compare(lowerBound, other.lowerBound);
+		if (comparison != 0) {
+			return comparison;
+		}
+		return Comparables.compare(upperBound, other.upperBound);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -237,24 +268,24 @@ public class Interval<T extends Comparable<? super T>>
 		// • The lower bound
 		if (other.lowerBound.value != null &&
 				(lowerBound.value == null &&
-						(upperBound.value == null || isValid(other.lowerBound, upperBound)) ||
+				(upperBound.value == null || isValid(other.lowerBound, upperBound)) ||
 				lowerBound.value != null &&
-						Comparables.isGreaterThan(lowerBound, other.lowerBound) &&
-						(other.isInside(lowerBound.value) ||
-								lowerBound.isInclusive &&
-										lowerBound.value.equals(other.upperBound.value)))) {
+				Comparables.isGreaterThan(lowerBound, other.lowerBound) &&
+				(other.isInside(lowerBound.value) ||
+				lowerBound.isInclusive &&
+				lowerBound.value.equals(other.upperBound.value)))) {
 			lowerBound = other.lowerBound.clone();
 			hasChanged = true;
 		}
 		// • The upper bound
 		if (other.upperBound.value != null &&
 				(upperBound.value == null &&
-						(lowerBound.value == null || isValid(lowerBound, other.upperBound)) ||
+				(lowerBound.value == null || isValid(lowerBound, other.upperBound)) ||
 				upperBound.value != null &&
-						Comparables.isLessThan(upperBound, other.upperBound) &&
-						(other.isInside(upperBound.value) ||
-								upperBound.isInclusive &&
-										upperBound.value.equals(other.lowerBound.value)))) {
+				Comparables.isLessThan(upperBound, other.upperBound) &&
+				(other.isInside(upperBound.value) ||
+				upperBound.isInclusive &&
+				upperBound.value.equals(other.lowerBound.value)))) {
 			upperBound = other.upperBound.clone();
 			hasChanged = true;
 		}
@@ -292,7 +323,7 @@ public class Interval<T extends Comparable<? super T>>
 		return lowerBound.value == null || upperBound.value == null ||
 				Comparables.isGreaterThan(lowerBound, upperBound) ||
 				!(lowerBound.isInclusive && upperBound.isInclusive) &&
-						lowerBound.value.equals(upperBound.value);
+				lowerBound.value.equals(upperBound.value);
 	}
 
 	/**
@@ -396,40 +427,6 @@ public class Interval<T extends Comparable<? super T>>
 			final UpperBound<T> upperBound) {
 		return lowerBound.value != null && upperBound.value != null &&
 				Comparables.isLessOrEqualTo(lowerBound.value, upperBound.value);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
-	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
-	 * {@code null} considered as the minimum value).
-	 * <p>
-	 * @param other the other {@link Interval} of {@code T} type to compare against for order (may
-	 *              be {@code null})
-	 * <p>
-	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
-	 *         equal to or greater than {@code other}
-	 */
-	@Override
-	public int compareTo(final Interval<T> other) {
-		// Check the arguments
-		if (this == other) {
-			return 0;
-		}
-		if (other == null) {
-			return 1;
-		}
-
-		// Compare the intervals for order
-		final int comparison = Comparables.compare(lowerBound, other.lowerBound);
-		if (comparison != 0) {
-			return comparison;
-		}
-		return Comparables.compare(upperBound, other.upperBound);
 	}
 
 
