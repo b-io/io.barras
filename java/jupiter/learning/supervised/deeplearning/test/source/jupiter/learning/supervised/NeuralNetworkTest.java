@@ -202,7 +202,7 @@ public class NeuralNetworkTest
 			final int layerCount = hiddenLayerCount + 1; // L
 			final Matrix[] weights = new Matrix[layerCount];
 			for (int li = 0; li < layerCount; ++li) {
-				weights[li] = Matrix.create(
+				weights[li] = Matrix.load(
 						Strings.join("test/resources/", example, "/W", li + 1, ".csv"));
 				IO.test("W", li + 1, " loaded");
 			}
