@@ -101,6 +101,18 @@ public class Pair<T1, T2>
 		return second;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 2;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -119,21 +131,6 @@ public class Pair<T1, T2>
 	 */
 	public void setSecond(final T2 second) {
 		this.second = second;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the size of {@code this}.
-	 * <p>
-	 * @return the size of {@code this}
-	 */
-	@Override
-	public int size() {
-		return 2;
 	}
 
 

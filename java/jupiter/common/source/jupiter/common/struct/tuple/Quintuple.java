@@ -148,6 +148,18 @@ public class Quintuple<T1, T2, T3, T4, T5>
 		return fifth;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 5;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -193,21 +205,6 @@ public class Quintuple<T1, T2, T3, T4, T5>
 	 */
 	public void setFifth(final T5 fifth) {
 		this.fifth = fifth;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the size of {@code this}.
-	 * <p>
-	 * @return the size of {@code this}
-	 */
-	@Override
-	public int size() {
-		return 5;
 	}
 
 

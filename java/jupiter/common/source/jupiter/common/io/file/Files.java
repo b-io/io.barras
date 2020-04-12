@@ -1187,20 +1187,20 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
-	 * Writes the specified {@link String} to the specified {@link File}.
+	 * Writes the specified content {@link String} to the specified {@link File}.
 	 * <p>
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is written to the specified
+	 * @return {@code true} if the specified content {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
-	public static boolean writeLine(final String content, final File file) {
-		return writeLine(content, file, true, DEFAULT_CHARSET);
+	public static boolean write(final String content, final File file) {
+		return write(content, file, true, DEFAULT_CHARSET);
 	}
 
 	/**
-	 * Writes or appends the specified {@link String} to the specified {@link File} with the
+	 * Writes or appends the specified content {@link String} to the specified {@link File} with the
 	 * specified {@link Charset}.
 	 * <p>
 	 * @param content the content {@link String} to write
@@ -1208,10 +1208,10 @@ public class Files {
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is written to the specified {@link File}
-	 *         with the specified {@link Charset}, {@code false} otherwise
+	 * @return {@code true} if the specified content {@link String} is written to the specified
+	 *         {@link File} with the specified {@link Charset}, {@code false} otherwise
 	 */
-	public static boolean writeLine(final String content, final File file, final boolean append,
+	public static boolean write(final String content, final File file, final boolean append,
 			final Charset charset) {
 		boolean isWritten = false;
 		BufferedWriter writer = null;
@@ -1219,7 +1219,7 @@ public class Files {
 			// Create the file writer with the charset
 			writer = InputOutput.createWriter(createOutputStream(file, append), charset);
 			// Write or append the content to the file
-			writer.write(content.concat(NEW_LINE));
+			writer.write(content);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot find the file ", Strings.quote(file));
@@ -1229,6 +1229,39 @@ public class Files {
 			Resources.close(writer);
 		}
 		return isWritten;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Writes the specified content {@link String} to the specified {@link File} and terminates the
+	 * line.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * @param file    the {@link File} to write to
+	 * <p>
+	 * @return {@code true} if the specified content {@link String} is written to the specified
+	 *         {@link File}, {@code false} otherwise
+	 */
+	public static boolean writeLine(final String content, final File file) {
+		return writeLine(content, file, true, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Writes or appends the specified content {@link String} to the specified {@link File} with the
+	 * specified {@link Charset} and terminates the line.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * @param file    the {@link File} to write to
+	 * @param append  the flag specifying whether to append
+	 * @param charset the {@link Charset} of the {@link File} to write to
+	 * <p>
+	 * @return {@code true} if the specified content {@link String} is written to the specified
+	 *         {@link File} with the specified {@link Charset}, {@code false} otherwise
+	 */
+	public static boolean writeLine(final String content, final File file, final boolean append,
+			final Charset charset) {
+		return write(content.concat(NEW_LINE), file, append, charset);
 	}
 
 

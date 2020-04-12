@@ -87,7 +87,7 @@ public class ExpressionHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The threshold on the length of the expressions to parallel.
+	 * The threshold on the length of the expressions to parallelize.
 	 */
 	protected static volatile int THRESHOLD = 100;
 	/**

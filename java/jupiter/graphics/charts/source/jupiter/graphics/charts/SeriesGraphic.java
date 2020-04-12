@@ -25,6 +25,7 @@ package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
+import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.struct.SeriesStyle;
 
@@ -95,6 +96,21 @@ public class SeriesGraphic
 		return getDataset(axisDatasetIndex).getSeries(seriesIndex);
 	}
 
+	/**
+	 * Returns the number of {@link XYSeries} in the {@link XYSeriesCollection} of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link XYSeriesCollection} of the {@link XYSeries} to count
+	 * <p>
+	 * @return the number of {@link XYSeries} in the {@link XYSeriesCollection} of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	@Override
+	public int countSeries(final int axisDatasetIndex) {
+		return getDataset(axisDatasetIndex).getSeriesCount();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
@@ -129,24 +145,6 @@ public class SeriesGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified {@link XYSeries} to the {@link XYSeriesCollection} of the specified
-	 * {@link XYRangeAxisDataset}.
-	 * <p>
-	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
-	 *                         {@link XYSeriesCollection} to append to
-	 * @param series           the {@link XYSeries} to append
-	 * <p>
-	 * @return the index of the {@link XYSeries} appended to the {@link XYSeriesCollection} of the
-	 *         specified {@link XYRangeAxisDataset}
-	 */
-	@Override
-	public int addSeries(final int axisDatasetIndex, final XYSeries series) {
-		final XYSeriesCollection collection = getDataset(axisDatasetIndex);
-		collection.addSeries(series);
-		return collection.getSeriesCount() - 1;
-	}
-
-	/**
 	 * Appends a {@link XYSeries} constructed with the specified name to the
 	 * {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}.
 	 * <p>
@@ -160,6 +158,24 @@ public class SeriesGraphic
 	@Override
 	public int addSeries(final int axisDatasetIndex, final String name) {
 		return addSeries(axisDatasetIndex, new XYSeries(name));
+	}
+
+	/**
+	 * Appends the specified {@link XYSeries} to the {@link XYSeriesCollection} of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link XYSeriesCollection} to append to
+	 * @param series           the {@link XYSeries} to append
+	 * <p>
+	 * @return the index of the specified {@link XYSeries} appended to the
+	 *         {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}
+	 */
+	@Override
+	public int addSeries(final int axisDatasetIndex, final XYSeries series) {
+		final XYSeriesCollection collection = getDataset(axisDatasetIndex);
+		collection.addSeries(series);
+		return collection.getSeriesCount() - 1;
 	}
 
 	/**
@@ -180,11 +196,32 @@ public class SeriesGraphic
 	 */
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style,
 			final double[] X, final double[] Y) {
+		return addSeries(axisDatasetIndex, new XYSeries(name), style, X, Y);
+	}
+
+	/**
+	 * Appends the specified {@link XYSeries} with the specified {@link SeriesStyle} and points to
+	 * the {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link XYSeriesCollection} to append to
+	 * @param series           the {@link XYSeries} to append
+	 * @param style            the {@link SeriesStyle} of the {@link XYSeries} to append
+	 * @param X                the {@code double} domain coordinates of the points of the
+	 *                         {@link XYSeries} to append
+	 * @param Y                the {@code double} range coordinates of the points of the
+	 *                         {@link XYSeries} to append
+	 * <p>
+	 * @return the index of the specified {@link XYSeries} appended to the
+	 *         {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}
+	 */
+	public int addSeries(final int axisDatasetIndex, final XYSeries series, final SeriesStyle style,
+			final double[] X, final double[] Y) {
 		// Check the arguments
 		DoubleArguments.requireSameLength(X, Y);
 
-		// Create the series with the name and style
-		final int seriesIndex = addSeries(axisDatasetIndex, name, style);
+		// Add the series with the style
+		final int seriesIndex = addSeries(axisDatasetIndex, series, style);
 		// Add the points
 		for (int i = 0; i < X.length; ++i) {
 			addPoint(axisDatasetIndex, seriesIndex, X[i], Y[i]);
@@ -233,6 +270,24 @@ public class SeriesGraphic
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends a point with the specified domain and range coordinates to the specified
+	 * {@link XYSeries} of the {@link XYSeriesCollection} of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
+	 *                         {@link XYSeriesCollection} containing the {@link XYSeries} to append
+	 *                         to
+	 * @param seriesIndex      the index of the {@link XYSeries} to append to
+	 * @param x                the domain coordinate {@link String} of the point to append
+	 * @param y                the range coordinate {@link String} of the point to append
+	 */
+	@Override
+	public void addPoint(final int axisDatasetIndex, final int seriesIndex, final String x,
+			final String y) {
+		addPoint(axisDatasetIndex, seriesIndex, Doubles.convert(x), Doubles.convert(y));
+	}
 
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified

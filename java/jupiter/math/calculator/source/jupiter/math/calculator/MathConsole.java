@@ -61,8 +61,8 @@ public class MathConsole
 			status = InputOutput.EXIT_FAILURE;
 		} finally {
 			Calculator.unparallelize();
-			console.exit(status);
 		}
+		console.exit(status);
 	}
 
 

@@ -26,6 +26,7 @@ package jupiter.common.io.file;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -377,31 +378,33 @@ public class FileHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Writes the specified {@link String}.
+	 * Writes the specified content {@link String}.
 	 * <p>
-	 * @param text the {@link String} to write
+	 * @param content the content {@link String} to write
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
+	 * @return {@code true} if the specified content {@link String} is written, {@code false}
+	 *         otherwise
 	 */
-	public boolean writeLine(final String text) {
-		return writeLine(text, true);
+	public boolean write(final String content) {
+		return write(content, true);
 	}
 
 	/**
-	 * Writes the specified {@link String}.
+	 * Writes the specified content {@link String}.
 	 * <p>
-	 * @param text   the {@link String} to write
-	 * @param append the flag specifying whether to append
+	 * @param content the content {@link String} to write
+	 * @param append  the flag specifying whether to append
 	 * <p>
-	 * @return {@code true} if the specified {@link String} is written, {@code false} otherwise
+	 * @return {@code true} if the specified content {@link String} is written, {@code false}
+	 *         otherwise
 	 */
-	public boolean writeLine(final String text, final boolean append) {
+	public boolean write(final String content, final boolean append) {
 		try {
 			// Initialize
 			createWriter(append);
 
-			// Append the text
-			writer.write(text.concat(NEW_LINE));
+			// Append the content
+			writer.write(content);
 			writer.flush();
 			return true;
 		} catch (final FileNotFoundException ex) {
@@ -410,6 +413,44 @@ public class FileHandler
 			IO.error(ex);
 		}
 		return false;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Writes the specified content {@link String} and terminates the line.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * <p>
+	 * @return {@code true} if the specified content {@link String} is written, {@code false}
+	 *         otherwise
+	 */
+	public boolean writeLine(final String content) {
+		return writeLine(content, true);
+	}
+
+	/**
+	 * Writes the specified content {@link String} and terminates the line.
+	 * <p>
+	 * @param content the content {@link String} to write
+	 * @param append  the flag specifying whether to append
+	 * <p>
+	 * @return {@code true} if the specified content {@link String} is written, {@code false}
+	 *         otherwise
+	 */
+	public boolean writeLine(final String content, final boolean append) {
+		return write(content.concat(NEW_LINE), append);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes all the lines.
+	 * <p>
+	 * @return {@code true} if all the lines are removed, {@code false} otherwise
+	 */
+	public boolean empty() {
+		return write(EMPTY, false);
 	}
 
 

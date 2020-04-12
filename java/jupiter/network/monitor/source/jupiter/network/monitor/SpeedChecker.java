@@ -32,7 +32,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static volatile int RUNS_COUNT = 2880;
-	public static volatile int TIME_INTERVAL = 5000; // [ms]
+	public static volatile int TIME_INTERVAL = 30000; // [ms]
 	public static volatile int TIME_OUT = 15000; // [ms]
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,13 +105,19 @@ public class SpeedChecker {
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		start();
-		show();
-		for (int ri = 0; ri < RUNS_COUNT; ++ri) {
-			SpeedChecker.downloadAll();
-			Threads.sleep(TIME_INTERVAL);
+		parallelize();
+		try {
+			start();
+			clear();
+			show();
+			for (int ri = 0; ri < RUNS_COUNT; ++ri) {
+				SpeedChecker.downloadAll();
+				Threads.sleep(TIME_INTERVAL);
+			}
+			stop();
+		} finally {
+			unparallelize();
 		}
-		stop();
 	}
 
 
@@ -164,12 +169,12 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Deletes the data files.
+	 * Empties the data files.
 	 */
 	public static void clear() {
 		final FileHandler[] dataFileHandlers = Collections.toArray(DATA_FILES.values());
 		for (final FileHandler dataFileHandler : dataFileHandlers) {
-			dataFileHandler.delete();
+			dataFileHandler.empty();
 		}
 	}
 
@@ -368,10 +373,8 @@ public class SpeedChecker {
 		try {
 			final StringTable coordinates = new StringTable(new String[] {"Time",
 				Files.getNameWithoutExtension(path)}, path, false);
-			graph.load(axisDatasetIndex, coordinates, 0, 1, true);
+			graph.load(axisDatasetIndex, coordinates, 0, 1);
 		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
 			IO.error(ex);
 		}
 	}

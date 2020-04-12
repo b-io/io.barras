@@ -132,6 +132,18 @@ public class Quadruple<T1, T2, T3, T4>
 		return fourth;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 4;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -168,21 +180,6 @@ public class Quadruple<T1, T2, T3, T4>
 	 */
 	public void setFourth(final T4 fourth) {
 		this.fourth = fourth;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the size of {@code this}.
-	 * <p>
-	 * @return the size of {@code this}
-	 */
-	@Override
-	public int size() {
-		return 4;
 	}
 
 

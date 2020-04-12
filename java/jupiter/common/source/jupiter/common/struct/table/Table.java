@@ -965,6 +965,7 @@ public class Table<E>
 			if (hasHeader) {
 				header = values;
 			} else {
+				header = createHeader(n);
 				setRow(i++, parser.parseToArray(values));
 			}
 			while ((line = reader.readLine()) != null) {

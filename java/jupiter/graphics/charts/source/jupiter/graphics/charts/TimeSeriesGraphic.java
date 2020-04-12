@@ -29,8 +29,6 @@ import java.text.ParseException;
 import java.util.Date;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.table.StringTable;
-import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Doubles;
@@ -106,6 +104,21 @@ public class TimeSeriesGraphic
 		return getDataset(axisDatasetIndex).getSeries(timeSeriesIndex);
 	}
 
+	/**
+	 * Returns the number of {@link TimeSeries} in the {@link TimeSeriesList} of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link TimeSeriesList} of the {@link TimeSeries} to count
+	 * <p>
+	 * @return the number of {@link TimeSeries} in the {@link TimeSeriesList} of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	@Override
+	public int countSeries(final int axisDatasetIndex) {
+		return getDataset(axisDatasetIndex).getSeriesCount();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
@@ -137,52 +150,6 @@ public class TimeSeriesGraphic
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads the time series from the specified {@link StringTable}.
-	 * <p>
-	 * @param axisDatasetIndex the
-	 * @param coordinates      the {@link StringTable} containing the {@link Date} and coordinates
-	 * @param xColumnIndex     the index of the column containing the domain coordinates
-	 * @param yColumnIndex     the index of the column containing the range coordinates
-	 * @param hasTime          the flag specifying whether to parse the domain coordinates with time
-	 * <p>
-	 * @throws ParseException if there is a problem with parsing the domain coordinates to
-	 *                        {@link Date}
-	 */
-	public void load(final int axisDatasetIndex, final StringTable coordinates,
-			final int xColumnIndex, final int yColumnIndex, final boolean hasTime)
-			throws ParseException {
-		// Check the arguments
-		Arguments.requireNonNull(coordinates, "coordinates");
-
-		// Load the time series
-		final int m = coordinates.getRowCount();
-		if (m > 0) {
-			final int n = coordinates.getColumnCount();
-			if (xColumnIndex < n && yColumnIndex < n) {
-				final int timeSeriesIndex = addSeries(axisDatasetIndex,
-						coordinates.getColumnName(yColumnIndex));
-				for (int i = 0; i < m; ++i) {
-					addPoint(axisDatasetIndex, timeSeriesIndex,
-							hasTime ? Dates.parseWithTime(coordinates.get(i, xColumnIndex)) :
-									Dates.parse(coordinates.get(i, xColumnIndex)),
-							Doubles.convert(coordinates.get(i, yColumnIndex)));
-				}
-			} else if (xColumnIndex >= n) {
-				IO.error("The column of the domain coordinates is missing");
-			} else {
-				IO.error("The column of the range coordinates is missing");
-			}
-		} else {
-			IO.warn("No coordinates found");
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -199,24 +166,6 @@ public class TimeSeriesGraphic
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified {@link TimeSeries} to the {@link TimeSeriesList} of the specified
-	 * {@link XYRangeAxisDataset}.
-	 * <p>
-	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
-	 *                         {@link TimeSeriesList} to append to
-	 * @param timeSeries       the {@link TimeSeries} to append
-	 * <p>
-	 * @return the index of the {@link TimeSeries} appended to the {@link TimeSeriesList} of the
-	 *         specified {@link XYRangeAxisDataset}
-	 */
-	@Override
-	public int addSeries(final int axisDatasetIndex, final TimeSeries timeSeries) {
-		final TimeSeriesList timeSeriesList = getDataset(axisDatasetIndex);
-		timeSeriesList.addSeries(timeSeries);
-		return timeSeriesList.getSeriesCount() - 1;
-	}
-
-	/**
 	 * Appends a {@link TimeSeries} constructed with the specified name to the
 	 * {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
 	 * <p>
@@ -230,6 +179,24 @@ public class TimeSeriesGraphic
 	@Override
 	public int addSeries(final int axisDatasetIndex, final String name) {
 		return addSeries(axisDatasetIndex, new TimeSeries(name));
+	}
+
+	/**
+	 * Appends the specified {@link TimeSeries} to the {@link TimeSeriesList} of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link TimeSeriesList} to append to
+	 * @param timeSeries       the {@link TimeSeries} to append
+	 * <p>
+	 * @return the index of the specified {@link TimeSeries} appended to the {@link TimeSeriesList}
+	 *         of the specified {@link XYRangeAxisDataset}
+	 */
+	@Override
+	public int addSeries(final int axisDatasetIndex, final TimeSeries timeSeries) {
+		final TimeSeriesList timeSeriesList = getDataset(axisDatasetIndex);
+		timeSeriesList.addSeries(timeSeries);
+		return timeSeriesList.getSeriesCount() - 1;
 	}
 
 	/**
@@ -250,11 +217,32 @@ public class TimeSeriesGraphic
 	 */
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style,
 			final Date[] X, final double[] Y) {
+		return addSeries(axisDatasetIndex, new TimeSeries(name), style, X, Y);
+	}
+
+	/**
+	 * Appends the specified {@link TimeSeries} with the specified {@link SeriesStyle} and points to
+	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
+	 *                         {@link TimeSeriesList} to append to
+	 * @param timeSeries       the {@link TimeSeries} to append
+	 * @param style            the {@link SeriesStyle} of the {@link TimeSeries} to append
+	 * @param X                the {@code double} domain coordinates of the points of the
+	 *                         {@link TimeSeries} to append
+	 * @param Y                the {@code double} range coordinates of the points of the
+	 *                         {@link TimeSeries} to append
+	 * <p>
+	 * @return the index of the specified {@link TimeSeries} appended to the {@link TimeSeriesList}
+	 *         of the specified {@link XYRangeAxisDataset}
+	 */
+	public int addSeries(final int axisDatasetIndex, final TimeSeries timeSeries,
+			final SeriesStyle style, final Date[] X, final double[] Y) {
 		// Check the arguments
 		ArrayArguments.requireSameLength(X, Y.length);
 
-		// Create the time series with the name and style
-		final int timeSeriesIndex = addSeries(axisDatasetIndex, name, style);
+		// Add the time series with the style
+		final int timeSeriesIndex = addSeries(axisDatasetIndex, timeSeries, style);
 		// Add the points
 		for (int i = 0; i < X.length; ++i) {
 			addPoint(axisDatasetIndex, timeSeriesIndex, X[i], Y[i]);
@@ -303,6 +291,26 @@ public class TimeSeriesGraphic
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends a point with the specified domain and range coordinates to the specified
+	 * {@link TimeSeries} of the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
+	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
+	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
+	 * @param x                the domain coordinate {@link String} of the point to append
+	 * @param y                the range coordinate {@link String} of the point to append
+	 */
+	@Override
+	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final String x,
+			final String y) {
+		try {
+			addPoint(axisDatasetIndex, timeSeriesIndex, Dates.parseWithTime(x), Doubles.convert(y));
+		} catch (final ParseException ex) {
+			IO.error(ex);
+		}
+	}
 
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries} of

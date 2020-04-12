@@ -117,6 +117,18 @@ public class Triple<T1, T2, T3>
 		return third;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 3;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -144,21 +156,6 @@ public class Triple<T1, T2, T3>
 	 */
 	public void setThird(final T3 third) {
 		this.third = third;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the size of {@code this}.
-	 * <p>
-	 * @return the size of {@code this}
-	 */
-	@Override
-	public int size() {
-		return 3;
 	}
 
 

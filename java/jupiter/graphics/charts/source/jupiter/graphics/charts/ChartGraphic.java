@@ -23,12 +23,16 @@
  */
 package jupiter.graphics.charts;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import java.awt.EventQueue;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.table.StringTable;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
@@ -147,6 +151,18 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	public abstract S getSeries(final int axisDatasetIndex, final int seriesIndex);
 
 	/**
+	 * Returns the number of {@code S} series in the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset of the {@code S} series to count
+	 * <p>
+	 * @return the number of {@code S} series in the {@code D} dataset of the specified
+	 *         {@link XYRangeAxisDataset}
+	 */
+	public abstract int countSeries(final int axisDatasetIndex);
+
+	/**
 	 * Returns the size of the {@code S} series at the specified index in the {@code D} dataset of
 	 * the specified {@link XYRangeAxisDataset}.
 	 * <p>
@@ -228,6 +244,52 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads the {@code S} series from the specified {@link StringTable} to the {@code D} dataset of
+	 * the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to load to
+	 * @param coordinates      the {@link StringTable} containing the coordinates to load
+	 * @param xColumnIndex     the index of the column containing the domain coordinates to load
+	 * @param yColumnIndex     the index of the column containing the range coordinates to load
+	 */
+	public void load(final int axisDatasetIndex, final StringTable coordinates,
+			final int xColumnIndex, final int yColumnIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(coordinates, "coordinates");
+
+		// Add the series
+		final int n = coordinates.getColumnCount();
+		final int seriesIndex;
+		if (yColumnIndex < n) {
+			seriesIndex = addSeries(axisDatasetIndex, coordinates.getColumnName(yColumnIndex));
+		} else {
+			seriesIndex = addSeries(axisDatasetIndex);
+		}
+		// Add the points to the series
+		final int m = coordinates.getRowCount();
+		if (m > 0) {
+			if (xColumnIndex < n && yColumnIndex < n) {
+				for (int i = 0; i < m; ++i) {
+					addPoint(axisDatasetIndex, seriesIndex, coordinates.get(i, xColumnIndex),
+							coordinates.get(i, yColumnIndex));
+				}
+			} else if (xColumnIndex >= n) {
+				IO.warn("The column of the domain coordinates is missing");
+			} else {
+				IO.warn("The column of the range coordinates is missing");
+			}
+		} else {
+			IO.warn("No coordinates found");
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -288,17 +350,18 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified {@code S} series to the {@code D} dataset of the specified
+	 * Appends a {@code S} series to the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
 	 * <p>
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
-	 * @param series           the {@code S} series to append
 	 * <p>
 	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
-	public abstract int addSeries(final int axisDatasetIndex, final S series);
+	public int addSeries(final int axisDatasetIndex) {
+		return addSeries(axisDatasetIndex, "Y" + countSeries(axisDatasetIndex));
+	}
 
 	/**
 	 * Appends a {@code S} series constructed with the specified name to the {@code D} dataset of
@@ -314,6 +377,19 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	public abstract int addSeries(final int axisDatasetIndex, final String name);
 
 	/**
+	 * Appends the specified {@code S} series to the {@code D} dataset of the specified
+	 * {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to append to
+	 * @param series           the {@code S} series to append
+	 * <p>
+	 * @return the index of the specified {@code S} series appended to the {@code D} dataset of the
+	 *         specified {@link XYRangeAxisDataset}
+	 */
+	public abstract int addSeries(final int axisDatasetIndex, final S series);
+
+	/**
 	 * Appends a {@code S} series constructed with the specified name and {@link SeriesStyle} to the
 	 * {@code D} dataset of the specified {@link XYRangeAxisDataset}.
 	 * <p>
@@ -327,6 +403,24 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	 */
 	public int addSeries(final int axisDatasetIndex, final String name, final SeriesStyle style) {
 		final int seriesIndex = addSeries(axisDatasetIndex, name);
+		styles.put(new Pair<Integer, Integer>(axisDatasetIndex, seriesIndex), style);
+		return seriesIndex;
+	}
+
+	/**
+	 * Appends the specified {@code S} series with the specified {@link SeriesStyle} to the
+	 * {@code D} dataset of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
+	 *                         dataset to append to
+	 * @param series           the {@code S} series to append
+	 * @param style            the {@link SeriesStyle} of the {@code S} series to append
+	 * <p>
+	 * @return the index of the specified {@code S} series appended to the {@code D} dataset of the
+	 *         specified {@link XYRangeAxisDataset}
+	 */
+	public int addSeries(final int axisDatasetIndex, final S series, final SeriesStyle style) {
+		final int seriesIndex = addSeries(axisDatasetIndex, series);
 		styles.put(new Pair<Integer, Integer>(axisDatasetIndex, seriesIndex), style);
 		return seriesIndex;
 	}
@@ -361,6 +455,21 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	 *                         dataset to remove from
 	 */
 	public abstract void removeAllSeries(final int axisDatasetIndex);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends a point with the specified domain and range coordinates to the specified {@code S}
+	 * series of the {@code D} dataset of the specified {@link XYRangeAxisDataset}.
+	 * <p>
+	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the {@code D} dataset
+	 *                         containing the {@code S} series to append to
+	 * @param seriesIndex      the index of the {@code S} series to append to
+	 * @param x                the domain coordinate {@link String} of the point to append
+	 * @param y                the range coordinate {@link String} of the point to append
+	 */
+	public abstract void addPoint(final int axisDatasetIndex, final int seriesIndex,
+			final String x, final String y);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
