@@ -38,7 +38,7 @@ public class PairTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests clone method, of class Pair.
+	 * Tests {@link Pair#clone}.
 	 */
 	@SuppressWarnings("deprecation")
 	public void testClone() {

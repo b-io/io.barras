@@ -41,7 +41,7 @@ public class LogisticRegressionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests classify method, of class LogisticRegression.
+	 * Tests {@link LogisticRegression#classify}.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");

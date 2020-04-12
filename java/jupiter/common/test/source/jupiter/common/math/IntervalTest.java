@@ -80,7 +80,7 @@ public class IntervalTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests merge method, of class Interval.
+	 * Tests {@link Interval#merge}.
 	 */
 	public void testMerge() {
 		IO.test(BULLET, " merge");
@@ -142,7 +142,7 @@ public class IntervalTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests isInside method, of class Interval.
+	 * Tests {@link Interval#isInside}.
 	 */
 	public void testIsInside() {
 		IO.test(BULLET, " isInside");
@@ -163,7 +163,7 @@ public class IntervalTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests compareTo method, of class Interval.
+	 * Tests {@link Interval#compareTo}.
 	 */
 	public void testCompareTo() {
 		IO.test(BULLET, " compareTo");

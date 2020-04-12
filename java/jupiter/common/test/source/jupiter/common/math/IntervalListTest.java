@@ -62,7 +62,7 @@ public class IntervalListTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests isInside method, of class IntervalList.
+	 * Tests {@link IntervalList#isInside}.
 	 */
 	public void testIsInside() {
 		IO.test(BULLET, " isInside");
@@ -81,7 +81,7 @@ public class IntervalListTest
 	}
 
 	/**
-	 * Tests merge method, of class IntervalList.
+	 * Tests {@link IntervalList#merge}.
 	 */
 	public void testMerge() {
 		IO.test(BULLET, " merge");

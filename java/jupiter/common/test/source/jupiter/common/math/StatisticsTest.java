@@ -38,7 +38,7 @@ public class StatisticsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests normalCDF method, of class Statistics.
+	 * Tests {@link Statistics#normalCDF}.
 	 */
 	public void testNormalCDF() {
 		IO.test(BULLET, " normalCDF");
@@ -48,7 +48,7 @@ public class StatisticsTest
 	}
 
 	/**
-	 * Tests normalCDFInverse method, of class Statistics.
+	 * Tests {@link Statistics#normalCDFInverse}.
 	 */
 	public void testNormalCDFInverse() {
 		IO.test(BULLET, " normalCDFInverse");

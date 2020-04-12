@@ -40,7 +40,7 @@ public class TableTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests shift method, of class Table.
+	 * Tests {@link Table#shift}.
 	 */
 	public void testShift() {
 		IO.test(BULLET, " shift");
@@ -55,7 +55,7 @@ public class TableTest
 	}
 
 	/**
-	 * Tests transpose method, of class Table.
+	 * Tests {@link Table#transpose}.
 	 */
 	public void testTranspose() {
 		IO.test(BULLET, " transpose");
@@ -73,7 +73,7 @@ public class TableTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests load method, of class Table.
+	 * Tests {@link Table#load}.
 	 */
 	public void testLoad() {
 		IO.test(BULLET, " load");
@@ -88,7 +88,7 @@ public class TableTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests equals method, of class Table.
+	 * Tests {@link Table#equals}.
 	 */
 	public void testEquals() {
 		IO.test(BULLET, " equals");
@@ -99,7 +99,7 @@ public class TableTest
 	}
 
 	/**
-	 * Tests hashCode method, of class Table.
+	 * Tests {@link Table#hashCode}.
 	 */
 	public void testHashCode() {
 		IO.test(BULLET, " hashCode");

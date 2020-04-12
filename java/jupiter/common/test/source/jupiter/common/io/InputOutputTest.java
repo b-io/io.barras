@@ -33,17 +33,17 @@ import jupiter.common.io.console.IConsole;
 import jupiter.common.io.console.SystemConsole;
 import jupiter.common.test.Test;
 
-public class IOTest
+public class InputOutputTest
 		extends Test {
 
-	public IOTest(final String name) {
+	public InputOutputTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests print method, of class IO.
+	 * Tests {@link InputOutput#print}.
 	 */
 	public void testPrint() {
 		IO.test(BULLET, " print");
@@ -58,7 +58,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests println method, of class IO.
+	 * Tests {@link InputOutput#println}.
 	 */
 	public void testPrintln_Object() {
 		IO.test(BULLET, " println_Object");
@@ -70,7 +70,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests println method, of class IO.
+	 * Tests {@link InputOutput#println}.
 	 */
 	public void testPrintln_Message() {
 		IO.test(BULLET, " println_Message");
@@ -83,7 +83,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests bar method, of class IO.
+	 * Tests {@link InputOutput#bar}.
 	 */
 	public void testBar() {
 		IO.test(BULLET, " bar");
@@ -94,7 +94,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests input method, of class IO.
+	 * Tests {@link InputOutput#input}.
 	 */
 	public void testInput() {
 		IO.test(BULLET, " input");
@@ -106,7 +106,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests trace method, of class IO.
+	 * Tests {@link InputOutput#trace}.
 	 */
 	public void testTrace() {
 		IO.test(BULLET, " trace");
@@ -120,7 +120,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests debug method, of class IO.
+	 * Tests {@link InputOutput#debug}.
 	 */
 	public void testDebug() {
 		IO.test(BULLET, " debug");
@@ -133,7 +133,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests test method, of class IO.
+	 * Tests {@link InputOutput#test}.
 	 */
 	public void testTest() {
 		IO.test(BULLET, " test");
@@ -143,7 +143,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests info method, of class IO.
+	 * Tests {@link InputOutput#info}.
 	 */
 	public void testInfo() {
 		IO.test(BULLET, " info");
@@ -153,7 +153,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests result method, of class IO.
+	 * Tests {@link InputOutput#result}.
 	 */
 	public void testResult() {
 		IO.test(BULLET, " result");
@@ -165,7 +165,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests warn method, of class IO.
+	 * Tests {@link InputOutput#warn}.
 	 */
 	public void testWarn_Object() {
 		IO.test(BULLET, " warn_Object");
@@ -175,7 +175,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests warn method, of class IO.
+	 * Tests {@link InputOutput#warn}.
 	 */
 	public void testWarn_Exception() {
 		IO.test(BULLET, " warn_Exception");
@@ -184,7 +184,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests warn method, of class IO.
+	 * Tests {@link InputOutput#warn}.
 	 */
 	public void testWarn_Object_Exception() {
 		IO.test(BULLET, " warn_Object_Exception");
@@ -196,7 +196,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests error method, of class IO.
+	 * Tests {@link InputOutput#error}.
 	 */
 	public void testError_Object() {
 		IO.test(BULLET, " error_Object");
@@ -206,7 +206,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests error method, of class IO.
+	 * Tests {@link InputOutput#error}.
 	 */
 	public void testError_Exception() {
 		IO.test(BULLET, " error_Exception");
@@ -215,7 +215,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests error method, of class IO.
+	 * Tests {@link InputOutput#error}.
 	 */
 	public void testError_Object_Exception() {
 		IO.test(BULLET, " error_Object_Exception");
@@ -227,7 +227,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests fail method, of class IO.
+	 * Tests {@link InputOutput#fail}.
 	 */
 	public void testFail_Object() {
 		IO.test(BULLET, " fail_Object");
@@ -237,7 +237,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests fail method, of class IO.
+	 * Tests {@link InputOutput#fail}.
 	 */
 	public void testFail_Exception() {
 		IO.test(BULLET, " fail_Exception");
@@ -246,7 +246,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests fail method, of class IO.
+	 * Tests {@link InputOutput#fail}.
 	 */
 	public void testFail_Object_Exception() {
 		IO.test(BULLET, " fail_Exception");
@@ -258,7 +258,7 @@ public class IOTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests setConsole method, of class IO.
+	 * Tests {@link InputOutput#setConsole}.
 	 */
 	public void testSetConsole() {
 		IO.test(BULLET, " setConsole");
@@ -268,7 +268,7 @@ public class IOTest
 	}
 
 	/**
-	 * Tests clear method, of class IO.
+	 * Tests {@link InputOutput#clear}.
 	 */
 	public void testClear() {
 		IO.test(BULLET, " clear");

@@ -41,7 +41,7 @@ public class BivariateFunctionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of slideToPrimitiveIntArray method, of class BivariateFunction.
+	 * Tests {@link BivariateFunction#slideToPrimitiveIntArray}.
 	 */
 	public void testSlideToPrimitiveIntArray() {
 		IO.test(BULLET, " slideToPrimitiveIntArray");

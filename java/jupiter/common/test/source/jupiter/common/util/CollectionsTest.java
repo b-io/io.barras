@@ -49,7 +49,7 @@ public class CollectionsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests getElementClass method, of class Arrays.
+	 * Tests {@link Arrays#getElementClass}.
 	 */
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");

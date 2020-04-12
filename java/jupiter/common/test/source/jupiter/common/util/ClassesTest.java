@@ -38,7 +38,7 @@ public class ClassesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests getCommonAncestor method, of class Classes.
+	 * Tests {@link Classes#getCommonAncestor}.
 	 */
 	public void testGetCommonAncestor() {
 		IO.test(BULLET, " getCommonAncestor");

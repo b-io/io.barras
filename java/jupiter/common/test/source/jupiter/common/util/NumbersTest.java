@@ -38,7 +38,7 @@ public class NumbersTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests toString method, of class Numbers.
+	 * Tests {@link Numbers#toString}.
 	 */
 	public void testToString() {
 		IO.test(BULLET, " toString");

@@ -52,7 +52,7 @@ public class MatrixTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests setColumn method, of class Matrix.
+	 * Tests {@link Matrix#setColumn}.
 	 */
 	public void testSetColumn() {
 		IO.test(BULLET, " setColumn");
@@ -67,7 +67,7 @@ public class MatrixTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests multiply method, of class Matrix.
+	 * Tests {@link Matrix#multiply}.
 	 */
 	public void testMultiply() {
 		IO.test(BULLET, " multiply");
@@ -209,7 +209,7 @@ public class MatrixTest
 	}
 
 	/**
-	 * Tests division method, of class Matrix.
+	 * Tests {@link Matrix#division}.
 	 */
 	public void testDivision() {
 		IO.test(BULLET, " division");
@@ -222,7 +222,7 @@ public class MatrixTest
 	}
 
 	/**
-	 * Tests forward method, of class Matrix.
+	 * Tests {@link Matrix#forward}.
 	 */
 	public void testForward() {
 		IO.test(BULLET, " forward");

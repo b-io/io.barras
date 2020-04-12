@@ -41,7 +41,7 @@ public class ChronometerTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests getMilliseconds method, of class Chronometer.
+	 * Tests {@link Chronometer#getMilliseconds}.
 	 */
 	public void testGetMilliseconds() {
 		IO.test(BULLET, " getMilliseconds");
@@ -64,7 +64,7 @@ public class ChronometerTest
 	}
 
 	/**
-	 * Tests getMicroseconds method, of class Chronometer.
+	 * Tests {@link Chronometer#getMicroseconds}.
 	 */
 	public void testGetMicroseconds() {
 		IO.test(BULLET, " getMicroseconds");
@@ -87,7 +87,7 @@ public class ChronometerTest
 	}
 
 	/**
-	 * Tests getNanoseconds method, of class Chronometer.
+	 * Tests {@link Chronometer#getNanoseconds}.
 	 */
 	public void testGetNanoseconds() {
 		IO.test(BULLET, " getNanoseconds");

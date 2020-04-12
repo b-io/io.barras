@@ -40,7 +40,7 @@ public class OpenCLTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests arrayTimes method, of class OpenCL.
+	 * Tests {@link OpenCL#arrayTimes}.
 	 */
 	public void testArrayTimes() {
 		if (OpenCL.IS_ACTIVE) {
@@ -75,7 +75,7 @@ public class OpenCLTest
 	}
 
 	/**
-	 * Tests times method, of class OpenCL.
+	 * Tests {@link OpenCL#times}.
 	 */
 	public void testTimes() {
 		if (OpenCL.IS_ACTIVE) {
@@ -121,7 +121,7 @@ public class OpenCLTest
 	}
 
 	/**
-	 * Tests forward method, of class OpenCL.
+	 * Tests {@link OpenCL#forward}.
 	 */
 	public void testForward() {
 		if (OpenCL.IS_ACTIVE) {
@@ -174,7 +174,7 @@ public class OpenCLTest
 	}
 
 	/**
-	 * Tests arraySum method, of class OpenCL.
+	 * Tests {@link OpenCL#arraySum}.
 	 */
 	public void testArraySum() {
 		if (OpenCL.IS_ACTIVE) {

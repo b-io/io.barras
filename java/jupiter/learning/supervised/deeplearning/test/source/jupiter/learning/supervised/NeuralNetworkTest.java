@@ -52,7 +52,7 @@ public class NeuralNetworkTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests classify method, of class NeuralNetwork.
+	 * Tests {@link NeuralNetwork#classify}.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");

@@ -46,7 +46,7 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests toUnicode method, of class Strings.
+	 * Tests {@link Strings#toUnicode}.
 	 */
 	public void testToUnicode() {
 		IO.test(BULLET, " toUnicode");
@@ -59,7 +59,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests toCase method, of class Strings.
+	 * Tests {@link Strings#toCase}.
 	 */
 	public void testToCase() {
 		IO.test(BULLET, " toCase");
@@ -68,7 +68,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Tests toCamelCase method, of class Strings.
+	 * Tests {@link Strings#toCamelCase}.
 	 */
 	public void testToCamelCase() {
 		IO.test(BULLET, " toCamelCase");
@@ -79,7 +79,7 @@ public class StringsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests capitalizeFirst method, of class Strings.
+	 * Tests {@link Strings#capitalizeFirst}.
 	 */
 	public void testCapitalizeFirst() {
 		IO.test(BULLET, " capitalizeFirst");
@@ -89,7 +89,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Tests capitalizeStrictly method, of class Strings.
+	 * Tests {@link Strings#capitalizeStrictly}.
 	 */
 	public void testCapitalizeFully() {
 		IO.test(BULLET, " capitalizeStrictly");
@@ -100,7 +100,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests replaceAll method, of class Strings.
+	 * Tests {@link Strings#replaceAll}.
 	 */
 	public void testReplaceAll() {
 		IO.test(BULLET, " replaceAll");
@@ -112,7 +112,7 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests split method, of class Strings.
+	 * Tests {@link Strings#split}.
 	 */
 	public void testSplit() {
 		IO.test(BULLET, " split");
@@ -126,7 +126,7 @@ public class StringsTest
 	}
 
 	/**
-	 * Tests splitString method, of class Strings.
+	 * Tests {@link Strings#splitString}.
 	 */
 	public void testSplitString() {
 		IO.test(BULLET, " splitString");

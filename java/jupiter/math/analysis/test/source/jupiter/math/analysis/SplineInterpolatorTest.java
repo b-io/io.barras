@@ -41,7 +41,7 @@ public class SplineInterpolatorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests interpolate method, of class SplineInterpolator.
+	 * Tests {@link SplineInterpolator#interpolate}.
 	 */
 	public void testInterpolate() {
 		IO.test(BULLET, " interpolate");

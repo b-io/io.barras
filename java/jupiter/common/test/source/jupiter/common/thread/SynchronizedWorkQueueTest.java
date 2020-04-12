@@ -38,7 +38,7 @@ public class SynchronizedWorkQueueTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests addTask method, of class SynchronizedWorkQueue.
+	 * Tests {@link SynchronizedWorkQueue#addTask}.
 	 */
 	public void testAddTask() {
 		IO.test(BULLET, " addTask");

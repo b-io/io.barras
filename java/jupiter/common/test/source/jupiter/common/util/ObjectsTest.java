@@ -38,7 +38,7 @@ public class ObjectsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests hashCode method, of class Objects.
+	 * Tests {@link Objects#hashCode}.
 	 */
 	public void testHashCode() {
 		IO.test(BULLET, " hashCode");

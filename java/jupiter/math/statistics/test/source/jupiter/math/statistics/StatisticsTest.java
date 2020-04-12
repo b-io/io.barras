@@ -39,7 +39,7 @@ public class StatisticsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests conditionalProbability method, of class Statistics.
+	 * Tests {@link Statistics#conditionalProbability}.
 	 */
 	public void testConditionalProbability() {
 		IO.test(BULLET, " conditionalProbability");

@@ -42,7 +42,7 @@ public class VectorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests load method, of class Vector.
+	 * Tests {@link Vector#load}.
 	 * <p>
 	 * @throws IOException if there is a problem with reading
 	 */

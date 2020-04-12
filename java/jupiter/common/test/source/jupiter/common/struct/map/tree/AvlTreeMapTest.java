@@ -41,7 +41,7 @@ public class AvlTreeMapTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests getHeight method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#getHeight}.
 	 */
 	public void testGetHeight() {
 		IO.test(BULLET, " getHeight");
@@ -63,7 +63,7 @@ public class AvlTreeMapTest
 	}
 
 	/**
-	 * Tests put method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#put}.
 	 */
 	public void testPut() {
 		IO.test(BULLET, " put");
@@ -76,7 +76,7 @@ public class AvlTreeMapTest
 	}
 
 	/**
-	 * Tests remove method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#remove}.
 	 */
 	public void testRemove() {
 		IO.test(BULLET, " removeNode");
@@ -90,7 +90,7 @@ public class AvlTreeMapTest
 	}
 
 	/**
-	 * Tests clone method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#clone}.
 	 */
 	public void testClone() {
 		IO.test(BULLET, " clone");

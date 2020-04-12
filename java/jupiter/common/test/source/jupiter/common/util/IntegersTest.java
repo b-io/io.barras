@@ -38,7 +38,7 @@ public class IntegersTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests reverse method, of class Integers.
+	 * Tests {@link Integers#reverse}.
 	 */
 	public void testReverse() {
 		IO.test(BULLET, " reverse");

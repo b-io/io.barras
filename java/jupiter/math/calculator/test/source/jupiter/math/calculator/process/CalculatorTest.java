@@ -49,7 +49,7 @@ public class CalculatorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests process method, of class Calculator.
+	 * Tests {@link Calculator#process}.
 	 */
 	public void testProcess() {
 		IO.test(BULLET, " process");

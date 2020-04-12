@@ -41,7 +41,7 @@ public class SVMTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests classify method, of class SVM.
+	 * Tests {@link SVM#classify}.
 	 */
 	public void testClassify() {
 		IO.test(BULLET, " classify");

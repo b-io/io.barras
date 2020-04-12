@@ -93,7 +93,7 @@ public class MathsTest
 	}
 
 	/**
-	 * Tests greatCircleDistance method, of class Maths.
+	 * Tests {@link Maths#greatCircleDistance}.
 	 */
 	public void testGreatCircleDistance() {
 		IO.test(BULLET, " greatCircleDistance");
