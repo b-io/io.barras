@@ -251,6 +251,7 @@ public class SpeedChecker {
 		// Shutdown
 		if (WORK_QUEUE != null) {
 			WORK_QUEUE.shutdown();
+			WORK_QUEUE = null;
 		}
 	}
 

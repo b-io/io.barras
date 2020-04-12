@@ -26,7 +26,6 @@ package jupiter.graphics.charts;
 import static jupiter.common.io.InputOutput.IO;
 
 import java.io.IOException;
-import java.text.ParseException;
 
 import jupiter.common.struct.table.StringTable;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
@@ -82,11 +81,9 @@ public class DynamicTimeSeriesGraphicDemo {
 	protected void loadSeries(final String path) {
 		try {
 			final StringTable coordinates = new StringTable(path, true);
-			graph.load(0, coordinates, 0, 1, true);
-			graph.load(1, coordinates, 0, 2, true);
+			graph.load(0, coordinates, 0, 1);
+			graph.load(1, coordinates, 0, 2);
 		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
 			IO.error(ex);
 		}
 	}

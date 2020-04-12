@@ -127,6 +127,7 @@ public class Calculator
 		// • The work queue
 		if (WORK_QUEUE != null) {
 			WORK_QUEUE.shutdown();
+			WORK_QUEUE = null;
 		}
 		// • The expression handler
 		ExpressionHandler.unparallelize();

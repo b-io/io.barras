@@ -238,6 +238,7 @@ public class Files {
 		// Shutdown
 		if (COPIER_QUEUE != null) {
 			COPIER_QUEUE.shutdown();
+			COPIER_QUEUE = null;
 		}
 	}
 

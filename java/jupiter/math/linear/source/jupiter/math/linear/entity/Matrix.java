@@ -957,6 +957,7 @@ public class Matrix
 		// Shutdown
 		if (MULTIPLICATION != null) {
 			MULTIPLICATION.shutdown();
+			MULTIPLICATION = null;
 		}
 	}
 
