@@ -87,9 +87,9 @@ public class ExpressionHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
+	 * The threshold on the length of the expressions to parallel.
 	 */
-	protected static volatile boolean PARALLELIZE = true;
+	protected static volatile int THRESHOLD = 100;
 	/**
 	 * The {@link WorkQueue} used for parsing the expressions.
 	 */
@@ -105,7 +105,7 @@ public class ExpressionHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZERS
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -115,13 +115,11 @@ public class ExpressionHandler
 		IO.debug(EMPTY);
 
 		// Initialize
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
-						new Parser());
-			} else {
-				IO.debug("The work queue ", WORK_QUEUE, " has already started");
-			}
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
+					new Parser());
+		} else {
+			IO.debug("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -216,8 +214,8 @@ public class ExpressionHandler
 		// Parse the left and right expressions
 		final Element leftNode, rightNode;
 		final Result<Element> leftNodeResult, rightNodeResult;
-		if (PARALLELIZE && (leftExpression.length() > 100 || rightExpression.length() > 100) &&
-				WORK_QUEUE.reserveWorkers(2)) {
+		if ((leftExpression.length() > THRESHOLD || rightExpression.length() > THRESHOLD) &&
+				WORK_QUEUE != null && WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
 			final long leftId = WORK_QUEUE.submit(new Triple<Element, String, Map<String, Element>>(
 					parent, leftExpression, context));

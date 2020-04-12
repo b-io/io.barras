@@ -51,9 +51,9 @@ public abstract class DivideAndConquer<I>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link LockedWorkQueue} used for dividing and conquering the execution.
+	 * The {@link WorkQueue} used for dividing and conquering the execution.
 	 */
-	protected final LockedWorkQueue<Pair<I, Interval<Integer>>, Integer> workQueue;
+	protected final WorkQueue<Pair<I, Interval<Integer>>, Integer> workQueue;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,29 +95,18 @@ public abstract class DivideAndConquer<I>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZERS
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the {@link LockedWorkQueue} is running.
-	 * <p>
-	 * @return {@code true} if the {@link LockedWorkQueue} is running, {@code false} otherwise
-	 */
-	public boolean isRunning() {
-		return workQueue.isRunning();
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Shutdowns the {@link LockedWorkQueue}.
+	 * Shutdowns the {@link WorkQueue}.
 	 */
 	public void shutdown() {
 		workQueue.shutdown();
 	}
 
 	/**
-	 * Shutdowns the {@link LockedWorkQueue}.
+	 * Shutdowns the {@link WorkQueue}.
 	 * <p>
 	 * @param force the flag specifying whether to force shutdowning
 	 */
@@ -128,14 +117,14 @@ public abstract class DivideAndConquer<I>
 	//////////////////////////////////////////////
 
 	/**
-	 * Restarts the {@link LockedWorkQueue}.
+	 * Restarts the {@link WorkQueue}.
 	 */
 	public void restart() {
 		workQueue.restart();
 	}
 
 	/**
-	 * Restarts the {@link LockedWorkQueue}.
+	 * Restarts the {@link WorkQueue}.
 	 * <p>
 	 * @param force the flag specifying whether to force restarting
 	 */
@@ -266,6 +255,20 @@ public abstract class DivideAndConquer<I>
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
 	protected abstract int conquer(final I input, final Interval<Integer> interval);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the {@link WorkQueue} is running.
+	 * <p>
+	 * @return {@code true} if the {@link WorkQueue} is running, {@code false} otherwise
+	 */
+	public boolean isRunning() {
+		return workQueue.isRunning();
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

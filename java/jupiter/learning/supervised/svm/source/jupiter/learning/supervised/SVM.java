@@ -438,10 +438,13 @@ public class SVM {
 	 * @return the trained model
 	 */
 	public svm_model train() {
+		// Check the arguments
 		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return null;
 		}
+
+		// Train the model with the problem and hyper-parameters
 		model = svm.svm_train(problem, hyperParameters);
 		return model;
 	}

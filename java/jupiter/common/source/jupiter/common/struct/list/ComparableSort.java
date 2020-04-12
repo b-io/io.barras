@@ -338,7 +338,7 @@ public class ComparableSort
 	}
 
 	/**
-	 * Reverse the specified range of the specified array.
+	 * Reverses the specified range of the specified array.
 	 * <p>
 	 * @param array the array in which a range is to be reversed
 	 * @param li    the index of the first element in the range to reverse

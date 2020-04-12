@@ -149,6 +149,66 @@ public class WorkQueue<I, O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is running.
+	 * <p>
+	 * @return {@code true} if {@code this} is running, {@code false} otherwise
+	 */
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shutdowns {@code this}.
+	 */
+	public void shutdown() {
+		shutdown(false);
+	}
+
+	/**
+	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
+	 */
+	public void shutdown(final boolean force) {
+		IO.debug("Shutdown the work queue ", this);
+		isRunning = false;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public void restart() {
+		restart(false);
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force restarting
+	 */
+	public void restart(final boolean force) {
+		shutdown(force);
+		IO.debug("Restart the work queue ", this);
+		isRunning = true;
+		createWorkers(minThreadCount);
+		synchronized (this) {
+			notifyAll();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -448,63 +508,6 @@ public class WorkQueue<I, O>
 	 */
 	public boolean isReady(final long id) {
 		return results.containsKey(id);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// POOL
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is running.
-	 * <p>
-	 * @return {@code true} if {@code this} is running, {@code false} otherwise
-	 */
-	public boolean isRunning() {
-		return isRunning;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Shutdowns {@code this}.
-	 */
-	public void shutdown() {
-		shutdown(false);
-	}
-
-	/**
-	 * Shutdowns {@code this}.
-	 * <p>
-	 * @param force the flag specifying whether to force shutdowning
-	 */
-	public void shutdown(final boolean force) {
-		IO.debug("Shutdown the work queue ", this);
-		isRunning = false;
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Restarts {@code this}.
-	 */
-	public void restart() {
-		restart(false);
-	}
-
-	/**
-	 * Restarts {@code this}.
-	 * <p>
-	 * @param force the flag specifying whether to force restarting
-	 */
-	public void restart(final boolean force) {
-		shutdown(force);
-		IO.debug("Restart the work queue ", this);
-		isRunning = true;
-		createWorkers(minThreadCount);
-		synchronized (this) {
-			notifyAll();
-		}
 	}
 
 

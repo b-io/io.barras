@@ -132,10 +132,6 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
-	 */
-	protected static volatile boolean PARALLELIZE = false;
-	/**
 	 * The {@link Multiplication} used for computing the multiplication.
 	 */
 	protected static volatile Multiplication MULTIPLICATION = null;
@@ -931,6 +927,47 @@ public class Matrix
 			throw new ArrayIndexOutOfBoundsException(
 					"The specified submatrix indices are out of bounds: " + ex);
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (MULTIPLICATION == null) {
+			MULTIPLICATION = new Multiplication();
+		} else {
+			IO.debug("The work queue ", MULTIPLICATION, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (MULTIPLICATION != null) {
+			MULTIPLICATION.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
 	}
 
 
@@ -1894,7 +1931,7 @@ public class Matrix
 		}
 		// • Matrix
 		final Matrix result = new Matrix(m, broadcastedMatrix.n);
-		if (PARALLELIZE) {
+		if (MULTIPLICATION != null) {
 			MULTIPLICATION.divideAndConquer(
 					new Triple<Matrix, Matrix, Matrix>(result, this, broadcastedMatrix));
 		} else {
@@ -2280,49 +2317,6 @@ public class Matrix
 			}
 		}
 		return times(A).plus(B);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (MULTIPLICATION == null) {
-			MULTIPLICATION = new Multiplication();
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The work queue ", MULTIPLICATION, " has already started");
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (MULTIPLICATION != null) {
-			PARALLELIZE = false;
-			MULTIPLICATION.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
 	}
 
 

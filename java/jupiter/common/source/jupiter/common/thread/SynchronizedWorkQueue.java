@@ -69,6 +69,38 @@ public class SynchronizedWorkQueue<I, O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	public void shutdown(final boolean force) {
+		synchronized (tasks) {
+			super.shutdown(force);
+			tasks.notifyAll();
+		}
+
+		synchronized (workers) {
+			if (force) {
+				killAllWorkers();
+			}
+
+			while (workerCount > 0) {
+				try {
+					workers.wait();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -212,38 +244,6 @@ public class SynchronizedWorkQueue<I, O>
 				}
 			}
 			return super.get(id);
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// POOL
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Shutdowns {@code this}.
-	 * <p>
-	 * @param force the flag specifying whether to force shutdowning
-	 */
-	@Override
-	@SuppressWarnings("deprecation")
-	public void shutdown(final boolean force) {
-		synchronized (tasks) {
-			super.shutdown(force);
-			tasks.notifyAll();
-		}
-
-		synchronized (workers) {
-			if (force) {
-				killAllWorkers();
-			}
-
-			while (workerCount > 0) {
-				try {
-					workers.wait();
-				} catch (final InterruptedException ignored) {
-				}
-			}
 		}
 	}
 

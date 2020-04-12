@@ -91,10 +91,6 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
-	 */
-	protected static volatile boolean PARALLELIZE = false;
-	/**
 	 * The {@link WorkQueue} used for checking the downloading speeds (in Mbits/s).
 	 */
 	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
@@ -179,25 +175,7 @@ public class SpeedChecker {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
-			final String path) {
-		try {
-			final StringTable coordinates = new StringTable(new String[] {"Time",
-				Files.getNameWithoutExtension(path)}, path, false);
-			graph.load(axisDatasetIndex, coordinates, 0, 1, true);
-		} catch (final IOException ex) {
-			IO.error(ex);
-		} catch (final ParseException ex) {
-			IO.error(ex);
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -207,7 +185,6 @@ public class SpeedChecker {
 		IO.debug(EMPTY);
 
 		// Initialize
-		// • The file handlers of the data files storing the downloading speeds of the URLs
 		for (final String urlName : URL_NAMES) {
 			try {
 				// Get the URL denoted by the name
@@ -216,14 +193,6 @@ public class SpeedChecker {
 				DATA_FILES.put(urlName, new FileHandler(getDataFilePath(url)));
 			} catch (final MalformedURLException ex) {
 				IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
-			}
-		}
-		// • The work queue
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<String, Result<Double>>(new Checker());
-			} else {
-				IO.debug("The work queue ", WORK_QUEUE, " has already started");
 			}
 		}
 	}
@@ -235,11 +204,6 @@ public class SpeedChecker {
 		IO.debug(EMPTY);
 
 		// Shutdown
-		// • The work queue
-		if (WORK_QUEUE != null) {
-			WORK_QUEUE.shutdown();
-		}
-		// • The file handlers of the data files storing the downloading speeds
 		final Collection<FileHandler> dataFiles = DATA_FILES.values();
 		for (final FileHandler dataFile : dataFiles) {
 			dataFile.closeWriter();
@@ -260,10 +224,51 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Parallelizes {@code this}.
+	 */
+	protected static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new LockedWorkQueue<String, Result<Double>>(new Checker());
+		} else {
+			IO.debug("The work queue ", WORK_QUEUE, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// DOWNLOADERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Downloads all the files pointed by the URLs.
 	 */
 	protected static void downloadAll() {
-		if (PARALLELIZE) {
+		if (WORK_QUEUE != null) {
 			// Distribute the tasks
 			final List<Long> ids = new ExtendedList<Long>(URL_NAMES.size());
 			for (final String urlName : URL_NAMES) {
@@ -353,6 +358,27 @@ public class SpeedChecker {
 		}
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
+			final String path) {
+		try {
+			final StringTable coordinates = new StringTable(new String[] {"Time",
+				Files.getNameWithoutExtension(path)}, path, false);
+			graph.load(axisDatasetIndex, coordinates, 0, 1, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} catch (final ParseException ex) {
+			IO.error(ex);
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GUI
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**

@@ -89,10 +89,6 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
-	 */
-	public static volatile boolean PARALLELIZE = false;
-	/**
 	 * The {@link WorkQueue} used for copying the files (or directories).
 	 */
 	protected static volatile WorkQueue<Triple<File, File, Boolean>, Boolean> COPIER_QUEUE = null;
@@ -212,6 +208,47 @@ public class Files {
 		if (exists(file)) {
 			file.setLastModified(timestamp);
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	public static synchronized void parallelize() {
+		IO.debug(EMPTY);
+
+		// Initialize
+		if (COPIER_QUEUE == null) {
+			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
+		} else {
+			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
+		}
+	}
+
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.debug(EMPTY);
+
+		// Shutdown
+		if (COPIER_QUEUE != null) {
+			COPIER_QUEUE.shutdown();
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.debug(EMPTY);
+
+		unparallelize();
+		parallelize();
 	}
 
 
@@ -342,49 +379,6 @@ public class Files {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Parallelizes {@code this}.
-	 */
-	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
-
-		// Initialize
-		if (COPIER_QUEUE == null) {
-			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
-			PARALLELIZE = true;
-		} else {
-			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
-		}
-	}
-
-	/**
-	 * Unparallelizes {@code this}.
-	 */
-	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
-
-		// Shutdown
-		if (COPIER_QUEUE != null) {
-			PARALLELIZE = false;
-			COPIER_QUEUE.shutdown();
-		}
-	}
-
-	/**
-	 * Reparallelizes {@code this}.
-	 */
-	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
-
-		unparallelize();
-		parallelize();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -420,7 +414,7 @@ public class Files {
 				createDirs(target);
 				// Copy the files to the directory
 				final File[] files = source.listFiles();
-				if (PARALLELIZE) {
+				if (COPIER_QUEUE != null) {
 					final long[] ids = new long[files.length];
 					for (int fi = 0; fi < files.length; ++fi) {
 						final File file = files[fi];

@@ -287,108 +287,7 @@ public class MailHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates a {@link MimeMultipart} with the specified content {@link String}.
-	 * <p>
-	 * @param content the content {@link String} of the {@link MimeMultipart} to create
-	 * <p>
-	 * @return a {@link MimeMultipart} with the specified content {@link String}
-	 * <p>
-	 * @throws MessagingException if there is a problem with creating the mail content
-	 */
-	public static MimeMultipart createContent(final String content)
-			throws MessagingException {
-		final MimeMultipart multipart = new MimeMultipart("alternative");
-		final MimeBodyPart bodyPart = new MimeBodyPart();
-		bodyPart.setContent(content, "text/html");
-		multipart.addBodyPart(bodyPart);
-		return multipart;
-	}
-
-	/**
-	 * Creates a {@link SearchTerm} with the specified pattern {@link String}.
-	 * <p>
-	 * @param pattern the pattern {@link String} of the {@link SearchTerm} to create
-	 * <p>
-	 * @return a {@link SearchTerm} with the specified pattern {@link String}
-	 */
-	public static SearchTerm createSearchTerm(final String pattern) {
-		return new OrTerm(new FromStringTerm(pattern),
-				new OrTerm(new SubjectTerm(pattern), new BodyTerm(pattern)));
-	}
-
-	/**
-	 * Creates a {@link Session} with the specified {@link Protocol} and {@code this} parameters.
-	 * <p>
-	 * @param protocol the {@link Protocol} of the {@link Session} to create
-	 * <p>
-	 * @return a {@link Session} with the specified {@link Protocol} and {@code this} parameters
-	 */
-	public Session createSession(final Protocol protocol) {
-		// Create the properties
-		final Properties properties = new Properties();
-		properties.put("mail.store.protocol", protocol.value);
-		properties.put("mail." + protocol + ".host", hostName);
-		properties.put("mail." + protocol + ".port", protocol.getPort());
-		properties.put("mail." + protocol + ".auth", Objects.toString(password != null));
-		properties.put("mail." + protocol + ".timeout", Objects.toString(TIMEOUT));
-		properties.put("mail." + protocol + ".connectiontimeout", Objects.toString(TIMEOUT));
-		if (protocol.isSSL()) {
-			properties.put("mail." + protocol + ".socketFactory.class",
-					"javax.net.ssl.SSLSocketFactory");
-			properties.put("mail." + protocol + ".socketFactory.port", protocol.getPort());
-			properties.put("mail." + protocol + ".ssl.checkserveridentity", "false");
-			properties.put("mail." + protocol + ".ssl.trust", STAR);
-		} else if (protocol.isTLS()) {
-			properties.put("mail." + protocol + ".starttls.required", "true");
-		}
-
-		// Create the authenticator
-		final Authenticator authenticator = new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(userName, password);
-			}
-		};
-
-		// Create the session
-		final Session session = Session.getDefaultInstance(properties, authenticator);
-		session.setDebug(IO.getSeverityLevel().isDebug());
-		return session;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// IMPORTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Loads {@code this} from the specified {@link Properties}.
-	 * <p>
-	 * @param properties the {@link Properties} to load
-	 */
-	public void load(final Properties properties) {
-		// Check the arguments
-		Arguments.requireNonNull(properties, "properties");
-
-		// Load the properties
-		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
-		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
-		hostName = properties.getProperty("hostName");
-		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
-				Objects.toString(inProtocol.getPort()))));
-		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
-				Objects.toString(outProtocol.getPort()))));
-		userName = properties.getProperty("userName");
-		password = properties.getProperty("password");
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
+	// DOWNLOADERS / UPLOADERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -543,6 +442,107 @@ public class MailHandler
 				" to ", Strings.quote(recipients),
 				" at ", Dates.formatWithTime(mail.getSentDate()));
 		Transport.send(mail);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link MimeMultipart} with the specified content {@link String}.
+	 * <p>
+	 * @param content the content {@link String} of the {@link MimeMultipart} to create
+	 * <p>
+	 * @return a {@link MimeMultipart} with the specified content {@link String}
+	 * <p>
+	 * @throws MessagingException if there is a problem with creating the mail content
+	 */
+	public static MimeMultipart createContent(final String content)
+			throws MessagingException {
+		final MimeMultipart multipart = new MimeMultipart("alternative");
+		final MimeBodyPart bodyPart = new MimeBodyPart();
+		bodyPart.setContent(content, "text/html");
+		multipart.addBodyPart(bodyPart);
+		return multipart;
+	}
+
+	/**
+	 * Creates a {@link SearchTerm} with the specified pattern {@link String}.
+	 * <p>
+	 * @param pattern the pattern {@link String} of the {@link SearchTerm} to create
+	 * <p>
+	 * @return a {@link SearchTerm} with the specified pattern {@link String}
+	 */
+	public static SearchTerm createSearchTerm(final String pattern) {
+		return new OrTerm(new FromStringTerm(pattern),
+				new OrTerm(new SubjectTerm(pattern), new BodyTerm(pattern)));
+	}
+
+	/**
+	 * Creates a {@link Session} with the specified {@link Protocol} and {@code this} parameters.
+	 * <p>
+	 * @param protocol the {@link Protocol} of the {@link Session} to create
+	 * <p>
+	 * @return a {@link Session} with the specified {@link Protocol} and {@code this} parameters
+	 */
+	public Session createSession(final Protocol protocol) {
+		// Create the properties
+		final Properties properties = new Properties();
+		properties.put("mail.store.protocol", protocol.value);
+		properties.put("mail." + protocol + ".host", hostName);
+		properties.put("mail." + protocol + ".port", protocol.getPort());
+		properties.put("mail." + protocol + ".auth", Objects.toString(password != null));
+		properties.put("mail." + protocol + ".timeout", Objects.toString(TIMEOUT));
+		properties.put("mail." + protocol + ".connectiontimeout", Objects.toString(TIMEOUT));
+		if (protocol.isSSL()) {
+			properties.put("mail." + protocol + ".socketFactory.class",
+					"javax.net.ssl.SSLSocketFactory");
+			properties.put("mail." + protocol + ".socketFactory.port", protocol.getPort());
+			properties.put("mail." + protocol + ".ssl.checkserveridentity", "false");
+			properties.put("mail." + protocol + ".ssl.trust", STAR);
+		} else if (protocol.isTLS()) {
+			properties.put("mail." + protocol + ".starttls.required", "true");
+		}
+
+		// Create the authenticator
+		final Authenticator authenticator = new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(userName, password);
+			}
+		};
+
+		// Create the session
+		final Session session = Session.getDefaultInstance(properties, authenticator);
+		session.setDebug(IO.getSeverityLevel().isDebug());
+		return session;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads {@code this} from the specified {@link Properties}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public void load(final Properties properties) {
+		// Check the arguments
+		Arguments.requireNonNull(properties, "properties");
+
+		// Load the properties
+		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
+		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
+		hostName = properties.getProperty("hostName");
+		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
+				Objects.toString(inProtocol.getPort()))));
+		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
+				Objects.toString(outProtocol.getPort()))));
+		userName = properties.getProperty("userName");
+		password = properties.getProperty("password");
 	}
 
 

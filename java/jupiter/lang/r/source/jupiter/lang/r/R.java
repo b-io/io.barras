@@ -256,25 +256,7 @@ public class R {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static int installPackage(final String name) {
-		return execute(Strings.join(
-				"if (!", Strings.singleQuote(name), " %in% installed.packages())",
-				"install.packages(", Strings.singleQuote(name),
-				", repos=", Strings.singleQuote(REPO),
-				")"));
-	}
-
-	public static int[] installPackages(final String... names) {
-		final int[] status = new int[names.length];
-		for (int ni = 0; ni < names.length; ++ni) {
-			status[ni] = installPackage(names[ni]);
-		}
-		return status;
-	}
-
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean start() {
@@ -307,7 +289,7 @@ public class R {
 		return false;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static boolean stop() {
 		try {
@@ -316,6 +298,27 @@ public class R {
 			IO.warn(ex, "Fail to stop Rserve");
 		}
 		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static int installPackage(final String name) {
+		return execute(Strings.join(
+				"if (!", Strings.singleQuote(name), " %in% installed.packages())",
+				"install.packages(", Strings.singleQuote(name),
+				", repos=", Strings.singleQuote(REPO),
+				")"));
+	}
+
+	public static int[] installPackages(final String... names) {
+		final int[] status = new int[names.length];
+		for (int ni = 0; ni < names.length; ++ni) {
+			status[ni] = installPackage(names[ni]);
+		}
+		return status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

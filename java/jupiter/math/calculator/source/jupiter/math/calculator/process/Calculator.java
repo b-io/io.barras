@@ -69,10 +69,6 @@ public class Calculator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether to parallelize using a {@link WorkQueue}.
-	 */
-	protected static volatile boolean PARALLELIZE = true;
-	/**
 	 * The {@link WorkQueue} used for evaluating the elements.
 	 */
 	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>> WORK_QUEUE = null;
@@ -100,7 +96,7 @@ public class Calculator
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARALLELIZERS
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -113,13 +109,11 @@ public class Calculator
 		// • The expression handler
 		ExpressionHandler.parallelize();
 		// • The work queue
-		if (PARALLELIZE) {
-			if (WORK_QUEUE == null) {
-				WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
-						new Evaluator());
-			} else {
-				IO.debug("The work queue ", WORK_QUEUE, " has already started");
-			}
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
+					new Evaluator());
+		} else {
+			IO.debug("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -270,7 +264,7 @@ public class Calculator
 			final Map<String, Element> context) {
 		// Evaluate the left and right expressions
 		Result<Entity> leftResult, rightResult;
-		if (PARALLELIZE && WORK_QUEUE.reserveWorkers(2)) {
+		if (WORK_QUEUE != null && WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
 			final long leftId = WORK_QUEUE.submit(
 					new Pair<Element, Map<String, Element>>(binaryOperation.getLeft(), context));

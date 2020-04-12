@@ -186,50 +186,53 @@ public class LogisticRegression
 			final double secondMomentExponentialDecayRate,
 			final double tolerance,
 			final int maxIterationCount) {
+		// Check the arguments
 		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;
 		}
 
-		// Parallelize
 		Matrix.parallelize();
-
-		// Initialize
-		// • The weight vector
-		if (W == null) {
-			W = new Vector(featureCount, true); // (1 x n)
-		}
-		// • The bias
-		if (b == null) {
-			b = new Scalar(0.);
-		}
-		// • The frequency of the convergence test
-		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
-				Maths.roundToInt(1. / learningRate));
-		// • The cost
-		cost = Double.POSITIVE_INFINITY;
-
-		// Train
-		for (int i = 0; i < maxIterationCount; ++i) {
-			// Compute A = sigmoid(Z) = sigmoid(W X + b)
-			A = estimate(X); // (1 x m)
-
-			// Test whether the tolerance level ε is reached
-			if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
-				IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
-				return i;
+		try {
+			// Initialize
+			// • The weight vector
+			if (W == null) {
+				W = new Vector(featureCount, true); // (1 x n)
 			}
+			// • The bias
+			if (b == null) {
+				b = new Scalar(0.);
+			}
+			// • The frequency of the convergence test
+			final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
+					Maths.roundToInt(1. / learningRate));
+			// • The cost
+			cost = Double.POSITIVE_INFINITY;
 
-			// Compute the derivatives with respect to Z, W and b
-			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
-			final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
-			final Scalar db = dZT.mean().toScalar();
+			// Train
+			for (int i = 0; i < maxIterationCount; ++i) {
+				// Compute A = sigmoid(Z) = sigmoid(W X + b)
+				A = estimate(X); // (1 x m)
 
-			// Update the weights and bias
-			W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
-			b.subtract(db.multiply(learningRate)).toScalar();
+				// Test whether the tolerance level ε is reached
+				if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+					IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
+					return i;
+				}
+
+				// Compute the derivatives with respect to Z, W and b
+				final Entity dZT = A.minus(Y).transpose(); // (m x 1)
+				final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
+				final Scalar db = dZT.mean().toScalar();
+
+				// Update the weights and bias
+				W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
+				b.subtract(db.multiply(learningRate)).toScalar();
+			}
+			IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
+		} finally {
+			Matrix.unparallelize();
 		}
-		IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
 		return maxIterationCount;
 	}
 

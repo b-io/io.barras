@@ -135,6 +135,43 @@ public class LockedWorkQueue<I, O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shutdowns {@code this}.
+	 * <p>
+	 * @param force the flag specifying whether to force shutdowning
+	 */
+	@Override
+	public void shutdown(final boolean force) {
+		tasksLock.lock();
+		try {
+			super.shutdown(force);
+			tasksLockCondition.signalAll();
+		} finally {
+			tasksLock.unlock();
+		}
+
+		workersLock.lock();
+		try {
+			if (force) {
+				killAllWorkers();
+			}
+
+			while (workerCount > 0) {
+				try {
+					workersLockCondition.await();
+				} catch (final InterruptedException ignored) {
+				}
+			}
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// WORKER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -302,43 +339,6 @@ public class LockedWorkQueue<I, O>
 			return super.get(id);
 		} finally {
 			resultsLock.unlock();
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// POOL
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Shutdowns {@code this}.
-	 * <p>
-	 * @param force the flag specifying whether to force shutdowning
-	 */
-	@Override
-	public void shutdown(final boolean force) {
-		tasksLock.lock();
-		try {
-			super.shutdown(force);
-			tasksLockCondition.signalAll();
-		} finally {
-			tasksLock.unlock();
-		}
-
-		workersLock.lock();
-		try {
-			if (force) {
-				killAllWorkers();
-			}
-
-			while (workerCount > 0) {
-				try {
-					workersLockCondition.await();
-				} catch (final InterruptedException ignored) {
-				}
-			}
-		} finally {
-			workersLock.unlock();
 		}
 	}
 
