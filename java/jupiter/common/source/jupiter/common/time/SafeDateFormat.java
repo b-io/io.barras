@@ -244,15 +244,14 @@ public class SafeDateFormat
 	 * {@code position} is set to the index of the {@code char} token where the error occurred and
 	 * {@code null} is returned.
 	 * <p>
-	 * This parsing operation uses the {@link DateFormat#calendar calendar} to produce a
-	 * {@link Date}. All the date-time fields of {@code calendar} are
-	 * {@linkplain Calendar#clear() cleared} before parsing and the {@code calendar} default values
-	 * of the date-time fields are used for any missing date-time information. For example, the year
-	 * value of the parsed {@link Date} is 1970 with {@link GregorianCalendar} if no year value is
-	 * specified from the parsing operation. The {@link TimeZone} value may be overwritten,
-	 * depending on the specified pattern and the time zone value in {@code text}. Any
-	 * {@link TimeZone} value that has previously been set by a call to the method
-	 * {@link #setTimeZone(TimeZone)} may need to be restored for further operations.
+	 * This parsing operation uses the {@link DateFormat#calendar} to produce a {@link Date}. All
+	 * the date-time fields of {@code calendar} are {@linkplain Calendar#clear() cleared} before
+	 * parsing and the {@code calendar} default values of the date-time fields are used for any
+	 * missing date-time information. For example, the year value of the parsed {@link Date} is 1970
+	 * with {@link GregorianCalendar} if no year value is specified from the parsing operation. The
+	 * {@link TimeZone} value may be overwritten, depending on the specified pattern and the time
+	 * zone value in {@code text}. Any {@link TimeZone} value that has previously been set by a call
+	 * to the method {@link #setTimeZone(TimeZone)} may need to be restored for further operations.
 	 * <p>
 	 * @param text     the {@link String} to partially parse
 	 * @param position a {@link ParsePosition} object with index and error index information as

@@ -725,8 +725,8 @@ public class Sort<T>
 		final T[] array = this.array; // for performance
 		final T[] temp = ensureCapacity(length1);
 		int cursor1 = tempBase; // indices into temp array
-		int cursor2 = base2; // indices into a
-		int dest = base1; // indices into a
+		int cursor2 = base2; // indices into array
+		int dest = base1; // indices into array
 		System.arraycopy(array, base1, temp, cursor1, length1);
 
 		// Move first element of second run and deal with degenerate cases
@@ -852,9 +852,9 @@ outer:  while (true) {
 		final int tempBase = this.tempBase;
 		System.arraycopy(array, base2, temp, tempBase, length2);
 
-		int cursor1 = base1 + length1 - 1; // indices into a
+		int cursor1 = base1 + length1 - 1; // indices into array
 		int cursor2 = tempBase + length2 - 1; // indices into temp array
-		int dest = base2 + length2 - 1; // indices into a
+		int dest = base2 + length2 - 1; // indices into array
 
 		// Move last element of first run and deal with degenerate cases
 		array[dest--] = array[cursor1--];
