@@ -28,8 +28,9 @@ import static jupiter.common.util.Characters.SPACE;
 
 import java.io.IOException;
 
-import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.InputOutput;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.Systems;
 import jupiter.common.math.Comparables;
 import jupiter.common.model.ICloneable;
@@ -291,7 +292,7 @@ public class R {
 				"library(Rserve);",
 				"Rserve(", debug ? "T" : "F",
 				", args = ", Strings.singleQuote(Strings.joinWith(ARGS, SPACE)),
-				")")) != IO.EXIT_SUCCESS) {
+				")")) != InputOutput.EXIT_SUCCESS) {
 			return false;
 		}
 
@@ -348,7 +349,7 @@ public class R {
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
-		return IO.EXIT_FAILURE;
+		return InputOutput.EXIT_FAILURE;
 	}
 
 	//////////////////////////////////////////////
@@ -388,7 +389,7 @@ public class R {
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
-		return IO.EXIT_FAILURE;
+		return InputOutput.EXIT_FAILURE;
 	}
 
 

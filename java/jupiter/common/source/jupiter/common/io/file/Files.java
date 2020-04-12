@@ -54,6 +54,7 @@ import java.util.zip.ZipOutputStream;
 
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -425,7 +426,8 @@ public class Files {
 						final File file = files[fi];
 						ids[fi] = COPIER_QUEUE.submit(new Triple<File, File, Boolean>(file,
 								new File(targetDirPath.concat(SEPARATOR)
-										.concat(getRelativePath(source, file))), force));
+										.concat(getRelativePath(source, file))),
+								force));
 					}
 					for (final long id : ids) {
 						status &= COPIER_QUEUE.get(id);
@@ -456,7 +458,7 @@ public class Files {
 				while (position < size) {
 					final long remain = size - position;
 					byteCount = outputChannel.transferFrom(inputChannel, position,
-							remain > IO.BUFFER_SIZE ? IO.BUFFER_SIZE : remain);
+							remain > InputOutput.BUFFER_SIZE ? InputOutput.BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
 					if (byteCount == 0L) {
@@ -519,7 +521,7 @@ public class Files {
 			createParentDirs(target);
 			reader = new BufferedReader(new FileReader(source));
 			writer = new PrintWriter(new FileWriter(target));
-			IO.copy(reader, writer, fromLine);
+			InputOutput.copy(reader, writer, fromLine);
 			return true;
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -546,7 +548,7 @@ public class Files {
 	 */
 	public static long copy(final File source, final OutputStream output)
 			throws IOException {
-		return copy(source, output, new byte[IO.BUFFER_SIZE]);
+		return copy(source, output, new byte[InputOutput.BUFFER_SIZE]);
 	}
 
 	/**
@@ -567,7 +569,7 @@ public class Files {
 		InputStream input = null;
 		try {
 			input = createInputStream(source);
-			return IO.copy(input, output, buffer);
+			return InputOutput.copy(input, output, buffer);
 		} finally {
 			Resources.close(input);
 		}
@@ -612,7 +614,7 @@ public class Files {
 	 */
 	public static long copy(final InputStream input, final File target)
 			throws IOException {
-		return copy(input, target, new byte[IO.BUFFER_SIZE]);
+		return copy(input, target, new byte[InputOutput.BUFFER_SIZE]);
 	}
 
 	/**
@@ -633,7 +635,7 @@ public class Files {
 		OutputStream output = null;
 		try {
 			output = createOutputStream(target);
-			return IO.copy(input, output, buffer);
+			return InputOutput.copy(input, output, buffer);
 		} finally {
 			Resources.close(output);
 		}
@@ -987,7 +989,7 @@ public class Files {
 	 */
 	public static BufferedReader createReader(final File file, final Charset charset)
 			throws FileNotFoundException {
-		return IO.createReader(createInputStream(file), charset);
+		return InputOutput.createReader(createInputStream(file), charset);
 	}
 
 	//////////////////////////////////////////////
@@ -1013,7 +1015,7 @@ public class Files {
 	 */
 	public static Content read(final File file, final Charset charset) {
 		try {
-			return IO.read(createInputStream(file), charset);
+			return InputOutput.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
@@ -1047,7 +1049,7 @@ public class Files {
 	 */
 	public static Content unzip(final File file, final Charset charset) {
 		try {
-			return IO.read(new ZipInputStream(createInputStream(file)), charset);
+			return InputOutput.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
@@ -1081,7 +1083,7 @@ public class Files {
 	 */
 	public static Content ungzip(final File file, final Charset charset) {
 		try {
-			return IO.read(new GZIPInputStream(createInputStream(file)), charset);
+			return InputOutput.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
@@ -1143,7 +1145,7 @@ public class Files {
 	public static int countLines(final File file, final Charset charset,
 			final boolean skipEmptyLines) {
 		try {
-			return IO.countLines(createInputStream(file), charset);
+			return InputOutput.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot find the file ", Strings.quote(file));
 		} catch (final IOException ex) {
@@ -1185,7 +1187,7 @@ public class Files {
 	public static BufferedWriter createWriter(final File file, final Charset charset,
 			final boolean append)
 			throws FileNotFoundException {
-		return IO.createWriter(createOutputStream(file, append), charset);
+		return InputOutput.createWriter(createOutputStream(file, append), charset);
 	}
 
 	//////////////////////////////////////////////
@@ -1221,7 +1223,7 @@ public class Files {
 		BufferedWriter writer = null;
 		try {
 			// Create the file writer with the charset
-			writer = IO.createWriter(createOutputStream(file, append), charset);
+			writer = InputOutput.createWriter(createOutputStream(file, append), charset);
 			// Write or append the content to the file
 			writer.write(content.concat(NEW_LINE));
 			isWritten = true;

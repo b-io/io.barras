@@ -25,6 +25,7 @@ package jupiter.math.filters;
 
 import static jupiter.common.io.InputOutput.IO;
 
+import jupiter.common.io.InputOutput;
 import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.linear.entity.Scalar;
 
@@ -51,13 +52,13 @@ public class FilterConsole
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		int status = IO.EXIT_SUCCESS;
+		int status = InputOutput.EXIT_SUCCESS;
 		final FilterConsole console = new FilterConsole();
 		try {
 			// Get the measurements to update and predict the state (using the Kalman filter)
 			console.run();
 		} catch (final Exception ignored) {
-			status = IO.EXIT_FAILURE;
+			status = InputOutput.EXIT_FAILURE;
 		} finally {
 			console.exit(status);
 		}

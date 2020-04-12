@@ -30,8 +30,8 @@ import java.io.PrintStream;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.Message;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;

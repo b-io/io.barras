@@ -25,6 +25,7 @@ package jupiter.math.calculator;
 
 import static jupiter.common.io.InputOutput.IO;
 
+import jupiter.common.io.InputOutput;
 import jupiter.gui.console.GraphicalConsole;
 import jupiter.math.calculator.process.Calculator;
 
@@ -51,13 +52,13 @@ public class MathConsole
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		int status = IO.EXIT_SUCCESS;
+		int status = InputOutput.EXIT_SUCCESS;
 		final MathConsole console = new MathConsole();
 		Calculator.parallelize();
 		try {
 			console.run();
 		} catch (final Exception ignored) {
-			status = IO.EXIT_FAILURE;
+			status = InputOutput.EXIT_FAILURE;
 		} finally {
 			Calculator.unparallelize();
 			console.exit(status);

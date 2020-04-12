@@ -2847,7 +2847,7 @@ public class Matrix
 							i * result.n, k * right.n);
 				}
 			}
-			return IO.EXIT_SUCCESS;
+			return InputOutput.EXIT_SUCCESS;
 		}
 
 		/**

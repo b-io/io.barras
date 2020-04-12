@@ -129,7 +129,7 @@ public abstract class IOHandler
 	public void println(final InputStream input, final Charset charset, final boolean isError) {
 		BufferedReader reader = null;
 		try {
-			reader = IO.createReader(input, charset);
+			reader = InputOutput.createReader(input, charset);
 			String line;
 			while ((line = reader.readLine()) != null) {
 				println(line, isError);
@@ -149,7 +149,7 @@ public abstract class IOHandler
 	@Override
 	public Integer call(final Message input) {
 		println(input);
-		return IO.EXIT_SUCCESS;
+		return InputOutput.EXIT_SUCCESS;
 	}
 
 

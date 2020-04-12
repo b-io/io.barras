@@ -384,7 +384,7 @@ public class Numbers {
 		}
 		return integerDigitCount > MAX_INTEGER_DIGITS ||
 				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD ?
-				SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
-				numberString;
+						SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
+						numberString;
 	}
 }

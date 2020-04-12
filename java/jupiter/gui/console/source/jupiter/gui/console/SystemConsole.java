@@ -28,6 +28,7 @@ import static jupiter.common.util.Characters.SPACE;
 
 import java.io.IOException;
 
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.Systems;
 import jupiter.common.util.Strings;
 
@@ -54,12 +55,12 @@ public class SystemConsole
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		int status = IO.EXIT_SUCCESS;
+		int status = InputOutput.EXIT_SUCCESS;
 		final SystemConsole console = new SystemConsole();
 		try {
 			console.run();
 		} catch (final Exception ignored) {
-			status = IO.EXIT_FAILURE;
+			status = InputOutput.EXIT_FAILURE;
 		} finally {
 			console.exit(status);
 		}

@@ -36,6 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.Message;
@@ -191,7 +192,7 @@ public abstract class GraphicalConsole
 	 * Exits {@code this}.
 	 */
 	public void exit() {
-		exit(IO.EXIT_SUCCESS);
+		exit(InputOutput.EXIT_SUCCESS);
 	}
 
 	/**

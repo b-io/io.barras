@@ -23,8 +23,7 @@
  */
 package jupiter.lang.r;
 
-import static jupiter.common.io.InputOutput.IO;
-
+import jupiter.common.io.InputOutput;
 import jupiter.gui.console.GraphicalConsole;
 
 public class RConsole
@@ -50,13 +49,13 @@ public class RConsole
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		int status = IO.EXIT_SUCCESS;
+		int status = InputOutput.EXIT_SUCCESS;
 		final RConsole console = new RConsole();
 		R.start();
 		try {
 			console.run();
 		} catch (final Exception ignored) {
-			status = IO.EXIT_FAILURE;
+			status = InputOutput.EXIT_FAILURE;
 		} finally {
 			R.stop();
 			console.exit(status);
