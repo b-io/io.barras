@@ -22,6 +22,15 @@ cd io.barras/
 mvn clean install
 ~~~
 
+or add the following Maven repository:
+~~~xml
+<repository>
+	<id>barras.io</id>
+	<name>barras.io</name>
+	<url>https://repo.barras.io</url>
+</repository>
+~~~
+
 
 ## License
 
