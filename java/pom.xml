@@ -25,7 +25,7 @@
 		<project.build.target>1.6</project.build.target>
 		<!-- Maven -->
 		<maven.compiler.version>2.5.1</maven.compiler.version>
-		<maven.helper.version>3.0.0</maven.helper.version>
+		<maven.helper.version>1.12</maven.helper.version>
 		<!-- Compilation -->
 		<standard.option>-std=c99</standard.option>
 		<!-- JUnit -->
