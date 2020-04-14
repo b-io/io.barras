@@ -25,8 +25,9 @@
 		<project.build.target>1.6</project.build.target>
 		<!-- Maven -->
 		<maven.compiler.version>2.5.1</maven.compiler.version>
-		<maven.source.version>2.4</maven.source.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.helper.version>3.0.0</maven.helper.version>
+		<!-- Compilation -->
+		<standard.option>-std=c99</standard.option>
 		<!-- JUnit -->
 		<junit.verison>4.12</junit.verison>
 	</properties>
@@ -62,21 +63,58 @@
 					<target>${project.build.target}</target>
 					<testTarget>${project.build.target}</testTarget>
 
+					<encoding>${project.build.sourceEncoding}</encoding>
+
 					<compilerArgs>
 						<arg>-Xlint:deprecation</arg>
 						<arg>-Xlint:unchecked</arg>
-						<!--<arg>&#x002d;&#x002d;add-modules=jdk.incubator.vector</arg>-->
 					</compilerArgs>
-
-					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
-			<!-- Unpackage the JNI library -->
+			<!-- Compile JNI -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<extensions>true</extensions>
+
+				<configuration>
+					<c>
+						<name>gcc</name>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+
+						<includePaths>
+							<includePath>${project.build.sourceDirectory}</includePath>
+						</includePaths>
+
+						<includes>
+							<include>**/*.h</include>
+							<include>**/*.c</include>
+						</includes>
+
+						<options>
+							<option>-D__int64=int64_t</option>
+							<option>-I${JAVA_HOME}/include</option>
+							<option>-I${JAVA_HOME}/include/win32</option>
+							<option>${stack.protector.option}</option>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+							<option>${standard.option}</option>
+							<option>${optimisation.option}</option>
+							<option>${math.option}</option>
+							<option>${debug.option}</option>
+							<option>${warning.option}</option>
+						</options>
+					</c>
+
+					<linker>
+						<name>gcc</name>
+
+						<options>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+						</options>
+					</linker>
+				</configuration>
 
 				<executions>
 					<execution>
@@ -100,36 +138,40 @@
 				</executions>
 			</plugin>
 
+			<!-- Add the generated source files -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${maven.helper.version}</version>
+
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/nar/nar-generated</source>
+							</sources>
+						</configuration>
+
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- Attach the source files -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven.source.version}</version>
-
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<!-- Generate the Javadoc -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.version}</version>
-
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

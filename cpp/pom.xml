@@ -23,15 +23,7 @@
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 		<!-- Compilation -->
-		<java.os.include />
-		<stack.protector.option />
-		<architecture.option />
-		<subsystem.option />
 		<standard.option>-std=c++11</standard.option>
-		<math.option>-ffast-math</math.option>
-		<optimisation.option>-O2</optimisation.option>
-		<debug.option>-g</debug.option>
-		<warning.option>-Wpadded</warning.option>
 	</properties>
 
 	<!-- Project Settings -->
@@ -41,48 +33,48 @@
 
 	<!-- Build Settings -->
 	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- Compile C++ -->
-				<plugin>
-					<groupId>com.github.maven-nar</groupId>
-					<artifactId>nar-maven-plugin</artifactId>
-					<extensions>true</extensions>
+		<plugins>
+			<!-- Compile C++ -->
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
 
-					<configuration>
-						<cpp>
-							<name>g++</name>
-							<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-							<includePaths>
-								<includePath>${project.build.sourceDirectory}</includePath>
-							</includePaths>
-							<includes>
-								<include>**/*.h</include>
-								<include>**/*.cpp</include>
-							</includes>
-							<options>
-								<option>${java.os.include}</option>
-								<option>${stack.protector.option}</option>
-								<option>${architecture.option}</option>
-								<option>${subsystem.option}</option>
-								<option>${standard.option}</option>
-								<option>${math.option}</option>
-								<option>${optimisation.option}</option>
-								<option>${debug.option}</option>
-								<option>${warning.option}</option>
-							</options>
-						</cpp>
+				<configuration>
+					<cpp>
+						<name>g++</name>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
 
-						<linker>
-							<name>g++</name>
-							<options>
-								<option>${architecture.option}</option>
-								<option>${subsystem.option}</option>
-							</options>
-						</linker>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+						<includePaths>
+							<includePath>${project.build.sourceDirectory}</includePath>
+						</includePaths>
+
+						<includes>
+							<include>**/*.h</include>
+							<include>**/*.cpp</include>
+						</includes>
+
+						<options>
+							<option>${stack.protector.option}</option>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+							<option>${standard.option}</option>
+							<option>${math.option}</option>
+							<option>${optimisation.option}</option>
+							<option>${debug.option}</option>
+							<option>${warning.option}</option>
+						</options>
+					</cpp>
+
+					<linker>
+						<name>g++</name>
+
+						<options>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+						</options>
+					</linker>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

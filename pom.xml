@@ -41,8 +41,11 @@
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.artifact.version>3.6.3</maven.artifact.version>
-		<maven.project.version>2.2.1</maven.project.version>
+		<maven.install.version>2.5.2</maven.install.version>
+		<maven.javadoc.version>2.10.4</maven.javadoc.version>
 		<maven.nar.version>3.2.3</maven.nar.version>
+		<maven.project.version>2.2.1</maven.project.version>
+		<maven.source.version>2.4</maven.source.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<!-- Build -->
 		<build.sourceFolder>source</build.sourceFolder>
@@ -52,16 +55,13 @@
 		<build.targetFolder>target</build.targetFolder>
 		<build.targetFilename>${project.artifactId}-${project.version}</build.targetFilename>
 		<!-- Compilation -->
-		<java.os.include />
 		<stack.protector.option />
 		<architecture.option />
 		<subsystem.option />
-		<standard.option>-std=c99</standard.option>
-		<pedentic.option />
 		<math.option>-ffast-math</math.option>
 		<optimisation.option>-O2</optimisation.option>
 		<debug.option>-g</debug.option>
-		<warning.option />
+		<warning.option>-Wpadded</warning.option>
 	</properties>
 
 	<!-- Environment Settings -->
@@ -83,11 +83,13 @@
 			<name>Central</name>
 			<url>https://repo.maven.apache.org/maven2</url>
 			<layout>default</layout>
+
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
+
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
@@ -101,11 +103,13 @@
 			<name>MVN Repository</name>
 			<url>https://mvnrepository.com</url>
 			<layout>default</layout>
+
 			<releases>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
+
 			<snapshots>
 				<enabled>true</enabled>
 				<updatePolicy>daily</updatePolicy>
@@ -113,26 +117,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-	<pluginRepositories>
-		<!-- Maven -->
-		<pluginRepository>
-			<id>central</id>
-			<name>Central</name>
-			<url>https://repo.maven.apache.org/maven2</url>
-			<layout>default</layout>
-			<releases>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>daily</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<!-- Project Settings -->
 	<modules>
@@ -165,6 +149,7 @@
 			<resource>
 				<directory>${build.resourceFolder}</directory>
 				<filtering>false</filtering>
+
 				<includes>
 					<include>*</include>
 				</includes>
@@ -178,6 +163,7 @@
 			<testResource>
 				<directory>${build.testFolder}/${build.resourceFolder}</directory>
 				<filtering>false</filtering>
+
 				<includes>
 					<include>*</include>
 				</includes>
@@ -195,62 +181,72 @@
 
 		<pluginManagement>
 			<plugins>
-				<!-- Compile C -->
+				<!-- Compile C / C++ / JNI -->
 				<plugin>
 					<groupId>com.github.maven-nar</groupId>
 					<artifactId>nar-maven-plugin</artifactId>
 					<version>${maven.nar.version}</version>
 					<extensions>true</extensions>
-
-					<configuration>
-						<c>
-							<name>gcc</name>
-							<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-							<includePaths>
-								<includePath>${project.build.sourceDirectory}</includePath>
-							</includePaths>
-							<includes>
-								<include>**/*.h</include>
-								<include>**/*.c</include>
-							</includes>
-							<options>
-								<option>-D__int64=int64_t</option>
-								<option>-I${JAVA_HOME}/include</option>
-								<option>-I${JAVA_HOME}/include/win32</option>
-								<option>${java.os.include}</option>
-								<option>${stack.protector.option}</option>
-								<option>${architecture.option}</option>
-								<option>${subsystem.option}</option>
-								<option>${standard.option}</option>
-								<option>${pedentic.option}</option>
-								<option>${optimisation.option}</option>
-								<option>${math.option}</option>
-								<option>${debug.option}</option>
-								<option>${warning.option}</option>
-							</options>
-						</c>
-
-						<linker>
-							<name>gcc</name>
-							<options>
-								<option>${architecture.option}</option>
-								<option>${subsystem.option}</option>
-							</options>
-						</linker>
-					</configuration>
 				</plugin>
 
-				<!-- Set the source encoding -->
+				<!-- Attach the source files -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven.surefire.version}</version>
-					<configuration>
-						<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
-						<useSystemClassLoader>false</useSystemClassLoader>
-					</configuration>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven.source.version}</version>
+
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Generate the Javadoc -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven.javadoc.version}</version>
+
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+			<!-- Generate the integrity checksums -->
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>${maven.install.version}</version>
+
+				<configuration>
+					<createChecksum>true</createChecksum>
+				</configuration>
+			</plugin>
+
+			<!-- Run the unit tests and generate the reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+
+				<configuration>
+					<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 </project>

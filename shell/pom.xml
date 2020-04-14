@@ -19,6 +19,9 @@
 	<url>https://github.com/b-io/io.barras/tree/master/shell</url>
 
 	<properties>
+		<!-- Project -->
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
 		<!-- Maven -->
 		<maven.exec.version>1.6.0</maven.exec.version>
 	</properties>
@@ -32,11 +35,21 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Maven -->
+				<!-- Execute the installation -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>
 					<version>${maven.exec.version}</version>
+
+					<executions>
+						<execution>
+							<phase>install</phase>
+
+							<goals>
+								<goal>exec</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
