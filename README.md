@@ -22,7 +22,7 @@ cd io.barras/
 mvn clean install
 ~~~
 
-or add the following Maven repository:
+or add the Maven repository:
 ~~~xml
 <repository>
 	<id>barras.io</id>
