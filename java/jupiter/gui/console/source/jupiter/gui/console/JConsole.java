@@ -76,6 +76,7 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.ConsoleHandler.Color;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.util.Objects;
@@ -130,7 +131,8 @@ public class JConsole
 		}
 	}
 
-	protected static final List<String> COLORS = Strings.toList(Color.class.getEnumConstants());
+	protected static final ExtendedList<String> COLORS = Strings.toList(
+			Color.class.getEnumConstants());
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

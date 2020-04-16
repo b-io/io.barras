@@ -255,7 +255,7 @@ public class FiniteDifferentiator
 			return interpolator.apply(x);
 		}
 
-		// Bound the value x and center the differentiation interval (if it is possible)
+		// Bound the value x and center the differentiation interval (if possible)
 		final double t0 = domain.bound(x - halfSampleSpan);
 		final int size = sampleSize - 1;
 

@@ -907,18 +907,17 @@ public class Longs {
 	 * Creates a {@code long} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code long} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code long} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code long} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code long} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code long} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code long} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code long} values between the specified bounds
 	 */
-	public static long[] createRandomSequence(final int length, final long lowerBound,
-			final long upperBound) {
+	public static long[] createRandomSequence(final int length, final long from, final long to) {
 		final long[] array = new long[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -938,13 +937,13 @@ public class Longs {
 	 * Returns a pseudorandom, uniformly distributed {@code long} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code long} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code long} upper bound of the value to generate (exclusive)
+	 * @param from the {@code long} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code long} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code long} value between the specified bounds
 	 */
-	public static long random(final long lowerBound, final long upperBound) {
-		return convert(lowerBound + RANDOM.nextFloat() * (upperBound - lowerBound));
+	public static long random(final long from, final long to) {
+		return convert(from + RANDOM.nextFloat() * (to - from));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1239,13 +1238,13 @@ public class Longs {
 	/**
 	 * Returns the middle of the specified {@code long} lower and upper bounds rounded down.
 	 * <p>
-	 * @param lowerBound a {@code long} value
-	 * @param upperBound another {@code long} value
+	 * @param from a {@code long} value
+	 * @param to   another {@code long} value
 	 * <p>
 	 * @return the middle of the specified {@code long} lower and upper bounds rounded down
 	 */
-	public static long middle(final long lowerBound, final long upperBound) {
-		return lowerBound + (upperBound - lowerBound) / 2L;
+	public static long middle(final long from, final long to) {
+		return from + (to - from) / 2L;
 	}
 
 	//////////////////////////////////////////////
@@ -1264,13 +1263,13 @@ public class Longs {
 	/**
 	 * Returns the middle of the specified {@code long} lower and upper bounds rounded up.
 	 * <p>
-	 * @param lowerBound a {@code long} value
-	 * @param upperBound another {@code long} value
+	 * @param from a {@code long} value
+	 * @param to   another {@code long} value
 	 * <p>
 	 * @return the middle of the specified {@code long} lower and upper bounds rounded up
 	 */
-	public static long middleUp(final long lowerBound, final long upperBound) {
-		return lowerBound + (upperBound - lowerBound + 1L) / 2L;
+	public static long middleUp(final long from, final long to) {
+		return from + (to - from + 1L) / 2L;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

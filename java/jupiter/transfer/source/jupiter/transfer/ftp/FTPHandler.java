@@ -24,6 +24,7 @@
 package jupiter.transfer.ftp;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.SEPARATOR;
 import static jupiter.common.util.Strings.STAR;
 
 import com.jcraft.jsch.Channel;
@@ -78,7 +79,7 @@ public class FTPHandler
 	/**
 	 * The system-dependent default name-separator {@link String} of the remote file system.
 	 */
-	public static volatile String REMOTE_SEPARATOR = Files.SEPARATOR;
+	public static volatile String REMOTE_SEPARATOR = SEPARATOR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -457,7 +458,7 @@ public class FTPHandler
 								Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
 									.concat(fileName);
-							final String localPath = localDirPath.concat(Files.SEPARATOR)
+							final String localPath = localDirPath.concat(SEPARATOR)
 									.concat(fileName);
 
 							IO.debug("Download the file ", Strings.quote(remotePath),
@@ -532,7 +533,7 @@ public class FTPHandler
 								Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
 									.concat(fileName);
-							final String localPath = localDirPath.concat(Files.SEPARATOR)
+							final String localPath = localDirPath.concat(SEPARATOR)
 									.concat(fileName);
 
 							IO.debug("Download the file ", Strings.quote(remotePath),
@@ -606,7 +607,7 @@ public class FTPHandler
 				if (Strings.matches(fileName, fileNames)) {
 					final String remotePath = remoteDirPath.concat(REMOTE_SEPARATOR)
 							.concat(fileName);
-					final String localPath = localDirPath.concat(Files.SEPARATOR)
+					final String localPath = localDirPath.concat(SEPARATOR)
 							.concat(fileName);
 
 					IO.debug("Download the file ", Strings.quote(remotePath),

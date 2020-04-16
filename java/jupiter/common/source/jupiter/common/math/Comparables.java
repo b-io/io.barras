@@ -431,8 +431,8 @@ public class Comparables {
 			final Comparator<? super T> comparator, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
 		return (isLowerInclusive ?
-				compare(object, from, comparator) >= 0 :
-				compare(object, from, comparator) > 0) &&
+						compare(object, from, comparator) >= 0 :
+						compare(object, from, comparator) > 0) &&
 				(isUpperInclusive ?
 						compare(object, to, comparator) <= 0 :
 						compare(object, to, comparator) < 0);

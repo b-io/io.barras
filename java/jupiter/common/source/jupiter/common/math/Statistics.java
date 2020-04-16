@@ -325,25 +325,25 @@ public class Statistics {
 	 * Returns {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
 	 * tolerance level.
 	 * <p>
-	 * @param alpha      a {@code double} value
-	 * @param tolerance  the tolerance level
-	 * @param lowerBound the {@code double} lower bound of the bisection search
-	 * @param upperBound the {@code double} upper bound of the bisection search
+	 * @param alpha     a {@code double} value
+	 * @param tolerance the tolerance level
+	 * @param from      the {@code double} lower bound of the bisection search
+	 * @param to        the {@code double} upper bound of the bisection search
 	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
 	 *         tolerance level
 	 */
 	protected static double normalCDFInverse(final double alpha, final double tolerance,
-			final double lowerBound, final double upperBound) {
-		final double middle = Doubles.middle(lowerBound, upperBound);
+			final double from, final double to) {
+		final double middle = Doubles.middle(from, to);
 		// Test the convergence
-		if (upperBound - lowerBound <= tolerance) {
+		if (to - from <= tolerance) {
 			return middle;
 		}
 		// Find the normal CDF inverse via bisection search
 		if (normalCDF(middle) > alpha) {
-			return normalCDFInverse(alpha, tolerance, lowerBound, middle);
+			return normalCDFInverse(alpha, tolerance, from, middle);
 		}
-		return normalCDFInverse(alpha, tolerance, middle, upperBound);
+		return normalCDFInverse(alpha, tolerance, middle, to);
 	}
 }

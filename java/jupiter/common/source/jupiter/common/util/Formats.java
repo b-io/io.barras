@@ -76,8 +76,8 @@ public class Formats {
 		}
 
 		@Override
-		public Object parseObject(final String source, final ParsePosition position) {
-			return source;
+		public Object parseObject(final String content, final ParsePosition position) {
+			return content;
 		}
 	};
 

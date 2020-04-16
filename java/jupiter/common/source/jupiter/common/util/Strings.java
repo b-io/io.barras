@@ -551,21 +551,21 @@ public class Strings {
 	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length
 	 * generated with {@code char} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random {@link String} to generate
-	 * @param lowerBound the {@code char} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code char} upper bound of the value to generate (exclusive)
+	 * @param length the length of the random {@link String} to generate
+	 * @param from   the {@code char} lower bound of the value to generate (inclusive)
+	 * @param to     the {@code char} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
 	 *         generated with {@code char} values between the specified bounds
 	 */
-	public static String random(final int length, final char lowerBound, final char upperBound) {
+	public static String random(final int length, final char from, final char to) {
 		// Check the arguments
 		IntegerArguments.requireNonNegative(length);
 
 		// Generate
 		final StringBuilder builder = createBuilder(length);
 		for (int i = 0; i < length; ++i) {
-			builder.append(Characters.random(lowerBound, upperBound));
+			builder.append(Characters.random(from, to));
 		}
 		return builder.toString();
 	}

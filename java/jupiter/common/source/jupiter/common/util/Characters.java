@@ -948,18 +948,17 @@ public class Characters {
 	 * Creates a {@code char} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code char} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code char} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code char} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code char} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code char} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code char} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code char} values between the specified bounds
 	 */
-	public static char[] createRandomSequence(final int length, final char lowerBound,
-			final char upperBound) {
+	public static char[] createRandomSequence(final int length, final char from, final char to) {
 		final char[] array = new char[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -979,13 +978,13 @@ public class Characters {
 	 * Returns a pseudorandom, uniformly distributed {@code char} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code char} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code char} upper bound of the value to generate (exclusive)
+	 * @param from the {@code char} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code char} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code char} value between the specified bounds
 	 */
-	public static char random(final char lowerBound, final char upperBound) {
-		return (char) (lowerBound + RANDOM.nextInt(upperBound - lowerBound));
+	public static char random(final char from, final char to) {
+		return (char) (from + RANDOM.nextInt(to - from));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

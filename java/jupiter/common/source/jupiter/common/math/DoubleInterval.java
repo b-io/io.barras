@@ -61,13 +61,11 @@ public class DoubleInterval
 	 * Constructs a {@link DoubleInterval} with the specified values of the {@link LowerBound} and
 	 * {@link UpperBound}.
 	 * <p>
-	 * @param lowerBoundValue the {@link Double} of the {@link LowerBound} (inclusive) (may be
-	 *                        {@code null})
-	 * @param upperBoundValue the {@link Double} of the {@link UpperBound} (inclusive) (may be
-	 *                        {@code null})
+	 * @param from the {@link Double} of the {@link LowerBound} (inclusive) (may be {@code null})
+	 * @param to   the {@link Double} of the {@link UpperBound} (inclusive) (may be {@code null})
 	 */
-	public DoubleInterval(final Double lowerBoundValue, final Double upperBoundValue) {
-		super(lowerBoundValue, upperBoundValue);
+	public DoubleInterval(final Double from, final Double to) {
+		super(from, to);
 	}
 
 	/**

@@ -42,7 +42,6 @@ import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.InputOutput;
-import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
@@ -55,7 +54,6 @@ import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.thread.DivideAndConquer;
-import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Longs;
@@ -1390,14 +1388,7 @@ public class Matrix
 	 */
 	public static Matrix load(final String path)
 			throws IOException {
-		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
-		try {
-			reader = fileHandler.createReader();
-			return load(reader, fileHandler.countLines(true), false);
-		} finally {
-			Resources.close(reader);
-		}
+		return load(path, false);
 	}
 
 	/**
@@ -1413,12 +1404,10 @@ public class Matrix
 	public static Matrix load(final String path, final boolean transpose)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
 		try {
-			reader = fileHandler.createReader();
-			return load(reader, fileHandler.countLines(true), transpose);
+			return load(fileHandler.createReader(), fileHandler.countLines(true), transpose);
 		} finally {
-			Resources.close(reader);
+			fileHandler.clear();
 		}
 	}
 

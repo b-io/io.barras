@@ -36,13 +36,17 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.charset.Charset;
 
+import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class FileHandler
-		implements Serializable {
+		implements ICloneable<FileHandler>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -61,20 +65,24 @@ public class FileHandler
 	/**
 	 * The {@link File} to handle.
 	 */
-	protected final File file;
+	protected File file;
 	/**
 	 * The {@link Charset} of the {@link File} to handle.
 	 */
 	protected final Charset charset;
 
 	/**
+	 * The {@link ExtendedLinkedList} of {@link BufferedReader} of the {@link File} to handle.
+	 */
+	protected final ExtendedLinkedList<BufferedReader> readers = new ExtendedLinkedList<BufferedReader>();
+	/**
 	 * The {@link BufferedWriter} of the {@link File} to handle.
 	 */
-	protected BufferedWriter writer;
+	protected BufferedWriter writer = null;
 	/**
 	 * The flag specifying whether to append.
 	 */
-	protected boolean append;
+	protected boolean append = true;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +142,6 @@ public class FileHandler
 		// Set the attributes
 		this.file = file;
 		this.charset = charset;
-		writer = null;
 	}
 
 
@@ -228,9 +235,10 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Clears {@code this}.
+	 * Closes all the {@link BufferedReader} and the {@link BufferedWriter}.
 	 */
 	public void clear() {
+		closeAllReaders(null);
 		closeWriter(null);
 	}
 
@@ -267,24 +275,166 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Deletes {@code this}.
+	 * Removes all the lines from the {@link File}.
 	 * <p>
-	 * @return {@code true} if {@code this} is deleted, {@code false} otherwise
+	 * @return {@code true} if all the lines are removed from the {@link File}, {@code false}
+	 *         otherwise
 	 */
-	public boolean delete() {
-		return delete(true);
+	public boolean empty() {
+		return write(EMPTY, false);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Copies the {@link File} to the specified target {@link File} (preserving the file dates).
+	 * <p>
+	 * @param target the target {@link File} to copy to
+	 * <p>
+	 * @return {@code true} if the {@link File} is copied to the specified target {@link File}
+	 *         (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
+	 */
+	public boolean copy(final File target)
+			throws CopyFileException {
+		return Files.copy(file, target);
 	}
 
 	/**
-	 * Deletes {@code this}.
+	 * Copies the {@link File} to the specified target {@link File} (preserving the file dates).
+	 * <p>
+	 * @param target the target {@link File} to copy to
+	 * @param force  the flag specifying whether to delete the target {@link File} before copying
+	 * <p>
+	 * @return {@code true} if the {@link File} is copied to the specified target {@link File}
+	 *         (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
+	 */
+	public boolean copy(final File target, final boolean force)
+			throws CopyFileException {
+		return Files.copy(file, target, force);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Deletes the {@link File}.
+	 * <p>
+	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
+	 */
+	public boolean delete() {
+		clear();
+		return Files.delete(file);
+	}
+
+	/**
+	 * Deletes the {@link File}.
 	 * <p>
 	 * @param force the flag specifying whether to force deleting
 	 * <p>
-	 * @return {@code true} if {@code this} is deleted, {@code false} otherwise
+	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete(final boolean force) {
-		closeWriter(null);
+		clear();
 		return Files.delete(file, force);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Moves the {@link File} to the specified target {@link File} (preserving the file dates).
+	 * <p>
+	 * @param target the target {@link File} to move to
+	 * <p>
+	 * @return {@code true} if the {@link File} is moved to the specified target {@link File}
+	 *         (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
+	 */
+	public boolean move(final File target)
+			throws CopyFileException {
+		return move(target, false);
+	}
+
+	/**
+	 * Moves the {@link File} to the specified target {@link File} (preserving the file dates).
+	 * <p>
+	 * @param target the target {@link File} to move to
+	 * @param force  the flag specifying whether to delete the target {@link File} before moving
+	 * <p>
+	 * @return {@code true} if the {@link File} is moved to the specified target {@link File}
+	 *         (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
+	 */
+	public boolean move(final File target, final boolean force)
+			throws CopyFileException {
+		final boolean status = copy(target, force) && delete(true);
+		if (status) {
+			file = target;
+		}
+		return status;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * {@link File} by the specified {@link String}.
+	 * <p>
+	 * @param regex       the regular expression {@link String} to identify and replace (may be
+	 *                    {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean replaceAll(final String regex, final String replacement) {
+		return replaceAll(regex, replacement, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * {@link File} by the specified {@link String} between the specified lines.
+	 * <p>
+	 * @param regex         the regular expression {@link String} to identify and replace (may be
+	 *                      {@code null})
+	 * @param replacement   the {@link String} to replace by (may be {@code null})
+	 * @param fromLineIndex the line index to start replacing from (inclusive)
+	 * @param toLineIndex   the line index to finish replacing at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean replaceAll(final String regex, final String replacement, final int fromLineIndex,
+			final int toLineIndex) {
+		// Check the arguments
+		if (regex == null || replacement == null) {
+			return true;
+		}
+
+		// Replace all the substrings matching the regex in the file by the replacement string
+		// between the lines
+		BufferedReader reader = null;
+		final FileHandler tempFileHandler = new FileHandler(Files.createTempFile());
+		try {
+			reader = createReader();
+			tempFileHandler.empty();
+			int i = 0;
+			String line;
+			while (i >= fromLineIndex && i < toLineIndex && (line = reader.readLine()) != null) {
+				tempFileHandler.writeLine(Strings.replaceAll(line, regex, replacement));
+				++i;
+			}
+			clear();
+			return tempFileHandler.move(file, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			closeReader(reader, null);
+			tempFileHandler.clear();
+		}
+		return false;
 	}
 
 
@@ -297,11 +447,63 @@ public class FileHandler
 	 * <p>
 	 * @return a {@link BufferedReader}
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with opening {@code this}
+	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public BufferedReader createReader()
 			throws FileNotFoundException {
-		return Files.createReader(file, charset);
+		final BufferedReader reader = Files.createReader(file, charset);
+		readers.add(reader);
+		return reader;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Closes the specified {@link BufferedReader}.
+	 * <p>
+	 * @param reader the {@link BufferedReader} to close
+	 */
+	public void closeReader(final BufferedReader reader) {
+		closeReader(reader, Strings.join("The reader of ", Strings.quote(file),
+				" has already been closed"));
+	}
+
+	/**
+	 * Closes the specified {@link BufferedReader}.
+	 * <p>
+	 * @param reader  the {@link BufferedReader} to close
+	 * @param message the warning message {@link String} to print for each {@link BufferedReader}
+	 *                already closed
+	 */
+	public void closeReader(final BufferedReader reader, final String message) {
+		if (!readers.remove(reader)) {
+			if (message != null) {
+				IO.warn(message);
+			}
+		} else {
+			Resources.close(reader);
+		}
+	}
+
+	/**
+	 * Closes all the {@link BufferedReader}.
+	 */
+	public void closeAllReaders() {
+		closeAllReaders(Strings.join("A reader of ", Strings.quote(file),
+				" has already been closed"));
+	}
+
+	/**
+	 * Closes all the {@link BufferedReader}.
+	 * <p>
+	 * @param message the warning message {@link String} to print for each {@link BufferedReader}
+	 *                already closed
+	 */
+	public void closeAllReaders(final String message) {
+		for (final BufferedReader reader : readers) {
+			Resources.close(reader, message);
+		}
+		readers.clear();
 	}
 
 	//////////////////////////////////////////////
@@ -362,7 +564,7 @@ public class FileHandler
 	 * <p>
 	 * @param append the flag specifying whether to append
 	 * <p>
-	 * @throws FileNotFoundException if there is a problem with creating or opening {@code this}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public void createWriter(final boolean append)
 			throws FileNotFoundException {
@@ -388,7 +590,8 @@ public class FileHandler
 	/**
 	 * Closes the {@link BufferedWriter}.
 	 * <p>
-	 * @param message the warning message {@link String} to print if closed
+	 * @param message the warning message {@link String} to print if the {@link BufferedWriter} is
+	 *                already closed
 	 */
 	public void closeWriter(final String message) {
 		Resources.close(writer, message);
@@ -406,7 +609,7 @@ public class FileHandler
 	 *         otherwise
 	 */
 	public boolean write(final String content) {
-		return write(content, true);
+		return write(content, append);
 	}
 
 	/**
@@ -446,7 +649,7 @@ public class FileHandler
 	 *         otherwise
 	 */
 	public boolean writeLine(final String content) {
-		return writeLine(content, true);
+		return writeLine(content, append);
 	}
 
 	/**
@@ -462,31 +665,53 @@ public class FileHandler
 		return write(content.concat(NEW_LINE), append);
 	}
 
-	//////////////////////////////////////////////
-
-	/**
-	 * Removes all the lines.
-	 * <p>
-	 * @return {@code true} if all the lines are removed, {@code false} otherwise
-	 */
-	public boolean empty() {
-		return write(EMPTY, false);
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code this} exists.
+	 * Tests whether the {@link File} exists.
 	 * <p>
-	 * @return {@code true} if {@code this} exists, {@code false} otherwise
+	 * @return {@code true} if the {@link File} exists, {@code false} otherwise
 	 * <p>
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public boolean exists()
 			throws SecurityException {
 		return Files.exists(file);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public FileHandler clone() {
+		try {
+			return (FileHandler) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return Objects.toString(file);
 	}
 }

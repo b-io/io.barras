@@ -315,7 +315,7 @@ public class Sort<T>
 
 	/**
 	 * Returns the length of the run beginning at the specified position in the specified array and
-	 * reverses the run if it is descending (ensuring that the run will always be ascending when the
+	 * reverses the run if descending (ensuring that the run will always be ascending when the
 	 * method returns).
 	 * <p>
 	 * A run is the longest ascending sequence with {@code a[li] <= a[li + 1] <= a[li + 2] <= ...}

@@ -24,6 +24,9 @@
 package jupiter.network.monitor;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.ALL_SEPARATORS;
+import static jupiter.common.io.file.Files.SEPARATOR;
+import static jupiter.common.io.file.Files.TEMP_DIR_PATH;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
@@ -108,7 +111,7 @@ public class SpeedChecker {
 		parallelize();
 		try {
 			start();
-			clear();
+			//clear();
 			show();
 			for (int ri = 0; ri < RUNS_COUNT; ++ri) {
 				SpeedChecker.downloadAll();
@@ -144,9 +147,7 @@ public class SpeedChecker {
 	 * @return the name of the file pointed by the specified {@link URL}
 	 */
 	public static String getURLFileName(final URL url) {
-		return url.getFile()
-				.replace(File.pathSeparator, EMPTY)
-				.replace(Files.SEPARATOR, EMPTY);
+		return Strings.removeAll(url.getFile(), ALL_SEPARATORS);
 	}
 
 	/**
@@ -159,7 +160,7 @@ public class SpeedChecker {
 	 *         specified {@link URL}
 	 */
 	public static String getDataFilePath(final URL url) {
-		return Strings.join(Files.TEMP_DIR_PATH, Files.SEPARATOR,
+		return Strings.join(TEMP_DIR_PATH, SEPARATOR,
 				"downloading_speeds_of_", getURLFileName(url), ".csv");
 	}
 
@@ -209,9 +210,9 @@ public class SpeedChecker {
 		IO.debug(EMPTY);
 
 		// Shutdown
-		final Collection<FileHandler> dataFiles = DATA_FILES.values();
-		for (final FileHandler dataFile : dataFiles) {
-			dataFile.closeWriter();
+		final Collection<FileHandler> dataFileHandlers = DATA_FILES.values();
+		for (final FileHandler dataFileHandler : dataFileHandlers) {
+			dataFileHandler.clear();
 		}
 		DATA_FILES.clear();
 	}
@@ -332,8 +333,7 @@ public class SpeedChecker {
 
 				// Download the file pointed by the URL
 				final String urlFileName = getURLFileName(url);
-				final File urlFile = new File(Files.TEMP_DIR_PATH.concat(Files.SEPARATOR)
-						.concat(urlFileName));
+				final File urlFile = new File(TEMP_DIR_PATH.concat(SEPARATOR).concat(urlFileName));
 				IO.debug("Download the file ", Strings.quote(urlFileName));
 				ReadableByteChannel inputChannel = null;
 				try {

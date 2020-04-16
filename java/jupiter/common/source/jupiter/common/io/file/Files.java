@@ -76,15 +76,27 @@ public class Files {
 	/**
 	 * The {@code char} name-separator.
 	 */
-	public static final char SEPARATOR_CHAR = '/';
+	public static final char CHAR_SEPARATOR = '/';
 	/**
 	 * The name-separator {@link String}.
 	 */
-	public static final String SEPARATOR = "" + SEPARATOR_CHAR;
+	public static final String SEPARATOR = "" + CHAR_SEPARATOR;
+
+	/**
+	 * All the {@code char} name-separators.
+	 */
+	public static final char[] ALL_CHAR_SEPARATORS = new char[] {CHAR_SEPARATOR,
+		File.separatorChar};
+	/**
+	 * All the name-separator {@link String}.
+	 */
+	public static final String ALL_SEPARATORS = "" + CHAR_SEPARATOR + File.separatorChar;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String TEMP_DIR_PATH = "C:".concat(Files.SEPARATOR).concat("Temp");
+	public static volatile String TEMP_DIR_PATH = System.getProperty("java.io.tmpdir");
+	public static volatile int TEMP_FILE_NAME_LENGTH = 10;
+	public static volatile String TEMP_FILE_EXTENSION = "tmp";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -161,6 +173,86 @@ public class Files {
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the path to the parent directory of the specified {@link File}, or {@code null} if it
+	 * is the root.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return the path to the parent directory of the specified {@link File}, or {@code null} if it
+	 *         is the root
+	 */
+	public static String getParentPath(final File file) {
+		final String path = getPath(file);
+		final int index = Strings.findLast(path, ALL_CHAR_SEPARATORS);
+		if (index > 0) {
+			return path.substring(0, index);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the parent directory {@link File} of the specified {@link File}, or {@code null} if
+	 * it is the root.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return the parent directory {@link File} of the specified {@link File}, or {@code null} if
+	 *         it is the root
+	 */
+	public static File getParent(final File file) {
+		final String path = getParentPath(file);
+		if (path != null) {
+			return new File(path);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the canonical path to the parent directory of the specified {@link File}, or
+	 * {@code null} if it is the root.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return the canonical path to the parent directory of the specified {@link File}, or
+	 *         {@code null} if it is the root
+	 * <p>
+	 * @throws IOException       if there is a problem with querying the file system
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public static String getCanonicalParentPath(final File file)
+			throws IOException {
+		final String canonicalPath = getCanonicalPath(file);
+		final int index = Strings.findLast(canonicalPath, ALL_CHAR_SEPARATORS);
+		if (index > 0) {
+			return canonicalPath.substring(0, index);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the canonical parent directory {@link File} of the specified {@link File}, or
+	 * {@code null} if it is the root.
+	 * <p>
+	 * @param file a {@link File}
+	 * <p>
+	 * @return the canonical parent directory {@link File} of the specified {@link File}, or
+	 *         {@code null} if it is the root
+	 * <p>
+	 * @throws IOException       if there is a problem with querying the file system
+	 * @throws SecurityException if there is a permission problem
+	 */
+	public static File getCanonicalParent(final File file)
+			throws IOException {
+		final String canonicalPath = getCanonicalParentPath(file);
+		if (canonicalPath != null) {
+			return new File(canonicalPath);
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the file name of the specified path.
 	 * <p>
 	 * @param path a {@link String}
@@ -168,7 +260,7 @@ public class Files {
 	 * @return the file name of the specified path
 	 */
 	public static String getName(final String path) {
-		return path.substring(Strings.findLast(path, File.separatorChar, SEPARATOR_CHAR) + 1);
+		return path.substring(Strings.findLast(path, ALL_CHAR_SEPARATORS) + 1);
 	}
 
 	/**
@@ -282,7 +374,19 @@ public class Files {
 	 */
 	public static void createParentDirs(final File file)
 			throws IOException {
-		createDirs(file.getParentFile());
+		createDirs(getParent(file));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a temporary {@link File}.
+	 * <p>
+	 * @return a temporary {@link File}
+	 */
+	public static File createTempFile() {
+		return new File(Strings.join(TEMP_DIR_PATH, SEPARATOR,
+				Strings.random(TEMP_FILE_NAME_LENGTH, 'A', '['), ".", TEMP_FILE_EXTENSION));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -387,8 +491,25 @@ public class Files {
 	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
 	 * <p>
-	 * @param source the source {@link File} to read from
-	 * @param target the target {@link File} to write to
+	 * @param source the source {@link File} to copy from
+	 * @param target the target {@link File} to copy to
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is copied to the specified target
+	 *         {@link File} (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
+	 */
+	public static boolean copy(final File source, final File target)
+			throws CopyFileException {
+		return copy(source, target, false);
+	}
+
+	/**
+	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
+	 * file dates).
+	 * <p>
+	 * @param source the source {@link File} to copy from
+	 * @param target the target {@link File} to copy to
 	 * @param force  the flag specifying whether to delete the target {@link File} before copying
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
@@ -483,40 +604,38 @@ public class Files {
 	 * Copies the specified source {@link File} to the specified target {@link File} from the
 	 * specified line index (without necessary preserving the file dates).
 	 * <p>
-	 * @param source   the source {@link File} to read from
-	 * @param target   the target {@link File} to write to
-	 * @param force    the flag specifying whether to delete the target {@link File} before copying
-	 * @param fromLine the line index to start copying forward from
+	 * @param sourceFile    the source {@link File} to copy from
+	 * @param targetFile    the target {@link File} to copy to
+	 * @param force         the flag specifying whether to delete the target {@link File} before
+	 *                      copying
+	 * @param fromLineIndex the line index to start copying from (inclusive)
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} from the specified line index, {@code false} otherwise
 	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
-	public static boolean copy(final File source, final File target, final boolean force,
-			final int fromLine)
+	public static boolean copy(final File sourceFile, final File targetFile, final boolean force,
+			final int fromLineIndex)
 			throws CopyFileException {
-		if (fromLine == 0) {
-			return copy(source, target, force);
+		if (fromLineIndex == 0) {
+			return copy(sourceFile, targetFile, force);
 		}
-		if (exists(target)) {
+		if (exists(targetFile)) {
 			if (force) {
-				delete(target, true);
+				delete(targetFile, true);
 			} else {
 				throw new CopyFileException(
-						Strings.join("Target file ", Strings.quote(target), " already exists"));
+						Strings.join("Target file ", Strings.quote(targetFile), " already exists"));
 			}
-		}
-		if (source.isDirectory()) {
-			return copy(source, target, force);
 		}
 		BufferedReader reader = null;
 		PrintWriter writer = null;
 		try {
-			createParentDirs(target);
-			reader = new BufferedReader(new FileReader(source));
-			writer = new PrintWriter(new FileWriter(target));
-			InputOutput.copy(reader, writer, fromLine);
+			createParentDirs(targetFile);
+			reader = new BufferedReader(new FileReader(sourceFile));
+			writer = new PrintWriter(new FileWriter(targetFile));
+			InputOutput.copy(reader, writer, fromLineIndex);
 			return true;
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -533,37 +652,37 @@ public class Files {
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream}.
 	 * <p>
-	 * @param source the source {@link File} to read from
-	 * @param output the {@link OutputStream} to write to
+	 * @param sourceFile the source {@link File} to copy from
+	 * @param output     the {@link OutputStream} to copy to
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code source} or writing to
 	 *                     {@code output}
 	 */
-	public static long copy(final File source, final OutputStream output)
+	public static long copy(final File sourceFile, final OutputStream output)
 			throws IOException {
-		return copy(source, output, new byte[InputOutput.BUFFER_SIZE]);
+		return copy(sourceFile, output, new byte[InputOutput.BUFFER_SIZE]);
 	}
 
 	/**
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
 	 * <p>
-	 * @param source the source {@link File} to read from
-	 * @param output the {@link OutputStream} to write to
-	 * @param buffer the buffer {@code byte} array used for copying
+	 * @param sourceFile the source {@link File} to copy from
+	 * @param output     the {@link OutputStream} to copy to
+	 * @param buffer     the buffer {@code byte} array used for copying
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code source} or writing to
 	 *                     {@code output}
 	 */
-	public static long copy(final File source, final OutputStream output, final byte[] buffer)
+	public static long copy(final File sourceFile, final OutputStream output, final byte[] buffer)
 			throws IOException {
 		InputStream input = null;
 		try {
-			input = createInputStream(source);
+			input = createInputStream(sourceFile);
 			return InputOutput.copy(input, output, buffer);
 		} finally {
 			Resources.close(input);
@@ -574,19 +693,19 @@ public class Files {
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link FileChannel}.
 	 * <p>
-	 * @param source the source {@link File} to read from
-	 * @param output the {@link FileChannel} to write to
+	 * @param sourceFile the source {@link File} to copy from
+	 * @param output     the {@link FileChannel} to copy to
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code source} or writing to
 	 *                     {@code output}
 	 */
-	public static long copy(final File source, final FileChannel output)
+	public static long copy(final File sourceFile, final FileChannel output)
 			throws IOException {
 		FileInputStream input = null;
 		try {
-			input = new FileInputStream(source);
+			input = new FileInputStream(sourceFile);
 			return output.transferFrom(input.getChannel(), 0, Long.MAX_VALUE);
 		} finally {
 			Resources.close(input);
@@ -599,37 +718,37 @@ public class Files {
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File}.
 	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param target the target {@link File} to write to
+	 * @param input      the {@link InputStream} to copy from
+	 * @param targetFile the target {@link File} to copy to
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input} or writing to
 	 *                     {@code target}
 	 */
-	public static long copy(final InputStream input, final File target)
+	public static long copy(final InputStream input, final File targetFile)
 			throws IOException {
-		return copy(input, target, new byte[InputOutput.BUFFER_SIZE]);
+		return copy(input, targetFile, new byte[InputOutput.BUFFER_SIZE]);
 	}
 
 	/**
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File} with the specified buffer.
 	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param target the target {@link File} to write to
-	 * @param buffer the buffer {@code byte} array used for copying
+	 * @param input      the {@link InputStream} to copy from
+	 * @param targetFile the target {@link File} to copy to
+	 * @param buffer     the buffer {@code byte} array used for copying
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input} or writing to
 	 *                     {@code target}
 	 */
-	public static long copy(final InputStream input, final File target, final byte[] buffer)
+	public static long copy(final InputStream input, final File targetFile, final byte[] buffer)
 			throws IOException {
 		OutputStream output = null;
 		try {
-			output = createOutputStream(target);
+			output = createOutputStream(targetFile);
 			return InputOutput.copy(input, output, buffer);
 		} finally {
 			Resources.close(output);
@@ -640,33 +759,33 @@ public class Files {
 	 * Reads the data from the specified {@link ReadableByteChannel} and writes it to the specified
 	 * target {@link File}.
 	 * <p>
-	 * @param input  the {@link ReadableByteChannel} to read from
-	 * @param target the target {@link File} to write to
+	 * @param input      the {@link ReadableByteChannel} to copy from
+	 * @param targetFile the target {@link File} to copy to
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input} or writing to
 	 *                     {@code target}
 	 */
-	public static long copy(final ReadableByteChannel input, final File target)
+	public static long copy(final ReadableByteChannel input, final File targetFile)
 			throws IOException {
 		FileOutputStream output = null;
 		try {
-			output = new FileOutputStream(target);
+			output = new FileOutputStream(targetFile);
 			return output.getChannel().transferFrom(input, 0, Long.MAX_VALUE);
 		} finally {
 			Resources.close(output);
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * Deletes the specified {@link File}.
 	 * <p>
 	 * @param file the {@link File} to delete
 	 * <p>
-	 * @return {@code true} if {@code file} is deleted, {@code false} otherwise
+	 * @return {@code true} if the specified {@link File} is deleted, {@code false} otherwise
 	 */
 	public static boolean delete(final File file) {
 		return delete(file, false);
@@ -714,6 +833,43 @@ public class Files {
 			IO.warn("The file ", Strings.quote(file), " does not exist");
 		}
 		return isDeleted;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Moves the specified source {@link File} to the specified target {@link File} (preserving the
+	 * file dates).
+	 * <p>
+	 * @param source the source {@link File} to move from
+	 * @param target the target {@link File} to move to
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is moved to the specified target
+	 *         {@link File} (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
+	 */
+	public static boolean move(final File source, final File target)
+			throws CopyFileException {
+		return move(source, target, false);
+	}
+
+	/**
+	 * Moves the specified source {@link File} to the specified target {@link File} (preserving the
+	 * file dates).
+	 * <p>
+	 * @param source the source {@link File} to move from
+	 * @param target the target {@link File} to move to
+	 * @param force  the flag specifying whether to delete the target {@link File} before moving
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is moved to the specified target
+	 *         {@link File} (preserving the file dates), {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
+	 */
+	public static boolean move(final File source, final File target, final boolean force)
+			throws CopyFileException {
+		return copy(source, target, force) && delete(source, force);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -928,10 +1084,10 @@ public class Files {
 							IO.error(ex);
 						}
 					} else {
-						final File parentDir = target.getParentFile();
+						final File parentDir = getParent(target);
 						final long lastModified = parentDir.lastModified();
 						try {
-							Files.copy(input, target, buffer);
+							copy(input, target, buffer);
 							++entryCount;
 						} catch (final IOException ex) {
 							IO.error(ex);

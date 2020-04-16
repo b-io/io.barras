@@ -937,18 +937,17 @@ public class Shorts {
 	 * Creates a {@code short} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code short} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code short} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code short} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code short} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code short} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code short} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code short} values between the specified bounds
 	 */
-	public static short[] createRandomSequence(final int length, final short lowerBound,
-			final short upperBound) {
+	public static short[] createRandomSequence(final int length, final short from, final short to) {
 		final short[] array = new short[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -968,14 +967,14 @@ public class Shorts {
 	 * Returns a pseudorandom, uniformly distributed {@code short} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code short} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code short} upper bound of the value to generate (exclusive)
+	 * @param from the {@code short} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code short} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code short} value between the specified
 	 *         bounds
 	 */
-	public static short random(final short lowerBound, final short upperBound) {
-		return convert(lowerBound + RANDOM.nextInt(upperBound - lowerBound));
+	public static short random(final short from, final short to) {
+		return convert(from + RANDOM.nextInt(to - from));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1273,13 +1272,13 @@ public class Shorts {
 	/**
 	 * Returns the middle of the specified {@code short} lower and upper bounds rounded down.
 	 * <p>
-	 * @param lowerBound a {@code short} value
-	 * @param upperBound another {@code short} value
+	 * @param from a {@code short} value
+	 * @param to   another {@code short} value
 	 * <p>
 	 * @return the middle of the specified {@code short} lower and upper bounds rounded down
 	 */
-	public static short middle(final short lowerBound, final short upperBound) {
-		return convert(lowerBound + (upperBound - lowerBound) / 2);
+	public static short middle(final short from, final short to) {
+		return convert(from + (to - from) / 2);
 	}
 
 	//////////////////////////////////////////////
@@ -1298,13 +1297,13 @@ public class Shorts {
 	/**
 	 * Returns the middle of the specified {@code short} lower and upper bounds rounded up.
 	 * <p>
-	 * @param lowerBound a {@code short} value
-	 * @param upperBound another {@code short} value
+	 * @param from a {@code short} value
+	 * @param to   another {@code short} value
 	 * <p>
 	 * @return the middle of the specified {@code short} lower and upper bounds rounded up
 	 */
-	public static short middleUp(final short lowerBound, final short upperBound) {
-		return convert(lowerBound + (upperBound - lowerBound + 1) / 2);
+	public static short middleUp(final short from, final short to) {
+		return convert(from + (to - from + 1) / 2);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

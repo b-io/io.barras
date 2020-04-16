@@ -122,7 +122,7 @@ public class Floats {
 		final int bBits = Float.floatToIntBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0f, 0f) or (!NaN, NaN)
-				1; // (0f, -0f) or (NaN, !NaN)
+						1; // (0f, -0f) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -946,18 +946,17 @@ public class Floats {
 	 * Creates a {@code float} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code float} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code float} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code float} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code float} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code float} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code float} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code float} values between the specified bounds
 	 */
-	public static float[] createRandomSequence(final int length, final float lowerBound,
-			final float upperBound) {
+	public static float[] createRandomSequence(final int length, final float from, final float to) {
 		final float[] array = new float[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -979,14 +978,14 @@ public class Floats {
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code float} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code float} upper bound of the value to generate (exclusive)
+	 * @param from the {@code float} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code float} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code float} value between the specified
 	 *         bounds
 	 */
-	public static float random(final float lowerBound, final float upperBound) {
-		return lowerBound + RANDOM.nextFloat() * (upperBound - lowerBound);
+	public static float random(final float from, final float to) {
+		return from + RANDOM.nextFloat() * (to - from);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1284,13 +1283,13 @@ public class Floats {
 	/**
 	 * Returns the middle of the specified {@code float} lower and upper bounds.
 	 * <p>
-	 * @param lowerBound a {@code float} value
-	 * @param upperBound another {@code float} value
+	 * @param from a {@code float} value
+	 * @param to   another {@code float} value
 	 * <p>
 	 * @return the middle of the specified {@code float} lower and upper bounds
 	 */
-	public static float middle(final float lowerBound, final float upperBound) {
-		return lowerBound + (upperBound - lowerBound) / 2f;
+	public static float middle(final float from, final float to) {
+		return from + (to - from) / 2f;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

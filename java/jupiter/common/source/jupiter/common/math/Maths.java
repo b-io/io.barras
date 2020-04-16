@@ -2237,151 +2237,143 @@ public class Maths {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
 	 * <p>
-	 * @param x          a {@code byte} value
-	 * @param lowerBound the {@code byte} lower bound of the domain (inclusive)
-	 * @param upperBound the {@code byte} upper bound of the domain (inclusive)
+	 * @param x    a {@code byte} value
+	 * @param from the {@code byte} lower bound of the domain (inclusive)
+	 * @param to   the {@code byte} upper bound of the domain (inclusive)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
-	public static byte bound(final byte x, final byte lowerBound, final byte upperBound) {
-		if (x < lowerBound) {
-			return lowerBound;
+	public static byte bound(final byte x, final byte from, final byte to) {
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
 	 * <p>
-	 * @param x          a {@code short} value
-	 * @param lowerBound the {@code short} lower bound of the domain (inclusive)
-	 * @param upperBound the {@code short} upper bound of the domain (inclusive)
+	 * @param x    a {@code short} value
+	 * @param from the {@code short} lower bound of the domain (inclusive)
+	 * @param to   the {@code short} upper bound of the domain (inclusive)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
-	public static short bound(final short x, final short lowerBound, final short upperBound) {
-		if (x < lowerBound) {
-			return lowerBound;
+	public static short bound(final short x, final short from, final short to) {
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
 	 * <p>
-	 * @param x          an {@code int} value
-	 * @param lowerBound the {@code int} lower bound of the domain (inclusive)
-	 * @param upperBound the {@code int} upper bound of the domain (inclusive)
+	 * @param x    an {@code int} value
+	 * @param from the {@code int} lower bound of the domain (inclusive)
+	 * @param to   the {@code int} upper bound of the domain (inclusive)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
-	public static int bound(final int x, final int lowerBound, final int upperBound) {
-		if (x < lowerBound) {
-			return lowerBound;
+	public static int bound(final int x, final int from, final int to) {
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
 	 * <p>
-	 * @param x          a {@code long} value
-	 * @param lowerBound the {@code long} lower bound of the domain (inclusive)
-	 * @param upperBound the {@code long} upper bound of the domain (inclusive)
+	 * @param x    a {@code long} value
+	 * @param from the {@code long} lower bound of the domain (inclusive)
+	 * @param to   the {@code long} upper bound of the domain (inclusive)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
-	public static long bound(final long x, final long lowerBound, final long upperBound) {
-		if (x < lowerBound) {
-			return lowerBound;
+	public static long bound(final long x, final long from, final long to) {
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}, {@code NaN} otherwise.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}, {@code NaN}
+	 * otherwise.
 	 * <p>
-	 * @param x          a {@code float} value
-	 * @param lowerBound the {@code float} lower bound of the domain (inclusive) (may be
-	 *                   {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
-	 * @param upperBound the {@code float} upper bound of the domain (inclusive) (may be
-	 *                   {@code Float.POSITIVE_INFINITY} if there is no upper bound)
+	 * @param x    a {@code float} value
+	 * @param from the {@code float} lower bound of the domain (inclusive) (may be
+	 *             {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param to   the {@code float} upper bound of the domain (inclusive) (may be
+	 *             {@code Float.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}, {@code NaN} otherwise
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to},
+	 *         {@code NaN} otherwise
 	 */
-	public static float bound(final float x, final float lowerBound, final float upperBound) {
+	public static float bound(final float x, final float from, final float to) {
 		if (Float.isNaN(x)) {
 			IO.warn("The specified float number is NaN");
 			return Float.NaN;
 		}
-		if (x < lowerBound) {
-			return lowerBound;
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound} if
-	 * {@code x > upperBound}, {@code NaN} otherwise.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}, {@code NaN}
+	 * otherwise.
 	 * <p>
-	 * @param x          a {@code double} value
-	 * @param lowerBound the {@code double} lower bound of the domain (inclusive) (may be
-	 *                   {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
-	 * @param upperBound the {@code double} upper bound of the domain (inclusive) (may be
-	 *                   {@code Double.POSITIVE_INFINITY} if there is no upper bound)
+	 * @param x    a {@code double} value
+	 * @param from the {@code double} lower bound of the domain (inclusive) (may be
+	 *             {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param to   the {@code double} upper bound of the domain (inclusive) (may be
+	 *             {@code Double.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code lowerBound} if {@code x < lowerBound}, {@code upperBound}
-	 *         if {@code x > upperBound}, {@code NaN} otherwise
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to},
+	 *         {@code NaN} otherwise
 	 */
-	public static double bound(final double x, final double lowerBound, final double upperBound) {
+	public static double bound(final double x, final double from, final double to) {
 		if (Double.isNaN(x)) {
 			IO.warn("The specified double number is NaN");
 			return Double.NaN;
 		}
-		if (x < lowerBound) {
-			return lowerBound;
+		if (x < from) {
+			return from;
 		}
-		if (x > upperBound) {
-			return upperBound;
+		if (x > to) {
+			return to;
 		}
 		return x;
 	}
@@ -2389,65 +2381,64 @@ public class Maths {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code NaN} otherwise.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code NaN} otherwise.
 	 * <p>
-	 * @param x          a {@code float} value
-	 * @param lowerBound the {@code float} lower bound of the domain (inclusive) (may be
-	 *                   {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
-	 * @param upperBound the {@code float} upper bound of the domain (inclusive) (may be
-	 *                   {@code Float.POSITIVE_INFINITY} if there is no upper bound)
+	 * @param x    a {@code float} value
+	 * @param from the {@code float} lower bound of the domain (inclusive) (may be
+	 *             {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param to   the {@code float} upper bound of the domain (inclusive) (may be
+	 *             {@code Float.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code NaN} otherwise
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code NaN} otherwise
 	 */
-	public static float constrain(final float x, final float lowerBound, final float upperBound) {
+	public static float constrain(final float x, final float from, final float to) {
 		// Check the arguments
 		if (Float.isNaN(x)) {
 			IO.warn("The specified float number is NaN");
 			return Float.NaN;
 		}
-		if (x < lowerBound) {
+		if (x < from) {
 			IO.warn("The specified float number ", x,
-					" is less than the lower bound of the domain ", lowerBound);
+					" is less than the lower bound of the domain ", from);
 			return Float.NaN;
 		}
-		if (x > upperBound) {
+		if (x > to) {
 			IO.warn("The specified float number ", x,
-					" is greater than the upper bound of the domain ", upperBound);
+					" is greater than the upper bound of the domain ", to);
 			return Float.NaN;
 		}
 		return x;
 	}
 
 	/**
-	 * Returns {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 * {@code upperBound}, {@code NaN} otherwise.
+	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 * {@code to}, {@code NaN} otherwise.
 	 * <p>
-	 * @param x          a {@code double} value
-	 * @param lowerBound the {@code double} lower bound of the domain (inclusive) (may be
-	 *                   {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
-	 * @param upperBound the {@code double} upper bound of the domain (inclusive) (may be
-	 *                   {@code Double.POSITIVE_INFINITY} if there is no upper bound)
+	 * @param x    a {@code double} value
+	 * @param from the {@code double} lower bound of the domain (inclusive) (may be
+	 *             {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
+	 * @param to   the {@code double} upper bound of the domain (inclusive) (may be
+	 *             {@code Double.POSITIVE_INFINITY} if there is no upper bound)
 	 * <p>
-	 * @return {@code x} if {@code x} is inside the domain determined by {@code lowerBound} and
-	 *         {@code upperBound}, {@code NaN} otherwise
+	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
+	 *         {@code to}, {@code NaN} otherwise
 	 */
-	public static double constrain(final double x, final double lowerBound,
-			final double upperBound) {
+	public static double constrain(final double x, final double from, final double to) {
 		// Check the arguments
 		if (Double.isNaN(x)) {
 			IO.warn("The specified double number is NaN");
 			return Double.NaN;
 		}
-		if (x < lowerBound) {
+		if (x < from) {
 			IO.warn("The specified double number ", x,
-					" is less than the lower bound of the domain ", lowerBound);
+					" is less than the lower bound of the domain ", from);
 			return Double.NaN;
 		}
-		if (x > upperBound) {
+		if (x > to) {
 			IO.warn("The specified double number ", x,
-					" is greater than the upper bound of the domain ", upperBound);
+					" is greater than the upper bound of the domain ", to);
 			return Double.NaN;
 		}
 		return x;

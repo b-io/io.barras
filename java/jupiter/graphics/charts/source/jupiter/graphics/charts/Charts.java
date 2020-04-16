@@ -300,22 +300,21 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
-	 * @param lowerBound the {@code double} lower bound of the domain
-	 * @param upperBound the {@code double} upper bound of the domain
+	 * @param from       the {@code double} lower bound of the domain
+	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link UnivariateFunction}
 	 */
-	public static XYDataset createDataset(final Comparable<?> seriesKey,
-			final UnivariateFunction f, final double lowerBound, final double upperBound,
-			final int sampleSize) {
+	public static XYDataset createDataset(final Comparable<?> seriesKey, final UnivariateFunction f,
+			final double from, final double to, final int sampleSize) {
 		final Function2D function = new Function2D() {
 			@Override
 			public double getValue(final double x) {
 				return f.apply(x);
 			}
 		};
-		return createDataset(seriesKey, function, lowerBound, upperBound, sampleSize);
+		return createDataset(seriesKey, function, from, to, sampleSize);
 	}
 
 	/**
@@ -323,15 +322,15 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound the {@code double} lower bound of the domain
-	 * @param upperBound the {@code double} upper bound of the domain
+	 * @param from       the {@code double} lower bound of the domain
+	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link Function2D}
 	 */
 	public static XYDataset createDataset(final Comparable<?> seriesKey, final Function2D f,
-			final double lowerBound, final double upperBound, final int sampleSize) {
-		return DatasetUtils.sampleFunction2D(f, lowerBound, upperBound, sampleSize, seriesKey);
+			final double from, final double to, final int sampleSize) {
+		return DatasetUtils.sampleFunction2D(f, from, to, sampleSize, seriesKey);
 	}
 
 	//////////////////////////////////////////////
@@ -341,21 +340,21 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
-	 * @param lowerBound the {@code double} lower bound of the domain
-	 * @param upperBound the {@code double} upper bound of the domain
+	 * @param from       the {@code double} lower bound of the domain
+	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link UnivariateFunction}
 	 */
 	public static XYSeries createSeries(final Comparable<?> seriesKey, final UnivariateFunction f,
-			final double lowerBound, final double upperBound, final int sampleSize) {
+			final double from, final double to, final int sampleSize) {
 		final Function2D function = new Function2D() {
 			@Override
 			public double getValue(final double x) {
 				return f.apply(x);
 			}
 		};
-		return createSeries(seriesKey, function, lowerBound, upperBound, sampleSize);
+		return createSeries(seriesKey, function, from, to, sampleSize);
 	}
 
 	/**
@@ -363,16 +362,15 @@ public class Charts {
 	 * <p>
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
-	 * @param lowerBound the {@code double} lower bound of the domain
-	 * @param upperBound the {@code double} upper bound of the domain
+	 * @param from       the {@code double} lower bound of the domain
+	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
 	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link Function2D}
 	 */
 	public static XYSeries createSeries(final Comparable<?> seriesKey, final Function2D f,
-			final double lowerBound, final double upperBound, final int sampleSize) {
-		return DatasetUtils.sampleFunction2DToSeries(f, lowerBound, upperBound, sampleSize,
-				seriesKey);
+			final double from, final double to, final int sampleSize) {
+		return DatasetUtils.sampleFunction2DToSeries(f, from, to, sampleSize, seriesKey);
 	}
 
 

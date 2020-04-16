@@ -1124,18 +1124,17 @@ public class Bytes {
 	 * Creates a {@code byte} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code byte} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code byte} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code byte} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code byte} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code byte} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code byte} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code byte} values between the specified bounds
 	 */
-	public static byte[] createRandomSequence(final int length, final byte lowerBound,
-			final byte upperBound) {
+	public static byte[] createRandomSequence(final int length, final byte from, final byte to) {
 		final byte[] array = new byte[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -1155,13 +1154,13 @@ public class Bytes {
 	 * Returns a pseudorandom, uniformly distributed {@code byte} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code byte} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code byte} upper bound of the value to generate (exclusive)
+	 * @param from the {@code byte} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code byte} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
 	 */
-	public static byte random(final byte lowerBound, final byte upperBound) {
-		return convert(lowerBound + RANDOM.nextInt(upperBound - lowerBound));
+	public static byte random(final byte from, final byte to) {
+		return convert(from + RANDOM.nextInt(to - from));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1511,13 +1510,13 @@ public class Bytes {
 	/**
 	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded down.
 	 * <p>
-	 * @param lowerBound a {@code byte} value
-	 * @param upperBound another {@code byte} value
+	 * @param from a {@code byte} value
+	 * @param to   another {@code byte} value
 	 * <p>
 	 * @return the middle of the specified {@code byte} lower and upper bounds rounded down
 	 */
-	public static byte middle(final byte lowerBound, final byte upperBound) {
-		return convert(lowerBound + (upperBound - lowerBound) / 2);
+	public static byte middle(final byte from, final byte to) {
+		return convert(from + (to - from) / 2);
 	}
 
 	//////////////////////////////////////////////
@@ -1536,13 +1535,13 @@ public class Bytes {
 	/**
 	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded up.
 	 * <p>
-	 * @param lowerBound a {@code byte} value
-	 * @param upperBound another {@code byte} value
+	 * @param from a {@code byte} value
+	 * @param to   another {@code byte} value
 	 * <p>
 	 * @return the middle of the specified {@code byte} lower and upper bounds rounded up
 	 */
-	public static byte middleUp(final byte lowerBound, final byte upperBound) {
-		return convert(lowerBound + (upperBound - lowerBound + 1) / 2);
+	public static byte middleUp(final byte from, final byte to) {
+		return convert(from + (to - from + 1) / 2);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

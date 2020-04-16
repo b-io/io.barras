@@ -24,6 +24,7 @@
 package jupiter.transfer.mail;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.SEPARATOR;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
@@ -48,7 +49,6 @@ import javax.mail.search.SearchTerm;
 import javax.mail.search.SubjectTerm;
 
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
@@ -74,7 +74,7 @@ public class MailHandler
 	/**
 	 * The system-dependent default name-separator {@link String} of the remote file system.
 	 */
-	public static volatile String REMOTE_SEPARATOR = Files.SEPARATOR;
+	public static volatile String REMOTE_SEPARATOR = SEPARATOR;
 
 	/**
 	 * Sets the timeout and the connection timeout.

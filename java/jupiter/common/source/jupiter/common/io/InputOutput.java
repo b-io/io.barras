@@ -716,8 +716,8 @@ public class InputOutput
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream}.
 	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param output the {@link OutputStream} to write to
+	 * @param input  the {@link InputStream} to copy from
+	 * @param output the {@link OutputStream} to copy to
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
@@ -733,8 +733,8 @@ public class InputOutput
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
 	 * <p>
-	 * @param input  the {@link InputStream} to read from
-	 * @param output the {@link OutputStream} to write to
+	 * @param input  the {@link InputStream} to copy from
+	 * @param output the {@link OutputStream} to copy to
 	 * @param buffer the buffer {@code byte} array used for copying
 	 * <p>
 	 * @return the number of copied {@code byte}
@@ -757,20 +757,20 @@ public class InputOutput
 	 * Copies the data of the specified {@link BufferedReader} with the specified
 	 * {@link PrintWriter} from the specified line index.
 	 * <p>
-	 * @param reader   the {@link BufferedReader} to read with
-	 * @param writer   the {@link PrintWriter} to write with
-	 * @param fromLine the line index to start copying forward from
+	 * @param reader        the {@link BufferedReader} to read with
+	 * @param writer        the {@link PrintWriter} to write with
+	 * @param fromLineIndex the line index to start copying from (inclusive)
 	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
 	 *                     {@code writer}
 	 */
 	public static void copy(final BufferedReader reader, final PrintWriter writer,
-			final int fromLine)
+			final int fromLineIndex)
 			throws IOException {
 		int i = 0;
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (i++ >= fromLine) {
+			if (i++ >= fromLineIndex) {
 				writer.println(line);
 			}
 		}

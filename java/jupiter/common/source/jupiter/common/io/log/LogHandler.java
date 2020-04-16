@@ -24,6 +24,7 @@
 package jupiter.common.io.log;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.SEPARATOR;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,8 +55,7 @@ public class LogHandler
 	/**
 	 * The default {@link String} log directory.
 	 */
-	protected static final String DEFAULT_LOG_DIR_PATH = Files.getPath()
-			.concat(Files.SEPARATOR)
+	protected static final String DEFAULT_LOG_DIR_PATH = Files.getPath().concat(SEPARATOR)
 			.concat("logs");
 
 	/**
@@ -147,7 +147,7 @@ public class LogHandler
 	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
-		return Files.getPath(logDir).concat(Files.SEPARATOR).concat(logName);
+		return Files.getPath(logDir).concat(SEPARATOR).concat(logName);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

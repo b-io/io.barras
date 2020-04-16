@@ -75,14 +75,14 @@ public class ExpressionHandler
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final ExtendedList<ExtendedList<Character>> BINARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
-			Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
-			Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
+					Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
+					Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
 	/**
 	 * The {@link ExtendedList} of unary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final ExtendedList<ExtendedList<Character>> UNARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
-			Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
+					Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -469,19 +469,19 @@ public class ExpressionHandler
 		final IntervalList<Integer> delimitingIntervals = new IntervalList<Integer>();
 
 		// Get the delimiting intervals
-		int parenthesisCount = 0, lowerBound, upperBound = -1;
+		int parenthesisCount = 0, fromIndex, toIndex = -1;
 		for (int i = expression.length() - 1; i >= 0; --i) {
 			final Element.Type type = getType(expression.charAt(i));
 			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
 				if (parenthesisCount == 0) {
-					upperBound = i;
+					toIndex = i;
 				}
 				++parenthesisCount;
 			} else if (type == Element.Type.LEFT_PARENTHESIS || type == Element.Type.LEFT_BRACKET) {
 				--parenthesisCount;
 				if (parenthesisCount == 0) {
-					lowerBound = i;
-					delimitingIntervals.add(new Interval<Integer>(lowerBound, upperBound));
+					fromIndex = i;
+					delimitingIntervals.add(new Interval<Integer>(fromIndex, toIndex));
 				}
 			}
 		}

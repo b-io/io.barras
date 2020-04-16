@@ -24,6 +24,7 @@
 package jupiter.log;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.SEPARATOR;
 
 import java.io.File;
 import java.io.IOException;
@@ -137,7 +138,7 @@ public class IOLog4j
 	 */
 	public static void setConfigurationPath(final String fileName) {
 		try {
-			final File log4j = new File(Files.getPath().concat(Files.SEPARATOR).concat(fileName));
+			final File log4j = new File(Files.getPath().concat(SEPARATOR).concat(fileName));
 			System.setProperty("log4j.configuration", "file:///" + Files.getCanonicalPath(log4j));
 		} catch (final IOException ex) {
 			IO.error(ex);

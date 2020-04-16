@@ -994,18 +994,17 @@ public class Integers {
 	 * Creates an {@code int} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code int} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code int} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code int} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code int} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code int} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return an {@code int} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code int} values between the specified bounds
 	 */
-	public static int[] createRandomSequence(final int length, final int lowerBound,
-			final int upperBound) {
+	public static int[] createRandomSequence(final int length, final int from, final int to) {
 		final int[] array = new int[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -1024,13 +1023,13 @@ public class Integers {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code int} value between the specified bounds.
 	 * <p>
-	 * @param lowerBound the {@code int} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code int} upper bound of the value to generate (exclusive)
+	 * @param from the {@code int} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code int} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code int} value between the specified bounds
 	 */
-	public static int random(final int lowerBound, final int upperBound) {
-		return lowerBound + RANDOM.nextInt(upperBound - lowerBound);
+	public static int random(final int from, final int to) {
+		return from + RANDOM.nextInt(to - from);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1363,13 +1362,13 @@ public class Integers {
 	/**
 	 * Returns the middle of the specified {@code int} lower and upper bounds rounded down.
 	 * <p>
-	 * @param lowerBound an {@code int} value
-	 * @param upperBound another {@code int} value
+	 * @param from an {@code int} value
+	 * @param to   another {@code int} value
 	 * <p>
 	 * @return the middle of the specified {@code int} lower and upper bounds rounded down
 	 */
-	public static int middle(final int lowerBound, final int upperBound) {
-		return lowerBound + (upperBound - lowerBound) / 2;
+	public static int middle(final int from, final int to) {
+		return from + (to - from) / 2;
 	}
 
 	//////////////////////////////////////////////
@@ -1388,13 +1387,13 @@ public class Integers {
 	/**
 	 * Returns the middle of the specified {@code int} lower and upper bounds rounded up.
 	 * <p>
-	 * @param lowerBound an {@code int} value
-	 * @param upperBound another {@code int} value
+	 * @param from an {@code int} value
+	 * @param to   another {@code int} value
 	 * <p>
 	 * @return the middle of the specified {@code int} lower and upper bounds rounded up
 	 */
-	public static int middleUp(final int lowerBound, final int upperBound) {
-		return lowerBound + (upperBound - lowerBound + 1) / 2;
+	public static int middleUp(final int from, final int to) {
+		return from + (to - from + 1) / 2;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

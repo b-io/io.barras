@@ -120,7 +120,7 @@ public class Doubles {
 		final long bBits = Double.doubleToLongBits(b);
 		return aBits == bBits ? 0 : // the values are equal
 				aBits < bBits ? -1 : // (-0., 0.) or (!NaN, NaN)
-				1; // (0., -0.) or (NaN, !NaN)
+						1; // (0., -0.) or (NaN, !NaN)
 	}
 
 	//////////////////////////////////////////////
@@ -933,18 +933,18 @@ public class Doubles {
 	 * Creates a {@code double} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code double} values between the specified bounds.
 	 * <p>
-	 * @param length     the length of the random sequence to create
-	 * @param lowerBound the {@code double} lower bound of the random sequence to create (inclusive)
-	 * @param upperBound the {@code double} upper bound of the random sequence to create (exclusive)
+	 * @param length the length of the random sequence to create
+	 * @param from   the {@code double} lower bound of the random sequence to create (inclusive)
+	 * @param to     the {@code double} upper bound of the random sequence to create (exclusive)
 	 * <p>
 	 * @return a {@code double} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code double} values between the specified bounds
 	 */
-	public static double[] createRandomSequence(final int length, final double lowerBound,
-			final double upperBound) {
+	public static double[] createRandomSequence(final int length, final double from,
+			final double to) {
 		final double[] array = new double[length];
 		for (int i = 0; i < length; ++i) {
-			array[i] = random(lowerBound, upperBound);
+			array[i] = random(from, to);
 		}
 		return array;
 	}
@@ -966,14 +966,14 @@ public class Doubles {
 	 * Returns a pseudorandom, uniformly distributed {@code double} value between the specified
 	 * bounds.
 	 * <p>
-	 * @param lowerBound the {@code double} lower bound of the value to generate (inclusive)
-	 * @param upperBound the {@code double} upper bound of the value to generate (exclusive)
+	 * @param from the {@code double} lower bound of the value to generate (inclusive)
+	 * @param to   the {@code double} upper bound of the value to generate (exclusive)
 	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code double} value between the specified
 	 *         bounds
 	 */
-	public static double random(final double lowerBound, final double upperBound) {
-		return lowerBound + RANDOM.nextDouble() * (upperBound - lowerBound);
+	public static double random(final double from, final double to) {
+		return from + RANDOM.nextDouble() * (to - from);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1271,13 +1271,13 @@ public class Doubles {
 	/**
 	 * Returns the middle of the specified {@code double} lower and upper bounds.
 	 * <p>
-	 * @param lowerBound a {@code double} value
-	 * @param upperBound another {@code double} value
+	 * @param from a {@code double} value
+	 * @param to   another {@code double} value
 	 * <p>
 	 * @return the middle of the specified {@code double} lower and upper bounds
 	 */
-	public static double middle(final double lowerBound, final double upperBound) {
-		return lowerBound + (upperBound - lowerBound) / 2.;
+	public static double middle(final double from, final double to) {
+		return from + (to - from) / 2.;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

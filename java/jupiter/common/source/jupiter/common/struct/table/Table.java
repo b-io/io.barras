@@ -40,7 +40,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.map.parser.IParser;
 import jupiter.common.map.replacer.StringReplacer;
@@ -907,12 +906,11 @@ public class Table<E>
 	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
-		BufferedReader reader = null;
 		try {
-			reader = fileHandler.createReader();
-			load(parser, reader, fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
+			load(parser, fileHandler.createReader(),
+					fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
 		} finally {
-			Resources.close(reader);
+			fileHandler.clear();
 		}
 	}
 
@@ -1014,21 +1012,22 @@ public class Table<E>
 	public boolean save(final String path, final boolean saveHeader)
 			throws FileNotFoundException {
 		final FileHandler fileHandler = new FileHandler(path);
-		fileHandler.createWriter(false);
-		// Export the header
-		if (saveHeader &&
-				!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
-			fileHandler.closeWriter();
-			return false;
-		}
-		// Export the elements
-		for (int i = 0; i < m; ++i) {
-			if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
-				fileHandler.closeWriter();
+		try {
+			fileHandler.empty();
+			// Export the header
+			if (saveHeader &&
+					!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
 				return false;
 			}
+			// Export the elements
+			for (int i = 0; i < m; ++i) {
+				if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
+					return false;
+				}
+			}
+		} finally {
+			fileHandler.clear();
 		}
-		fileHandler.closeWriter();
 		return true;
 	}
 
