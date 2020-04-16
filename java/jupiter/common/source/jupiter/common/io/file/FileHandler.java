@@ -66,10 +66,15 @@ public class FileHandler
 	 * The {@link Charset} of the {@link File} to handle.
 	 */
 	protected final Charset charset;
+
 	/**
 	 * The {@link BufferedWriter} of the {@link File} to handle.
 	 */
 	protected BufferedWriter writer;
+	/**
+	 * The flag specifying whether to append.
+	 */
+	protected boolean append;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,6 +209,17 @@ public class FileHandler
 	 */
 	public String getExtension() {
 		return Files.getExtension(file.getName());
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the flag specifying whether to append.
+	 * <p>
+	 * @return the flag specifying whether to append
+	 */
+	public boolean append() {
+		return append;
 	}
 
 
@@ -350,8 +366,12 @@ public class FileHandler
 	 */
 	public void createWriter(final boolean append)
 			throws FileNotFoundException {
+		if (writer != null && this.append != append) {
+			closeWriter();
+		}
 		if (writer == null) {
 			writer = Files.createWriter(file, charset, append);
+			this.append = append;
 		}
 	}
 
