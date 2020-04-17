@@ -76,9 +76,9 @@
 		<developerConnection>scm:git:${project.url}</developerConnection>
 	</scm>
 
-	<repositories>
+	<pluginRepositories>
 		<!-- Maven -->
-		<repository>
+		<pluginRepository>
 			<id>central</id>
 			<name>Central</name>
 			<url>https://repo.maven.apache.org/maven2</url>
@@ -95,10 +95,10 @@
 				<updatePolicy>daily</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
-		</repository>
+		</pluginRepository>
 
 		<!-- MVN Repository -->
-		<repository>
+		<pluginRepository>
 			<id>mvnrepository</id>
 			<name>MVN Repository</name>
 			<url>https://mvnrepository.com</url>
@@ -115,6 +115,24 @@
 				<updatePolicy>daily</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<!-- Maven -->
+		<repository>
+			<id>central</id>
+			<name>Central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+		</repository>
+
+		<!-- MVN Repository -->
+		<repository>
+			<id>mvnrepository</id>
+			<name>MVN Repository</name>
+			<url>https://mvnrepository.com</url>
+			<layout>default</layout>
 		</repository>
 	</repositories>
 
