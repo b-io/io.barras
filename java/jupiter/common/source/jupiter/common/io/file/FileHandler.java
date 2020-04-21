@@ -42,6 +42,7 @@ import java.util.Collection;
 
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -436,10 +437,7 @@ public class FileHandler
 			reader = createReader();
 			tempFileHandler.empty();
 			tempFileHandler.writeAllLines(reader, 0, fromLineIndex);
-			int li = fromLineIndex;
-			while (li < toLineIndex && reader.readLine() != null) {
-				++li;
-			}
+			InputOutput.skipLines(reader, toLineIndex - fromLineIndex);
 			tempFileHandler.writeAllLines(reader);
 			close();
 			lineCount = tempFileHandler.lineCount;
@@ -578,15 +576,7 @@ public class FileHandler
 		try {
 			reader = createReader();
 			tempFileHandler.empty();
-			int li = 0;
-			String line;
-			while (li < fromLineIndex && (line = reader.readLine()) != null) {
-				++li;
-			}
-			while (li < toLineIndex && (line = reader.readLine()) != null) {
-				tempFileHandler.writeLine(line);
-				++li;
-			}
+			tempFileHandler.writeAllLines(reader, fromLineIndex, toLineIndex);
 			close();
 			lineCount = tempFileHandler.lineCount;
 			return tempFileHandler.move(file, true);
@@ -935,11 +925,8 @@ public class FileHandler
 	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
 			final int toLineIndex, final boolean append)
 			throws FileNotFoundException, IOException {
-		int li = 0;
+		int li = InputOutput.skipLines(reader, fromLineIndex);
 		String line;
-		while (li < fromLineIndex && (line = reader.readLine()) != null) {
-			++li;
-		}
 		while (li < toLineIndex && (line = reader.readLine()) != null) {
 			writeLine(line, append);
 			++li;
@@ -1002,11 +989,8 @@ public class FileHandler
 			BufferedReader reader = null;
 			try {
 				reader = createReader();
-				int li = 0;
+				int li = InputOutput.skipLines(reader, fromLineIndex);
 				String line;
-				while (li < fromLineIndex && (line = reader.readLine()) != null) {
-					++li;
-				}
 				while (li < toLineIndex && (line = reader.readLine()) != null) {
 					final Index<String> index = Strings.findFirstString(line, tokens);
 					if (index != null) {
@@ -1079,11 +1063,8 @@ public class FileHandler
 			BufferedReader reader = null;
 			try {
 				reader = createReader();
-				int li = 0;
+				int li = InputOutput.skipLines(reader, fromLineIndex);
 				String line;
-				while (li < fromLineIndex && (line = reader.readLine()) != null) {
-					++li;
-				}
 				while (li < toLineIndex && (line = reader.readLine()) != null) {
 					final Index<String> index = Strings.findFirstString(line, tokens);
 					if (index != null) {
@@ -1155,11 +1136,8 @@ public class FileHandler
 			ReversedFileReader reader = null;
 			try {
 				reader = createReversedReader();
-				int li = 0;
+				int li = Files.skipLines(reader, fromLineIndex);
 				String line;
-				while (li < fromLineIndex && (line = reader.readLine()) != null) {
-					++li;
-				}
 				while (li < toLineIndex && (line = reader.readLine()) != null) {
 					final Index<String> index = Strings.findLastString(line, tokens);
 					if (index != null) {
@@ -1232,11 +1210,8 @@ public class FileHandler
 			ReversedFileReader reader = null;
 			try {
 				reader = createReversedReader();
-				int li = 0;
+				int li = Files.skipLines(reader, fromLineIndex);
 				String line;
-				while (li < fromLineIndex && (line = reader.readLine()) != null) {
-					++li;
-				}
 				while (li < toLineIndex && (line = reader.readLine()) != null) {
 					final Index<String> index = Strings.findLastString(line, tokens);
 					if (index != null) {

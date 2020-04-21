@@ -759,7 +759,7 @@ public class InputOutput
 
 	/**
 	 * Copies the data of the specified {@link BufferedReader} with the specified
-	 * {@link PrintWriter} from the specified line index.
+	 * {@link PrintWriter} from the specified line.
 	 * <p>
 	 * @param reader        the {@link BufferedReader} to read with
 	 * @param writer        the {@link PrintWriter} to write with
@@ -771,12 +771,29 @@ public class InputOutput
 	public static void copy(final BufferedReader reader, final PrintWriter writer,
 			final int fromLineIndex)
 			throws IOException {
-		int li = 0;
+		copy(reader, writer, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Copies the data of the specified {@link BufferedReader} with the specified
+	 * {@link PrintWriter} between the specified lines.
+	 * <p>
+	 * @param reader        the {@link BufferedReader} to read with
+	 * @param writer        the {@link PrintWriter} to write with
+	 * @param fromLineIndex the line index to start copying from (inclusive)
+	 * @param toLineIndex   the line index to finish copying at (exclusive)
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
+	 *                     {@code writer}
+	 */
+	public static void copy(final BufferedReader reader, final PrintWriter writer,
+			final int fromLineIndex, final int toLineIndex)
+			throws IOException {
+		int li = skipLines(reader, fromLineIndex);
 		String line;
-		while ((line = reader.readLine()) != null) {
-			if (li++ >= fromLineIndex) {
-				writer.println(line);
-			}
+		while (li < toLineIndex && (line = reader.readLine()) != null) {
+			writer.println(line);
+			++li;
 		}
 	}
 
@@ -890,7 +907,7 @@ public class InputOutput
 	 */
 	public static int countLines(final InputStream input)
 			throws IOException {
-		return countLines(input, DEFAULT_CHARSET);
+		return countLines(input, DEFAULT_CHARSET, false);
 	}
 
 	/**
@@ -956,6 +973,27 @@ public class InputOutput
 			Resources.close(reader);
 		}
 		return lineCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Skips the specified number of lines of the specified {@link BufferedReader}.
+	 * <p>
+	 * @param reader    the {@link BufferedReader} to skip the lines from
+	 * @param skipCount the number of lines to skip
+	 * <p>
+	 * @return the number of skipped lines
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public static int skipLines(final BufferedReader reader, final int skipCount)
+			throws IOException {
+		int li = 0;
+		while (li < skipCount && reader.readLine() != null) {
+			++li;
+		}
+		return li;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

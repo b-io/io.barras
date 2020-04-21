@@ -606,7 +606,7 @@ public class Files {
 
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} from the
-	 * specified line index (without necessary preserving the file dates).
+	 * specified line (without necessary preserving the file dates).
 	 * <p>
 	 * @param sourceFile    the source {@link File} to copy from
 	 * @param targetFile    the target {@link File} to copy to
@@ -615,7 +615,7 @@ public class Files {
 	 * @param fromLineIndex the line index to start copying from (inclusive)
 	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
-	 *         {@link File} from the specified line index, {@code false} otherwise
+	 *         {@link File} from the specified line, {@code false} otherwise
 	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code sourceFile} to
 	 *                           {@code targetFile}
@@ -1502,6 +1502,27 @@ public class Files {
 			IO.error(ex, "Cannot read the file ", Strings.quote(file));
 		}
 		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Skips the specified number of lines of the specified {@link ReversedFileReader}.
+	 * <p>
+	 * @param reader    the {@link ReversedFileReader} to skip the lines from
+	 * @param skipCount the number of lines to skip
+	 * <p>
+	 * @return the number of skipped lines
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public static int skipLines(final ReversedFileReader reader, final int skipCount)
+			throws IOException {
+		int li = 0;
+		while (li < skipCount && reader.readLine() != null) {
+			++li;
+		}
+		return li;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
