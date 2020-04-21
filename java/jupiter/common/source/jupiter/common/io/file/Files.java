@@ -919,6 +919,10 @@ public class Files {
 	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir) {
+		// Check the arguments
+		FileArguments.requireDir(dir);
+
+		// List all the files contained in the directory or subdirectories
 		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
 		final File[] files = dir.listFiles();
 		for (final File file : files) {
@@ -955,6 +959,10 @@ public class Files {
 	 *         matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern) {
+		// Check the arguments
+		FileArguments.requireDir(dir);
+
+		// List all the files contained in the directory or subdirectories and matching the pattern
 		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
 		final File[] files = dir.listFiles();
 		for (final File file : files) {
@@ -983,6 +991,11 @@ public class Files {
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern,
 			final int depth) {
+		// Check the arguments
+		FileArguments.requireDir(dir);
+
+		// List all the files contained in the directory or subdirectories and matching the pattern
+		// until the depth
 		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
 		final File[] files = dir.listFiles();
 		for (final File file : files) {
