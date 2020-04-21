@@ -623,6 +623,29 @@ public class Files {
 	public static boolean copy(final File sourceFile, final File targetFile, final boolean force,
 			final int fromLineIndex)
 			throws CopyFileException {
+		return copy(sourceFile, targetFile, force, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Copies the specified source {@link File} to the specified target {@link File} between the
+	 * specified lines (without necessary preserving the file dates).
+	 * <p>
+	 * @param sourceFile    the source {@link File} to copy from
+	 * @param targetFile    the target {@link File} to copy to
+	 * @param force         the flag specifying whether to delete the target {@link File} before
+	 *                      copying
+	 * @param fromLineIndex the line index to start copying from (inclusive)
+	 * @param toLineIndex   the line index to finish copying at (exclusive)
+	 * <p>
+	 * @return {@code true} if the specified source {@link File} is copied to the specified target
+	 *         {@link File} between the specified lines, {@code false} otherwise
+	 * <p>
+	 * @throws CopyFileException if there is a problem with copying {@code sourceFile} to
+	 *                           {@code targetFile}
+	 */
+	public static boolean copy(final File sourceFile, final File targetFile, final boolean force,
+			final int fromLineIndex, final int toLineIndex)
+			throws CopyFileException {
 		if (fromLineIndex == 0) {
 			return copy(sourceFile, targetFile, force);
 		}
@@ -640,7 +663,7 @@ public class Files {
 			createParentDirs(targetFile);
 			reader = new BufferedReader(new FileReader(sourceFile));
 			writer = new PrintWriter(new FileWriter(targetFile));
-			InputOutput.copy(reader, writer, fromLineIndex);
+			InputOutput.copy(reader, writer, fromLineIndex, toLineIndex);
 			return true;
 		} catch (final IOException ex) {
 			IO.error(ex);
