@@ -372,12 +372,12 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 	}
 
 	/**
-	 * Returns the {@code N} node associated to the specified key {@link Comparable}, or
+	 * Returns the {@code N} node associated to the specified {@link Comparable} key, or
 	 * {@code null} if it is not present.
 	 * <p>
-	 * @param keyComparable the key {@link Comparable} of {@code K} supertype to find
+	 * @param keyComparable the {@link Comparable} key of {@code K} supertype to find
 	 * <p>
-	 * @return the {@code N} node associated to the specified key {@link Comparable}, or
+	 * @return the {@code N} node associated to the specified {@link Comparable} key, or
 	 *         {@code null} if it is not present
 	 * <p>
 	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys

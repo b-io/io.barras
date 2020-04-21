@@ -870,7 +870,7 @@ public class Floats {
 	 * @return the percentage representative {@link String} of the specified {@code float} value
 	 */
 	public static String formatPercent(final float value) {
-		return format(value * 100f) + "%";
+		return format(value * 100f).concat("%");
 	}
 
 

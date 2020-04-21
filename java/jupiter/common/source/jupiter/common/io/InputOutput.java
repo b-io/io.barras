@@ -29,6 +29,7 @@ import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +51,7 @@ import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class InputOutput
-		implements ICloneable<InputOutput>, Serializable {
+		implements ICloneable<InputOutput>, Closeable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -103,7 +104,7 @@ public class InputOutput
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The buffer size used for copying.
+	 * The buffer size used for copying (it should ideally match the block size of the file system).
 	 */
 	public static volatile int BUFFER_SIZE = 4096; // [byte]
 
@@ -323,18 +324,6 @@ public class InputOutput
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEARERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clears {@code this}.
-	 */
-	public void clear() {
-		printer.clear();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -345,9 +334,11 @@ public class InputOutput
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void print(final Object content, final boolean isError) {
-		printer.print(content, isError);
+	public boolean print(final Object content, final boolean isError) {
+		return printer.print(content, isError);
 	}
 
 	/**
@@ -358,29 +349,36 @@ public class InputOutput
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void print(final Object content, final int n, final boolean isError) {
+	public boolean print(final Object content, final int n, final boolean isError) {
 		if (n > 0) {
-			print(Strings.repeat(Objects.toString(content), n), isError);
+			return print(Strings.repeat(Objects.toString(content), n), isError);
 		}
+		return true;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Prints an empty line with the {@link IOPrinter}.
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println() {
-		println(EMPTY, false);
+	public boolean println() {
+		return println(EMPTY, false);
 	}
 
 	/**
 	 * Prints the specified {@link Message} and terminates the line with the {@link IOPrinter}.
 	 * <p>
 	 * @param message the {@link Message} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final Message message) {
-		printer.println(message);
+	public boolean println(final Message message) {
+		return printer.println(message);
 	}
 
 	/**
@@ -390,9 +388,11 @@ public class InputOutput
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final Object content, final boolean isError) {
-		printer.println(content, isError);
+	public boolean println(final Object content, final boolean isError) {
+		return printer.println(content, isError);
 	}
 
 	/**
@@ -404,11 +404,15 @@ public class InputOutput
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final Object content, final int n, final boolean isError) {
+	public boolean println(final Object content, final int n, final boolean isError) {
+		boolean status = true;
 		for (int i = 0; i < n; ++i) {
-			println(content, false);
+			status &= println(content, false);
 		}
+		return status;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -767,10 +771,10 @@ public class InputOutput
 	public static void copy(final BufferedReader reader, final PrintWriter writer,
 			final int fromLineIndex)
 			throws IOException {
-		int i = 0;
+		int li = 0;
 		String line;
 		while ((line = reader.readLine()) != null) {
-			if (i++ >= fromLineIndex) {
+			if (li++ >= fromLineIndex) {
 				writer.println(line);
 			}
 		}
@@ -980,6 +984,18 @@ public class InputOutput
 	public static BufferedWriter createWriter(final OutputStream outputStream,
 			final Charset charset) {
 		return new BufferedWriter(new OutputStreamWriter(outputStream, charset));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	public void close() {
+		Resources.close(printer);
 	}
 
 

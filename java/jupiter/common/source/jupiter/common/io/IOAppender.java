@@ -23,6 +23,8 @@
  */
 package jupiter.common.io;
 
+import java.io.IOException;
+
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.model.ICloneable;
@@ -60,34 +62,28 @@ public abstract class IOAppender
 	 * Prints the specified {@link Message}.
 	 * <p>
 	 * @param message the {@link Message} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Message message) {
+	public boolean println(final Message message) {
 		switch (message.getLevel()) {
 			case TRACE:
-				trace(message.getContent());
-				break;
+				return trace(message.getContent());
 			case DEBUG:
-				debug(message.getContent());
-				break;
+				return debug(message.getContent());
 			case TEST:
-				test(message.getContent());
-				break;
+				return test(message.getContent());
 			case INFO:
-				info(message.getContent());
-				break;
+				return info(message.getContent());
 			case RESULT:
-				result(message.getContent());
-				break;
+				return result(message.getContent());
 			case WARNING:
-				warn(message.getContent());
-				break;
+				return warn(message.getContent());
 			case ERROR:
-				error(message.getContent());
-				break;
+				return error(message.getContent());
 			case FAILURE:
-				fail(message.getContent());
-				break;
+				return fail(message.getContent());
 			default:
 				throw new IllegalTypeException(message.getLevel());
 		}
@@ -100,40 +96,50 @@ public abstract class IOAppender
 	 * {@link SeverityLevel#TRACE}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void trace(final Object content);
+	public abstract boolean trace(final Object content);
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#DEBUG}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void debug(final Object content);
+	public abstract boolean debug(final Object content);
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#TEST}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void test(final Object content);
+	public abstract boolean test(final Object content);
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#INFO}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void info(final Object content);
+	public abstract boolean info(final Object content);
 
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#RESULT}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void result(final Object content);
+	public abstract boolean result(final Object content);
 
 	//////////////////////////////////////////////
 
@@ -142,16 +148,20 @@ public abstract class IOAppender
 	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void warn(final Object content);
+	public abstract boolean warn(final Object content);
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
 	 * <p>
 	 * @param exception an {@link Exception}
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void warn(final Exception exception);
+	public abstract boolean warn(final Exception exception);
 
 	//////////////////////////////////////////////
 
@@ -160,16 +170,20 @@ public abstract class IOAppender
 	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void error(final Object content);
+	public abstract boolean error(final Object content);
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
 	 * <p>
 	 * @param exception an {@link Exception}
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void error(final Exception exception);
+	public abstract boolean error(final Exception exception);
 
 	//////////////////////////////////////////////
 
@@ -178,16 +192,20 @@ public abstract class IOAppender
 	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param content the content {@link Object} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void fail(final Object content);
+	public abstract boolean fail(final Object content);
 
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
 	 * <p>
 	 * @param exception an {@link Exception}
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void fail(final Exception exception);
+	public abstract boolean fail(final Exception exception);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

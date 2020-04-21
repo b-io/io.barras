@@ -241,7 +241,7 @@ public class AudioRecorder
 			}
 			if (targetFile != null) {
 				JOptionPane.showMessageDialog(null, "Finish recording to " +
-						Strings.quote(Files.getPath(targetFile)) + ".");
+						Strings.quote(targetFile) + ".");
 			} else {
 				JOptionPane.showMessageDialog(null, "Fail to record.");
 			}
@@ -302,12 +302,12 @@ public class AudioRecorder
 	public static void record(final AudioTargetInterface targetInterface, final File targetFile,
 			final AudioFormat format) {
 		try {
-			IO.info("Start recording to ", Strings.quote(Files.getPath(targetFile)));
+			IO.info("Start recording to ", Strings.quote(targetFile));
 			targetInterface.line.open(format);
 			targetInterface.line.start();
 			final AudioInputStream input = new AudioInputStream(targetInterface.line);
 			AudioSystem.write(input, Type.WAVE, targetFile);
-			IO.info("Finish recording to ", Strings.quote(Files.getPath(targetFile)));
+			IO.info("Finish recording to ", Strings.quote(targetFile));
 		} catch (final LineUnavailableException ex) {
 			IO.error(ex, "Cannot open the microphone due to resource restrictions");
 		} catch (final IOException ex) {

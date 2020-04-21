@@ -21,40 +21,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.bivariate;
+package jupiter.common.io;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
-import static jupiter.math.analysis.function.bivariate.BivariateFunctions.MEAN;
 
-import jupiter.common.math.Maths;
+import java.io.File;
+import java.io.IOException;
+
+import jupiter.common.io.file.ReversedFileReader;
 import jupiter.common.test.Test;
-import jupiter.common.util.Doubles;
 
-public class BivariateFunctionTest
+public class ReversedFileReaderTest
 		extends Test {
 
-	public BivariateFunctionTest(final String name) {
+	public ReversedFileReaderTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link BivariateFunction#slideToPrimitiveIntArray}.
+	 * Tests {@link ReversedFileReader#readLine}.
 	 */
-	public void testSlideToPrimitiveIntArray() {
-		IO.test(BULLET, " slideToPrimitiveIntArray");
+	public void testReadLine() {
+		IO.test(BULLET, " readLine");
 
-		// Initialize
-		final int size = 10;
-		final double[] sequence = Doubles.createSequence(size);
-		final double[] array = Maths.add(MEAN.slideToPrimitiveArray(Doubles.createSequence(size)),
-				0.5, 1, size);
-
-		// Verify the method
-		for (int i = 0; i < size; ++i) {
-			assertEquals(sequence[i], array[i], Maths.TOLERANCE);
+		ReversedFileReader reader = null;
+		try {
+			reader = new ReversedFileReader(new File("test/resources/order.csv"));
+			int i = 4;
+			String line;
+			while ((line = reader.readLine()) != null) {
+				assertEquals("TEST" + (i--), line);
+			}
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.close(reader);
 		}
 	}
 }

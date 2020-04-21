@@ -467,39 +467,41 @@ public class R {
 			this.workQueueToMonitor = workQueueToMonitor;
 		}
 
-		/**
-		 * Clears the printer {@link IOHandler}.
-		 */
 		@Override
-		public void clear() {
-			printer.clear();
-		}
-
-		@Override
-		public void print(final Object content, final boolean isError) {
+		public boolean print(final Object content, final boolean isError) {
 			final String text = Objects.toString(content);
-			printer.print(PREFIX.concat(text), isError);
+			final boolean status = printer.print(PREFIX.concat(text), isError);
 			if (isError) {
-				check(text);
+				monitor(text);
 			}
+			return status;
 		}
 
 		@Override
-		public void println(final Object content, final boolean isError) {
+		public boolean println(final Object content, final boolean isError) {
 			final String text = Objects.toString(content);
-			printer.println(PREFIX.concat(text), isError);
+			final boolean status = printer.println(PREFIX.concat(text), isError);
 			if (isError) {
-				check(text);
+				monitor(text);
 			}
+			return status;
 		}
 
-		protected void check(final String text) {
+		protected void monitor(final String text) {
 			final String lowerCaseText = text.toLowerCase();
 			if (workQueueToMonitor != null && !lowerCaseText.contains("warning") &&
 					(lowerCaseText.contains("error") || lowerCaseText.contains("invalid"))) {
-				IO.error(text);
+				IO.warn("Restart the work queue");
 				workQueueToMonitor.restart(true);
 			}
+		}
+
+		/**
+		 * Closes {@code this}.
+		 */
+		@Override
+		public void close() {
+			printer.close();
 		}
 
 		/**

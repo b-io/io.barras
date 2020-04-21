@@ -60,12 +60,12 @@ public class ParseException
 
 	/**
 	 * Constructs a {@link ParseException} with the specified message {@link String} (which is saved
-	 * for later retrieval by the method {@link #getMessage()}) and cause {@link Throwable} (which
+	 * for later retrieval by the method {@link #getMessage()}) and {@link Throwable} cause (which
 	 * is saved for later retrieval by the method {@link #getCause()}).
 	 * <p>
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
 	 *                {@link #getMessage()})
-	 * @param cause   the cause {@link Throwable} (which is saved for later retrieval by the method
+	 * @param cause   the {@link Throwable} cause (which is saved for later retrieval by the method
 	 *                {@link #getCause()})
 	 */
 	public ParseException(final String message, final Throwable cause) {

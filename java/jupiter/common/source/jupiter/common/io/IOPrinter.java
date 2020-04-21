@@ -23,6 +23,7 @@
  */
 package jupiter.common.io;
 
+import java.io.IOException;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
@@ -78,21 +79,6 @@ public class IOPrinter
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEARERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clears {@code this}.
-	 */
-	@Override
-	public void clear() {
-		for (final IOHandler handler : handlers) {
-			handler.clear();
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,12 +89,16 @@ public class IOPrinter
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void print(final Object content, final boolean isError) {
+	public boolean print(final Object content, final boolean isError) {
+		boolean status = true;
 		for (final IOHandler handler : handlers) {
-			handler.print(content, isError);
+			status &= handler.print(content, isError);
 		}
+		return status;
 	}
 
 	//////////////////////////////////////////////
@@ -117,12 +107,16 @@ public class IOPrinter
 	 * Prints the specified {@link Message} and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Message message) {
+	public boolean println(final Message message) {
+		boolean status = true;
 		for (final IOHandler handler : handlers) {
-			handler.println(message);
+			status &= handler.println(message);
 		}
+		return status;
 	}
 
 	/**
@@ -132,11 +126,30 @@ public class IOPrinter
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Object content, final boolean isError) {
+	public boolean println(final Object content, final boolean isError) {
+		boolean status = true;
 		for (final IOHandler handler : handlers) {
-			handler.println(content, isError);
+			status &= handler.println(content, isError);
+		}
+		return status;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	@Override
+	public void close() {
+		for (final IOHandler handler : handlers) {
+			Resources.close(handler);
 		}
 	}
 

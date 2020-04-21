@@ -31,6 +31,7 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
 
+import jupiter.common.io.Charsets;
 import jupiter.common.math.Maths;
 import jupiter.common.time.SafeDateFormat;
 
@@ -48,14 +49,22 @@ public class Formats {
 	//////////////////////////////////////////////
 
 	/**
-	 * The newline.
+	 * The carriage return used for line breaking in Mac OS.
 	 */
-	public static final String NEW_LINE = "\n";
+	public static final String CR = "\r";
+	/**
+	 * The line feed used for line breaking in Unix.
+	 */
+	public static final String LF = "\n";
+	/**
+	 * The carriage return used for line breaking in Windows.
+	 */
+	public static final String CRLF = "\r\n";
 
 	/**
-	 * The UTF-8 {@link Charset}.
+	 * The newline.
 	 */
-	public static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+	public static volatile String NEW_LINE = LF;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -86,7 +95,7 @@ public class Formats {
 	/**
 	 * The default {@link Charset}.
 	 */
-	public static final Charset DEFAULT_CHARSET = UTF8_CHARSET;
+	public static final Charset DEFAULT_CHARSET = Charsets.UTF_8;
 
 	/**
 	 * The default {@link Locale}.

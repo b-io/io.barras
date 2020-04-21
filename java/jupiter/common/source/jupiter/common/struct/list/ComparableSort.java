@@ -497,11 +497,11 @@ public class ComparableSort
 	}
 
 	/**
-	 * Locates the position at which to insert the specified key {@link Comparable} into the
+	 * Locates the position at which to insert the specified {@link Comparable} key into the
 	 * specified sorted range; if the range contains an element equal to {@code key}, returns the
 	 * index of the leftmost equal element.
 	 * <p>
-	 * @param key    the key {@link Comparable} whose insertion point to search for
+	 * @param key    the {@link Comparable} key whose insertion point to search for
 	 * @param array  the array in which to search
 	 * @param base   the index of the first element in the range
 	 * @param length the length of the range (must be greater than 0)
@@ -587,10 +587,10 @@ public class ComparableSort
 
 	/**
 	 * Like the static method {@link #gallopLeft}, except that if the range contains an element
-	 * equal to the specified key {@link Comparable}, the static method {@link #gallopRight} returns
+	 * equal to the specified {@link Comparable} key, the static method {@link #gallopRight} returns
 	 * the index after the rightmost equal element.
 	 * <p>
-	 * @param key    the key {@link Comparable} whose insertion point to search for
+	 * @param key    the {@link Comparable} key whose insertion point to search for
 	 * @param array  the array in which to search
 	 * @param base   the index of the first element in the range
 	 * @param length the length of the range (must be greater than 0)

@@ -40,6 +40,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.map.parser.IParser;
 import jupiter.common.map.replacer.StringReplacer;
@@ -910,7 +911,7 @@ public class Table<E>
 			load(parser, fileHandler.createReader(),
 					fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
 		} finally {
-			fileHandler.clear();
+			Resources.close(fileHandler);
 		}
 	}
 
@@ -1015,20 +1016,20 @@ public class Table<E>
 		try {
 			fileHandler.empty();
 			// Export the header
-			if (saveHeader &&
-					!fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]))) {
-				return false;
+			if (saveHeader) {
+				fileHandler.writeLine(Strings.joinWith(getHeader(), COLUMN_DELIMITERS[0]));
 			}
 			// Export the elements
 			for (int i = 0; i < m; ++i) {
-				if (!fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]))) {
-					return false;
-				}
+				fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]));
 			}
+			return true;
+		} catch (final IOException ex) {
+			IO.error(ex);
 		} finally {
-			fileHandler.clear();
+			Resources.close(fileHandler);
 		}
-		return true;
+		return false;
 	}
 
 

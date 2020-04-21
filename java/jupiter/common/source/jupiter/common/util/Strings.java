@@ -837,14 +837,14 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the number of occurrences of the specified array of token {@link String} in the
-	 * specified {@link String}.
+	 * Returns the number of occurrences of the specified token {@link String} in the specified
+	 * {@link String}.
 	 * <p>
 	 * @param text   the {@link String} to count from (may be {@code null})
 	 * @param tokens the array of token {@link String} to count (may be {@code null})
 	 * <p>
-	 * @return the number of occurrences of the specified array of token {@link String} in the
-	 *         specified {@link String}
+	 * @return the number of occurrences of the specified token {@link String} in the specified
+	 *         {@link String}
 	 */
 	public static int countString(final String text, final String... tokens) {
 		int occurrenceCount = 0;
@@ -2171,31 +2171,33 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Index} of the first occurrence of any of the specified array of token
-	 * {@link String}, or {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 * occurrence.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
 	 * <p>
-	 * @return the {@link Index} of the first occurrence of any of the specified array of token
-	 *         {@link String}, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 *         occurrence
 	 */
 	public static Index<String> findFirstString(final String text, final String... tokens) {
 		return findFirstString(text, tokens, 0);
 	}
 
 	/**
-	 * Returns the {@link Index} of the first occurrence of any of the specified array of token
-	 * {@link String}, seeking forward from the specified index, or {@code null} if there is no such
-	 * occurrence.
+	 * Returns the {@link Index} of the first occurrence of any of the specified token
+	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
+	 * {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of the first occurrence of any of the specified array of token
-	 *         {@link String}, seeking forward from the specified index, or {@code null} if there is
-	 *         no such occurrence
+	 * @return the {@link Index} of the first occurrence of any of the specified token
+	 *         {@link String} in the specified {@link String}, seeking forward from the specified
+	 *         index, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String text, final String[] tokens,
 			final int fromIndex) {
@@ -2214,13 +2216,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
-	 * {@link String}, or {@code null} if there is no such occurrence.
+	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 * occurrence.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
-	 *         {@link String}, or {@code null} if there is no such occurrence
+	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
+	 *         occurrence
 	 */
 	public static Index<String> findFirstString(final String text,
 			final Collection<String> tokens) {
@@ -2229,16 +2233,16 @@ public class Strings {
 
 	/**
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
-	 * {@link String}, seeking forward from the specified index, or {@code null} if there is no such
-	 * occurrence.
+	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
+	 * {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
-	 *         {@link String}, seeking forward from the specified index, or {@code null} if there is
-	 *         no such occurrence
+	 *         {@link String} in the specified {@link String}, seeking forward from the specified
+	 *         index, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findFirstString(final String text, final Collection<String> tokens,
 			final int fromIndex) {
@@ -2346,16 +2350,14 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Index} of the last occurrence of any of the specified array of token
-	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
-	 * occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
 	 * <p>
-	 * @return the {@link Index} of the last occurrence of any of the specified array of token
-	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
-	 *         occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final String... tokens) {
 		if (isNonEmpty(text)) {
@@ -2365,17 +2367,17 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link Index} of the last occurrence of any of the specified array of token
-	 * {@link String} in the specified {@link String}, seeking backward from the specified index, or
-	 * {@code null} if there is no such occurrence.
+	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 * in the specified {@link String}, seeking backward from the specified index, or {@code null}
+	 * if there is no such occurrence.
 	 * <p>
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
 	 * <p>
-	 * @return the {@link Index} of the last occurrence of any of the specified array of token
-	 *         {@link String} in the specified {@link String}, seeking backward from the specified
-	 *         index, or {@code null} if there is no such occurrence
+	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
+	 *         in the specified {@link String}, seeking backward from the specified index, or
+	 *         {@code null} if there is no such occurrence
 	 */
 	public static Index<String> findLastString(final String text, final String[] tokens,
 			final int fromIndex) {
@@ -3309,14 +3311,14 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link SortedList} of {@link Index} of the specified array of token
-	 * {@link String} in the specified {@link String}.
+	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 * specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
 	 * <p>
-	 * @return the {@link SortedList} of {@link Index} of the specified array of token
-	 *         {@link String} in the specified {@link String}
+	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 *         specified {@link String}
 	 */
 	public static SortedList<Index<String>> getStringIndices(final String text,
 			final String... tokens) {
@@ -3324,15 +3326,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link SortedList} of {@link Index} of the specified array of token
-	 * {@link String}, seeking forward from the specified index.
+	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 * specified {@link String}, seeking forward from the specified index.
 	 * <p>
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
-	 * @return the {@link SortedList} of {@link Index} of the specified array of token
-	 *         {@link String}, seeking forward from the specified index
+	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 *         specified {@link String}, seeking forward from the specified index
 	 */
 	public static SortedList<Index<String>> getStringIndices(final String text,
 			final String[] tokens, final int fromIndex) {
@@ -3353,15 +3355,15 @@ public class Strings {
 	}
 
 	/**
-	 * Returns the {@link SortedList} of {@link Index} of the specified array of token
-	 * {@link String}, seeking forward to the specified index.
+	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 * specified {@link String}, seeking forward to the specified index.
 	 * <p>
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the array of token {@link String} to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
-	 * @return the {@link SortedList} of {@link Index} of the specified array of token
-	 *         {@link String}, seeking forward to the specified index
+	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
+	 *         specified {@link String}, seeking forward to the specified index
 	 */
 	public static SortedList<Index<String>> getStringIndicesTo(final String text,
 			final String[] tokens, final int toIndex) {
@@ -3400,14 +3402,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
-	 * {@link String}, seeking forward from the specified index.
+	 * {@link String} in the specified {@link String}, seeking forward from the specified index.
 	 * <p>
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
 	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
-	 *         {@link String}, seeking forward from the specified index
+	 *         {@link String} in the specified {@link String}, seeking forward from the specified
+	 *         index
 	 */
 	public static SortedList<Index<String>> getStringIndices(final String text,
 			final Collection<String> tokens, final int fromIndex) {
@@ -3429,14 +3432,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
-	 * {@link String}, seeking forward to the specified index.
+	 * {@link String} in the specified {@link String}, seeking forward to the specified index.
 	 * <p>
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
 	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
-	 *         {@link String}, seeking forward to the specified index
+	 *         {@link String} in the specified {@link String}, seeking forward to the specified
+	 *         index
 	 */
 	public static SortedList<Index<String>> getStringIndicesTo(final String text,
 			final Collection<String> tokens, final int toIndex) {

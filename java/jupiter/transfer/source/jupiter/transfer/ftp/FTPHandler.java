@@ -472,6 +472,9 @@ public class FTPHandler
 									IO.error("Cannot download the file ", Strings.quote(remotePath),
 											" to ", Strings.quote(localPath));
 								}
+							} catch (final FileNotFoundException ex) {
+								IO.error(ex, "Cannot open or create the local file ",
+										Strings.quote(localPath));
 							} finally {
 								Resources.close(output);
 							}
@@ -547,6 +550,9 @@ public class FTPHandler
 									IO.error("Cannot download the file ", Strings.quote(remotePath),
 											" to ", Strings.quote(localPath));
 								}
+							} catch (final FileNotFoundException ex) {
+								IO.error(ex, "Cannot open or create the local file ",
+										Strings.quote(localPath));
 							} finally {
 								Resources.close(output);
 							}
@@ -612,8 +618,13 @@ public class FTPHandler
 
 					IO.debug("Download the file ", Strings.quote(remotePath),
 							" to ", Strings.quote(localPath));
-					sftp.get(fileName, localPath);
-					++downloadedFileCount;
+					try {
+						sftp.get(fileName, localPath);
+						++downloadedFileCount;
+					} catch (final SftpException ex) {
+						IO.error(ex, "Cannot download the file ", Strings.quote(remotePath),
+								" to ", Strings.quote(localPath));
+					}
 				}
 			}
 			sftp.exit();
@@ -713,6 +724,8 @@ public class FTPHandler
 									IO.error("Cannot upload the file ", Strings.quote(file),
 											" to ", Strings.quote(remotePath));
 								}
+							} catch (final FileNotFoundException ex) {
+								IO.error(ex, "Cannot open the local file ", Strings.quote(file));
 							} finally {
 								Resources.close(input);
 							}
@@ -784,6 +797,8 @@ public class FTPHandler
 									IO.error("Cannot upload the file ", Strings.quote(file),
 											" to ", Strings.quote(remotePath));
 								}
+							} catch (final FileNotFoundException ex) {
+								IO.error(ex, "Cannot open the local file ", Strings.quote(file));
 							} finally {
 								Resources.close(input);
 							}
@@ -851,6 +866,8 @@ public class FTPHandler
 						sftp.put(input, fileName);
 						++uploadedFileCount;
 					} catch (final FileNotFoundException ex) {
+						IO.error(ex, "Cannot open the local file ", Strings.quote(file));
+					} catch (final SftpException ex) {
 						IO.error(ex, "Cannot upload the file ", Strings.quote(file),
 								" to ", Strings.quote(remotePath));
 					} finally {

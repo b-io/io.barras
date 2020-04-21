@@ -79,7 +79,7 @@ public class TableTest
 		IO.test(BULLET, " load");
 
 		try {
-			new StringTable("test/resources/testFX.csv", true);
+			new StringTable("test/resources/example.csv", true);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}

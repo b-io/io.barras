@@ -203,7 +203,7 @@ public class MatrixTest
 				gpuStats.save("gpu.stats.csv", true);
 				hybridStats.save("hybrid.stats.csv", true);
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot open or create the target file");
 			}
 		}
 	}
@@ -347,7 +347,7 @@ public class MatrixTest
 				gpuStats.save("gpu.stats.csv", true);
 				hybridStats.save("hybrid.stats.csv", true);
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot open or create the target file");
 			}
 		}
 	}

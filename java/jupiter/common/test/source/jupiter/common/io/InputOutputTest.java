@@ -43,6 +43,18 @@ public class InputOutputTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests {@link InputOutput#setConsole}.
+	 */
+	public void testSetConsole() {
+		IO.test(BULLET, " setConsole");
+
+		final IConsole console = new SystemConsole();
+		IO.setConsole(console);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests {@link InputOutput#print}.
 	 */
 	public void testPrint() {
@@ -255,24 +267,14 @@ public class InputOutputTest
 		IO.fail(content, new Exception("This is a failure exception"));
 	}
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link InputOutput#setConsole}.
+	 * Tests {@link InputOutput#close}.
 	 */
-	public void testSetConsole() {
-		IO.test(BULLET, " setConsole");
+	public void testClose() {
+		IO.test(BULLET, " close");
 
-		final IConsole console = new SystemConsole();
-		IO.setConsole(console);
-	}
-
-	/**
-	 * Tests {@link InputOutput#clear}.
-	 */
-	public void testClear() {
-		IO.test(BULLET, " clear");
-
-		IO.clear();
+		IO.close();
 	}
 }

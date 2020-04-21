@@ -30,6 +30,7 @@ import static jupiter.common.io.file.Files.TEMP_DIR_PATH;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -347,10 +348,13 @@ public class SpeedChecker {
 					return new Result<Double>(speed,
 							IO.info("Downloaded ", length, " [Mbits] in ", time, " [s] => ",
 									speed, " [Mbits/s]"));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the file ", Strings.quote(urlFile));
+					return new Result<Double>(0., IO.error(ex));
 				} catch (final IOException ex) {
 					return new Result<Double>(0., IO.error(ex,
 							"Cannot transfer the file ", Strings.quote(urlName),
-							" to ", Strings.quote(Files.getPath(urlFile))));
+							" to ", Strings.quote(urlFile)));
 				} finally {
 					Resources.close(inputChannel);
 				}

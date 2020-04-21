@@ -30,23 +30,31 @@ import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.Collection;
 
 import jupiter.common.exception.CopyFileException;
 import jupiter.common.io.Content;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.list.Index;
 import jupiter.common.test.Arguments;
+import jupiter.common.time.Dates;
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Collections;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class FileHandler
-		implements ICloneable<FileHandler>, Serializable {
+		implements ICloneable<FileHandler>, Closeable, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -70,11 +78,15 @@ public class FileHandler
 	 * The {@link Charset} of the {@link File} to handle.
 	 */
 	protected final Charset charset;
+	/**
+	 * The number of lines.
+	 */
+	protected int lineCount = -1;
 
 	/**
-	 * The {@link ExtendedLinkedList} of {@link BufferedReader} of the {@link File} to handle.
+	 * The {@link ExtendedLinkedList} of {@link Closeable} reader of the {@link File} to handle.
 	 */
-	protected final ExtendedLinkedList<BufferedReader> readers = new ExtendedLinkedList<BufferedReader>();
+	protected final ExtendedLinkedList<Closeable> readers = new ExtendedLinkedList<Closeable>();
 	/**
 	 * The {@link BufferedWriter} of the {@link File} to handle.
 	 */
@@ -90,7 +102,7 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified path.
+	 * Constructs a {@link FileHandler} of the file denoted by the specified path.
 	 * <p>
 	 * @param path the path to the file to handle
 	 */
@@ -99,7 +111,7 @@ public class FileHandler
 	}
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified path.
+	 * Constructs a {@link FileHandler} of the file denoted by the specified path.
 	 * <p>
 	 * @param path the path to the file to handle
 	 */
@@ -108,7 +120,8 @@ public class FileHandler
 	}
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified path and {@link Charset}.
+	 * Constructs a {@link FileHandler} of the file denoted by the specified path with the specified
+	 * {@link Charset}.
 	 * <p>
 	 * @param path    the path to the file to handle
 	 * @param charset the {@link Charset} of the file to handle
@@ -120,7 +133,7 @@ public class FileHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified {@link File}.
+	 * Constructs a {@link FileHandler} of the specified {@link File}.
 	 * <p>
 	 * @param file the {@link File} to handle
 	 */
@@ -129,7 +142,8 @@ public class FileHandler
 	}
 
 	/**
-	 * Constructs a {@link FileHandler} with the specified {@link File} and {@link Charset}.
+	 * Constructs a {@link FileHandler} of the specified {@link File} with the specified
+	 * {@link Charset}.
 	 * <p>
 	 * @param file    the {@link File} to handle
 	 * @param charset the {@link Charset} of the {@link File} to handle
@@ -165,6 +179,15 @@ public class FileHandler
 	 */
 	public Charset getCharset() {
 		return charset;
+	}
+
+	/**
+	 * Returns the number of lines.
+	 * <p>
+	 * @return the number of lines
+	 */
+	public int getLineCount() {
+		return lineCount >= 0 ? lineCount : countLines();
 	}
 
 	//////////////////////////////////////////////
@@ -231,19 +254,6 @@ public class FileHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEARERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Closes all the {@link BufferedReader} and the {@link BufferedWriter}.
-	 */
-	public void clear() {
-		closeAllReaders(null);
-		closeWriter(null);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -277,11 +287,18 @@ public class FileHandler
 	/**
 	 * Removes all the lines from the {@link File}.
 	 * <p>
-	 * @return {@code true} if all the lines are removed from the {@link File}, {@code false}
-	 *         otherwise
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean empty() {
-		return write(EMPTY, false);
+		try {
+			write(EMPTY, false);
+			return true;
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+		return false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -325,7 +342,7 @@ public class FileHandler
 	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete() {
-		clear();
+		close();
 		return Files.delete(file);
 	}
 
@@ -337,7 +354,7 @@ public class FileHandler
 	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete(final boolean force) {
-		clear();
+		close();
 		return Files.delete(file, force);
 	}
 
@@ -381,6 +398,64 @@ public class FileHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Removes the specified line from the {@link File}.
+	 * <p>
+	 * @param lineIndex the index of the line to remove
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean remove(final int lineIndex) {
+		return removeAll(lineIndex, lineIndex + 1);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes all the lines from the {@link File} from the specified line.
+	 * <p>
+	 * @param fromLineIndex the line index to start removing from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean removeAll(final int fromLineIndex) {
+		return removeAll(fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Removes all the lines from the {@link File} between the specified lines.
+	 * <p>
+	 * @param fromLineIndex the line index to start removing from (inclusive)
+	 * @param toLineIndex   the line index to finish removing at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean removeAll(final int fromLineIndex, final int toLineIndex) {
+		BufferedReader reader = null;
+		final FileHandler tempFileHandler = new FileHandler(Files.createTempFile());
+		try {
+			reader = createReader();
+			tempFileHandler.empty();
+			tempFileHandler.writeAllLines(reader, 0, fromLineIndex);
+			int li = fromLineIndex;
+			while (li < toLineIndex && reader.readLine() != null) {
+				++li;
+			}
+			tempFileHandler.writeAllLines(reader);
+			close();
+			lineCount = tempFileHandler.lineCount;
+			return tempFileHandler.move(file, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			closeReader(reader, null);
+			Resources.close(tempFileHandler);
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * {@link File} by the specified {@link String}.
 	 * <p>
@@ -392,6 +467,22 @@ public class FileHandler
 	 */
 	public boolean replaceAll(final String regex, final String replacement) {
 		return replaceAll(regex, replacement, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * {@link File} by the specified {@link String} from the specified line.
+	 * <p>
+	 * @param regex         the regular expression {@link String} to identify and replace (may be
+	 *                      {@code null})
+	 * @param replacement   the {@link String} to replace by (may be {@code null})
+	 * @param fromLineIndex the line index to start replacing from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean replaceAll(final String regex, final String replacement,
+			final int fromLineIndex) {
+		return replaceAll(regex, replacement, fromLineIndex, Integer.MAX_VALUE);
 	}
 
 	/**
@@ -420,19 +511,90 @@ public class FileHandler
 		try {
 			reader = createReader();
 			tempFileHandler.empty();
-			int i = 0;
+			tempFileHandler.writeAllLines(reader, 0, fromLineIndex);
+			int li = fromLineIndex;
 			String line;
-			while (i >= fromLineIndex && i < toLineIndex && (line = reader.readLine()) != null) {
+			while (li < toLineIndex && (line = reader.readLine()) != null) {
 				tempFileHandler.writeLine(Strings.replaceAll(line, regex, replacement));
-				++i;
+				++li;
 			}
-			clear();
+			tempFileHandler.writeAllLines(reader);
+			close();
+			lineCount = tempFileHandler.lineCount;
 			return tempFileHandler.move(file, true);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
 			closeReader(reader, null);
-			tempFileHandler.clear();
+			Resources.close(tempFileHandler);
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Touches the {@link File}.
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean touch() {
+		try {
+			if (!file.exists()) {
+				Resources.close(new FileOutputStream(file));
+			}
+			file.setLastModified(Dates.createTimestamp());
+			return true;
+		} catch (final FileNotFoundException ex) {
+			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
+		}
+		return false;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Truncates the {@link File} from the specified line.
+	 * <p>
+	 * @param fromLineIndex the line index to start truncating from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean truncate(final int fromLineIndex) {
+		return truncate(fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Truncates the {@link File} between the specified lines.
+	 * <p>
+	 * @param fromLineIndex the line index to start truncating from (inclusive)
+	 * @param toLineIndex   the line index to finish truncating at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public boolean truncate(int fromLineIndex, int toLineIndex) {
+		BufferedReader reader = null;
+		final FileHandler tempFileHandler = new FileHandler(Files.createTempFile());
+		try {
+			reader = createReader();
+			tempFileHandler.empty();
+			int li = 0;
+			String line;
+			while (li < fromLineIndex && (line = reader.readLine()) != null) {
+				++li;
+			}
+			while (li < toLineIndex && (line = reader.readLine()) != null) {
+				tempFileHandler.writeLine(line);
+				++li;
+			}
+			close();
+			lineCount = tempFileHandler.lineCount;
+			return tempFileHandler.move(file, true);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			closeReader(reader, null);
+			Resources.close(tempFileHandler);
 		}
 		return false;
 	}
@@ -456,26 +618,42 @@ public class FileHandler
 		return reader;
 	}
 
+	/**
+	 * Creates a {@link ReversedFileReader}.
+	 * <p>
+	 * @return a {@link ReversedFileReader}
+	 * <p>
+	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
+	 * @throws IOException                  if there is a problem with reading {@code file}
+	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
+	 */
+	public ReversedFileReader createReversedReader()
+			throws FileNotFoundException, IOException, UnsupportedEncodingException {
+		final ReversedFileReader reader = Files.createReversedReader(file, charset);
+		readers.add(reader);
+		return reader;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
-	 * Closes the specified {@link BufferedReader}.
+	 * Closes the specified {@link Closeable} reader.
 	 * <p>
-	 * @param reader the {@link BufferedReader} to close
+	 * @param reader the {@link Closeable} reader to close
 	 */
-	public void closeReader(final BufferedReader reader) {
+	public void closeReader(final Closeable reader) {
 		closeReader(reader, Strings.join("The reader of ", Strings.quote(file),
 				" has already been closed"));
 	}
 
 	/**
-	 * Closes the specified {@link BufferedReader}.
+	 * Closes the specified {@link Closeable} reader.
 	 * <p>
-	 * @param reader  the {@link BufferedReader} to close
-	 * @param message the warning message {@link String} to print for each {@link BufferedReader}
+	 * @param reader  the {@link Closeable} reader to close
+	 * @param message the warning message {@link String} to print for each {@link Closeable} reader
 	 *                already closed
 	 */
-	public void closeReader(final BufferedReader reader, final String message) {
+	public void closeReader(final Closeable reader, final String message) {
 		if (!readers.remove(reader)) {
 			if (message != null) {
 				IO.warn(message);
@@ -486,7 +664,7 @@ public class FileHandler
 	}
 
 	/**
-	 * Closes all the {@link BufferedReader}.
+	 * Closes all the {@link Closeable} readers.
 	 */
 	public void closeAllReaders() {
 		closeAllReaders(Strings.join("A reader of ", Strings.quote(file),
@@ -494,13 +672,13 @@ public class FileHandler
 	}
 
 	/**
-	 * Closes all the {@link BufferedReader}.
+	 * Closes all the {@link Closeable} readers.
 	 * <p>
-	 * @param message the warning message {@link String} to print for each {@link BufferedReader}
+	 * @param message the warning message {@link String} to print for each {@link Closeable} reader
 	 *                already closed
 	 */
 	public void closeAllReaders(final String message) {
-		for (final BufferedReader reader : readers) {
+		for (final Closeable reader : readers) {
 			Resources.close(reader, message);
 		}
 		readers.clear();
@@ -543,7 +721,7 @@ public class FileHandler
 	 * @return the number of lines
 	 */
 	public int countLines() {
-		return Files.countLines(file, charset);
+		return countLines(false);
 	}
 
 	/**
@@ -554,7 +732,8 @@ public class FileHandler
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
 	public int countLines(final boolean skipEmptyLines) {
-		return Files.countLines(file, charset, skipEmptyLines);
+		lineCount = Files.countLines(file, charset, skipEmptyLines);
+		return lineCount;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -574,6 +753,9 @@ public class FileHandler
 		if (writer == null) {
 			writer = Files.createWriter(file, charset, append);
 			this.append = append;
+			if (!append) {
+				lineCount = 0;
+			}
 		}
 	}
 
@@ -605,11 +787,12 @@ public class FileHandler
 	 * <p>
 	 * @param content the content {@link String} to write
 	 * <p>
-	 * @return {@code true} if the specified content {@link String} is written, {@code false}
-	 *         otherwise
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public boolean write(final String content) {
-		return write(content, append);
+	public void write(final String content)
+			throws FileNotFoundException, IOException {
+		write(content, append);
 	}
 
 	/**
@@ -618,24 +801,17 @@ public class FileHandler
 	 * @param content the content {@link String} to write
 	 * @param append  the flag specifying whether to append
 	 * <p>
-	 * @return {@code true} if the specified content {@link String} is written, {@code false}
-	 *         otherwise
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public boolean write(final String content, final boolean append) {
-		try {
-			// Initialize
-			createWriter(append);
+	public void write(final String content, final boolean append)
+			throws FileNotFoundException, IOException {
+		// Initialize
+		createWriter(append);
 
-			// Append the content
-			writer.write(content);
-			writer.flush();
-			return true;
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-		return false;
+		// Append the content
+		writer.write(content);
+		writer.flush();
 	}
 
 	//////////////////////////////////////////////
@@ -645,11 +821,12 @@ public class FileHandler
 	 * <p>
 	 * @param content the content {@link String} to write
 	 * <p>
-	 * @return {@code true} if the specified content {@link String} is written, {@code false}
-	 *         otherwise
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public boolean writeLine(final String content) {
-		return writeLine(content, append);
+	public void writeLine(final String content)
+			throws FileNotFoundException, IOException {
+		writeLine(content, append);
 	}
 
 	/**
@@ -658,11 +835,424 @@ public class FileHandler
 	 * @param content the content {@link String} to write
 	 * @param append  the flag specifying whether to append
 	 * <p>
-	 * @return {@code true} if the specified content {@link String} is written, {@code false}
-	 *         otherwise
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public boolean writeLine(final String content, final boolean append) {
-		return write(content.concat(NEW_LINE), append);
+	public void writeLine(final String content, final boolean append)
+			throws FileNotFoundException, IOException {
+		write(content.concat(NEW_LINE), append);
+		if (lineCount >= 0) {
+			++lineCount;
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader}.
+	 * <p>
+	 * @param reader the {@link BufferedReader} to read
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader)
+			throws FileNotFoundException, IOException {
+		writeAllLines(reader, 0, Integer.MAX_VALUE, append);
+	}
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader}.
+	 * <p>
+	 * @param reader the {@link BufferedReader} to read
+	 * @param append the flag specifying whether to append
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader, final boolean append)
+			throws FileNotFoundException, IOException {
+		writeAllLines(reader, 0, Integer.MAX_VALUE, append);
+	}
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader} from the specified line.
+	 * <p>
+	 * @param reader        the {@link BufferedReader} to read
+	 * @param fromLineIndex the line index to start reading from (inclusive)
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader, final int fromLineIndex)
+			throws FileNotFoundException, IOException {
+		writeAllLines(reader, fromLineIndex, Integer.MAX_VALUE, append);
+	}
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader} from the specified line.
+	 * <p>
+	 * @param reader        the {@link BufferedReader} to read
+	 * @param fromLineIndex the line index to start reading from (inclusive)
+	 * @param append        the flag specifying whether to append
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+			final boolean append)
+			throws FileNotFoundException, IOException {
+		writeAllLines(reader, fromLineIndex, Integer.MAX_VALUE, append);
+	}
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader} between the specified lines.
+	 * <p>
+	 * @param reader        the {@link BufferedReader} to read
+	 * @param fromLineIndex the line index to start reading from (inclusive)
+	 * @param toLineIndex   the line index to finish replacing at (exclusive)
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+			final int toLineIndex)
+			throws FileNotFoundException, IOException {
+		writeAllLines(reader, fromLineIndex, toLineIndex, append);
+	}
+
+	/**
+	 * Writes all the lines of the specified {@link BufferedReader} between the specified lines.
+	 * <p>
+	 * @param reader        the {@link BufferedReader} to read
+	 * @param fromLineIndex the line index to start reading from (inclusive)
+	 * @param toLineIndex   the line index to finish replacing at (exclusive)
+	 * @param append        the flag specifying whether to append
+	 * <p>
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
+	 * @throws IOException           if there is a problem with writing to {@code file}
+	 */
+	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+			final int toLineIndex, final boolean append)
+			throws FileNotFoundException, IOException {
+		int li = 0;
+		String line;
+		while (li < fromLineIndex && (line = reader.readLine()) != null) {
+			++li;
+		}
+		while (li < toLineIndex && (line = reader.readLine()) != null) {
+			writeLine(line, append);
+			++li;
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param tokens the array of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
+	 *         such occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final String... tokens) {
+		return findFirstLine(tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking forward from the specified index,
+	 * or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking forward from the
+	 *         specified index, or {@code null} if there is no such occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final String[] tokens, final int fromLineIndex) {
+		return findFirstLine(tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking forward from the specified index
+	 * to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking forward from the
+	 *         specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final String[] tokens, final int fromLineIndex,
+			final int toLineIndex) {
+		if (Arrays.isNonEmpty(tokens)) {
+			BufferedReader reader = null;
+			try {
+				reader = createReader();
+				int li = 0;
+				String line;
+				while (li < fromLineIndex && (line = reader.readLine()) != null) {
+					++li;
+				}
+				while (li < toLineIndex && (line = reader.readLine()) != null) {
+					final Index<String> index = Strings.findFirstString(line, tokens);
+					if (index != null) {
+						return new Index<Index<String>>(li, index);
+					}
+					++li;
+				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				closeReader(reader, null);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
+	 *         such occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final Collection<String> tokens) {
+		return findFirstLine(tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking forward from the specified index,
+	 * or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking forward from the
+	 *         specified index, or {@code null} if there is no such occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final Collection<String> tokens,
+			final int fromLineIndex) {
+		return findFirstLine(tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking forward from the specified index
+	 * to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking forward from the
+	 *         specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public Index<Index<String>> findFirstLine(final Collection<String> tokens,
+			final int fromLineIndex, final int toLineIndex) {
+		if (Collections.isNonEmpty(tokens)) {
+			BufferedReader reader = null;
+			try {
+				reader = createReader();
+				int li = 0;
+				String line;
+				while (li < fromLineIndex && (line = reader.readLine()) != null) {
+					++li;
+				}
+				while (li < toLineIndex && (line = reader.readLine()) != null) {
+					final Index<String> index = Strings.findFirstString(line, tokens);
+					if (index != null) {
+						return new Index<Index<String>>(li, index);
+					}
+					++li;
+				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				closeReader(reader, null);
+			}
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param tokens the array of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
+	 *         such occurrence
+	 */
+	public Index<Index<String>> findLastLine(final String... tokens) {
+		return findLastLine(tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking backward from the specified
+	 * index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking backward from the
+	 *         specified index, or {@code null} if there is no such occurrence
+	 */
+	public Index<Index<String>> findLastLine(final String[] tokens, final int fromLineIndex) {
+		return findLastLine(tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking backward from the specified index
+	 * to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking backward from the
+	 *         specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public Index<Index<String>> findLastLine(final String[] tokens, final int fromLineIndex,
+			final int toLineIndex) {
+		if (Arrays.isNonEmpty(tokens)) {
+			ReversedFileReader reader = null;
+			try {
+				reader = createReversedReader();
+				int li = 0;
+				String line;
+				while (li < fromLineIndex && (line = reader.readLine()) != null) {
+					++li;
+				}
+				while (li < toLineIndex && (line = reader.readLine()) != null) {
+					final Index<String> index = Strings.findLastString(line, tokens);
+					if (index != null) {
+						return new Index<Index<String>>(getLineCount() - 1 - li, index);
+					}
+					++li;
+				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				closeReader(reader, null);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
+	 *         such occurrence
+	 */
+	public Index<Index<String>> findLastLine(final Collection<String> tokens) {
+		return findLastLine(tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking backward from the specified
+	 * index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking backward from the
+	 *         specified index, or {@code null} if there is no such occurrence
+	 */
+	public Index<Index<String>> findLastLine(final Collection<String> tokens,
+			final int fromLineIndex) {
+		return findLastLine(tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the {@link File}, seeking backward from the specified index
+	 * to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the {@link File}, seeking backward from the
+	 *         specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public Index<Index<String>> findLastLine(final Collection<String> tokens,
+			final int fromLineIndex, final int toLineIndex) {
+		if (Collections.isNonEmpty(tokens)) {
+			ReversedFileReader reader = null;
+			try {
+				reader = createReversedReader();
+				int li = 0;
+				String line;
+				while (li < fromLineIndex && (line = reader.readLine()) != null) {
+					++li;
+				}
+				while (li < toLineIndex && (line = reader.readLine()) != null) {
+					final Index<String> index = Strings.findLastString(line, tokens);
+					if (index != null) {
+						return new Index<Index<String>>(getLineCount() - 1 - li, index);
+					}
+					++li;
+				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				closeReader(reader, null);
+			}
+		}
+		return null;
 	}
 
 
@@ -680,6 +1270,19 @@ public class FileHandler
 	public boolean exists()
 			throws SecurityException {
 		return Files.exists(file);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	public void close() {
+		closeAllReaders(null);
+		closeWriter(null);
 	}
 
 

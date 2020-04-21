@@ -32,7 +32,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.struct.list.Index;
 import jupiter.common.test.Test;
+import jupiter.common.util.Strings;
 
 public class FileHandlerTest
 		extends Test {
@@ -53,23 +55,90 @@ public class FileHandlerTest
 		try {
 			fileHandler.empty();
 			fileHandler.writeLine("TEST1");
-			fileHandler.writeLine("TEST22");
+			fileHandler.writeLine("TEST2");
 			fileHandler.writeLine("TEST3");
+			fileHandler.replaceAll("TEST", "TEST2", 1, 2);
 			fileHandler.replaceAll("TEST22", "TEST2");
 			final BufferedReader reader = fileHandler.createReader();
 			int i = 1;
 			String line;
 			while ((line = reader.readLine()) != null) {
-				assertEquals("TEST" + i, line);
-				++i;
+				assertEquals("TEST" + (i++), line);
 			}
-		} catch (final FileNotFoundException ex) {
-			IO.error(ex);
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
-			fileHandler.clear();
+			Resources.close(fileHandler);
 			fileHandler.delete();
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests {@link FileHandler#truncate}.
+	 */
+	public void testTruncate() {
+		IO.test(BULLET, " truncate");
+
+		final FileHandler fileHandler = new FileHandler("truncate.".concat(TEMP_FILE_EXTENSION));
+		try {
+			fileHandler.empty();
+			fileHandler.writeLine("TEST1");
+			fileHandler.writeLine("TEST2");
+			fileHandler.writeLine("TEST3");
+			fileHandler.writeLine("TEST4");
+			fileHandler.truncate(1, 3);
+			final BufferedReader reader = fileHandler.createReader();
+			int i = 2;
+			String line;
+			while ((line = reader.readLine()) != null) {
+				assertEquals("TEST" + (i++), line);
+			}
+			assertEquals(4, i);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		} finally {
+			Resources.close(fileHandler);
+			fileHandler.delete();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link FileHandler#findFirstLine}.
+	 */
+	public void testFindFirstLine() {
+		IO.test(BULLET, " findFirstLine");
+
+		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
+		try {
+			for (int i = 0; i < 4; ++i) {
+				final Index<Index<String>> index = fileHandler.findFirstLine("" + (i + 1));
+				assertEquals(i, index.getIndex());
+				assertEquals(4, index.getToken().getIndex());
+			}
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	/**
+	 * Tests {@link FileHandler#findLastLine}.
+	 */
+	public void testFindLastLine() {
+		IO.test(BULLET, " findLastLine");
+
+		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
+		try {
+			for (int i = 0; i < 4; ++i) {
+				final Index<Index<String>> index = fileHandler.findLastLine("" + (i + 1));
+				assertEquals(i, index.getIndex());
+				assertEquals(4, index.getToken().getIndex());
+			}
+		} finally {
+			Resources.close(fileHandler);
 		}
 	}
 }

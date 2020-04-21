@@ -219,10 +219,10 @@ public class JConsole
 	}
 
 	public void print(final Object content, final Font font, final java.awt.Color color) {
-		final AttributeSet old = getStyle();
+		final AttributeSet previousStyle = getStyle();
 		setStyle(font, color);
 		append(content);
-		setStyle(old, true);
+		setStyle(previousStyle, true);
 	}
 
 	public void print(final Object content, final String fontFamilyName, final int size,
@@ -233,10 +233,10 @@ public class JConsole
 	public void print(final Object content, final String fontFamilyName, final int size,
 			final java.awt.Color color, final boolean bold, final boolean italic,
 			final boolean underline) {
-		final AttributeSet old = getStyle();
+		final AttributeSet previousStyle = getStyle();
 		setStyle(fontFamilyName, size, color, bold, italic, underline);
 		append(content);
-		setStyle(old, true);
+		setStyle(previousStyle, true);
 	}
 
 	//////////////////////////////////////////////

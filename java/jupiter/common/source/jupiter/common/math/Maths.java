@@ -366,7 +366,7 @@ public class Maths {
 		double sum = 0.;
 		int i = 0;
 		for (final Number number : numbers) {
-			if (number != null && i >= fromIndex && i < toIndex) {
+			if (i >= fromIndex && i < toIndex && number != null) {
 				sum += number.doubleValue();
 			}
 			++i;

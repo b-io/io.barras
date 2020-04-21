@@ -23,6 +23,7 @@
  */
 package jupiter.common.io.file;
 
+import static jupiter.common.io.InputOutput.BUFFER_SIZE;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
@@ -42,9 +43,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
@@ -58,6 +61,7 @@ import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.list.Index;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.FileArguments;
@@ -574,7 +578,7 @@ public class Files {
 				while (position < size) {
 					final long remain = size - position;
 					byteCount = outputChannel.transferFrom(inputChannel, position,
-							remain > InputOutput.BUFFER_SIZE ? InputOutput.BUFFER_SIZE : remain);
+							remain > BUFFER_SIZE ? BUFFER_SIZE : remain);
 					// Exit if there are no more bytes to transfer
 					// (e.g. if the file is truncated after caching the size)
 					if (byteCount == 0L) {
@@ -613,7 +617,8 @@ public class Files {
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} from the specified line index, {@code false} otherwise
 	 * <p>
-	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
+	 * @throws CopyFileException if there is a problem with copying {@code sourceFile} to
+	 *                           {@code targetFile}
 	 */
 	public static boolean copy(final File sourceFile, final File targetFile, final boolean force,
 			final int fromLineIndex)
@@ -657,12 +662,12 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code source} or writing to
+	 * @throws IOException if there is a problem with reading {@code sourceFile} or writing to
 	 *                     {@code output}
 	 */
 	public static long copy(final File sourceFile, final OutputStream output)
 			throws IOException {
-		return copy(sourceFile, output, new byte[InputOutput.BUFFER_SIZE]);
+		return copy(sourceFile, output, new byte[BUFFER_SIZE]);
 	}
 
 	/**
@@ -675,11 +680,12 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code source} or writing to
-	 *                     {@code output}
+	 * @throws FileNotFoundException if there is a problem with opening {@code sourceFile}
+	 * @throws IOException           if there is a problem with reading {@code sourceFile} or
+	 *                               writing to {@code output}
 	 */
 	public static long copy(final File sourceFile, final OutputStream output, final byte[] buffer)
-			throws IOException {
+			throws FileNotFoundException, IOException {
 		InputStream input = null;
 		try {
 			input = createInputStream(sourceFile);
@@ -698,7 +704,7 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code source} or writing to
+	 * @throws IOException if there is a problem with reading {@code sourceFile} or writing to
 	 *                     {@code output}
 	 */
 	public static long copy(final File sourceFile, final FileChannel output)
@@ -723,12 +729,14 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input} or writing to
-	 *                     {@code target}
+	 * @throws FileNotFoundException if there is a problem with creating or opening
+	 *                               {@code targetFile}
+	 * @throws IOException           if there is a problem with reading {@code input} or writing to
+	 *                               {@code targetFile}
 	 */
 	public static long copy(final InputStream input, final File targetFile)
-			throws IOException {
-		return copy(input, targetFile, new byte[InputOutput.BUFFER_SIZE]);
+			throws FileNotFoundException, IOException {
+		return copy(input, targetFile, new byte[BUFFER_SIZE]);
 	}
 
 	/**
@@ -741,11 +749,13 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input} or writing to
-	 *                     {@code target}
+	 * @throws FileNotFoundException if there is a problem with creating or opening
+	 *                               {@code targetFile}
+	 * @throws IOException           if there is a problem with reading {@code input} or writing to
+	 *                               {@code targetFile}
 	 */
 	public static long copy(final InputStream input, final File targetFile, final byte[] buffer)
-			throws IOException {
+			throws FileNotFoundException, IOException {
 		OutputStream output = null;
 		try {
 			output = createOutputStream(targetFile);
@@ -764,11 +774,13 @@ public class Files {
 	 * <p>
 	 * @return the number of copied {@code byte}
 	 * <p>
-	 * @throws IOException if there is a problem with reading {@code input} or writing to
-	 *                     {@code target}
+	 * @throws FileNotFoundException if there is a problem with creating or opening
+	 *                               {@code targetFile}
+	 * @throws IOException           if there is a problem with reading {@code input} or writing to
+	 *                               {@code targetFile}
 	 */
 	public static long copy(final ReadableByteChannel input, final File targetFile)
-			throws IOException {
+			throws FileNotFoundException, IOException {
 		FileOutputStream output = null;
 		try {
 			output = new FileOutputStream(targetFile);
@@ -964,18 +976,155 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Removes the specified line from the specified {@link File}.
+	 * <p>
+	 * @param file      a {@link File}
+	 * @param lineIndex the index of the line to remove
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean remove(final File file, final int lineIndex) {
+		return removeAll(file, lineIndex, lineIndex + 1);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes all the lines from the specified {@link File} from the specified line.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param fromLineIndex the line index to start removing from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean removeAll(final File file, final int fromLineIndex) {
+		return removeAll(file, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Removes all the lines from the specified {@link File} between the specified lines.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param fromLineIndex the line index to start removing from (inclusive)
+	 * @param toLineIndex   the line index to finish removing at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean removeAll(final File file, final int fromLineIndex,
+			final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.removeAll(fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * specified {@link File} by the specified {@link String}.
+	 * <p>
+	 * @param file        a {@link File}
+	 * @param regex       the regular expression {@link String} to identify and replace (may be
+	 *                    {@code null})
+	 * @param replacement the {@link String} to replace by (may be {@code null})
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean replaceAll(final File file, final String regex, final String replacement) {
+		return replaceAll(file, regex, replacement, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * specified {@link File} by the specified {@link String} from the specified line.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param regex         the regular expression {@link String} to identify and replace (may be
+	 *                      {@code null})
+	 * @param replacement   the {@link String} to replace by (may be {@code null})
+	 * @param fromLineIndex the line index to start replacing from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean replaceAll(final File file, final String regex, final String replacement,
+			final int fromLineIndex) {
+		return replaceAll(file, regex, replacement, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Replaces all the substrings matching the specified regular expression {@link String} in the
+	 * specified {@link File} by the specified {@link String} between the specified lines.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param regex         the regular expression {@link String} to identify and replace (may be
+	 *                      {@code null})
+	 * @param replacement   the {@link String} to replace by (may be {@code null})
+	 * @param fromLineIndex the line index to start replacing from (inclusive)
+	 * @param toLineIndex   the line index to finish replacing at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean replaceAll(final File file, final String regex, final String replacement,
+			final int fromLineIndex, final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.replaceAll(regex, replacement, fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Touches the specified {@link File}.
 	 * <p>
 	 * @param file the {@link File} to touch
 	 * <p>
-	 * @throws IOException if there is a problem with creating {@code file}
+	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static void touch(final File file)
-			throws IOException {
+			throws FileNotFoundException {
 		if (!file.exists()) {
 			Resources.close(new FileOutputStream(file));
 		}
 		file.setLastModified(Dates.createTimestamp());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Truncates the specified {@link File} from the specified line.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param fromLineIndex the line index to start truncating from (inclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean truncate(final File file, final int fromLineIndex) {
+		return truncate(file, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Truncates the specified {@link File} between the specified lines.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param fromLineIndex the line index to start truncating from (inclusive)
+	 * @param toLineIndex   the line index to finish truncating at (exclusive)
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	public static boolean truncate(final File file, final int fromLineIndex,
+			final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.truncate(fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -988,7 +1137,7 @@ public class Files {
 	 * @return the number of zipped files
 	 */
 	public static int zipDir(final File sourceDir) {
-		return zipDir(sourceDir, new File(getPath(sourceDir) + ".zip"));
+		return zipDir(sourceDir, new File(getPath(sourceDir).concat(".zip")));
 	}
 
 	/**
@@ -1022,11 +1171,19 @@ public class Files {
 					if (source.isDirectory()) {
 						++entryCount;
 					} else {
-						copy(source, output, buffer);
-						++entryCount;
+						try {
+							copy(source, output, buffer);
+							++entryCount;
+						} catch (final FileNotFoundException ex) {
+							IO.error(ex, "Cannot open the source file ", Strings.quote(source));
+						} catch (final IOException ex) {
+							IO.error(ex);
+						}
 					}
 					output.closeEntry();
 				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open or create the target file ", Strings.quote(targetFile));
 			} finally {
 				Resources.close(output);
 			}
@@ -1089,6 +1246,9 @@ public class Files {
 						try {
 							copy(input, target, buffer);
 							++entryCount;
+						} catch (final FileNotFoundException ex) {
+							IO.error(ex, "Cannot open or create the target file ",
+									Strings.quote(target));
 						} catch (final IOException ex) {
 							IO.error(ex);
 						} finally {
@@ -1098,6 +1258,8 @@ public class Files {
 					setLastModified(target, entry.getTime());
 					input.closeEntry();
 				}
+			} catch (final FileNotFoundException ex) {
+				IO.error(ex, "Cannot open the source file ", Strings.quote(sourceFile));
 			} finally {
 				Resources.close(input);
 			}
@@ -1143,6 +1305,41 @@ public class Files {
 		return InputOutput.createReader(createInputStream(file), charset);
 	}
 
+	/**
+	 * Creates a {@link ReversedFileReader} of the specified {@link File}.
+	 * <p>
+	 * @param file the {@link File} to read
+	 * <p>
+	 * @return a {@link ReversedFileReader} of the specified {@link File}
+	 * <p>
+	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
+	 * @throws IOException                  if there is a problem with reading {@code file}
+	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
+	 */
+	public static ReversedFileReader createReversedReader(final File file)
+			throws FileNotFoundException, IOException, UnsupportedEncodingException {
+		return createReversedReader(file, DEFAULT_CHARSET);
+	}
+
+	/**
+	 * Creates a {@link ReversedFileReader} of the specified {@link File} with the specified
+	 * {@link Charset}.
+	 * <p>
+	 * @param file    the {@link File} to read
+	 * @param charset the {@link Charset} of the {@link File} to read
+	 * <p>
+	 * @return a {@link ReversedFileReader} of the specified {@link File} with the specified
+	 *         {@link Charset}
+	 * <p>
+	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
+	 * @throws IOException                  if there is a problem with reading {@code file}
+	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
+	 */
+	public static ReversedFileReader createReversedReader(final File file, final Charset charset)
+			throws FileNotFoundException, IOException, UnsupportedEncodingException {
+		return new ReversedFileReader(file, charset);
+	}
+
 	//////////////////////////////////////////////
 
 	/**
@@ -1168,7 +1365,7 @@ public class Files {
 		try {
 			return InputOutput.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -1202,7 +1399,7 @@ public class Files {
 		try {
 			return InputOutput.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -1236,7 +1433,7 @@ public class Files {
 		try {
 			return InputOutput.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -1253,7 +1450,7 @@ public class Files {
 	 * @return the number of lines of the specified {@link File}
 	 */
 	public static int countLines(final File file) {
-		return countLines(file, DEFAULT_CHARSET);
+		return countLines(file, DEFAULT_CHARSET, false);
 	}
 
 	/**
@@ -1298,7 +1495,7 @@ public class Files {
 		try {
 			return InputOutput.countLines(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
@@ -1379,7 +1576,7 @@ public class Files {
 			writer.write(content);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot find the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
@@ -1419,6 +1616,255 @@ public class Files {
 	public static boolean writeLine(final String content, final File file, final boolean append,
 			final Charset charset) {
 		return write(content.concat(NEW_LINE), file, append, charset);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// SEEKERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
+	 * such occurrence.
+	 * <p>
+	 * @param file   a {@link File}
+	 * @param tokens the array of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file, final String... tokens) {
+		return findFirstLine(file, tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking forward from the
+	 * specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking forward from
+	 *         the specified index, or {@code null} if there is no such occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file, final String[] tokens,
+			final int fromLineIndex) {
+		return findFirstLine(file, tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking forward from the
+	 * specified index to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking forward from
+	 *         the specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file, final String[] tokens,
+			final int fromLineIndex, final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.findFirstLine(tokens, fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
+	 * such occurrence.
+	 * <p>
+	 * @param file   a {@link File}
+	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file,
+			final Collection<String> tokens) {
+		return findFirstLine(file, tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking forward from the
+	 * specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking forward from
+	 *         the specified index, or {@code null} if there is no such occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file,
+			final Collection<String> tokens, final int fromLineIndex) {
+		return findFirstLine(file, tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking forward from the
+	 * specified index to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the first line containing the first occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking forward from
+	 *         the specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public static Index<Index<String>> findFirstLine(final File file,
+			final Collection<String> tokens, final int fromLineIndex, final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.findFirstLine(tokens, fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
+	 * such occurrence.
+	 * <p>
+	 * @param file   a {@link File}
+	 * @param tokens the array of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file, final String... tokens) {
+		return findLastLine(file, tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking backward from the
+	 * specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking backward from
+	 *         the specified index, or {@code null} if there is no such occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file, final String[] tokens,
+			final int fromLineIndex) {
+		return findLastLine(file, tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking backward from the
+	 * specified index to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the array of token {@link String} to find (may be {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking backward from
+	 *         the specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file, final String[] tokens,
+			final int fromLineIndex, final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.findLastLine(tokens, fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
+	 * such occurrence.
+	 * <p>
+	 * @param file   a {@link File}
+	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file,
+			final Collection<String> tokens) {
+		return findLastLine(file, tokens, 0, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking backward from the
+	 * specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking backward from
+	 *         the specified index, or {@code null} if there is no such occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file,
+			final Collection<String> tokens, final int fromLineIndex) {
+		return findLastLine(file, tokens, fromLineIndex, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
+	 * specified token {@link String} in the specified {@link File}, seeking backward from the
+	 * specified index to the specified index, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param file          a {@link File}
+	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
+	 *                      {@code null})
+	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
+	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
+	 * <p>
+	 * @return the {@link Index} of the last line containing the last occurrence of any of the
+	 *         specified token {@link String} in the specified {@link File}, seeking backward from
+	 *         the specified index to the specified index, or {@code null} if there is no such
+	 *         occurrence
+	 */
+	public static Index<Index<String>> findLastLine(final File file,
+			final Collection<String> tokens, final int fromLineIndex, final int toLineIndex) {
+		final FileHandler fileHandler = new FileHandler(file);
+		try {
+			return fileHandler.findLastLine(tokens, fromLineIndex, toLineIndex);
+		} finally {
+			Resources.close(fileHandler);
+		}
 	}
 
 

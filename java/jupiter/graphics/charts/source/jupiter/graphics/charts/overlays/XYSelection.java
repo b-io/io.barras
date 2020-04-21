@@ -258,10 +258,10 @@ public class XYSelection
 	 * @param y a {@code double} value
 	 */
 	public void setCoordinates(final double x, final double y) {
-		final XY<Double> oldValue = coordinates.clone();
+		final XY<Double> previousValue = coordinates.clone();
 		coordinates.setX(x);
 		coordinates.setY(y);
-		propertyChangeSupport.firePropertyChange("coordinates", oldValue, coordinates);
+		propertyChangeSupport.firePropertyChange("coordinates", previousValue, coordinates);
 	}
 
 	//////////////////////////////////////////////
@@ -273,9 +273,9 @@ public class XYSelection
 	 * @param isVisible a {@code boolean} value
 	 */
 	public void setVisible(final boolean isVisible) {
-		final boolean oldValue = this.isVisible;
+		final boolean previousValue = this.isVisible;
 		this.isVisible = isVisible;
-		propertyChangeSupport.firePropertyChange("isVisible", oldValue, isVisible);
+		propertyChangeSupport.firePropertyChange("isVisible", previousValue, isVisible);
 	}
 
 

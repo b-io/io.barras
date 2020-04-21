@@ -857,7 +857,7 @@ public class Doubles {
 	 * @return the percentage representative {@link String} of the specified {@code double} value
 	 */
 	public static String formatPercent(final double value) {
-		return format(value * 100.) + "%";
+		return format(value * 100.).concat("%");
 	}
 
 

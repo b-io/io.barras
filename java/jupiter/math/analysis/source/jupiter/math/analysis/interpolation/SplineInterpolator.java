@@ -32,6 +32,7 @@ import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Doubles;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 import jupiter.math.analysis.struct.XY;
@@ -175,11 +176,14 @@ public class SplineInterpolator
 	protected double interpolate(final double x) {
 		// Find the index of the last point with smaller X
 		int i = 0;
-		while (x >= X[i + 1]) {
+		if (Doubles.equals(x, X[i])) {
+			return Y[i];
+		}
+		while (x > X[i + 1] + Maths.TOLERANCE) {
 			++i;
-			if (x == X[i]) {
-				return Y[i];
-			}
+		}
+		if (Doubles.equals(x, X[i + 1])) {
+			return Y[i + 1];
 		}
 		// Apply the cubic Hermite spline interpolation
 		final double h = X[i + 1] - X[i];

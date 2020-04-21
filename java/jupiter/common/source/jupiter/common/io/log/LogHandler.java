@@ -207,7 +207,6 @@ public class LogHandler
 	/**
 	 * Deletes the logs.
 	 */
-	@Override
 	public void clear() {
 		if (Files.exists(logDir)) {
 			outputLogLock.lock();
@@ -286,14 +285,17 @@ public class LogHandler
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void print(final Object content, final boolean isError) {
+	public boolean print(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
 		// Print the content
 		appendToLogLine(content, isError);
+		return true;
 	}
 
 	//////////////////////////////////////////////
@@ -304,45 +306,50 @@ public class LogHandler
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Object content, final boolean isError) {
+	public boolean println(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
 		// Print the content and terminate the line
-		if (isError) {
-			errorLogLock.lock();
-			try {
-				createDirs();
-				appendToLogLine(content, isError);
-				flush(isError);
-			} catch (final IOException ex) {
-				IO.error(ex);
-			} finally {
-				errorLogLock.unlock();
-			}
-		} else {
+		if (!isError) {
 			outputLogLock.lock();
 			try {
 				createDirs();
 				appendToLogLine(content, isError);
 				flush(isError);
+				return true;
 			} catch (final IOException ex) {
 				IO.error(ex);
 			} finally {
 				outputLogLock.unlock();
 			}
+		} else {
+			errorLogLock.lock();
+			try {
+				createDirs();
+				appendToLogLine(content, isError);
+				flush(isError);
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				errorLogLock.unlock();
+			}
 		}
+		return false;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void appendToLogLine(final Object content, final boolean isError) {
-		if (isError) {
-			errorLineBuilder.append(content);
-		} else {
+		if (!isError) {
 			outputLineBuilder.append(content);
+		} else {
+			errorLineBuilder.append(content);
 		}
 	}
 
@@ -351,10 +358,10 @@ public class LogHandler
 	}
 
 	protected void clearLogLine(final boolean isError) {
-		if (isError) {
-			errorLineBuilder.setLength(0);
-		} else {
+		if (!isError) {
 			outputLineBuilder.setLength(0);
+		} else {
+			errorLineBuilder.setLength(0);
 		}
 	}
 
@@ -368,6 +375,18 @@ public class LogHandler
 	public void flush(final boolean isError) {
 		Files.writeLine(getLogLine(isError), isError ? errorLog : outputLog);
 		clearLogLine(isError);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	@Override
+	public void close() {
 	}
 
 

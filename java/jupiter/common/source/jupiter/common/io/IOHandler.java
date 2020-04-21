@@ -27,6 +27,7 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -35,7 +36,8 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.thread.Worker;
 
 public abstract class IOHandler
-		extends Worker<Message, Integer> {
+		extends Worker<Message, Integer>
+		implements Closeable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -60,16 +62,6 @@ public abstract class IOHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEARERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clears {@code this}.
-	 */
-	public abstract void clear();
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,8 +72,10 @@ public abstract class IOHandler
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void print(final Object content, final boolean isError);
+	public abstract boolean print(final Object content, final boolean isError);
 
 	//////////////////////////////////////////////
 
@@ -90,9 +84,11 @@ public abstract class IOHandler
 	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final Message message) {
-		println(message, message.getLevel().isError());
+	public boolean println(final Message message) {
+		return println(message, message.getLevel().isError());
 	}
 
 	/**
@@ -102,8 +98,10 @@ public abstract class IOHandler
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public abstract void println(final Object content, final boolean isError);
+	public abstract boolean println(final Object content, final boolean isError);
 
 	/**
 	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if
@@ -112,9 +110,11 @@ public abstract class IOHandler
 	 * @param input   the {@link InputStream} of the data to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final InputStream input, final boolean isError) {
-		println(input, DEFAULT_CHARSET, isError);
+	public boolean println(final InputStream input, final boolean isError) {
+		return println(input, DEFAULT_CHARSET, isError);
 	}
 
 	/**
@@ -125,20 +125,25 @@ public abstract class IOHandler
 	 * @param charset the {@link Charset} of the data to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public void println(final InputStream input, final Charset charset, final boolean isError) {
+	public boolean println(final InputStream input, final Charset charset, final boolean isError) {
 		BufferedReader reader = null;
 		try {
 			reader = InputOutput.createReader(input, charset);
+			boolean status = true;
 			String line;
 			while ((line = reader.readLine()) != null) {
-				println(line, isError);
+				status &= println(line, isError);
 			}
+			return status;
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
 			Resources.close(reader);
 		}
+		return false;
 	}
 
 
@@ -150,6 +155,17 @@ public abstract class IOHandler
 	public Integer call(final Message input) {
 		println(input);
 		return InputOutput.EXIT_SUCCESS;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	public void close() {
 	}
 
 

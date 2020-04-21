@@ -26,6 +26,7 @@ package jupiter.common.io.console;
 import static jupiter.common.util.Characters.ESCAPE;
 import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.IOException;
 import java.io.PrintStream;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -136,18 +137,6 @@ public class ConsoleHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEARERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Clears {@code this}.
-	 */
-	@Override
-	public void clear() {
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PRINTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -158,17 +147,21 @@ public class ConsoleHandler
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void print(final Object content, final boolean isError) {
+	public boolean print(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
 		// Print the content
-		if (isError) {
-			console.getErr().print(content);
-		} else {
+		if (!isError) {
 			console.getOut().print(content);
+			return !console.getOut().checkError();
+		} else {
+			console.getErr().print(content);
+			return !console.getErr().checkError();
 		}
 	}
 
@@ -179,14 +172,16 @@ public class ConsoleHandler
 	 * line.
 	 * <p>
 	 * @param message the {@link Message} to print
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Message message) {
+	public boolean println(final Message message) {
 		if (USE_COLORS) {
-			println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
+			return println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
 					message.getLevel().isError());
 		} else {
-			println(message, message.getLevel().isError());
+			return println(message, message.getLevel().isError());
 		}
 	}
 
@@ -197,9 +192,11 @@ public class ConsoleHandler
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public void println(final Object content, final boolean isError) {
+	public boolean println(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
@@ -210,6 +207,7 @@ public class ConsoleHandler
 			text = Color.RED.getStyledText(text);
 		}
 		printStream.println(text);
+		return !printStream.checkError();
 	}
 
 
@@ -224,6 +222,18 @@ public class ConsoleHandler
 	 */
 	public String getInputLine() {
 		return console.getInputLine();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	@Override
+	public void close() {
 	}
 
 

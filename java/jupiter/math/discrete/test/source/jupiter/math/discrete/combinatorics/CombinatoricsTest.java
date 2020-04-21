@@ -27,6 +27,7 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
@@ -86,6 +87,23 @@ public class CombinatoricsTest
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Combinatorics#toDecimal}.
+	 */
+	public void testToDecimal() {
+		IO.test(BULLET, " toDecimal");
+
+		IO.test("- Get the decimal representation of (3,4,1,0,1,0)");
+		int decimalValue = Combinatorics.toDecimal(new ExtendedList<Integer>(3, 4, 1, 0, 1, 0));
+		IO.test(decimalValue);
+		assertEquals(463, decimalValue);
+
+		IO.test("- Get the decimal representation of (1,4,1,1,2,0,0)");
+		decimalValue = Combinatorics.toDecimal(new ExtendedList<Integer>(1, 4, 1, 1, 2, 0, 0));
+		IO.test(decimalValue);
+		assertEquals(1234, decimalValue);
+	}
 
 	/**
 	 * Tests {@link Combinatorics#toFactoradic}.

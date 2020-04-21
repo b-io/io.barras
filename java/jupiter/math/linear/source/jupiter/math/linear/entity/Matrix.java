@@ -42,6 +42,7 @@ import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.InputOutput;
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
@@ -1407,7 +1408,7 @@ public class Matrix
 		try {
 			return load(fileHandler.createReader(), fileHandler.countLines(true), transpose);
 		} finally {
-			fileHandler.clear();
+			Resources.close(fileHandler);
 		}
 	}
 
