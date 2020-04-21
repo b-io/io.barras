@@ -25,6 +25,8 @@ package jupiter.common.test;
 
 import java.io.File;
 
+import jupiter.common.util.Strings;
+
 public class FileArguments
 		extends Arguments {
 
@@ -46,14 +48,16 @@ public class FileArguments
 
 	public static File requireDir(final File file) {
 		if (CHECK_ARGS && !file.isDirectory()) {
-			throw new IllegalArgumentException("The specified file is not a directory");
+			throw new IllegalArgumentException("The specified file is not a directory: " +
+					Strings.quote(file));
 		}
 		return file;
 	}
 
 	public static File requireFile(final File file) {
 		if (CHECK_ARGS && !file.isFile()) {
-			throw new IllegalArgumentException("The specified file is not a normal file");
+			throw new IllegalArgumentException("The specified file is not a normal file: " +
+					Strings.quote(file));
 		}
 		return file;
 	}
