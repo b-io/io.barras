@@ -28,13 +28,11 @@ import static jupiter.common.io.file.Files.TEMP_FILE_EXTENSION;
 import static jupiter.common.util.Characters.BULLET;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.struct.list.Index;
 import jupiter.common.test.Test;
-import jupiter.common.util.Strings;
 
 public class FileHandlerTest
 		extends Test {
@@ -68,7 +66,6 @@ public class FileHandlerTest
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.close(fileHandler);
 			fileHandler.delete();
 		}
 	}
@@ -99,7 +96,6 @@ public class FileHandlerTest
 		} catch (final IOException ex) {
 			IO.error(ex);
 		} finally {
-			Resources.close(fileHandler);
 			fileHandler.delete();
 		}
 	}

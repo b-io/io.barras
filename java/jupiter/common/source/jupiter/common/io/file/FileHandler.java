@@ -296,7 +296,7 @@ public class FileHandler
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot empty the file ", Strings.quote(file));
 		}
 		return false;
 	}
@@ -1017,7 +1017,7 @@ public class FileHandler
 			} catch (final FileNotFoundException ex) {
 				IO.error(ex, "Cannot open the file ", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot read the file ", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1094,7 +1094,7 @@ public class FileHandler
 			} catch (final FileNotFoundException ex) {
 				IO.error(ex, "Cannot open the file ", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot read the file ", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1170,7 +1170,7 @@ public class FileHandler
 			} catch (final FileNotFoundException ex) {
 				IO.error(ex, "Cannot open the file ", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot read the file ", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1247,7 +1247,7 @@ public class FileHandler
 			} catch (final FileNotFoundException ex) {
 				IO.error(ex, "Cannot open the file ", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex);
+				IO.error(ex, "Cannot read the file ", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}

@@ -1004,14 +1004,13 @@ public class Table<E>
 	 * @param path       the path to the file to save to
 	 * @param saveHeader the flag specifying whether to save the header
 	 * <p>
-	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
-	 *         {@code false} otherwise
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
+	 * @throws IOException           if there is a problem with writing to the file denoted by
+	 *                               {@code path}
 	 */
-	public boolean save(final String path, final boolean saveHeader)
-			throws FileNotFoundException {
+	public void save(final String path, final boolean saveHeader)
+			throws FileNotFoundException, IOException {
 		final FileHandler fileHandler = new FileHandler(path);
 		try {
 			fileHandler.empty();
@@ -1023,13 +1022,9 @@ public class Table<E>
 			for (int i = 0; i < m; ++i) {
 				fileHandler.writeLine(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0]));
 			}
-			return true;
-		} catch (final IOException ex) {
-			IO.error(ex);
 		} finally {
 			Resources.close(fileHandler);
 		}
-		return false;
 	}
 
 

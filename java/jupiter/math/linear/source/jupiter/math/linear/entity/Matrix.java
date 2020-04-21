@@ -1498,15 +1498,14 @@ public class Matrix
 	 * <p>
 	 * @param path the path to the file to save to
 	 * <p>
-	 * @return {@code true} if {@code this} is saved to the file denoted by the specified path,
-	 *         {@code false} otherwise
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
+	 * @throws IOException           if there is a problem with writing to the file denoted by
+	 *                               {@code path}
 	 */
-	public boolean save(final String path)
-			throws FileNotFoundException {
-		return toTable().save(path, false);
+	public void save(final String path)
+			throws FileNotFoundException, IOException {
+		toTable().save(path, false);
 	}
 
 

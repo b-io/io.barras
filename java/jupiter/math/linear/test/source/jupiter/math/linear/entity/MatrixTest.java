@@ -28,6 +28,7 @@ import static jupiter.common.util.Characters.BULLET;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import jupiter.common.math.Statistics;
 import jupiter.common.struct.list.ExtendedList;
@@ -203,7 +204,9 @@ public class MatrixTest
 				gpuStats.save("gpu.stats.csv", true);
 				hybridStats.save("hybrid.stats.csv", true);
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open or create the target file");
+				IO.error(ex, "Cannot open or create the CSV file");
+			} catch (final IOException ex) {
+				IO.error(ex, "Cannot write to the CSV file");
 			}
 		}
 	}
@@ -347,7 +350,9 @@ public class MatrixTest
 				gpuStats.save("gpu.stats.csv", true);
 				hybridStats.save("hybrid.stats.csv", true);
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open or create the target file");
+				IO.error(ex, "Cannot open or create the CSV file");
+			} catch (final IOException ex) {
+				IO.error(ex, "Cannot write to the CSV file");
 			}
 		}
 	}

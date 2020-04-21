@@ -213,7 +213,7 @@ public class SpeedChecker {
 		// Shutdown
 		final Collection<FileHandler> dataFileHandlers = DATA_FILES.values();
 		for (final FileHandler dataFileHandler : dataFileHandlers) {
-			dataFileHandler.clear();
+			dataFileHandler.close();
 		}
 		DATA_FILES.clear();
 	}
@@ -289,8 +289,16 @@ public class SpeedChecker {
 				final Result<Double> result = WORK_QUEUE.get(id);
 				final double downloadingSpeed = result.getOutput();
 				IO.info(downloadingSpeed, " [Mbits/s]");
-				DATA_FILES.get(URL_NAMES.get(i)).writeLine(Strings.join(Dates.getDateTime(),
-						Arrays.DELIMITER, downloadingSpeed));
+				final FileHandler dataFileHandler = DATA_FILES.get(URL_NAMES.get(i));
+				try {
+					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+							downloadingSpeed));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the data file ",
+							Strings.quote(dataFileHandler));
+				} catch (final IOException ex) {
+					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+				}
 				GRAPH.addPoint(0, i, downloadingSpeed);
 				++i;
 			}
@@ -301,8 +309,16 @@ public class SpeedChecker {
 				final Result<Double> result = download(urlName);
 				final double downloadingSpeed = result.getOutput();
 				IO.info(downloadingSpeed, " [Mbits/s]");
-				DATA_FILES.get(urlName).writeLine(Strings.join(Dates.getDateTime(),
-						Arrays.DELIMITER, downloadingSpeed));
+				final FileHandler dataFileHandler = DATA_FILES.get(urlName);
+				try {
+					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+							downloadingSpeed));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the data file ",
+							Strings.quote(dataFileHandler));
+				} catch (final IOException ex) {
+					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+				}
 				GRAPH.addPoint(0, i, downloadingSpeed);
 				++i;
 			}
@@ -349,11 +365,11 @@ public class SpeedChecker {
 							IO.info("Downloaded ", length, " [Mbits] in ", time, " [s] => ",
 									speed, " [Mbits/s]"));
 				} catch (final FileNotFoundException ex) {
-					IO.error(ex, "Cannot open or create the file ", Strings.quote(urlFile));
+					IO.error(ex, "Cannot open or create the URL file ", Strings.quote(urlFile));
 					return new Result<Double>(0., IO.error(ex));
 				} catch (final IOException ex) {
 					return new Result<Double>(0., IO.error(ex,
-							"Cannot transfer the file ", Strings.quote(urlName),
+							"Cannot download the URL file ", Strings.quote(urlName),
 							" to ", Strings.quote(urlFile)));
 				} finally {
 					Resources.close(inputChannel);

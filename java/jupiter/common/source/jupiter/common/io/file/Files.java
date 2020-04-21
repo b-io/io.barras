@@ -1177,13 +1177,14 @@ public class Files {
 						} catch (final FileNotFoundException ex) {
 							IO.error(ex, "Cannot open the source file ", Strings.quote(source));
 						} catch (final IOException ex) {
-							IO.error(ex);
+							IO.error(ex, "Cannot read the source file ", Strings.quote(source),
+									" or write to the ZIP file ", Strings.quote(targetFile));
 						}
 					}
 					output.closeEntry();
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open or create the target file ", Strings.quote(targetFile));
+				IO.error(ex, "Cannot open or create the ZIP file ", Strings.quote(targetFile));
 			} finally {
 				Resources.close(output);
 			}
@@ -1250,7 +1251,8 @@ public class Files {
 							IO.error(ex, "Cannot open or create the target file ",
 									Strings.quote(target));
 						} catch (final IOException ex) {
-							IO.error(ex);
+							IO.error(ex, "Cannot read the ZIP file ", Strings.quote(sourceFile),
+									" or write to the target file ", Strings.quote(target));
 						} finally {
 							setLastModified(parentDir, lastModified);
 						}
@@ -1259,7 +1261,7 @@ public class Files {
 					input.closeEntry();
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the source file ", Strings.quote(sourceFile));
+				IO.error(ex, "Cannot open the ZIP file ", Strings.quote(sourceFile));
 			} finally {
 				Resources.close(input);
 			}
@@ -1367,7 +1369,7 @@ public class Files {
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot read the file ", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1399,9 +1401,9 @@ public class Files {
 		try {
 			return InputOutput.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the ZIP file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot read the ZIP file ", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1433,9 +1435,9 @@ public class Files {
 		try {
 			return InputOutput.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the GZIP file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot read the GZIP file ", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1497,7 +1499,7 @@ public class Files {
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot read the file ", Strings.quote(file));
 		}
 		return -1;
 	}
@@ -1578,7 +1580,7 @@ public class Files {
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex);
+			IO.error(ex, "Cannot write to the file ", Strings.quote(file));
 		} finally {
 			Resources.close(writer);
 		}
