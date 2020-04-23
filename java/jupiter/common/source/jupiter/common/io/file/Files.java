@@ -438,7 +438,7 @@ public class Files {
 	 */
 	public static BufferedOutputStream createOutputStream(final String path)
 			throws FileNotFoundException {
-		return new BufferedOutputStream(new FileOutputStream(path));
+		return createOutputStream(path, false);
 	}
 
 	/**
@@ -468,7 +468,7 @@ public class Files {
 	 */
 	public static BufferedOutputStream createOutputStream(final File file)
 			throws FileNotFoundException {
-		return new BufferedOutputStream(new FileOutputStream(file));
+		return createOutputStream(file, false);
 	}
 
 	/**
@@ -945,7 +945,7 @@ public class Files {
 	 *         matching the specified name filter {@link String} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final String nameFilter) {
-		return listAll(dir, Pattern.compile(nameFilter));
+		return listAll(dir, Pattern.compile(nameFilter), Integer.MAX_VALUE);
 	}
 
 	/**
@@ -959,21 +959,7 @@ public class Files {
 	 *         matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern) {
-		// Check the arguments
-		FileArguments.requireDir(dir);
-
-		// List all the files contained in the directory or subdirectories and matching the pattern
-		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
-		final File[] files = dir.listFiles();
-		for (final File file : files) {
-			if (namePattern.matcher(file.getName()).matches()) {
-				allFiles.add(file);
-			}
-			if (file.isDirectory()) {
-				allFiles.addAll(listAll(file, namePattern));
-			}
-		}
-		return allFiles;
+		return listAll(dir, namePattern, Integer.MAX_VALUE);
 	}
 
 	/**

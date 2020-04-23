@@ -316,7 +316,7 @@ public class FileHandler
 	 */
 	public boolean copy(final File target)
 			throws CopyFileException {
-		return Files.copy(file, target);
+		return copy(target, false);
 	}
 
 	/**
@@ -343,8 +343,7 @@ public class FileHandler
 	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete() {
-		close();
-		return Files.delete(file);
+		return delete(false);
 	}
 
 	/**
