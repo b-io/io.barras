@@ -61,7 +61,7 @@ public class FileHandlerTest
 			int i = 1;
 			String line;
 			while ((line = reader.readLine()) != null) {
-				assertEquals("TEST" + (i++), line);
+				assertEquals("TEST" + i++, line);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -90,7 +90,7 @@ public class FileHandlerTest
 			int i = 2;
 			String line;
 			while ((line = reader.readLine()) != null) {
-				assertEquals("TEST" + (i++), line);
+				assertEquals("TEST" + i++, line);
 			}
 			assertEquals(4, i);
 		} catch (final IOException ex) {

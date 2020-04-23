@@ -266,24 +266,24 @@ public class Interval<T extends Comparable<? super T>>
 		// • The lower bound
 		if (other.lowerBound.value != null &&
 				(lowerBound.value == null &&
-				(upperBound.value == null || isValid(other.lowerBound, upperBound)) ||
+						(upperBound.value == null || isValid(other.lowerBound, upperBound)) ||
 				lowerBound.value != null &&
-				Comparables.isGreaterThan(lowerBound, other.lowerBound) &&
-				(other.isInside(lowerBound.value) ||
-				lowerBound.isInclusive &&
-				lowerBound.value.equals(other.upperBound.value)))) {
+						Comparables.isGreaterThan(lowerBound, other.lowerBound) &&
+						(other.isInside(lowerBound.value) ||
+								lowerBound.isInclusive &&
+										lowerBound.value.equals(other.upperBound.value)))) {
 			lowerBound = other.lowerBound.clone();
 			hasChanged = true;
 		}
 		// • The upper bound
 		if (other.upperBound.value != null &&
 				(upperBound.value == null &&
-				(lowerBound.value == null || isValid(lowerBound, other.upperBound)) ||
+						(lowerBound.value == null || isValid(lowerBound, other.upperBound)) ||
 				upperBound.value != null &&
-				Comparables.isLessThan(upperBound, other.upperBound) &&
-				(other.isInside(upperBound.value) ||
-				upperBound.isInclusive &&
-				upperBound.value.equals(other.lowerBound.value)))) {
+						Comparables.isLessThan(upperBound, other.upperBound) &&
+						(other.isInside(upperBound.value) ||
+								upperBound.isInclusive &&
+										upperBound.value.equals(other.lowerBound.value)))) {
 			upperBound = other.upperBound.clone();
 			hasChanged = true;
 		}
@@ -321,7 +321,7 @@ public class Interval<T extends Comparable<? super T>>
 		return lowerBound.value == null || upperBound.value == null ||
 				Comparables.isGreaterThan(lowerBound, upperBound) ||
 				!(lowerBound.isInclusive && upperBound.isInclusive) &&
-				lowerBound.value.equals(upperBound.value);
+						lowerBound.value.equals(upperBound.value);
 	}
 
 	/**

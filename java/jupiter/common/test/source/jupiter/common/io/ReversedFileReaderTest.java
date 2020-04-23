@@ -53,7 +53,7 @@ public class ReversedFileReaderTest
 			int i = 4;
 			String line;
 			while ((line = reader.readLine()) != null) {
-				assertEquals("TEST" + (i--), line);
+				assertEquals("TEST" + i--, line);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);

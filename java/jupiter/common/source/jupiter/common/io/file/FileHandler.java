@@ -570,7 +570,7 @@ public class FileHandler
 	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
-	public boolean truncate(int fromLineIndex, int toLineIndex) {
+	public boolean truncate(final int fromLineIndex, final int toLineIndex) {
 		BufferedReader reader = null;
 		final FileHandler tempFileHandler = new FileHandler(Files.createTempFile());
 		try {

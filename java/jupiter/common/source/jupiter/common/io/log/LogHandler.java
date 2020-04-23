@@ -55,7 +55,8 @@ public class LogHandler
 	/**
 	 * The default {@link String} log directory.
 	 */
-	protected static final String DEFAULT_LOG_DIR_PATH = Files.getPath().concat(SEPARATOR)
+	protected static final String DEFAULT_LOG_DIR_PATH = Files.getPath()
+			.concat(SEPARATOR)
 			.concat("logs");
 
 	/**

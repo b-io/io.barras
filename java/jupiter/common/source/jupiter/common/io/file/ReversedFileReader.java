@@ -251,7 +251,7 @@ public class ReversedFileReader
 				throws IOException {
 			// Set the attributes
 			this.partNumber = partNumber;
-			this.buffer = new byte[length + (remainingBuffer != null ? remainingBuffer.length : 0)];
+			buffer = new byte[length + (remainingBuffer != null ? remainingBuffer.length : 0)];
 
 			// Read the part of the file
 			final long offset = (partNumber - 1) * bufferSize;
@@ -269,7 +269,7 @@ public class ReversedFileReader
 			}
 
 			// Set the remaining attributes
-			this.currentLastByteIndex = buffer.length - 1;
+			currentLastByteIndex = buffer.length - 1;
 			this.remainingBuffer = null;
 		}
 
@@ -285,7 +285,8 @@ public class ReversedFileReader
 			if (currentLastByteIndex >= 0) {
 				throw new IllegalStateException(
 						"The current last byte index is unexpectedly non-negative: " +
-						currentLastByteIndex + "; the previous read line should be non-empty");
+								currentLastByteIndex +
+								"; the previous read line should be non-empty");
 			}
 			if (partNumber > 1) {
 				return new FilePart(partNumber - 1, bufferSize, remainingBuffer);
@@ -293,7 +294,7 @@ public class ReversedFileReader
 			if (remainingBuffer != null) {
 				throw new IllegalStateException(
 						"The remaining buffer of the last part is non-null: " +
-						Strings.quote(new String(remainingBuffer, charset)));
+								Strings.quote(new String(remainingBuffer, charset)));
 			}
 			return null;
 		}
