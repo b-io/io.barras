@@ -31,7 +31,6 @@ import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.IParsers;
@@ -39,6 +38,7 @@ import jupiter.common.map.parser.IntegerParser;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Integers {
 
@@ -860,64 +860,64 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array
 	 */
-	public static Set<Integer> toSet(final int[] array) {
+	public static ExtendedHashSet<Integer> toSet(final int[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array
 	 */
-	public static Set<Integer> asSet(final int... array) {
+	public static ExtendedHashSet<Integer> asSet(final int... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array
 	 */
-	public static <T> Set<Integer> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Integer> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Integer> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Integer> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Integer} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Integer} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@link Collection}
 	 */
-	public static Set<Integer> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Integer> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

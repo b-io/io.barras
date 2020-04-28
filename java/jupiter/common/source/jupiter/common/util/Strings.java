@@ -45,7 +45,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +58,7 @@ import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Index;
 import jupiter.common.struct.list.SortedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
@@ -425,40 +425,40 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array
 	 */
-	public static <T> Set<String> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<String> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<String> asSet(final T... array) {
+	public static <T> ExtendedHashSet<String> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link String} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link String} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@link Collection}
 	 */
-	public static Set<String> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<String> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

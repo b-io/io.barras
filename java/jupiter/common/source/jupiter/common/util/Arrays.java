@@ -27,7 +27,6 @@ import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Array;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -38,6 +37,7 @@ import jupiter.common.struct.list.ComparableSort;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.Sort;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.ArrayArguments;
@@ -572,8 +572,8 @@ public class Arrays {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> Set<T> toSet(final T[] array) {
-		final Set<T> set = new HashSet<T>(array.length);
+	public static <T> ExtendedHashSet<T> toSet(final T[] array) {
+		final ExtendedHashSet<T> set = new ExtendedHashSet<T>(array.length);
 		for (final T element : array) {
 			set.add(element);
 		}
@@ -581,7 +581,7 @@ public class Arrays {
 	}
 
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<T> asSet(final T... array) {
+	public static <T> ExtendedHashSet<T> asSet(final T... array) {
 		return toSet(array);
 	}
 

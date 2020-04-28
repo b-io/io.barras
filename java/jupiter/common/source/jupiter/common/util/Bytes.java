@@ -31,13 +31,13 @@ import static jupiter.common.util.Characters.UPPER_CASE_DIGITS;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.ByteParser;
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Bytes {
 
@@ -990,64 +990,64 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array
 	 */
-	public static Set<Byte> toSet(final byte[] array) {
+	public static ExtendedHashSet<Byte> toSet(final byte[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array
 	 */
-	public static Set<Byte> asSet(final byte... array) {
+	public static ExtendedHashSet<Byte> asSet(final byte... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array
 	 */
-	public static <T> Set<Byte> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Byte> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Byte> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Byte> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Byte} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Byte} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@link Collection}
 	 */
-	public static Set<Byte> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Byte> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

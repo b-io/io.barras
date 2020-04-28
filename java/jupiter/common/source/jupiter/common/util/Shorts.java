@@ -29,13 +29,13 @@ import static java.lang.Short.MIN_VALUE;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.map.parser.ShortParser;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Shorts {
 
@@ -803,64 +803,64 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array the {@code short} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
+	 * @return an {@link ExtendedHashSet} of {@link Short} from the specified {@code short} array
 	 */
-	public static Set<Short> toSet(final short[] array) {
+	public static ExtendedHashSet<Short> toSet(final short[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@code short} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Short} from the specified {@code short} array.
 	 * <p>
 	 * @param array the {@code short} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@code short} array
+	 * @return an {@link ExtendedHashSet} of {@link Short} from the specified {@code short} array
 	 */
-	public static Set<Short> asSet(final short... array) {
+	public static ExtendedHashSet<Short> asSet(final short... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Short} from the specified {@code T} array
 	 */
-	public static <T> Set<Short> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Short> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Short} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Short} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Short> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Short> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Short} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Short} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Short} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Short} from the specified {@link Collection}
 	 */
-	public static Set<Short> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Short> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

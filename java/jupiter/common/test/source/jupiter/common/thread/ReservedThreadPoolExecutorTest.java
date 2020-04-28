@@ -26,7 +26,6 @@ package jupiter.common.thread;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -34,6 +33,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
@@ -70,7 +70,7 @@ public class ReservedThreadPoolExecutorTest
 		}
 
 		// Collect the results
-		final Set<Integer> results = new HashSet<Integer>(futures.size());
+		final Set<Integer> results = new ExtendedHashSet<Integer>(futures.size());
 		int skippedTaskCount = 0;
 		for (final Future<Integer> future : futures) {
 			try {

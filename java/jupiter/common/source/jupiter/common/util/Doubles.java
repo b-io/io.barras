@@ -28,7 +28,6 @@ import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.DoubleParser;
@@ -36,6 +35,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Doubles {
 
@@ -770,64 +770,64 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array
 	 */
-	public static Set<Double> toSet(final double[] array) {
+	public static ExtendedHashSet<Double> toSet(final double[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array
 	 */
-	public static Set<Double> asSet(final double... array) {
+	public static ExtendedHashSet<Double> asSet(final double... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array
 	 */
-	public static <T> Set<Double> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Double> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Double> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Double> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Double} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Double} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@link Collection}
 	 */
-	public static Set<Double> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Double> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

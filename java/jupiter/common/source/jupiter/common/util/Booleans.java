@@ -25,13 +25,13 @@ package jupiter.common.util;
 
 import java.util.Collection;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.BooleanParser;
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Booleans {
 
@@ -676,64 +676,68 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
+	 * array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
+	 *         array
 	 */
-	public static Set<Boolean> toSet(final boolean[] array) {
+	public static ExtendedHashSet<Boolean> toSet(final boolean[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
+	 * array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
+	 *         array
 	 */
-	public static Set<Boolean> asSet(final boolean... array) {
+	public static ExtendedHashSet<Boolean> asSet(final boolean... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array
 	 */
-	public static <T> Set<Boolean> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Boolean> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Boolean> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Boolean> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Boolean} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Boolean} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@link Collection}
 	 */
-	public static Set<Boolean> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Boolean> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

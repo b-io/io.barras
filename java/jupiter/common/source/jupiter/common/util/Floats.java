@@ -30,7 +30,6 @@ import static jupiter.common.util.Formats.DECIMAL_FORMAT;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.FloatParser;
@@ -38,6 +37,7 @@ import jupiter.common.map.parser.IParsers;
 import jupiter.common.math.Maths;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Floats {
 
@@ -783,64 +783,64 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array
 	 */
-	public static Set<Float> toSet(final float[] array) {
+	public static ExtendedHashSet<Float> toSet(final float[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array
 	 */
-	public static Set<Float> asSet(final float... array) {
+	public static ExtendedHashSet<Float> asSet(final float... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array
 	 */
-	public static <T> Set<Float> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Float> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Float> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Float> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Float} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Float} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@link Collection}
 	 */
-	public static Set<Float> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Float> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

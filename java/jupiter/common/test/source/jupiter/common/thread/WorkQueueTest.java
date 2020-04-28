@@ -26,11 +26,11 @@ package jupiter.common.thread;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
@@ -70,7 +70,7 @@ public class WorkQueueTest
 		for (int ti = 0; ti < taskCount; ++ti) {
 			ids.add(workQueue.submit(ti));
 		}
-		final Set<Integer> results = new HashSet<Integer>(ids.size());
+		final Set<Integer> results = new ExtendedHashSet<Integer>(ids.size());
 		for (final long id : ids) {
 			results.add(workQueue.get(id));
 		}

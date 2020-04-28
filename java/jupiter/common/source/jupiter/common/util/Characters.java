@@ -30,13 +30,13 @@ import static jupiter.common.util.Strings.UNICODE;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
-import java.util.Set;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.map.parser.CharacterParser;
 import jupiter.common.map.parser.IParsers;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 
 public class Characters {
 
@@ -814,64 +814,67 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code char}
+	 * array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code char} array
 	 */
-	public static Set<Character> toSet(final char[] array) {
+	public static ExtendedHashSet<Character> toSet(final char[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code char}
+	 * array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code char} array
 	 */
-	public static Set<Character> asSet(final char... array) {
+	public static ExtendedHashSet<Character> asSet(final char... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array
 	 */
-	public static <T> Set<Character> toSet(final T[] array) {
+	public static <T> ExtendedHashSet<Character> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public static <T> Set<Character> asSet(final T... array) {
+	public static <T> ExtendedHashSet<Character> asSet(final T... array) {
 		return toSet(array);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link Set} of {@link Character} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@link Set} of {@link Character} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@link Collection}
 	 */
-	public static Set<Character> collectionToSet(final Collection<?> collection) {
+	public static ExtendedHashSet<Character> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);
 	}
 

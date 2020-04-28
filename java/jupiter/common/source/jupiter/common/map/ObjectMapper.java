@@ -24,12 +24,11 @@
 package jupiter.common.map;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.util.Arrays;
 
 /**
@@ -98,8 +97,8 @@ public abstract class ObjectMapper<O>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> Set<O> callCollectionToSet(final Collection<I> input) {
-		final Set<O> output = new HashSet<O>(input.size());
+	public <I> ExtendedHashSet<O> callCollectionToSet(final Collection<I> input) {
+		final ExtendedHashSet<O> output = new ExtendedHashSet<O>(input.size());
 		for (final I element : input) {
 			output.add(call(element));
 		}
