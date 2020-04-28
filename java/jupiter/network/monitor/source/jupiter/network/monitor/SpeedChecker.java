@@ -174,7 +174,8 @@ public class SpeedChecker {
 	 * Empties the data files.
 	 */
 	public static void clear() {
-		final FileHandler[] dataFileHandlers = Collections.toArray(DATA_FILES.values());
+		final FileHandler[] dataFileHandlers = Collections.<FileHandler>toArray(
+				DATA_FILES.values());
 		for (final FileHandler dataFileHandler : dataFileHandlers) {
 			dataFileHandler.empty();
 		}
@@ -410,7 +411,8 @@ public class SpeedChecker {
 	 * {@link TimeSeriesGraphic}.
 	 */
 	public static void show() {
-		final FileHandler[] dataFileHandlers = Collections.toArray(DATA_FILES.values());
+		final FileHandler[] dataFileHandlers = Collections.<FileHandler>toArray(
+				DATA_FILES.values());
 		Charts.DATE_FORMAT = Formats.DATE_TIME_FORMAT;
 		for (final FileHandler dataFileHandler : dataFileHandlers) {
 			loadSeries(GRAPH, 0, dataFileHandler.getPath());
