@@ -19,7 +19,7 @@ Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/
-mvn -Dhttps.protocols=TLSv1.2 clean install
+mvn clean install
 ~~~
 
 or add the Maven repository:
