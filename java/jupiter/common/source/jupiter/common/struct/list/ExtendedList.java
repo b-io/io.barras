@@ -199,7 +199,7 @@ public class ExtendedList<E>
 	 */
 	@Override
 	public E[] toArray() {
-		return Lists.toArray(this);
+		return Lists.<E>toArray(this);
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	public synchronized <T extends E> boolean addAll(final T[] elements) {
-		return Lists.addAll(this, elements);
+		return Lists.<T>addAll(this, elements);
 	}
 
 	/**

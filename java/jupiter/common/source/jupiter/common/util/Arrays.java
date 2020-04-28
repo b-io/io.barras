@@ -1371,8 +1371,8 @@ public class Arrays {
 	 */
 	public static <T> T[] unique(final T[] array) {
 		final Set<T> set = new LinkedHashSet<T>();
-		Sets.addAll(set, array);
-		return Sets.toArray(set);
+		Sets.<T>addAll(set, array);
+		return Sets.<T>toArray(set);
 	}
 
 

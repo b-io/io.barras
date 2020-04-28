@@ -46,7 +46,7 @@ public class ListsTest
 		IO.test(BULLET, " sort");
 		final List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
 		IO.test(integers);
-		Lists.sort(integers);
+		Lists.<Integer>sort(integers);
 		IO.test(integers);
 	}
 }

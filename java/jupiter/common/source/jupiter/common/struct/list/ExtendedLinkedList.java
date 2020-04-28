@@ -159,7 +159,7 @@ public class ExtendedLinkedList<E>
 	 */
 	@Override
 	public E[] toArray() {
-		return Lists.toArray(this);
+		return Lists.<E>toArray(this);
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	public synchronized <T extends E> boolean addAll(final T[] elements) {
-		return Lists.addAll(this, elements);
+		return Lists.<T>addAll(this, elements);
 	}
 
 	/**

@@ -1921,7 +1921,7 @@ public class Strings {
 	 * @param indices a {@link List} of {@link Index}
 	 */
 	public static void sortStringIndices(final List<Index<String>> indices) {
-		Lists.sort(indices, Index.COMPARATOR);
+		Lists.<Index<String>>sort(indices, Index.COMPARATOR);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

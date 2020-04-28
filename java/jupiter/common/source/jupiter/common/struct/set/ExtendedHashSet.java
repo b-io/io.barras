@@ -139,7 +139,7 @@ public class ExtendedHashSet<E>
 	 */
 	@Override
 	public E[] toArray() {
-		return Sets.toArray(this);
+		return Sets.<E>toArray(this);
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	public synchronized <T extends E> boolean addAll(final T[] elements) {
-		return Sets.addAll(this, elements);
+		return Sets.<T>addAll(this, elements);
 	}
 
 	/**
