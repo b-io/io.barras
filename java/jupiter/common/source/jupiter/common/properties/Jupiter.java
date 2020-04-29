@@ -42,7 +42,7 @@ public class Jupiter {
 	/**
 	 * Prevents the construction of {@link Jupiter}.
 	 */
-	protected SQL() {
+	protected Jupiter() {
 	}
 
 

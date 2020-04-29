@@ -397,6 +397,7 @@ public class InputOutput
 	 * <p>
 	 * @param properties the {@link Properties} to load
 	 */
+	@SuppressWarnings({"cast", "unchecked"})
 	public void load(final Properties properties) {
 		// Check the arguments
 		Arguments.requireNonNull(properties, "properties");
