@@ -53,9 +53,9 @@ public class Result<O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index offset.
+	 * The stack index.
 	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
+	protected static volatile int STACK_INDEX = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +114,7 @@ public class Result<O>
 	 */
 	public Result(final Exception exception) {
 		output = null;
-		message = new Message(exception, Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		message = new Message(STACK_INDEX, exception);
 	}
 
 

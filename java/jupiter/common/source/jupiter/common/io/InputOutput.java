@@ -38,6 +38,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -46,7 +48,12 @@ import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
+import jupiter.common.properties.Jupiter;
+import jupiter.common.properties.Properties;
+import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -83,7 +90,11 @@ public class InputOutput
 	/**
 	 * The default {@link SeverityLevel}.
 	 */
-	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.INFO;
+	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = Message.DEFAULT_STANDARD_LEVEL;
+	/**
+	 * The default stack index.
+	 */
+	public static final int DEFAULT_STACK_INDEX = 0;
 
 	/**
 	 * The default {@link ConsoleHandler}.
@@ -99,7 +110,7 @@ public class InputOutput
 	/**
 	 * The default {@link InputOutput}.
 	 */
-	public static final InputOutput IO = new InputOutput();
+	public static final InputOutput IO = new InputOutput(Jupiter.getProperties());
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,7 +122,7 @@ public class InputOutput
 	/**
 	 * The stack index offset.
 	 */
-	public static volatile int STACK_INDEX_OFFSET = 1;
+	protected static final int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,24 +130,14 @@ public class InputOutput
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index.
-	 */
-	protected final int stackIndex;
-	/**
 	 * The {@link SeverityLevel}.
 	 */
 	protected SeverityLevel severityLevel;
+	/**
+	 * The stack index.
+	 */
+	protected int stackIndex;
 
-	/**
-	 * The {@link IOPrinter} containing the {@link List} of {@link IOHandler} (containing the
-	 * {@link ConsoleHandler} and {@link LogHandler} by default).
-	 */
-	protected IOPrinter printer;
-	/**
-	 * The {@link List} of {@link IOHandler} (containing the {@link ConsoleHandler} and
-	 * {@link LogHandler} by default).
-	 */
-	protected List<? extends IOHandler> handlers;
 	/**
 	 * The {@link ConsoleHandler}.
 	 */
@@ -145,6 +146,16 @@ public class InputOutput
 	 * The {@link LogHandler}.
 	 */
 	protected LogHandler logHandler;
+	/**
+	 * The {@link List} of {@link IOHandler} (containing the {@link ConsoleHandler} and
+	 * {@link LogHandler} by default).
+	 */
+	protected List<IOHandler> handlers;
+	/**
+	 * The {@link IOPrinter} containing the {@link List} of {@link IOHandler} (containing the
+	 * {@link ConsoleHandler} and {@link LogHandler} by default).
+	 */
+	protected IOPrinter printer;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,81 +166,81 @@ public class InputOutput
 	 * Constructs an {@link InputOutput} by default.
 	 */
 	public InputOutput() {
-		this(Message.DEFAULT_STACK_INDEX);
+		this(DEFAULT_SEVERITY_LEVEL);
 	}
 
 	/**
-	 * Constructs an {@link InputOutput} with the specified stack index.
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}.
 	 * <p>
-	 * @param stackIndex a stack index
-	 */
-	public InputOutput(final int stackIndex) {
-		this(stackIndex, DEFAULT_SEVERITY_LEVEL);
-	}
-
-	/**
-	 * Constructs an {@link InputOutput} with the specified stack index and {@link SeverityLevel}.
-	 * <p>
-	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
-	public InputOutput(final int stackIndex, final SeverityLevel severityLevel) {
-		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, DEFAULT_LOG_HANDLER);
+	public InputOutput(final SeverityLevel severityLevel) {
+		this(severityLevel, DEFAULT_STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel} and stack index.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 */
+	public InputOutput(final SeverityLevel severityLevel, final int stackIndex) {
+		this(severityLevel, stackIndex, DEFAULT_CONSOLE_HANDLER, DEFAULT_LOG_HANDLER);
+	}
+
+	/**
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link ConsoleHandler}.
 	 * <p>
-	 * @param stackIndex     the stack index
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
-	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final ConsoleHandler consoleHandler) {
-		this(stackIndex, severityLevel, consoleHandler, DEFAULT_LOG_HANDLER);
+		this(severityLevel, stackIndex, consoleHandler, DEFAULT_LOG_HANDLER);
 	}
 
 	/**
-	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link LogHandler}.
 	 * <p>
-	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
 	 * @param logHandler    the {@link LogHandler}
 	 */
-	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final LogHandler logHandler) {
-		this(stackIndex, severityLevel, DEFAULT_CONSOLE_HANDLER, logHandler);
+		this(severityLevel, stackIndex, DEFAULT_CONSOLE_HANDLER, logHandler);
 	}
 
 	/**
-	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel},
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index,
 	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
-	 * @param stackIndex     the stack index
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
-	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
+	public InputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
-		this(stackIndex, severityLevel, Arrays.<IOHandler>asList(consoleHandler, logHandler));
+		this(severityLevel, stackIndex, Arrays.<IOHandler>asList(consoleHandler, logHandler));
 	}
 
 	/**
-	 * Constructs an {@link InputOutput} with the specified stack index, {@link SeverityLevel} and
+	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link List} of {@link IOHandler}.
 	 * <p>
-	 * @param stackIndex    the stack index
 	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
 	 * @param handlers      the {@link List} of {@link IOHandler}
 	 */
-	public InputOutput(final int stackIndex, final SeverityLevel severityLevel,
-			final List<? extends IOHandler> handlers) {
-		// Set the stack index and severity level
-		this.stackIndex = stackIndex;
+	public InputOutput(final SeverityLevel severityLevel, final int stackIndex,
+			final List<IOHandler> handlers) {
+		// Set the severity level and stack index
 		this.severityLevel = severityLevel;
+		this.stackIndex = stackIndex;
 		// Set the IO handlers
 		this.handlers = handlers;
 		consoleHandler = DEFAULT_CONSOLE_HANDLER;
@@ -243,6 +254,24 @@ public class InputOutput
 		}
 		// Set the printer
 		printer = new IOPrinter(handlers);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link InputOutput} loaded from the specified {@link Properties} containing the
+	 * specified {@link SeverityLevel}, stack index and {@link List} of {@link IOHandler}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public InputOutput(final Properties properties) {
+		// Set the default IO handlers and printer
+		consoleHandler = DEFAULT_CONSOLE_HANDLER;
+		logHandler = DEFAULT_LOG_HANDLER;
+		printer = new IOPrinter(consoleHandler);
+
+		// Load the severity level, stack index, IO handlers and printer
+		load(properties);
 	}
 
 
@@ -259,7 +288,34 @@ public class InputOutput
 		return severityLevel;
 	}
 
+	/**
+	 * Returns the stack index.
+	 * <p>
+	 * @return the stack index
+	 */
+	public int getStackIndex() {
+		return stackIndex;
+	}
+
 	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link ConsoleHandler}.
+	 * <p>
+	 * @return the {@link ConsoleHandler}
+	 */
+	public ConsoleHandler getConsoleHandler() {
+		return consoleHandler;
+	}
+
+	/**
+	 * Returns the {@link LogHandler}.
+	 * <p>
+	 * @return the {@link LogHandler}
+	 */
+	public LogHandler getLogHandler() {
+		return logHandler;
+	}
 
 	/**
 	 * Returns the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
@@ -281,6 +337,15 @@ public class InputOutput
 	 */
 	public void setSeverityLevel(final SeverityLevel severityLevel) {
 		this.severityLevel = severityLevel;
+	}
+
+	/**
+	 * Sets the stack index.
+	 * <p>
+	 * @param stackIndex an {@code int} value
+	 */
+	public void setStackIndex(final int stackIndex) {
+		this.stackIndex = stackIndex;
 	}
 
 	//////////////////////////////////////////////
@@ -320,6 +385,56 @@ public class InputOutput
 	 */
 	public void setErrorLog(final String errorLogName) {
 		logHandler.setErrorLog(errorLogName);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Loads {@code this} from the specified {@link Properties}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public void load(final Properties properties) {
+		// Check the arguments
+		Arguments.requireNonNull(properties, "properties");
+
+		// Set the severity level and stack index
+		severityLevel = SeverityLevel.valueOf(properties.getProperty("io.severityLevel",
+				DEFAULT_SEVERITY_LEVEL.toString()));
+		stackIndex = Integers.convert(properties.getProperty("io.stackIndex",
+				String.valueOf(DEFAULT_STACK_INDEX)));
+		// Set the IO handlers
+		final String[] handlerClassNames = properties.getPropertyArray("io.handlers",
+				Strings.join(DEFAULT_CONSOLE_HANDLER.getClass().getCanonicalName(), ",",
+						DEFAULT_LOG_HANDLER.getClass().getCanonicalName()));
+		handlers = new ExtendedList<IOHandler>(handlerClassNames.length);
+		for (final String handlerClassName : handlerClassNames) {
+			try {
+				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>)
+						Class.forName(handlerClassName);
+				final Constructor<? extends IOHandler> constructor = handlerClass.getConstructor();
+				handlers.add(constructor.newInstance());
+			} catch (final ClassNotFoundException ex) {
+				IO.error(ex);
+			} catch (final IllegalAccessException ex) {
+				IO.error(ex);
+			} catch (final IllegalArgumentException ex) {
+				IO.error(ex);
+			} catch (final InstantiationException ex) {
+				IO.error(ex);
+			} catch (final InvocationTargetException ex) {
+				IO.error(ex);
+			} catch (final NoSuchMethodException ex) {
+				IO.error(ex, "No default constructor in ", handlerClassName, " found");
+			} catch (final SecurityException ex) {
+				IO.error(ex);
+			}
+		}
+		// Set the printer
+		printer = new IOPrinter(handlers);
 	}
 
 
@@ -440,8 +555,8 @@ public class InputOutput
 	 * Prints the indication of an input line with the {@link ConsoleHandler}.
 	 */
 	public void input() {
-		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, EMPTY,
-				stackIndex + STACK_INDEX_OFFSET), false);
+		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT,
+				STACK_INDEX_OFFSET + stackIndex, EMPTY), false);
 	}
 
 	//////////////////////////////////////////////
@@ -457,7 +572,7 @@ public class InputOutput
 	public Message trace(final Object... content) {
 		if (SeverityLevel.TRACE.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TRACE,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -475,7 +590,7 @@ public class InputOutput
 	public Message debug(final Object... content) {
 		if (SeverityLevel.DEBUG.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.DEBUG,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -493,7 +608,7 @@ public class InputOutput
 	public Message test(final Object... content) {
 		if (SeverityLevel.TEST.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TEST,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -511,7 +626,7 @@ public class InputOutput
 	public Message info(final Object... content) {
 		if (SeverityLevel.INFO.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.INFO,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -529,7 +644,7 @@ public class InputOutput
 	public Message result(final Object... content) {
 		if (SeverityLevel.RESULT.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.RESULT,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -549,7 +664,7 @@ public class InputOutput
 	public Message warn(final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -566,8 +681,8 @@ public class InputOutput
 	 */
 	public Message warn(final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, exception,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
+					STACK_INDEX_OFFSET + stackIndex, exception);
 			println(message);
 			return message;
 		}
@@ -587,8 +702,8 @@ public class InputOutput
 	public Message warn(final Exception exception, final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, text,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
+					STACK_INDEX_OFFSET + stackIndex, text);
 			println(message);
 			return message;
 		}
@@ -606,7 +721,7 @@ public class InputOutput
 	public Message error(final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -623,8 +738,8 @@ public class InputOutput
 	 */
 	public Message error(final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, exception,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
+					STACK_INDEX_OFFSET + stackIndex, exception);
 			println(message);
 			return message;
 		}
@@ -644,8 +759,8 @@ public class InputOutput
 	public Message error(final Exception exception, final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, text,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
+					STACK_INDEX_OFFSET + stackIndex, text);
 			println(message);
 			return message;
 		}
@@ -663,7 +778,7 @@ public class InputOutput
 	public Message fail(final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
-					Strings.join(content), stackIndex + STACK_INDEX_OFFSET);
+					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -681,8 +796,8 @@ public class InputOutput
 	 */
 	public Message fail(final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, exception,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
+					STACK_INDEX_OFFSET + stackIndex, exception);
 			println(message);
 			return message;
 		}
@@ -703,8 +818,8 @@ public class InputOutput
 	public Message fail(final Exception exception, final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, text,
-					stackIndex + STACK_INDEX_OFFSET);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
+					STACK_INDEX_OFFSET + stackIndex, text);
 			println(message);
 			return message;
 		}
@@ -810,7 +925,7 @@ public class InputOutput
 	 */
 	public String getInputLine() {
 		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
-				consoleHandler.getInputLine(), stackIndex + STACK_INDEX_OFFSET);
+				STACK_INDEX_OFFSET + stackIndex, consoleHandler.getInputLine());
 		for (final IOHandler handler : handlers) {
 			if (handler != consoleHandler) {
 				handler.println(message);
@@ -1052,10 +1167,10 @@ public class InputOutput
 	public InputOutput clone() {
 		try {
 			final InputOutput clone = (InputOutput) super.clone();
-			clone.printer = Objects.clone(printer);
-			clone.handlers = Objects.clone(handlers);
 			clone.consoleHandler = Objects.clone(consoleHandler);
 			clone.logHandler = Objects.clone(logHandler);
+			clone.handlers = Objects.clone(handlers);
+			clone.printer = Objects.clone(printer);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Objects.toString(ex), ex);
@@ -1082,12 +1197,12 @@ public class InputOutput
 			return false;
 		}
 		final InputOutput otherIO = (InputOutput) other;
-		return Objects.equals(stackIndex, otherIO.stackIndex) &&
-				Objects.equals(severityLevel, otherIO.severityLevel) &&
-				Objects.equals(printer, otherIO.printer) &&
-				Objects.equals(handlers, otherIO.handlers) &&
+		return Objects.equals(severityLevel, otherIO.severityLevel) &&
+				Objects.equals(stackIndex, otherIO.stackIndex) &&
 				Objects.equals(consoleHandler, otherIO.consoleHandler) &&
-				Objects.equals(logHandler, otherIO.logHandler);
+				Objects.equals(logHandler, otherIO.logHandler) &&
+				Objects.equals(handlers, otherIO.handlers) &&
+				Objects.equals(printer, otherIO.printer);
 	}
 
 	/**
@@ -1100,8 +1215,8 @@ public class InputOutput
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, stackIndex, severityLevel, printer, handlers,
-				consoleHandler, logHandler);
+		return Objects.hashCode(serialVersionUID, severityLevel, stackIndex, consoleHandler,
+				logHandler, handlers, printer);
 	}
 
 

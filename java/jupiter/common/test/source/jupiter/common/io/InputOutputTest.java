@@ -28,7 +28,6 @@ import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Strings.EMPTY;
 
 import jupiter.common.io.InputOutput.SeverityLevel;
-import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.console.IConsole;
 import jupiter.common.io.console.SystemConsole;
 import jupiter.common.test.Test;
@@ -126,7 +125,7 @@ public class InputOutputTest
 
 		final String content = "This is a trace message";
 		assertEquals(content, IO.trace(content).getContent());
-		assertEquals(new Message(Type.OUTPUT, SeverityLevel.TRACE, content), IO.trace(content));
+		assertEquals(new Message(SeverityLevel.TRACE, content), IO.trace(content));
 
 		IO.setSeverityLevel(SeverityLevel.TEST);
 	}

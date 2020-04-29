@@ -49,13 +49,28 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The default IO {@link Type}.
+	 */
+	public static final Type DEFAULT_TYPE = Type.OUTPUT;
+	/**
+	 * The default standard {@link SeverityLevel}.
+	 */
+	public static final SeverityLevel DEFAULT_STANDARD_LEVEL = SeverityLevel.INFO;
+	/**
+	 * The default error {@link SeverityLevel}.
+	 */
+	public static final SeverityLevel DEFAULT_ERROR_LEVEL = SeverityLevel.ERROR;
+	/**
 	 * The default stack index.
 	 */
-	public static final int DEFAULT_STACK_INDEX = 3;
+	public static final int DEFAULT_STACK_INDEX = 1;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * The stack index offset.
 	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
+	protected static final int STACK_INDEX_OFFSET = 3;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,13 +78,13 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link Type}.
+	 * The IO {@link Type}.
 	 */
 	protected final Type type;
 	/**
 	 * The {@link SeverityLevel}.
 	 */
-	protected final SeverityLevel level;
+	protected final SeverityLevel severityLevel;
 	/**
 	 * The prefix {@link String}.
 	 */
@@ -94,47 +109,96 @@ public class Message
 	 * @param content the content {@link Object}
 	 */
 	public Message(final Object content) {
-		this(Type.OUTPUT, SeverityLevel.INFO, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
-	}
-
-	/**
-	 * Constructs a {@link Message} with the specified content {@link Object} and stack index.
-	 * <p>
-	 * @param content    the content {@link Object}
-	 * @param stackIndex the stack index
-	 */
-	public Message(final Object content, final int stackIndex) {
-		this(Type.OUTPUT, SeverityLevel.INFO, content, stackIndex + STACK_INDEX_OFFSET);
+		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX, content);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel} and
-	 * content {@link Object}.
+	 * Constructs a {@link Message} with the specified IO {@link Type} and content {@link Object}.
 	 * <p>
-	 * @param type    the {@link Type}
-	 * @param level   the {@link SeverityLevel}
+	 * @param type    the IO {@link Type}
 	 * @param content the content {@link Object}
 	 */
-	public Message(final Type type, final SeverityLevel level, final Object content) {
-		this(type, level, content, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+	public Message(final Type type, final Object content) {
+		this(type, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX, content);
 	}
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link Type}, {@link SeverityLevel}, content
-	 * {@link Object} and stack index.
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and content
+	 * {@link Object}.
 	 * <p>
-	 * @param type       the {@link Type}
-	 * @param level      the {@link SeverityLevel}
-	 * @param content    the content {@link Object}
-	 * @param stackIndex the stack index
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param content       the content {@link Object}
 	 */
-	public Message(final Type type, final SeverityLevel level, final Object content,
-			final int stackIndex) {
+	public Message(final SeverityLevel severityLevel, final Object content) {
+		this(DEFAULT_TYPE, severityLevel, DEFAULT_STACK_INDEX, content);
+	}
+
+	/**
+	 * Constructs a {@link Message} with the specified stack index and content {@link Object}.
+	 * <p>
+	 * @param stackIndex the stack index
+	 * @param content    the content {@link Object}
+	 */
+	public Message(final int stackIndex, final Object content) {
+		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, stackIndex, content);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, stack index and
+	 * content {@link Object}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param content       the content {@link Object}
+	 */
+	public Message(final SeverityLevel severityLevel, final int stackIndex, final Object content) {
+		this(DEFAULT_TYPE, severityLevel, stackIndex, content);
+	}
+
+	/**
+	 * Constructs a {@link Message} with the specified IO {@link Type}, stack index and content
+	 * {@link Object}.
+	 * <p>
+	 * @param type       the IO {@link Type}
+	 * @param stackIndex the stack index
+	 * @param content    the content {@link Object}
+	 */
+	public Message(final Type type, final int stackIndex, final Object content) {
+		this(type, DEFAULT_STANDARD_LEVEL, stackIndex, content);
+	}
+
+	/**
+	 * Constructs a {@link Message} with the specified IO {@link Type}, {@link SeverityLevel} and
+	 * content {@link Object}.
+	 * <p>
+	 * @param type          the IO {@link Type}
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param content       the content {@link Object}
+	 */
+	public Message(final Type type, final SeverityLevel severityLevel, final Object content) {
+		this(type, severityLevel, DEFAULT_STACK_INDEX, content);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Message} with the specified IO {@link Type}, {@link SeverityLevel}, stack
+	 * index and content {@link Object}.
+	 * <p>
+	 * @param type          the IO {@link Type}
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param content       the content {@link Object}
+	 */
+	public Message(final Type type, final SeverityLevel severityLevel, final int stackIndex,
+			final Object content) {
 		this.type = type;
-		this.level = level;
-		prefix = Messages.getPrefix(type, level, stackIndex);
+		this.severityLevel = severityLevel;
+		prefix = Messages.getPrefix(type, severityLevel, STACK_INDEX_OFFSET + stackIndex);
 		this.content = Objects.toString(content);
 		exception = null;
 	}
@@ -147,17 +211,7 @@ public class Message
 	 * @param exception the {@link Exception}
 	 */
 	public Message(final Exception exception) {
-		this(SeverityLevel.ERROR, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
-	}
-
-	/**
-	 * Constructs a {@link Message} with the specified {@link Exception} and stack index.
-	 * <p>
-	 * @param exception  the {@link Exception}
-	 * @param stackIndex the stack index
-	 */
-	public Message(final Exception exception, final int stackIndex) {
-		this(SeverityLevel.ERROR, exception, stackIndex + STACK_INDEX_OFFSET);
+		this(DEFAULT_ERROR_LEVEL, DEFAULT_STACK_INDEX, exception);
 	}
 
 	//////////////////////////////////////////////
@@ -165,25 +219,38 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and {@link Exception}.
 	 * <p>
-	 * @param level     the {@link SeverityLevel}
-	 * @param exception the {@link Exception}
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param exception     the {@link Exception}
 	 */
-	public Message(final SeverityLevel level, final Exception exception) {
-		this(level, exception, DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+	public Message(final SeverityLevel severityLevel, final Exception exception) {
+		this(severityLevel, DEFAULT_STACK_INDEX, exception);
 	}
 
 	/**
-	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, {@link Exception} and
-	 * stack index.
+	 * Constructs a {@link Message} with the specified stack index and {@link Exception}.
 	 * <p>
-	 * @param level      the {@link SeverityLevel}
-	 * @param exception  the {@link Exception}
 	 * @param stackIndex the stack index
+	 * @param exception  the {@link Exception}
 	 */
-	public Message(final SeverityLevel level, final Exception exception, final int stackIndex) {
-		type = Type.OUTPUT;
-		this.level = level;
-		prefix = Messages.getPrefix(type, level, stackIndex);
+	public Message(final int stackIndex, final Exception exception) {
+		this(DEFAULT_ERROR_LEVEL, stackIndex, exception);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, stack index and
+	 * {@link Exception}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param exception     the {@link Exception}
+	 */
+	public Message(final SeverityLevel severityLevel, final int stackIndex,
+			final Exception exception) {
+		type = DEFAULT_TYPE;
+		this.severityLevel = severityLevel;
+		prefix = Messages.getPrefix(type, severityLevel, STACK_INDEX_OFFSET + stackIndex);
 		content = Objects.toString(exception);
 		this.exception = exception;
 	}
@@ -194,9 +261,9 @@ public class Message
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Type}.
+	 * Returns the IO {@link Type}.
 	 * <p>
-	 * @return the {@link Type}
+	 * @return the IO {@link Type}
 	 */
 	public Type getType() {
 		return type;
@@ -207,8 +274,8 @@ public class Message
 	 * <p>
 	 * @return the {@link SeverityLevel}
 	 */
-	public SeverityLevel getLevel() {
-		return level;
+	public SeverityLevel getSeverityLevel() {
+		return severityLevel;
 	}
 
 	/**
@@ -280,7 +347,7 @@ public class Message
 		}
 		final Message otherMessage = (Message) other;
 		return Objects.equals(type, otherMessage.type) &&
-				Objects.equals(level, otherMessage.level) &&
+				Objects.equals(severityLevel, otherMessage.severityLevel) &&
 				Objects.equals(prefix, otherMessage.prefix) &&
 				Objects.equals(content, otherMessage.content) &&
 				Objects.equals(exception, otherMessage.exception);
@@ -296,7 +363,7 @@ public class Message
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, type, level, prefix, content, exception);
+		return Objects.hashCode(serialVersionUID, type, severityLevel, prefix, content, exception);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

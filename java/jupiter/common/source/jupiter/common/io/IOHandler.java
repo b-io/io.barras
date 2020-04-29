@@ -88,7 +88,7 @@ public abstract class IOHandler
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println(final Message message) {
-		return println(message, message.getLevel().isError());
+		return println(message, message.getSeverityLevel().isError());
 	}
 
 	/**

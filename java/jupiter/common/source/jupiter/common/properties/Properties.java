@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.io.file;
+package jupiter.common.properties;
 
 import static jupiter.common.io.InputOutput.IO;
 

@@ -30,14 +30,13 @@ import java.io.Serializable;
 
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
-import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 
-public class AIO
-		implements ICloneable<AIO>, Serializable {
+public class AndroidInputOutput
+		implements ICloneable<AndroidInputOutput>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -51,16 +50,16 @@ public class AIO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default {@link AIO}.
+	 * The default {@link AndroidInputOutput}.
 	 */
-	public static final AIO AIO = new AIO();
+	public static final AndroidInputOutput AIO = new AndroidInputOutput();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index offset.
+	 * The stack index.
 	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
+	protected static volatile int STACK_INDEX = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,45 +77,44 @@ public class AIO
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link AIO} by default.
+	 * Constructs an {@link AndroidInputOutput} by default.
 	 */
-	public AIO() {
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+	public AndroidInputOutput() {
+		io = new InputOutput(SeverityLevel.TRACE, STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}.
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel}.
 	 * <p>
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
-	public AIO(final SeverityLevel severityLevel) {
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
+	public AndroidInputOutput(final SeverityLevel severityLevel) {
+		io = new InputOutput(severityLevel, STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link SeverityLevel} and
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel} and
 	 * {@link ConsoleHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
-	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
-				consoleHandler);
+	public AndroidInputOutput(final SeverityLevel severityLevel,
+			final ConsoleHandler consoleHandler) {
+		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler);
 	}
 
 	/**
-	 * Constructs an {@link AIO} with the specified {@link SeverityLevel}, {@link ConsoleHandler}
-	 * and {@link LogHandler}.
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel},
+	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
-	public AIO(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
-			final LogHandler logHandler) {
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
-				consoleHandler, logHandler);
+	public AndroidInputOutput(final SeverityLevel severityLevel,
+			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
+		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler, logHandler);
 	}
 
 
@@ -253,9 +251,9 @@ public class AIO
 	 * @see ICloneable
 	 */
 	@Override
-	public AIO clone() {
+	public AndroidInputOutput clone() {
 		try {
-			final AIO clone = (AIO) super.clone();
+			final AndroidInputOutput clone = (AndroidInputOutput) super.clone();
 			clone.io = Objects.clone(io);
 			return clone;
 		} catch (final CloneNotSupportedException ex) {

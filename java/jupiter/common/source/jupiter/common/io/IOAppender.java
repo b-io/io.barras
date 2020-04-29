@@ -67,7 +67,7 @@ public abstract class IOAppender
 	 */
 	@Override
 	public boolean println(final Message message) {
-		switch (message.getLevel()) {
+		switch (message.getSeverityLevel()) {
 			case TRACE:
 				return trace(message.getContent());
 			case DEBUG:
@@ -85,7 +85,7 @@ public abstract class IOAppender
 			case FAILURE:
 				return fail(message.getContent());
 			default:
-				throw new IllegalTypeException(message.getLevel());
+				throw new IllegalTypeException(message.getSeverityLevel());
 		}
 	}
 

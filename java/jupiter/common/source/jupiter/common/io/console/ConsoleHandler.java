@@ -96,6 +96,17 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the {@link IConsole}.
+	 * <p>
+	 * @return the {@link IConsole}
+	 */
+	public IConsole getConsole() {
+		return console;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the {@link Color} of the specified {@link SeverityLevel}.
 	 * <p>
 	 * @param severityLevel a {@link SeverityLevel}
@@ -177,11 +188,12 @@ public class ConsoleHandler
 	 */
 	@Override
 	public boolean println(final Message message) {
+		final SeverityLevel severityLevel = message.getSeverityLevel();
 		if (USE_COLORS) {
-			return println(getColor(message.getLevel()).getStyledText(Objects.toString(message)),
-					message.getLevel().isError());
+			return println(getColor(severityLevel).getStyledText(Objects.toString(message)),
+					severityLevel.isError());
 		} else {
-			return println(message, message.getLevel().isError());
+			return println(message, severityLevel.isError());
 		}
 	}
 

@@ -33,7 +33,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
-import jupiter.common.io.Message;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.io.log.LogHandler;
@@ -50,9 +49,9 @@ public class IOLog4j
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index offset.
+	 * The stack index.
 	 */
-	protected static final int STACK_INDEX_OFFSET = 7;
+	protected static volatile int STACK_INDEX = 6;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +77,7 @@ public class IOLog4j
 	 */
 	public IOLog4j() {
 		super();
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET);
+		io = new InputOutput(SeverityLevel.TRACE, STACK_INDEX);
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class IOLog4j
 	 */
 	public IOLog4j(final SeverityLevel severityLevel) {
 		super();
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel);
+		io = new InputOutput(severityLevel, STACK_INDEX);
 	}
 
 	/**
@@ -100,8 +99,7 @@ public class IOLog4j
 	 */
 	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
 		super();
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
-				consoleHandler);
+		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler);
 	}
 
 	/**
@@ -115,8 +113,7 @@ public class IOLog4j
 	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
 			final LogHandler logHandler) {
 		super();
-		io = new InputOutput(Message.DEFAULT_STACK_INDEX + STACK_INDEX_OFFSET, severityLevel,
-				consoleHandler, logHandler);
+		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler, logHandler);
 	}
 
 
@@ -143,17 +140,6 @@ public class IOLog4j
 		} catch (final IOException ex) {
 			IO.error(ex);
 		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLOSEABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Closes {@code this}.
-	 */
-	public void close() {
 	}
 
 
@@ -195,5 +181,16 @@ public class IOLog4j
 
 	public boolean requiresLayout() {
 		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	public void close() {
 	}
 }
