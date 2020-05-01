@@ -195,7 +195,8 @@ public class JSON
 	 * @return a JSON entry {@link String} of the specified leaf value {@link Object}
 	 */
 	public String stringifyLeaf(final Object value) {
-		if (value == null || Booleans.is(value) || Numbers.is(value)) {
+		if (value == null || Booleans.is(value) || Numbers.is(value) ||
+				value instanceof JSONValue) {
 			return Objects.toString(value);
 		}
 		return Strings.doubleQuote(Strings.escape(value));
