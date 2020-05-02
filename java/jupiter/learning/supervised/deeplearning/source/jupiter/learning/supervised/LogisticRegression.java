@@ -80,7 +80,7 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LogisticRegression}.
+	 * Constructs a {@link LogisticRegression} with the specified number of features {@code n}.
 	 * <p>
 	 * @param featureCount the number of features {@code n}
 	 */

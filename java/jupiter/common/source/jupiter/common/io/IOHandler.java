@@ -30,6 +30,8 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 
 import jupiter.common.model.ICloneable;
@@ -58,6 +60,17 @@ public abstract class IOHandler
 	 */
 	protected IOHandler() {
 		super();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears {@code this}.
+	 */
+	public void clear() {
 	}
 
 
@@ -182,4 +195,29 @@ public abstract class IOHandler
 	 */
 	@Override
 	public abstract IOHandler clone();
+
+	/**
+	 * Disposes of system resources and performs a cleanup.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This method is called by the garbage collector on an {@link Object} when the garbage
+	 * collection determines that there are no more references to the {@link Object}.</dd>
+	 * </dl>
+	 *
+	 * @see PhantomReference
+	 * @see WeakReference
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void finalize() {
+		IO.debug(this, " is finalized");
+		try {
+			close();
+		} finally {
+			try {
+				super.finalize();
+			} catch (final Throwable ignored) {
+			}
+		}
+	}
 }

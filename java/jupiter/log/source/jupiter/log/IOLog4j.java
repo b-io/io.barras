@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
+import jupiter.common.io.Resources;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.io.log.LogHandler;
@@ -192,5 +193,6 @@ public class IOLog4j
 	 * Closes {@code this}.
 	 */
 	public void close() {
+		Resources.close(io);
 	}
 }

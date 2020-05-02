@@ -67,11 +67,11 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The number of features n.
+	 * The number of features {@code n}.
 	 */
 	protected final int featureCount;
 	/**
-	 * The number of training examples m.
+	 * The number of training examples {@code m}.
 	 */
 	protected int trainingExampleCount;
 
@@ -100,9 +100,10 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a support vector machine {@link SVM}.
+	 * Constructs a support vector machine {@link SVM} with the specified number of features
+	 * {@code n}.
 	 * <p>
-	 * @param featureCount the number of features
+	 * @param featureCount the number of features {@code n}
 	 */
 	public SVM(final int featureCount) {
 		this.featureCount = featureCount;
@@ -302,8 +303,9 @@ public class SVM {
 	 * Loads the training examples (feature vectors and classes) from the specified 2D
 	 * {@code double} array of feature vectors and {@code double} array of classes.
 	 * <p>
-	 * @param featureVectors the 2D {@code double} array of feature vectors of size (m x n) to load
-	 * @param classes        the {@code double} array of classes of size m to load
+	 * @param featureVectors the 2D {@code double} array of feature vectors of size {@code m x n} to
+	 *                       load
+	 * @param classes        the {@code double} array of classes of size {@code m} to load
 	 */
 	public void load(final double[][] featureVectors, final int... classes) {
 		// Check the arguments
@@ -334,8 +336,9 @@ public class SVM {
 	 * {@link StringTable}.
 	 * <p>
 	 * @param trainingExamples the {@link StringTable} containing the training examples (feature
-	 *                         vectors and classes) of size (m x n + 1) to load
-	 * @param classesIndex     the index of the column containing the classes of size m to load
+	 *                         vectors and classes) of size {@code m x n + 1} to load
+	 * @param classesIndex     the index of the column containing the classes of size {@code m} to
+	 *                         load
 	 */
 	public void load(final StringTable trainingExamples, final int classesIndex) {
 		// Check the arguments

@@ -38,7 +38,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -241,19 +242,8 @@ public class InputOutput
 		// Set the severity level and stack index
 		this.severityLevel = severityLevel;
 		this.stackIndex = stackIndex;
-		// Set the IO handlers
-		this.handlers = handlers;
-		consoleHandler = DEFAULT_CONSOLE_HANDLER;
-		logHandler = DEFAULT_LOG_HANDLER;
-		for (final IOHandler handler : handlers) {
-			if (handler instanceof ConsoleHandler) {
-				consoleHandler = (ConsoleHandler) handler;
-			} else if (handler instanceof LogHandler) {
-				logHandler = (LogHandler) handler;
-			}
-		}
-		// Set the printer
-		printer = new IOPrinter(handlers);
+		// Set the IO handlers and IO printer
+		setHandlers(handlers);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,12 +255,10 @@ public class InputOutput
 	 * @param properties the {@link Properties} to load
 	 */
 	public InputOutput(final Properties properties) {
-		// Set the default IO handlers and printer
-		consoleHandler = DEFAULT_CONSOLE_HANDLER;
-		logHandler = DEFAULT_LOG_HANDLER;
-		printer = new IOPrinter(consoleHandler);
+		// Set the IO handlers and IO printer by default
+		setDefaultHandlers();
 
-		// Load the severity level, stack index, IO handlers and printer
+		// Load the severity level, stack index, IO handlers and IO printer
 		load(properties);
 	}
 
@@ -387,6 +375,50 @@ public class InputOutput
 		logHandler.setErrorLog(errorLogName);
 	}
 
+	/**
+	 * Sets the {@link ConsoleHandler}, {@link LogHandler}, {@link List} of {@link IOHandler} and
+	 * {@link IOPrinter} by default.
+	 */
+	public void setDefaultHandlers() {
+		consoleHandler = DEFAULT_CONSOLE_HANDLER;
+		logHandler = DEFAULT_LOG_HANDLER;
+		setHandlers(new ExtendedList<IOHandler>(consoleHandler, logHandler));
+	}
+
+	/**
+	 * Sets the {@link ConsoleHandler}, {@link LogHandler}, {@link List} of {@link IOHandler} and
+	 * {@link IOPrinter}.
+	 * <p>
+	 * @param handlers a {@link List} of {@link IOHandler}
+	 */
+	public void setHandlers(final List<IOHandler> handlers) {
+		consoleHandler = DEFAULT_CONSOLE_HANDLER;
+		logHandler = DEFAULT_LOG_HANDLER;
+		for (final IOHandler handler : handlers) {
+			if (handler instanceof ConsoleHandler) {
+				consoleHandler = (ConsoleHandler) handler;
+			} else if (handler instanceof LogHandler) {
+				logHandler = (LogHandler) handler;
+			}
+		}
+		this.handlers = handlers;
+		printer = new IOPrinter(handlers);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears {@code this}.
+	 */
+	public void clear() {
+		for (final IOHandler handler : handlers) {
+			handler.clear();
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// IMPORTERS
@@ -407,17 +439,22 @@ public class InputOutput
 				DEFAULT_SEVERITY_LEVEL.toString()));
 		stackIndex = Integers.convert(properties.getProperty("io.stackIndex",
 				String.valueOf(DEFAULT_STACK_INDEX)));
-		// Set the IO handlers
+		// Set the IO handlers and IO printer
 		final String[] handlerClassNames = properties.getPropertyArray("io.handlers",
 				Strings.join(DEFAULT_CONSOLE_HANDLER.getClass().getCanonicalName(), ",",
 						DEFAULT_LOG_HANDLER.getClass().getCanonicalName()));
-		handlers = new ExtendedList<IOHandler>(handlerClassNames.length);
+		final ExtendedList<IOHandler> handlers = new ExtendedList<IOHandler>(
+				handlerClassNames.length);
 		for (final String handlerClassName : handlerClassNames) {
 			try {
-				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>)
-						Class.forName(handlerClassName);
-				final Constructor<? extends IOHandler> constructor = handlerClass.getConstructor();
-				handlers.add(constructor.newInstance());
+				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>) Class.forName(handlerClassName);
+				if (handlerClass == consoleHandler.getClass()) {
+					handlers.add(consoleHandler);
+				} else if (handlerClass == logHandler.getClass()) {
+					handlers.add(logHandler);
+				} else {
+					handlers.add(handlerClass.getConstructor().newInstance());
+				}
 			} catch (final ClassNotFoundException ex) {
 				IO.error(ex);
 			} catch (final IllegalAccessException ex) {
@@ -434,8 +471,10 @@ public class InputOutput
 				IO.error(ex);
 			}
 		}
-		// Set the printer
-		printer = new IOPrinter(handlers);
+		setHandlers(handlers);
+		if (Boolean.valueOf(properties.getProperty("io.clear", "false"))) {
+			clear();
+		}
 	}
 
 
@@ -534,15 +573,14 @@ public class InputOutput
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints a bar line and terminates the line with the {@link IOPrinter}.
+	 * Prints a bar line with the {@link IOPrinter}.
 	 */
 	public void bar() {
 		println(Strings.createBar(), false);
 	}
 
 	/**
-	 * Prints a bar line with the specified progress {@code char} symbol and terminates the line
-	 * with the {@link IOPrinter}.
+	 * Prints a bar line with the specified progress {@code char} symbol with the {@link IOPrinter}.
 	 * <p>
 	 * @param progressSymbol the progress {@code char} symbol of the bar to print
 	 */
@@ -1175,6 +1213,31 @@ public class InputOutput
 			return clone;
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	/**
+	 * Disposes of system resources and performs a cleanup.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This method is called by the garbage collector on an {@link Object} when the garbage
+	 * collection determines that there are no more references to the {@link Object}.</dd>
+	 * </dl>
+	 *
+	 * @see PhantomReference
+	 * @see WeakReference
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void finalize() {
+		IO.debug(this, " is finalized");
+		try {
+			close();
+		} finally {
+			try {
+				super.finalize();
+			} catch (final Throwable ignored) {
+			}
 		}
 	}
 

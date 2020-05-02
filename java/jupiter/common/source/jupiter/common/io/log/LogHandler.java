@@ -32,6 +32,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.Resources;
+import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
@@ -79,24 +81,22 @@ public class LogHandler
 	protected File logDir;
 
 	/**
-	 * The output log {@link File} to handle.
+	 * The output log {@link FileHandler}.
 	 */
-	protected File outputLog;
+	protected FileHandler outputLogHandler;
 	/**
 	 * The internal {@link Lock} of the output log {@link File} to handle.
 	 */
 	protected final Lock outputLogLock = new ReentrantLock(true);
-	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
 
 	/**
-	 * The error log {@link File} to handle.
+	 * The error log {@link FileHandler}.
 	 */
-	protected File errorLog;
+	protected FileHandler errorLogHandler;
 	/**
 	 * The internal {@link Lock} of the error log {@link File} to handle.
 	 */
 	protected final Lock errorLogLock = new ReentrantLock(true);
-	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,7 +180,7 @@ public class LogHandler
 	public void setOutputLog(final String outputLogName) {
 		outputLogLock.lock();
 		try {
-			outputLog = new File(getPath(outputLogName));
+			outputLogHandler = new FileHandler(getPath(outputLogName));
 		} finally {
 			outputLogLock.unlock();
 		}
@@ -194,7 +194,7 @@ public class LogHandler
 	public void setErrorLog(final String errorLogName) {
 		errorLogLock.lock();
 		try {
-			errorLog = new File(getPath(errorLogName));
+			errorLogHandler = new FileHandler(getPath(errorLogName));
 		} finally {
 			errorLogLock.unlock();
 		}
@@ -208,6 +208,7 @@ public class LogHandler
 	/**
 	 * Deletes the logs.
 	 */
+	@Override
 	public void clear() {
 		if (Files.exists(logDir)) {
 			outputLogLock.lock();
@@ -232,8 +233,8 @@ public class LogHandler
 	public void deleteOutputLog() {
 		outputLogLock.lock();
 		try {
-			if (Files.exists(outputLog)) {
-				Files.delete(outputLog);
+			if (outputLogHandler.exists()) {
+				outputLogHandler.delete();
 			}
 		} finally {
 			outputLogLock.unlock();
@@ -246,8 +247,8 @@ public class LogHandler
 	public void deleteErrorLog() {
 		errorLogLock.lock();
 		try {
-			if (Files.exists(errorLog)) {
-				Files.delete(errorLog);
+			if (errorLogHandler.exists()) {
+				errorLogHandler.delete();
 			}
 		} finally {
 			errorLogLock.unlock();
@@ -276,13 +277,8 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
-	 * buffer if {@code isError}).
-	 * <dl>
-	 * <dt><b>Note:</b></dt>
-	 * <dd>The output line buffer (or the error line buffer if {@code isError}) is written to the
-	 * log when either {@code println} or {@code flush} is called.</dd>
-	 * </dl>
+	 * Prints the specified content {@link Object} to the output log (or to the error log if
+	 * {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
@@ -295,15 +291,37 @@ public class LogHandler
 		Arguments.requireNonNull(content, "content");
 
 		// Print the content
-		appendToLogLine(content, isError);
-		return true;
+		if (!isError) {
+			outputLogLock.lock();
+			try {
+				createDirs();
+				outputLogHandler.write(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				outputLogLock.unlock();
+			}
+		} else {
+			errorLogLock.lock();
+			try {
+				createDirs();
+				errorLogHandler.write(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				errorLogLock.unlock();
+			}
+		}
+		return false;
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Appends the specified content {@link Object} to the output line buffer (or to the error line
-	 * buffer if {@code isError}) and flushes it.
+	 * Prints the specified content {@link Object} to the output log (or to the error log if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
@@ -320,8 +338,7 @@ public class LogHandler
 			outputLogLock.lock();
 			try {
 				createDirs();
-				appendToLogLine(content, isError);
-				flush(isError);
+				outputLogHandler.writeLine(Objects.toString(content));
 				return true;
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -332,8 +349,7 @@ public class LogHandler
 			errorLogLock.lock();
 			try {
 				createDirs();
-				appendToLogLine(content, isError);
-				flush(isError);
+				errorLogHandler.writeLine(Objects.toString(content));
 				return true;
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -342,40 +358,6 @@ public class LogHandler
 			}
 		}
 		return false;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected void appendToLogLine(final Object content, final boolean isError) {
-		if (!isError) {
-			outputLineBuilder.append(content);
-		} else {
-			errorLineBuilder.append(content);
-		}
-	}
-
-	protected String getLogLine(final boolean isError) {
-		return isError ? errorLineBuilder.toString() : outputLineBuilder.toString();
-	}
-
-	protected void clearLogLine(final boolean isError) {
-		if (!isError) {
-			outputLineBuilder.setLength(0);
-		} else {
-			errorLineBuilder.setLength(0);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void flush() {
-		flush(false);
-		flush(true);
-	}
-
-	public void flush(final boolean isError) {
-		Files.writeLine(getLogLine(isError), isError ? errorLog : outputLog);
-		clearLogLine(isError);
 	}
 
 
@@ -388,6 +370,8 @@ public class LogHandler
 	 */
 	@Override
 	public void close() {
+		Resources.close(outputLogHandler);
+		Resources.close(errorLogHandler);
 	}
 
 
@@ -404,7 +388,8 @@ public class LogHandler
 	 */
 	@Override
 	public LogHandler clone() {
-		return new LogHandler(Files.getPath(logDir), outputLog.getName(), errorLog.getName());
+		return new LogHandler(Files.getPath(logDir), outputLogHandler.getName(),
+				errorLogHandler.getName());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -428,9 +413,8 @@ public class LogHandler
 		}
 		final LogHandler otherLogHandler = (LogHandler) other;
 		return Objects.equals(logDir, otherLogHandler.logDir) &&
-				Objects.equals(outputLog, otherLogHandler.outputLog) &&
-				Objects.equals(outputLineBuilder, otherLogHandler.outputLineBuilder) &&
-				Objects.equals(errorLog, otherLogHandler.errorLog);
+				Objects.equals(outputLogHandler, otherLogHandler.outputLogHandler) &&
+				Objects.equals(errorLogHandler, otherLogHandler.errorLogHandler);
 	}
 
 	/**
@@ -443,6 +427,6 @@ public class LogHandler
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, logDir, outputLog, outputLineBuilder, errorLog);
+		return Objects.hashCode(serialVersionUID, logDir, outputLogHandler, errorLogHandler);
 	}
 }

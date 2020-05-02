@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import jupiter.common.io.InputOutput;
+import jupiter.common.io.InputOutput.Type;
 import jupiter.common.io.Message;
 import jupiter.common.io.Resources;
 import jupiter.common.io.console.ConsoleHandler.Color;
@@ -122,7 +123,7 @@ public abstract class GraphicalConsole
 	 * @return the prefix {@link String}
 	 */
 	protected String getPrefix() {
-		return new Message(EMPTY).toString();
+		return new Message(Type.INPUT, EMPTY).toString();
 	}
 
 
@@ -144,6 +145,15 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Prints the specified message {@link String} in the {@link JConsole}.
+	 * <p>
+	 * @param message the message {@link String} to print
+	 */
+	public void print(final String message) {
+		console.print(message);
+	}
+
+	/**
+	 * Prints the specified message {@link String} in the {@link JConsole} and terminates the line.
 	 * <p>
 	 * @param message the message {@link String} to print
 	 */

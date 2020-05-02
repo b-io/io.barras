@@ -37,6 +37,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
 import java.util.Collection;
 
@@ -734,7 +736,7 @@ public class FileHandler
 	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
-	public void createWriter(final boolean append)
+	public synchronized void createWriter(final boolean append)
 			throws FileNotFoundException {
 		if (writer != null && this.append != append) {
 			closeWriter();
@@ -753,7 +755,7 @@ public class FileHandler
 	/**
 	 * Closes the {@link BufferedWriter}.
 	 */
-	public void closeWriter() {
+	public synchronized void closeWriter() {
 		closeWriter(Strings.join("The writer of ", Strings.quote(file),
 				" has not been created or has already been closed"));
 	}
@@ -764,7 +766,7 @@ public class FileHandler
 	 * @param message the warning message {@link String} to print if the {@link BufferedWriter} is
 	 *                already closed
 	 */
-	public void closeWriter(final String message) {
+	public synchronized void closeWriter(final String message) {
 		Resources.close(writer, message);
 		writer = null;
 	}
@@ -779,7 +781,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void write(final String content)
+	public synchronized void write(final String content)
 			throws FileNotFoundException, IOException {
 		write(content, append);
 	}
@@ -793,7 +795,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void write(final String content, final boolean append)
+	public synchronized void write(final String content, final boolean append)
 			throws FileNotFoundException, IOException {
 		// Initialize
 		createWriter(append);
@@ -813,7 +815,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeLine(final String content)
+	public synchronized void writeLine(final String content)
 			throws FileNotFoundException, IOException {
 		writeLine(content, append);
 	}
@@ -827,7 +829,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeLine(final String content, final boolean append)
+	public synchronized void writeLine(final String content, final boolean append)
 			throws FileNotFoundException, IOException {
 		write(content.concat(NEW_LINE), append);
 		if (lineCount >= 0) {
@@ -845,7 +847,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader)
+	public synchronized void writeAllLines(final BufferedReader reader)
 			throws FileNotFoundException, IOException {
 		writeAllLines(reader, 0, Integer.MAX_VALUE, append);
 	}
@@ -859,7 +861,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader, final boolean append)
+	public synchronized void writeAllLines(final BufferedReader reader, final boolean append)
 			throws FileNotFoundException, IOException {
 		writeAllLines(reader, 0, Integer.MAX_VALUE, append);
 	}
@@ -873,7 +875,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader, final int fromLineIndex)
+	public synchronized void writeAllLines(final BufferedReader reader, final int fromLineIndex)
 			throws FileNotFoundException, IOException {
 		writeAllLines(reader, fromLineIndex, Integer.MAX_VALUE, append);
 	}
@@ -888,7 +890,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+	public synchronized void writeAllLines(final BufferedReader reader, final int fromLineIndex,
 			final boolean append)
 			throws FileNotFoundException, IOException {
 		writeAllLines(reader, fromLineIndex, Integer.MAX_VALUE, append);
@@ -904,7 +906,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+	public synchronized void writeAllLines(final BufferedReader reader, final int fromLineIndex,
 			final int toLineIndex)
 			throws FileNotFoundException, IOException {
 		writeAllLines(reader, fromLineIndex, toLineIndex, append);
@@ -921,7 +923,7 @@ public class FileHandler
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
-	public void writeAllLines(final BufferedReader reader, final int fromLineIndex,
+	public synchronized void writeAllLines(final BufferedReader reader, final int fromLineIndex,
 			final int toLineIndex, final boolean append)
 			throws FileNotFoundException, IOException {
 		int li = InputOutput.skipLines(reader, fromLineIndex);
@@ -1277,6 +1279,31 @@ public class FileHandler
 			return (FileHandler) super.clone();
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	/**
+	 * Disposes of system resources and performs a cleanup.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>This method is called by the garbage collector on an {@link Object} when the garbage
+	 * collection determines that there are no more references to the {@link Object}.</dd>
+	 * </dl>
+	 *
+	 * @see PhantomReference
+	 * @see WeakReference
+	 */
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void finalize() {
+		IO.debug(this, " is finalized");
+		try {
+			close();
+		} finally {
+			try {
+				super.finalize();
+			} catch (final Throwable ignored) {
+			}
 		}
 	}
 

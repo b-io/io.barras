@@ -248,19 +248,23 @@ public class JConsole
 		print(NEW_LINE);
 	}
 
+	/**
+	 * Prints the {@link Icon} and terminates the line.
+	 * <p>
+	 * @param icon the {@link Icon} to print
+	 */
 	public void println(final Icon icon) {
 		print(icon);
 		println();
 	}
 
+	/**
+	 * Prints the content {@link Object} and terminates the line.
+	 * <p>
+	 * @param content the content {@link Object} to print
+	 */
 	public void println(final Object content) {
 		append(Objects.toString(content).concat(NEW_LINE));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void error(final Object content) {
-		print(content, java.awt.Color.RED);
 	}
 
 

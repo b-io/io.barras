@@ -59,7 +59,7 @@ public abstract class IOAppender
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified {@link Message}.
+	 * Prints the specified {@link Message} and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
 	 * <p>

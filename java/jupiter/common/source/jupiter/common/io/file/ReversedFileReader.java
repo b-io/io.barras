@@ -112,7 +112,7 @@ public class ReversedFileReader
 	 * Constructs a {@link ReversedFileReader} of the specified {@link File} with the specified
 	 * {@link Charset}.
 	 * <p>
-	 * @param file    the file to be read
+	 * @param file    the file to read
 	 * @param charset the {@link Charset} to use
 	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
@@ -127,7 +127,7 @@ public class ReversedFileReader
 	/**
 	 * Constructs a {@link ReversedFileReader} with the given block size and {@link Charset}.
 	 * <p>
-	 * @param file       the file to be read
+	 * @param file       the file to read
 	 * @param bufferSize the size of the internal buffer (ideally this should match with the block
 	 *                   size of the file system)
 	 * @param charset    the {@link Charset} of the file

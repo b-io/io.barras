@@ -144,7 +144,7 @@ public class ProgressBar
 	//////////////////////////////////////////////
 
 	/**
-	 * Prints a progress bar of {@code i / n * length} symbols.
+	 * Prints a progress bar of {@code i / n * length} symbols and terminates the line.
 	 * <p>
 	 * @param i a {@code double} value
 	 * @param n the upper bound of {@code i}

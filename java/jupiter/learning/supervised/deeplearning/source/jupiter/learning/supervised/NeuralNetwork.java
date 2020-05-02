@@ -94,7 +94,7 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link NeuralNetwork}.
+	 * Constructs a {@link NeuralNetwork} with the specified number of features {@code n}.
 	 * <p>
 	 * @param featureCount the number of features {@code n}
 	 */
