@@ -88,7 +88,7 @@ public class OutputStreamCapturer
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void write(final int characterCode)
+	public synchronized void write(final int characterCode)
 			throws IOException {
 		final char character = (char) characterCode;
 		final String token = Character.toString(character);
