@@ -177,6 +177,7 @@ public abstract class Element
 		SUBTRACTION,
 		MULTIPLICATION,
 		DIVISION,
+		MODULO,
 		POWER,
 		SOLUTION,
 
@@ -188,6 +189,9 @@ public abstract class Element
 		INV,
 		LOG,
 		ROOT,
+
+		FLOOR,
+		CEIL,
 		ROUND,
 
 		COS,

@@ -1953,6 +1953,83 @@ public class Arrays {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the array of {@link Object} to compare for equality (may be {@code null})
+	 * @param b the other array of {@link Object} to compare against for equality (may be
+	 *          {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Object[] a, final Object[] b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.length != b.length) {
+			return false;
+		}
+		final int length = a.length; // or b.length
+		for (int i = 0; i < length; ++i) {
+			if (!Objects.equals(a[i], b[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the 2D array of {@link Object} to compare for equality (may be {@code null})
+	 * @param b the other 2D array of {@link Object} to compare against for equality (may be
+	 *          {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Object[][] a, final Object[][] b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.length != b.length) {
+			return false;
+		}
+		final int length = a.length; // or b.length
+		for (int i = 0; i < length; ++i) {
+			if (!equals(a[i], b[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the 3D array of {@link Object} to compare for equality (may be {@code null})
+	 * @param b the other 3D array of {@link Object} to compare against for equality (may be
+	 *          {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Object[][][] a, final Object[][][] b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.length != b.length) {
+			return false;
+		}
+		final int length = a.length; // or b.length
+		for (int i = 0; i < length; ++i) {
+			if (!equals(a[i], b[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
 	 * {@code null}.
 	 * <p>

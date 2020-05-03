@@ -77,7 +77,7 @@ public class ExpressionHandler
 	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final ExtendedList<ExtendedList<Character>> BINARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
 			Arrays.<Character>asList('+', '-'),
-			Arrays.<Character>asList('*', '/'),
+			Arrays.<Character>asList('*', '/', '%'),
 			Arrays.<Character>asList('^'),
 			Arrays.<Character>asList('~'));
 
@@ -87,17 +87,19 @@ public class ExpressionHandler
 	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final ExtendedList<ExtendedList<Character>> UNARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
 			Arrays.<Character>asList('!', '\''));
-
 	/**
-	 * The {@link ExtendedList} of functions.
+	 * The {@link ExtendedList} of univariate functions.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final ExtendedList<String> FUNCTIONS = new ExtendedList<String>(
+	protected static final ExtendedList<String> UNIVARIATE_FUNCTIONS = new ExtendedList<String>(
 			Element.Type.ABS.toString().toLowerCase(),
 			Element.Type.EXP.toString().toLowerCase(),
 			Element.Type.INV.toString().toLowerCase(),
 			Element.Type.LOG.toString().toLowerCase(),
 			Element.Type.ROOT.toString().toLowerCase(),
+
+			Element.Type.FLOOR.toString().toLowerCase(),
+			Element.Type.CEIL.toString().toLowerCase(),
 			Element.Type.ROUND.toString().toLowerCase(),
 
 			Element.Type.COS.toString().toLowerCase(),
@@ -276,13 +278,28 @@ public class ExpressionHandler
 				new BinaryOperation(parent, expression, type, leftNode, rightNode));
 	}
 
+	/**
+	 * Returns a node or leaf {@link Element} with the specified parent {@link Element}
+	 * corresponding respectively to an unary operator, a univariate function, a nested expression
+	 * or a single element parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
+	 *         corresponding respectively to an unary operator, a univariate function, a nested
+	 *         expression or a single element parsed from the specified expression {@link String}
+	 *         with the specified context {@link Map}
+	 */
 	protected static Result<Element> parseUnaryOperation(final Element parent,
 			final String expression, final IntervalList<Integer> delimitingIntervals,
 			final Map<String, Element> context) {
-		// Parse an unary operation, a nested expression or a single element
-		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
-
 		// • Unary operator
+		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
 		if (unaryOperatorIndex >= 0) {
 			// Parse the unary operator
 			final char unaryOperator = expression.charAt(unaryOperatorIndex);
@@ -303,11 +320,12 @@ public class ExpressionHandler
 		}
 
 		// • Univariate function
-		final Index<String> functionIndex = getLastFunctionIndex(expression, delimitingIntervals);
-		if (functionIndex != null) {
+		final Index<String> univariateFunctionIndex = getLastUnivariateFunctionIndex(expression,
+				delimitingIntervals);
+		if (univariateFunctionIndex != null) {
 			// Parse the univariate function
-			final int index = functionIndex.getIndex();
-			final String function = functionIndex.getToken();
+			final int index = univariateFunctionIndex.getIndex();
+			final String function = univariateFunctionIndex.getToken();
 			final Element.Type type = getType(function);
 			IO.debug("Type: ", type);
 			// Parse the nested expression
@@ -318,7 +336,7 @@ public class ExpressionHandler
 			if (node == null) {
 				return nodeResult;
 			}
-			// Return the univariate function
+			// Return the unary operation
 			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
 			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
 		}
@@ -506,22 +524,22 @@ public class ExpressionHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Index} of the last function in the specified expression {@link String}
-	 * that is not in the specified delimiting intervals.
+	 * Returns the {@link Index} of the last univariate function in the specified expression
+	 * {@link String} that is not in the specified delimiting intervals.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the {@link Index} of the last function in the specified expression {@link String}
-	 *         that is not in the specified delimiting intervals
+	 * @return the {@link Index} of the last univariate function in the specified expression
+	 *         {@link String} that is not in the specified delimiting intervals
 	 */
-	protected static Index<String> getLastFunctionIndex(final String expression,
+	protected static Index<String> getLastUnivariateFunctionIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		Index<String> index = null;
 		int i = expression.length() - 1;
-		while ((index = Strings.findLastString(expression, FUNCTIONS, i)) != null &&
-				delimitingIntervals.isValid() && delimitingIntervals.isInside(i)) {
-			--i;
+		while ((index = Strings.findLastString(expression, UNIVARIATE_FUNCTIONS, i)) != null &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index.getIndex())) {
+			i = index.getIndex() - 1;
 		}
 		return index;
 	}
@@ -578,6 +596,8 @@ public class ExpressionHandler
 				return Element.Type.MULTIPLICATION;
 			case '/':
 				return Element.Type.DIVISION;
+			case '%':
+				return Element.Type.MODULO;
 			case '^':
 				return Element.Type.POWER;
 			case '~':

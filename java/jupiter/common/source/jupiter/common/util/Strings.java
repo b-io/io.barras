@@ -4204,14 +4204,14 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether the representative {@link String} of {@code a} and {@code b} are equal to each
-	 * other.
+	 * Tests whether the representative {@link String} of {@code a} is equal to the representative
+	 * {@link String} of {@code b}.
 	 * <p>
 	 * @param a the {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the representative {@link String} of {@code a} and {@code b} are
-	 *         equal to each other, {@code false} otherwise
+	 * @return {@code true} if the representative {@link String} of {@code a} is equal to the
+	 *         representative {@link String} of {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
 		return Objects.toString(a).equals(Objects.toString(b));

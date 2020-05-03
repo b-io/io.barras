@@ -33,7 +33,6 @@ import java.util.Map;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
@@ -44,6 +43,7 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
+import jupiter.math.analysis.function.bivariate.Modulo;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 import jupiter.math.calculator.model.BinaryOperation;
@@ -314,6 +314,9 @@ public class Calculator
 			case DIVISION:
 				output = leftEntity.division(rightEntity);
 				break;
+			case MODULO:
+				output = leftEntity.apply(new Modulo(((Scalar) rightEntity).get()));
+				break;
 			case POWER:
 				output = leftEntity.arrayPower(rightEntity);
 				break;
@@ -345,17 +348,13 @@ public class Calculator
 			return result;
 		}
 
-		// Get the type of the unary operation
+		// Get the type of the unary operation (unary operator or univariate function)
 		final Type type = unaryOperation.getType();
 		IO.debug(type, SPACE, entity);
 
-		// Evaluate the unary operation
+		// Evaluate the unary operation (unary operator or univariate function)
 		final Entity output;
 		switch (type) {
-			case FACTORIAL:
-				final Scalar scalar = (Scalar) entity;
-				output = new Scalar(Maths.factorial(scalar.get()));
-				break;
 			case INV:
 				output = entity.inverse();
 				break;

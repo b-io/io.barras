@@ -554,13 +554,12 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} and {@code b} are equal to each other.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a the {@link Date} to compare for equality (may be {@code null})
 	 * @param b the other {@link Date} to compare against for equality (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	@SuppressWarnings("deprecation")
 	public static boolean equals(final Date a, final Date b) {
@@ -571,14 +570,13 @@ public class Dates {
 	}
 
 	/**
-	 * Tests whether {@code a} and {@code b} are equal to each other.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param a the {@link Date} with time to compare for equality (may be {@code null})
 	 * @param b the other {@link Date} with time to compare against for equality (may be
 	 *          {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equalsWithTime(final Date a, final Date b) {
 		return Objects.equals(a, b);

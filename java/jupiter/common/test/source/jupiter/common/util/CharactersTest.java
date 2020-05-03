@@ -41,11 +41,11 @@ public class CharactersTest
 	/**
 	 * Tests {@link Characters#toArray}.
 	 */
-	public void testToBinary() {
+	public void testToArray() {
 		IO.test(BULLET, " toArray");
 
-		assertEquals(new Character[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
-				Characters.toArray(NUMERICAL_DIGITS));
+		assertTrue(Arrays.equals(new Character[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
+				Characters.toArray(NUMERICAL_DIGITS)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

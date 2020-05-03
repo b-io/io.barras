@@ -444,7 +444,7 @@ public class Comparables {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code a} and {@code b} are equal to each other.
+	 * Tests whether {@code a} is equal to {@code b}.
 	 * <p>
 	 * @param <T> the self {@link Comparable} type of the objects to compare for equality
 	 * @param a   the {@link Comparable} of {@code T} type to compare for equality (may be
@@ -452,8 +452,7 @@ public class Comparables {
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against for equality
 	 *            (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code a} and {@code b} are equal to each other, {@code false}
-	 *         otherwise
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */

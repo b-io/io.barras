@@ -31,6 +31,7 @@ import jupiter.common.io.Messages;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
 
@@ -146,7 +147,13 @@ public class Tests {
 
 	public static void equals(final Number a, final Number b) {
 		if (!Numbers.equals(a, b)) {
-			IO.error("The equality test has failed: ", a, " is not equal to ", b);
+			IO.error("The number equality test has failed: ", a, " is not equal to ", b);
+		}
+	}
+
+	public static void equals(final Object[] a, final Object[] b) {
+		if (!Arrays.equals(a, b)) {
+			IO.error("The array equality test has failed: ", a, " is not equal to ", b);
 		}
 	}
 }

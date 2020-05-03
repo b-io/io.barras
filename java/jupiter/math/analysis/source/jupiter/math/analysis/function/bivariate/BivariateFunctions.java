@@ -34,6 +34,7 @@ public class BivariateFunctions {
 
 	public static final Addition ADD = new Addition();
 	public static final Multiplication MULTI = new Multiplication();
+	public static final Modulo MODULO = new Modulo();
 
 	public static final Mean MEAN = new Mean();
 

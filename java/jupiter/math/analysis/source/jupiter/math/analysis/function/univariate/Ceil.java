@@ -23,33 +23,20 @@
  */
 package jupiter.math.analysis.function.univariate;
 
-/**
- * {@link UnivariateFunctions} is a collection of {@link UnivariateFunction}.
- */
-public class UnivariateFunctions {
+import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
+
+public class Ceil
+		extends UnivariateFunction {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final Absolute ABS = new Absolute();
-	public static final Exponential EXP = new Exponential();
-	public static final Factorial FACTORIAL = new Factorial();
-	public static final Inverse INV = new Inverse();
-	public static final Logarithm LOG = new Logarithm();
-	public static final Root ROOT = new Root();
-
-	public static final Floor FLOOR = new Floor();
-	public static final Ceil CEIL = new Ceil();
-	public static final Round ROUND = new Round();
-
-	public static final Cosine COS = new Cosine();
-	public static final HyperbolicCosine COSH = new HyperbolicCosine();
-	public static final Sine SIN = new Sine();
-	public static final HyperbolicSine SINH = new HyperbolicSine();
-	public static final Tangent TAN = new Tangent();
-	public static final HyperbolicTangent TANH = new HyperbolicTangent();
-	public static final Haversine HAV = new Haversine();
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,8 +44,43 @@ public class UnivariateFunctions {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link UnivariateFunctions}.
+	 * Constructs a {@link Ceil}.
 	 */
-	protected UnivariateFunctions() {
+	protected Ceil() {
+		super();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the ceil function to the specified value.
+	 * <p>
+	 * @param x a {@code double} value (on the abscissa)
+	 * <p>
+	 * @return {@code ceil(x)}
+	 */
+	@Override
+	protected double a(final double x) {
+		return Maths.ceil(x);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Ceil clone() {
+		return (Ceil) super.clone();
 	}
 }

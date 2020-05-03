@@ -75,7 +75,8 @@ public class CalculatorTest
 						"(", matrixString, "*", "inv(", matrixString, "))");
 				final String e2 = Strings.join("(", matrixString, "/", matrixString, ")+",
 						"(", matrixString, "/", matrixString, ")");
-				final String e3 = "log(2 + 2) + 3";
+				final String e3 = "log(2. + 2.) + 3.";
+				final String e4 = "[1., 2.; 3., 4.] % 2.";
 
 				// Test the parsing and evaluation of the element and entity #1 (inverse)
 				chrono.start();
@@ -122,6 +123,17 @@ public class CalculatorTest
 
 				// Verify the results
 				assertEquals(new Scalar(4.).apply(LOG).add(3.), entity3);
+
+				// Test the parsing and evaluation of the element and entity #4 (modulo)
+				final Result<Element> tree4 = ExpressionHandler.parseExpression(e4, context);
+				final Element element4 = tree4.getOutput();
+				IO.debug("Element4: ", element4);
+				final Result<Entity> entityResult4 = Calculator.evaluateTree(element4, context);
+				final Entity entity4 = entityResult4.getOutput();
+				IO.debug("Entity4: ", entity4);
+
+				// Verify the results
+				assertEquals(new Matrix(new double[][] {{1., 0.}, {1., 0.}}), entity4);
 			}
 			Tests.printTimes(elementTimes);
 			Tests.printTimes(entityTimes);
