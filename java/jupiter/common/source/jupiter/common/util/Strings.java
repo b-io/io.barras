@@ -79,6 +79,9 @@ public class Strings {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static final String FALSE = "false";
+	public static final String TRUE = "true";
+
 	public static final String NULL = "null";
 
 	public static final String STAR = "*";

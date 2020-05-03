@@ -26,6 +26,7 @@ package jupiter.common.io;
 import static jupiter.common.util.Formats.DEFAULT_CHARSET;
 import static jupiter.common.util.Formats.NEW_LINE;
 import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.FALSE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -471,7 +472,7 @@ public class InputOutput
 			}
 		}
 		setHandlers(handlers);
-		if (Boolean.valueOf(properties.getProperty("io.clear", "false"))) {
+		if (Boolean.valueOf(properties.getProperty("io.clear", FALSE))) {
 			clear();
 		}
 	}

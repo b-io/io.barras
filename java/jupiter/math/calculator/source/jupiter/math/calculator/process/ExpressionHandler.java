@@ -80,6 +80,7 @@ public class ExpressionHandler
 			Arrays.<Character>asList('*', '/'),
 			Arrays.<Character>asList('^'),
 			Arrays.<Character>asList('~'));
+
 	/**
 	 * The {@link ExtendedList} of unary operators.
 	 */
