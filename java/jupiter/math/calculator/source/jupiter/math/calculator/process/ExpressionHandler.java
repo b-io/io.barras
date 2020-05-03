@@ -40,6 +40,7 @@ import jupiter.common.math.IntervalList;
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.list.Index;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.LockedWorkQueue;
 import jupiter.common.thread.Result;
@@ -74,15 +75,37 @@ public class ExpressionHandler
 	 * The {@link ExtendedList} of binary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final ExtendedList<ExtendedList<Character>> BINARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
-					Arrays.<Character>asList('+', '-'), Arrays.<Character>asList('*', '/'),
-					Arrays.<Character>asList('^'), Arrays.<Character>asList('~'));
+	protected static final ExtendedList<ExtendedList<Character>> BINARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList('+', '-'),
+			Arrays.<Character>asList('*', '/'),
+			Arrays.<Character>asList('^'),
+			Arrays.<Character>asList('~'));
 	/**
 	 * The {@link ExtendedList} of unary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final ExtendedList<ExtendedList<Character>> UNARY_FUNCTIONS = Arrays.<ExtendedList<Character>>asList(
-					Arrays.<Character>asList('!', '\''), Arrays.<Character>asList('@'));
+	protected static final ExtendedList<ExtendedList<Character>> UNARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList('!', '\''));
+
+	/**
+	 * The {@link ExtendedList} of functions.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<String> FUNCTIONS = new ExtendedList<String>(
+			Element.Type.ABS.toString().toLowerCase(),
+			Element.Type.EXP.toString().toLowerCase(),
+			Element.Type.INV.toString().toLowerCase(),
+			Element.Type.LOG.toString().toLowerCase(),
+			Element.Type.ROOT.toString().toLowerCase(),
+			Element.Type.ROUND.toString().toLowerCase(),
+
+			Element.Type.COS.toString().toLowerCase(),
+			Element.Type.COSH.toString().toLowerCase(),
+			Element.Type.SIN.toString().toLowerCase(),
+			Element.Type.SINH.toString().toLowerCase(),
+			Element.Type.TAN.toString().toLowerCase(),
+			Element.Type.TANH.toString().toLowerCase(),
+			Element.Type.HAV.toString().toLowerCase());
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -258,7 +281,7 @@ public class ExpressionHandler
 		// Parse an unary operation, a nested expression or a single element
 		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
 
-		// • Unary operation
+		// • Unary operator
 		if (unaryOperatorIndex >= 0) {
 			// Parse the unary operator
 			final char unaryOperator = expression.charAt(unaryOperatorIndex);
@@ -274,6 +297,27 @@ public class ExpressionHandler
 				return nodeResult;
 			}
 			// Return the unary operation
+			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
+			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
+		}
+
+		// • Univariate function
+		final Index<String> functionIndex = getLastFunctionIndex(expression, delimitingIntervals);
+		if (functionIndex != null) {
+			// Parse the univariate function
+			final int index = functionIndex.getIndex();
+			final String function = functionIndex.getToken();
+			final Element.Type type = getType(function);
+			IO.debug("Type: ", type);
+			// Parse the nested expression
+			final String nestedExpression = expression.substring(index + function.length()).trim();
+			IO.debug("Nested expression: ", nestedExpression);
+			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);
+			final Element node = nodeResult.getOutput();
+			if (node == null) {
+				return nodeResult;
+			}
+			// Return the univariate function
 			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
 			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
 		}
@@ -354,7 +398,7 @@ public class ExpressionHandler
 	protected static ExtendedLinkedList<Integer> getBinaryOperatorIndices(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getOperatorIndices(expression, delimitingIntervals, expression.length() - 1,
-				BINARY_FUNCTIONS);
+				BINARY_OPERATORS);
 	}
 
 	/**
@@ -370,7 +414,7 @@ public class ExpressionHandler
 	protected static Integer getLastUnaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getLastOperatorIndexFromList(expression, delimitingIntervals,
-				expression.length() - 1, UNARY_FUNCTIONS);
+				expression.length() - 1, UNARY_OPERATORS);
 	}
 
 	/**
@@ -396,10 +440,11 @@ public class ExpressionHandler
 		// Get the operator indices
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			int index = fromIndex + 1;
-			while ((index = getLastOperatorIndex(expression, delimitingIntervals, --index,
+			int index = fromIndex;
+			while ((index = getLastOperatorIndex(expression, delimitingIntervals, index,
 					operators)) >= 0) {
 				indices.add(index);
+				--index;
 			}
 			++binaryOperatorsIndex;
 		} while (binaryOperatorsIndex < allOperatorCount && indices.isEmpty());
@@ -421,9 +466,11 @@ public class ExpressionHandler
 	protected static int getLastOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
 			final List<Character> operators) {
-		int index = fromIndex + 1;
-		while ((index = Strings.findLast(expression, operators, --index)) >= 0 &&
-				delimitingIntervals.isValid() && delimitingIntervals.isInside(index));
+		int index = fromIndex;
+		while ((index = Strings.findLast(expression, operators, index)) >= 0 &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index)) {
+			--index;
+		}
 		return index;
 	}
 
@@ -452,6 +499,29 @@ public class ExpressionHandler
 					allOperators.get(binaryOperatorsIndex));
 			++binaryOperatorsIndex;
 		} while (index < 0 && binaryOperatorsIndex < allOperatorCount);
+		return index;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the last function in the specified expression {@link String}
+	 * that is not in the specified delimiting intervals.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Index} of the last function in the specified expression {@link String}
+	 *         that is not in the specified delimiting intervals
+	 */
+	protected static Index<String> getLastFunctionIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		Index<String> index = null;
+		int i = expression.length() - 1;
+		while ((index = Strings.findLastString(expression, FUNCTIONS, i)) != null &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(i)) {
+			--i;
+		}
 		return index;
 	}
 
@@ -514,8 +584,6 @@ public class ExpressionHandler
 
 			case '!':
 				return Element.Type.FACTORIAL;
-			case '@':
-				return Element.Type.INVERSE;
 			case '\'':
 				return Element.Type.TRANSPOSE;
 
@@ -529,6 +597,17 @@ public class ExpressionHandler
 				return Element.Type.RIGHT_BRACKET;
 		}
 		return Element.Type.ENTITY;
+	}
+
+	/**
+	 * Returns the {@link Type} of the specified token {@link String}.
+	 * <p>
+	 * @param token a token {@link String}
+	 * <p>
+	 * @return the {@link Type} of the specified token {@link String}
+	 */
+	protected static Element.Type getType(final String token) {
+		return Element.Type.valueOf(token.toUpperCase());
 	}
 
 

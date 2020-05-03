@@ -181,8 +181,22 @@ public abstract class Element
 		SOLUTION,
 
 		FACTORIAL,
-		INVERSE,
 		TRANSPOSE,
+
+		ABS,
+		EXP,
+		INV,
+		LOG,
+		ROOT,
+		ROUND,
+
+		COS,
+		COSH,
+		SIN,
+		SINH,
+		TAN,
+		TANH,
+		HAV,
 
 		LEFT_PARENTHESIS,
 		RIGHT_PARENTHESIS,

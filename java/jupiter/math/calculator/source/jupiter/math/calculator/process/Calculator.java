@@ -44,6 +44,8 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.calculator.model.Element.Type;
@@ -354,14 +356,19 @@ public class Calculator
 				final Scalar scalar = (Scalar) entity;
 				output = new Scalar(Maths.factorial(scalar.get()));
 				break;
-			case INVERSE:
+			case INV:
 				output = entity.inverse();
 				break;
 			case TRANSPOSE:
 				output = entity.transpose();
 				break;
 			default:
-				return new Result<Entity>(new IllegalTypeException(type));
+				try {
+					output = entity.apply((UnivariateFunction) Classes.getFieldValue(
+							UnivariateFunctions.class, type.toString()));
+				} catch (final Exception ignored) {
+					return new Result<Entity>(new IllegalTypeException(type));
+				}
 		}
 		return new Result<Entity>(output);
 	}

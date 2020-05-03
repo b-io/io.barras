@@ -53,7 +53,6 @@ import jupiter.common.properties.Jupiter;
 import jupiter.common.properties.Properties;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -226,7 +225,7 @@ public class InputOutput
 	 */
 	public InputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
-		this(severityLevel, stackIndex, Arrays.<IOHandler>asList(consoleHandler, logHandler));
+		this(severityLevel, stackIndex, new ExtendedList<IOHandler>(consoleHandler, logHandler));
 	}
 
 	/**

@@ -32,7 +32,6 @@ import java.util.List;
 
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.time.SafeDateFormat;
-import jupiter.common.util.Arrays;
 import jupiter.common.util.Formats;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.struct.TimeSeriesList;
@@ -72,10 +71,10 @@ public class Charts {
 	 * The {@link ExtendedList} of {@link Color}.
 	 */
 	public static volatile ExtendedList<Color> COLORS = new ExtendedList<Color>(
-			Arrays.<Color>asList(Color.BLUE, Color.GREEN, Color.RED,
-					Color.CYAN, Color.YELLOW, Color.MAGENTA,
-					new Color(127, 0, 255), new Color(191, 255, 0), new Color(255, 127, 0),
-					new Color(0, 127, 255), new Color(0, 255, 191), new Color(255, 0, 127)));
+			Color.BLUE, Color.GREEN, Color.RED,
+			Color.CYAN, Color.YELLOW, Color.MAGENTA,
+			new Color(127, 0, 255), new Color(191, 255, 0), new Color(255, 127, 0),
+			new Color(0, 127, 255), new Color(0, 255, 191), new Color(255, 0, 127));
 	/**
 	 * The {@link Stroke}.
 	 */

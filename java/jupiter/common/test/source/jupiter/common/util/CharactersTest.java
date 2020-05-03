@@ -21,41 +21,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.math.analysis.function.univariate;
+package jupiter.common.util;
 
-/**
- * {@link UnivariateFunctions} is a collection of {@link UnivariateFunction}.
- */
-public class UnivariateFunctions {
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Characters.NUMERICAL_DIGITS;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
+import jupiter.common.test.Test;
 
-	public static final Absolute ABS = new Absolute();
-	public static final Exponential EXP = new Exponential();
-	public static final Factorial FACTORIAL = new Factorial();
-	public static final Logarithm LOG = new Logarithm();
-	public static final Inverse INV = new Inverse();
-	public static final Root ROOT = new Root();
-	public static final Round ROUND = new Round();
+public class CharactersTest
+		extends Test {
 
-	public static final Cosine COS = new Cosine();
-	public static final HyperbolicCosine COSH = new HyperbolicCosine();
-	public static final Sine SIN = new Sine();
-	public static final HyperbolicSine SINH = new HyperbolicSine();
-	public static final Tangent TAN = new Tangent();
-	public static final HyperbolicTangent TANH = new HyperbolicTangent();
-	public static final Haversine HAV = new Haversine();
+	public CharactersTest(final String name) {
+		super(name);
+	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link UnivariateFunctions}.
+	 * Tests {@link Characters#toArray}.
 	 */
-	protected UnivariateFunctions() {
+	public void testToBinary() {
+		IO.test(BULLET, " toArray");
+
+		assertEquals(new Character[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+				Characters.toArray(NUMERICAL_DIGITS));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Characters#clone}.
+	 */
+	public void testClone() {
+		IO.test(BULLET, " clone");
+
+		final String text = "Hello world!";
+		final char[] array = text.toCharArray();
+		final char[] clone = array.clone();
+		Characters.shuffle(array);
+		assertNotSame(array, clone);
 	}
 }

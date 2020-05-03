@@ -91,19 +91,29 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
+	 * The numerical digits.
+	 */
+	public static final char[] NUMERICAL_DIGITS = createSequence(10, '0');
+
+	/**
+	 * The lower case alphabetical digits.
+	 */
+	public static final char[] LOWER_CASE_ALPHABETICAL_DIGITS = createSequence(26, 'a');
+	/**
+	 * The upper case alphabetical digits.
+	 */
+	public static final char[] UPPER_CASE_ALPHABETICAL_DIGITS = createSequence(26, 'A');
+
+	/**
 	 * The lower case digits.
 	 */
-	public static final char[] LOWER_CASE_DIGITS = {
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-		'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-	};
+	public static final char[] LOWER_CASE_DIGITS = merge(NUMERICAL_DIGITS,
+			LOWER_CASE_ALPHABETICAL_DIGITS);
 	/**
 	 * The upper case digits.
 	 */
-	public static final char[] UPPER_CASE_DIGITS = {
-		'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-		'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-	};
+	public static final char[] UPPER_CASE_DIGITS = merge(NUMERICAL_DIGITS,
+			UPPER_CASE_ALPHABETICAL_DIGITS);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -892,7 +902,7 @@ public class Characters {
 	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
 	 *         values starting with {@code 0} and spaced by {@code 1}
 	 */
-	public static char[] createSequence(final char length) {
+	public static char[] createSequence(final int length) {
 		return createSequence(length, MIN_VALUE, '\u0001');
 	}
 
@@ -906,7 +916,7 @@ public class Characters {
 	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
 	 *         values starting with {@code from} and spaced by {@code 1}
 	 */
-	public static char[] createSequence(final char length, final char from) {
+	public static char[] createSequence(final int length, final char from) {
 		return createSequence(length, from, '\u0001');
 	}
 
@@ -921,7 +931,7 @@ public class Characters {
 	 * @return a {@code char} array of the specified length containing the sequence of {@code char}
 	 *         values starting with {@code from} and spaced by {@code step}
 	 */
-	public static char[] createSequence(final char length, final char from, final char step) {
+	public static char[] createSequence(final int length, final char from, final char step) {
 		final char[] array = new char[length];
 		char value = from;
 		for (int i = 0; i < length; ++i, value += step) {

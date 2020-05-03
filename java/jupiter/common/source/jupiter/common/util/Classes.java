@@ -116,6 +116,25 @@ public class Classes {
 		return ancestor;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the value of the specified static field in the specified {@link Class}.
+	 * <p>
+	 * @param c    the {@link Class} containing the static field to get
+	 * @param name the name of the static field to get
+	 * <p>
+	 * @return the value of the specified static field in the specified {@link Class}
+	 * <p>
+	 * @throws IllegalAccessException   if the field is inaccessible
+	 * @throws IllegalArgumentException if {@code c} is not declaring the field
+	 * @throws NoSuchFieldException     if there is no field with {@code name}
+	 */
+	public static Object getFieldValue(final Class<?> c, final String name)
+			throws IllegalAccessException, IllegalArgumentException, NoSuchFieldException {
+		return c.getField(name).get(c);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS

@@ -25,6 +25,7 @@ package jupiter.math.calculator.process;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
 
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import jupiter.common.util.Strings;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
+import jupiter.math.linear.entity.Scalar;
 
 public class CalculatorTest
 		extends Test {
@@ -69,12 +71,13 @@ public class CalculatorTest
 				final Map<String, Element> context = new ExtendedHashMap<String, Element>();
 				final Matrix matrix = Matrix.random(matrixSize);
 				final String matrixString = Objects.toString(matrix);
-				final String e1 = Strings.join("(", matrixString, "*", "@(", matrixString, "))+",
-						"(", matrixString, "*", "@(", matrixString, "))");
+				final String e1 = Strings.join("(", matrixString, "*", "inv(", matrixString, "))+",
+						"(", matrixString, "*", "inv(", matrixString, "))");
 				final String e2 = Strings.join("(", matrixString, "/", matrixString, ")+",
 						"(", matrixString, "/", matrixString, ")");
+				final String e3 = "log(2 + 2) + 3";
 
-				// Test the parsing and evaluation of the element and entity #1
+				// Test the parsing and evaluation of the element and entity #1 (inverse)
 				chrono.start();
 				final Result<Element> tree1 = ExpressionHandler.parseExpression(e1, context);
 				final Element element1 = tree1.getOutput();
@@ -90,7 +93,7 @@ public class CalculatorTest
 				IO.debug("Entity1: ", chrono.getMilliseconds(), " [ms]");
 				entityTimes[2 * ti] = chrono.getMilliseconds();
 
-				// Test the parsing and evaluation of the element and entity #2
+				// Test the parsing and evaluation of the element and entity #2 (inverse)
 				chrono.start();
 				final Result<Element> tree2 = ExpressionHandler.parseExpression(e2, context);
 				final Element element2 = tree2.getOutput();
@@ -108,6 +111,17 @@ public class CalculatorTest
 
 				// Verify the results
 				assertEquals(entity1, entity2);
+
+				// Test the parsing and evaluation of the element and entity #3 (log)
+				final Result<Element> tree3 = ExpressionHandler.parseExpression(e3, context);
+				final Element element3 = tree3.getOutput();
+				IO.debug("Element3: ", element3);
+				final Result<Entity> entityResult3 = Calculator.evaluateTree(element3, context);
+				final Entity entity3 = entityResult3.getOutput();
+				IO.debug("Entity3: ", entity3);
+
+				// Verify the results
+				assertEquals(new Scalar(4.).apply(LOG).add(3.), entity3);
 			}
 			Tests.printTimes(elementTimes);
 			Tests.printTimes(entityTimes);

@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Arrays;
+import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.util.Objects;
 
 public class IOPrinter
@@ -64,7 +64,7 @@ public class IOPrinter
 	 */
 	public IOPrinter(final IOHandler... handlers) {
 		super();
-		this.handlers = Arrays.<IOHandler>asList(handlers);
+		this.handlers = new ExtendedList<IOHandler>(handlers);
 	}
 
 	/**
