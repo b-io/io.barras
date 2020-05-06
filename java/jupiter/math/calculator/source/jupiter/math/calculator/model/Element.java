@@ -171,8 +171,11 @@ public abstract class Element
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum Type {
-		ENTITY,
+		// • Unary operators
+		FACTORIAL,
+		TRANSPOSE,
 
+		// • Binary operators
 		ADDITION,
 		SUBTRACTION,
 		MULTIPLICATION,
@@ -181,8 +184,9 @@ public abstract class Element
 		POWER,
 		SOLUTION,
 
-		FACTORIAL,
-		TRANSPOSE,
+		// • Univariate functions
+		MAGIC,
+		RANDOM,
 
 		ABS,
 		EXP,
@@ -202,9 +206,17 @@ public abstract class Element
 		TANH,
 		HAV,
 
+		// • Bivariate functions
+		MIN,
+		MAX,
+
+		// • Nested expressions
 		LEFT_PARENTHESIS,
 		RIGHT_PARENTHESIS,
 		LEFT_BRACKET,
-		RIGHT_BRACKET
+		RIGHT_BRACKET,
+
+		// • Entities
+		ENTITY
 	}
 }

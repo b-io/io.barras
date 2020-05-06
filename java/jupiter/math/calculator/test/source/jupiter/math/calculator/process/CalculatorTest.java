@@ -77,6 +77,7 @@ public class CalculatorTest
 						"(", matrixString, "/", matrixString, ")");
 				final String e3 = "log(2. + 2.) + 3.";
 				final String e4 = "[1., 2.; 3., 4.] % 2.";
+				final String e5 = "min(2., 4.) + max(2., 8.)";
 
 				// Test the parsing and evaluation of the element and entity #1 (inverse)
 				chrono.start();
@@ -134,6 +135,17 @@ public class CalculatorTest
 
 				// Verify the results
 				assertEquals(new Matrix(new double[][] {{1., 0.}, {1., 0.}}), entity4);
+
+				// Test the parsing and evaluation of the element and entity #5 (modulo)
+				final Result<Element> tree5 = ExpressionHandler.parseExpression(e5, context);
+				final Element element5 = tree5.getOutput();
+				IO.debug("Element5: ", element5);
+				final Result<Entity> entityResult5 = Calculator.evaluateTree(element5, context);
+				final Entity entity5 = entityResult5.getOutput();
+				IO.debug("Entity5: ", entity5);
+
+				// Verify the results
+				assertEquals(new Scalar(10.), entity5);
 			}
 			Tests.printTimes(elementTimes);
 			Tests.printTimes(entityTimes);

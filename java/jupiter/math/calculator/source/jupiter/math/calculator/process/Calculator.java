@@ -43,6 +43,8 @@ import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.bivariate.BivariateFunctions;
 import jupiter.math.analysis.function.bivariate.Modulo;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.function.univariate.UnivariateFunctions;
@@ -245,12 +247,63 @@ public class Calculator
 			final Entity output = tree.getEntity();
 			IO.debug("Get entity <", output, ">");
 			return new Result<Entity>(output);
-		} else if (tree instanceof BinaryOperation) {
-			return evaluateBinaryOperation((BinaryOperation) tree, context);
 		} else if (tree instanceof UnaryOperation) {
 			return evaluateUnaryOperation((UnaryOperation) tree, context);
+		} else if (tree instanceof BinaryOperation) {
+			return evaluateBinaryOperation((BinaryOperation) tree, context);
 		}
 		return new Result<Entity>(new IllegalClassException(Classes.get(tree)));
+	}
+
+	/**
+	 * Evaluates the specified {@link UnaryOperation} with the specified context {@link Map} to an
+	 * {@link Entity}.
+	 * <p>
+	 * @param unaryOperation the {@link UnaryOperation} to evaluate
+	 * @param context        the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation} with the
+	 *         specified context {@link Map}
+	 */
+	protected static Result<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
+			final Map<String, Element> context) {
+		// Evaluate the nested expression
+		final Result<Entity> result = evaluateTree(unaryOperation.getElement(), context);
+		final Entity entity = result.getOutput();
+		if (entity == null) {
+			return result;
+		}
+
+		// Get the type of the unary operation (unary operator or univariate function)
+		final Type type = unaryOperation.getType();
+		IO.debug(type, SPACE, entity);
+
+		// Evaluate the unary operation (unary operator or univariate function)
+		final Entity output;
+		switch (type) {
+			case MAGIC:
+				output = Matrix.magic((int) entity.toScalar().get());
+				break;
+			case RANDOM:
+				output = Matrix.random((int) entity.toScalar().get());
+				break;
+
+			case INV:
+				output = entity.inverse();
+				break;
+			case TRANSPOSE:
+				output = entity.transpose();
+				break;
+			default:
+				try {
+					final UnivariateFunction function = (UnivariateFunction) Classes.getFieldValue(
+							UnivariateFunctions.class, type.toString());
+					output = entity.apply(function);
+				} catch (final Exception ignored) {
+					return new Result<Entity>(new IllegalTypeException(type));
+				}
+		}
+		return new Result<Entity>(output);
 	}
 
 	/**
@@ -295,11 +348,11 @@ public class Calculator
 			return rightResult;
 		}
 
-		// Get the type of the binary operation
+		// Get the type of the binary operation (binary operator or bivariate function)
 		final Type type = binaryOperation.getType();
 		IO.debug(leftEntity, SPACE, type, SPACE, rightEntity);
 
-		// Evaluate the binary operation
+		// Evaluate the binary operation (binary operator or bivariate function)
 		final Entity output;
 		switch (type) {
 			case ADDITION:
@@ -324,47 +377,11 @@ public class Calculator
 				output = leftEntity.solve(rightEntity);
 				break;
 			default:
-				return new Result<Entity>(new IllegalTypeException(type));
-		}
-		return new Result<Entity>(output);
-	}
-
-	/**
-	 * Evaluates the specified {@link UnaryOperation} with the specified context {@link Map} to an
-	 * {@link Entity}.
-	 * <p>
-	 * @param unaryOperation the {@link UnaryOperation} to evaluate
-	 * @param context        the context {@link Map} containing the values of the variables
-	 * <p>
-	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation} with the
-	 *         specified context {@link Map}
-	 */
-	protected static Result<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
-			final Map<String, Element> context) {
-		// Evaluate the nested expression
-		final Result<Entity> result = evaluateTree(unaryOperation.getElement(), context);
-		final Entity entity = result.getOutput();
-		if (entity == null) {
-			return result;
-		}
-
-		// Get the type of the unary operation (unary operator or univariate function)
-		final Type type = unaryOperation.getType();
-		IO.debug(type, SPACE, entity);
-
-		// Evaluate the unary operation (unary operator or univariate function)
-		final Entity output;
-		switch (type) {
-			case INV:
-				output = entity.inverse();
-				break;
-			case TRANSPOSE:
-				output = entity.transpose();
-				break;
-			default:
 				try {
-					output = entity.apply((UnivariateFunction) Classes.getFieldValue(
-							UnivariateFunctions.class, type.toString()));
+					final BivariateFunction function = (BivariateFunction) Classes.getFieldValue(
+							BivariateFunctions.class, type.toString());
+					output = new Scalar(function.apply(leftEntity.toScalar().get(),
+							rightEntity.toScalar().get()));
 				} catch (final Exception ignored) {
 					return new Result<Entity>(new IllegalTypeException(type));
 				}

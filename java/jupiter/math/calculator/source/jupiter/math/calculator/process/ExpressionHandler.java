@@ -55,6 +55,7 @@ import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
 import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;
+import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
 public class ExpressionHandler
@@ -72,6 +73,12 @@ public class ExpressionHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The {@link ExtendedList} of unary operators.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<ExtendedList<Character>> UNARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList('!', '\''));
+	/**
 	 * The {@link ExtendedList} of binary operators.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -82,16 +89,19 @@ public class ExpressionHandler
 			Arrays.<Character>asList('~'));
 
 	/**
-	 * The {@link ExtendedList} of unary operators.
+	 * The {@link ExtendedList} of argument delimiters.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	protected static final ExtendedList<ExtendedList<Character>> UNARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
-			Arrays.<Character>asList('!', '\''));
+	protected static final ExtendedList<ExtendedList<Character>> ARGUMENT_DELIMITERS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList(Arrays.DELIMITER));
 	/**
 	 * The {@link ExtendedList} of univariate functions.
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	protected static final ExtendedList<String> UNIVARIATE_FUNCTIONS = new ExtendedList<String>(
+			Element.Type.MAGIC.toString().toLowerCase(),
+			Element.Type.RANDOM.toString().toLowerCase(),
+
 			Element.Type.ABS.toString().toLowerCase(),
 			Element.Type.EXP.toString().toLowerCase(),
 			Element.Type.INV.toString().toLowerCase(),
@@ -109,6 +119,13 @@ public class ExpressionHandler
 			Element.Type.TAN.toString().toLowerCase(),
 			Element.Type.TANH.toString().toLowerCase(),
 			Element.Type.HAV.toString().toLowerCase());
+	/**
+	 * The {@link ExtendedList} of bivariate functions.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<String> BIVARIATE_FUNCTIONS = new ExtendedList<String>(
+			Element.Type.MIN.toString().toLowerCase(),
+			Element.Type.MAX.toString().toLowerCase());
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -179,15 +196,15 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the root {@link Element} of the tree whose nodes and leaves correspond respectively
-	 * to the operations and numbers of the specified expression {@link String} with the specified
-	 * context {@link Map}.
+	 * to the operations and {@link Entity} of the specified expression {@link String} with the
+	 * specified context {@link Map}.
 	 * <p>
 	 * @param expression the expression {@link String} to parse
 	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
 	 * @return the root {@link Element} of the tree whose nodes and leaves correspond respectively
-	 *         to the operations and numbers of the specified expression {@link String} with the
-	 *         specified context {@link Map}
+	 *         to the operations and {@link Entity} of the specified expression {@link String} with
+	 *         the specified context {@link Map}
 	 */
 	public static Result<Element> parseExpression(final String expression,
 			final Map<String, Element> context) {
@@ -195,17 +212,17 @@ public class ExpressionHandler
 	}
 
 	/**
-	 * Returns a node or a leaf {@link Element} with the specified parent {@link Element}
-	 * corresponding respectively to an operation or a number parsed from the specified expression
-	 * {@link String} with the specified context {@link Map}.
+	 * Returns a node or leaf {@link Element} with the specified parent {@link Element}
+	 * corresponding respectively to an operation or an {@link Entity} parsed from the specified
+	 * expression {@link String} with the specified context {@link Map}.
 	 * <p>
 	 * @param parent     the parent {@link Element} of the expression {@link String} to parse
 	 * @param expression the expression {@link String} to parse
 	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
 	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
-	 *         corresponding respectively to an operation or a number parsed from the specified
-	 *         expression {@link String} with the specified context {@link Map}
+	 *         corresponding respectively to an operation or an {@link Entity} parsed from the
+	 *         specified expression {@link String} with the specified context {@link Map}
 	 */
 	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
@@ -216,24 +233,199 @@ public class ExpressionHandler
 		// Find the delimiting intervals
 		final IntervalList<Integer> delimitingIntervals = getDelimitingIntervals(trimmedExpression);
 
-		// Get the index of the binary operator (if it exists)
-		final int binaryOperatorIndex = getBinaryOperatorIndex(trimmedExpression,
-				delimitingIntervals);
-
-		// Parse the operation
-		if (binaryOperatorIndex >= 0) {
-			return parseBinaryOperation(parent, trimmedExpression, binaryOperatorIndex, context);
+		// Parse the expression
+		// • Binary operator
+		Result<Element> result = parseBinaryOperator(parent, trimmedExpression, delimitingIntervals,
+				context);
+		if (result != null) {
+			return result;
 		}
-		return parseUnaryOperation(parent, trimmedExpression, delimitingIntervals, context);
+		// • Unary operator
+		result = parseUnaryOperator(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Univariate function
+		result = parseUnivariateFunction(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Bivariate function
+		result = parseBivariateFunction(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Nested expression
+		result = parseNestedExpression(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Entity
+		return parseEntity(parent, trimmedExpression, delimitingIntervals, context);
 	}
 
-	protected static Result<Element> parseBinaryOperation(final Element parent,
-			final String expression, final int binaryOperatorIndex,
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to an
+	 * unary operator parsed from the specified expression {@link String} with the specified context
+	 * {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to an
+	 *         unary operator parsed from the specified expression {@link String} with the specified
+	 *         context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseUnaryOperator(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
 			final Map<String, Element> context) {
-		// Get the binary operator
+		// Get the index of the last unary operator
+		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
+		if (unaryOperatorIndex < 0) {
+			return null;
+		}
+		// Get the type of the last unary operator
+		final char unaryOperator = expression.charAt(unaryOperatorIndex);
+		final Element.Type type = getType(unaryOperator);
+		IO.debug("Type: ", type);
+		// Parse the unary operation
+		final String nestedExpression = Strings.removeEmpty(
+				Strings.split(expression, unaryOperator)).get(0);
+		IO.debug("Nested expression: ", nestedExpression);
+		return parseUnaryOperation(type, parent, nestedExpression, context);
+	}
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * univariate function parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         univariate function parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseUnivariateFunction(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the last univariate function
+		final Index<String> univariateFunctionIndex = getLastUnivariateFunctionIndex(expression,
+				delimitingIntervals);
+		if (univariateFunctionIndex == null) {
+			return null;
+		}
+		// Get the type of the last univariate function
+		final int index = univariateFunctionIndex.getIndex();
+		final String function = univariateFunctionIndex.getToken();
+		final Element.Type type = getType(function);
+		IO.debug("Type: ", type);
+		// Parse the unary operation
+		final String nestedExpression = expression.substring(index + function.length()).trim();
+		IO.debug("Nested expression: ", nestedExpression);
+		return parseUnaryOperation(type, parent, nestedExpression, context);
+	}
+
+	protected static Result<Element> parseUnaryOperation(final Element.Type type,
+			final Element parent, final String expression, final Map<String, Element> context) {
+		// Parse the nested expression
+		final Result<Element> nodeResult = parseExpression(parent, expression, context);
+		final Element node = nodeResult.getOutput();
+		if (node == null) {
+			return nodeResult;
+		}
+
+		// Return the unary operation
+		IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
+		return new Result<Element>(new UnaryOperation(parent, expression, type, node));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * binary operator parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         binary operator parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseBinaryOperator(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the middle binary operator
+		final int binaryOperatorIndex = getMiddleBinaryOperatorIndex(expression,
+				delimitingIntervals);
+		if (binaryOperatorIndex < 0) {
+			return null;
+		}
+		// Get the type of the middle binary operator
 		final Element.Type type = getType(expression.charAt(binaryOperatorIndex));
 		IO.debug("Type: ", type);
+		// Parse the binary operation
+		return parseBinaryOperation(type, parent, expression, binaryOperatorIndex, context);
+	}
 
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * bivariate function parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         bivariate function parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseBivariateFunction(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the last bivariate function
+		final Index<String> bivariateFunctionIndex = getLastBivariateFunctionIndex(expression,
+				delimitingIntervals);
+		if (bivariateFunctionIndex == null) {
+			return null;
+		}
+		// Get the type of the last bivariate function
+		final String function = bivariateFunctionIndex.getToken();
+		final Element.Type type = getType(function);
+		IO.debug("Type: ", type);
+		// Parse the binary operation
+		final String nestedExpression = getNestedExpression(expression,
+				delimitingIntervals.getLast()).trim();
+		IO.debug("Nested expression: ", nestedExpression);
+		final int argumentDelimiterIndex = getArgumentDelimiterIndex(nestedExpression,
+				getDelimitingIntervals(nestedExpression));
+		if (argumentDelimiterIndex < 0) {
+			return null;
+		}
+		return parseBinaryOperation(type, parent, nestedExpression, argumentDelimiterIndex,
+				context);
+	}
+
+	protected static Result<Element> parseBinaryOperation(final Element.Type type,
+			final Element parent, final String expression, final int binaryOperatorIndex,
+			final Map<String, Element> context) {
 		// Extract the left and right expressions
 		final String leftExpression = expression.substring(0, binaryOperatorIndex);
 		final String rightExpression = expression.substring(binaryOperatorIndex + 1);
@@ -278,11 +470,12 @@ public class ExpressionHandler
 				new BinaryOperation(parent, expression, type, leftNode, rightNode));
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns a node or leaf {@link Element} with the specified parent {@link Element}
-	 * corresponding respectively to an unary operator, a univariate function, a nested expression
-	 * or a single element parsed from the specified expression {@link String} with the specified
-	 * context {@link Map}.
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * nested expression parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
 	 * <p>
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
@@ -290,110 +483,104 @@ public class ExpressionHandler
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
-	 *         corresponding respectively to an unary operator, a univariate function, a nested
-	 *         expression or a single element parsed from the specified expression {@link String}
-	 *         with the specified context {@link Map}
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         nested expression parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
 	 */
-	protected static Result<Element> parseUnaryOperation(final Element parent,
+	protected static Result<Element> parseNestedExpression(final Element parent,
 			final String expression, final IntervalList<Integer> delimitingIntervals,
 			final Map<String, Element> context) {
-		// • Unary operator
-		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
-		if (unaryOperatorIndex >= 0) {
-			// Parse the unary operator
-			final char unaryOperator = expression.charAt(unaryOperatorIndex);
-			final Element.Type type = getType(unaryOperator);
-			IO.debug("Type: ", type);
-			// Parse the nested expression
-			final String nestedExpression = Strings.removeEmpty(
-					Strings.split(expression, unaryOperator)).get(0);
-			IO.debug("Nested expression: ", nestedExpression);
-			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);
-			final Element node = nodeResult.getOutput();
-			if (node == null) {
-				return nodeResult;
-			}
-			// Return the unary operation
-			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
-			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
-		}
-
-		// • Univariate function
-		final Index<String> univariateFunctionIndex = getLastUnivariateFunctionIndex(expression,
-				delimitingIntervals);
-		if (univariateFunctionIndex != null) {
-			// Parse the univariate function
-			final int index = univariateFunctionIndex.getIndex();
-			final String function = univariateFunctionIndex.getToken();
-			final Element.Type type = getType(function);
-			IO.debug("Type: ", type);
-			// Parse the nested expression
-			final String nestedExpression = expression.substring(index + function.length()).trim();
-			IO.debug("Nested expression: ", nestedExpression);
-			final Result<Element> nodeResult = parseExpression(parent, nestedExpression, context);
-			final Element node = nodeResult.getOutput();
-			if (node == null) {
-				return nodeResult;
-			}
-			// Return the unary operation
-			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
-			return new Result<Element>(new UnaryOperation(parent, expression, type, node));
-		}
-
-		// • Nested expression
-		if (delimitingIntervals.isValid()) {
-			// Parse the nested expression
-			if (delimitingIntervals.size() == 1) {
-				final Interval<Integer> interval = delimitingIntervals.get(0);
-				if (Characters.isParenthesis(expression.charAt(interval.getLowerBound().getValue())) &&
-						Characters.isParenthesis(expression.charAt(interval.getUpperBound().getValue()))) {
-					// Return the nested expression
-					final String nestedExpression = expression.substring(
-							interval.getLowerBound().getValue() + 1,
-							interval.getUpperBound().getValue());
-					IO.debug("Nested expression: ", nestedExpression);
-					return parseExpression(parent, nestedExpression, context);
-				}
+		// Parse the nested expression
+		if (delimitingIntervals.isValid() && delimitingIntervals.size() == 1) {
+			final String nestedExpression = getNestedExpression(expression,
+					delimitingIntervals.get(0));
+			if (nestedExpression != null) {
+				IO.debug("Nested expression: ", nestedExpression);
+				return parseExpression(parent, nestedExpression, context);
 			}
 		}
+		return null;
+	}
 
-		// • Single element
-		// Parse the single element
+	protected static String getNestedExpression(final String expression,
+			final Interval<Integer> interval) {
+		if (Characters.isParenthesis(expression.charAt(interval.getLowerBound().getValue())) &&
+				Characters.isParenthesis(expression.charAt(interval.getUpperBound().getValue()))) {
+			return expression.substring(interval.getLowerBound().getValue() + 1,
+					interval.getUpperBound().getValue());
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a leaf {@link Element} with the specified parent {@link Element} corresponding to an
+	 * {@link Entity} parsed from the specified expression {@link String} with the specified context
+	 * {@link Map}.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a leaf {@link Element} with the specified parent {@link Element} corresponding to an
+	 *         {@link Entity} parsed from the specified expression {@link String} with the specified
+	 *         context {@link Map}
+	 */
+	protected static Result<Element> parseEntity(final Element parent, final String expression,
+			final IntervalList<Integer> delimitingIntervals, final Map<String, Element> context) {
 		IO.debug("Create new Leaf: <", expression, ">");
-		final Element output;
+		final Element entity;
 		if (context.containsKey(expression)) {
-			// Variable
-			output = context.get(expression);
+			// Parse the variable
+			entity = context.get(expression);
 		} else if (Matrix.isParsableFrom(expression)) {
-			// Matrix
-			output = new MatrixElement(parent, expression);
+			// Parse the matrix
+			entity = new MatrixElement(parent, expression);
 		} else if (Strings.isNumeric(expression)) {
-			// Scalar
-			output = new ScalarElement(parent, expression);
+			// Parse the scalar
+			entity = new ScalarElement(parent, expression);
 		} else {
 			return new Result<Element>(
 					new ParseException("Unparsable element: <" + expression + ">"));
 		}
-		// Return the single element
-		output.setParent(parent);
-		output.setExpression(expression);
-		return new Result<Element>(output);
+		entity.setParent(parent);
+		entity.setExpression(expression);
+		return new Result<Element>(entity);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the binary operator in the specified expression {@link String}, or
-	 * {@code -1} if there is no such occurrence.
+	 * Returns the index of the last unary operator in the specified expression {@link String} that
+	 * is not in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the binary operator in the specified expression {@link String}, or
-	 *         {@code -1} if there is no such occurrence
+	 * @return the index of the last unary operator in the specified expression {@link String} that
+	 *         is not in the specified delimiting intervals, or {@code -1} if there is no such
+	 *         occurrence
 	 */
-	protected static int getBinaryOperatorIndex(final String expression,
+	protected static int getLastUnaryOperatorIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		return getLastOperatorIndexFromList(expression, delimitingIntervals,
+				expression.length() - 1, UNARY_OPERATORS);
+	}
+
+	/**
+	 * Returns the index of the middle binary operator in the specified expression {@link String},
+	 * or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the index of the middle binary operator in the specified expression {@link String},
+	 *         or {@code -1} if there is no such occurrence
+	 */
+	protected static int getMiddleBinaryOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		final ExtendedLinkedList<Integer> indices = getBinaryOperatorIndices(expression,
 				delimitingIntervals);
@@ -421,20 +608,22 @@ public class ExpressionHandler
 	}
 
 	/**
-	 * Returns the index of the last unary operator in the specified expression {@link String} that
-	 * is not in the specified delimiting intervals.
+	 * Returns the index of the argument delimiter in the specified expression {@link String}, or
+	 * {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the last unary operator in the specified expression {@link String} that
-	 *         is not in the specified delimiting intervals
+	 * @return the index of the argument delimiter in the specified expression {@link String}, or
+	 *         {@code -1} if there is no such occurrence
 	 */
-	protected static Integer getLastUnaryOperatorIndex(final String expression,
+	protected static int getArgumentDelimiterIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		return getLastOperatorIndexFromList(expression, delimitingIntervals,
-				expression.length() - 1, UNARY_OPERATORS);
+				expression.length() - 1, ARGUMENT_DELIMITERS);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the indices of all the operators in the specified expression {@link String} that are
@@ -472,7 +661,7 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the index of the last operator in the specified expression {@link String} that is not
-	 * in the specified delimiting intervals.
+	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
@@ -480,7 +669,7 @@ public class ExpressionHandler
 	 * @param operators           the {@link List} of operators to find
 	 * <p>
 	 * @return the index of the last operator in the specified expression {@link String} that is not
-	 *         in the specified delimiting intervals
+	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
 	protected static int getLastOperatorIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
@@ -495,7 +684,7 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the index of the last operator in the specified expression {@link String} that is not
-	 * in the specified delimiting intervals.
+	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
@@ -503,7 +692,7 @@ public class ExpressionHandler
 	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
 	 * @return the index of the last operator in the specified expression {@link String} that is not
-	 *         in the specified delimiting intervals
+	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
 	protected static int getLastOperatorIndexFromList(final String expression,
 			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
@@ -525,19 +714,44 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the {@link Index} of the last univariate function in the specified expression
-	 * {@link String} that is not in the specified delimiting intervals.
+	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
+	 * no such occurrence.
 	 * <p>
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
 	 * @return the {@link Index} of the last univariate function in the specified expression
-	 *         {@link String} that is not in the specified delimiting intervals
+	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
+	 *         there is no such occurrence
 	 */
 	protected static Index<String> getLastUnivariateFunctionIndex(final String expression,
 			final IntervalList<Integer> delimitingIntervals) {
 		Index<String> index = null;
 		int i = expression.length() - 1;
 		while ((index = Strings.findLastString(expression, UNIVARIATE_FUNCTIONS, i)) != null &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index.getIndex())) {
+			i = index.getIndex() - 1;
+		}
+		return index;
+	}
+
+	/**
+	 * Returns the {@link Index} of the last bivariate function in the specified expression
+	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Index} of the last bivariate function in the specified expression
+	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	protected static Index<String> getLastBivariateFunctionIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		Index<String> index = null;
+		int i = expression.length() - 1;
+		while ((index = Strings.findLastString(expression, BIVARIATE_FUNCTIONS, i)) != null &&
 				delimitingIntervals.isValid() && delimitingIntervals.isInside(index.getIndex())) {
 			i = index.getIndex() - 1;
 		}
@@ -588,6 +802,7 @@ public class ExpressionHandler
 	 */
 	protected static Element.Type getType(final char token) {
 		switch (token) {
+			// • Binary operators
 			case '+':
 				return Element.Type.ADDITION;
 			case '-':
@@ -603,11 +818,13 @@ public class ExpressionHandler
 			case '~':
 				return Element.Type.SOLUTION;
 
+			// • Unary operators
 			case '!':
 				return Element.Type.FACTORIAL;
 			case '\'':
 				return Element.Type.TRANSPOSE;
 
+			// • Nested expressions
 			case LEFT_PARENTHESIS:
 				return Element.Type.LEFT_PARENTHESIS;
 			case RIGHT_PARENTHESIS:
@@ -617,6 +834,7 @@ public class ExpressionHandler
 			case RIGHT_BRACKET:
 				return Element.Type.RIGHT_BRACKET;
 		}
+		// • Entities
 		return Element.Type.ENTITY;
 	}
 
@@ -628,6 +846,7 @@ public class ExpressionHandler
 	 * @return the {@link Type} of the specified token {@link String}
 	 */
 	protected static Element.Type getType(final String token) {
+		// • Univariate and bivariate functions
 		return Element.Type.valueOf(token.toUpperCase());
 	}
 
