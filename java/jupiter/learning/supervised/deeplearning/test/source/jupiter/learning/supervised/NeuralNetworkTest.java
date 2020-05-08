@@ -52,10 +52,10 @@ public class NeuralNetworkTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link NeuralNetwork#classify}.
+	 * Tests {@link NeuralNetwork#train}.
 	 */
-	public void testClassify() {
-		IO.test(BULLET, " classify");
+	public void testTrain() {
+		IO.test(BULLET, " train");
 
 		// Initialize
 		final int testCount = 2;
@@ -84,7 +84,6 @@ public class NeuralNetworkTest
 			new double[] {-0.01057952, -0.00909008, 0.00551454, 0.02292208}}); // (1 x nh)
 		final Chronometer chrono = new Chronometer();
 
-		IO.test("Test the classifier");
 		for (int ti = 0; ti < testCount; ++ti) {
 			model.setFeatureVectors(featureVectors); // (n x m)
 			model.setClasses(classes); // (1 x m)
@@ -116,52 +115,50 @@ public class NeuralNetworkTest
 	}
 
 	/**
-	 * Tests classify method using files, of class NeuralNetwork.
+	 * Tests {@link NeuralNetwork#train} importing feature vectors and classes from files.
+	 * <p>
+	 * @throws IOException if there is a problem with reading the files
 	 */
-	public void testClassify_Files() {
-		IO.test(BULLET, " classify_Files");
+	public void testTrainFromFiles()
+			throws IOException {
+		IO.test(BULLET, " train from files");
 
 		// Initialize
 		Doubles.RANDOM = new Random(1L);
 		final int testCount = 2;
 		final double[] times = new double[testCount];
 
-		IO.test("Test the classifier");
-		try {
-			IO.test("A) Test the activation function TANH");
-			for (int ti = 0; ti < testCount; ++ti) {
-				times[ti] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
-						RegularizationFunctions.NONE, 0.75, 0.75, 0.5, 0.25);
-			}
-			Tests.printTimes(times);
-
-			IO.test("B) Test the activation function RELU");
-			testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
-					0.75, 0.75, 0.5, 0.25);
-
-			IO.test("C) Test the L2 regularization");
-			for (int ti = 0; ti < testCount; ++ti) {
-				times[ti] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
-			}
-			Tests.printTimes(times);
-
-			IO.test("D) Test the Adam optimization");
-			for (int ti = 0; ti < testCount; ++ti) {
-				times[ti] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
-			}
-			Tests.printTimes(times);
-
-			IO.test("E) Test the last activation function SOFTMAX");
-			for (int ti = 0; ti < testCount; ++ti) {
-				times[ti] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
-						new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
-			}
-			Tests.printTimes(times);
-		} catch (final IOException ex) {
-			IO.error(ex);
+		IO.test("A) Test the activation function TANH");
+		for (int ti = 0; ti < testCount; ++ti) {
+			times[ti] = testExample("A", 1000, 0.1, 1, 4, ActivationFunctions.TANH,
+					RegularizationFunctions.NONE, 0.75, 0.75, 0.5, 0.25);
 		}
+		Tests.printTimes(times);
+
+		IO.test("B) Test the activation function RELU");
+		testExample("B", 200, 0.075, 1, 0, ActivationFunctions.RELU, new RegularizationL2(0.9),
+				0.75, 0.75, 0.5, 0.25);
+
+		IO.test("C) Test the L2 regularization");
+		for (int ti = 0; ti < testCount; ++ti) {
+			times[ti] = testExample("C", 100, 0.1, 2, 0, ActivationFunctions.RELU,
+					new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
+		}
+		Tests.printTimes(times);
+
+		IO.test("D) Test the Adam optimization");
+		for (int ti = 0; ti < testCount; ++ti) {
+			times[ti] = testExample("D", 1000, 0.9, 0.9, 0.999, 1, 4, ActivationFunctions.RELU,
+					new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
+		}
+		Tests.printTimes(times);
+
+		IO.test("E) Test the last activation function SOFTMAX");
+		for (int ti = 0; ti < testCount; ++ti) {
+			times[ti] = testExample("E", 1000, 0.9, 1, 4, ActivationFunctions.RELU,
+					new RegularizationL2(0.9), 0.75, 0.75, 0.25, 0.25);
+		}
+		Tests.printTimes(times);
 	}
 
 	protected static double testExample(final String example, final int maxIterationCount,

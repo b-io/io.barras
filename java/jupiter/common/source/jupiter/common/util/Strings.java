@@ -649,7 +649,7 @@ public class Strings {
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>To also convert the remaining characters to lowercase, use
-	 * {@link #capitalizeStrictly(String, char[])}.</dd>
+	 * {@link #capitalizeStrictly(String, char...)}.</dd>
 	 * </dl>
 	 * <p>
 	 * @param text       the @link String} to capitalize (may be {@code null})

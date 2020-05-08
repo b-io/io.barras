@@ -120,11 +120,6 @@ public class InputOutput
 	 */
 	public static volatile int BUFFER_SIZE = 4096; // [byte]
 
-	/**
-	 * The stack index offset.
-	 */
-	protected static final int STACK_INDEX_OFFSET = 1;
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -594,8 +589,8 @@ public class InputOutput
 	 * Prints the indication of an input line with the {@link ConsoleHandler}.
 	 */
 	public void input() {
-		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT,
-				STACK_INDEX_OFFSET + stackIndex, EMPTY), false);
+		consoleHandler.print(new Message(Type.INPUT, SeverityLevel.RESULT, stackIndex + 1, EMPTY),
+				false);
 	}
 
 	//////////////////////////////////////////////
@@ -610,8 +605,8 @@ public class InputOutput
 	 */
 	public Message trace(final Object... content) {
 		if (SeverityLevel.TRACE.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.TRACE,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.TRACE, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -628,8 +623,8 @@ public class InputOutput
 	 */
 	public Message debug(final Object... content) {
 		if (SeverityLevel.DEBUG.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.DEBUG,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.DEBUG, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -646,8 +641,8 @@ public class InputOutput
 	 */
 	public Message test(final Object... content) {
 		if (SeverityLevel.TEST.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.TEST,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.TEST, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -664,8 +659,8 @@ public class InputOutput
 	 */
 	public Message info(final Object... content) {
 		if (SeverityLevel.INFO.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.INFO,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.INFO, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -682,8 +677,8 @@ public class InputOutput
 	 */
 	public Message result(final Object... content) {
 		if (SeverityLevel.RESULT.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.RESULT,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.RESULT, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -702,8 +697,8 @@ public class InputOutput
 	 */
 	public Message warn(final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -720,8 +715,8 @@ public class InputOutput
 	 */
 	public Message warn(final Exception exception) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
-					STACK_INDEX_OFFSET + stackIndex, exception);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, stackIndex + 1,
+					exception);
 			println(message);
 			return message;
 		}
@@ -741,8 +736,8 @@ public class InputOutput
 	public Message warn(final Exception exception, final Object... content) {
 		if (SeverityLevel.WARNING.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING,
-					STACK_INDEX_OFFSET + stackIndex, text);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, stackIndex + 1,
+					text);
 			println(message);
 			return message;
 		}
@@ -759,8 +754,8 @@ public class InputOutput
 	 */
 	public Message error(final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -777,8 +772,8 @@ public class InputOutput
 	 */
 	public Message error(final Exception exception) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
-					STACK_INDEX_OFFSET + stackIndex, exception);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, stackIndex + 1,
+					exception);
 			println(message);
 			return message;
 		}
@@ -798,8 +793,8 @@ public class InputOutput
 	public Message error(final Exception exception, final Object... content) {
 		if (SeverityLevel.ERROR.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR,
-					STACK_INDEX_OFFSET + stackIndex, text);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, stackIndex + 1,
+					text);
 			println(message);
 			return message;
 		}
@@ -816,8 +811,8 @@ public class InputOutput
 	 */
 	public Message fail(final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
-					STACK_INDEX_OFFSET + stackIndex, Strings.join(content));
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, stackIndex + 1,
+					Strings.join(content));
 			println(message);
 			return message;
 		}
@@ -835,8 +830,8 @@ public class InputOutput
 	 */
 	public Message fail(final Exception exception) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
-					STACK_INDEX_OFFSET + stackIndex, exception);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, stackIndex + 1,
+					exception);
 			println(message);
 			return message;
 		}
@@ -857,8 +852,8 @@ public class InputOutput
 	public Message fail(final Exception exception, final Object... content) {
 		if (SeverityLevel.FAILURE.toInt() >= severityLevel.toInt()) {
 			final String text = Strings.join(Strings.join(content), ": ", exception);
-			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE,
-					STACK_INDEX_OFFSET + stackIndex, text);
+			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, stackIndex + 1,
+					text);
 			println(message);
 			return message;
 		}
@@ -963,8 +958,8 @@ public class InputOutput
 	 * @return the input line of the {@link ConsoleHandler}
 	 */
 	public String getInputLine() {
-		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT,
-				STACK_INDEX_OFFSET + stackIndex, consoleHandler.getInputLine());
+		final Message message = new Message(Type.INPUT, SeverityLevel.RESULT, stackIndex + 1,
+				consoleHandler.getInputLine());
 		for (final IOHandler handler : handlers) {
 			if (handler != consoleHandler) {
 				handler.println(message);
@@ -1321,13 +1316,13 @@ public class InputOutput
 		}
 
 		/**
-		 * Tests whether {@code this} is at least {@link SeverityLevel#WARNING}.
+		 * Tests whether {@code this} is at least {@link SeverityLevel#ERROR}.
 		 * <p>
-		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#WARNING},
+		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#ERROR},
 		 *         {@code false} otherwise
 		 */
 		public boolean isError() {
-			return value >= WARNING.toInt();
+			return value >= ERROR.toInt();
 		}
 
 		public int toInt() {

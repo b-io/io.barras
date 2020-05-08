@@ -65,13 +65,6 @@ public class Message
 	 */
 	public static final int DEFAULT_STACK_INDEX = 1;
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The stack index offset.
-	 */
-	protected static final int STACK_INDEX_OFFSET = 3;
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
@@ -198,7 +191,7 @@ public class Message
 			final Object content) {
 		this.type = type;
 		this.severityLevel = severityLevel;
-		prefix = Messages.getPrefix(type, severityLevel, STACK_INDEX_OFFSET + stackIndex);
+		prefix = Messages.getPrefix(type, severityLevel, stackIndex + 1);
 		this.content = Objects.toString(content);
 		exception = null;
 	}
@@ -250,7 +243,7 @@ public class Message
 			final Exception exception) {
 		type = DEFAULT_TYPE;
 		this.severityLevel = severityLevel;
-		prefix = Messages.getPrefix(type, severityLevel, STACK_INDEX_OFFSET + stackIndex);
+		prefix = Messages.getPrefix(type, severityLevel, stackIndex + 1);
 		content = Objects.toString(exception);
 		this.exception = exception;
 	}

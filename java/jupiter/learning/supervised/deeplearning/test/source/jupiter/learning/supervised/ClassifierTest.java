@@ -40,9 +40,9 @@ public class ClassifierTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests the constructor.
+	 * Tests {@link Classifier#Classifier} importing the feature vectors and classes from files.
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading the files
 	 */
 	public void test()
 			throws IOException {

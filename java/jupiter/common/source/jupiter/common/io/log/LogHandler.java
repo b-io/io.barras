@@ -38,7 +38,6 @@ import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
 
 public class LogHandler
 		extends IOHandler {

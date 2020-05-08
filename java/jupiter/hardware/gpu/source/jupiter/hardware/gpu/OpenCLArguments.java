@@ -23,6 +23,8 @@
  */
 package jupiter.hardware.gpu;
 
+import static jupiter.common.test.Arguments.CHECK_ARGS;
+
 import jupiter.common.test.Arguments;
 
 public class OpenCLArguments {
@@ -44,7 +46,7 @@ public class OpenCLArguments {
 
 	public static void requireSameInnerDimension(final int aColumnDimension,
 			final int bRowDimension) {
-		if (aColumnDimension != bRowDimension) {
+		if (CHECK_ARGS && aColumnDimension != bRowDimension) {
 			throw new IllegalArgumentException(
 					"The specified arrays do not have the same (inner) row dimensions " +
 							Arguments.isNotEqualTo(aColumnDimension, bRowDimension));

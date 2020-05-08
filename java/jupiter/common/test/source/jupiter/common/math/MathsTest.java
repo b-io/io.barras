@@ -39,7 +39,7 @@ public class MathsTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests trigonometric functions, of class Maths.
+	 * Tests the trigonometric functions of {@link Maths}.
 	 */
 	public void testTrigonometricFunctions() {
 		IO.test(BULLET, " trigonometric functions");

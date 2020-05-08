@@ -42,9 +42,9 @@ public class VectorTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link Vector#load}.
+	 * Tests {@link Vector#load} from a file.
 	 * <p>
-	 * @throws IOException if there is a problem with reading
+	 * @throws IOException if there is a problem with reading the file
 	 */
 	public void testLoad()
 			throws IOException {

@@ -46,7 +46,9 @@ public class NumberArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void requireNumber(final Object number) {
-		requireNumber(number, "number");
+		if (CHECK_ARGS) {
+			requireNumber(number, "number");
+		}
 	}
 
 	public static void requireNumber(final Object number, final String name) {

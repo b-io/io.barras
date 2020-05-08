@@ -47,7 +47,10 @@ public class CollectionArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <C extends Collection<?>> C requireNonEmpty(final C collection) {
-		return requireNonEmpty(collection, "collection");
+		if (CHECK_ARGS) {
+			return requireNonEmpty(collection, "collection");
+		}
+		return collection;
 	}
 
 	public static <C extends Collection<?>> C requireNonEmpty(final C collection,

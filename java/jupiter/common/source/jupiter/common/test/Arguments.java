@@ -23,6 +23,9 @@
  */
 package jupiter.common.test;
 
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Strings.EMPTY;
+
 import jupiter.common.util.Strings;
 
 public class Arguments {
@@ -99,15 +102,23 @@ public class Arguments {
 
 	public static <T> T requireNonNull(final T object) {
 		if (CHECK_ARGS) {
-			return requireNonNull(object, "object");
+			return requireNonNull(object, "object", 1);
 		}
 		return object;
 	}
 
 	public static <T> T requireNonNull(final T object, final String name) {
+		if (CHECK_ARGS) {
+			return requireNonNull(object, name, 1);
+		}
+		return object;
+	}
+
+	public static <T> T requireNonNull(final T object, final String name, final int stackIndex) {
 		if (CHECK_ARGS && object == null) {
-			throw new NullPointerException("The specified argument " + Strings.quote(name) +
-					" is null");
+			throw new NullPointerException(Strings.join("The specified argument ",
+					Strings.quote(name), " is null", IO.getSeverityLevel().isDebug() ?
+					" ".concat(Tests.getStackTraceMessage(stackIndex + 1)) : EMPTY));
 		}
 		return object;
 	}

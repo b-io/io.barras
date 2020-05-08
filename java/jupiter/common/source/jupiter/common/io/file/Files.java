@@ -84,7 +84,7 @@ public class Files {
 	/**
 	 * The name-separator {@link String}.
 	 */
-	public static final String SEPARATOR = "" + CHAR_SEPARATOR;
+	public static final String SEPARATOR = String.valueOf(CHAR_SEPARATOR);
 
 	/**
 	 * All the {@code char} name-separators.
@@ -94,7 +94,7 @@ public class Files {
 	/**
 	 * All the name-separator {@link String}.
 	 */
-	public static final String ALL_SEPARATORS = "" + CHAR_SEPARATOR + File.separatorChar;
+	public static final String ALL_SEPARATORS = SEPARATOR + File.separatorChar;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

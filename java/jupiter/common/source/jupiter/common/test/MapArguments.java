@@ -47,7 +47,10 @@ public class MapArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <M extends Map<?, ?>> M requireNonEmpty(final M map) {
-		return requireNonEmpty(map, "map");
+		if (CHECK_ARGS) {
+			return requireNonEmpty(map, "map");
+		}
+		return map;
 	}
 
 	public static <M extends Map<?, ?>> M requireNonEmpty(final M map, final String name) {

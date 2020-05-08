@@ -82,6 +82,20 @@ public class Objects {
 		return c != null ? c.getName() : null;
 	}
 
+	//////////////////////////////////////////////
+
+	public static String getSimpleName(final Object object) {
+		return getSimpleName(Classes.get(object));
+	}
+
+	public static String getSimpleName(final Class<?> c) {
+		return getSimpleName(getName(c));
+	}
+
+	public static String getSimpleName(final String className) {
+		return className != null ? className.substring(className.lastIndexOf('.') + 1) : null;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS

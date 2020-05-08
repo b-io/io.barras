@@ -40,7 +40,7 @@ public class LUDecompositionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests class LUDecomposition.
+	 * Tests {@link LUDecomposition#LUDecomposition}.
 	 */
 	public void testLUDecomposition() {
 		IO.test(BULLET, " LUDecomposition");

@@ -40,7 +40,7 @@ public class QRDecompositionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests class QRDecomposition.
+	 * Tests {@link QRDecomposition#QRDecomposition}.
 	 */
 	public void testQRDecomposition() {
 		IO.test(BULLET, " QRDecomposition");

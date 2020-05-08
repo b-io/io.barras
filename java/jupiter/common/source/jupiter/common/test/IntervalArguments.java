@@ -50,21 +50,30 @@ public class IntervalArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <I extends Interval<?>> I requireNonEmpty(final I interval) {
-		return requireNonEmpty(interval, "interval");
+		if (CHECK_ARGS) {
+			return requireNonEmpty(interval, "interval");
+		}
+		return interval;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T extends Comparable<? super T>> T requireInside(final T object,
 			final Interval<? super T> interval) {
-		return requireInside(object, "object", interval, "interval");
+		if (CHECK_ARGS) {
+			return requireInside(object, "object", interval, "interval");
+		}
+		return object;
 	}
 
 	//////////////////////////////////////////////
 
 	public static <I extends Interval<T>, T extends Comparable<? super T>> I requireInside(
 			final I interval, final GenericIntervalList<I, T> intervalList) {
-		return requireInside(interval, "interval", intervalList, "interval list");
+		if (CHECK_ARGS) {
+			return requireInside(interval, "interval", intervalList, "interval list");
+		}
+		return interval;
 	}
 
 	public static <I extends Interval<T>, T extends Comparable<? super T>> I requireInside(
@@ -81,7 +90,10 @@ public class IntervalArguments
 	//////////////////////////////////////////////
 
 	public static DoubleInterval requireInside(final DoubleInterval interval, final Domain domain) {
-		return requireInside(interval, "interval", domain, "domain");
+		if (CHECK_ARGS) {
+			return requireInside(interval, "interval", domain, "domain");
+		}
+		return interval;
 	}
 
 	public static DoubleInterval requireInside(final DoubleInterval interval,
@@ -97,13 +109,19 @@ public class IntervalArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <I extends Interval<?>> I requireValid(final I interval) {
-		return requireValid(interval, "interval");
+		if (CHECK_ARGS) {
+			return requireValid(interval, "interval");
+		}
+		return interval;
 	}
 
 	//////////////////////////////////////////////
 
 	public static <L extends IntervalList<?>> L requireValid(final L intervalList) {
-		return requireValid(intervalList, "interval list");
+		if (CHECK_ARGS) {
+			return requireValid(intervalList, "interval list");
+		}
+		return intervalList;
 	}
 
 	public static <L extends IntervalList<?>> L requireValid(final L intervalList,

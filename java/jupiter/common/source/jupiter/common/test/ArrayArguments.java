@@ -48,7 +48,9 @@ public class ArrayArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static void requireArray(final Object object) {
-		requireArray(object, "object");
+		if (CHECK_ARGS) {
+			requireArray(object, "object");
+		}
 	}
 
 	public static void requireArray(final Object object, final String name) {
@@ -77,7 +79,10 @@ public class ArrayArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <T> T[] requireNonEmpty(final T[] array) {
-		return requireNonEmpty(array, "array");
+		if (CHECK_ARGS) {
+			return requireNonEmpty(array, "array");
+		}
+		return array;
 	}
 
 	public static <T> T[] requireNonEmpty(final T[] array, final String name) {
@@ -163,12 +168,16 @@ public class ArrayArguments
 	//////////////////////////////////////////////
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
-		requireIndex(foundIndex, maxExpectedLength, true, false);
+		if (CHECK_ARGS) {
+			requireIndex(foundIndex, maxExpectedLength, true, false);
+		}
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
 			final boolean isUpperInclusive) {
-		requireIndex(foundIndex, maxExpectedLength, true, isUpperInclusive);
+		if (CHECK_ARGS) {
+			requireIndex(foundIndex, maxExpectedLength, true, isUpperInclusive);
+		}
 	}
 
 	public static void requireIndex(final int foundIndex, final int maxExpectedLength,

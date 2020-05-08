@@ -27,13 +27,14 @@ import static jupiter.common.io.InputOutput.IO;
 
 import java.util.Collection;
 
-import jupiter.common.io.Messages;
 import jupiter.common.math.DoubleInterval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Numbers;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Tests {
 
@@ -45,6 +46,32 @@ public class Tests {
 	 * Prevents the construction of {@link Tests}.
 	 */
 	protected Tests() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static StackTraceElement getStackTraceElement() {
+		return getStackTraceElement(1);
+	}
+
+	public static StackTraceElement getStackTraceElement(final int stackIndex) {
+		return new Throwable().fillInStackTrace().getStackTrace()[stackIndex + 1];
+	}
+
+	//////////////////////////////////////////////
+
+	public static String getStackTraceMessage() {
+		return getStackTraceMessage(1);
+	}
+
+	public static String getStackTraceMessage(final int stackIndex) {
+		final StackTraceElement stackTraceElement = getStackTraceElement(stackIndex + 1);
+		return Strings.join("in class ", Objects.getSimpleName(stackTraceElement.getClassName()),
+				" and method ", stackTraceElement.getMethodName(),
+				" at line ", stackTraceElement.getLineNumber());
 	}
 
 
@@ -137,11 +164,7 @@ public class Tests {
 
 	public static void check(final boolean isPassed) {
 		if (!isPassed) {
-			final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
-					.getStackTrace()[1];
-			final String simpleClassName = Messages.getSimpleClassName(stackTraceElement);
-			IO.error("The test in class ", simpleClassName, " at line ",
-					stackTraceElement.getLineNumber(), " has failed");
+			IO.error("The test ", getStackTraceMessage(), " has failed");
 		}
 	}
 

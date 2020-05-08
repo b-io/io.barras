@@ -46,7 +46,10 @@ public class SetArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <S extends ISet<?>> S requireNonEmpty(final S set) {
-		return requireNonEmpty(set, "set");
+		if (CHECK_ARGS) {
+			return requireNonEmpty(set, "set");
+		}
+		return set;
 	}
 
 	public static <S extends ISet<?>> S requireNonEmpty(final S set, final String name) {
@@ -61,7 +64,10 @@ public class SetArguments
 
 	public static <T extends Comparable<? super T>> T requireInside(final T object,
 			final ISet<? super T> set) {
-		return requireInside(object, "object", set, "set");
+		if (CHECK_ARGS) {
+			return requireInside(object, "object", set, "set");
+		}
+		return object;
 	}
 
 	public static <T extends Comparable<? super T>> T requireInside(final T object,
@@ -77,7 +83,10 @@ public class SetArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static <S extends ISet<?>> S requireValid(final S set) {
-		return requireValid(set, "set");
+		if (CHECK_ARGS) {
+			return requireValid(set, "set");
+		}
+		return set;
 	}
 
 	public static <S extends ISet<?>> S requireValid(final S set, final String name) {

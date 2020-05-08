@@ -26,6 +26,7 @@ package jupiter.common.io;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.file.Files.TEMP_FILE_EXTENSION;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -111,7 +112,7 @@ public class FileHandlerTest
 		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
 		try {
 			for (int i = 0; i < 4; ++i) {
-				final Index<Index<String>> index = fileHandler.findFirstLine("" + (i + 1));
+				final Index<Index<String>> index = fileHandler.findFirstLine(String.valueOf(i + 1));
 				assertEquals(i, index.getIndex());
 				assertEquals(4, index.getToken().getIndex());
 			}
@@ -129,7 +130,7 @@ public class FileHandlerTest
 		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
 		try {
 			for (int i = 0; i < 4; ++i) {
-				final Index<Index<String>> index = fileHandler.findLastLine("" + (i + 1));
+				final Index<Index<String>> index = fileHandler.findLastLine(String.valueOf(i + 1));
 				assertEquals(i, index.getIndex());
 				assertEquals(4, index.getToken().getIndex());
 			}

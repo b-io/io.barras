@@ -69,10 +69,10 @@ public class InputOutputTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link InputOutput#println}.
+	 * Tests {@link InputOutput#println(Object, boolean)}.
 	 */
-	public void testPrintln_Object() {
-		IO.test(BULLET, " println_Object");
+	public void testPrintln_Object_boolean() {
+		IO.test(BULLET, " println_Object_boolean");
 
 		final String content = "This is a message";
 		IO.println(content, false);
@@ -81,7 +81,7 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#println}.
+	 * Tests {@link InputOutput#println(Message)}.
 	 */
 	public void testPrintln_Message() {
 		IO.test(BULLET, " println_Message");
@@ -176,7 +176,7 @@ public class InputOutputTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link InputOutput#warn}.
+	 * Tests {@link InputOutput#warn(Object...)}.
 	 */
 	public void testWarn_Object() {
 		IO.test(BULLET, " warn_Object");
@@ -186,7 +186,7 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#warn}.
+	 * Tests {@link InputOutput#warn(Exception)}.
 	 */
 	public void testWarn_Exception() {
 		IO.test(BULLET, " warn_Exception");
@@ -195,19 +195,19 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#warn}.
+	 * Tests {@link InputOutput#warn(Exception, Object...)}.
 	 */
-	public void testWarn_Object_Exception() {
-		IO.test(BULLET, " warn_Object_Exception");
+	public void testWarn_Exception_Object() {
+		IO.test(BULLET, " warn_Exception_Object");
 
 		final String content = "This is a warning message";
-		IO.warn(content, new Exception("This is a warning exception"));
+		IO.warn(new Exception("This is a warning exception"), content);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link InputOutput#error}.
+	 * Tests {@link InputOutput#error(Object...)}.
 	 */
 	public void testError_Object() {
 		IO.test(BULLET, " error_Object");
@@ -217,7 +217,7 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#error}.
+	 * Tests {@link InputOutput#error(Exception)}.
 	 */
 	public void testError_Exception() {
 		IO.test(BULLET, " error_Exception");
@@ -226,19 +226,19 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#error}.
+	 * Tests {@link InputOutput#error(Exception, Object...)}.
 	 */
-	public void testError_Object_Exception() {
-		IO.test(BULLET, " error_Object_Exception");
+	public void testError_Exception_Object() {
+		IO.test(BULLET, " error_Exception_Object");
 
 		final String content = "This is an error message";
-		IO.error(content, new Exception("This is an error exception"));
+		IO.error(new Exception("This is an error exception"), content);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link InputOutput#fail}.
+	 * Tests {@link InputOutput#fail(Object...)}.
 	 */
 	public void testFail_Object() {
 		IO.test(BULLET, " fail_Object");
@@ -248,7 +248,7 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#fail}.
+	 * Tests {@link InputOutput#fail(Exception)}.
 	 */
 	public void testFail_Exception() {
 		IO.test(BULLET, " fail_Exception");
@@ -257,13 +257,13 @@ public class InputOutputTest
 	}
 
 	/**
-	 * Tests {@link InputOutput#fail}.
+	 * Tests {@link InputOutput#fail(Exception, Object...)}.
 	 */
-	public void testFail_Object_Exception() {
-		IO.test(BULLET, " fail_Exception");
+	public void testFail_Exception_Object() {
+		IO.test(BULLET, " fail_Exception_Object");
 
 		final String content = "This is a failure message";
-		IO.fail(content, new Exception("This is a failure exception"));
+		IO.fail(new Exception("This is a failure exception"), content);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -28,6 +28,7 @@ import static jupiter.common.util.Strings.EMPTY;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.InputOutput.Type;
+import jupiter.common.test.Tests;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -56,7 +57,7 @@ public class Messages {
 			case INPUT:
 				return getInputPrefix();
 			case OUTPUT:
-				return getOutputPrefix(level, stackIndex);
+				return getOutputPrefix(level, stackIndex + 1);
 			default:
 				throw new IllegalTypeException(type);
 		}
@@ -70,9 +71,8 @@ public class Messages {
 	// • OUTPUT
 	public static String getOutputPrefix(final SeverityLevel level, final int stackIndex) {
 		// Get information about the call (class name, method name and line number)
-		final StackTraceElement stackTraceElement = new Throwable().fillInStackTrace()
-				.getStackTrace()[stackIndex];
-		final String simpleClassName = getSimpleClassName(stackTraceElement);
+		final StackTraceElement stackTraceElement = Tests.getStackTraceElement(stackIndex + 1);
+		final String simpleName = Objects.getSimpleName(stackTraceElement.getClassName());
 		// Create the output prefix
 		switch (level) {
 			case RESULT:
@@ -81,23 +81,17 @@ public class Messages {
 				return createOutputPrefix(level);
 			case TEST:
 			case WARNING:
-				return createOutputPrefix(level, simpleClassName);
+				return createOutputPrefix(level, simpleName);
 			case DEBUG:
 			case ERROR:
-				return createOutputPrefix(level, simpleClassName,
-						stackTraceElement.getMethodName());
+				return createOutputPrefix(level, simpleName, stackTraceElement.getMethodName());
 			case TRACE:
 			case FAILURE:
-				return createOutputPrefix(level, simpleClassName, stackTraceElement.getMethodName(),
+				return createOutputPrefix(level, simpleName, stackTraceElement.getMethodName(),
 						stackTraceElement.getLineNumber());
 			default:
 				throw new IllegalTypeException(level);
 		}
-	}
-
-	public static String getSimpleClassName(final StackTraceElement stackTraceElement) {
-		final String className = stackTraceElement.getClassName();
-		return className.substring(className.lastIndexOf('.') + 1);
 	}
 
 
