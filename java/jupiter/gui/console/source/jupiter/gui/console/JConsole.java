@@ -111,7 +111,7 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
-	protected static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
+	public static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
 
 	/**
 	 * The {@link Style} associated to their {@link Color}.

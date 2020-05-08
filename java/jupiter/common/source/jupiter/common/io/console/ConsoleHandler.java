@@ -162,7 +162,7 @@ public class ConsoleHandler
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public boolean print(final Object content, final boolean isError) {
+	public synchronized boolean print(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
@@ -187,7 +187,7 @@ public class ConsoleHandler
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public boolean println(final Message message) {
+	public synchronized boolean println(final Message message) {
 		final SeverityLevel severityLevel = message.getSeverityLevel();
 		if (USE_COLORS) {
 			return println(getColor(severityLevel).getStyledText(Objects.toString(message)),
@@ -208,7 +208,7 @@ public class ConsoleHandler
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
-	public boolean println(final Object content, final boolean isError) {
+	public synchronized boolean println(final Object content, final boolean isError) {
 		// Check the arguments
 		Arguments.requireNonNull(content, "content");
 
@@ -232,7 +232,7 @@ public class ConsoleHandler
 	 * <p>
 	 * @return the input line
 	 */
-	public String getInputLine() {
+	public synchronized String getInputLine() {
 		return console.getInputLine();
 	}
 

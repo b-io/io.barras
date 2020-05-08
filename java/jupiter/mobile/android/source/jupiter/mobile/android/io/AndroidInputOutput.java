@@ -27,12 +27,15 @@ import android.content.Context;
 import android.widget.Toast;
 
 import java.io.Serializable;
+import java.util.List;
 
+import jupiter.common.io.IOHandler;
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
+import jupiter.common.properties.Properties;
 import jupiter.common.util.Objects;
 
 public class AndroidInputOutput
@@ -50,16 +53,20 @@ public class AndroidInputOutput
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default {@link AndroidInputOutput}.
+	 * The default {@link SeverityLevel}.
 	 */
-	public static final AndroidInputOutput AIO = new AndroidInputOutput();
+	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.TRACE;
+	/**
+	 * The default stack index.
+	 */
+	public static final int DEFAULT_STACK_INDEX = 0;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index.
+	 * The offset of the stack index.
 	 */
-	protected static volatile int STACK_INDEX = 1;
+	public static volatile int STACK_INDEX_OFFSET = 1;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +87,7 @@ public class AndroidInputOutput
 	 * Constructs an {@link AndroidInputOutput} by default.
 	 */
 	public AndroidInputOutput() {
-		io = new InputOutput(SeverityLevel.TRACE, STACK_INDEX);
+		this(DEFAULT_SEVERITY_LEVEL);
 	}
 
 	/**
@@ -89,32 +96,105 @@ public class AndroidInputOutput
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public AndroidInputOutput(final SeverityLevel severityLevel) {
-		io = new InputOutput(severityLevel, STACK_INDEX);
+		this(severityLevel, DEFAULT_STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel} and
-	 * {@link ConsoleHandler}.
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel} and stack
+	 * index.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 */
+	public AndroidInputOutput(final SeverityLevel severityLevel, final int stackIndex) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel}, stack
+	 * index and {@link ConsoleHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
-	public AndroidInputOutput(final SeverityLevel severityLevel,
+	public AndroidInputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final ConsoleHandler consoleHandler) {
-		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler);
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, consoleHandler);
 	}
 
 	/**
-	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel},
-	 * {@link ConsoleHandler} and {@link LogHandler}.
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel}, stack
+	 * index and {@link LogHandler}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param logHandler    the {@link LogHandler}
+	 */
+	public AndroidInputOutput(final SeverityLevel severityLevel, final int stackIndex,
+			final LogHandler logHandler) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, logHandler);
+	}
+
+	/**
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel}, stack
+	 * index, {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
-	public AndroidInputOutput(final SeverityLevel severityLevel,
+	public AndroidInputOutput(final SeverityLevel severityLevel, final int stackIndex,
 			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
-		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler, logHandler);
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, consoleHandler,
+				logHandler);
+	}
+
+	/**
+	 * Constructs an {@link AndroidInputOutput} with the specified {@link SeverityLevel}, stack
+	 * index and {@link List} of {@link IOHandler}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param handlers      the {@link List} of {@link IOHandler}
+	 */
+	public AndroidInputOutput(final SeverityLevel severityLevel, final int stackIndex,
+			final List<IOHandler> handlers) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, handlers);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link AndroidInputOutput} loaded from the specified {@link Properties}
+	 * containing the specified {@link SeverityLevel}, stack index and {@link List} of
+	 * {@link IOHandler}.
+	 * <p>
+	 * @param properties the {@link Properties} to load
+	 */
+	public AndroidInputOutput(final Properties properties) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(properties);
 	}
 
 
@@ -128,7 +208,7 @@ public class AndroidInputOutput
 	 * @param context the {@link Context} of Android
 	 * @param message the message {@link Object} to show
 	 */
-	public void show(final Context context, final Object message) {
+	public synchronized void show(final Context context, final Object message) {
 		Toast.makeText(context, Objects.toString(message), Toast.LENGTH_LONG).show();
 	}
 

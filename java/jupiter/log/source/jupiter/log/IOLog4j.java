@@ -28,31 +28,53 @@ import static jupiter.common.io.file.Files.SEPARATOR;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.io.Serializable;
+import java.util.List;
 
+import jupiter.common.io.IOHandler;
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.Resources;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.io.log.LogHandler;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
 
 public class IOLog4j
-		extends AppenderSkeleton {
+		extends AppenderSkeleton
+		implements ICloneable<IOLog4j>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The stack index.
+	 * The generated serial version ID.
 	 */
-	protected static volatile int STACK_INDEX = 6;
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The default {@link SeverityLevel}.
+	 */
+	public static final SeverityLevel DEFAULT_SEVERITY_LEVEL = SeverityLevel.TRACE;
+	/**
+	 * The default stack index.
+	 */
+	public static final int DEFAULT_STACK_INDEX = 0;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The offset of the stack index.
+	 */
+	public static volatile int STACK_INDEX_OFFSET = 6;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,11 +84,7 @@ public class IOLog4j
 	/**
 	 * The {@link InputOutput}.
 	 */
-	protected final InputOutput io;
-	/**
-	 * The internal {@link Lock} of the {@link InputOutput}.
-	 */
-	protected final Lock ioLock = new ReentrantLock(true);
+	protected InputOutput io;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,8 +95,7 @@ public class IOLog4j
 	 * Constructs an {@link IOLog4j} by default.
 	 */
 	public IOLog4j() {
-		super();
-		io = new InputOutput(SeverityLevel.TRACE, STACK_INDEX);
+		this(DEFAULT_SEVERITY_LEVEL);
 	}
 
 	/**
@@ -87,34 +104,88 @@ public class IOLog4j
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public IOLog4j(final SeverityLevel severityLevel) {
-		super();
-		io = new InputOutput(severityLevel, STACK_INDEX);
+		this(severityLevel, DEFAULT_STACK_INDEX);
 	}
 
 	/**
-	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel} and
+	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel} and stack index.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 */
+	public IOLog4j(final SeverityLevel severityLevel, final int stackIndex) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel}, stack index and
 	 * {@link ConsoleHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 */
-	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler) {
+	public IOLog4j(final SeverityLevel severityLevel, final int stackIndex,
+			final ConsoleHandler consoleHandler) {
 		super();
-		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler);
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, consoleHandler);
 	}
 
 	/**
-	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel},
+	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel}, stack index and
+	 * {@link LogHandler}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param logHandler    the {@link LogHandler}
+	 */
+	public IOLog4j(final SeverityLevel severityLevel, final int stackIndex,
+			final LogHandler logHandler) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, logHandler);
+	}
+
+	/**
+	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel}, stack index,
 	 * {@link ConsoleHandler} and {@link LogHandler}.
 	 * <p>
 	 * @param severityLevel  the {@link SeverityLevel}
+	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
 	 * @param logHandler     the {@link LogHandler}
 	 */
-	public IOLog4j(final SeverityLevel severityLevel, final ConsoleHandler consoleHandler,
-			final LogHandler logHandler) {
+	public IOLog4j(final SeverityLevel severityLevel, final int stackIndex,
+			final ConsoleHandler consoleHandler, final LogHandler logHandler) {
 		super();
-		io = new InputOutput(severityLevel, STACK_INDEX, consoleHandler, logHandler);
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, consoleHandler,
+				logHandler);
+	}
+
+	/**
+	 * Constructs an {@link IOLog4j} with the specified {@link SeverityLevel}, stack index and
+	 * {@link List} of {@link IOHandler}.
+	 * <p>
+	 * @param severityLevel the {@link SeverityLevel}
+	 * @param stackIndex    the stack index
+	 * @param handlers      the {@link List} of {@link IOHandler}
+	 */
+	public IOLog4j(final SeverityLevel severityLevel, final int stackIndex,
+			final List<IOHandler> handlers) {
+		super();
+
+		// Set the attributes
+		io = new InputOutput(severityLevel, STACK_INDEX_OFFSET + stackIndex, handlers);
 	}
 
 
@@ -150,7 +221,6 @@ public class IOLog4j
 
 	@Override
 	public void append(final LoggingEvent event) {
-		ioLock.lock();
 		try {
 			final Level level = event.getLevel();
 			final Object message = event.getMessage();
@@ -170,8 +240,6 @@ public class IOLog4j
 				io.result(message);
 			}
 		} catch (final Exception ignored) {
-		} finally {
-			ioLock.unlock();
 		}
 	}
 
@@ -194,5 +262,28 @@ public class IOLog4j
 	 */
 	public void close() {
 		Resources.close(io);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public IOLog4j clone() {
+		try {
+			final IOLog4j clone = (IOLog4j) super.clone();
+			clone.io = Objects.clone(io);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
 	}
 }

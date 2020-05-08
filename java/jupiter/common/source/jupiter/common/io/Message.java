@@ -63,7 +63,7 @@ public class Message
 	/**
 	 * The default stack index.
 	 */
-	public static final int DEFAULT_STACK_INDEX = 1;
+	public static final int DEFAULT_STACK_INDEX = 0;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +102,7 @@ public class Message
 	 * @param content the content {@link Object}
 	 */
 	public Message(final Object content) {
-		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX, content);
+		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX + 1, content);
 	}
 
 	//////////////////////////////////////////////
@@ -114,7 +114,7 @@ public class Message
 	 * @param content the content {@link Object}
 	 */
 	public Message(final Type type, final Object content) {
-		this(type, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX, content);
+		this(type, DEFAULT_STANDARD_LEVEL, DEFAULT_STACK_INDEX + 1, content);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class Message
 	 * @param content       the content {@link Object}
 	 */
 	public Message(final SeverityLevel severityLevel, final Object content) {
-		this(DEFAULT_TYPE, severityLevel, DEFAULT_STACK_INDEX, content);
+		this(DEFAULT_TYPE, severityLevel, DEFAULT_STACK_INDEX + 1, content);
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Message
 	 * @param content    the content {@link Object}
 	 */
 	public Message(final int stackIndex, final Object content) {
-		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, stackIndex, content);
+		this(DEFAULT_TYPE, DEFAULT_STANDARD_LEVEL, stackIndex + 1, content);
 	}
 
 	//////////////////////////////////////////////
@@ -149,7 +149,7 @@ public class Message
 	 * @param content       the content {@link Object}
 	 */
 	public Message(final SeverityLevel severityLevel, final int stackIndex, final Object content) {
-		this(DEFAULT_TYPE, severityLevel, stackIndex, content);
+		this(DEFAULT_TYPE, severityLevel, stackIndex + 1, content);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class Message
 	 * @param content    the content {@link Object}
 	 */
 	public Message(final Type type, final int stackIndex, final Object content) {
-		this(type, DEFAULT_STANDARD_LEVEL, stackIndex, content);
+		this(type, DEFAULT_STANDARD_LEVEL, stackIndex + 1, content);
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Message
 	 * @param content       the content {@link Object}
 	 */
 	public Message(final Type type, final SeverityLevel severityLevel, final Object content) {
-		this(type, severityLevel, DEFAULT_STACK_INDEX, content);
+		this(type, severityLevel, DEFAULT_STACK_INDEX + 1, content);
 	}
 
 	//////////////////////////////////////////////
@@ -204,7 +204,7 @@ public class Message
 	 * @param exception the {@link Exception}
 	 */
 	public Message(final Exception exception) {
-		this(DEFAULT_ERROR_LEVEL, DEFAULT_STACK_INDEX, exception);
+		this(DEFAULT_ERROR_LEVEL, DEFAULT_STACK_INDEX + 1, exception);
 	}
 
 	//////////////////////////////////////////////
@@ -216,7 +216,7 @@ public class Message
 	 * @param exception     the {@link Exception}
 	 */
 	public Message(final SeverityLevel severityLevel, final Exception exception) {
-		this(severityLevel, DEFAULT_STACK_INDEX, exception);
+		this(severityLevel, DEFAULT_STACK_INDEX + 1, exception);
 	}
 
 	/**
@@ -226,7 +226,7 @@ public class Message
 	 * @param exception  the {@link Exception}
 	 */
 	public Message(final int stackIndex, final Exception exception) {
-		this(DEFAULT_ERROR_LEVEL, stackIndex, exception);
+		this(DEFAULT_ERROR_LEVEL, stackIndex + 1, exception);
 	}
 
 	//////////////////////////////////////////////

@@ -56,18 +56,18 @@ public class LogHandler
 	/**
 	 * The default {@link String} log directory.
 	 */
-	protected static final String DEFAULT_LOG_DIR_PATH = Files.getPath()
+	public static final String DEFAULT_LOG_DIR_PATH = Files.getPath()
 			.concat(SEPARATOR)
 			.concat("logs");
 
 	/**
 	 * The default {@link String} output log name.
 	 */
-	protected static final String DEFAULT_OUTPUT_LOG_NAME = "jupiter.out.log";
+	public static final String DEFAULT_OUTPUT_LOG_NAME = "jupiter.out.log";
 	/**
 	 * The default {@link String} error log name.
 	 */
-	protected static final String DEFAULT_ERROR_LOG_NAME = "jupiter.err.log";
+	public static final String DEFAULT_ERROR_LOG_NAME = "jupiter.err.log";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
