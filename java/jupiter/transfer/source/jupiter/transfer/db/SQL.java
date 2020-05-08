@@ -110,7 +110,7 @@ public class SQL {
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
-		Arguments.requireNonNull(value, "value");
+		Arguments.requireNonNull(value, "parameter " + index);
 
 		// Set the parameter of the SQL statement at the index
 		if (value instanceof Array) {
@@ -170,7 +170,7 @@ public class SQL {
 	public static void setParameters(final PreparedStatement statement, final Object... values)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(values, "values");
+		Arguments.requireNonNull(values, "parameters");
 
 		// Set the parameters of the SQL statement
 		int index = 1;
