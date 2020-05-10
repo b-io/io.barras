@@ -43,6 +43,7 @@
 
 					<executions>
 						<execution>
+							<id>exec</id>
 							<phase>install</phase>
 
 							<goals>

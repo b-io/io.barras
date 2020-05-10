@@ -40,7 +40,8 @@
 		<!-- Maven -->
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.artifact.version>3.6.3</maven.artifact.version>
+		<maven.artifact.version>2.2.1</maven.artifact.version>
+		<maven.info.version>2.9</maven.info.version>
 		<maven.install.version>2.5.2</maven.install.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
 		<maven.nar.version>3.2.3</maven.nar.version>
@@ -65,6 +66,13 @@
 	</properties>
 
 	<!-- Environment Settings -->
+	<distributionManagement>
+		<site>
+			<id>io.barras</id>
+			<url>https://repo.barras.io</url>
+		</site>
+	</distributionManagement>
+
 	<issueManagement>
 		<system>GitHub</system>
 		<url>${project.url}/issues</url>
@@ -211,7 +219,7 @@
 					<extensions>true</extensions>
 				</plugin>
 
-				<!-- Attach the source files -->
+				<!-- Attach the sources -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
@@ -228,7 +236,7 @@
 					</executions>
 				</plugin>
 
-				<!-- Generate the Javadoc -->
+				<!-- Attach the javadocs -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -271,4 +279,42 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<!-- Reporting Settings -->
+	<reporting>
+		<plugins>
+			<!-- Generate the information reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven.info.version}</version>
+			</plugin>
+
+			<!-- Generate the javadocs -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.version}</version>
+
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+
+					<reportSet>
+						<id>aggregate</id>
+						<inherited>false</inherited>
+
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

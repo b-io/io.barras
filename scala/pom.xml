@@ -93,13 +93,13 @@
 				</executions>
 			</plugin>
 
-			<!-- Attach the source files -->
+			<!-- Attach the sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 
-			<!-- Generate the Javadoc -->
+			<!-- Attach the javadocs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

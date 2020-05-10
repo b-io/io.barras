@@ -29,7 +29,7 @@
 		<!-- Compilation -->
 		<standard.option>-std=c99</standard.option>
 		<!-- JUnit -->
-		<junit.verison>4.12</junit.verison>
+		<junit.verison>3.8.1</junit.verison>
 	</properties>
 
 	<!-- Project Settings -->
@@ -138,7 +138,7 @@
 				</executions>
 			</plugin>
 
-			<!-- Add the generated source files -->
+			<!-- Add the generated sources -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -162,13 +162,13 @@
 				</executions>
 			</plugin>
 
-			<!-- Attach the source files -->
+			<!-- Attach the sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
 
-			<!-- Generate the Javadoc -->
+			<!-- Attach the javadocs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>

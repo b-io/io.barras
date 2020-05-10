@@ -19,8 +19,8 @@
 
 	<properties>
 		<!-- JOCL -->
-		<jocl.version>2.0.1</jocl.version>
-		<jocl.blast.version>1.3.0</jocl.blast.version>
+		<jocl.version>2.0.0</jocl.version>
+		<jocl.blast.version>1.5.0</jocl.blast.version>
 		<!-- JogAmp -->
 		<jogamp.version>2.3.2</jogamp.version>
 	</properties>
