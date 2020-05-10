@@ -236,7 +236,7 @@
 					</executions>
 				</plugin>
 
-				<!-- Attach the javadocs -->
+				<!-- Attach the JavaDocs -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-javadoc-plugin</artifactId>
@@ -290,7 +290,7 @@
 				<version>${maven.info.version}</version>
 			</plugin>
 
-			<!-- Generate the javadocs -->
+			<!-- Generate the JavaDocs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
