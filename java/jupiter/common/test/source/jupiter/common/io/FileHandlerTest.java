@@ -26,7 +26,6 @@ package jupiter.common.io;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.file.Files.TEMP_FILE_EXTENSION;
 import static jupiter.common.util.Characters.BULLET;
-import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
 import java.io.IOException;

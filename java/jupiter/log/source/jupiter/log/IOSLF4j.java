@@ -23,8 +23,6 @@
  */
 package jupiter.log;
 
-import static jupiter.log.IOLog4j.DEFAULT_SEVERITY_LEVEL;
-
 import java.util.List;
 
 import jupiter.common.io.IOHandler;

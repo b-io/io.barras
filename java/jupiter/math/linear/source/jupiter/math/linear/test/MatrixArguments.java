@@ -85,7 +85,7 @@ public class MatrixArguments {
 		if (CHECK_ARGS && foundInnerDimension != expectedInnerDimension) {
 			throw new IllegalArgumentException(
 					"The specified matrix has wrong (inner) row dimension " + Arguments
-					.expectedButFound(foundInnerDimension, expectedInnerDimension));
+							.expectedButFound(foundInnerDimension, expectedInnerDimension));
 		}
 	}
 }

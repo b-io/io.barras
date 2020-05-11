@@ -23,8 +23,8 @@
  */
 package jupiter.common.struct.set;
 
-import java.util.HashSet;
 import java.util.Collection;
+import java.util.HashSet;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;

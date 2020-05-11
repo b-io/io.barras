@@ -442,7 +442,8 @@ public class InputOutput
 				handlerClassNames.length);
 		for (final String handlerClassName : handlerClassNames) {
 			try {
-				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>) Class.forName(handlerClassName);
+				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>)
+						Class.forName(handlerClassName);
 				if (handlerClass == consoleHandler.getClass()) {
 					handlers.add(consoleHandler);
 				} else if (handlerClass == logHandler.getClass()) {

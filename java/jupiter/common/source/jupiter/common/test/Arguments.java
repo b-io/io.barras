@@ -118,7 +118,7 @@ public class Arguments {
 		if (CHECK_ARGS && object == null) {
 			throw new NullPointerException(Strings.join("The specified argument ",
 					Strings.quote(name), " is null", IO.getSeverityLevel().isDebug() ?
-					" ".concat(Tests.getStackTraceMessage(stackIndex + 1)) : EMPTY));
+							" ".concat(Tests.getStackTraceMessage(stackIndex + 1)) : EMPTY));
 		}
 		return object;
 	}
