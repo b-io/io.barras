@@ -265,57 +265,50 @@ public class DynamicChartPanel
 		// Update the coordinates of all the selections
 		for (int rai = 0; rai < rangeAxisCount; ++rai) {
 			// Set the mouse coordinates
-			double x = java2DToDomainValue(mousePosition);
-			double y = java2DToRangeValue(rai, mousePosition);
+			final double x = java2DToDomainValue(mousePosition);
+			final double y = java2DToRangeValue(rai, mousePosition);
 
-			// Find the closest item points
+			// Find the closest interpolated point to the mouse position
 			final XYPlot plot = getPlot(mousePosition);
-			double minDistance = Double.POSITIVE_INFINITY;
-			int seriesIndex = -1, from = 0, to = 0;
 			final XYDataset dataset = plot.getDataset(rai);
 			final int seriesCount = dataset.getSeriesCount();
+			double minDistance = Double.POSITIVE_INFINITY;
+			double xPoint = Double.NaN, yPoint = Double.NaN;
 			for (int si = 0; si < seriesCount; ++si) {
-				final int itemCount = dataset.getItemCount(si);
-				if (itemCount > 0) {
-					int itemIndex = 0;
-					while (itemIndex < itemCount - 1 && dataset.getXValue(si, itemIndex) < x) {
-						++itemIndex;
-					}
-					final double xItem = dataset.getXValue(si, itemIndex);
-					if (!SHOW_CROSSHAIR_OUTSIDE && (xItem < x ||
-							xItem == x && (itemIndex == 0 || itemIndex == itemCount - 1))) {
-						continue;
-					}
-					final double distance = Maths.distance(dataset.getYValue(si, itemIndex), y);
-					if (distance < minDistance) {
-						minDistance = distance;
-						seriesIndex = si;
-						from = itemIndex > 0 ? itemIndex - 1 : itemIndex;
-						to = itemIndex;
-					}
+				// • Find the closest points of the series to the mouse position
+				final int pointCount = dataset.getItemCount(si);
+				if (pointCount == 0) {
+					continue;
 				}
-			}
-
-			// Interpolate between the closest item points
-			y = Double.NaN;
-			if (seriesIndex >= 0) {
-				x = Maths.bound(x, dataset.getX(seriesIndex, from).doubleValue(),
-						dataset.getX(seriesIndex, to).doubleValue());
-				if (from == to) {
-					if (SHOW_CROSSHAIR_OUTSIDE) {
-						y = dataset.getYValue(seriesIndex, from);
-					}
-				} else {
-					final XY<Double> fromItem = new XY<Double>(dataset.getXValue(seriesIndex, from),
-							dataset.getYValue(seriesIndex, from));
-					final XY<Double> toItem = new XY<Double>(dataset.getXValue(seriesIndex, to),
-							dataset.getYValue(seriesIndex, to));
-					y = new LinearInterpolator(fromItem, toItem).apply(x);
+				int toPointIndex = 0;
+				while (toPointIndex < pointCount - 1 && dataset.getXValue(si, toPointIndex) < x) {
+					++toPointIndex;
+				}
+				final int fromPointIndex = toPointIndex > 0 ? toPointIndex - 1 : toPointIndex;
+				if (!SHOW_CROSSHAIR_OUTSIDE && (dataset.getXValue(si, fromPointIndex) > x ||
+						dataset.getXValue(si, toPointIndex) < x)) {
+					continue;
+				}
+				// • Interpolate between them
+				final double xp = Maths.bound(x,
+						dataset.getX(si, fromPointIndex).doubleValue(),
+						dataset.getX(si, toPointIndex).doubleValue());
+				final XY<Double> fromPoint = new XY<Double>(dataset.getXValue(si, fromPointIndex),
+						dataset.getYValue(si, fromPointIndex));
+				final XY<Double> toPoint = new XY<Double>(dataset.getXValue(si, toPointIndex),
+						dataset.getYValue(si, toPointIndex));
+				final double yp = new LinearInterpolator(fromPoint, toPoint).apply(xp);
+				// • Compute the distance between the series and the mouse position
+				final double distance = Maths.distance(yp, y);
+				if (distance < minDistance) {
+					minDistance = distance;
+					xPoint = xp;
+					yPoint = yp;
 				}
 			}
 
 			// Update the coordinates of the selection
-			selections[rai].setCoordinates(x, y);
+			selections[rai].setCoordinates(xPoint, yPoint);
 		}
 
 		// Update the coordinates of all the crosshairs

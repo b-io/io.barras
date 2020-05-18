@@ -408,18 +408,18 @@ public abstract class Classifier
 		final double currentCost = computeCost();
 		IO.debug("Cost: ", currentCost);
 		// Compute the cost difference
-		final double distance = Maths.distance(cost, currentCost);
-		IO.debug("Delta: ", distance);
+		final double delta = Maths.distance(currentCost, cost);
+		IO.debug("Delta: ", delta);
 		// Test the convergence
-		if (distance > cost) {
-			IO.warn("The cost is increasing by ", distance,
-					" (", Doubles.formatPercent(distance / cost), ")");
+		if (delta > cost) {
+			IO.warn("The cost is increasing by ", delta,
+					" (", Doubles.formatPercent(delta / cost), ")");
 		}
 		cost = currentCost;
-		if (distance <= tolerance) {
+		if (delta <= tolerance) {
 			IO.warn("No more improvement");
 		}
-		return distance <= tolerance || cost <= tolerance;
+		return delta <= tolerance || cost <= tolerance;
 	}
 
 

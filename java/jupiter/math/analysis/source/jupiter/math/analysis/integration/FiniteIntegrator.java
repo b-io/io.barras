@@ -310,13 +310,13 @@ public class FiniteIntegrator
 
 		// Find the constant
 		integrateAllWith(0.);
-		// - Get the minimum value (on the ordinate)
+		// • Get the minimum value (on the ordinate)
 		final int minIndex = Maths.closest(Y, Maths.min(Y));
 		final boolean hasLocalMin = minIndex != 0 && minIndex != X.length - 1;
-		// - Get the maximum value (on the ordinate)
+		// • Get the maximum value (on the ordinate)
 		final int maxIndex = Maths.closest(Y, Maths.max(Y));
 		final boolean hasLocalMax = maxIndex != 0 && maxIndex != X.length - 1;
-		// - Update the constant
+		// • Update the constant
 		final double C;
 		if (!hasLocalMin && !hasLocalMax) {
 			C = -interpolator.apply(Maths.mean(X[minIndex], X[maxIndex]));
@@ -393,7 +393,7 @@ public class FiniteIntegrator
 		Maths.add(DX, step);
 		DY = new double[size];
 		for (int i = 0; i < size; ++i) {
-			DY[i] = (i == 0 ? C : DY[i - 1]) + step * (Y[i] + Y[i + 1]) / 2.;
+			DY[i] = (i == 0 ? C : DY[i - 1]) + step * Maths.mean(Y[i], Y[i + 1]);
 		}
 
 		// Interpolate the finite integral approximation Y

@@ -153,7 +153,7 @@ public class DoubleInterval
 	 * @return the distance between the {@link LowerBound} and the specified value
 	 */
 	public double getLowerDistance(final Double value) {
-		return value != null ? Maths.distance(value, getLowerBoundValue()) :
+		return value != null ? Maths.distance(getLowerBoundValue(), value) :
 				Double.POSITIVE_INFINITY;
 	}
 
@@ -165,7 +165,7 @@ public class DoubleInterval
 	 * @return the distance between the {@link UpperBound} and the specified value
 	 */
 	public double getUpperDistance(final Double value) {
-		return value != null ? Maths.distance(value, getUpperBoundValue()) :
+		return value != null ? Maths.distance(getUpperBoundValue(), value) :
 				Double.POSITIVE_INFINITY;
 	}
 

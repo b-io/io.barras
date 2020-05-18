@@ -112,7 +112,7 @@ public class SpeedChecker {
 		parallelize();
 		try {
 			start();
-			//clear();
+			clear();
 			show();
 			for (int ri = 0; ri < RUNS_COUNT; ++ri) {
 				SpeedChecker.downloadAll();

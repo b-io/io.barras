@@ -23,7 +23,9 @@
  */
 package jupiter.math.analysis.interpolation;
 
+import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Doubles;
 import jupiter.math.analysis.struct.XY;
 
 /**
@@ -74,8 +76,13 @@ public class LinearInterpolator
 		super(fromPoint, toPoint);
 
 		// Compute the slope and intercept of the linear interpolant
-		slope = (toPoint.getY() - fromPoint.getY()) / (toPoint.getX() - fromPoint.getX());
-		intercept = fromPoint.getY() - slope * fromPoint.getX();
+		if (Doubles.equals(fromPoint.getX(), toPoint.getX())) {
+			slope = 0.;
+			intercept = Maths.mean(fromPoint.getY(), toPoint.getY());
+		} else {
+			slope = (toPoint.getY() - fromPoint.getY()) / (toPoint.getX() - fromPoint.getX());
+			intercept = fromPoint.getY() - slope * fromPoint.getX();
+		}
 	}
 
 

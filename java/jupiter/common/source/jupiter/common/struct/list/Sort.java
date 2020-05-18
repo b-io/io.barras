@@ -783,8 +783,7 @@ outer:  while (true) {
 					dest += count1;
 					cursor1 += count1;
 					length1 -= count1;
-					if (length1 <= 1) // length1 == 1 || length1 == 0
-					{
+					if (length1 <= 1) {
 						break outer;
 					}
 				}
@@ -930,7 +929,7 @@ outer:  while (true) {
 					length2 -= count2;
 					System.arraycopy(temp, cursor2 + 1, array, dest + 1, count2);
 					if (length2 <= 1) {
-						break outer; // length2 == 1 || length2 == 0
+						break outer;
 					}
 				}
 				array[dest--] = array[cursor1--];
