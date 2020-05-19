@@ -25,7 +25,6 @@ package jupiter.graphics.charts;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
-import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.struct.SeriesStyle;
 

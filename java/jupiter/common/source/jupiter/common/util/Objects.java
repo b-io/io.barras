@@ -23,9 +23,9 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.COLON;
-import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Method;

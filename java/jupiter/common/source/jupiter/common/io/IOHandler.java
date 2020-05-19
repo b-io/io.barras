@@ -23,8 +23,8 @@
  */
 package jupiter.common.io;
 
-import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.io.BufferedReader;
 import java.io.Closeable;

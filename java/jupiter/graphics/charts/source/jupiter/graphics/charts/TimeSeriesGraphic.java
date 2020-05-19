@@ -31,7 +31,6 @@ import java.util.Date;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
-import jupiter.common.util.Doubles;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.panels.DynamicChartPanel;
 import jupiter.graphics.charts.struct.SeriesStyle;

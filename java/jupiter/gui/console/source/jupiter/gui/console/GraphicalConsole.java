@@ -23,9 +23,9 @@
  */
 package jupiter.gui.console;
 
-import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.Formats.CHARSET;
 import static jupiter.common.Formats.VERSION;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.PrintStream;

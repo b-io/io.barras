@@ -375,7 +375,7 @@ public class Numbers {
 		// Convert the number to a representative string
 		final double value = Maths.abs(number.doubleValue());
 		return value <= MIN_SCIENTIFIC_THRESHOLD || value >= MAX_SCIENTIFIC_THRESHOLD ?
-						SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
-						DECIMAL_FORMAT.format(number);
+				SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
+				DECIMAL_FORMAT.format(number);
 	}
 }

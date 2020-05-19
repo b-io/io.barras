@@ -23,9 +23,9 @@
  */
 package jupiter.hardware.gpu;
 
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
-import static jupiter.common.Formats.NEWLINE;
 
 import java.io.Serializable;
 import java.lang.ref.PhantomReference;

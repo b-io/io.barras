@@ -23,9 +23,9 @@
  */
 package jupiter.common.io.file;
 
-import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.Formats.CHARSET;
 import static jupiter.common.Formats.NEWLINE;
+import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;

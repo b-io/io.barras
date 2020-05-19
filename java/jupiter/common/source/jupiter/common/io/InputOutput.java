@@ -26,7 +26,6 @@ package jupiter.common.io;
 import static jupiter.common.Formats.CHARSET;
 import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
-import static jupiter.common.util.Strings.FALSE;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -54,7 +53,6 @@ import jupiter.common.properties.Jupiter;
 import jupiter.common.properties.Properties;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 

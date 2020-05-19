@@ -23,9 +23,9 @@
  */
 package jupiter.common.map;
 
-import jupiter.common.model.ICloneable;
-
 import static jupiter.common.util.Classes.OBJECT_CLASS;
+
+import jupiter.common.model.ICloneable;
 
 /**
  * {@link DefaultMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an output
