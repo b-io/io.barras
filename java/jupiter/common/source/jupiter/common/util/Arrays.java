@@ -23,6 +23,7 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Array;
@@ -93,7 +94,7 @@ public class Arrays {
 	public static Class<?> getElementClass(final Object... array) {
 		// Check the arguments
 		if (isNullOrEmpty(array)) {
-			return Object.class;
+			return OBJECT_CLASS;
 		}
 
 		// Get the element class of the array (common ancestor of the element classes)
@@ -101,7 +102,7 @@ public class Arrays {
 		for (int i = 1; i < array.length; ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(array[i]));
 		}
-		return c != null ? c : Object.class;
+		return c != null ? c : OBJECT_CLASS;
 	}
 
 
@@ -247,18 +248,18 @@ public class Arrays {
 	/**
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
 	 * array, or {@code null} if any of them is {@code null} or {@code c} is equal to
-	 * {@code Object.class}.
+	 * {@link Classes#OBJECT_CLASS}.
 	 * <p>
 	 * @param c     the element {@link Class} of the array to convert (may be {@code null})
 	 * @param array the array to convert (may be {@code null})
 	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
 	 *         array, or {@code null} if any of them is {@code null} or {@code c} is equal to
-	 *         {@code Object.class}
+	 *         {@link Classes#OBJECT_CLASS}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Object[] array) {
 		// Check the arguments
-		if (c == null || c == Object.class || array == null) {
+		if (c == null || c == OBJECT_CLASS || array == null) {
 			return null;
 		}
 

@@ -23,8 +23,8 @@
  */
 package jupiter.common.io;
 
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.FALSE;
 
@@ -111,7 +111,7 @@ public class InputOutput
 	/**
 	 * The default {@link InputOutput}.
 	 */
-	public static final InputOutput IO = new InputOutput(Jupiter.getProperties());
+	public static final InputOutput IO = new InputOutput(Jupiter.PROPERTIES);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -432,8 +432,7 @@ public class InputOutput
 		// Set the severity level and stack index
 		severityLevel = SeverityLevel.valueOf(properties.getProperty("io.severityLevel",
 				DEFAULT_SEVERITY_LEVEL.toString()));
-		stackIndex = Integers.convert(properties.getProperty("io.stackIndex",
-				String.valueOf(DEFAULT_STACK_INDEX)));
+		stackIndex = properties.getInt("io.stackIndex", DEFAULT_STACK_INDEX);
 		// Set the IO handlers and IO printer
 		final String[] handlerClassNames = properties.getPropertyArray("io.handlers",
 				Strings.join(DEFAULT_CONSOLE_HANDLER.getClass().getCanonicalName(), ",",
@@ -468,7 +467,7 @@ public class InputOutput
 			}
 		}
 		setHandlers(handlers);
-		if (Boolean.valueOf(properties.getProperty("io.clear", FALSE))) {
+		if (properties.getBoolean("io.clear", false)) {
 			clear();
 		}
 	}
@@ -979,7 +978,7 @@ public class InputOutput
 	 * @return a {@link BufferedReader} of the specified {@link InputStream}
 	 */
 	public static BufferedReader createReader(final InputStream input) {
-		return createReader(input, DEFAULT_CHARSET);
+		return createReader(input, CHARSET);
 	}
 
 	/**
@@ -1009,7 +1008,7 @@ public class InputOutput
 	 */
 	public static Content read(final InputStream input)
 			throws IOException {
-		return read(input, DEFAULT_CHARSET);
+		return read(input, CHARSET);
 	}
 
 	/**
@@ -1035,7 +1034,7 @@ public class InputOutput
 			// Iterate over the lines
 			String line;
 			while ((line = reader.readLine()) != null) {
-				builder.append(line).append(NEW_LINE);
+				builder.append(line).append(NEWLINE);
 				++lineCount;
 			}
 		} finally {
@@ -1057,7 +1056,7 @@ public class InputOutput
 	 */
 	public static int countLines(final InputStream input)
 			throws IOException {
-		return countLines(input, DEFAULT_CHARSET, false);
+		return countLines(input, CHARSET, false);
 	}
 
 	/**
@@ -1091,7 +1090,7 @@ public class InputOutput
 	 */
 	public static int countLines(final InputStream input, final boolean skipEmptyLines)
 			throws IOException {
-		return countLines(input, DEFAULT_CHARSET, skipEmptyLines);
+		return countLines(input, CHARSET, skipEmptyLines);
 	}
 
 	/**
@@ -1156,7 +1155,7 @@ public class InputOutput
 	 * @return a {@link BufferedWriter} of the specified {@link OutputStream}
 	 */
 	public static BufferedWriter createWriter(final OutputStream outputStream) {
-		return createWriter(outputStream, DEFAULT_CHARSET);
+		return createWriter(outputStream, CHARSET);
 	}
 
 	/**

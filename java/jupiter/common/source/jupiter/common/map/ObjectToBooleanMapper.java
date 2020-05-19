@@ -143,5 +143,7 @@ public abstract class ObjectToBooleanMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToBooleanMapper clone();
+	public ObjectToBooleanMapper clone() {
+		return this;
+	}
 }

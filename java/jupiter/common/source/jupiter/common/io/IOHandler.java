@@ -24,7 +24,7 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.Formats.CHARSET;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -127,7 +127,7 @@ public abstract class IOHandler
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println(final InputStream input, final boolean isError) {
-		return println(input, DEFAULT_CHARSET, isError);
+		return println(input, CHARSET, isError);
 	}
 
 	/**

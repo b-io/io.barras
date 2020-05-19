@@ -24,8 +24,8 @@
 package jupiter.common.io.file;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
@@ -119,7 +119,7 @@ public class FileHandler
 	 * @param path the path to the file to handle
 	 */
 	public FileHandler(final String path) {
-		this(path, DEFAULT_CHARSET);
+		this(path, CHARSET);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class FileHandler
 	 * @param file the {@link File} to handle
 	 */
 	public FileHandler(final File file) {
-		this(file, DEFAULT_CHARSET);
+		this(file, CHARSET);
 	}
 
 	/**
@@ -831,7 +831,7 @@ public class FileHandler
 	 */
 	public synchronized void writeLine(final String content, final boolean append)
 			throws FileNotFoundException, IOException {
-		write(content.concat(NEW_LINE), append);
+		write(content.concat(NEWLINE), append);
 		if (lineCount >= 0) {
 			++lineCount;
 		}

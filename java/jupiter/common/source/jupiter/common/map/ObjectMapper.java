@@ -55,6 +55,13 @@ public abstract class ObjectMapper<O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Constructs an {@link ObjectMapper} of {@code O} type.
+	 */
+	protected ObjectMapper() {
+		super();
+	}
+
+	/**
 	 * Constructs an {@link ObjectMapper} of {@code O} type with the specified output {@link Class}.
 	 * <p>
 	 * @param c the output {@link Class} of {@code O} type
@@ -118,5 +125,7 @@ public abstract class ObjectMapper<O>
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectMapper<O> clone();
+	public ObjectMapper<O> clone() {
+		return this;
+	}
 }

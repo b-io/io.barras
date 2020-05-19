@@ -23,6 +23,8 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.Formats.LINE_LENGTH;
+import static jupiter.common.Formats.LOCALE;
 import static jupiter.common.util.Arrays.DELIMITER;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.HYPHEN;
@@ -36,8 +38,6 @@ import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
-import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
-import static jupiter.common.util.Formats.DEFAULT_LOCALE;
 
 import java.text.NumberFormat;
 import java.text.ParsePosition;
@@ -78,6 +78,21 @@ public class Strings {
 	protected static final StringParser PARSER = IParsers.STRING_PARSER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The carriage return used for line breaking in Mac OS.
+	 */
+	public static final String CR = "\r";
+	/**
+	 * The line feed used for line breaking in Unix.
+	 */
+	public static final String LF = "\n";
+	/**
+	 * The carriage return used for line breaking in Windows.
+	 */
+	public static final String CRLF = "\r\n";
+
+	//////////////////////////////////////////////
 
 	public static final String FALSE = "false";
 	public static final String TRUE = "true";
@@ -221,11 +236,11 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String toLowerCase(final String text) {
-		return text.toLowerCase(DEFAULT_LOCALE);
+		return text.toLowerCase(LOCALE);
 	}
 
 	public static String toUpperCase(final String text) {
-		return text.toUpperCase(DEFAULT_LOCALE);
+		return text.toUpperCase(LOCALE);
 	}
 
 	//////////////////////////////////////////////
@@ -476,7 +491,7 @@ public class Strings {
 	 * @return a {@link String} bar by default
 	 */
 	public static String createBar() {
-		return createBar(DEFAULT_LINE_LENGTH, DEFAULT_PROGRESS_SYMBOL);
+		return createBar(LINE_LENGTH, DEFAULT_PROGRESS_SYMBOL);
 	}
 
 	/**
@@ -502,7 +517,7 @@ public class Strings {
 	 *         symbol
 	 */
 	public static String createBar(final char progressSymbol) {
-		return createBar(DEFAULT_LINE_LENGTH, progressSymbol);
+		return createBar(LINE_LENGTH, progressSymbol);
 	}
 
 	/**
@@ -627,7 +642,7 @@ public class Strings {
 	 * the specified {@link String}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>To also convert the remaining characters to lowercase, use
+	 * <dd>To also convert the remaining characters to lower case, use
 	 * {@link #capitalizeStrictly(String)}.</dd>
 	 * </dl>
 	 * <p>
@@ -648,7 +663,7 @@ public class Strings {
 	 * {@link String} separated by the specified {@code char} delimiters.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
-	 * <dd>To also convert the remaining characters to lowercase, use
+	 * <dd>To also convert the remaining characters to lower case, use
 	 * {@link #capitalizeStrictly(String, char...)}.</dd>
 	 * </dl>
 	 * <p>
@@ -686,12 +701,12 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
-	 * the specified {@link String} and converting the remaining characters to lowercase.
+	 * the specified {@link String} and converting the remaining characters to lower case.
 	 * <p>
 	 * @param text the @link String} to capitalize (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
-	 *         the specified {@link String} and converting the remaining characters to lowercase
+	 *         the specified {@link String} and converting the remaining characters to lower case
 	 *
 	 * @see #uncapitalize(String)
 	 */
@@ -702,14 +717,14 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by capitalizing all the words of the specified
 	 * {@link String} separated by the specified {@code char} delimiters and converting the
-	 * remaining characters to lowercase.
+	 * remaining characters to lower case.
 	 * <p>
 	 * @param text       the @link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters and converting the
-	 *         remaining characters to lowercase
+	 *         remaining characters to lower case
 	 *
 	 * @see #uncapitalize(String, char...)
 	 */
@@ -719,7 +734,7 @@ public class Strings {
 			return text;
 		}
 
-		// Convert the text to lowercase and
+		// Convert the text to lower case and
 		// capitalize all the words of the text separated by the delimiters
 		return capitalize(text.toLowerCase(), delimiters);
 	}
@@ -4006,6 +4021,52 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
+	 * Tests whether the specified {@link String} is lower case.
+	 * <p>
+	 * @param text the {@link String} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is lower case, {@code false} otherwise
+	 */
+	public static boolean isLowerCase(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return false;
+		}
+
+		// Test whether the text is lower case
+		for (int i = 0; i < text.length(); ++i) {
+			if (!Character.isLowerCase(text.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Tests whether the specified {@link String} is upper case.
+	 * <p>
+	 * @param text the {@link String} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is upper case, {@code false} otherwise
+	 */
+	public static boolean isUpperCase(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return false;
+		}
+
+		// Test whether the text is upper case
+		for (int i = 0; i < text.length(); ++i) {
+			if (!Character.isUpperCase(text.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Tests whether the specified {@link String} is numeric.
 	 * <p>
 	 * @param text the {@link String} to test (may be {@code null})
@@ -4019,6 +4080,29 @@ public class Strings {
 		}
 
 		// Test whether the text is numeric
+		for (int i = 0; i < text.length(); ++i) {
+			if (!Character.isDigit(text.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Tests whether the specified {@link String} is a {@link Number}.
+	 * <p>
+	 * @param text the {@link String} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link String} is a {@link Number}, {@code false}
+	 *         otherwise
+	 */
+	public static boolean isNumber(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return false;
+		}
+
+		// Test whether the text is a number
 		final NumberFormat formatter = NumberFormat.getInstance();
 		final ParsePosition position = new ParsePosition(0);
 		formatter.parse(text, position);

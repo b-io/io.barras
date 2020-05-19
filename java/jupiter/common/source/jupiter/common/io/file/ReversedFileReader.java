@@ -23,11 +23,12 @@
  */
 package jupiter.common.io.file;
 
+import static jupiter.common.Charsets.UTF_16;
 import static jupiter.common.io.InputOutput.BUFFER_SIZE;
-import static jupiter.common.util.Formats.CR;
-import static jupiter.common.util.Formats.CRLF;
-import static jupiter.common.util.Formats.LF;
+import static jupiter.common.util.Strings.CR;
+import static jupiter.common.util.Strings.CRLF;
 import static jupiter.common.util.Strings.EMPTY;
+import static jupiter.common.util.Strings.LF;
 
 import java.io.Closeable;
 import java.io.File;
@@ -37,7 +38,7 @@ import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
-import jupiter.common.io.Charsets;
+import jupiter.common.Charsets;
 import jupiter.common.io.Resources;
 import jupiter.common.util.Strings;
 
@@ -61,7 +62,7 @@ public class ReversedFileReader
 	 */
 	protected final Charset charset;
 	/**
-	 * The number of bytes to encode a character with the {@link Charset}.
+	 * The number of bytes to encode a {@code char} value with the {@link Charset}.
 	 */
 	protected final int charSize;
 
@@ -143,7 +144,7 @@ public class ReversedFileReader
 		this.charset = charset;
 
 		// Prepare the encoding information
-		if (charset == Charsets.UTF_16) {
+		if (charset == UTF_16) {
 			throw new UnsupportedEncodingException(
 					"Specify the byte order for UTF-16 (either UTF-16BE or UTF-16LE)");
 		}

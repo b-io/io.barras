@@ -23,10 +23,10 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
-import static jupiter.common.util.Formats.DEFAULT_SCIENTIFIC_THRESHOLD;
-import static jupiter.common.util.Formats.MAX_INTEGER_DIGITS;
-import static jupiter.common.util.Formats.SCIENTIFIC_DECIMAL_FORMAT;
+import static jupiter.common.Formats.DECIMAL_FORMAT;
+import static jupiter.common.Formats.MAX_SCIENTIFIC_THRESHOLD;
+import static jupiter.common.Formats.MIN_SCIENTIFIC_THRESHOLD;
+import static jupiter.common.Formats.SCIENTIFIC_DECIMAL_FORMAT;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.common.util.Strings.NULL;
 
@@ -373,18 +373,9 @@ public class Numbers {
 		}
 
 		// Convert the number to a representative string
-		final String numberString = DECIMAL_FORMAT.format(number);
-		int integerDigitCount = numberString.length();
-		if (numberString.contains("-")) {
-			--integerDigitCount;
-		}
-		final int decimalPointIndex = numberString.indexOf('.');
-		if (decimalPointIndex >= 0) {
-			integerDigitCount -= numberString.length() - decimalPointIndex;
-		}
-		return integerDigitCount > MAX_INTEGER_DIGITS ||
-				Maths.abs(number.doubleValue()) < DEFAULT_SCIENTIFIC_THRESHOLD ?
+		final double value = Maths.abs(number.doubleValue());
+		return value <= MIN_SCIENTIFIC_THRESHOLD || value >= MAX_SCIENTIFIC_THRESHOLD ?
 						SCIENTIFIC_DECIMAL_FORMAT.format(number).replace("E0", EMPTY) :
-						numberString;
+						DECIMAL_FORMAT.format(number);
 	}
 }

@@ -30,12 +30,11 @@ import static jupiter.common.util.Strings.STAR;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Properties;
 import java.util.Set;
 
 import jupiter.common.io.file.Files;
+import jupiter.common.properties.Properties;
 import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.util.Strings;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.IOFileFilter;
@@ -134,7 +133,7 @@ public class SystemFiles {
 	public static int unzip(final Properties properties) {
 		final File localDir = new File(properties.getProperty("localDir"));
 		final String filter = properties.getProperty("filter", STAR).replace(STAR, ".*");
-		final String[] fileNames = Strings.split(properties.getProperty("fileNames")).toArray();
+		final String[] fileNames = properties.getPropertyArray("fileNames");
 
 		// Check the file names
 		if (fileNames.length == 0) {

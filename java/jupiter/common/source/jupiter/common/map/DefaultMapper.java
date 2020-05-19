@@ -21,20 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.gui.console;
+package jupiter.common.map;
 
-import static jupiter.common.Formats.NEWLINE;
+import jupiter.common.model.ICloneable;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.Serializable;
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 
-import jupiter.common.util.Strings;
-
-public class OutputStreamCapturer
-		extends OutputStream
-		implements Serializable {
+/**
+ * {@link DefaultMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an output
+ * {@link Object}.
+ */
+public abstract class DefaultMapper
+		extends ObjectMapper<Object> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -47,56 +45,30 @@ public class OutputStreamCapturer
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The {@link StringBuilder}.
-	 */
-	protected final StringBuilder builder;
-	/**
-	 * The consuming {@link JConsole}.
-	 */
-	protected final JConsole consumer;
-	/**
-	 * The previous {@link PrintStream}.
-	 */
-	protected final PrintStream previousPrintStream;
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link OutputStreamCapturer} with the specified consuming {@link JConsole} and
-	 * previous {@link PrintStream}.
-	 * <p>
-	 * @param consumer            the consuming {@link JConsole}
-	 * @param previousPrintStream the previous {@link PrintStream}
+	 * Constructs an {@link DefaultMapper}.
 	 */
-	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousPrintStream) {
-		super();
-		this.consumer = consumer;
-		this.previousPrintStream = previousPrintStream;
-		builder = Strings.createBuilder();
+	protected DefaultMapper() {
+		super(OBJECT_CLASS);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WRITERS
+	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
-	public synchronized void write(final int characterCode)
-			throws IOException {
-		final char character = (char) characterCode;
-		final String token = Character.toString(character);
-		builder.append(token);
-		if (token.equals(NEWLINE)) {
-			consumer.append(builder.toString());
-			builder.delete(0, builder.length());
-		}
-		previousPrintStream.print(character);
+	public DefaultMapper clone() {
+		return this;
 	}
 }

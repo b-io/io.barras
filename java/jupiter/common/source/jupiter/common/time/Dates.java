@@ -23,20 +23,82 @@
  */
 package jupiter.common.time;
 
-import static jupiter.common.util.Formats.DATE_FORMAT;
-import static jupiter.common.util.Formats.DATE_TIME_FORMAT;
+import static jupiter.common.Formats.DATE_FORMAT;
+import static jupiter.common.Formats.DATE_TIME_FORMAT;
 import static jupiter.common.util.Strings.NULL;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
+import java.util.TimeZone;
+import jupiter.common.Formats;
+import jupiter.common.map.Mapper;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class Dates {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final long HOURS_PER_DAY = 24L; // [h]
+	public static final long MINUTES_PER_HOUR = 60L; // [min]
+	public static final long SECONDS_PER_MINUTE = 60L; // [s]
+	public static final long MILLISECONDS_PER_SECOND = 1000L; // [ms]
+
+	public static final long MINUTES_PER_DAY = MINUTES_PER_HOUR * HOURS_PER_DAY; // [min]
+	public static final long SECONDS_PER_DAY = SECONDS_PER_MINUTE * MINUTES_PER_DAY; // [s]
+	public static final long MILLISECONDS_PER_DAY = MILLISECONDS_PER_SECOND * SECONDS_PER_DAY; // [ms]
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile Mapper<Integer, List<? extends Date>> NO_PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public List<? extends Date> call(final Integer year) {
+			return new ExtendedList<Date>(0);
+		}
+	};
+
+	public static volatile Mapper<Integer, List<? extends Date>> PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public List<? extends Date> call(final Integer year) {
+			return getSwissPublicHolidays(year);
+		}
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Comparator<Date> COMPARATOR = new Comparator<Date>() {
+		@Override
+		public int compare(final Date a, final Date b) {
+			return Dates.compare(a, b);
+		}
+	};
+
+	public static final Comparator<Date> COMPARATOR_WITH_TIME = new Comparator<Date>() {
+		@Override
+		public int compare(final Date a, final Date b) {
+			return Dates.compareWithTime(a, b);
+		}
+	};
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -53,36 +115,23 @@ public class Dates {
 	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Returns the current date {@link String}.
-	 * <p>
-	 * @return the current date {@link String}
-	 */
-	public static String getDate() {
-		return format(new Date());
+	public static int getDate(final Date date) {
+		return getDate(createCalendar(date));
 	}
 
-	/**
-	 * Returns the current date-time {@link String}.
-	 * <p>
-	 * @return the current date-time {@link String}
-	 */
-	public static String getDateTime() {
-		return formatWithTime(new Date());
-	}
-
-	/**
-	 * Returns the current date-time {@link String} formatted according to {@code pattern}.
-	 * <p>
-	 * @param pattern the pattern {@link String} describing the date-time format
-	 * <p>
-	 * @return the current date-time {@link String} formatted according to {@code pattern}
-	 */
-	public static String getDateTime(final String pattern) {
-		return new SafeDateFormat(pattern).format(new Date());
+	public static int getDate(final Calendar calendar) {
+		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
 	//////////////////////////////////////////////
+
+	public static int getMonth(final Date date) {
+		return getMonth(createCalendar(date));
+	}
+
+	public static int getMonth(final Calendar calendar) {
+		return calendar.get(Calendar.MONTH) + 1;
+	}
 
 	/**
 	 * Returns the {@link Date} of the last day of the current month.
@@ -101,13 +150,30 @@ public class Dates {
 	 * @return the {@link Date} of the last day of the specified month
 	 */
 	public static Date getMonthLastDay(final Date month) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(month);
-		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-		return calendar.getTime();
+		return getMonthLastDay(createCalendar(month));
+	}
+
+	/**
+	 * Returns the {@link Date} of the last day of the specified month.
+	 * <p>
+	 * @param month the month to consider
+	 * <p>
+	 * @return the {@link Date} of the last day of the specified month
+	 */
+	public static Date getMonthLastDay(final Calendar month) {
+		month.set(Calendar.DAY_OF_MONTH, month.getActualMaximum(Calendar.DAY_OF_MONTH));
+		return month.getTime();
 	}
 
 	//////////////////////////////////////////////
+
+	public static int getYear(final Date date) {
+		return getYear(createCalendar(date));
+	}
+
+	public static int getYear(final Calendar calendar) {
+		return calendar.get(Calendar.YEAR);
+	}
 
 	/**
 	 * Returns the {@link Date} of the last day of the current year.
@@ -126,10 +192,19 @@ public class Dates {
 	 * @return the {@link Date} of the last day of the specified year
 	 */
 	public static Date getYearLastDay(final Date year) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(year);
-		calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
-		return calendar.getTime();
+		return getYearLastDay(createCalendar(year));
+	}
+
+	/**
+	 * Returns the {@link Date} of the last day of the specified year.
+	 * <p>
+	 * @param year the year to consider
+	 * <p>
+	 * @return the {@link Date} of the last day of the specified year
+	 */
+	public static Date getYearLastDay(final Calendar year) {
+		year.set(Calendar.DAY_OF_YEAR, year.getActualMaximum(Calendar.DAY_OF_YEAR));
+		return year.getTime();
 	}
 
 	//////////////////////////////////////////////
@@ -142,8 +217,7 @@ public class Dates {
 	 * @return the {@link Date} of Good Friday for the specified year
 	 */
 	public static Date getGoodFriday(final int year) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getEasterDay(year));
+		final Calendar calendar = createCalendar(getEasterDay(year));
 		calendar.add(Calendar.DATE, -2);
 		return calendar.getTime();
 	}
@@ -188,8 +262,7 @@ public class Dates {
 	 * @return the {@link Date} of Easter Monday in the specified year
 	 */
 	public static Date getEasterMonday(final int year) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getEasterDay(year));
+		final Calendar calendar = createCalendar(getEasterDay(year));
 		calendar.add(Calendar.DATE, 1);
 		return calendar.getTime();
 	}
@@ -202,8 +275,7 @@ public class Dates {
 	 * @return the {@link Date} of Ascension Day in the specified year
 	 */
 	public static Date getAscensionDay(final int year) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getEasterDay(year));
+		final Calendar calendar = createCalendar(getEasterDay(year));
 		calendar.add(Calendar.DATE, 39);
 		return calendar.getTime();
 	}
@@ -216,8 +288,7 @@ public class Dates {
 	 * @return the {@link Date} of Pentecost Day in the specified year
 	 */
 	public static Date getPentecostDay(final int year) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(getEasterDay(year));
+		final Calendar calendar = createCalendar(getEasterDay(year));
 		calendar.add(Calendar.DATE, 50);
 		return calendar.getTime();
 	}
@@ -256,6 +327,137 @@ public class Dates {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMPARATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Compares the specified {@link Date} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link Date} to compare for order (may be {@code null})
+	 * @param b the other {@link Date} to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	@SuppressWarnings("deprecation")
+	public static int compare(final Date a, final Date b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the dates for order
+		int comparison = Integers.compare(a.getYear(), b.getYear());
+		if (comparison != 0) {
+			return comparison;
+		}
+		comparison = Integers.compare(a.getMonth(), b.getMonth());
+		if (comparison != 0) {
+			return comparison;
+		}
+		return Integers.compare(a.getDate(), b.getDate());
+	}
+
+	/**
+	 * Compares the specified {@link Calendar} for order. Returns a negative integer, {@code 0} or a
+	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link Calendar} to compare for order (may be {@code null})
+	 * @param b the other {@link Calendar} to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compare(final Calendar a, final Calendar b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the dates for order
+		int comparison = Integers.compare(getYear(a), getYear(b));
+		if (comparison != 0) {
+			return comparison;
+		}
+		comparison = Integers.compare(getMonth(a), getMonth(b));
+		if (comparison != 0) {
+			return comparison;
+		}
+		return Integers.compare(getDate(a), getDate(b));
+	}
+
+	/**
+	 * Compares the specified {@link Date} with time for order. Returns a negative integer,
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link Date} with time to compare for order (may be {@code null})
+	 * @param b the other {@link Date} with time to compare against for order (may be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compareWithTime(final Date a, final Date b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the dates with time for order
+		return Longs.compare(a.getTime(), b.getTime());
+	}
+
+	/**
+	 * Compares the specified {@link Calendar} with time for order. Returns a negative integer,
+	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
+	 * (with {@code null} considered as the minimum value).
+	 * <p>
+	 * @param a the {@link Calendar} with time to compare for order (may be {@code null})
+	 * @param b the other {@link Calendar} with time to compare against for order (may be
+	 *          {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
+	 *         to or greater than {@code b}
+	 */
+	public static int compareWithTime(final Calendar a, final Calendar b) {
+		// Check the arguments
+		if (a == b) {
+			return 0;
+		}
+		if (a == null) {
+			return -1;
+		}
+		if (b == null) {
+			return 1;
+		}
+
+		// Compare the dates with time for order
+		return Longs.compare(a.getTimeInMillis(), b.getTimeInMillis());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// FORMATTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -273,7 +475,7 @@ public class Dates {
 	/**
 	 * Returns the formatted {@link String} of the specified {@link Date} with time.
 	 * <p>
-	 * @param date the {@link Date} to format
+	 * @param date the {@link Date} with time to format
 	 * <p>
 	 * @return the formatted {@link String} of the specified {@link Date} with time
 	 */
@@ -286,21 +488,41 @@ public class Dates {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Calendar createCalendar() {
+		return Calendar.getInstance(Formats.TIME_ZONE, Formats.LOCALE);
+	}
+
+	public static Calendar createCalendar(final TimeZone timeZone) {
+		return Calendar.getInstance(timeZone, Formats.LOCALE);
+	}
+
+	public static Calendar createCalendar(final TimeZone timeZone, final Locale locale) {
+		return Calendar.getInstance(timeZone, locale);
+	}
+
+	public static Calendar createCalendar(final Date date) {
+		final Calendar calendar = createCalendar();
+		calendar.setTime(date);
+		return calendar;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Creates a {@link Date} that represents the specified date value.
+	 * Creates a {@link Date} that represents the specified date.
 	 * <p>
 	 * @param year  the year of the {@link Date} to create
 	 * @param month the month of the {@link Date} to create
 	 * @param day   the day of the {@link Date} to create
 	 * <p>
-	 * @return a {@link Date} that represents the specified date value
+	 * @return a {@link Date} that represents the specified date
 	 */
 	public static Date createDate(final int year, final int month, final int day) {
-		return createDateWithTime(year, month, day, 0, 0, 0, 0L);
+		return createDateTime(year, month, day, 0, 0, 0, 0L);
 	}
 
 	/**
-	 * Creates a {@link Date} that represents the specified date with time value.
+	 * Creates a {@link Date} with time that represents the specified date.
 	 * <p>
 	 * @param year      the year of the {@link Date} to create
 	 * @param month     the month of the {@link Date} to create
@@ -309,15 +531,15 @@ public class Dates {
 	 * @param minute    the minute of the {@link Date} to create
 	 * @param second    the second of the {@link Date} to create
 	 * <p>
-	 * @return a {@link Date} that represents the specified date with time value
+	 * @return a {@link Date} with time that represents the specified date
 	 */
-	public static Date createDateWithTime(final int year, final int month, final int day,
+	public static Date createDateTime(final int year, final int month, final int day,
 			final int hourOfDay, final int minute, final int second) {
-		return createDateWithTime(year, month, day, hourOfDay, minute, second, 0L);
+		return createDateTime(year, month, day, hourOfDay, minute, second, 0L);
 	}
 
 	/**
-	 * Creates a {@link Date} that represents the specified date with time value.
+	 * Creates a {@link Date} with time that represents the specified date.
 	 * <p>
 	 * @param year        the year of the {@link Date} to create
 	 * @param month       the month of the {@link Date} to create
@@ -327,14 +549,49 @@ public class Dates {
 	 * @param second      the second of the {@link Date} to create
 	 * @param millisecond the millisecond of the {@link Date} to create
 	 * <p>
-	 * @return a {@link Date} that represents the specified date with time value
+	 * @return a {@link Date} with time that represents the specified date
 	 */
-	public static Date createDateWithTime(final int year, final int month, final int day,
-			final int hourOfDay, final int minute, final int second, final long millisecond) {
-		final Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(millisecond);
-		cal.set(year, month - 1, day, hourOfDay, minute, second);
-		return cal.getTime();
+	public static Date createDateTime(final int year, final int month,
+			final int day, final int hourOfDay, final int minute, final int second,
+			final long millisecond) {
+		final Calendar calendar = createCalendar();
+		calendar.setTimeInMillis(millisecond);
+		calendar.set(year, month - 1, day, hourOfDay, minute, second);
+		return calendar.getTime();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Creates a date {@link String} and initializes it so that it represents the date at which it
+	 * was allocated (to the nearest millisecond).
+	 * <p>
+	 * @return a date {@link String}
+	 */
+	public static String createDate() {
+		return format(new Date());
+	}
+
+	/**
+	 * Creates a date-time {@link String} and initializes it so that it represents the date at which
+	 * it was allocated (to the nearest millisecond).
+	 * <p>
+	 * @return a date-time {@link String}
+	 */
+	public static String createDateTime() {
+		return formatWithTime(new Date());
+	}
+
+	/**
+	 * Creates a date-time {@link String}, initializes it so that it represents the date at which it
+	 * was allocated (to the nearest millisecond) and formats it according to {@code pattern}.
+	 * <p>
+	 * @param pattern the pattern {@link String} describing the date-time format
+	 * <p>
+	 * @return a date-time {@link String} formatted according to {@code pattern}
+	 */
+	public static String createDateTime(final String pattern) {
+		return new SafeDateFormat(pattern).format(new Date());
 	}
 
 	//////////////////////////////////////////////
@@ -346,6 +603,45 @@ public class Dates {
 	 */
 	public static long createTimestamp() {
 		return new Date().getTime();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Date[] createDailySequence(final Date from, final Date to) {
+		final Date[] array = new Date[countDays(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = start.getTime();
+			start.add(Calendar.DATE, 1);
+		}
+		return array;
+	}
+
+	public static Date[] createBusinessDailySequence(final Date from, final Date to) {
+		return createBusinessDailySequence(from, to, NO_PUBLIC_HOLIDAYS);
+	}
+
+	public static Date[] createBusinessDailySequence(final Date from, final Date to,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		final Date[] array = new Date[countBusinessDays(from, to)];
+		final Calendar start = createCalendar(from);
+		final Calendar end = createCalendar(to);
+		int i = 0, year = start.get(Calendar.YEAR);
+		List<? extends Date> phs = publicHolidays.call(year);
+		while (compare(start, end) <= 0) {
+			// • Update the number of business days
+			if (isWeekDay(start) && !phs.contains(start.getTime())) {
+				array[i++] = start.getTime();
+			}
+			// • Increment the date
+			start.add(Calendar.DAY_OF_MONTH, 1);
+			// • Update the public holidays if required
+			if (year != start.get(Calendar.YEAR)) {
+				year = start.get(Calendar.YEAR);
+				phs = publicHolidays.call(year);
+			}
+		}
+		return array;
 	}
 
 
@@ -435,56 +731,108 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of business days with the specified {@link List} of public holidays for
-	 * the specified year.
+	 * Returns the number of days for the specified period of time.
 	 * <p>
-	 * @param year           an {@code int} value
-	 * @param publicHolidays the {@link List} of public holidays for the year
+	 * @param from the start of the period of time (inclusive)
+	 * @param to   the end of the period of time (inclusive)
 	 * <p>
-	 * @return the number of business days with the specified {@link List} of public holidays for
-	 *         the specified year
+	 * @return the number of days for the specified period of time
 	 */
-	public static int countBusinessDays(final int year, final List<? extends Date> publicHolidays) {
-		return countBusinessDaysBetween(createDate(year, 1, 1), createDate(year, 12, 31),
-				publicHolidays);
+	public static int countDays(final Date from, final Date to) {
+		return Integers.convert((to.getTime() - from.getTime()) / MILLISECONDS_PER_DAY);
+	}
+
+	/**
+	 * Returns the number of business days for the specified period of time.
+	 * <p>
+	 * @param from the start of the period of time (inclusive)
+	 * @param to   the end of the period of time (inclusive)
+	 * <p>
+	 * @return the number of business days for the specified period of time
+	 */
+	public static int countBusinessDays(final Date from, final Date to) {
+		return countBusinessDays(from, to, NO_PUBLIC_HOLIDAYS);
 	}
 
 	/**
 	 * Returns the number of business days with the specified {@link List} of public holidays for
 	 * the specified period of time.
 	 * <p>
-	 * @param startDate      the start of the period of time (inclusive)
-	 * @param endDate        the end of the period of time (inclusive)
-	 * @param publicHolidays the {@link List} of public holidays for the period of time
+	 * @param from           the start of the period of time (inclusive)
+	 * @param to             the end of the period of time (inclusive)
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
 	 * <p>
 	 * @return the number of business days with the specified {@link List} of public holidays for
 	 *         the specified period of time
 	 */
-	public static int countBusinessDaysBetween(final Date startDate, final Date endDate,
-			List<? extends Date> publicHolidays) {
+	public static int countBusinessDays(final Date from, final Date to,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
 		// Create the calendars for the start and end dates
-		final Calendar start = Calendar.getInstance();
-		start.setTime(startDate);
-		final Calendar end = Calendar.getInstance();
-		end.setTime(endDate);
+		final Calendar start = createCalendar(from);
+		final Calendar end = createCalendar(to);
 		// Count the business days
-		int workDays = 0, year = start.get(Calendar.YEAR);
-		do {
+		int businessDayCount = 0, year = start.get(Calendar.YEAR);
+		List<? extends Date> phs = publicHolidays.call(year);
+		while (compare(start, end) <= 0) {
 			// • Update the number of business days
-			if (start.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY &&
-					start.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY &&
-					!publicHolidays.contains(start.getTime())) {
-				++workDays;
+			if (isWeekDay(start) && !phs.contains(start.getTime())) {
+				++businessDayCount;
 			}
-			// • Increment the current day
+			// • Increment the date
 			start.add(Calendar.DAY_OF_MONTH, 1);
 			// • Update the public holidays if required
 			if (year != start.get(Calendar.YEAR)) {
 				year = start.get(Calendar.YEAR);
-				publicHolidays = getSwissPublicHolidays(year);
+				phs = publicHolidays.call(year);
 			}
-		} while (start.getTimeInMillis() <= end.getTimeInMillis());
-		return workDays;
+		}
+		return businessDayCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of months for the specified period of time.
+	 * <p>
+	 * @param from the start of the period of time (inclusive)
+	 * @param to   the end of the period of time (inclusive)
+	 * <p>
+	 * @return the number of months for the specified period of time
+	 */
+	public static int countMonths(final Date from, final Date to) {
+		// Create the calendars for the start and end dates
+		final Calendar start = createCalendar(from);
+		final Calendar end = createCalendar(to);
+		// Count the months
+		int monthCount = 0;
+		while (compare(start, end) <= 0) {
+			++monthCount;
+			start.add(Calendar.MONTH, 1);
+		}
+		return monthCount;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the number of years for the specified period of time.
+	 * <p>
+	 * @param from the start of the period of time (inclusive)
+	 * @param to   the end of the period of time (inclusive)
+	 * <p>
+	 * @return the number of years for the specified period of time
+	 */
+	public static int countYears(final Date from, final Date to) {
+		// Create the calendars for the start and end dates
+		final Calendar start = createCalendar(from);
+		final Calendar end = createCalendar(to);
+		// Count the years
+		int yearCount = 0;
+		while (compare(start, end) <= 0) {
+			++yearCount;
+			start.add(Calendar.YEAR, 1);
+		}
+		return yearCount;
 	}
 
 
@@ -526,8 +874,17 @@ public class Dates {
 	 * @return {@code true} if the specified {@link Date} is a week day, {@code false} otherwise
 	 */
 	public static boolean isWeekDay(final Date date) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
+		return isWeekDay(createCalendar(date));
+	}
+
+	/**
+	 * Tests whether the specified {@link Calendar} is a week day.
+	 * <p>
+	 * @param calendar the {@link Calendar} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Calendar} is a week day, {@code false} otherwise
+	 */
+	public static boolean isWeekDay(final Calendar calendar) {
 		return !(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
 	}
@@ -542,8 +899,17 @@ public class Dates {
 	 * @return {@code true} if the specified {@link Date} has time, {@code false} otherwise
 	 */
 	public static boolean hasTime(final Date date) {
-		final Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
+		return hasTime(createCalendar(date));
+	}
+
+	/**
+	 * Tests whether the specified {@link Calendar} has time.
+	 * <p>
+	 * @param calendar the {@link Calendar} to test
+	 * <p>
+	 * @return {@code true} if the specified {@link Calendar} has time, {@code false} otherwise
+	 */
+	public static boolean hasTime(final Calendar calendar) {
 		return calendar.get(Calendar.HOUR_OF_DAY) + calendar.get(Calendar.MINUTE) +
 				calendar.get(Calendar.SECOND) + calendar.get(Calendar.MILLISECOND) > 0;
 	}
@@ -564,9 +930,24 @@ public class Dates {
 	@SuppressWarnings("deprecation")
 	public static boolean equals(final Date a, final Date b) {
 		return a == b || a != null && b != null &&
-				a.getDate() == b.getDate() &&
+				a.getYear() == b.getYear() &&
 				a.getMonth() == b.getMonth() &&
-				a.getYear() == b.getYear();
+				a.getDate() == b.getDate();
+	}
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the {@link Calendar} to compare for equality (may be {@code null})
+	 * @param b the other {@link Calendar} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Calendar a, final Calendar b) {
+		return a == b || a != null && b != null &&
+				getYear(a) == getYear(b) &&
+				getMonth(a) == getMonth(b) &&
+				getDate(a) == getDate(b);
 	}
 
 	/**

@@ -24,7 +24,7 @@
 package jupiter.media.audio;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.media.audio.Audio.DEFAULT_AUDIO_FORMAT;
+import static jupiter.media.audio.Audio.AUDIO_FORMAT;
 
 import java.awt.HeadlessException;
 import java.io.File;
@@ -94,7 +94,7 @@ public class AudioRecorder
 	 * Constructs an {@link AudioRecorder} by default.
 	 */
 	public AudioRecorder() {
-		this(DEFAULT_AUDIO_FORMAT);
+		this(AUDIO_FORMAT);
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class AudioRecorder
 	 */
 	public static File record(final AudioTargetInterface targetInterface) {
 		final File targetFile = new File(Dates.createTimestamp() + ".wav");
-		record(targetInterface, targetFile, DEFAULT_AUDIO_FORMAT);
+		record(targetInterface, targetFile, AUDIO_FORMAT);
 		return targetFile;
 	}
 
@@ -287,7 +287,7 @@ public class AudioRecorder
 	 * @param targetFile      the WAV {@link File} to record to
 	 */
 	public static void record(final AudioTargetInterface targetInterface, final File targetFile) {
-		record(targetInterface, targetFile, DEFAULT_AUDIO_FORMAT);
+		record(targetInterface, targetFile, AUDIO_FORMAT);
 	}
 
 	/**

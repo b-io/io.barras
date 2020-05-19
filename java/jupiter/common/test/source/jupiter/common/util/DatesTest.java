@@ -41,14 +41,27 @@ public class DatesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests {@link Dates#createBusinessDailySequence}.
+	 */
+	public void testCreateBusinessDailySequence() {
+		IO.test(BULLET, " createBusinessDailySequence");
+
+		final Date from = Dates.createDateTime(2013, 1, 1, 1, 2, 3);
+		final Date to = Dates.createDateTime(2020, 1, 1, 1, 2, 3);
+		final Date[] array = Dates.createBusinessDailySequence(from, to);
+		assertEquals(1827, array.length);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests {@link Dates#toString}.
 	 */
 	public void testToString() {
 		IO.test(BULLET, " toString");
 
-		IO.test(Dates.toString(new Date()));
 		assertEquals("1234-05-06", Dates.toString(Dates.createDate(1234, 5, 6)));
 		assertEquals("1234-05-06 01:02:03",
-				Dates.toString(Dates.createDateWithTime(1234, 5, 6, 1, 2, 3)));
+				Dates.toString(Dates.createDateTime(1234, 5, 6, 1, 2, 3)));
 	}
 }

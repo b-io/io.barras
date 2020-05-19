@@ -61,7 +61,7 @@ public abstract class Worker<I, O>
 	/**
 	 * The current identifier.
 	 */
-	protected static volatile long CURRENT_ID = 0L;
+	protected static volatile long CURRENT_ID = 1L;
 	/**
 	 * The internal {@link Lock} of the current identifier.
 	 */
@@ -107,9 +107,8 @@ public abstract class Worker<I, O>
 		super();
 		CURRENT_ID_LOCK.lock();
 		try {
-			this.id = CURRENT_ID;
+			this.id = CURRENT_ID++;
 			this.input = input;
-			++CURRENT_ID;
 		} finally {
 			CURRENT_ID_LOCK.unlock();
 		}

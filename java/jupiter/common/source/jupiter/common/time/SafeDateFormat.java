@@ -158,16 +158,16 @@ public class SafeDateFormat
 	 * Sets the 100-year period 2-digit years will be interpreted as being in to begin on the date
 	 * the user specifies.
 	 * <p>
-	 * @param startDate during parsing, two digit years will be placed in the range
-	 *                  {@code startDate} to {@code startDate + 100 years}
+	 * @param from during parsing, two digit years will be placed in the range {@code from} to
+	 *             {@code from + 100 years}
 	 * <p>
 	 * @since 1.2
 	 *
 	 * @see #get2DigitYearStart()
 	 */
 	@Override
-	public synchronized void set2DigitYearStart(final Date startDate) {
-		super.set2DigitYearStart(startDate);
+	public synchronized void set2DigitYearStart(final Date from) {
+		super.set2DigitYearStart(from);
 	}
 
 	/**

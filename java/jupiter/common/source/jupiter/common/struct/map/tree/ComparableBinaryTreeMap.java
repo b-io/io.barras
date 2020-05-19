@@ -24,7 +24,7 @@
 package jupiter.common.struct.map.tree;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.NEWLINE;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -641,7 +641,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 			final int height = element.getFirst();
 			final N node = element.getSecond();
 			if (currentHeight < height) {
-				builder.append(NEW_LINE);
+				builder.append(NEWLINE);
 				if (!hasLeaf) {
 					break;
 				}

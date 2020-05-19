@@ -101,7 +101,7 @@ public class Messages {
 
 	// • ALL
 	protected static String createPrefix() {
-		return createLabel(Dates.getDateTime());
+		return createLabel(Dates.createDateTime());
 	}
 
 	protected static String createPrefix(final Type type) {

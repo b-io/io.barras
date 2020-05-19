@@ -30,9 +30,9 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.util.List;
 
+import jupiter.common.Formats;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.time.SafeDateFormat;
-import jupiter.common.util.Formats;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.struct.TimeSeriesList;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;

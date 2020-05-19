@@ -21,7 +21,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.util;
+package jupiter.common;
+
+import static jupiter.common.Charsets.UTF_8;
+import static jupiter.common.util.Strings.LF;
 
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
@@ -30,10 +33,13 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.Locale;
+import java.util.TimeZone;
 
-import jupiter.common.io.Charsets;
 import jupiter.common.math.Maths;
+import jupiter.common.properties.Jupiter;
 import jupiter.common.time.SafeDateFormat;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 public class Formats {
 
@@ -46,66 +52,31 @@ public class Formats {
 	 */
 	public static final String VERSION = "1.6.0";
 
-	//////////////////////////////////////////////
-
-	/**
-	 * The carriage return used for line breaking in Mac OS.
-	 */
-	public static final String CR = "\r";
-	/**
-	 * The line feed used for line breaking in Unix.
-	 */
-	public static final String LF = "\n";
-	/**
-	 * The carriage return used for line breaking in Windows.
-	 */
-	public static final String CRLF = "\r\n";
-
-	/**
-	 * The newline.
-	 */
-	public static volatile String NEW_LINE = LF;
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * The default {@link Format}.
-	 */
-	public static final Format DEFAULT_FORMAT = new Format() {
-		/**
-		 * The generated serial version ID.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public StringBuffer format(final Object content, final StringBuffer toAppendTo,
-				final FieldPosition position) {
-			toAppendTo.append(Objects.toString(content));
-			return toAppendTo;
-		}
-
-		@Override
-		public Object parseObject(final String content, final ParsePosition position) {
-			return content;
-		}
-	};
-
-	//////////////////////////////////////////////
 
 	/**
 	 * The default {@link Charset}.
 	 */
-	public static final Charset DEFAULT_CHARSET = Charsets.UTF_8;
-
+	public static final Charset DEFAULT_CHARSET = UTF_8;
 	/**
 	 * The default {@link Locale}.
 	 */
 	public static final Locale DEFAULT_LOCALE = Locale.getDefault();
+	/**
+	 * The default {@link TimeZone}.
+	 */
+	public static final TimeZone DEFAULT_TIME_ZONE = TimeZone.getDefault();
+
+	//////////////////////////////////////////////
 
 	/**
-	 * The default length of a line (used by IO).
+	 * The default line length.
 	 */
 	public static final int DEFAULT_LINE_LENGTH = 72;
+	/**
+	 * The default newline.
+	 */
+	public static final String DEFAULT_NEWLINE = LF;
 
 	//////////////////////////////////////////////
 
@@ -128,31 +99,73 @@ public class Formats {
 	 * The default pattern {@link String} describing the default scientific {@link DecimalFormat}.
 	 */
 	public static final String DEFAULT_SCIENTIFIC_PATTERN = DEFAULT_PATTERN.concat("E0");
-	/**
-	 * The default minimum number of fraction digits.
-	 */
-	public static final int DEFAULT_MIN_FRACTION_DIGITS = 0;
+
 	/**
 	 * The default maximum number of fraction digits.
 	 */
 	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
 	/**
-	 * The default scientific threshold.
+	 * The default maximum number of integer digits.
 	 */
-	public static final double DEFAULT_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
-			-DEFAULT_MAX_FRACTION_DIGITS);
+	public static final int DEFAULT_MAX_INTEGER_DIGITS = DEFAULT_PATTERN.length() - 2;
+
+	/**
+	 * The default minimum scientific threshold (inclusive).
+	 */
+	public static final double DEFAULT_MIN_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
+			-DEFAULT_MAX_FRACTION_DIGITS - 1);
+	/**
+	 * The default maximum scientific threshold (inclusive).
+	 */
+	public static final double DEFAULT_MAX_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
+			DEFAULT_MAX_INTEGER_DIGITS);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link SafeDateFormat}.
+	 * The newline.
 	 */
-	public static volatile SafeDateFormat DATE_FORMAT = new SafeDateFormat(DEFAULT_DATE_PATTERN);
+	public static volatile String NEWLINE = Jupiter.PROPERTIES.getProperty("newline",
+			DEFAULT_NEWLINE);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * The {@link Charset}.
+	 */
+	public static volatile Charset CHARSET = Charsets.get(Jupiter.PROPERTIES.getProperty("charset",
+			DEFAULT_CHARSET.name()));
+	/**
+	 * The {@link Locale}.
+	 */
+	public static volatile Locale LOCALE = Locales.get(Jupiter.PROPERTIES.getProperty("locale",
+			DEFAULT_LOCALE.toString()));
+	/**
+	 * The {@link TimeZone}.
+	 */
+	public static volatile TimeZone TIME_ZONE = TimeZone.getTimeZone(Jupiter.PROPERTIES.getProperty(
+			"timeZone", DEFAULT_TIME_ZONE.getID()));
+
+	//////////////////////////////////////////////
+
+	/**
+	 * The line length.
+	 */
+	public static volatile int LINE_LENGTH = Jupiter.PROPERTIES.getInt("lineLength",
+			DEFAULT_LINE_LENGTH);
+
+	//////////////////////////////////////////////
+
 	/**
 	 * The {@link SafeDateFormat}.
 	 */
+	public static volatile SafeDateFormat DATE_FORMAT = new SafeDateFormat(
+			Jupiter.PROPERTIES.getProperty("datePattern", DEFAULT_DATE_PATTERN));
+	/**
+	 * The {@link SafeDateFormat} with time.
+	 */
 	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(
-			DEFAULT_DATE_TIME_PATTERN);
+			Jupiter.PROPERTIES.getProperty("dateTimePattern", DEFAULT_DATE_TIME_PATTERN));
 
 	//////////////////////////////////////////////
 
@@ -164,22 +177,28 @@ public class Formats {
 	 * The minimum number length.
 	 */
 	public static volatile int MIN_NUMBER_LENGTH = 1;
+
+	/**
+	 * The minimum number of fraction digits.
+	 */
+	public static volatile int MIN_FRACTION_DIGITS = 0;
+	/**
+	 * The maximum number of fraction digits.
+	 */
+	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
 	/**
 	 * The minimum number of integer digits.
 	 */
 	public static volatile int MIN_INTEGER_DIGITS = 1;
 	/**
-	 * The maximum number of integer digits before using the scientific {@link DecimalFormat}.
+	 * The maximum number of integer digits.
 	 */
-	public static volatile int MAX_INTEGER_DIGITS = 8;
+	public static volatile int MAX_INTEGER_DIGITS = DEFAULT_MAX_INTEGER_DIGITS;
+
 	/**
-	 * The minimum number of fraction digits.
+	 * The flag specifying whether to use grouping separators.
 	 */
-	public static volatile int MIN_FRACTION_DIGITS = DEFAULT_MIN_FRACTION_DIGITS;
-	/**
-	 * The maximum number of fraction digits.
-	 */
-	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
+	public static volatile boolean USE_GROUPING_SEPARATORS = false;
 
 	/**
 	 * The {@link DecimalFormat}.
@@ -194,6 +213,41 @@ public class Formats {
 	 */
 	public static volatile DecimalFormat SCIENTIFIC_DECIMAL_FORMAT = getDecimalFormat(
 			DEFAULT_SCIENTIFIC_PATTERN);
+
+	/**
+	 * The minimum scientific threshold (inclusive).
+	 */
+	public static volatile double MIN_SCIENTIFIC_THRESHOLD = Jupiter.PROPERTIES.getDouble(
+			"minScientificThreshold", DEFAULT_MIN_SCIENTIFIC_THRESHOLD);
+	/**
+	 * The maximum scientific threshold (inclusive).
+	 */
+	public static volatile double MAX_SCIENTIFIC_THRESHOLD = Jupiter.PROPERTIES.getDouble(
+			"maxScientificThreshold", DEFAULT_MAX_SCIENTIFIC_THRESHOLD);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * The default {@link Format}.
+	 */
+	public static volatile Format FORMAT = new Format() {
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public StringBuffer format(final Object content, final StringBuffer toAppendTo,
+				final FieldPosition position) {
+			toAppendTo.append(Objects.toString(content));
+			return toAppendTo;
+		}
+
+		@Override
+		public Object parseObject(final String content, final ParsePosition position) {
+			return content;
+		}
+	};
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -223,7 +277,7 @@ public class Formats {
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
 	public static DecimalFormat getDecimalFormat(final String pattern) {
-		return getDecimalFormat(pattern, DEFAULT_LOCALE);
+		return getDecimalFormat(pattern, LOCALE);
 	}
 
 	/**
@@ -244,7 +298,7 @@ public class Formats {
 		final DecimalFormat format = Strings.isNonEmpty(pattern) ? new DecimalFormat(pattern) :
 				new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
-		format.setGroupingUsed(false); // whether to use grouping separators
+		format.setGroupingUsed(USE_GROUPING_SEPARATORS);
 		format.setMinimumIntegerDigits(MIN_INTEGER_DIGITS);
 		format.setMinimumFractionDigits(MIN_FRACTION_DIGITS);
 		format.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
@@ -262,7 +316,7 @@ public class Formats {
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
 	public static DecimalFormat getDoubleDecimalFormat() {
-		return getDoubleDecimalFormat(DEFAULT_LOCALE);
+		return getDoubleDecimalFormat(LOCALE);
 	}
 
 	/**
@@ -278,7 +332,7 @@ public class Formats {
 	public static DecimalFormat getDoubleDecimalFormat(final Locale locale) {
 		final DecimalFormat format = new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
-		format.setGroupingUsed(false); // whether to use grouping separators
+		format.setGroupingUsed(USE_GROUPING_SEPARATORS);
 		format.setMaximumIntegerDigits(309);
 		format.setMaximumFractionDigits(340);
 		return format;

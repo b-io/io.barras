@@ -40,9 +40,9 @@ public class EigenvalueDecompositionTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link EigenvalueDecomposition#EigenvalueDecomposition}.
+	 * Tests {@link EigenvalueDecomposition}.
 	 */
-	public void testEigenvalueDecomposition() {
+	public void test() {
 		IO.test(BULLET, " EigenvalueDecomposition");
 
 		// Initialize

@@ -25,7 +25,7 @@ package jupiter.common.util;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.COLON;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Method;
@@ -515,8 +515,8 @@ public class Objects {
 		if (stackTraceElementCount > 0) {
 			final StackTraceElement[] stackTraces = Arrays.<StackTraceElement>take(
 					exception.getStackTrace(), 0, stackTraceElementCount);
-			return Strings.join(exception.getLocalizedMessage(), COLON, NEW_LINE,
-					Strings.joinWith(stackTraces, NEW_LINE));
+			return Strings.join(exception.getLocalizedMessage(), COLON, NEWLINE,
+					Strings.joinWith(stackTraces, NEWLINE));
 		}
 		return exception.getLocalizedMessage();
 	}

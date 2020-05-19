@@ -130,6 +130,46 @@ public class Properties
 		return value != null ? value : defaultValue;
 	}
 
+	public boolean getBoolean(final String key, final boolean defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Boolean.valueOf(value) : defaultValue;
+	}
+
+	public char getChar(final String key, final char defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? value.charAt(0) : defaultValue;
+	}
+
+	public byte getByte(final String key, final byte defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Byte.valueOf(value) : defaultValue;
+	}
+
+	public short getShort(final String key, final short defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Short.valueOf(value) : defaultValue;
+	}
+
+	public int getInt(final String key, final int defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Integer.valueOf(value) : defaultValue;
+	}
+
+	public long getLong(final String key, final long defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Long.valueOf(value) : defaultValue;
+	}
+
+	public float getFloat(final String key, final float defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Float.valueOf(value) : defaultValue;
+	}
+
+	public double getDouble(final String key, final double defaultValue) {
+		final String value = super.getProperty(key);
+		return value != null ? Double.valueOf(value) : defaultValue;
+	}
+
 	public static String get(final String fileName, final String key) {
 		return new Properties(fileName, null).getProperty(key);
 	}

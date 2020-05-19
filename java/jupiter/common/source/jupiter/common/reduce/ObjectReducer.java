@@ -48,6 +48,13 @@ public abstract class ObjectReducer<O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Constructs an {@link ObjectReducer} of {@code O} type.
+	 */
+	protected ObjectReducer() {
+		super();
+	}
+
+	/**
 	 * Constructs an {@link ObjectReducer} of {@code O} type with the specified output
 	 * {@link Class}.
 	 * <p>
@@ -78,5 +85,7 @@ public abstract class ObjectReducer<O>
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectReducer<O> clone();
+	public ObjectReducer<O> clone() {
+		return this;
+	}
 }

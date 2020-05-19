@@ -25,7 +25,7 @@ package jupiter.common.util;
 
 import static java.lang.Float.MAX_VALUE;
 import static java.lang.Float.MIN_VALUE;
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+import static jupiter.common.Formats.DECIMAL_FORMAT;
 
 import java.util.Collection;
 import java.util.Comparator;

@@ -23,7 +23,7 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.util.Formats.DECIMAL_FORMAT;
+import static jupiter.common.Formats.DECIMAL_FORMAT;
 
 import java.util.Collection;
 import java.util.Comparator;

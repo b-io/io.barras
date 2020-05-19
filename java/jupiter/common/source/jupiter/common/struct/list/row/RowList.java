@@ -23,6 +23,8 @@
  */
 package jupiter.common.struct.list.row;
 
+import static jupiter.common.util.Classes.OBJECT_CLASS;
+
 import java.util.Collection;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -173,7 +175,7 @@ public class RowList
 	public Class<?> getColumnClass(final int j) {
 		// Check the arguments
 		if (isEmpty()) {
-			return Object.class;
+			return OBJECT_CLASS;
 		}
 		ArrayArguments.requireIndex(j, header.length);
 
@@ -182,7 +184,7 @@ public class RowList
 		for (int i = 1; i < size(); ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(get(i).elements[j]));
 		}
-		return c != null ? c : Object.class;
+		return c != null ? c : OBJECT_CLASS;
 	}
 
 	/**

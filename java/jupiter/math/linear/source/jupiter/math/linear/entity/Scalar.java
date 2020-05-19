@@ -23,7 +23,7 @@
  */
 package jupiter.math.linear.entity;
 
-import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
+import static jupiter.common.Formats.MIN_NUMBER_LENGTH;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.math.Maths;

@@ -143,5 +143,7 @@ public abstract class ObjectToDoubleMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToDoubleMapper clone();
+	public ObjectToDoubleMapper clone() {
+		return this;
+	}
 }

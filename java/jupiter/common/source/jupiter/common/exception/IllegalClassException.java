@@ -51,12 +51,11 @@ public class IllegalClassException
 
 	/**
 	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class} and
-	 * {@link Throwable} cause (which is saved for later retrieval by the method
-	 * {@link #getCause()}).
+	 * {@link Throwable} cause (which is saved for later retrieval by the method {@link #getCause}).
 	 * <p>
 	 * @param c     the illegal {@link Class}
 	 * @param cause the {@link Throwable} cause (which is saved for later retrieval by the method
-	 *              {@link #getCause()})
+	 *              {@link #getCause})
 	 */
 	public IllegalClassException(final Class<?> c, final Throwable cause) {
 		super("Illegal " + c, cause);

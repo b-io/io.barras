@@ -143,5 +143,7 @@ public abstract class ObjectToFloatMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToFloatMapper clone();
+	public ObjectToFloatMapper clone() {
+		return this;
+	}
 }

@@ -23,7 +23,7 @@
  */
 package jupiter.common.io;
 
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
+import static jupiter.common.Formats.CHARSET;
 import static jupiter.common.util.Strings.NULL;
 
 import java.io.Serializable;
@@ -73,7 +73,7 @@ public class Content
 	 * @param content the content {@link Object}
 	 */
 	public Content(final Object content) {
-		this(content, DEFAULT_CHARSET);
+		this(content, CHARSET);
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Content
 	 * @param lineCount the number of lines of the content {@link Object}
 	 */
 	public Content(final Object content, final int lineCount) {
-		this(content, DEFAULT_CHARSET, lineCount);
+		this(content, CHARSET, lineCount);
 	}
 
 	/**

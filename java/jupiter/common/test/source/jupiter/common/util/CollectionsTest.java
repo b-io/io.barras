@@ -25,6 +25,7 @@ package jupiter.common.util;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 
 import java.util.Collection;
 
@@ -54,7 +55,7 @@ public class CollectionsTest
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");
 
-		assertEquals(Object.class, Collections.getElementClass(EMPTY_COLLECTION));
+		assertEquals(OBJECT_CLASS, Collections.getElementClass(EMPTY_COLLECTION));
 		assertEquals(Number.class, Collections.getElementClass(NUMBER_COLLECTION));
 		assertEquals(String.class, Collections.getElementClass(STRING_COLLECTION));
 	}

@@ -42,13 +42,13 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Properties;
 import java.util.Vector;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
+import jupiter.common.properties.Properties;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
@@ -902,8 +902,7 @@ public class FTPHandler
 		// Load the properties
 		protocol = Protocol.get(properties.getProperty("protocol"));
 		hostName = properties.getProperty("hostName");
-		protocol.setPort(Integers.convert(properties.getProperty("port",
-				Objects.toString(protocol.getPort()))));
+		protocol.setPort(properties.getInt("port", protocol.getPort()));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");

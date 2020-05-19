@@ -286,7 +286,7 @@ public class SeriesGraphic
 	@Override
 	public void addPoint(final int axisDatasetIndex, final int seriesIndex, final String x,
 			final String y) {
-		addPoint(axisDatasetIndex, seriesIndex, Doubles.convert(x), Doubles.convert(y));
+		addPoint(axisDatasetIndex, seriesIndex, Double.valueOf(x), Double.valueOf(y));
 	}
 
 	/**

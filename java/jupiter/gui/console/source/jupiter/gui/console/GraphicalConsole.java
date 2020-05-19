@@ -24,8 +24,8 @@
 package jupiter.gui.console;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.VERSION;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.VERSION;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.PrintStream;
@@ -97,7 +97,7 @@ public abstract class GraphicalConsole
 		try {
 			// Redirect the system output to the console
 			printStream = new PrintStream(new OutputStreamCapturer(console, System.out), true,
-					DEFAULT_CHARSET.name());
+					CHARSET.name());
 			System.setOut(printStream);
 			System.setErr(printStream);
 			// Show the frame

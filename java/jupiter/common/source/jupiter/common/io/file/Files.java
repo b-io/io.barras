@@ -25,8 +25,8 @@ package jupiter.common.io.file;
 
 import static jupiter.common.io.InputOutput.BUFFER_SIZE;
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedInputStream;
@@ -1310,7 +1310,7 @@ public class Files {
 	 */
 	public static BufferedReader createReader(final File file)
 			throws FileNotFoundException {
-		return createReader(file, DEFAULT_CHARSET);
+		return createReader(file, CHARSET);
 	}
 
 	/**
@@ -1343,7 +1343,7 @@ public class Files {
 	 */
 	public static ReversedFileReader createReversedReader(final File file)
 			throws FileNotFoundException, IOException, UnsupportedEncodingException {
-		return createReversedReader(file, DEFAULT_CHARSET);
+		return createReversedReader(file, CHARSET);
 	}
 
 	/**
@@ -1375,7 +1375,7 @@ public class Files {
 	 * @return the {@link Content} of the specified {@link File}
 	 */
 	public static Content read(final File file) {
-		return read(file, DEFAULT_CHARSET);
+		return read(file, CHARSET);
 	}
 
 	/**
@@ -1407,7 +1407,7 @@ public class Files {
 	 * @return the unzipped {@link Content} of the specified ZIP {@link File}
 	 */
 	public static Content unzip(final File file) {
-		return unzip(file, DEFAULT_CHARSET);
+		return unzip(file, CHARSET);
 	}
 
 	/**
@@ -1441,7 +1441,7 @@ public class Files {
 	 * @return the ungzipped {@link Content} of the specified GZIP {@link File}
 	 */
 	public static Content ungzip(final File file) {
-		return ungzip(file, DEFAULT_CHARSET);
+		return ungzip(file, CHARSET);
 	}
 
 	/**
@@ -1475,7 +1475,7 @@ public class Files {
 	 * @return the number of lines of the specified {@link File}
 	 */
 	public static int countLines(final File file) {
-		return countLines(file, DEFAULT_CHARSET, false);
+		return countLines(file, CHARSET, false);
 	}
 
 	/**
@@ -1501,7 +1501,7 @@ public class Files {
 	 *         {@link File}
 	 */
 	public static int countLines(final File file, final boolean skipEmptyLines) {
-		return countLines(file, DEFAULT_CHARSET, skipEmptyLines);
+		return countLines(file, CHARSET, skipEmptyLines);
 	}
 
 	/**
@@ -1562,7 +1562,7 @@ public class Files {
 	 */
 	public static BufferedWriter createWriter(final File file, final boolean append)
 			throws FileNotFoundException {
-		return createWriter(file, DEFAULT_CHARSET, append);
+		return createWriter(file, CHARSET, append);
 	}
 
 	/**
@@ -1596,7 +1596,7 @@ public class Files {
 	 *         {@link File}, {@code false} otherwise
 	 */
 	public static boolean write(final String content, final File file) {
-		return write(content, file, true, DEFAULT_CHARSET);
+		return write(content, file, true, CHARSET);
 	}
 
 	/**
@@ -1644,7 +1644,7 @@ public class Files {
 	 *         {@link File}, {@code false} otherwise
 	 */
 	public static boolean writeLine(final String content, final File file) {
-		return writeLine(content, file, true, DEFAULT_CHARSET);
+		return writeLine(content, file, true, CHARSET);
 	}
 
 	/**
@@ -1661,7 +1661,7 @@ public class Files {
 	 */
 	public static boolean writeLine(final String content, final File file, final boolean append,
 			final Charset charset) {
-		return write(content.concat(NEW_LINE), file, append, charset);
+		return write(content.concat(NEWLINE), file, append, charset);
 	}
 
 

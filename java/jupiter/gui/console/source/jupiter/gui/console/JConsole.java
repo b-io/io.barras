@@ -25,8 +25,8 @@ package jupiter.gui.console;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.ESCAPE;
-import static jupiter.common.util.Formats.DEFAULT_CHARSET;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.awt.Component;
@@ -245,7 +245,7 @@ public class JConsole
 	 * Terminates the line.
 	 */
 	public void println() {
-		print(NEW_LINE);
+		print(NEWLINE);
 	}
 
 	/**
@@ -264,7 +264,7 @@ public class JConsole
 	 * @param content the content {@link Object} to print
 	 */
 	public void println(final Object content) {
-		append(Objects.toString(content).concat(NEW_LINE));
+		append(Objects.toString(content).concat(NEWLINE));
 	}
 
 
@@ -323,7 +323,7 @@ public class JConsole
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
 			try {
-				out = new PrintStream(pout, true, DEFAULT_CHARSET.name());
+				out = new PrintStream(pout, true, CHARSET.name());
 				inPipe = new BlockingPipedInputStream(pout);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -380,7 +380,7 @@ public class JConsole
 	}
 
 	public Reader getReader() {
-		return new InputStreamReader(in, DEFAULT_CHARSET);
+		return new InputStreamReader(in, CHARSET);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -517,7 +517,7 @@ public class JConsole
 
 		// Write the line (handle Unicode characters)
 		try {
-			outPipe.write(Strings.toUnicode(line).getBytes(DEFAULT_CHARSET.name()));
+			outPipe.write(Strings.toUnicode(line).getBytes(CHARSET.name()));
 			outPipe.flush();
 			textPane.repaint();
 		} catch (final IOException ex) {
@@ -762,16 +762,16 @@ public class JConsole
 		String command = getCommand();
 		// Special hack for empty return
 		if (command.length() == 0) {
-			command = ";".concat(NEW_LINE);
+			command = ";".concat(NEWLINE);
 		} else {
 			history.add(command);
 			synchronized (inputLines) {
 				inputLines.add(command);
 				inputLines.notifyAll();
 			}
-			command += NEW_LINE;
+			command += NEWLINE;
 		}
-		append(NEW_LINE);
+		append(NEWLINE);
 		historicalLineIndex = 0;
 		acceptLine(command);
 	}
@@ -892,7 +892,7 @@ public class JConsole
 		final byte[] ba = new byte[256];
 		int read;
 		while ((read = inPipe.read(ba)) >= 0) {
-			print(new String(ba, 0, read, DEFAULT_CHARSET.name()));
+			print(new String(ba, 0, read, CHARSET.name()));
 		}
 	}
 

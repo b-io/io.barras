@@ -25,6 +25,7 @@ package jupiter.common.util;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 
 import jupiter.common.test.Test;
 
@@ -55,8 +56,8 @@ public class ArraysTest
 	public void testGetElementClass() {
 		IO.test(BULLET, " getElementClass");
 
-		assertEquals(Object.class, Arrays.getElementClass());
-		assertEquals(Object.class, Arrays.getElementClass(Objects.EMPTY_ARRAY));
+		assertEquals(OBJECT_CLASS, Arrays.getElementClass());
+		assertEquals(OBJECT_CLASS, Arrays.getElementClass(Objects.EMPTY_ARRAY));
 		assertEquals(Number.class, Arrays.getElementClass(null, 1, 1.));
 		assertEquals(String.class, Arrays.getElementClass(ARRAY));
 		assertEquals(String[].class, Arrays.getElementClass(null, ARRAY));

@@ -143,5 +143,7 @@ public abstract class ObjectToShortMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToShortMapper clone();
+	public ObjectToShortMapper clone() {
+		return this;
+	}
 }

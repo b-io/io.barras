@@ -39,6 +39,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Collection;
 import java.util.List;
 
+import jupiter.common.Formats;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
@@ -55,7 +56,6 @@ import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
-import jupiter.common.util.Formats;
 import jupiter.common.util.Strings;
 import jupiter.graphics.charts.Charts;
 import jupiter.graphics.charts.TimeSeriesGraphic;
@@ -292,7 +292,7 @@ public class SpeedChecker {
 				IO.info(downloadingSpeed, " [Mbits/s]");
 				final FileHandler dataFileHandler = DATA_FILES.get(URL_NAMES.get(i));
 				try {
-					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+					dataFileHandler.writeLine(Strings.join(Dates.createDateTime(), Arrays.DELIMITER,
 							downloadingSpeed));
 				} catch (final FileNotFoundException ex) {
 					IO.error(ex, "Cannot open or create the data file ",
@@ -312,7 +312,7 @@ public class SpeedChecker {
 				IO.info(downloadingSpeed, " [Mbits/s]");
 				final FileHandler dataFileHandler = DATA_FILES.get(urlName);
 				try {
-					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+					dataFileHandler.writeLine(Strings.join(Dates.createDateTime(), Arrays.DELIMITER,
 							downloadingSpeed));
 				} catch (final FileNotFoundException ex) {
 					IO.error(ex, "Cannot open or create the data file ",

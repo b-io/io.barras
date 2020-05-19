@@ -66,5 +66,7 @@ public abstract class ObjectToStringMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToStringMapper clone();
+	public ObjectToStringMapper clone() {
+		return this;
+	}
 }

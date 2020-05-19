@@ -453,7 +453,7 @@ public class ComparableSort
 
 		/*
 		 * Record the length of the combined runs; if i is the 3rd-last run now, also slide over the
-		 * last run (which isn't involved in this merge). The current run ({@code i + 1}) goes away
+		 * last run (which is not involved in this merge). The current run ({@code i + 1}) goes away
 		 * in any case.
 		 */
 		runLength[i] = length1 + length2;

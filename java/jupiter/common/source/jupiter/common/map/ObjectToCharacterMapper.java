@@ -143,5 +143,7 @@ public abstract class ObjectToCharacterMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToCharacterMapper clone();
+	public ObjectToCharacterMapper clone() {
+		return this;
+	}
 }

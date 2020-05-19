@@ -57,12 +57,19 @@ public abstract class Mapper<I, O>
 	/**
 	 * The output {@link Class} of {@code O} type.
 	 */
-	protected final Class<O> c;
+	protected Class<O> c;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Mapper} of {@code I} and {@code O} types.
+	 */
+	protected Mapper() {
+		super();
+	}
 
 	/**
 	 * Constructs a {@link Mapper} of {@code I} and {@code O} types with the specified output
@@ -92,6 +99,17 @@ public abstract class Mapper<I, O>
 	 */
 	public Class<O> getOutputClass() {
 		return c;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the output {@link Class}.
+	 * <p>
+	 * @param c a {@link Class} of {@code O} type
+	 */
+	public void setOutputClass(final Class<O> c) {
+		this.c = c;
 	}
 
 
@@ -200,5 +218,7 @@ public abstract class Mapper<I, O>
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract Mapper<I, O> clone();
+	public Mapper<I, O> clone() {
+		return this;
+	}
 }

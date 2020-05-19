@@ -202,7 +202,7 @@ public class SQL {
 
 		// Convert the text to an object of the SQL class
 		if (Booleans.isFrom(c)) {
-			return Integers.convert(text) == 1;
+			return Integer.valueOf(text) == 1;
 		} else if (Bytes.isPrimitiveArrayFrom(c)) {
 			return text.getBytes();
 		} else if (Date.class.isAssignableFrom(c)) {

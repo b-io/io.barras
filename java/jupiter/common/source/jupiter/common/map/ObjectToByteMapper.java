@@ -143,5 +143,7 @@ public abstract class ObjectToByteMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToByteMapper clone();
+	public ObjectToByteMapper clone() {
+		return this;
+	}
 }

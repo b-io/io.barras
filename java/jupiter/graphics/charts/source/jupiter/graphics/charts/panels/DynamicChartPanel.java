@@ -23,7 +23,7 @@
  */
 package jupiter.graphics.charts.panels;
 
-import static jupiter.common.util.Formats.DEFAULT_FORMAT;
+import static jupiter.common.Formats.FORMAT;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -116,7 +116,7 @@ public class DynamicChartPanel
 	 * @param chart the chart
 	 */
 	public DynamicChartPanel(final JFreeChart chart) {
-		this(chart, DEFAULT_FORMAT);
+		this(chart, FORMAT);
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class DynamicChartPanel
 	 * @param xFormat the {@link Format} of the domain label
 	 */
 	public DynamicChartPanel(final JFreeChart chart, final Format xFormat) {
-		this(chart, xFormat, DEFAULT_FORMAT);
+		this(chart, xFormat, FORMAT);
 	}
 
 	/**

@@ -143,5 +143,7 @@ public abstract class ObjectToLongMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToLongMapper clone();
+	public ObjectToLongMapper clone() {
+		return this;
+	}
 }

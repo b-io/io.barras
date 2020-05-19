@@ -25,7 +25,7 @@ package jupiter.hardware.gpu;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.NEWLINE;
 
 import java.io.Serializable;
 import java.lang.ref.PhantomReference;
@@ -67,7 +67,7 @@ public abstract class OpenCL
 	 * The OpenCL program {@link String}.
 	 */
 	protected static final String PROGRAM = Strings.join(
-			"#pragma OPENCL EXTENSION cl_khr_fp64: enable", NEW_LINE,
+			"#pragma OPENCL EXTENSION cl_khr_fp64: enable", NEWLINE,
 			KERNEL_PREFIX, " plus(__global const double* A, __global const double* B,",
 			"		__global double* C) {",
 			"	const int index = get_global_id(0);",

@@ -54,12 +54,19 @@ public abstract class Reducer<I, O>
 	/**
 	 * The output {@link Class} of {@code O} type.
 	 */
-	protected final Class<O> c;
+	protected Class<O> c;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Reducer} of {@code I} and {@code O} types.
+	 */
+	protected Reducer() {
+		super();
+	}
 
 	/**
 	 * Constructs a {@link Reducer} of {@code I} and {@code O} types with the specified output
@@ -136,5 +143,7 @@ public abstract class Reducer<I, O>
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract Reducer<I, O> clone();
+	public Reducer<I, O> clone() {
+		return this;
+	}
 }

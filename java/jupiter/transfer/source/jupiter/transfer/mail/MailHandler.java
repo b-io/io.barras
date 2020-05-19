@@ -28,7 +28,6 @@ import static jupiter.common.io.file.Files.SEPARATOR;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
-import java.util.Properties;
 
 import javax.mail.Authenticator;
 import javax.mail.Folder;
@@ -50,6 +49,7 @@ import javax.mail.search.SubjectTerm;
 
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
+import jupiter.common.properties.Properties;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
@@ -537,10 +537,8 @@ public class MailHandler
 		inProtocol = Protocol.get(properties.getProperty("inProtocol"));
 		outProtocol = Protocol.get(properties.getProperty("outProtocol"));
 		hostName = properties.getProperty("hostName");
-		inProtocol.setPort(Integers.convert(properties.getProperty("inPort",
-				Objects.toString(inProtocol.getPort()))));
-		outProtocol.setPort(Integers.convert(properties.getProperty("outPort",
-				Objects.toString(outProtocol.getPort()))));
+		inProtocol.setPort(properties.getInt("inPort", inProtocol.getPort()));
+		outProtocol.setPort(properties.getInt("outPort", outProtocol.getPort()));
 		userName = properties.getProperty("userName");
 		password = properties.getProperty("password");
 	}

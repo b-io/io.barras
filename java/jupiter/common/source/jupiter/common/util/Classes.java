@@ -32,6 +32,16 @@ public class Classes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The {@link Class} of {@link Object}.
+	 */
+	public static Class<Object> OBJECT_CLASS = Object.class;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Prevents the construction of {@link Classes}.
 	 */
 	protected Classes() {
@@ -86,8 +96,8 @@ public class Classes {
 		Class<?> ancestor = c1;
 		do {
 			ancestor = ancestor.getSuperclass();
-			if (ancestor == null || ancestor == Object.class) {
-				return Object.class;
+			if (ancestor == null || ancestor == OBJECT_CLASS) {
+				return OBJECT_CLASS;
 			}
 		} while (!ancestor.isAssignableFrom(c2));
 		return ancestor;

@@ -40,7 +40,7 @@ public class ClassifierTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link Classifier#Classifier} importing the feature vectors and classes from files.
+	 * Tests {@link Classifier} importing the feature vectors and classes from files.
 	 * <p>
 	 * @throws IOException if there is a problem with reading the files
 	 */

@@ -24,7 +24,7 @@
 package jupiter.common.struct.map.tree;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.NEWLINE;
 
 import java.util.Comparator;
 import java.util.Iterator;
@@ -701,7 +701,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 			final int height = element.getFirst();
 			final N node = element.getSecond();
 			if (currentHeight < height) {
-				builder.append(NEW_LINE);
+				builder.append(NEWLINE);
 				if (!hasLeaf) {
 					break;
 				}

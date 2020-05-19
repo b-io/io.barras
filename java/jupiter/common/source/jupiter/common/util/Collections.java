@@ -23,6 +23,7 @@
  */
 package jupiter.common.util;
 
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 import static jupiter.common.util.Strings.NULL;
 
 import java.util.Collection;
@@ -77,7 +78,7 @@ public class Collections {
 	public static Class<?> getElementClass(final Collection<?> collection) {
 		// Check the arguments
 		if (isNullOrEmpty(collection)) {
-			return Object.class;
+			return OBJECT_CLASS;
 		}
 
 		// Get the element class of the collection (common ancestor of the element classes)
@@ -86,7 +87,7 @@ public class Collections {
 		while (iterator.hasNext()) {
 			c = Classes.getCommonAncestor(c, Classes.get(iterator.next()));
 		}
-		return c != null ? c : Object.class;
+		return c != null ? c : OBJECT_CLASS;
 	}
 
 
@@ -131,7 +132,7 @@ public class Collections {
 	/**
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
 	 * {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is equal to
-	 * {@code Object.class}.
+	 * {@link Classes#OBJECT_CLASS}.
 	 * <p>
 	 * @param c          the element {@link Class} of the {@link Collection} to convert (may be
 	 *                   {@code null})
@@ -139,11 +140,11 @@ public class Collections {
 	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
 	 *         {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is
-	 *         equal to {@code Object.class}
+	 *         equal to {@link Classes#OBJECT_CLASS}
 	 */
 	public static Object toPrimitiveArray(final Class<?> c, final Collection<?> collection) {
 		// Check the arguments
-		if (c == null || c == Object.class || collection == null) {
+		if (c == null || c == OBJECT_CLASS || collection == null) {
 			return null;
 		}
 

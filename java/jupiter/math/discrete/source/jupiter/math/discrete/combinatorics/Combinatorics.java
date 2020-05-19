@@ -568,12 +568,13 @@ public class Combinatorics {
 	 * Returns the distinct {@code k}-element multisubsets of a {@code n}-element multiset with the
 	 * specified multiplicities {@code M} where {@code n = sum(M)} in lexicographic order, i.e.
 	 * {@code k}-combinations with finite repetition.
-	 * <p>
-	 * {@code {}}
-	 * {@code {0}                                 {1}               {2}}
-	 * {@code {00}              {01}        {02}  {11}        {12}  {22}}
-	 * {@code {000} {001} {002} {011} {012} {022} {111} {112} {122} {222}}
-	 * {@code ...}
+	 * <pre>
+	 * {}
+	 * {0}                                 {1}               {2}
+	 * {00}              {01}        {02}  {11}        {12}  {22}
+	 * {000} {001} {002} {011} {012} {022} {111} {112} {122} {222}
+	 * ...
+	 * </pre>
 	 * <p>
 	 * @param k the number of elements in the multisubsets
 	 * @param M the multiplicities of the {@code n}-element multiset

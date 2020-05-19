@@ -306,7 +306,7 @@ public class TimeSeriesGraphic
 	public void addPoint(final int axisDatasetIndex, final int timeSeriesIndex, final String x,
 			final String y) {
 		try {
-			addPoint(axisDatasetIndex, timeSeriesIndex, Dates.parseWithTime(x), Doubles.convert(y));
+			addPoint(axisDatasetIndex, timeSeriesIndex, Dates.parseWithTime(x), Double.valueOf(y));
 		} catch (final ParseException ex) {
 			IO.error(ex);
 		}

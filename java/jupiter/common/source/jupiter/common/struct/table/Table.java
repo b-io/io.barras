@@ -23,12 +23,13 @@
  */
 package jupiter.common.struct.table;
 
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BAR;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
 import java.io.BufferedReader;
@@ -113,7 +114,7 @@ public class Table<E>
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public Table() {
-		this((Class<E>) Object.class);
+		this((Class<E>) OBJECT_CLASS);
 	}
 
 	/**
@@ -1419,7 +1420,7 @@ public class Table<E>
 	public String toString() {
 		final StringBuilder builder = Strings.createBuilder(m * n * (INITIAL_CAPACITY + 1));
 		for (int i = 0; i < m; ++i) {
-			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEW_LINE);
+			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEWLINE);
 		}
 		return builder.toString();
 	}

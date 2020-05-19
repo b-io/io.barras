@@ -23,10 +23,10 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.Formats.LINE_LENGTH;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
-import static jupiter.common.util.Formats.DEFAULT_LINE_LENGTH;
 
 import java.io.Serializable;
 
@@ -92,7 +92,7 @@ public class ProgressBar
 	 * Constructs a {@link ProgressBar} by default.
 	 */
 	public ProgressBar() {
-		this(DEFAULT_LINE_LENGTH - 2);
+		this(LINE_LENGTH - 2);
 	}
 
 	/**

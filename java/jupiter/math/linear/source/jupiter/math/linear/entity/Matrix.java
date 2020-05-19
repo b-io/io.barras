@@ -27,8 +27,8 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_BRACKET;
 import static jupiter.common.util.Characters.RIGHT_BRACKET;
 import static jupiter.common.util.Characters.SPACE;
-import static jupiter.common.util.Formats.MIN_NUMBER_LENGTH;
-import static jupiter.common.util.Formats.NEW_LINE;
+import static jupiter.common.Formats.MIN_NUMBER_LENGTH;
+import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.util.Strings.EMPTY;
 import static jupiter.hardware.gpu.OpenCL.CL;
 
@@ -2727,7 +2727,7 @@ public class Matrix
 			}
 			if (i < m - 1) {
 				if (useMultipleLines) {
-					builder.append(NEW_LINE);
+					builder.append(NEWLINE);
 				} else {
 					builder.append(ROW_DELIMITER);
 				}

@@ -143,5 +143,7 @@ public abstract class ObjectToIntegerMapper
 	 * @see ICloneable
 	 */
 	@Override
-	public abstract ObjectToIntegerMapper clone();
+	public ObjectToIntegerMapper clone() {
+		return this;
+	}
 }
