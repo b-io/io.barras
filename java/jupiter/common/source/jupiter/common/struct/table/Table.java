@@ -813,18 +813,26 @@ public class Table<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts {@code this} to an {@code E} array.
+	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
+	 * an empty array if {@code this} is empty.
 	 * <p>
-	 * @return an {@code E} array
+	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
+	 *         an empty array if {@code this} is empty
+	 *
+	 * @see Arrays#toArray(Class, Object[][])
 	 */
 	public E[] toArray() {
 		return Arrays.<E>toArray(c, elements);
 	}
 
 	/**
-	 * Converts {@code this} to a 2D {@code E} array.
+	 * Returns a 2D {@code E} array containing all the elements of {@code this} in the same order,
+	 * or an empty array if {@code this} is empty.
 	 * <p>
-	 * @return a 2D {@code E} array
+	 * @return a 2D {@code E} array containing all the elements of {@code this} in the same order,
+	 *         or an empty array if {@code this} is empty
+	 *
+	 * @see Arrays#toArray2D(Class, Object[][])
 	 */
 	public E[][] toArray2D() {
 		return Arrays.<E>toArray2D(c, elements);

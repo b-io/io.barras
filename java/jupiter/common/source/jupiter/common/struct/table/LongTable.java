@@ -145,10 +145,28 @@ public class LongTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code long} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code long} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Longs#toPrimitiveArray(Object[][])
+	 */
 	public long[] toPrimitiveArray() {
 		return Longs.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code long} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code long} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Longs#toPrimitiveArray2D(Object[][])
+	 */
 	public long[][] toPrimitiveArray2D() {
 		return Longs.toPrimitiveArray2D(elements);
 	}

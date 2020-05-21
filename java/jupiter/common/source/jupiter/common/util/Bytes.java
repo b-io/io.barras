@@ -403,12 +403,12 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} value from the specified {@code T} object.
+	 * Returns a {@code byte} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code byte} value from the specified {@code T} object
+	 * @return a {@code byte} value converted from the specified {@code T} object
 	 */
 	public static <T> byte toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -417,11 +417,11 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array from the specified {@code byte} array.
+	 * Returns a {@code byte} array converted from the specified {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified {@code byte} array
+	 * @return a {@code byte} array converted from the specified {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte... array) {
 		// Check the arguments
@@ -439,11 +439,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 2D {@code byte} array.
+	 * Returns a {@code byte} array converted from the specified 2D {@code byte} array.
 	 * <p>
 	 * @param array2D the 2D {@code byte} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 2D {@code byte} array
+	 * @return a {@code byte} array converted from the specified 2D {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte[]... array2D) {
 		// Check the arguments
@@ -465,11 +465,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 3D {@code byte} array.
+	 * Returns a {@code byte} array converted from the specified 3D {@code byte} array.
 	 * <p>
 	 * @param array3D the 3D {@code byte} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 3D {@code byte} array
+	 * @return a {@code byte} array converted from the specified 3D {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte[][]... array3D) {
 		// Check the arguments
@@ -497,24 +497,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array from the specified {@code T} array.
+	 * Returns a {@code byte} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified {@code T} array
+	 * @return a {@code byte} array converted from the specified {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified {@code T} array.
+	 * Returns a {@code byte} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified {@code T} array
+	 * @return a {@code byte} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T... array) {
@@ -522,24 +522,24 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 2D {@code T} array.
+	 * Returns a {@code byte} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 2D {@code T} array
+	 * @return a {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 2D {@code T} array.
+	 * Returns a {@code byte} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 2D {@code T} array
+	 * @return a {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T[]... array2D) {
@@ -547,24 +547,24 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 3D {@code T} array.
+	 * Returns a {@code byte} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 3D {@code T} array
+	 * @return a {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code byte} array from the specified 3D {@code T} array.
+	 * Returns a {@code byte} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified 3D {@code T} array
+	 * @return a {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[] asPrimitiveArray(final T[][]... array3D) {
@@ -635,24 +635,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code byte} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
+	 * @return a 2D {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> byte[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code byte} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code byte} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code byte} array from the specified 2D {@code T} array
+	 * @return a 2D {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -730,24 +730,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code byte} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
+	 * @return a 3D {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> byte[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code byte} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code byte} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code byte} array from the specified 3D {@code T} array
+	 * @return a 3D {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> byte[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -757,11 +757,11 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code byte} array from the specified {@link Collection}.
+	 * Returns a {@code byte} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code byte} array from the specified {@link Collection}
+	 * @return a {@code byte} array converted from the specified {@link Collection}
 	 */
 	public static byte[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -770,11 +770,11 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@code byte} array.
+	 * Returns an array of {@link Byte} converted from the specified {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@code byte} array
+	 * @return an array of {@link Byte} converted from the specified {@code byte} array
 	 */
 	public static Byte[] toArray(final byte[] array) {
 		final Byte[] convertedArray = new Byte[array.length];
@@ -785,11 +785,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@code byte} array.
+	 * Returns an array of {@link Byte} converted from the specified {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@code byte} array
+	 * @return an array of {@link Byte} converted from the specified {@code byte} array
 	 */
 	public static Byte[] asArray(final byte... array) {
 		return toArray(array);
@@ -798,11 +798,11 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Byte} from the specified 2D {@code byte} array.
+	 * Returns a 2D array of {@link Byte} converted from the specified 2D {@code byte} array.
 	 * <p>
 	 * @param array2D the 2D {@code byte} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Byte} from the specified 2D {@code byte} array
+	 * @return a 2D array of {@link Byte} converted from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] toArray2D(final byte[][] array2D) {
 		final Byte[][] convertedArray2D = new Byte[array2D.length][];
@@ -813,11 +813,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Byte} from the specified 2D {@code byte} array.
+	 * Returns a 2D array of {@link Byte} converted from the specified 2D {@code byte} array.
 	 * <p>
 	 * @param array2D the 2D {@code byte} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Byte} from the specified 2D {@code byte} array
+	 * @return a 2D array of {@link Byte} converted from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] asArray2D(final byte[]... array2D) {
 		return toArray2D(array2D);
@@ -826,11 +826,11 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Byte} from the specified 3D {@code byte} array.
+	 * Returns a 3D array of {@link Byte} converted from the specified 3D {@code byte} array.
 	 * <p>
 	 * @param array3D the 3D {@code byte} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Byte} from the specified 3D {@code byte} array
+	 * @return a 3D array of {@link Byte} converted from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] toArray3D(final byte[][][] array3D) {
 		final Byte[][][] convertedArray3D = new Byte[array3D.length][][];
@@ -841,11 +841,11 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Byte} from the specified 3D {@code byte} array.
+	 * Returns a 3D array of {@link Byte} converted from the specified 3D {@code byte} array.
 	 * <p>
 	 * @param array3D the 3D {@code byte} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Byte} from the specified 3D {@code byte} array
+	 * @return a 3D array of {@link Byte} converted from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] asArray3D(final byte[][]... array3D) {
 		return toArray3D(array3D);
@@ -854,11 +854,11 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Byte} from the specified {@link Collection}.
+	 * Returns an array of {@link Byte} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Byte} from the specified {@link Collection}
+	 * @return an array of {@link Byte} converted from the specified {@link Collection}
 	 */
 	public static Byte[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -867,44 +867,52 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
+	 * array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
+	 *         array
 	 */
 	public static ExtendedList<Byte> toList(final byte[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
+	 * array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
+	 *         array
 	 */
 	public static ExtendedList<Byte> asList(final byte... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 * {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 *         {@code byte} array
 	 */
 	public static ExtendedLinkedList<Byte> toLinkedList(final byte[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 * {@code byte} array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 *         {@code byte} array
 	 */
 	public static ExtendedLinkedList<Byte> asLinkedList(final byte... array) {
 		return toLinkedList(array);
@@ -913,24 +921,24 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Byte> asList(final T... array) {
@@ -938,24 +946,28 @@ public class Bytes {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Byte> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Byte> asLinkedList(final T... array) {
@@ -965,22 +977,26 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Byte} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Byte> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Byte} from the specified {@link Collection}
+	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Byte> collectionToLinkedList(
 			final Collection<?> collection) {
@@ -990,22 +1006,26 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
+	 * array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
+	 *         array
 	 */
 	public static ExtendedHashSet<Byte> toSet(final byte[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
+	 * array.
 	 * <p>
 	 * @param array the {@code byte} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code byte} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
+	 *         array
 	 */
 	public static ExtendedHashSet<Byte> asSet(final byte... array) {
 		return toSet(array);
@@ -1014,24 +1034,28 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Byte> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Byte> asSet(final T... array) {
@@ -1041,11 +1065,13 @@ public class Bytes {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Byte} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Byte} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Byte> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

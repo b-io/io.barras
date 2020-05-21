@@ -145,10 +145,28 @@ public class IntegerTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns an {@code int} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return an {@code int} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Integers#toPrimitiveArray(Object[][])
+	 */
 	public int[] toPrimitiveArray() {
 		return Integers.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code int} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code int} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Integers#toPrimitiveArray2D(Object[][])
+	 */
 	public int[][] toPrimitiveArray2D() {
 		return Integers.toPrimitiveArray2D(elements);
 	}

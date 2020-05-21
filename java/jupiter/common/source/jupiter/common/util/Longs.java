@@ -186,12 +186,12 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} value from the specified {@code T} object.
+	 * Returns a {@code long} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code long} value from the specified {@code T} object
+	 * @return a {@code long} value converted from the specified {@code T} object
 	 */
 	public static <T> long toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -200,11 +200,11 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} array from the specified {@code long} array.
+	 * Returns a {@code long} array converted from the specified {@code long} array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified {@code long} array
+	 * @return a {@code long} array converted from the specified {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long... array) {
 		// Check the arguments
@@ -222,11 +222,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 2D {@code long} array.
+	 * Returns a {@code long} array converted from the specified 2D {@code long} array.
 	 * <p>
 	 * @param array2D the 2D {@code long} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 2D {@code long} array
+	 * @return a {@code long} array converted from the specified 2D {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long[]... array2D) {
 		// Check the arguments
@@ -248,11 +248,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 3D {@code long} array.
+	 * Returns a {@code long} array converted from the specified 3D {@code long} array.
 	 * <p>
 	 * @param array3D the 3D {@code long} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 3D {@code long} array
+	 * @return a {@code long} array converted from the specified 3D {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long[][]... array3D) {
 		// Check the arguments
@@ -280,24 +280,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} array from the specified {@code T} array.
+	 * Returns a {@code long} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified {@code T} array
+	 * @return a {@code long} array converted from the specified {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified {@code T} array.
+	 * Returns a {@code long} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified {@code T} array
+	 * @return a {@code long} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> long[] asPrimitiveArray(final T... array) {
@@ -305,24 +305,24 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 2D {@code T} array.
+	 * Returns a {@code long} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 2D {@code T} array
+	 * @return a {@code long} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 2D {@code T} array.
+	 * Returns a {@code long} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 2D {@code T} array
+	 * @return a {@code long} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> long[] asPrimitiveArray(final T[]... array2D) {
@@ -330,24 +330,24 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 3D {@code T} array.
+	 * Returns a {@code long} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 3D {@code T} array
+	 * @return a {@code long} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code long} array from the specified 3D {@code T} array.
+	 * Returns a {@code long} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code long} array from the specified 3D {@code T} array
+	 * @return a {@code long} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> long[] asPrimitiveArray(final T[][]... array3D) {
@@ -418,24 +418,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code long} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code long} array from the specified 2D {@code T} array
+	 * @return a 2D {@code long} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> long[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code long} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code long} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code long} array from the specified 2D {@code T} array
+	 * @return a 2D {@code long} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> long[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -513,24 +513,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code long} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code long} array from the specified 3D {@code T} array
+	 * @return a 3D {@code long} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> long[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code long} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code long} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code long} array from the specified 3D {@code T} array
+	 * @return a 3D {@code long} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> long[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -540,11 +540,11 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code long} array from the specified {@link Collection}.
+	 * Returns a {@code long} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code long} array from the specified {@link Collection}
+	 * @return a {@code long} array converted from the specified {@link Collection}
 	 */
 	public static long[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -553,11 +553,11 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Long} from the specified {@code long} array.
+	 * Returns an array of {@link Long} converted from the specified {@code long} array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an array of {@link Long} from the specified {@code long} array
+	 * @return an array of {@link Long} converted from the specified {@code long} array
 	 */
 	public static Long[] toArray(final long[] array) {
 		final Long[] convertedArray = new Long[array.length];
@@ -568,11 +568,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an array of {@link Long} from the specified {@code long} array.
+	 * Returns an array of {@link Long} converted from the specified {@code long} array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an array of {@link Long} from the specified {@code long} array
+	 * @return an array of {@link Long} converted from the specified {@code long} array
 	 */
 	public static Long[] asArray(final long... array) {
 		return toArray(array);
@@ -581,11 +581,11 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Long} from the specified 2D {@code long} array.
+	 * Returns a 2D array of {@link Long} converted from the specified 2D {@code long} array.
 	 * <p>
 	 * @param array2D the 2D {@code long} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Long} from the specified 2D {@code long} array
+	 * @return a 2D array of {@link Long} converted from the specified 2D {@code long} array
 	 */
 	public static Long[][] toArray2D(final long[][] array2D) {
 		final Long[][] convertedArray2D = new Long[array2D.length][];
@@ -596,11 +596,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Long} from the specified 2D {@code long} array.
+	 * Returns a 2D array of {@link Long} converted from the specified 2D {@code long} array.
 	 * <p>
 	 * @param array2D the 2D {@code long} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Long} from the specified 2D {@code long} array
+	 * @return a 2D array of {@link Long} converted from the specified 2D {@code long} array
 	 */
 	public static Long[][] asArray2D(final long[]... array2D) {
 		return toArray2D(array2D);
@@ -609,11 +609,11 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Long} from the specified 3D {@code long} array.
+	 * Returns a 3D array of {@link Long} converted from the specified 3D {@code long} array.
 	 * <p>
 	 * @param array3D the 3D {@code long} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Long} from the specified 3D {@code long} array
+	 * @return a 3D array of {@link Long} converted from the specified 3D {@code long} array
 	 */
 	public static Long[][][] toArray3D(final long[][][] array3D) {
 		final Long[][][] convertedArray3D = new Long[array3D.length][][];
@@ -624,11 +624,11 @@ public class Longs {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Long} from the specified 3D {@code long} array.
+	 * Returns a 3D array of {@link Long} converted from the specified 3D {@code long} array.
 	 * <p>
 	 * @param array3D the 3D {@code long} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Long} from the specified 3D {@code long} array
+	 * @return a 3D array of {@link Long} converted from the specified 3D {@code long} array
 	 */
 	public static Long[][][] asArray3D(final long[][]... array3D) {
 		return toArray3D(array3D);
@@ -637,11 +637,11 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Long} from the specified {@link Collection}.
+	 * Returns an array of {@link Long} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Long} from the specified {@link Collection}
+	 * @return an array of {@link Long} converted from the specified {@link Collection}
 	 */
 	public static Long[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -650,44 +650,52 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
+	 * array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
+	 *         array
 	 */
 	public static ExtendedList<Long> toList(final long[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
+	 * array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
+	 *         array
 	 */
 	public static ExtendedList<Long> asList(final long... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 * {@code long} array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 *         {@code long} array
 	 */
 	public static ExtendedLinkedList<Long> toLinkedList(final long[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 * {@code long} array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 *         {@code long} array
 	 */
 	public static ExtendedLinkedList<Long> asLinkedList(final long... array) {
 		return toLinkedList(array);
@@ -696,24 +704,24 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Long> asList(final T... array) {
@@ -721,24 +729,28 @@ public class Longs {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Long> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Long> asLinkedList(final T... array) {
@@ -748,22 +760,26 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Long} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Long} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Long} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Long> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Long} from the specified {@link Collection}
+	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Long> collectionToLinkedList(
 			final Collection<?> collection) {
@@ -773,22 +789,26 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
+	 * array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
+	 *         array
 	 */
 	public static ExtendedHashSet<Long> toSet(final long[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Long} from the specified {@code long} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
+	 * array.
 	 * <p>
 	 * @param array the {@code long} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Long} from the specified {@code long} array
+	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
+	 *         array
 	 */
 	public static ExtendedHashSet<Long> asSet(final long... array) {
 		return toSet(array);
@@ -797,24 +817,28 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Long> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Long} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Long} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Long> asSet(final T... array) {
@@ -824,11 +848,13 @@ public class Longs {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Long} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Long} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Long> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

@@ -194,12 +194,12 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} value from the specified {@code T} object.
+	 * Returns a {@code float} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code float} value from the specified {@code T} object
+	 * @return a {@code float} value converted from the specified {@code T} object
 	 */
 	public static <T> float toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -208,11 +208,11 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} array from the specified {@code float} array.
+	 * Returns a {@code float} array converted from the specified {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified {@code float} array
+	 * @return a {@code float} array converted from the specified {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float... array) {
 		// Check the arguments
@@ -230,11 +230,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 2D {@code float} array.
+	 * Returns a {@code float} array converted from the specified 2D {@code float} array.
 	 * <p>
 	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 2D {@code float} array
+	 * @return a {@code float} array converted from the specified 2D {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float[]... array2D) {
 		// Check the arguments
@@ -256,11 +256,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 3D {@code float} array.
+	 * Returns a {@code float} array converted from the specified 3D {@code float} array.
 	 * <p>
 	 * @param array3D the 3D {@code float} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 3D {@code float} array
+	 * @return a {@code float} array converted from the specified 3D {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float[][]... array3D) {
 		// Check the arguments
@@ -288,24 +288,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} array from the specified {@code T} array.
+	 * Returns a {@code float} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified {@code T} array
+	 * @return a {@code float} array converted from the specified {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified {@code T} array.
+	 * Returns a {@code float} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified {@code T} array
+	 * @return a {@code float} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T... array) {
@@ -313,24 +313,24 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 2D {@code T} array.
+	 * Returns a {@code float} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 2D {@code T} array
+	 * @return a {@code float} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 2D {@code T} array.
+	 * Returns a {@code float} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 2D {@code T} array
+	 * @return a {@code float} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T[]... array2D) {
@@ -338,24 +338,24 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 3D {@code T} array.
+	 * Returns a {@code float} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 3D {@code T} array
+	 * @return a {@code float} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code float} array from the specified 3D {@code T} array.
+	 * Returns a {@code float} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code float} array from the specified 3D {@code T} array
+	 * @return a {@code float} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[] asPrimitiveArray(final T[][]... array3D) {
@@ -426,24 +426,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code float} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code float} array from the specified 2D {@code T} array
+	 * @return a 2D {@code float} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> float[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code float} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code float} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code float} array from the specified 2D {@code T} array
+	 * @return a 2D {@code float} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -521,24 +521,24 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code float} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code float} array from the specified 3D {@code T} array
+	 * @return a 3D {@code float} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> float[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code float} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code float} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code float} array from the specified 3D {@code T} array
+	 * @return a 3D {@code float} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> float[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -548,11 +548,11 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code float} array from the specified {@link Collection}.
+	 * Returns a {@code float} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code float} array from the specified {@link Collection}
+	 * @return a {@code float} array converted from the specified {@link Collection}
 	 */
 	public static float[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -561,11 +561,11 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@code float} array.
+	 * Returns an array of {@link Float} converted from the specified {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@code float} array
+	 * @return an array of {@link Float} converted from the specified {@code float} array
 	 */
 	public static Float[] toArray(final float[] array) {
 		final Float[] convertedArray = new Float[array.length];
@@ -576,11 +576,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@code float} array.
+	 * Returns an array of {@link Float} converted from the specified {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@code float} array
+	 * @return an array of {@link Float} converted from the specified {@code float} array
 	 */
 	public static Float[] asArray(final float... array) {
 		return toArray(array);
@@ -589,11 +589,11 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
+	 * Returns a 2D array of {@link Float} converted from the specified 2D {@code float} array.
 	 * <p>
 	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
+	 * @return a 2D array of {@link Float} converted from the specified 2D {@code float} array
 	 */
 	public static Float[][] toArray2D(final float[][] array2D) {
 		final Float[][] convertedArray2D = new Float[array2D.length][];
@@ -604,11 +604,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Float} from the specified 2D {@code float} array.
+	 * Returns a 2D array of {@link Float} converted from the specified 2D {@code float} array.
 	 * <p>
 	 * @param array2D the 2D {@code float} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Float} from the specified 2D {@code float} array
+	 * @return a 2D array of {@link Float} converted from the specified 2D {@code float} array
 	 */
 	public static Float[][] asArray2D(final float[]... array2D) {
 		return toArray2D(array2D);
@@ -617,11 +617,11 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
+	 * Returns a 3D array of {@link Float} converted from the specified 3D {@code float} array.
 	 * <p>
 	 * @param array3D the 3D {@code float} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
+	 * @return a 3D array of {@link Float} converted from the specified 3D {@code float} array
 	 */
 	public static Float[][][] toArray3D(final float[][][] array3D) {
 		final Float[][][] convertedArray3D = new Float[array3D.length][][];
@@ -632,11 +632,11 @@ public class Floats {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Float} from the specified 3D {@code float} array.
+	 * Returns a 3D array of {@link Float} converted from the specified 3D {@code float} array.
 	 * <p>
 	 * @param array3D the 3D {@code float} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Float} from the specified 3D {@code float} array
+	 * @return a 3D array of {@link Float} converted from the specified 3D {@code float} array
 	 */
 	public static Float[][][] asArray3D(final float[][]... array3D) {
 		return toArray3D(array3D);
@@ -645,11 +645,11 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Float} from the specified {@link Collection}.
+	 * Returns an array of {@link Float} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Float} from the specified {@link Collection}
+	 * @return an array of {@link Float} converted from the specified {@link Collection}
 	 */
 	public static Float[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -658,46 +658,52 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
+	 * array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
+	 *         array
 	 */
 	public static ExtendedList<Float> toList(final float[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
+	 * array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
+	 *         array
 	 */
 	public static ExtendedList<Float> asList(final float... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 * {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 *         {@code float} array
 	 */
 	public static ExtendedLinkedList<Float> toLinkedList(final float[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 * {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 *         {@code float} array
 	 */
 	public static ExtendedLinkedList<Float> asLinkedList(final float... array) {
 		return toLinkedList(array);
@@ -706,24 +712,26 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Float> asList(final T... array) {
@@ -731,24 +739,28 @@ public class Floats {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Float> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Float> asLinkedList(final T... array) {
@@ -758,22 +770,26 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Float} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Float} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Float} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Float> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Float} from the specified {@link Collection}
+	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Float> collectionToLinkedList(
 			final Collection<?> collection) {
@@ -783,22 +799,26 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 * {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 *         {@code float} array
 	 */
 	public static ExtendedHashSet<Float> toSet(final float[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 * {@code float} array.
 	 * <p>
 	 * @param array the {@code float} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code float} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 *         {@code float} array
 	 */
 	public static ExtendedHashSet<Float> asSet(final float... array) {
 		return toSet(array);
@@ -807,24 +827,28 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Float> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Float> asSet(final T... array) {
@@ -834,11 +858,13 @@ public class Floats {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Float} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Float} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Float> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

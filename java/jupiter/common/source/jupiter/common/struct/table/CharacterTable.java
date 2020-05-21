@@ -146,10 +146,28 @@ public class CharacterTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code char} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code char} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Characters#toPrimitiveArray(Object[][])
+	 */
 	public char[] toPrimitiveArray() {
 		return Characters.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code char} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code char} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Characters#toPrimitiveArray2D(Object[][])
+	 */
 	public char[][] toPrimitiveArray2D() {
 		return Characters.toPrimitiveArray2D(elements);
 	}

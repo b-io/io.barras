@@ -229,12 +229,12 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code char} value from the specified {@code T} object.
+	 * Returns a {@code char} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code char} value from the specified {@code T} object
+	 * @return a {@code char} value converted from the specified {@code T} object
 	 */
 	public static <T> char toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -243,11 +243,11 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code char} array from the specified {@code char} array.
+	 * Returns a {@code char} array converted from the specified {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified {@code char} array
+	 * @return a {@code char} array converted from the specified {@code char} array
 	 */
 	public static char[] toPrimitiveArray(final char... array) {
 		// Check the arguments
@@ -265,11 +265,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 2D {@code char} array.
+	 * Returns a {@code char} array converted from the specified 2D {@code char} array.
 	 * <p>
 	 * @param array2D the 2D {@code char} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 2D {@code char} array
+	 * @return a {@code char} array converted from the specified 2D {@code char} array
 	 */
 	public static char[] toPrimitiveArray(final char[]... array2D) {
 		// Check the arguments
@@ -291,11 +291,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 3D {@code char} array.
+	 * Returns a {@code char} array converted from the specified 3D {@code char} array.
 	 * <p>
 	 * @param array3D the 3D {@code char} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 3D {@code char} array
+	 * @return a {@code char} array converted from the specified 3D {@code char} array
 	 */
 	public static char[] toPrimitiveArray(final char[][]... array3D) {
 		// Check the arguments
@@ -323,24 +323,24 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code char} array from the specified {@code T} array.
+	 * Returns a {@code char} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified {@code T} array
+	 * @return a {@code char} array converted from the specified {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified {@code T} array.
+	 * Returns a {@code char} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified {@code T} array
+	 * @return a {@code char} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T... array) {
@@ -348,24 +348,24 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 2D {@code T} array.
+	 * Returns a {@code char} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 2D {@code T} array
+	 * @return a {@code char} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 2D {@code T} array.
+	 * Returns a {@code char} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 2D {@code T} array
+	 * @return a {@code char} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T[]... array2D) {
@@ -373,24 +373,24 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 3D {@code T} array.
+	 * Returns a {@code char} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 3D {@code T} array
+	 * @return a {@code char} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> char[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code char} array from the specified 3D {@code T} array.
+	 * Returns a {@code char} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code char} array from the specified 3D {@code T} array
+	 * @return a {@code char} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[] asPrimitiveArray(final T[][]... array3D) {
@@ -461,24 +461,24 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code char} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code char} array from the specified 2D {@code T} array
+	 * @return a 2D {@code char} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> char[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code char} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code char} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code char} array from the specified 2D {@code T} array
+	 * @return a 2D {@code char} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -556,24 +556,24 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code char} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code char} array from the specified 3D {@code T} array
+	 * @return a 3D {@code char} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> char[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code char} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code char} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code char} array from the specified 3D {@code T} array
+	 * @return a 3D {@code char} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> char[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -583,11 +583,11 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code char} array from the specified {@link Collection}.
+	 * Returns a {@code char} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code char} array from the specified {@link Collection}
+	 * @return a {@code char} array converted from the specified {@link Collection}
 	 */
 	public static char[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -596,11 +596,11 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Character} from the specified {@code char} array.
+	 * Returns an array of {@link Character} converted from the specified {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an array of {@link Character} from the specified {@code char} array
+	 * @return an array of {@link Character} converted from the specified {@code char} array
 	 */
 	public static Character[] toArray(final char[] array) {
 		final Character[] convertedArray = new Character[array.length];
@@ -611,11 +611,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns an array of {@link Character} from the specified {@code char} array.
+	 * Returns an array of {@link Character} converted from the specified {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an array of {@link Character} from the specified {@code char} array
+	 * @return an array of {@link Character} converted from the specified {@code char} array
 	 */
 	public static Character[] asArray(final char... array) {
 		return toArray(array);
@@ -624,11 +624,11 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Character} from the specified 2D {@code char} array.
+	 * Returns a 2D array of {@link Character} converted from the specified 2D {@code char} array.
 	 * <p>
 	 * @param array2D the 2D {@code char} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Character} from the specified 2D {@code char} array
+	 * @return a 2D array of {@link Character} converted from the specified 2D {@code char} array
 	 */
 	public static Character[][] toArray2D(final char[][] array2D) {
 		final Character[][] convertedArray2D = new Character[array2D.length][];
@@ -639,11 +639,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Character} from the specified 2D {@code char} array.
+	 * Returns a 2D array of {@link Character} converted from the specified 2D {@code char} array.
 	 * <p>
 	 * @param array2D the 2D {@code char} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Character} from the specified 2D {@code char} array
+	 * @return a 2D array of {@link Character} converted from the specified 2D {@code char} array
 	 */
 	public static Character[][] asArray2D(final char[]... array2D) {
 		return toArray2D(array2D);
@@ -652,11 +652,11 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Character} from the specified 3D {@code char} array.
+	 * Returns a 3D array of {@link Character} converted from the specified 3D {@code char} array.
 	 * <p>
 	 * @param array3D the 3D {@code char} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Character} from the specified 3D {@code char} array
+	 * @return a 3D array of {@link Character} converted from the specified 3D {@code char} array
 	 */
 	public static Character[][][] toArray3D(final char[][][] array3D) {
 		final Character[][][] convertedArray3D = new Character[array3D.length][][];
@@ -667,11 +667,11 @@ public class Characters {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Character} from the specified 3D {@code char} array.
+	 * Returns a 3D array of {@link Character} converted from the specified 3D {@code char} array.
 	 * <p>
 	 * @param array3D the 3D {@code char} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Character} from the specified 3D {@code char} array
+	 * @return a 3D array of {@link Character} converted from the specified 3D {@code char} array
 	 */
 	public static Character[][][] asArray3D(final char[][]... array3D) {
 		return toArray3D(array3D);
@@ -680,11 +680,11 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Character} from the specified {@link Collection}.
+	 * Returns an array of {@link Character} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Character} from the specified {@link Collection}
+	 * @return an array of {@link Character} converted from the specified {@link Collection}
 	 */
 	public static Character[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -693,48 +693,52 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedList} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedList} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedList<Character> toList(final char[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code char} array.
+	 * Returns an {@link ExtendedList} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedList} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedList<Character> asList(final char... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedLinkedList<Character> toLinkedList(final char[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code char}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedLinkedList<Character> asLinkedList(final char... array) {
 		return toLinkedList(array);
@@ -743,24 +747,28 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Character} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Character} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedList<Character> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Character} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Character} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Character> asList(final T... array) {
@@ -768,26 +776,28 @@ public class Characters {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<Character> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Character} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Character> asLinkedList(final T... array) {
@@ -797,23 +807,25 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Character} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Character} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Character} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Character} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Character> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Character} from the specified
+	 * Returns an {@link ExtendedLinkedList} of {@link Character} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Character} from the specified
+	 * @return an {@link ExtendedLinkedList} of {@link Character} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Character> collectionToLinkedList(
@@ -824,24 +836,26 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code char}
-	 * array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedHashSet<Character> toSet(final char[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code char}
-	 * array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 * {@code char} array.
 	 * <p>
 	 * @param array the {@code char} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code char} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 *         {@code char} array
 	 */
 	public static ExtendedHashSet<Character> asSet(final char... array) {
 		return toSet(array);
@@ -850,24 +864,28 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedHashSet<Character> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Character> asSet(final T... array) {
@@ -877,12 +895,13 @@ public class Characters {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Character} from the specified
+	 * Returns an {@link ExtendedHashSet} of {@link Character} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Character} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Character} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Character> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

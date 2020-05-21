@@ -145,10 +145,28 @@ public class DoubleTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code double} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code double} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Doubles#toPrimitiveArray(Object[][])
+	 */
 	public double[] toPrimitiveArray() {
 		return Doubles.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code double} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code double} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Doubles#toPrimitiveArray2D(Object[][])
+	 */
 	public double[][] toPrimitiveArray2D() {
 		return Doubles.toPrimitiveArray2D(elements);
 	}

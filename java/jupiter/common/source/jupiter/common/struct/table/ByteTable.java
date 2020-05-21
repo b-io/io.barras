@@ -145,10 +145,28 @@ public class ByteTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code byte} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code byte} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Bytes#toPrimitiveArray(Object[][])
+	 */
 	public byte[] toPrimitiveArray() {
 		return Bytes.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code byte} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code byte} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Bytes#toPrimitiveArray2D(Object[][])
+	 */
 	public byte[][] toPrimitiveArray2D() {
 		return Bytes.toPrimitiveArray2D(elements);
 	}

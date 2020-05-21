@@ -269,12 +269,12 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} value from the specified {@code T} object.
+	 * Returns an {@code int} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return an {@code int} value from the specified {@code T} object
+	 * @return an {@code int} value converted from the specified {@code T} object
 	 */
 	public static <T> int toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -283,11 +283,11 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} array from the specified {@code int} array.
+	 * Returns an {@code int} array converted from the specified {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified {@code int} array
+	 * @return an {@code int} array converted from the specified {@code int} array
 	 */
 	public static int[] toPrimitiveArray(final int... array) {
 		// Check the arguments
@@ -305,11 +305,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 2D {@code int} array.
+	 * Returns an {@code int} array converted from the specified 2D {@code int} array.
 	 * <p>
 	 * @param array2D the 2D {@code int} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 2D {@code int} array
+	 * @return an {@code int} array converted from the specified 2D {@code int} array
 	 */
 	public static int[] toPrimitiveArray(final int[]... array2D) {
 		// Check the arguments
@@ -331,11 +331,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 3D {@code int} array.
+	 * Returns an {@code int} array converted from the specified 3D {@code int} array.
 	 * <p>
 	 * @param array3D the 3D {@code int} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 3D {@code int} array
+	 * @return an {@code int} array converted from the specified 3D {@code int} array
 	 */
 	public static int[] toPrimitiveArray(final int[][]... array3D) {
 		// Check the arguments
@@ -363,24 +363,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} array from the specified {@code T} array.
+	 * Returns an {@code int} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified {@code T} array
+	 * @return an {@code int} array converted from the specified {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified {@code T} array.
+	 * Returns an {@code int} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified {@code T} array
+	 * @return an {@code int} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T... array) {
@@ -388,24 +388,24 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 2D {@code T} array.
+	 * Returns an {@code int} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 2D {@code T} array
+	 * @return an {@code int} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 2D {@code T} array.
+	 * Returns an {@code int} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 2D {@code T} array
+	 * @return an {@code int} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T[]... array2D) {
@@ -413,24 +413,24 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 3D {@code T} array.
+	 * Returns an {@code int} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 3D {@code T} array
+	 * @return an {@code int} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> int[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns an {@code int} array from the specified 3D {@code T} array.
+	 * Returns an {@code int} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return an {@code int} array from the specified 3D {@code T} array
+	 * @return an {@code int} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[] asPrimitiveArray(final T[][]... array3D) {
@@ -501,24 +501,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code int} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code int} array from the specified 2D {@code T} array
+	 * @return a 2D {@code int} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> int[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code int} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code int} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code int} array from the specified 2D {@code T} array
+	 * @return a 2D {@code int} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -596,24 +596,24 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code int} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code int} array from the specified 3D {@code T} array
+	 * @return a 3D {@code int} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> int[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code int} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code int} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code int} array from the specified 3D {@code T} array
+	 * @return a 3D {@code int} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> int[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -623,11 +623,11 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@code int} array from the specified {@link Collection}.
+	 * Returns an {@code int} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@code int} array from the specified {@link Collection}
+	 * @return an {@code int} array converted from the specified {@link Collection}
 	 */
 	public static int[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -636,11 +636,11 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@code int} array.
+	 * Returns an array of {@link Integer} converted from the specified {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@code int} array
+	 * @return an array of {@link Integer} converted from the specified {@code int} array
 	 */
 	public static Integer[] toArray(final int[] array) {
 		final Integer[] convertedArray = new Integer[array.length];
@@ -651,11 +651,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@code int} array.
+	 * Returns an array of {@link Integer} converted from the specified {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@code int} array
+	 * @return an array of {@link Integer} converted from the specified {@code int} array
 	 */
 	public static Integer[] asArray(final int... array) {
 		return toArray(array);
@@ -664,11 +664,11 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Integer} from the specified 2D {@code int} array.
+	 * Returns a 2D array of {@link Integer} converted from the specified 2D {@code int} array.
 	 * <p>
 	 * @param array2D the 2D {@code int} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Integer} from the specified 2D {@code int} array
+	 * @return a 2D array of {@link Integer} converted from the specified 2D {@code int} array
 	 */
 	public static Integer[][] toArray2D(final int[][] array2D) {
 		final Integer[][] convertedArray2D = new Integer[array2D.length][];
@@ -679,11 +679,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Integer} from the specified 2D {@code int} array.
+	 * Returns a 2D array of {@link Integer} converted from the specified 2D {@code int} array.
 	 * <p>
 	 * @param array2D the 2D {@code int} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Integer} from the specified 2D {@code int} array
+	 * @return a 2D array of {@link Integer} converted from the specified 2D {@code int} array
 	 */
 	public static Integer[][] asArray2D(final int[]... array2D) {
 		return toArray2D(array2D);
@@ -692,11 +692,11 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Integer} from the specified 3D {@code int} array.
+	 * Returns a 3D array of {@link Integer} converted from the specified 3D {@code int} array.
 	 * <p>
 	 * @param array3D the 3D {@code int} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Integer} from the specified 3D {@code int} array
+	 * @return a 3D array of {@link Integer} converted from the specified 3D {@code int} array
 	 */
 	public static Integer[][][] toArray3D(final int[][][] array3D) {
 		final Integer[][][] convertedArray3D = new Integer[array3D.length][][];
@@ -707,11 +707,11 @@ public class Integers {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Integer} from the specified 3D {@code int} array.
+	 * Returns a 3D array of {@link Integer} converted from the specified 3D {@code int} array.
 	 * <p>
 	 * @param array3D the 3D {@code int} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Integer} from the specified 3D {@code int} array
+	 * @return a 3D array of {@link Integer} converted from the specified 3D {@code int} array
 	 */
 	public static Integer[][][] asArray3D(final int[][]... array3D) {
 		return toArray3D(array3D);
@@ -720,11 +720,11 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Integer} from the specified {@link Collection}.
+	 * Returns an array of {@link Integer} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Integer} from the specified {@link Collection}
+	 * @return an array of {@link Integer} converted from the specified {@link Collection}
 	 */
 	public static Integer[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -733,46 +733,52 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} converted from the specified {@code int}
+	 * array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedList} of {@link Integer} converted from the specified {@code int}
+	 *         array
 	 */
 	public static ExtendedList<Integer> toList(final int[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} converted from the specified {@code int}
+	 * array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedList} of {@link Integer} converted from the specified {@code int}
+	 *         array
 	 */
 	public static ExtendedList<Integer> asList(final int... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code int}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 * {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 *         {@code int} array
 	 */
 	public static ExtendedLinkedList<Integer> toLinkedList(final int[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code int}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 * {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 *         {@code int} array
 	 */
 	public static ExtendedLinkedList<Integer> asLinkedList(final int... array) {
 		return toLinkedList(array);
@@ -781,24 +787,28 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Integer} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedList<Integer> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Integer} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Integer} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Integer> asList(final T... array) {
@@ -806,24 +816,28 @@ public class Integers {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<Integer> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Integer> asLinkedList(final T... array) {
@@ -833,23 +847,25 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Integer} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Integer} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Integer} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Integer> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Integer} from the specified
+	 * Returns an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Integer} from the specified
+	 * @return an {@link ExtendedLinkedList} of {@link Integer} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Integer> collectionToLinkedList(
@@ -860,22 +876,26 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 * {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 *         {@code int} array
 	 */
 	public static ExtendedHashSet<Integer> toSet(final int[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 * {@code int} array.
 	 * <p>
 	 * @param array the {@code int} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code int} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 *         {@code int} array
 	 */
 	public static ExtendedHashSet<Integer> asSet(final int... array) {
 		return toSet(array);
@@ -884,24 +904,28 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Integer> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Integer} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Integer> asSet(final T... array) {
@@ -911,11 +935,13 @@ public class Integers {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Integer} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Integer} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Integer} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Integer> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

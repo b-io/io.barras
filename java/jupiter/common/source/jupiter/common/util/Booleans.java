@@ -83,12 +83,12 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code boolean} value from the specified {@code T} object.
+	 * Returns a {@code boolean} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code boolean} value from the specified {@code T} object
+	 * @return a {@code boolean} value converted from the specified {@code T} object
 	 */
 	public static <T> boolean toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -97,11 +97,11 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@code boolean} array.
+	 * Returns a {@code boolean} array converted from the specified {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@code boolean} array
+	 * @return a {@code boolean} array converted from the specified {@code boolean} array
 	 */
 	public static boolean[] toPrimitiveArray(final boolean... array) {
 		// Check the arguments
@@ -119,11 +119,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 2D {@code boolean} array.
+	 * Returns a {@code boolean} array converted from the specified 2D {@code boolean} array.
 	 * <p>
 	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 2D {@code boolean} array
+	 * @return a {@code boolean} array converted from the specified 2D {@code boolean} array
 	 */
 	public static boolean[] toPrimitiveArray(final boolean[]... array2D) {
 		// Check the arguments
@@ -145,11 +145,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 3D {@code boolean} array.
+	 * Returns a {@code boolean} array converted from the specified 3D {@code boolean} array.
 	 * <p>
 	 * @param array3D the 3D {@code boolean} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 3D {@code boolean} array
+	 * @return a {@code boolean} array converted from the specified 3D {@code boolean} array
 	 */
 	public static boolean[] toPrimitiveArray(final boolean[][]... array3D) {
 		// Check the arguments
@@ -177,24 +177,24 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@code T} array
+	 * @return a {@code boolean} array converted from the specified {@code T} array
 	 */
 	public static <T> boolean[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@code T} array
+	 * @return a {@code boolean} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T... array) {
@@ -202,24 +202,24 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 2D {@code T} array
+	 * @return a {@code boolean} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> boolean[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 2D {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 2D {@code T} array
+	 * @return a {@code boolean} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T[]... array2D) {
@@ -227,24 +227,24 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 3D {@code T} array
+	 * @return a {@code boolean} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> boolean[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code boolean} array from the specified 3D {@code T} array.
+	 * Returns a {@code boolean} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified 3D {@code T} array
+	 * @return a {@code boolean} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[] asPrimitiveArray(final T[][]... array3D) {
@@ -315,24 +315,24 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code boolean} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
+	 * @return a 2D {@code boolean} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> boolean[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code boolean} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code boolean} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code boolean} array from the specified 2D {@code T} array
+	 * @return a 2D {@code boolean} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -410,24 +410,24 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code boolean} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
+	 * @return a 3D {@code boolean} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> boolean[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code boolean} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code boolean} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code boolean} array from the specified 3D {@code T} array
+	 * @return a 3D {@code boolean} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> boolean[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -437,11 +437,11 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code boolean} array from the specified {@link Collection}.
+	 * Returns a {@code boolean} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code boolean} array from the specified {@link Collection}
+	 * @return a {@code boolean} array converted from the specified {@link Collection}
 	 */
 	public static boolean[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -450,11 +450,11 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an array of {@link Boolean} converted from the specified {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an array of {@link Boolean} from the specified {@code boolean} array
+	 * @return an array of {@link Boolean} converted from the specified {@code boolean} array
 	 */
 	public static Boolean[] toArray(final boolean[] array) {
 		final Boolean[] convertedArray = new Boolean[array.length];
@@ -465,11 +465,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns an array of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an array of {@link Boolean} converted from the specified {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an array of {@link Boolean} from the specified {@code boolean} array
+	 * @return an array of {@link Boolean} converted from the specified {@code boolean} array
 	 */
 	public static Boolean[] asArray(final boolean... array) {
 		return toArray(array);
@@ -478,11 +478,11 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Boolean} from the specified 2D {@code boolean} array.
+	 * Returns a 2D array of {@link Boolean} converted from the specified 2D {@code boolean} array.
 	 * <p>
 	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Boolean} from the specified 2D {@code boolean} array
+	 * @return a 2D array of {@link Boolean} converted from the specified 2D {@code boolean} array
 	 */
 	public static Boolean[][] toArray2D(final boolean[][] array2D) {
 		final Boolean[][] convertedArray2D = new Boolean[array2D.length][];
@@ -493,11 +493,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Boolean} from the specified 2D {@code boolean} array.
+	 * Returns a 2D array of {@link Boolean} converted from the specified 2D {@code boolean} array.
 	 * <p>
 	 * @param array2D the 2D {@code boolean} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Boolean} from the specified 2D {@code boolean} array
+	 * @return a 2D array of {@link Boolean} converted from the specified 2D {@code boolean} array
 	 */
 	public static Boolean[][] asArray2D(final boolean[]... array2D) {
 		return toArray2D(array2D);
@@ -506,11 +506,11 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Boolean} from the specified 3D {@code boolean} array.
+	 * Returns a 3D array of {@link Boolean} converted from the specified 3D {@code boolean} array.
 	 * <p>
 	 * @param array3D the 3D {@code boolean} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Boolean} from the specified 3D {@code boolean} array
+	 * @return a 3D array of {@link Boolean} converted from the specified 3D {@code boolean} array
 	 */
 	public static Boolean[][][] toArray3D(final boolean[][][] array3D) {
 		final Boolean[][][] convertedArray3D = new Boolean[array3D.length][][];
@@ -521,11 +521,11 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Boolean} from the specified 3D {@code boolean} array.
+	 * Returns a 3D array of {@link Boolean} converted from the specified 3D {@code boolean} array.
 	 * <p>
 	 * @param array3D the 3D {@code boolean} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Boolean} from the specified 3D {@code boolean} array
+	 * @return a 3D array of {@link Boolean} converted from the specified 3D {@code boolean} array
 	 */
 	public static Boolean[][][] asArray3D(final boolean[][]... array3D) {
 		return toArray3D(array3D);
@@ -534,11 +534,11 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Boolean} from the specified {@link Collection}.
+	 * Returns an array of {@link Boolean} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Boolean} from the specified {@link Collection}
+	 * @return an array of {@link Boolean} converted from the specified {@link Collection}
 	 */
 	public static Boolean[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -547,48 +547,52 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedList<Boolean> toList(final boolean[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code boolean} array
+	 * @return an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedList<Boolean> asList(final boolean... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedLinkedList<Boolean> toLinkedList(final boolean[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code boolean}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedLinkedList<Boolean> asLinkedList(final boolean... array) {
 		return toLinkedList(array);
@@ -597,24 +601,28 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Boolean} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedList<Boolean> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Boolean} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Boolean} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Boolean> asList(final T... array) {
@@ -622,24 +630,28 @@ public class Booleans {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<Boolean> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Boolean> asLinkedList(final T... array) {
@@ -649,23 +661,25 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Boolean} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Boolean} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Boolean> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} from the specified
+	 * Returns an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Boolean} from the specified
+	 * @return an {@link ExtendedLinkedList} of {@link Boolean} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Boolean> collectionToLinkedList(
@@ -676,26 +690,26 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
-	 * array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
-	 *         array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedHashSet<Boolean> toSet(final boolean[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
-	 * array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 * {@code boolean} array.
 	 * <p>
 	 * @param array the {@code boolean} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code boolean}
-	 *         array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 *         {@code boolean} array
 	 */
 	public static ExtendedHashSet<Boolean> asSet(final boolean... array) {
 		return toSet(array);
@@ -704,24 +718,28 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Boolean> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Boolean> asSet(final T... array) {
@@ -731,11 +749,13 @@ public class Booleans {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Boolean} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Boolean} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Boolean} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Boolean> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

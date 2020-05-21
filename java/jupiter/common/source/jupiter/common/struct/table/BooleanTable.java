@@ -145,10 +145,28 @@ public class BooleanTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code boolean} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code boolean} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Booleans#toPrimitiveArray(Object[][])
+	 */
 	public boolean[] toPrimitiveArray() {
 		return Booleans.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code boolean} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code boolean} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Booleans#toPrimitiveArray2D(Object[][])
+	 */
 	public boolean[][] toPrimitiveArray2D() {
 		return Booleans.toPrimitiveArray2D(elements);
 	}

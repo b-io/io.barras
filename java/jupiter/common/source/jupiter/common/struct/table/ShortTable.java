@@ -145,10 +145,28 @@ public class ShortTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code short} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code short} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Shorts#toPrimitiveArray(Object[][])
+	 */
 	public short[] toPrimitiveArray() {
 		return Shorts.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code short} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code short} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Shorts#toPrimitiveArray2D(Object[][])
+	 */
 	public short[][] toPrimitiveArray2D() {
 		return Shorts.toPrimitiveArray2D(elements);
 	}

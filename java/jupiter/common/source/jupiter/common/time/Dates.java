@@ -769,11 +769,11 @@ public class Dates {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Converts the specified {@link Date} with time to a {@link Date}.
+	 * Returns a {@link Date} converted from the specified {@link Date} with time.
 	 * <p>
 	 * @param date the {@link Date} with time to convert
 	 * <p>
-	 * @return a {@link Date}
+	 * @return a {@link Date} converted from the specified {@link Date} with time
 	 */
 	public static Date toDate(final Date date) {
 		final Calendar calendar = createCalendar(date);

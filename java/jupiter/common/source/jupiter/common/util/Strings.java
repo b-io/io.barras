@@ -280,22 +280,22 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link String} from the specified array.
+	 * Returns an array of {@link String} converted from the specified array.
 	 * <p>
 	 * @param array the array to convert
 	 * <p>
-	 * @return an array of {@link String} from the specified array
+	 * @return an array of {@link String} converted from the specified array
 	 */
 	public static String[] toArray(final Object[] array) {
 		return PARSER.callToArray(array);
 	}
 
 	/**
-	 * Returns an array of {@link String} from the specified array.
+	 * Returns an array of {@link String} converted from the specified array.
 	 * <p>
 	 * @param array the array to convert
 	 * <p>
-	 * @return an array of {@link String} from the specified array
+	 * @return an array of {@link String} converted from the specified array
 	 */
 	public static String[] asArray(final Object... array) {
 		return toArray(array);
@@ -304,22 +304,22 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array.
+	 * Returns a 2D array of {@link String} converted from the specified 2D array.
 	 * <p>
 	 * @param array2D the 2D array to convert
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array
+	 * @return a 2D array of {@link String} converted from the specified 2D array
 	 */
 	public static String[][] toArray2D(final Object[][] array2D) {
 		return PARSER.callToArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D array of {@link String} from the specified 2D array.
+	 * Returns a 2D array of {@link String} converted from the specified 2D array.
 	 * <p>
 	 * @param array2D the 2D array to convert
 	 * <p>
-	 * @return a 2D array of {@link String} from the specified 2D array
+	 * @return a 2D array of {@link String} converted from the specified 2D array
 	 */
 	public static String[][] asArray2D(final Object[]... array2D) {
 		return toArray2D(array2D);
@@ -328,22 +328,22 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array.
+	 * Returns a 3D array of {@link String} converted from the specified 3D array.
 	 * <p>
 	 * @param array3D the 3D array to convert
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array
+	 * @return a 3D array of {@link String} converted from the specified 3D array
 	 */
 	public static String[][][] toArray3D(final Object[][][] array3D) {
 		return PARSER.callToArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D array of {@link String} from the specified 3D array.
+	 * Returns a 3D array of {@link String} converted from the specified 3D array.
 	 * <p>
 	 * @param array3D the 3D array to convert
 	 * <p>
-	 * @return a 3D array of {@link String} from the specified 3D array
+	 * @return a 3D array of {@link String} converted from the specified 3D array
 	 */
 	public static String[][][] asArray3D(final Object[][]... array3D) {
 		return toArray3D(array3D);
@@ -352,11 +352,11 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link String} from the specified {@link Collection}.
+	 * Returns an array of {@link String} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link String} from the specified {@link Collection}
+	 * @return an array of {@link String} converted from the specified {@link Collection}
 	 */
 	public static String[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -365,24 +365,28 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link String} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link String} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedList<String> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link String} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link String} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<String> asList(final T... array) {
@@ -390,24 +394,28 @@ public class Strings {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<String> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<String> asLinkedList(final T... array) {
@@ -417,23 +425,26 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link String} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link String} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link String} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link String} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<String> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link String} from the specified
+	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link String} from the specified {@link Collection}
+	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<String> collectionToLinkedList(
 			final Collection<?> collection) {
@@ -443,24 +454,28 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<String> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<String> asSet(final T... array) {
@@ -470,11 +485,13 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link String} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link String} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<String> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

@@ -155,7 +155,7 @@ public class ExtendedLinkedList<E>
 	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
 	 *         an empty array if {@code this} is empty
 	 *
-	 * @see LinkedList#toArray(Object[])
+	 * @see Lists#toArray(Collection)
 	 */
 	@Override
 	public E[] toArray() {
@@ -169,7 +169,7 @@ public class ExtendedLinkedList<E>
 	 * @return a primitive array containing all the elements of {@code this} in the same order, or
 	 *         {@code null} if {@code this} is empty
 	 *
-	 * @see LinkedList#toArray(Object[])
+	 * @see Lists#toPrimitiveArray(Collection)
 	 */
 	public Object toPrimitiveArray() {
 		return Lists.toPrimitiveArray(this);

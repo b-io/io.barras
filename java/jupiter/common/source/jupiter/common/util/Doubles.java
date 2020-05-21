@@ -178,12 +178,12 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code double} value from the specified {@code T} object.
+	 * Returns a {@code double} value converted from the specified {@code T} object.
 	 * <p>
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
 	 * <p>
-	 * @return a {@code double} value from the specified {@code T} object
+	 * @return a {@code double} value converted from the specified {@code T} object
 	 */
 	public static <T> double toPrimitive(final T object) {
 		return PARSER.callToPrimitive(object);
@@ -192,11 +192,11 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code double} array from the specified {@code double} array.
+	 * Returns a {@code double} array converted from the specified {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified {@code double} array
+	 * @return a {@code double} array converted from the specified {@code double} array
 	 */
 	public static double[] toPrimitiveArray(final double... array) {
 		// Check the arguments
@@ -214,11 +214,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 2D {@code double} array.
+	 * Returns a {@code double} array converted from the specified 2D {@code double} array.
 	 * <p>
 	 * @param array2D the 2D {@code double} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 2D {@code double} array
+	 * @return a {@code double} array converted from the specified 2D {@code double} array
 	 */
 	public static double[] toPrimitiveArray(final double[]... array2D) {
 		// Check the arguments
@@ -240,11 +240,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 3D {@code double} array.
+	 * Returns a {@code double} array converted from the specified 3D {@code double} array.
 	 * <p>
 	 * @param array3D the 3D {@code double} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 3D {@code double} array
+	 * @return a {@code double} array converted from the specified 3D {@code double} array
 	 */
 	public static double[] toPrimitiveArray(final double[][]... array3D) {
 		// Check the arguments
@@ -272,24 +272,24 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code double} array from the specified {@code T} array.
+	 * Returns a {@code double} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified {@code T} array
+	 * @return a {@code double} array converted from the specified {@code T} array
 	 */
 	public static <T> double[] toPrimitiveArray(final T[] array) {
 		return PARSER.callToPrimitiveArray(array);
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified {@code T} array.
+	 * Returns a {@code double} array converted from the specified {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified {@code T} array
+	 * @return a {@code double} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T... array) {
@@ -297,24 +297,24 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 2D {@code T} array.
+	 * Returns a {@code double} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 2D {@code T} array
+	 * @return a {@code double} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> double[] toPrimitiveArray(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray(array2D);
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 2D {@code T} array.
+	 * Returns a {@code double} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 2D {@code T} array
+	 * @return a {@code double} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T[]... array2D) {
@@ -322,24 +322,24 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 3D {@code T} array.
+	 * Returns a {@code double} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 3D {@code T} array
+	 * @return a {@code double} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> double[] toPrimitiveArray(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray(array3D);
 	}
 
 	/**
-	 * Returns a {@code double} array from the specified 3D {@code T} array.
+	 * Returns a {@code double} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a {@code double} array from the specified 3D {@code T} array
+	 * @return a {@code double} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[] asPrimitiveArray(final T[][]... array3D) {
@@ -410,24 +410,24 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D {@code double} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code double} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code double} array from the specified 2D {@code T} array
+	 * @return a 2D {@code double} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> double[][] toPrimitiveArray2D(final T[][] array2D) {
 		return PARSER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
-	 * Returns a 2D {@code double} array from the specified 2D {@code T} array.
+	 * Returns a 2D {@code double} array converted from the specified 2D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
 	 * <p>
-	 * @return a 2D {@code double} array from the specified 2D {@code T} array
+	 * @return a 2D {@code double} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[][] asPrimitiveArray2D(final T[]... array2D) {
@@ -505,24 +505,24 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D {@code double} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code double} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code double} array from the specified 3D {@code T} array
+	 * @return a 3D {@code double} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> double[][][] toPrimitiveArray3D(final T[][][] array3D) {
 		return PARSER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
-	 * Returns a 3D {@code double} array from the specified 3D {@code T} array.
+	 * Returns a 3D {@code double} array converted from the specified 3D {@code T} array.
 	 * <p>
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
 	 * <p>
-	 * @return a 3D {@code double} array from the specified 3D {@code T} array
+	 * @return a 3D {@code double} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> double[][][] asPrimitiveArray3D(final T[][]... array3D) {
@@ -532,11 +532,11 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@code double} array from the specified {@link Collection}.
+	 * Returns a {@code double} array converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return a {@code double} array from the specified {@link Collection}
+	 * @return a {@code double} array converted from the specified {@link Collection}
 	 */
 	public static double[] collectionToPrimitiveArray(final Collection<?> collection) {
 		return PARSER.callCollectionToPrimitiveArray(collection);
@@ -545,11 +545,11 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Double} from the specified {@code double} array.
+	 * Returns an array of {@link Double} converted from the specified {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an array of {@link Double} from the specified {@code double} array
+	 * @return an array of {@link Double} converted from the specified {@code double} array
 	 */
 	public static Double[] toArray(final double[] array) {
 		final Double[] convertedArray = new Double[array.length];
@@ -560,11 +560,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns an array of {@link Double} from the specified {@code double} array.
+	 * Returns an array of {@link Double} converted from the specified {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an array of {@link Double} from the specified {@code double} array
+	 * @return an array of {@link Double} converted from the specified {@code double} array
 	 */
 	public static Double[] asArray(final double... array) {
 		return toArray(array);
@@ -573,11 +573,11 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 2D array of {@link Double} from the specified 2D {@code double} array.
+	 * Returns a 2D array of {@link Double} converted from the specified 2D {@code double} array.
 	 * <p>
 	 * @param array2D the 2D {@code double} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Double} from the specified 2D {@code double} array
+	 * @return a 2D array of {@link Double} converted from the specified 2D {@code double} array
 	 */
 	public static Double[][] toArray2D(final double[][] array2D) {
 		final Double[][] convertedArray2D = new Double[array2D.length][];
@@ -588,11 +588,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a 2D array of {@link Double} from the specified 2D {@code double} array.
+	 * Returns a 2D array of {@link Double} converted from the specified 2D {@code double} array.
 	 * <p>
 	 * @param array2D the 2D {@code double} array to convert
 	 * <p>
-	 * @return a 2D array of {@link Double} from the specified 2D {@code double} array
+	 * @return a 2D array of {@link Double} converted from the specified 2D {@code double} array
 	 */
 	public static Double[][] asArray2D(final double[]... array2D) {
 		return toArray2D(array2D);
@@ -601,11 +601,11 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a 3D array of {@link Double} from the specified 3D {@code double} array.
+	 * Returns a 3D array of {@link Double} converted from the specified 3D {@code double} array.
 	 * <p>
 	 * @param array3D the 3D {@code double} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Double} from the specified 3D {@code double} array
+	 * @return a 3D array of {@link Double} converted from the specified 3D {@code double} array
 	 */
 	public static Double[][][] toArray3D(final double[][][] array3D) {
 		final Double[][][] convertedArray3D = new Double[array3D.length][][];
@@ -616,11 +616,11 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns a 3D array of {@link Double} from the specified 3D {@code double} array.
+	 * Returns a 3D array of {@link Double} converted from the specified 3D {@code double} array.
 	 * <p>
 	 * @param array3D the 3D {@code double} array to convert
 	 * <p>
-	 * @return a 3D array of {@link Double} from the specified 3D {@code double} array
+	 * @return a 3D array of {@link Double} converted from the specified 3D {@code double} array
 	 */
 	public static Double[][][] asArray3D(final double[][]... array3D) {
 		return toArray3D(array3D);
@@ -629,11 +629,11 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an array of {@link Double} from the specified {@link Collection}.
+	 * Returns an array of {@link Double} converted from the specified {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an array of {@link Double} from the specified {@link Collection}
+	 * @return an array of {@link Double} converted from the specified {@link Collection}
 	 */
 	public static Double[] collectionToArray(final Collection<?> collection) {
 		return PARSER.callCollectionToArray(collection);
@@ -642,48 +642,52 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedList} of {@link Double} converted from the specified {@code double}
+	 * array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedList} of {@link Double} converted from the specified {@code double}
+	 *         array
 	 */
 	public static ExtendedList<Double> toList(final double[] array) {
 		return PARSER.callToList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedList} of {@link Double} converted from the specified {@code double}
+	 * array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedList} of {@link Double} converted from the specified {@code double}
+	 *         array
 	 */
 	public static ExtendedList<Double> asList(final double... array) {
 		return toList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified {@code double}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 * {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code double}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 *         {@code double} array
 	 */
 	public static ExtendedLinkedList<Double> toLinkedList(final double[] array) {
 		return PARSER.callToLinkedList(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified {@code double}
-	 * array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 * {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code double}
-	 *         array
+	 * @return an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 *         {@code double} array
 	 */
 	public static ExtendedLinkedList<Double> asLinkedList(final double... array) {
 		return toLinkedList(array);
@@ -692,24 +696,28 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Double} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Double} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedList<Double> toList(final T[] array) {
 		return PARSER.callToList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedList} of {@link Double} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedList} of {@link Double} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedList<Double> asList(final T... array) {
@@ -717,24 +725,28 @@ public class Doubles {
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<Double> toLinkedList(final T[] array) {
 		return PARSER.callToLinkedList(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 * {@code T} array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 *         {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedLinkedList<Double> asLinkedList(final T... array) {
@@ -744,23 +756,26 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedList} of {@link Double} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedList} of {@link Double} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedList} of {@link Double} from the specified {@link Collection}
+	 * @return an {@link ExtendedList} of {@link Double} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedList<Double> collectionToList(final Collection<?> collection) {
 		return PARSER.callCollectionToList(collection);
 	}
 
 	/**
-	 * Returns an {@link ExtendedLinkedList} of {@link Double} from the specified
+	 * Returns an {@link ExtendedLinkedList} of {@link Double} converted from the specified
 	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedLinkedList} of {@link Double} from the specified {@link Collection}
+	 * @return an {@link ExtendedLinkedList} of {@link Double} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Double> collectionToLinkedList(
 			final Collection<?> collection) {
@@ -770,22 +785,26 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 * {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 *         {@code double} array
 	 */
 	public static ExtendedHashSet<Double> toSet(final double[] array) {
 		return PARSER.callToSet(toArray(array));
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 * {@code double} array.
 	 * <p>
 	 * @param array the {@code double} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code double} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 *         {@code double} array
 	 */
 	public static ExtendedHashSet<Double> asSet(final double... array) {
 		return toSet(array);
@@ -794,24 +813,28 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} converted from the specified {@code T}
+	 *         array
 	 */
 	public static <T> ExtendedHashSet<Double> toSet(final T[] array) {
 		return PARSER.callToSet(array);
 	}
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} converted from the specified {@code T}
+	 * array.
 	 * <p>
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@code T} array
+	 * @return an {@link ExtendedHashSet} of {@link Double} converted from the specified {@code T}
+	 *         array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
 	public static <T> ExtendedHashSet<Double> asSet(final T... array) {
@@ -821,11 +844,13 @@ public class Doubles {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns an {@link ExtendedHashSet} of {@link Double} from the specified {@link Collection}.
+	 * Returns an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 * {@link Collection}.
 	 * <p>
 	 * @param collection the {@link Collection} to convert
 	 * <p>
-	 * @return an {@link ExtendedHashSet} of {@link Double} from the specified {@link Collection}
+	 * @return an {@link ExtendedHashSet} of {@link Double} converted from the specified
+	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Double> collectionToSet(final Collection<?> collection) {
 		return PARSER.callCollectionToSet(collection);

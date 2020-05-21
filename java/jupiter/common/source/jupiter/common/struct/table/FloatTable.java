@@ -145,10 +145,28 @@ public class FloatTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code float} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code float} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Floats#toPrimitiveArray(Object[][])
+	 */
 	public float[] toPrimitiveArray() {
 		return Floats.toPrimitiveArray(elements);
 	}
 
+	/**
+	 * Returns a 2D {@code float} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code float} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Floats#toPrimitiveArray2D(Object[][])
+	 */
 	public float[][] toPrimitiveArray2D() {
 		return Floats.toPrimitiveArray2D(elements);
 	}
