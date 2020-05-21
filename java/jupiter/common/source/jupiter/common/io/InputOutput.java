@@ -476,8 +476,8 @@ public class InputOutput
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the standard output (or in the standard error
-	 * if {@code isError}) with the {@link IOPrinter}.
+	 * Prints the specified content {@link Object} in the standard output (or standard error if
+	 * {@code isError}) with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -491,7 +491,7 @@ public class InputOutput
 
 	/**
 	 * Prints the specified number of times the specified content {@link Object} in the standard
-	 * output (or in the standard error if {@code isError}) with the {@link IOPrinter}.
+	 * output (or standard error if {@code isError}) with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
@@ -530,8 +530,8 @@ public class InputOutput
 	}
 
 	/**
-	 * Prints the specified content {@link Object} in the standard output (or in the standard error
-	 * if {@code isError}) and terminates the line with the {@link IOPrinter}.
+	 * Prints the specified content {@link Object} in the standard output (or standard error if
+	 * {@code isError}) and terminates the line with the {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -545,7 +545,7 @@ public class InputOutput
 
 	/**
 	 * Prints the specified number of times the specified content {@link Object} in the standard
-	 * output (or in the standard error if {@code isError}) and terminates the line with the
+	 * output (or standard error if {@code isError}) and terminates the line with the
 	 * {@link IOPrinter}.
 	 * <p>
 	 * @param content the content {@link Object} to print

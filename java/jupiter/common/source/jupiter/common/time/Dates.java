@@ -60,7 +60,7 @@ public class Dates {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile Mapper<Integer, List<? extends Date>> NO_PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
+	public static final Mapper<Integer, List<? extends Date>> NO_PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
 		/**
 		 * The generated serial version ID.
 		 */
@@ -72,7 +72,7 @@ public class Dates {
 		}
 	};
 
-	public static volatile Mapper<Integer, List<? extends Date>> PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
+	public static final Mapper<Integer, List<? extends Date>> SWISS_PUBLIC_HOLIDAYS = new Mapper<Integer, List<? extends Date>>() {
 		/**
 		 * The generated serial version ID.
 		 */
@@ -83,6 +83,10 @@ public class Dates {
 			return getSwissPublicHolidays(year);
 		}
 	};
+
+	//////////////////////////////////////////////
+
+	public static volatile Mapper<Integer, List<? extends Date>> PUBLIC_HOLIDAYS = NO_PUBLIC_HOLIDAYS;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -116,6 +120,10 @@ public class Dates {
 	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static int getDate() {
+		return getDate(createCalendar());
+	}
+
 	public static int getDate(final Date date) {
 		return getDate(createCalendar(date));
 	}
@@ -124,7 +132,301 @@ public class Dates {
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * Returns the {@link Date} if it is a business day, the previous business day otherwise.
+	 * <p>
+	 * @return the {@link Date} if it is a business day, the previous business day otherwise
+	 */
+	public static Date getBusinessDay() {
+		return getBusinessDay(createCalendar(), PUBLIC_HOLIDAYS, false);
+	}
+
+	/**
+	 * Returns the {@link Date} if it is a business day, the previous (or next if {@code getNext})
+	 * business day otherwise.
+	 * <p>
+	 * @param getNext the flag specifying whether to get the next or previous business day
+	 * <p>
+	 * @return the {@link Date} if it is a business day, the previous (or next if {@code getNext})
+	 *         business day otherwise
+	 */
+	public static Date getBusinessDay(final boolean getNext) {
+		return getBusinessDay(createCalendar(), PUBLIC_HOLIDAYS, getNext);
+	}
+
+	/**
+	 * Returns the specified {@link Date} if it is a business day, the previous business day
+	 * otherwise.
+	 * <p>
+	 * @param date the {@link Date} to consider
+	 * <p>
+	 * @return the specified {@link Date} if it is a business day, the previous business day
+	 *         otherwise
+	 */
+	public static Date getBusinessDay(final Date date) {
+		return getBusinessDay(createCalendar(date), PUBLIC_HOLIDAYS, false);
+	}
+
+	/**
+	 * Returns the specified {@link Date} if it is a business day, the previous (or next if
+	 * {@code getNext}) business day otherwise.
+	 * <p>
+	 * @param date    the {@link Date} to consider
+	 * @param getNext the flag specifying whether to get the next or previous business day
+	 * <p>
+	 * @return the specified {@link Date} if it is a business day, the previous (or next if
+	 *         {@code getNext}) business day otherwise
+	 */
+	public static Date getBusinessDay(final Date date, final boolean getNext) {
+		return getBusinessDay(createCalendar(date), PUBLIC_HOLIDAYS, getNext);
+	}
+
+	/**
+	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day, the
+	 * previous business day otherwise.
+	 * <p>
+	 * @param calendar the {@link Calendar} to consider
+	 * <p>
+	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day, the
+	 *         previous business day otherwise
+	 */
+	public static Date getBusinessDay(final Calendar calendar) {
+		return getBusinessDay(calendar, PUBLIC_HOLIDAYS, false);
+	}
+
+	/**
+	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day, the
+	 * previous (or next if {@code getNext}) business day otherwise.
+	 * <p>
+	 * @param calendar the {@link Calendar} to consider
+	 * @param getNext  the flag specifying whether to get the next or previous business day
+	 * <p>
+	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day, the
+	 *         previous (or next if {@code getNext}) business day otherwise
+	 */
+	public static Date getBusinessDay(final Calendar calendar, final boolean getNext) {
+		return getBusinessDay(calendar, PUBLIC_HOLIDAYS, getNext);
+	}
+
+	/**
+	 * Returns the specified {@link Date} if it is a business day with the specified public holidays
+	 * {@link Mapper}, the previous business day otherwise.
+	 * <p>
+	 * @param date           the {@link Date} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the specified {@link Date} if it is a business day with the specified public holidays
+	 *         {@link Mapper}, the previous business day otherwise
+	 */
+	public static Date getBusinessDay(final Date date,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		return getBusinessDay(createCalendar(date), publicHolidays, false);
+	}
+
+	/**
+	 * Returns the specified {@link Date} if it is a business day with the specified public holidays
+	 * {@link Mapper}, the previous (or next if {@code getNext}) business day otherwise.
+	 * <p>
+	 * @param date           the {@link Date} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * @param getNext        the flag specifying whether to get the next or previous business day
+	 * <p>
+	 * @return the specified {@link Date} if it is a business day with the specified public holidays
+	 *         {@link Mapper}, the previous (or next if {@code getNext}) business day otherwise
+	 */
+	public static Date getBusinessDay(final Date date,
+			final Mapper<Integer, List<? extends Date>> publicHolidays, final boolean getNext) {
+		return getBusinessDay(createCalendar(date), publicHolidays, getNext);
+	}
+
+	/**
+	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day with the
+	 * specified public holidays {@link Mapper}, the previous business day otherwise.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day with the
+	 *         specified public holidays {@link Mapper}, the previous business day otherwise
+	 */
+	public static Date getBusinessDay(final Calendar calendar,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		return getBusinessDay(calendar, publicHolidays, false);
+	}
+
+	/**
+	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day with the
+	 * specified public holidays {@link Mapper}, the previous (or next if {@code getNext}) business
+	 * day otherwise.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * @param getNext        the flag specifying whether to get the next or previous business day
+	 * <p>
+	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day with the
+	 *         specified public holidays {@link Mapper}, the previous (or next if {@code getNext})
+	 *         business day otherwise
+	 */
+	public static Date getBusinessDay(final Calendar calendar,
+			final Mapper<Integer, List<? extends Date>> publicHolidays, final boolean getNext) {
+		if (isBusinessDay(calendar, publicHolidays.call(getYear(calendar)))) {
+			return calendar.getTime();
+		}
+		if (getNext) {
+			return getNextBusinessDay(calendar, publicHolidays);
+		}
+		return getPreviousBusinessDay(calendar, publicHolidays);
+	}
+
+	/**
+	 * Returns the {@link Date} of the previous business day.
+	 * <p>
+	 * @return the {@link Date} of the previous business day
+	 */
+	public static Date getPreviousBusinessDay() {
+		return getPreviousBusinessDay(createCalendar(), PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the previous business day of the specified {@link Date}.
+	 * <p>
+	 * @param date the {@link Date} to consider
+	 * <p>
+	 * @return the {@link Date} of the previous business day of the specified {@link Date}
+	 */
+	public static Date getPreviousBusinessDay(final Date date) {
+		return getPreviousBusinessDay(createCalendar(date), PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the previous business day of the specified {@link Calendar}.
+	 * <p>
+	 * @param calendar the {@link Calendar} to consider
+	 * <p>
+	 * @return the {@link Date} of the previous business day of the specified {@link Calendar}
+	 */
+	public static Date getPreviousBusinessDay(final Calendar calendar) {
+		return getPreviousBusinessDay(calendar, PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the previous business day of the specified {@link Date} with the
+	 * specified public holidays {@link Mapper}.
+	 * <p>
+	 * @param date           the {@link Date} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the {@link Date} of the previous business day of the specified {@link Date} with the
+	 *         specified public holidays {@link Mapper}
+	 */
+	public static Date getPreviousBusinessDay(final Date date,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		return getPreviousBusinessDay(createCalendar(date), publicHolidays);
+	}
+
+	/**
+	 * Returns the {@link Date} of the previous business day of the specified {@link Calendar} with
+	 * the specified public holidays {@link Mapper}.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the {@link Date} of the previous business day of the specified {@link Calendar} with
+	 *         the specified public holidays {@link Mapper}
+	 */
+	public static Date getPreviousBusinessDay(final Calendar calendar,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		int year = getYear(calendar);
+		List<? extends Date> phs = publicHolidays.call(year);
+		do {
+			// Decrement the calendar
+			calendar.add(Calendar.DAY_OF_MONTH, -1);
+			// Update the public holidays if required
+			if (year != getYear(calendar)) {
+				year = getYear(calendar);
+				phs = publicHolidays.call(year);
+			}
+		} while (!isBusinessDay(calendar, phs));
+		return calendar.getTime();
+	}
+
+	/**
+	 * Returns the {@link Date} of the next business day.
+	 * <p>
+	 * @return the {@link Date} of the next business day
+	 */
+	public static Date getNextBusinessDay() {
+		return getNextBusinessDay(createCalendar(), PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the next business day of the specified {@link Date}.
+	 * <p>
+	 * @param date the {@link Date} to consider
+	 * <p>
+	 * @return the {@link Date} of the next business day of the specified {@link Date}
+	 */
+	public static Date getNextBusinessDay(final Date date) {
+		return getNextBusinessDay(createCalendar(date), PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the next business day of the specified {@link Calendar}.
+	 * <p>
+	 * @param calendar the {@link Calendar} to consider
+	 * <p>
+	 * @return the {@link Date} of the next business day of the specified {@link Calendar}
+	 */
+	public static Date getNextBusinessDay(final Calendar calendar) {
+		return getNextBusinessDay(calendar, PUBLIC_HOLIDAYS);
+	}
+
+	/**
+	 * Returns the {@link Date} of the next business day of the specified {@link Date} with the
+	 * specified public holidays {@link Mapper}.
+	 * <p>
+	 * @param date           the {@link Date} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the {@link Date} of the next business day of the specified {@link Date} with the
+	 *         specified public holidays {@link Mapper}
+	 */
+	public static Date getNextBusinessDay(final Date date,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		return getNextBusinessDay(createCalendar(date), publicHolidays);
+	}
+
+	/**
+	 * Returns the {@link Date} of the next business day of the specified {@link Calendar} with the
+	 * specified public holidays {@link Mapper}.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to consider
+	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
+	 * <p>
+	 * @return the {@link Date} of the next business day of the specified {@link Calendar} with the
+	 *         specified public holidays {@link Mapper}
+	 */
+	public static Date getNextBusinessDay(final Calendar calendar,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		int year = getYear(calendar);
+		List<? extends Date> phs = publicHolidays.call(year);
+		do {
+			// Increment the calendar
+			calendar.add(Calendar.DAY_OF_MONTH, 1);
+			// Update the public holidays if required
+			if (year != getYear(calendar)) {
+				year = getYear(calendar);
+				phs = publicHolidays.call(year);
+			}
+		} while (!isBusinessDay(calendar, phs));
+		return calendar.getTime();
+	}
+
 	//////////////////////////////////////////////
+
+	public static int getMonth() {
+		return getMonth(createCalendar());
+	}
 
 	public static int getMonth(final Date date) {
 		return getMonth(createCalendar(date));
@@ -135,38 +437,42 @@ public class Dates {
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the current month.
+	 * Returns the {@link Date} of the current month end.
 	 * <p>
-	 * @return the {@link Date} of the last day of the current month
+	 * @return the {@link Date} of the current month end
 	 */
-	public static Date getMonthLastDay() {
-		return getMonthLastDay(new Date());
+	public static Date getMonthEnd() {
+		return getMonthEnd(createCalendar());
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the specified month.
+	 * Returns the {@link Date} of the month end of the specified {@link Date}.
 	 * <p>
-	 * @param month the month to consider
+	 * @param date the {@link Date} to consider
 	 * <p>
-	 * @return the {@link Date} of the last day of the specified month
+	 * @return the {@link Date} of the month end of the specified {@link Date}
 	 */
-	public static Date getMonthLastDay(final Date month) {
-		return getMonthLastDay(createCalendar(month));
+	public static Date getMonthEnd(final Date date) {
+		return getMonthEnd(createCalendar(date));
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the specified month.
+	 * Returns the {@link Date} of the month end of the specified {@link Calendar}.
 	 * <p>
-	 * @param month the month to consider
+	 * @param calendar the {@link Calendar} to consider
 	 * <p>
-	 * @return the {@link Date} of the last day of the specified month
+	 * @return the {@link Date} of the month end of the specified {@link Calendar}
 	 */
-	public static Date getMonthLastDay(final Calendar month) {
-		month.set(Calendar.DAY_OF_MONTH, month.getActualMaximum(Calendar.DAY_OF_MONTH));
-		return month.getTime();
+	public static Date getMonthEnd(final Calendar calendar) {
+		calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+		return calendar.getTime();
 	}
 
 	//////////////////////////////////////////////
+
+	public static int getYear() {
+		return getYear(createCalendar());
+	}
 
 	public static int getYear(final Date date) {
 		return getYear(createCalendar(date));
@@ -177,35 +483,35 @@ public class Dates {
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the current year.
+	 * Returns the {@link Date} of the current year end.
 	 * <p>
-	 * @return the {@link Date} of the last day of the current year
+	 * @return the {@link Date} of the current year end
 	 */
-	public static Date getYearLastDay() {
-		return getYearLastDay(new Date());
+	public static Date getYearEnd() {
+		return getYearEnd(createCalendar());
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the specified year.
+	 * Returns the {@link Date} of the year end of the specified {@link Date}.
 	 * <p>
-	 * @param year the year to consider
+	 * @param date the {@link Date} to consider
 	 * <p>
-	 * @return the {@link Date} of the last day of the specified year
+	 * @return the {@link Date} of the year end of the specified {@link Date}
 	 */
-	public static Date getYearLastDay(final Date year) {
-		return getYearLastDay(createCalendar(year));
+	public static Date getYearEnd(final Date date) {
+		return getYearEnd(createCalendar(date));
 	}
 
 	/**
-	 * Returns the {@link Date} of the last day of the specified year.
+	 * Returns the {@link Date} of the year end of the specified {@link Calendar}.
 	 * <p>
-	 * @param year the year to consider
+	 * @param calendar the {@link Calendar} to consider
 	 * <p>
-	 * @return the {@link Date} of the last day of the specified year
+	 * @return the {@link Date} of the year end of the specified {@link Calendar}
 	 */
-	public static Date getYearLastDay(final Calendar year) {
-		year.set(Calendar.DAY_OF_YEAR, year.getActualMaximum(Calendar.DAY_OF_YEAR));
-		return year.getTime();
+	public static Date getYearEnd(final Calendar calendar) {
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.getActualMaximum(Calendar.DAY_OF_YEAR));
+		return calendar.getTime();
 	}
 
 	//////////////////////////////////////////////
@@ -390,7 +696,7 @@ public class Dates {
 			return 1;
 		}
 
-		// Compare the dates for order
+		// Compare the calendars for order
 		int comparison = Integers.compare(getYear(a), getYear(b));
 		if (comparison != 0) {
 			return comparison;
@@ -453,8 +759,29 @@ public class Dates {
 			return 1;
 		}
 
-		// Compare the dates with time for order
+		// Compare the calendars with time for order
 		return Longs.compare(a.getTimeInMillis(), b.getTimeInMillis());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Converts the specified {@link Date} with time to a {@link Date}.
+	 * <p>
+	 * @param date the {@link Date} with time to convert
+	 * <p>
+	 * @return a {@link Date}
+	 */
+	public static Date toDate(final Date date) {
+		final Calendar calendar = createCalendar(date);
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
+		return calendar.getTime();
 	}
 
 
@@ -608,7 +935,7 @@ public class Dates {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Date[] createDailySequence(final Date from, final Date to) {
+	public static Date[] createDaySequence(final Date from, final Date to) {
 		final Date[] array = new Date[countDays(from, to)];
 		final Calendar start = createCalendar(from);
 		for (int i = 0; i < array.length; ++i) {
@@ -618,29 +945,94 @@ public class Dates {
 		return array;
 	}
 
-	public static Date[] createBusinessDailySequence(final Date from, final Date to) {
-		return createBusinessDailySequence(from, to, NO_PUBLIC_HOLIDAYS);
+	public static Date[] createBusinessDaySequence(final Date from, final Date to) {
+		return createBusinessDaySequence(from, to, PUBLIC_HOLIDAYS);
 	}
 
-	public static Date[] createBusinessDailySequence(final Date from, final Date to,
+	public static Date[] createBusinessDaySequence(final Date from, final Date to,
 			final Mapper<Integer, List<? extends Date>> publicHolidays) {
-		final Date[] array = new Date[countBusinessDays(from, to)];
+		final Date[] array = new Date[countBusinessDays(from, to, publicHolidays)];
 		final Calendar start = createCalendar(from);
-		final Calendar end = createCalendar(to);
-		int i = 0, year = start.get(Calendar.YEAR);
-		List<? extends Date> phs = publicHolidays.call(year);
-		while (compare(start, end) <= 0) {
-			// • Update the number of business days
-			if (isWeekDay(start) && !phs.contains(start.getTime())) {
-				array[i++] = start.getTime();
-			}
-			// • Increment the date
-			start.add(Calendar.DAY_OF_MONTH, 1);
-			// • Update the public holidays if required
-			if (year != start.get(Calendar.YEAR)) {
-				year = start.get(Calendar.YEAR);
-				phs = publicHolidays.call(year);
-			}
+		int i = 0;
+		if (isBusinessDay(start, publicHolidays.call(getYear(start)))) {
+			array[i++] = start.getTime();
+		}
+		while (i < array.length) {
+			array[i++] = getNextBusinessDay(start, publicHolidays);
+		}
+		return array;
+	}
+
+	//////////////////////////////////////////////
+
+	public static Date[] createMonthSequence(final Date from, final Date to) {
+		final Date[] array = new Date[countMonths(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = start.getTime();
+			start.add(Calendar.MONTH, 1);
+		}
+		return array;
+	}
+
+	public static Date[] createMonthEndSequence(final Date from, final Date to) {
+		final Date[] array = new Date[countMonths(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = getMonthEnd(start);
+			start.add(Calendar.MONTH, 1);
+		}
+		return array;
+	}
+
+	public static Date[] createBusinessMonthEndSequence(final Date from, final Date to) {
+		return createBusinessMonthEndSequence(from, to, PUBLIC_HOLIDAYS);
+	}
+
+	public static Date[] createBusinessMonthEndSequence(final Date from, final Date to,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		final Date[] array = new Date[countMonths(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = getBusinessDay(getMonthEnd(start));
+			start.add(Calendar.MONTH, 1);
+		}
+		return array;
+	}
+
+	//////////////////////////////////////////////
+
+	public static Date[] createYearSequence(final Date from, final Date to) {
+		final Date[] array = new Date[countYears(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = start.getTime();
+			start.add(Calendar.YEAR, 1);
+		}
+		return array;
+	}
+
+	public static Date[] createYearEndSequence(final Date from, final Date to) {
+		final Date[] array = new Date[countYears(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = getYearEnd(start);
+			start.add(Calendar.YEAR, 1);
+		}
+		return array;
+	}
+
+	public static Date[] createBusinessYearEndSequence(final Date from, final Date to) {
+		return createBusinessYearEndSequence(from, to, PUBLIC_HOLIDAYS);
+	}
+
+	public static Date[] createBusinessYearEndSequence(final Date from, final Date to,
+			final Mapper<Integer, List<? extends Date>> publicHolidays) {
+		final Date[] array = new Date[countYears(from, to)];
+		final Calendar start = createCalendar(from);
+		for (int i = 0; i < array.length; ++i) {
+			array[i] = getBusinessDay(getYearEnd(start));
+			start.add(Calendar.YEAR, 1);
 		}
 		return array;
 	}
@@ -752,19 +1144,19 @@ public class Dates {
 	 * @return the number of business days for the specified period of time
 	 */
 	public static int countBusinessDays(final Date from, final Date to) {
-		return countBusinessDays(from, to, NO_PUBLIC_HOLIDAYS);
+		return countBusinessDays(from, to, PUBLIC_HOLIDAYS);
 	}
 
 	/**
-	 * Returns the number of business days with the specified {@link List} of public holidays for
-	 * the specified period of time.
+	 * Returns the number of business days with the specified public holidays {@link Mapper} for the
+	 * specified period of time.
 	 * <p>
 	 * @param from           the start of the period of time (inclusive)
 	 * @param to             the end of the period of time (inclusive)
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
 	 * <p>
-	 * @return the number of business days with the specified {@link List} of public holidays for
-	 *         the specified period of time
+	 * @return the number of business days with the specified public holidays {@link Mapper} for the
+	 *         specified period of time
 	 */
 	public static int countBusinessDays(final Date from, final Date to,
 			final Mapper<Integer, List<? extends Date>> publicHolidays) {
@@ -772,18 +1164,18 @@ public class Dates {
 		final Calendar start = createCalendar(from);
 		final Calendar end = createCalendar(to);
 		// Count the business days
-		int businessDayCount = 0, year = start.get(Calendar.YEAR);
+		int businessDayCount = 0, year = getYear(start);
 		List<? extends Date> phs = publicHolidays.call(year);
 		while (compare(start, end) <= 0) {
 			// • Update the number of business days
-			if (isWeekDay(start) && !phs.contains(start.getTime())) {
+			if (isBusinessDay(start, phs)) {
 				++businessDayCount;
 			}
-			// • Increment the date
+			// • Increment the calendar
 			start.add(Calendar.DAY_OF_MONTH, 1);
 			// • Update the public holidays if required
-			if (year != start.get(Calendar.YEAR)) {
-				year = start.get(Calendar.YEAR);
+			if (year != getYear(start)) {
+				year = getYear(start);
 				phs = publicHolidays.call(year);
 			}
 		}
@@ -888,6 +1280,64 @@ public class Dates {
 	public static boolean isWeekDay(final Calendar calendar) {
 		return !(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY ||
 				calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY);
+	}
+
+	/**
+	 * Tests whether the specified {@link Date} is a public holiday.
+	 * <p>
+	 * @param date           the {@link Date} to test
+	 * @param publicHolidays the {@link List} of public holidays
+	 * <p>
+	 * @return {@code true} if the specified {@link Date} is a public holiday, {@code false}
+	 *         otherwise
+	 */
+	public static boolean isPublicHoliday(final Date date,
+			final List<? extends Date> publicHolidays) {
+		return publicHolidays.contains(toDate(date));
+	}
+
+	/**
+	 * Tests whether the specified {@link Calendar} is a public holiday.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to test
+	 * @param publicHolidays the {@link List} of public holidays
+	 * <p>
+	 * @return {@code true} if the specified {@link Calendar} is a public holiday, {@code false}
+	 *         otherwise
+	 */
+	public static boolean isPublicHoliday(final Calendar calendar,
+			final List<? extends Date> publicHolidays) {
+		return publicHolidays.contains(toDate(calendar.getTime()));
+	}
+
+	/**
+	 * Tests whether the specified {@link Date} is a business day with the specified {@link List} of
+	 * public holidays.
+	 * <p>
+	 * @param date           the {@link Date} to test
+	 * @param publicHolidays the {@link List} of public holidays
+	 * <p>
+	 * @return {@code true} if the specified {@link Date} is a business day with the specified
+	 *         {@link List} of public holidays, {@code false} otherwise
+	 */
+	public static boolean isBusinessDay(final Date date,
+			final List<? extends Date> publicHolidays) {
+		return isWeekDay(date) && !isPublicHoliday(date, publicHolidays);
+	}
+
+	/**
+	 * Tests whether the specified {@link Calendar} is a business day with the specified
+	 * {@link List} of public holidays.
+	 * <p>
+	 * @param calendar       the {@link Calendar} to test
+	 * @param publicHolidays the {@link List} of public holidays
+	 * <p>
+	 * @return {@code true} if the specified {@link Calendar} is a business day with the specified
+	 *         {@link List} of public holidays, {@code false} otherwise
+	 */
+	public static boolean isBusinessDay(final Calendar calendar,
+			final List<? extends Date> publicHolidays) {
+		return isWeekDay(calendar) && !isPublicHoliday(calendar, publicHolidays);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

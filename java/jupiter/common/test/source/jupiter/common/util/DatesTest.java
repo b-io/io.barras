@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.time.Dates.SWISS_PUBLIC_HOLIDAYS;
 import static jupiter.common.util.Characters.BULLET;
 
 import java.util.Date;
@@ -41,15 +42,69 @@ public class DatesTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link Dates#createBusinessDailySequence}.
+	 * Tests {@link Dates#getPreviousBusinessDay}.
 	 */
-	public void testCreateBusinessDailySequence() {
-		IO.test(BULLET, " createBusinessDailySequence");
+	public void testGetPreviousBusinessDay() {
+		IO.test(BULLET, " getPreviousBusinessDay");
 
-		final Date from = Dates.createDateTime(2013, 1, 1, 1, 2, 3);
-		final Date to = Dates.createDateTime(2020, 1, 1, 1, 2, 3);
-		final Date[] array = Dates.createBusinessDailySequence(from, to);
-		assertEquals(1827, array.length);
+		assertEquals(Dates.createDateTime(2020, 12, 24, 1, 2, 3),
+				Dates.getPreviousBusinessDay(Dates.createDateTime(2020, 12, 27, 1, 2, 3),
+						SWISS_PUBLIC_HOLIDAYS));
+	}
+
+	/**
+	 * Tests {@link Dates#getNextBusinessDay}.
+	 */
+	public void testGetNextBusinessDay() {
+		IO.test(BULLET, " getNextBusinessDay");
+
+		assertEquals(Dates.createDateTime(2020, 12, 28, 1, 2, 3),
+				Dates.getNextBusinessDay(Dates.createDateTime(2020, 12, 24, 1, 2, 3),
+						SWISS_PUBLIC_HOLIDAYS));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Dates#createBusinessDaySequence}.
+	 */
+	public void testCreateBusinessDaySequence() {
+		IO.test(BULLET, " createBusinessDaySequence");
+
+		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
+		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
+		assertEquals(2608, Dates.createBusinessDaySequence(from, to).length);
+		assertEquals(2531, Dates.createBusinessDaySequence(from, to, SWISS_PUBLIC_HOLIDAYS).length);
+	}
+
+	/**
+	 * Tests {@link Dates#createBusinessMonthEndSequence}.
+	 */
+	public void testCreateBusinessMonthEndSequence() {
+		IO.test(BULLET, " createBusinessMonthEndSequence");
+
+		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
+		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
+		final Date[] dates = Dates.createBusinessMonthEndSequence(from, to);
+		assertEquals(120, dates.length);
+		assertEquals(Dates.createDateTime(2015, 5, 29, 1, 2, 3), dates[64]);
+		assertEquals(120,
+				Dates.createBusinessMonthEndSequence(from, to, SWISS_PUBLIC_HOLIDAYS).length);
+	}
+
+	/**
+	 * Tests {@link Dates#createBusinessYearEndSequence}.
+	 */
+	public void testCreateBusinessYearEndSequence() {
+		IO.test(BULLET, " createBusinessYearEndSequence");
+
+		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
+		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
+		final Date[] dates = Dates.createBusinessYearEndSequence(from, to);
+		assertEquals(10, dates.length);
+		assertEquals(Dates.createDateTime(2015, 12, 31, 1, 2, 3), dates[5]);
+		assertEquals(10,
+				Dates.createBusinessYearEndSequence(from, to, SWISS_PUBLIC_HOLIDAYS).length);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

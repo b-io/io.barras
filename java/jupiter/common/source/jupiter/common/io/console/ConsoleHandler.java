@@ -152,7 +152,7 @@ public class ConsoleHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the output console (or in the error console if
+	 * Prints the specified content {@link Object} in the output console (or error console if
 	 * {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
@@ -198,7 +198,7 @@ public class ConsoleHandler
 	}
 
 	/**
-	 * Prints the specified content {@link Object} in the output console (or in the error console if
+	 * Prints the specified content {@link Object} in the output console (or error console if
 	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print

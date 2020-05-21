@@ -276,8 +276,7 @@ public class LogHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} to the output log (or to the error log if
-	 * {@code isError}).
+	 * Prints the specified content {@link Object} to the output log (error log if {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
@@ -319,8 +318,8 @@ public class LogHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} to the output log (or to the error log if
-	 * {@code isError}) and terminates the line.
+	 * Prints the specified content {@link Object} to the output log (error log if {@code isError})
+	 * and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log

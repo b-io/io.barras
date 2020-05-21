@@ -79,8 +79,8 @@ public abstract class IOHandler
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prints the specified content {@link Object} in the standard output (or in the standard error
-	 * if {@code isError}).
+	 * Prints the specified content {@link Object} in the standard output (or standard error if
+	 * {@code isError}).
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -93,7 +93,7 @@ public abstract class IOHandler
 	//////////////////////////////////////////////
 
 	/**
-	 * Prints the specified {@link Message} in the standard output (or in the standard error if
+	 * Prints the specified {@link Message} in the standard output (or standard error if
 	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param message the {@link Message} to print
@@ -105,8 +105,8 @@ public abstract class IOHandler
 	}
 
 	/**
-	 * Prints the specified content {@link Object} in the standard output (or in the standard error
-	 * if {@code isError}) and terminates the line.
+	 * Prints the specified content {@link Object} in the standard output (or standard error if
+	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
@@ -117,7 +117,7 @@ public abstract class IOHandler
 	public abstract boolean println(final Object content, final boolean isError);
 
 	/**
-	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if
+	 * Prints the specified {@link InputStream} in the standard output (or standard error if
 	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param input   the {@link InputStream} of the data to print
@@ -131,7 +131,7 @@ public abstract class IOHandler
 	}
 
 	/**
-	 * Prints the specified {@link InputStream} in the standard output (or in the standard error if
+	 * Prints the specified {@link InputStream} in the standard output (or standard error if
 	 * {@code isError}) and terminates the line.
 	 * <p>
 	 * @param input   the {@link InputStream} of the data to print
