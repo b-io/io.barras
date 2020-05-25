@@ -539,12 +539,14 @@ public class ExpressionHandler
 		} else if (Matrix.isParsableFrom(expression)) {
 			// Parse the matrix
 			entity = new MatrixElement(parent, expression);
-		} else if (Strings.isNumber(expression)) {
-			// Parse the scalar
-			entity = new ScalarElement(parent, expression);
 		} else {
-			return new Result<Element>(
-					new ParseException("Unparsable element: <" + expression + ">"));
+			// Parse the scalar
+			try {
+				entity = new ScalarElement(parent, expression);
+			} catch (final NumberFormatException ex) {
+				return new Result<Element>(
+						new ParseException("Unparsable element: <" + expression + ">", ex));
+			}
 		}
 		entity.setParent(parent);
 		entity.setExpression(expression);

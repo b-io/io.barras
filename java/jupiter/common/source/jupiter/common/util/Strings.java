@@ -4105,27 +4105,6 @@ public class Strings {
 		return true;
 	}
 
-	/**
-	 * Tests whether the specified {@link String} is a {@link Number}.
-	 * <p>
-	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
-	 * @return {@code true} if the specified {@link String} is a {@link Number}, {@code false}
-	 *         otherwise
-	 */
-	public static boolean isNumber(final String text) {
-		// Check the arguments
-		if (isNullOrEmpty(text)) {
-			return false;
-		}
-
-		// Test whether the text is a number
-		final NumberFormat formatter = NumberFormat.getInstance();
-		final ParsePosition position = new ParsePosition(0);
-		formatter.parse(text, position);
-		return text.length() == position.getIndex();
-	}
-
 	//////////////////////////////////////////////
 
 	public static boolean isToken(final String text, final int index, final String token) {
