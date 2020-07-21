@@ -395,7 +395,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	 */
 	@Override
 	public Set<Entry<K, V>> entrySet() {
-		return entrySet(root, new LinkedHashSet<Entry<K, V>>());
+		return entrySet(root, new LinkedHashSet<Entry<K, V>>(size));
 	}
 
 	/**

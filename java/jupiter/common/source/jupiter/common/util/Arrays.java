@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.util.Classes.OBJECT_CLASS;
+import static jupiter.common.util.Collections.DEFAULT_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Array;
@@ -1371,7 +1372,7 @@ public class Arrays {
 	 *         array in the same order
 	 */
 	public static <T> T[] unique(final T[] array) {
-		final Set<T> set = new LinkedHashSet<T>();
+		final Set<T> set = new LinkedHashSet<T>(DEFAULT_CAPACITY);
 		Sets.<T>addAll(set, array);
 		return Sets.<T>toArray(set);
 	}

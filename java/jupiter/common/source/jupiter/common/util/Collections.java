@@ -50,7 +50,7 @@ public class Collections {
 	/**
 	 * The default initial capacity.
 	 */
-	public static final int DEFAULT_CAPACITY = 10;
+	public static final int DEFAULT_CAPACITY = 16;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
