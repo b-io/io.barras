@@ -28,6 +28,7 @@ import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
@@ -71,6 +72,11 @@ public class Row
 	 * @param elements an array of {@link Object}
 	 */
 	public Row(final String[] header, final Object... elements) {
+		// Check the arguments
+		Arguments.requireNonNull(header, "header");
+		Arguments.requireNonNull(elements, "elements");
+
+		// Set the attributes
 		this.header = header;
 		this.elements = elements;
 	}
@@ -80,8 +86,22 @@ public class Row
 	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
 	public Object get(final String name) {
-		return elements[Arrays.findFirstIndex(header, name)];
+		final int index = Arrays.findFirstIndex(header, name);
+		if (index < 0) {
+			throw new IllegalArgumentException(
+					Strings.join("There is no column ", Strings.quote(name)));
+		}
+		return elements[index];
 	}
 
 
