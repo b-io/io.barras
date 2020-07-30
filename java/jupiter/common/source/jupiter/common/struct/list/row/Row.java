@@ -30,8 +30,16 @@ import java.io.Serializable;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Booleans;
+import jupiter.common.util.Bytes;
+import jupiter.common.util.Characters;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Floats;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Longs;
 import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Shorts;
 import jupiter.common.util.Strings;
 
 public class Row
@@ -102,6 +110,125 @@ public class Row
 					Strings.join("There is no column ", Strings.quote(name)));
 		}
 		return elements[index];
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@code boolean} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code boolean} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public boolean getBoolean(final String name) {
+		return Booleans.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code char} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code char} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public char getChar(final String name) {
+		return Characters.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code byte} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code byte} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public byte getByte(final String name) {
+		return Bytes.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code short} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code short} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public short getShort(final String name) {
+		return Shorts.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code int} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code int} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public int getInt(final String name) {
+		return Integers.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code long} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code long} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public long getLong(final String name) {
+		return Longs.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code float} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code float} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public float getFloat(final String name) {
+		return Floats.convert(get(name));
+	}
+
+	/**
+	 * Returns the {@code double} element of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the {@code double} element of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public double getDouble(final String name) {
+		return Doubles.convert(get(name));
+	}
+
+	/**
+	 * Returns the element {@link String} of the specified column.
+	 * <p>
+	 * @param name the column name (may be {@code null})
+	 * <p>
+	 * @return the element {@link String} of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException if {@code name} is not present
+	 */
+	public String getString(final String name) {
+		return Strings.convert(get(name));
 	}
 
 
