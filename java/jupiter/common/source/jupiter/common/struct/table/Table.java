@@ -351,7 +351,7 @@ public class Table<E>
 		}
 
 		// Get the column index
-		final int j = Arrays.<String>findFirstIndex(header, name);
+		final int j = Strings.findFirstIndexIgnoreCase(header, name);
 		if (j < 0) {
 			throw new IllegalArgumentException(
 					Strings.join("There is no column ", Strings.quote(name)));

@@ -238,12 +238,12 @@ public class ArraysTest
 		IO.test(BULLET, " clone");
 
 		// • 1D
-		assertTrue(Arrays.equals(ARRAY, Arrays.<String>clone(ARRAY)));
+		assertTrue(Arrays.equals(ARRAY, Arrays.clone(ARRAY)));
 
 		// • 2D
-		assertTrue(Arrays.equals(ARRAY_2D, Arrays.<String>clone(ARRAY_2D)));
+		assertTrue(Arrays.equals(ARRAY_2D, Arrays.clone(ARRAY_2D)));
 
 		// • 3D
-		assertTrue(Arrays.equals(ARRAY_3D, Arrays.<String>clone(ARRAY_3D)));
+		assertTrue(Arrays.equals(ARRAY_3D, Arrays.clone(ARRAY_3D)));
 	}
 }

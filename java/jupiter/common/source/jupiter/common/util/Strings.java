@@ -39,8 +39,6 @@ import static jupiter.common.util.Characters.RIGHT_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
 import static jupiter.common.util.Characters.SPACE;
 
-import java.text.NumberFormat;
-import java.text.ParsePosition;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -3277,6 +3275,160 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
+	 * specified {@link String}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text  a {@link String} (may be {@code null})
+	 * @param token the {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String}, or {@code -1} if there is no such occurrence
+	 */
+	public static int getFirstStringIndex(final String text, final String token) {
+		return getFirstStringIndex(text, token, 0, false);
+	}
+
+	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
+	 * specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param text       a {@link String} (may be {@code null})
+	 * @param token      the {@link String} to find (may be {@code null})
+	 * @param ignoreCase the flag specifying whether to ignore case
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if
+	 *         there is no such occurrence
+	 */
+	public static int getFirstStringIndex(final String text, final String token,
+			final boolean ignoreCase) {
+		return getFirstStringIndex(text, token, 0, ignoreCase);
+	}
+
+	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
+	 * specified {@link String}, seeking forward from the specified index, or {@code -1} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param text      a {@link String} (may be {@code null})
+	 * @param token     the {@link String} to find (may be {@code null})
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String}, seeking forward from the specified index, or {@code -1} if
+	 *         there is no such occurrence
+	 */
+	public static int getFirstStringIndex(final String text, final String token,
+			final int fromIndex) {
+		return getFirstStringIndex(text, token, fromIndex, false);
+	}
+
+	/**
+	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
+	 * specified {@link String} (ignoring the case if {@code ignoreCase}), seeking forward from the
+	 * specified index, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text       a {@link String} (may be {@code null})
+	 * @param token      the {@link String} to find (may be {@code null})
+	 * @param fromIndex  the index to start seeking forward from (inclusive)
+	 * @param ignoreCase the flag specifying whether to ignore case
+	 * <p>
+	 * @return the index of the first occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), seeking forward
+	 *         from the specified index, or {@code -1} if there is no such occurrence
+	 */
+	public static int getFirstStringIndex(final String text, final String token,
+			final int fromIndex, final boolean ignoreCase) {
+		if (isNonEmpty(text) && isNonEmpty(token)) {
+			if (ignoreCase) {
+				return text.toLowerCase().indexOf(token.toLowerCase(), fromIndex);
+			}
+			return text.indexOf(token);
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
+	 * specified {@link String}, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text  a {@link String} (may be {@code null})
+	 * @param token the {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the index of the last occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String}, or {@code -1} if there is no such occurrence
+	 */
+	public static int getLastStringIndex(final String text, final String token) {
+		return getLastStringIndex(text, token, 0, false);
+	}
+
+	/**
+	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
+	 * specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param text       a {@link String} (may be {@code null})
+	 * @param token      the {@link String} to find (may be {@code null})
+	 * @param ignoreCase the flag specifying whether to ignore case
+	 * <p>
+	 * @return the index of the last occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if
+	 *         there is no such occurrence
+	 */
+	public static int getLastStringIndex(final String text, final String token,
+			final boolean ignoreCase) {
+		return getLastStringIndex(text, token, 0, ignoreCase);
+	}
+
+	/**
+	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
+	 * specified {@link String}, seeking backward from the specified index, or {@code -1} if there
+	 * is no such occurrence.
+	 * <p>
+	 * @param text      a {@link String} (may be {@code null})
+	 * @param token     the {@link String} to find (may be {@code null})
+	 * @param fromIndex the index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the index of the last occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String}, seeking backward from the specified index, or {@code -1} if
+	 *         there is no such occurrence
+	 */
+	public static int getLastStringIndex(final String text, final String token,
+			final int fromIndex) {
+		return getLastStringIndex(text, token, fromIndex, false);
+	}
+
+	/**
+	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
+	 * specified {@link String} (ignoring the case if {@code ignoreCase}), seeking backward from the
+	 * specified index, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param text       a {@link String} (may be {@code null})
+	 * @param token      the {@link String} to find (may be {@code null})
+	 * @param fromIndex  the index to start seeking backward from (inclusive)
+	 * @param ignoreCase the flag specifying whether to ignore case
+	 * <p>
+	 * @return the index of the last occurrence of any of the specified token {@link String} in the
+	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), seeking backward
+	 *         from the specified index, or {@code -1} if there is no such occurrence
+	 */
+	public static int getLastStringIndex(final String text, final String token, final int fromIndex,
+			final boolean ignoreCase) {
+		if (isNonEmpty(text) && isNonEmpty(token)) {
+			if (ignoreCase) {
+				return text.toLowerCase().lastIndexOf(token.toLowerCase(), fromIndex);
+			}
+			return text.indexOf(token);
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the indices of the specified token {@link String} in the specified {@link String}.
 	 * <p>
 	 * @param text  a {@link String} (may be {@code null})
@@ -3605,6 +3757,93 @@ public class Strings {
 			tokens.add(text.substring(index, toIndex));
 		}
 		return tokens;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the first occurrence of the specified token {@link String} in the
+	 * specified array of {@link String} ignoring the case, or {@code -1} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param array an array of {@link String} (may be {@code null})
+	 * @param token the token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the index of the first occurrence of the specified token {@link String} in the
+	 *         specified array of {@link String} ignoring the case, or {@code -1} if there is no
+	 *         such occurrence
+	 */
+	public static int findFirstIndexIgnoreCase(final String[] array, final String token) {
+		return findFirstIndexIgnoreCase(array, token, 0);
+	}
+
+	/**
+	 * Returns the index of the first occurrence of the specified token {@link String} in the
+	 * specified array of {@link String} ignoring the case, seeking forward from the specified
+	 * index, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param array     an array of {@link String} (may be {@code null})
+	 * @param token     the token {@link String} to find (may be {@code null})
+	 * @param fromIndex the index to start seeking forward from (inclusive)
+	 * <p>
+	 * @return the index of the first occurrence of the specified token {@link String} in the
+	 *         specified array of {@link String} ignoring the case, seeking forward from the
+	 *         specified index, or {@code -1} if there is no such occurrence
+	 */
+	public static int findFirstIndexIgnoreCase(final String[] array, final String token,
+			final int fromIndex) {
+		if (Arrays.isNonEmpty(array) && Arrays.isBetween(fromIndex, array.length)) {
+			for (int i = fromIndex; i < array.length; ++i) {
+				if (equalsIgnoreCase(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the index of the last occurrence of the specified token {@link String} in the
+	 * specified array of {@link String} ignoring the case, or {@code -1} if there is no such
+	 * occurrence.
+	 * <p>
+	 * @param array an array of {@link String} (may be {@code null})
+	 * @param token the token {@link String} to find (may be {@code null})
+	 * <p>
+	 * @return the index of the last occurrence of the specified token {@link String} in the
+	 *         specified array of {@link String} ignoring the case, or {@code -1} if there is no
+	 *         such occurrence
+	 */
+	public static int findLastIndexIgnoreCase(final String[] array, final String token) {
+		return findLastIndexIgnoreCase(array, token, 0);
+	}
+
+	/**
+	 * Returns the index of the last occurrence of the specified token {@link String} in the
+	 * specified array of {@link String} ignoring the case, seeking backward from the specified
+	 * index, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param array     an array of {@link String} (may be {@code null})
+	 * @param token     the token {@link String} to find (may be {@code null})
+	 * @param fromIndex the index to start seeking backward from (inclusive)
+	 * <p>
+	 * @return the index of the last occurrence of the specified token {@link String} in the
+	 *         specified array of {@link String} ignoring the case, seeking backward from the
+	 *         specified index, or {@code -1} if there is no such occurrence
+	 */
+	public static int findLastIndexIgnoreCase(final String[] array, final String token,
+			final int fromIndex) {
+		if (Arrays.isNonEmpty(array) && Arrays.isBetween(fromIndex, array.length)) {
+			for (int i = fromIndex; i >= 0; --i) {
+				if (equalsIgnoreCase(array[i], token)) {
+					return i;
+				}
+			}
+		}
+		return -1;
 	}
 
 
@@ -4295,5 +4534,18 @@ public class Strings {
 	 */
 	public static boolean equals(final Object a, final Object b) {
 		return Objects.toString(a).equals(Objects.toString(b));
+	}
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b} ignoring the case.
+	 * <p>
+	 * @param a the {@link Object} to compare for equality (may be {@code null})
+	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b} ignoring the case, {@code false}
+	 *         otherwise
+	 */
+	public static boolean equalsIgnoreCase(final String a, final String b) {
+		return a == b || a != null && b != null && a.equalsIgnoreCase(b);
 	}
 }

@@ -104,7 +104,7 @@ public class Row
 	 * @throws IllegalArgumentException if {@code name} is not present
 	 */
 	public Object get(final String name) {
-		final int index = Arrays.findFirstIndex(header, name);
+		final int index = Strings.findFirstIndexIgnoreCase(header, name);
 		if (index < 0) {
 			throw new IllegalArgumentException(
 					Strings.join("There is no column ", Strings.quote(name)));
