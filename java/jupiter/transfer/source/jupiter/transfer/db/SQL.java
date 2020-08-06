@@ -1266,8 +1266,8 @@ public class SQL {
 
 		// Execute the SQL stored procedure and return the selected rows
 		return selectWith(connection,
-				createStoredProcedureQuery(storedProcedure, parameterValues.length), parameterTypes,
-				parameterValues);
+				createStoredProcedureQuery(storedProcedure, parameterValues.length),
+				Integers.take(parameterTypes, 0, parameterValues.length), parameterValues);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1780,9 +1780,45 @@ public class SQL {
 		Arguments.requireNonNull(parameterValues, "parameter values");
 
 		// Execute the SQL stored procedure and return the number of updated rows
+		return updateWithStoredProcedure(connection, storedProcedure,
+				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
+	}
+
+	/**
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} stored procedure with the specified parameter SQL types and
+	 * values using the specified {@link Connection}, or {@code 0} if nothing is returned.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param storedProcedure the SQL stored procedure to execute, such as {@code INSERT},
+	 *                        {@code UPDATE} or {@code DELETE}; or a SQL statement that returns
+	 *                        nothing, such as a {@code DDL} statement
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT}, {@code UPDATE}, {@code DELETE} or {@code DDL}
+	 *                        stored procedure to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} stored procedure to
+	 *                        execute (may be {@code null})
+	 * <p>
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} stored procedure with the specified parameter SQL types
+	 *         and values using the specified {@link Connection}, or {@code 0} if nothing is
+	 *         returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int updateWithStoredProcedure(final Connection connection,
+			final String storedProcedure, final int[] parameterTypes,
+			final Object... parameterValues)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(parameterValues, "parameter values");
+
+		// Execute the SQL stored procedure and return the number of updated rows
 		return updateWith(connection,
 				createStoredProcedureQuery(storedProcedure, parameterValues.length),
-				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
+				Integers.take(parameterTypes, 0, parameterValues.length), parameterValues);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
