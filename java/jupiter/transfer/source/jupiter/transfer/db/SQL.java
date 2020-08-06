@@ -39,6 +39,7 @@ import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Clob;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -47,6 +48,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.sql.Types;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -94,6 +96,111 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the SQL types of all the columns of the specified table using the specified
+	 * {@link Connection}.
+	 * <p>
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param table      the table containing the columns to get the SQL types from
+	 * <p>
+	 * @return the SQL types of all the columns of the specified table using the specified
+	 *         {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int[] getColumnTypes(final Connection connection, final String table)
+			throws SQLException {
+		return getColumnTypes(connection, table, Strings.EMPTY_ARRAY);
+	}
+
+	/**
+	 * Returns the SQL types of the specified columns of the specified table using the specified
+	 * {@link Connection}.
+	 * <p>
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param table      the table containing the columns to get the SQL types from
+	 * @param columns    the columns of the table to get the SQL types from (may be {@code null})
+	 * <p>
+	 * @return the SQL types of the specified columns of the specified table using the specified
+	 *         {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int[] getColumnTypes(final Connection connection, final String table,
+			final String[] columns)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(table, "table");
+
+		// Create the SQL query
+		final String query = Strings.join("SELECT TOP 1 ",
+				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
+				" FROM ", Strings.bracketize(table));
+		// Create the SQL statement for executing the SQL query
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement(query);
+			// Execute the SQL query
+			final ResultSet resultSet = statement.executeQuery();
+			// Return the SQL types of the columns of the table
+			final ResultSetMetaData metadata = resultSet.getMetaData();
+			final int[] types = new int[metadata.getColumnCount()];
+			for (int i = 0; i < types.length; ++i) {
+				types[i] = resultSet.getMetaData().getColumnType(i + 1);
+			}
+			return types;
+		} finally {
+			if (statement != null) {
+				try {
+					statement.close();
+				} catch (final SQLException ex) {
+					IO.error(ex);
+				}
+			}
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the SQL types of all the parameters of the specified SQL stored procedure using the
+	 * specified {@link Connection}.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param storedProcedure the SQL stored procedure containing the parameters to get the SQL
+	 *                        types from
+	 * <p>
+	 * @return the SQL types of all the parameters of the specified SQL stored procedure using the
+	 *         specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int[] getStoredProcedureParameterTypes(final Connection connection,
+			final String storedProcedure)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(storedProcedure, "stored procedure");
+
+		// Get the database metadata
+		final DatabaseMetaData metadata = connection.getMetaData();
+		final ResultSet resultSet = metadata.getProcedureColumns(connection.getCatalog(), null,
+				storedProcedure, null);
+		// Return the SQL types of all the parameters of the stored procedure
+		final ExtendedLinkedList<Integer> types = new ExtendedLinkedList<Integer>();
+		resultSet.next();
+		while (resultSet.next()) {
+			types.add(resultSet.getInt("DATA_TYPE"));
+		}
+		return (int[]) types.toPrimitiveArray();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Sets the parameter at the specified index in the specified {@link PreparedStatement} to the
 	 * specified value.
 	 * <p>
@@ -108,9 +215,30 @@ public class SQL {
 	public static void setParameter(final PreparedStatement statement, final int index,
 			final Object value)
 			throws SQLException {
+		setParameter(statement, index, Types.NULL, value);
+	}
+
+	/**
+	 * Sets the parameter at the specified index in the specified {@link PreparedStatement} to the
+	 * specified value with the specified SQL type.
+	 * <p>
+	 * @param statement the {@link PreparedStatement} containing the parameter to set
+	 * @param index     the index of the parameter to set
+	 * @param type      the SQL type of the parameter to set
+	 * @param value     an {@link Object}
+	 * <p>
+	 * @throws SQLException if {@code index} does not correspond to a parameter marker in
+	 *                      {@code statement}, if a database access error occurs or if this method
+	 *                      is called on a closed {@link PreparedStatement}
+	 */
+	public static void setParameter(final PreparedStatement statement, final int index,
+			final int type, final Object value)
+			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
-		Arguments.requireNonNull(value, "parameter " + index);
+		if (type == Types.NULL) {
+			Arguments.requireNonNull(value, "parameter " + index);
+		}
 
 		// Set the parameter of the SQL statement at the index
 		if (value instanceof Array) {
@@ -152,30 +280,58 @@ public class SQL {
 			statement.setTimestamp(index, (Timestamp) value);
 		} else if (value instanceof URL) {
 			statement.setURL(index, (URL) value);
+		} else if (type != Types.NULL) {
+			statement.setNull(index, type);
 		} else {
 			throw new IllegalClassException(Classes.get(value));
 		}
 	}
 
 	/**
-	 * Sets the parameters of the specified {@link PreparedStatement}.
+	 * Sets the parameters of the specified {@link PreparedStatement} to the specified values.
 	 * <p>
 	 * @param statement the {@link PreparedStatement} containing the parameters to set
 	 * @param values    an array of {@link Object} (may be {@code null})
 	 * <p>
-	 * @throws SQLException if the {@code parameters} length is greater than the number of parameter
+	 * @throws SQLException if the {@code values} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
 	 *                      this method is called on a closed {@link PreparedStatement}
 	 */
 	public static void setParameters(final PreparedStatement statement, final Object... values)
 			throws SQLException {
+		setParameters(statement, Integers.EMPTY_PRIMITIVE_ARRAY, values);
+	}
+
+	/**
+	 * Sets the parameters of the specified {@link PreparedStatement} to the specified values with
+	 * the specified SQL types.
+	 * <p>
+	 * @param statement the {@link PreparedStatement} containing the parameters to set
+	 * @param types     the {@code int} array containing the SQL types of the parameters to set (may
+	 *                  be {@code null})
+	 * @param values    an array of {@link Object} (may be {@code null})
+	 * <p>
+	 * @throws SQLException if the {@code values} length is greater than the number of parameter
+	 *                      markers in {@code statement}, if a database access error occurs or if
+	 *                      this method is called on a closed {@link PreparedStatement}
+	 */
+	public static void setParameters(final PreparedStatement statement, final int[] types,
+			final Object... values)
+			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(values, "parameters");
+		if (Integers.isNonEmpty(types)) {
+			ArrayArguments.requireSameLength(
+					ArrayArguments.requireNonEmpty(values, "parameter values"), types.length);
+		}
+		Arguments.requireNonNull(values, "parameter values");
 
 		// Set the parameters of the SQL statement
-		int index = 1;
-		for (final Object parameter : values) {
-			setParameter(statement, index++, parameter);
+		for (int i = 0; i < values.length; ++i) {
+			if (Integers.isNonEmpty(types)) {
+				setParameter(statement, i + 1, types[i], values[i]);
+			} else {
+				setParameter(statement, i + 1, values[i]);
+			}
 		}
 	}
 
@@ -258,41 +414,12 @@ public class SQL {
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String createStoredProcedureQuery(final String storedProcedure,
-			final int parameterCount) {
-		// Check the arguments
-		Arguments.requireNonNull(storedProcedure, "stored procedure");
-
-		// Create the SQL query for executing the SQL stored procedure
-		return Strings.join(LEFT_BRACE, "call ", storedProcedure,
-				Arrays.toString(Arrays.repeat('?', parameterCount)), RIGHT_BRACE);
-	}
-
-	public static CallableStatement createStoredProcedureStatement(final Connection connection,
-			final String storedProcedure, final Object... parameters)
-			throws SQLException {
-		// Check the arguments
-		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(storedProcedure, "stored procedure");
-		Arguments.requireNonNull(parameters, "parameters");
-
-		// Create the SQL statement for executing the SQL stored procedure
-		final CallableStatement statement = connection.prepareCall(
-				createStoredProcedureQuery(storedProcedure, parameters.length));
-		// Set the parameters of the SQL statement
-		setParameters(statement, parameters);
-		// Return the SQL statement
-		return statement;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public static String createSelectQuery(final String table) {
-		return createSelectQuery(table, null, null);
+		return createSelectQuery(table, Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY);
 	}
 
 	public static String createSelectQuery(final String table, final String... columns) {
-		return createSelectQuery(table, columns, null);
+		return createSelectQuery(table, columns, Strings.EMPTY_ARRAY);
 	}
 
 	public static String createSelectQuery(final String table, final String[] columns,
@@ -308,22 +435,22 @@ public class SQL {
 				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
 				" FROM ", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
 			final String table)
 			throws SQLException {
-		return createSelectStatement(connection, table, null, null);
+		return createSelectStatement(connection, table, Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
 			final String table, final String... columns)
 			throws SQLException {
-		return createSelectStatement(connection, table, columns, null);
+		return createSelectStatement(connection, table, columns, Strings.EMPTY_ARRAY);
 	}
 
 	public static PreparedStatement createSelectStatement(final Connection connection,
@@ -332,11 +459,8 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
 
-		// Create the SELECT query for selecting the table with the columns and conditional columns
-		final PreparedStatement statement = connection.prepareStatement(
-				createSelectQuery(table, columns, conditionalColumns));
-		// Return the SELECT statement
-		return statement;
+		// Create the SQL statement for selecting the table with the columns and conditional columns
+		return connection.prepareStatement(createSelectQuery(table, columns, conditionalColumns));
 	}
 
 	//////////////////////////////////////////////
@@ -358,17 +482,15 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
 
-		// Create the INSERT query for inserting into the table with the columns
-		final PreparedStatement statement = connection.prepareStatement(
-				createInsertQuery(table, columns), Statement.RETURN_GENERATED_KEYS);
-		// Return the INSERT statement
-		return statement;
+		// Create the SQL statement for inserting into the table with the columns
+		return connection.prepareStatement(createInsertQuery(table, columns),
+				Statement.RETURN_GENERATED_KEYS);
 	}
 
 	//////////////////////////////////////////////
 
 	public static String createUpdateQuery(final String table, final String... columns) {
-		return createUpdateQuery(table, columns, null);
+		return createUpdateQuery(table, columns, Strings.EMPTY_ARRAY);
 	}
 
 	public static String createUpdateQuery(final String table, final String[] columns,
@@ -384,16 +506,16 @@ public class SQL {
 		return Strings.join("UPDATE ", Strings.bracketize(table),
 				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
 			final String table, final String... columns)
 			throws SQLException {
-		return createUpdateStatement(connection, table, columns, null);
+		return createUpdateStatement(connection, table, columns, Strings.EMPTY_ARRAY);
 	}
 
 	public static PreparedStatement createUpdateStatement(final Connection connection,
@@ -402,17 +524,14 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
 
-		// Create the UPDATE query for updating the table with the columns and conditional columns
-		final PreparedStatement statement = connection.prepareStatement(
-				createUpdateQuery(table, columns, conditionalColumns));
-		// Return the UPDATE statement
-		return statement;
+		// Create the SQL statement for updating the table with the columns and conditional columns
+		return connection.prepareStatement(createUpdateQuery(table, columns, conditionalColumns));
 	}
 
 	//////////////////////////////////////////////
 
 	public static String createDeleteQuery(final String table) {
-		return createDeleteQuery(table, null);
+		return createDeleteQuery(table, Strings.EMPTY_ARRAY);
 	}
 
 	public static String createDeleteQuery(final String table, final String... conditionalColumns) {
@@ -425,16 +544,16 @@ public class SQL {
 		// Create the SQL query for deleting the table with the conditional columns
 		return Strings.join("DELETE FROM ", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-						Strings.join(" WHERE ",
-								Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-										.concat("=?")) :
-						EMPTY);
+				Strings.join(" WHERE ",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
+						.concat("=?")) :
+				EMPTY);
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
 			final String table)
 			throws SQLException {
-		return createDeleteStatement(connection, table, null);
+		return createDeleteStatement(connection, table, Strings.EMPTY_ARRAY);
 	}
 
 	public static PreparedStatement createDeleteStatement(final Connection connection,
@@ -443,10 +562,45 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
 
-		// Create the DELETE query for deleting the table with the conditional columns
-		final PreparedStatement statement = connection.prepareStatement(
-				createInsertQuery(table, conditionalColumns), Statement.RETURN_GENERATED_KEYS);
-		// Return the DELETE statement
+		// Create the SQL statement for deleting the table with the conditional columns
+		return connection.prepareStatement(createDeleteQuery(table, conditionalColumns),
+				Statement.RETURN_GENERATED_KEYS);
+	}
+
+	//////////////////////////////////////////////
+
+	public static String createStoredProcedureQuery(final String storedProcedure,
+			final int parameterCount) {
+		// Check the arguments
+		Arguments.requireNonNull(storedProcedure, "stored procedure");
+
+		// Create the SQL query for executing the SQL stored procedure
+		return Strings.join(LEFT_BRACE, "call ", storedProcedure,
+				Arrays.toString(Arrays.repeat('?', parameterCount)), RIGHT_BRACE);
+	}
+
+	public static CallableStatement createStoredProcedureStatement(final Connection connection,
+			final String storedProcedure, final Object... parameterValues)
+			throws SQLException {
+		return createStoredProcedureStatement(connection, storedProcedure,
+				Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	public static CallableStatement createStoredProcedureStatement(final Connection connection,
+			final String storedProcedure, final int[] parameterTypes,
+			final Object... parameterValues)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(connection, "connection");
+		Arguments.requireNonNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(parameterValues, "parameter values");
+
+		// Create the SQL statement for executing the SQL stored procedure
+		final CallableStatement statement = connection.prepareCall(
+				createStoredProcedureQuery(storedProcedure, parameterValues.length));
+		// Set the parameters of the SQL statement
+		setParameters(statement, parameterTypes, parameterValues);
+		// Return the SQL statement
 		return statement;
 	}
 
@@ -470,7 +624,7 @@ public class SQL {
 	 */
 	public static RowList select(final Connection connection, final String query)
 			throws SQLException {
-		return selectWith(connection, query, Objects.EMPTY_ARRAY);
+		return selectWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -478,7 +632,7 @@ public class SQL {
 	 * {@link Connection}.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
-	 * @param table      the table containing the rows to update
+	 * @param table      the table containing the rows to select
 	 * <p>
 	 * @return the rows of the specified table in a {@link RowList} using the specified
 	 *         {@link Connection}
@@ -488,7 +642,8 @@ public class SQL {
 	 */
 	public static RowList selectWith(final Connection connection, final String table)
 			throws SQLException {
-		return selectWith(connection, table, null, null, null);
+		return selectWith(connection, table, Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY,
+				Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -496,7 +651,7 @@ public class SQL {
 	 * the specified {@link Connection}.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
-	 * @param table      the table containing the rows to update
+	 * @param table      the table containing the rows to select
 	 * @param columns    the columns of the rows to select (may be {@code null})
 	 * <p>
 	 * @return the specified columns of the rows of the specified table in a {@link RowList} using
@@ -508,7 +663,8 @@ public class SQL {
 	public static RowList selectWith(final Connection connection,
 			final String table, final String... columns)
 			throws SQLException {
-		return selectWith(connection, table, columns, null, null);
+		return selectWith(connection, table, columns, Strings.EMPTY_ARRAY,
+				Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -517,10 +673,11 @@ public class SQL {
 	 * specified {@link Connection}.
 	 * <p>
 	 * @param connection         a {@link Connection} (session) to a database
-	 * @param table              the table containing the rows to update
+	 * @param table              the table containing the rows to select
 	 * @param columns            the columns of the rows to select (may be {@code null})
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
-	 * @param conditionalValues  the conditional values to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
 	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the conditional values in a {@link RowList} using
@@ -533,6 +690,35 @@ public class SQL {
 			final String table, final String[] columns, final String[] conditionalColumns,
 			final Object... conditionalValues)
 			throws SQLException {
+		return selectWith(connection, table, columns, conditionalColumns,
+				getColumnTypes(connection, table, conditionalColumns), conditionalValues);
+	}
+
+	/**
+	 * Returns the specified columns of the rows of the specified table where the specified
+	 * conditional columns are equal to the conditional values with the specified SQL types in a
+	 * {@link RowList} using the specified {@link Connection}.
+	 * <p>
+	 * @param connection         a {@link Connection} (session) to a database
+	 * @param table              the table containing the rows to select
+	 * @param columns            the columns of the rows to select (may be {@code null})
+	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
+	 * @param conditionalTypes   the {@code int} array containing the SQL types of the conditional
+	 *                           columns to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
+	 * <p>
+	 * @return the specified columns of the rows of the specified table where the specified
+	 *         conditional columns are equal to the conditional values with the specified SQL types
+	 *         in a {@link RowList} using the specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static RowList selectWith(final Connection connection,
+			final String table, final String[] columns, final String[] conditionalColumns,
+			final int[] conditionalTypes, final Object... conditionalValues)
+			throws SQLException {
 		// Check the arguments
 		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -542,26 +728,49 @@ public class SQL {
 
 		// Execute the SQL query and return the selected rows
 		return selectWith(connection, createSelectQuery(table, columns, conditionalColumns),
-				conditionalValues);
+				conditionalTypes, conditionalValues);
 	}
 
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query with
-	 * the specified parameters using the specified {@link Connection}.
+	 * the specified parameter values using the specified {@link Connection}.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param query      the {@code SELECT} query to execute
-	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
-	 *                   {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code SELECT} query to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
+	 *                        execute (may be {@code null})
 	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query with
-	 *         the specified parameters using the specified {@link Connection}
+	 *         the specified parameter values using the specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static RowList selectWith(final Connection connection, final String query,
+			final Object... parameterValues)
+			throws SQLException {
+		return selectWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query with
+	 * the specified parameter SQL types and values using the specified {@link Connection}.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code SELECT} query to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code SELECT} query to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
+	 *                        execute (may be {@code null})
+	 * <p>
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query with
+	 *         the specified parameter SQL types and values using the specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static RowList selectWith(final Connection connection,
-			final String query, final Object... parameters)
+			final String query, final int[] parameterTypes, final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -572,7 +781,7 @@ public class SQL {
 		try {
 			statement = connection.prepareStatement(query);
 			// Execute the SQL query and return the selected rows
-			return selectWith(statement, parameters);
+			return selectWith(statement, parameterTypes, parameterValues);
 		} finally {
 			if (statement != null) {
 				try {
@@ -587,47 +796,71 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link RowList} constructed by executing the specified SQL Data Manipulation
-	 * Language (DML) {@code SELECT} {@link PreparedStatement}.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
+	 * {@link PreparedStatement}.
 	 * <p>
 	 * @param statement the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
-	 * @return a {@link RowList} constructed by executing the specified SQL Data Manipulation
-	 *         Language (DML) {@code SELECT} {@link PreparedStatement}
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
+	 *         {@link PreparedStatement}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
 	public static RowList select(final PreparedStatement statement)
 			throws SQLException {
-		return selectWith(statement, Objects.EMPTY_ARRAY);
+		return selectWith(statement, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
-	 * Returns a {@link RowList} constructed by executing the specified SQL Data Manipulation
-	 * Language (DML) {@code SELECT} {@link PreparedStatement} with the specified parameters.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
+	 * {@link PreparedStatement} with the specified parameter values.
 	 * <p>
-	 * @param statement  the SQL Data Manipulation Language (DML) {@code SELECT}
-	 *                   {@link PreparedStatement} to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@code SELECT} {@link PreparedStatement} to execute (may be {@code null})
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return a {@link RowList} constructed by executing the specified SQL Data Manipulation
-	 *         Language (DML) {@code SELECT} {@link PreparedStatement} with the specified parameters
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
+	 *         {@link PreparedStatement} with the specified parameter values
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
 	public static RowList selectWith(final PreparedStatement statement,
-			final Object... parameters)
+			final Object... parameterValues)
+			throws SQLException {
+		return selectWith(statement, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
+	 * {@link PreparedStatement} with the specified parameter SQL types and values.
+	 * <p>
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code SELECT} {@link PreparedStatement} to execute (may be
+	 *                        {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
+	 *         {@link PreparedStatement} with the specified parameter SQL types and values
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static RowList selectWith(final PreparedStatement statement, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNonEmpty(parameters)) {
-			setParameters(statement, parameters);
+		if (Arrays.isNonEmpty(parameterValues)) {
+			setParameters(statement, parameterTypes, parameterValues);
 		}
 		// Execute the SQL query
 		final ResultSet resultSet = statement.executeQuery();
@@ -641,11 +874,11 @@ public class SQL {
 		// Store the result
 		final RowList rowList = new RowList(header);
 		while (resultSet.next()) {
-			final Object[] values = new Object[n];
+			final Object[] row = new Object[n];
 			for (int i = 0; i < n; ++i) {
-				values[i] = resultSet.getObject(header[i]);
+				row[i] = resultSet.getObject(header[i]);
 			}
-			rowList.add(new Row(header, values));
+			rowList.add(new Row(header, row));
 		}
 		// Return the selected rows
 		return rowList;
@@ -672,7 +905,8 @@ public class SQL {
 	public static <E extends SQLRow> ExtendedList<E> select(final Class<E> c,
 			final Connection connection, final String query)
 			throws SQLException {
-		return selectWith(c, connection, query, Objects.EMPTY_ARRAY);
+		return selectWith(c, connection, query, Integers.EMPTY_PRIMITIVE_ARRAY,
+				Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -683,7 +917,7 @@ public class SQL {
 	 *                   {@link SQLRow})
 	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
-	 * @param table      the table containing the rows to update
+	 * @param table      the table containing the rows to select
 	 * <p>
 	 * @return the rows of the specified table in an {@link ExtendedList} of the specified row
 	 *         {@link Class} type using the specified {@link Connection}
@@ -694,7 +928,8 @@ public class SQL {
 	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String table)
 			throws SQLException {
-		return selectWith(c, connection, table, null, null, null);
+		return selectWith(c, connection, table, Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY,
+				Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -705,7 +940,7 @@ public class SQL {
 	 *                   {@link SQLRow})
 	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
-	 * @param table      the table containing the rows to update
+	 * @param table      the table containing the rows to select
 	 * @param columns    the columns of the rows to select (may be {@code null})
 	 * <p>
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
@@ -717,7 +952,8 @@ public class SQL {
 	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
 			final Connection connection, final String table, final String... columns)
 			throws SQLException {
-		return selectWith(c, connection, table, columns, null, null);
+		return selectWith(c, connection, table, columns, Strings.EMPTY_ARRAY,
+				Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -729,10 +965,11 @@ public class SQL {
 	 *                           {@link SQLRow})
 	 * @param c                  the row {@link Class} of {@code E} type
 	 * @param connection         a {@link Connection} (session) to a database
-	 * @param table              the table containing the rows to update
+	 * @param table              the table containing the rows to select
 	 * @param columns            the columns of the rows to select (may be {@code null})
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
-	 * @param conditionalValues  the conditional values to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
 	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the conditional values in an {@link ExtendedList} of
@@ -745,6 +982,41 @@ public class SQL {
 			final Connection connection, final String table, final String[] columns,
 			final String[] conditionalColumns, final Object... conditionalValues)
 			throws SQLException {
+		return selectWith(c, connection, table, columns, conditionalColumns,
+				getColumnTypes(connection, table, conditionalColumns), conditionalValues);
+	}
+
+	/**
+	 * Returns the specified columns of the rows of the specified table where the specified
+	 * conditional columns are equal to the conditional values with the specified SQL types in an
+	 * {@link ExtendedList} of the specified row {@link Class} type using the specified
+	 * {@link Connection}.
+	 * <p>
+	 * @param <E>                the element type of the {@link ExtendedList} to return (subtype of
+	 *                           {@link SQLRow})
+	 * @param c                  the row {@link Class} of {@code E} type
+	 * @param connection         a {@link Connection} (session) to a database
+	 * @param table              the table containing the rows to select
+	 * @param columns            the columns of the rows to select (may be {@code null})
+	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
+	 * @param conditionalTypes   the {@code int} array containing the SQL types of the conditional
+	 *                           columns to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
+	 * <p>
+	 * @return the specified columns of the rows of the specified table where the specified
+	 *         conditional columns are equal to the conditional values with the specified SQL types
+	 *         in an {@link ExtendedList} of the specified row {@link Class} type using the
+	 *         specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
+			final Connection connection, final String table, final String[] columns,
+			final String[] conditionalColumns, final int[] conditionalTypes,
+			final Object... conditionalValues)
+			throws SQLException {
 		// Check the arguments
 		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -754,31 +1026,60 @@ public class SQL {
 
 		// Execute the SQL query and return the selected rows
 		return selectWith(c, connection, createSelectQuery(table, columns, conditionalColumns),
-				conditionalValues);
+				conditionalTypes, conditionalValues);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 * the specified {@code SELECT} with the specified parameters query using the specified
+	 * the specified {@code SELECT} query with the specified parameter values using the specified
 	 * {@link Connection}.
 	 * <p>
-	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
-	 *                   {@link SQLRow})
-	 * @param c          the row {@link Class} of {@code E} type
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param query      the {@code SELECT} query to execute
-	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
-	 *                   {@code null})
+	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
+	 *                        {@link SQLRow})
+	 * @param c               the row {@link Class} of {@code E} type
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code SELECT} query to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
+	 *                        execute (may be {@code null})
 	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 *         the specified {@code SELECT} with the specified parameters query using the specified
-	 *         {@link Connection}
+	 *         the specified {@code SELECT} query with the specified parameter values using the
+	 *         specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
-			final Connection connection, final String query, final Object... parameters)
+			final Connection connection, final String query, final Object... parameterValues)
+			throws SQLException {
+		return selectWith(c, connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified {@code SELECT} query with the specified parameter SQL types and values using
+	 * the specified {@link Connection}.
+	 * <p>
+	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
+	 *                        {@link SQLRow})
+	 * @param c               the row {@link Class} of {@code E} type
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code SELECT} query to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code SELECT} query to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
+	 *                        execute (may be {@code null})
+	 * <p>
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified {@code SELECT} query with the specified parameter SQL types and values
+	 *         using the specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
+			final Connection connection, final String query, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
@@ -790,7 +1091,7 @@ public class SQL {
 		try {
 			statement = connection.prepareStatement(query);
 			// Execute the SQL query and return the selected rows
-			return selectWith(c, statement, parameters);
+			return selectWith(c, statement, parameterTypes, parameterValues);
 		} finally {
 			if (statement != null) {
 				try {
@@ -806,7 +1107,7 @@ public class SQL {
 
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 * the specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement}.
+	 * the specified {@code SELECT} {@link PreparedStatement}.
 	 * <p>
 	 * @param <E>       the element type of the {@link ExtendedList} to return (subtype of
 	 *                  {@link SQLRow})
@@ -815,8 +1116,7 @@ public class SQL {
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 *         the specified SQL Data Manipulation Language (DML) {@code SELECT}
-	 *         {@link PreparedStatement}
+	 *         the specified {@code SELECT} {@link PreparedStatement}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
@@ -824,39 +1124,68 @@ public class SQL {
 	public static <E extends SQLRow> ExtendedList<E> select(final Class<E> c,
 			final PreparedStatement statement)
 			throws SQLException {
-		return selectWith(c, statement, Objects.EMPTY_ARRAY);
+		return selectWith(c, statement, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 * the specified SQL Data Manipulation Language (DML) {@code SELECT} {@link PreparedStatement}
-	 * with the specified parameters.
+	 * the specified {@code SELECT} {@link PreparedStatement} with the specified parameter values.
 	 * <p>
-	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
-	 *                   {@link SQLRow})
-	 * @param c          the row {@link Class} of {@code E} type
-	 * @param statement  the SQL Data Manipulation Language (DML) {@code SELECT}
-	 *                   {@link PreparedStatement} to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@code SELECT} {@link PreparedStatement} to execute (may be {@code null})
+	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
+	 *                        {@link SQLRow})
+	 * @param c               the row {@link Class} of {@code E} type
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
-	 *         the specified SQL Data Manipulation Language (DML) {@code SELECT}
-	 *         {@link PreparedStatement} with the specified parameters
+	 *         the specified {@code SELECT} {@link PreparedStatement} with the specified parameter
+	 *         values
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
 	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
-			final PreparedStatement statement, final Object... parameters)
+			final PreparedStatement statement, final Object... parameterValues)
+			throws SQLException {
+		return selectWith(c, statement, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 * the specified {@code SELECT} {@link PreparedStatement} with the specified parameter SQL types
+	 * and values.
+	 * <p>
+	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
+	 *                        {@link SQLRow})
+	 * @param c               the row {@link Class} of {@code E} type
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code SELECT} {@link PreparedStatement} to execute (may be
+	 *                        {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
+	 *         the specified {@code SELECT} {@link PreparedStatement} with the specified parameter
+	 *         SQL types and values
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static <E extends SQLRow> ExtendedList<E> selectWith(final Class<E> c,
+			final PreparedStatement statement, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
 		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNonEmpty(parameters)) {
-			setParameters(statement, parameters);
+		if (Arrays.isNonEmpty(parameterValues)) {
+			setParameters(statement, parameterTypes, parameterValues);
 		}
 		// Execute the SQL query
 		final ExtendedList<E> rows = new ExtendedList<E>();
@@ -889,28 +1218,56 @@ public class SQL {
 
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 * procedure with the specified parameters using the specified {@link Connection}.
+	 * procedure with the specified parameter values using the specified {@link Connection}.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param name       the name of the {@code SELECT} stored procedure to execute
-	 * @param parameters the array of parameters of the {@code SELECT} query to execute (may be
-	 *                   {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param storedProcedure the {@code SELECT} stored procedure to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} stored
+	 *                        procedure to execute (may be {@code null})
 	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 *         procedure with the specified parameters using the specified {@link Connection}
+	 *         procedure with the specified parameter values using the specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static RowList selectWithStoredProcedure(final Connection connection,
-			final String name, final Object... parameters)
+			final String storedProcedure, final Object... parameterValues)
+			throws SQLException {
+		return selectWithStoredProcedure(connection, storedProcedure,
+				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
+	}
+
+	/**
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} stored
+	 * procedure with the specified parameter SQL types and values using the specified
+	 * {@link Connection}.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param storedProcedure the {@code SELECT} stored procedure to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code SELECT} stored procedure to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} stored
+	 *                        procedure to execute (may be {@code null})
+	 * <p>
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} stored
+	 *         procedure with the specified parameter SQL types and values using the specified
+	 *         {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static RowList selectWithStoredProcedure(final Connection connection,
+			final String storedProcedure, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(parameters, "parameters");
+		Arguments.requireNonNull(parameterValues, "parameter values");
 
 		// Execute the SQL stored procedure and return the selected rows
-		return selectWith(connection, createStoredProcedureQuery(name, parameters.length),
-				parameters);
+		return selectWith(connection,
+				createStoredProcedureQuery(storedProcedure, parameterValues.length), parameterTypes,
+				parameterValues);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -930,7 +1287,7 @@ public class SQL {
 	 */
 	public static long[] insert(final Connection connection, final String query)
 			throws SQLException {
-		return insertWith(connection, query, Objects.EMPTY_ARRAY);
+		return insertWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -953,31 +1310,80 @@ public class SQL {
 	public static long[] insertWith(final Connection connection,
 			final String table, final String[] columns, final Object... values)
 			throws SQLException {
+		return insertWith(connection, table, columns, getColumnTypes(connection, table, columns),
+				values);
+	}
+
+	/**
+	 * Returns any auto-generated keys created by inserting the row with the specified columns
+	 * containing the specified values with the specified SQL types into the specified table using
+	 * the specified {@link Connection}.
+	 * <p>
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param table      the table to insert into
+	 * @param columns    the columns of the row to insert
+	 * @param types      the {@code int} array containing the SQL types of the row to insert (may be
+	 *                   {@code null})
+	 * @param values     the values of the row to insert
+	 * <p>
+	 * @return any auto-generated keys created by inserting the row with the specified columns
+	 *         containing the specified values with the specified SQL types into the specified table
+	 *         using the specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static long[] insertWith(final Connection connection, final String table,
+			final String[] columns, final int[] types, final Object... values)
+			throws SQLException {
 		// Check the arguments
 		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(columns, "columns"),
 				ArrayArguments.requireNonEmpty(values, "values"));
 
 		// Execute the SQL query and return any auto-generated keys
-		return insertWith(connection, createInsertQuery(table, columns), values);
+		return insertWith(connection, createInsertQuery(table, columns), types, values);
 	}
 
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query with
-	 * the specified parameters using the specified {@link Connection}.
+	 * the specified parameter values using the specified {@link Connection}.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param query      the {@code INSERT} query to execute
-	 * @param parameters the array of parameters of the {@code INSERT} query to execute (may be
-	 *                   {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code INSERT} query to execute
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT} query to
+	 *                        execute (may be {@code null})
 	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT} query with
-	 *         the specified parameters using the specified {@link Connection}
+	 *         the specified parameter values using the specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static long[] insertWith(final Connection connection, final String query,
-			final Object... parameters)
+			final Object... parameterValues)
+			throws SQLException {
+		return insertWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query with
+	 * the specified parameter SQL types and values using the specified {@link Connection}.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code INSERT} query to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT} query to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT} query to
+	 *                        execute (may be {@code null})
+	 * <p>
+	 * @return any auto-generated keys created by executing the specified {@code INSERT} query with
+	 *         the specified parameter SQL types and values using the specified {@link Connection}
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static long[] insertWith(final Connection connection, final String query,
+			final int[] parameterTypes, final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -988,7 +1394,7 @@ public class SQL {
 		try {
 			statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			// Execute the SQL query and return any auto-generated keys
-			return insertWith(statement, parameters);
+			return insertWith(statement, parameterTypes, parameterValues);
 		} finally {
 			if (statement != null) {
 				try {
@@ -1003,14 +1409,14 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns any auto-generated keys created by executing the specified SQL Data Manipulation
-	 * Language (DML) {@code INSERT} {@link PreparedStatement}.
+	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
+	 * {@link PreparedStatement}.
 	 * <p>
 	 * @param statement the SQL Data Manipulation Language (DML) {@code INSERT}
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
-	 * @return any auto-generated keys created by executing the specified SQL Data Manipulation
-	 *         Language (DML) {@code INSERT} {@link PreparedStatement}
+	 * @return any auto-generated keys created by executing the specified {@code INSERT}
+	 *         {@link PreparedStatement}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
@@ -1021,28 +1427,53 @@ public class SQL {
 	}
 
 	/**
-	 * Returns any auto-generated keys created by executing the specified SQL Data Manipulation
-	 * Language (DML) {@code INSERT} {@link PreparedStatement} with the specified parameters.
+	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
+	 * {@link PreparedStatement} with the specified parameter values.
 	 * <p>
-	 * @param statement  the SQL Data Manipulation Language (DML) {@code INSERT}
-	 *                   {@link PreparedStatement} to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@code INSERT} {@link PreparedStatement} to execute (may be {@code null})
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code INSERT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return any auto-generated keys created by executing the specified SQL Data Manipulation
-	 *         Language (DML) {@code INSERT} {@link PreparedStatement} with the specified parameters
+	 * @return any auto-generated keys created by executing the specified {@code INSERT}
+	 *         {@link PreparedStatement} with the specified parameter values
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
-	public static long[] insertWith(final PreparedStatement statement, final Object... parameters)
+	public static long[] insertWith(final PreparedStatement statement,
+			final Object... parameterValues)
+			throws SQLException {
+		return insertWith(statement, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
+	 * {@link PreparedStatement} with the specified parameter SQL types and values.
+	 * <p>
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code INSERT}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT} {@link PreparedStatement} to execute (may be
+	 *                        {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return any auto-generated keys created by executing the specified {@code INSERT}
+	 *         {@link PreparedStatement} with the specified parameter SQL types and values
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static long[] insertWith(final PreparedStatement statement, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNonEmpty(parameters)) {
-			setParameters(statement, parameters);
+		if (Arrays.isNonEmpty(parameterValues)) {
+			setParameters(statement, parameterTypes, parameterValues);
 		}
 		// Execute the SQL query
 		statement.executeUpdate();
@@ -1058,23 +1489,25 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the number of rows updated by executing the specified SQL query using the specified
-	 * {@link Connection}, or {@code 0} if nothing is returned.
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 * or {@code DELETE} or {@code DDL} query using the specified {@link Connection}, or {@code 0}
+	 * if nothing is returned.
 	 * <p>
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
 	 *                   {@code DELETE}; or a SQL statement that returns nothing, such as a
 	 *                   {@code DDL} statement
 	 * <p>
-	 * @return the number of rows updated by executing the specified SQL query using the specified
-	 *         {@link Connection}, or {@code 0} if nothing is returned
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 *         or {@code DELETE} or {@code DDL} query using the specified {@link Connection}, or
+	 *         {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static int update(final Connection connection, final String query)
 			throws SQLException {
-		return updateWith(connection, query, Objects.EMPTY_ARRAY);
+		return updateWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -1094,7 +1527,8 @@ public class SQL {
 	public static int updateWith(final Connection connection,
 			final String table, final String[] columns, final Object... values)
 			throws SQLException {
-		return updateWith(connection, table, columns, values, null, null);
+		return updateWith(connection, table, columns, values, Strings.EMPTY_ARRAY,
+				Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -1107,7 +1541,8 @@ public class SQL {
 	 * @param columns            the columns of the rows to update
 	 * @param values             the values of the rows to update to
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
-	 * @param conditionalValues  the conditional values to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
 	 * <p>
 	 * @return the number of updated rows, or {@code 0} if nothing is returned
 	 * <p>
@@ -1118,6 +1553,37 @@ public class SQL {
 			final String table, final String[] columns, final Object[] values,
 			final String[] conditionalColumns, final Object... conditionalValues)
 			throws SQLException {
+		return updateWith(connection, table, columns, values, conditionalColumns,
+				getColumnTypes(connection, table,
+						Arrays.<String>merge(columns, conditionalColumns)),
+				conditionalValues);
+	}
+
+	/**
+	 * Updates the rows of specified table by setting the specified columns to the specified values
+	 * where the specified conditional columns are equal to the conditional values with the
+	 * specified SQL types using the specified {@link Connection}.
+	 * <p>
+	 * @param connection         a {@link Connection} (session) to a database
+	 * @param table              the table containing the rows to update
+	 * @param columns            the columns of the rows to update
+	 * @param values             the values of the rows to update to
+	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
+	 * @param conditionalTypes   the {@code int} array containing the SQL types of the conditional
+	 *                           columns to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
+	 * <p>
+	 * @return the number of updated rows, or {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int updateWith(final Connection connection,
+			final String table, final String[] columns, final Object[] values,
+			final String[] conditionalColumns, final int[] conditionalTypes,
+			final Object... conditionalValues)
+			throws SQLException {
 		// Check the arguments
 		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
 			ArrayArguments.requireSameLength(
@@ -1127,29 +1593,60 @@ public class SQL {
 
 		// Execute the SQL query and return the number of updated rows
 		return updateWith(connection, createUpdateQuery(table, columns, conditionalColumns),
-				Arrays.merge(values, conditionalValues));
+				conditionalTypes, Arrays.merge(values, conditionalValues));
 	}
 
 	/**
-	 * Returns the number of rows updated by executing the specified SQL query with the specified
-	 * parameters using the specified {@link Connection}, or {@code 0} if nothing is returned.
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 * or {@code DELETE} or {@code DDL} query with the specified parameter values using the
+	 * specified {@link Connection}, or {@code 0} if nothing is returned.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param query      the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
-	 *                   {@code DELETE}; or a SQL statement that returns nothing, such as a
-	 *                   {@code DDL} statement
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
+	 *                        {@code DELETE}; or a SQL statement that returns nothing, such as a
+	 *                        {@code DDL} statement
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE} or {@code DELETE} or {@code DDL} query to execute (may
+	 *                        be {@code null})
 	 * <p>
-	 * @return the number of rows updated by executing the specified SQL query with the specified
-	 *         parameters using the specified {@link Connection}, or {@code 0} if nothing is
-	 *         returned
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 *         or {@code DELETE} or {@code DDL} query with the specified parameter values using the
+	 *         specified {@link Connection}, or {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static int updateWith(final Connection connection, final String query,
-			final Object... parameters)
+			final Object... parameterValues)
+			throws SQLException {
+		return updateWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 * or {@code DELETE} or {@code DDL} query with the specified parameter SQL types and values
+	 * using the specified {@link Connection}, or {@code 0} if nothing is returned.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
+	 *                        {@code DELETE}; or a SQL statement that returns nothing, such as a
+	 *                        {@code DDL} statement
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT}, {@code UPDATE} or {@code DELETE} or {@code DDL}
+	 *                        query to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE} or {@code DELETE} or {@code DDL} query to execute (may
+	 *                        be {@code null})
+	 * <p>
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
+	 *         or {@code DELETE} or {@code DDL} query with the specified parameter SQL types and
+	 *         values using the specified {@link Connection}, or {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int updateWith(final Connection connection, final String query,
+			final int[] parameterTypes, final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
@@ -1160,7 +1657,7 @@ public class SQL {
 		try {
 			statement = connection.prepareStatement(query);
 			// Execute the SQL query and return the number of updated rows
-			return updateWith(statement, parameters);
+			return updateWith(statement, parameterTypes, parameterValues);
 		} finally {
 			if (statement != null) {
 				try {
@@ -1175,50 +1672,80 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of rows updated by executing the specified SQL Data Manipulation Language
-	 * (DML) {@link PreparedStatement}, or {@code 0} if nothing is returned.
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} {@link PreparedStatement}, or {@code 0} if nothing is returned.
 	 * <p>
 	 * @param statement the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
 	 *                  execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or a SQL
 	 *                  statement that returns nothing, such as a {@code DDL} statement
 	 * <p>
-	 * @return the number of rows updated by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@link PreparedStatement}, or {@code 0} if nothing is returned
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement}, or {@code 0} if nothing is
+	 *         returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
 	public static int update(final PreparedStatement statement)
 			throws SQLException {
-		return updateWith(statement, Objects.EMPTY_ARRAY);
+		return updateWith(statement, Integers.EMPTY_PRIMITIVE_ARRAY, Objects.EMPTY_ARRAY);
 	}
 
 	/**
-	 * Returns the number of rows updated by executing the specified SQL Data Manipulation Language
-	 * (DML) {@link PreparedStatement} with the specified parameters, or {@code 0} if nothing is
-	 * returned.
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter values,
+	 * or {@code 0} if nothing is returned.
 	 * <p>
-	 * @param statement  the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
-	 *                   execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or a SQL
-	 *                   statement that returns nothing, such as a {@code DDL} statement
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * @param statement       the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
+	 *                        execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or
+	 *                        a SQL statement that returns nothing, such as a {@code DDL} statement
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return the number of rows updated by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@link PreparedStatement} with the specified parameters, or {@code 0} if
-	 *         nothing is returned
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter
+	 *         values, or {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
-	public static int updateWith(final PreparedStatement statement, final Object... parameters)
+	public static int updateWith(final PreparedStatement statement, final Object... parameterValues)
+			throws SQLException {
+		return updateWith(statement, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
+	}
+
+	/**
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter SQL
+	 * types and values, or {@code 0} if nothing is returned.
+	 * <p>
+	 * @param statement       the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
+	 *                        execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or
+	 *                        a SQL statement that returns nothing, such as a {@code DDL} statement
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT}, {@code UPDATE}, {@code DELETE} or {@code DDL}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter
+	 *         SQL types and values, or {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static int updateWith(final PreparedStatement statement, final int[] parameterTypes,
+			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
 
 		// Set the parameters of the SQL statement
-		if (Arrays.isNonEmpty(parameters)) {
-			setParameters(statement, parameters);
+		if (Arrays.isNonEmpty(parameterValues)) {
+			setParameters(statement, parameterTypes, parameterValues);
 		}
 		// Execute the SQL query and return the number of updated rows
 		return statement.executeUpdate();
@@ -1227,33 +1754,35 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of rows updated by executing the specified SQL stored procedure with the
-	 * specified parameters using the specified {@link Connection}, or {@code 0} if nothing is
-	 * returned.
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} stored procedure with the specified parameter values using the
+	 * specified {@link Connection}, or {@code 0} if nothing is returned.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param name       the name of the SQL stored procedure to execute, such as {@code INSERT},
-	 *                   {@code UPDATE} or {@code DELETE}; or a SQL statement that returns nothing,
-	 *                   such as a {@code DDL} statement
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param storedProcedure the SQL stored procedure to execute, such as {@code INSERT},
+	 *                        {@code UPDATE} or {@code DELETE}; or a SQL statement that returns
+	 *                        nothing, such as a {@code DDL} statement
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} stored procedure to
+	 *                        execute (may be {@code null})
 	 * <p>
-	 * @return the number of rows updated by executing the specified SQL stored procedure with the
-	 *         specified parameters using the specified {@link Connection}, or {@code 0} if nothing
-	 *         is returned
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} stored procedure with the specified parameter values
+	 *         using the specified {@link Connection}, or {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static int updateWithStoredProcedure(final Connection connection,
-			final String name, final Object... parameters)
+			final String storedProcedure, final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
-		Arguments.requireNonNull(parameters, "parameters");
+		Arguments.requireNonNull(parameterValues, "parameter values");
 
 		// Execute the SQL stored procedure and return the number of updated rows
-		return updateWith(connection, createStoredProcedureQuery(name, parameters.length),
-				parameters);
+		return updateWith(connection,
+				createStoredProcedureQuery(storedProcedure, parameterValues.length),
+				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1289,7 +1818,8 @@ public class SQL {
 	 */
 	public static int deleteWith(final Connection connection, final String table)
 			throws SQLException {
-		return deleteWith(connection, table, null, null);
+		return deleteWith(connection, table, Strings.EMPTY_ARRAY, Integers.EMPTY_PRIMITIVE_ARRAY,
+				Objects.EMPTY_ARRAY);
 	}
 
 	/**
@@ -1299,7 +1829,8 @@ public class SQL {
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to delete
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
-	 * @param conditionalValues  the conditional values to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
 	 * <p>
 	 * @return the number of deleted rows, or {@code 0} if nothing is returned
 	 * <p>
@@ -1308,6 +1839,33 @@ public class SQL {
 	 */
 	public static int deleteWith(final Connection connection, final String table,
 			final String[] conditionalColumns, final Object... conditionalValues)
+			throws SQLException {
+		return deleteWith(connection, table, conditionalColumns,
+				getColumnTypes(connection, table, conditionalColumns), conditionalValues);
+	}
+
+
+	/**
+	 * Deletes the rows from the specified table where the specified conditional columns are equal
+	 * to the conditional values with the specified SQL types using the specified
+	 * {@link Connection}.
+	 * <p>
+	 * @param connection         a {@link Connection} (session) to a database
+	 * @param table              the table containing the rows to delete
+	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
+	 * @param conditionalTypes   the {@code int} array containing the SQL types of the conditional
+	 *                           columns to filter (may be {@code null})
+	 * @param conditionalValues  the values of the conditional columns to filter (may be
+	 *                           {@code null})
+	 * <p>
+	 * @return the number of deleted rows, or {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int deleteWith(final Connection connection, final String table,
+			final String[] conditionalColumns, final int[] conditionalTypes,
+			final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
 		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
@@ -1318,43 +1876,43 @@ public class SQL {
 
 		// Execute the SQL query and return the number of deleted rows
 		return updateWith(connection, createDeleteQuery(table, conditionalColumns),
-				conditionalValues);
+				conditionalTypes, conditionalValues);
 	}
 
 	/**
 	 * Returns the number of rows deleted by executing the specified {@code DELETE} query with the
-	 * specified parameters using the specified {@link Connection}, or {@code 0} if nothing is
+	 * specified parameter values using the specified {@link Connection}, or {@code 0} if nothing is
 	 * returned.
 	 * <p>
-	 * @param connection a {@link Connection} (session) to a database
-	 * @param query      the {@code DELETE} query to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param query           the {@code DELETE} query to execute
+	 * @param parameterValues the array of values of the parameters of the {@code DELETE} query to
+	 *                        execute (may be {@code null})
 	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE} query with the
-	 *         specified parameters using the specified {@link Connection}, or {@code 0} if nothing
-	 *         is returned
+	 *         specified parameter values using the specified {@link Connection}, or {@code 0} if
+	 *         nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
 	public static int deleteWith(final Connection connection, final String query,
-			final Object... parameters)
+			final Object... parameterValues)
 			throws SQLException {
-		return updateWith(connection, query, parameters);
+		return updateWith(connection, query, Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the number of rows deleted by executing the specified SQL Data Manipulation Language
-	 * (DML) {@link PreparedStatement}, or {@code 0} if nothing is returned.
+	 * Returns the number of rows deleted by executing the specified {@code DELETE}
+	 * {@link PreparedStatement}, or {@code 0} if nothing is returned.
 	 * <p>
 	 * @param statement the SQL Data Manipulation Language (DML) {@code DELETE}
 	 *                  {@link PreparedStatement} to execute
 	 * <p>
-	 * @return the number of rows deleted by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@link PreparedStatement}, or {@code 0} if nothing is returned
+	 * @return the number of rows deleted by executing the specified {@code DELETE}
+	 *         {@link PreparedStatement}, or {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
@@ -1365,25 +1923,50 @@ public class SQL {
 	}
 
 	/**
-	 * Returns the number of rows deleted by executing the specified SQL Data Manipulation Language
-	 * (DML) {@link PreparedStatement} with the specified parameters, or {@code 0} if nothing is
+	 * Returns the number of rows deleted by executing the specified {@code DELETE}
+	 * {@link PreparedStatement} with the specified parameter values, or {@code 0} if nothing is
 	 * returned.
 	 * <p>
-	 * @param statement  the SQL Data Manipulation Language (DML) {@code DELETE}
-	 *                   {@link PreparedStatement} to execute
-	 * @param parameters the array of parameters of the SQL Data Manipulation Language (DML)
-	 *                   {@link PreparedStatement} to execute (may be {@code null})
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code DELETE}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterValues the array of values of the parameters of the {@code DELETE}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
 	 * <p>
-	 * @return the number of rows deleted by executing the specified SQL Data Manipulation Language
-	 *         (DML) {@link PreparedStatement} with the specified parameters, or {@code 0} if
+	 * @return the number of rows deleted by executing the specified {@code DELETE}
+	 *         {@link PreparedStatement} with the specified parameter values, or {@code 0} if
 	 *         nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
-	public static int deleteWith(final PreparedStatement statement, final Object... parameters)
+	public static int deleteWith(final PreparedStatement statement, final Object... parameterValues)
 			throws SQLException {
-		return updateWith(statement, parameters);
+		return updateWith(statement, parameterValues);
+	}
+
+	/**
+	 * Returns the number of rows deleted by executing the specified {@code DELETE}
+	 * {@link PreparedStatement} with the specified parameter SQL types and values, or {@code 0} if
+	 * nothing is returned.
+	 * <p>
+	 * @param statement       the SQL Data Manipulation Language (DML) {@code DELETE}
+	 *                        {@link PreparedStatement} to execute
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters (may
+	 *                        be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code DELETE}
+	 *                        {@link PreparedStatement} to execute (may be {@code null})
+	 * <p>
+	 * @return the number of rows deleted by executing the specified {@code DELETE}
+	 *         {@link PreparedStatement} with the specified parameter SQL types and values, or
+	 *         {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link PreparedStatement}
+	 */
+	public static int deleteWith(final PreparedStatement statement, final int[] parameterTypes,
+			final Object... parameterValues)
+			throws SQLException {
+		return updateWith(statement, parameterTypes, parameterValues);
 	}
 
 
