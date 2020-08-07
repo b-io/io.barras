@@ -366,7 +366,7 @@ public abstract class OpenCL
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.debug(this, " is finalized");
+		IO.trace(this, " is finalized");
 		try {
 			release();
 		} finally {

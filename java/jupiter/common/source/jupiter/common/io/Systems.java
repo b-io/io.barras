@@ -132,7 +132,7 @@ public class Systems {
 			return process.exitValue();
 		} finally {
 			if (process != null) {
-				IO.debug("Destroy the process executing the command ",
+				IO.trace("Destroy the process executing the command ",
 						Strings.joinWith(command, SPACE, SINGLE_QUOTER));
 				process.destroy();
 			}

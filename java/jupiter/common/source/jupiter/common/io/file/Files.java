@@ -315,13 +315,13 @@ public class Files {
 	 * Parallelizes {@code this}.
 	 */
 	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		if (COPIER_QUEUE == null) {
 			COPIER_QUEUE = new LockedWorkQueue<Triple<File, File, Boolean>, Boolean>(new Copier());
 		} else {
-			IO.debug("The copier queue ", COPIER_QUEUE, " has already started");
+			IO.trace("The copier queue ", COPIER_QUEUE, " has already started");
 		}
 	}
 
@@ -329,7 +329,7 @@ public class Files {
 	 * Unparallelizes {@code this}.
 	 */
 	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		if (COPIER_QUEUE != null) {
@@ -342,7 +342,7 @@ public class Files {
 	 * Reparallelizes {@code this}.
 	 */
 	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		unparallelize();
 		parallelize();

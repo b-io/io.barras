@@ -937,13 +937,13 @@ public class Matrix
 	 * Parallelizes {@code this}.
 	 */
 	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		if (MULTIPLICATION == null) {
 			MULTIPLICATION = new Multiplication();
 		} else {
-			IO.debug("The work queue ", MULTIPLICATION, " has already started");
+			IO.trace("The work queue ", MULTIPLICATION, " has already started");
 		}
 	}
 
@@ -951,7 +951,7 @@ public class Matrix
 	 * Unparallelizes {@code this}.
 	 */
 	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		if (MULTIPLICATION != null) {
@@ -964,7 +964,7 @@ public class Matrix
 	 * Reparallelizes {@code this}.
 	 */
 	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		unparallelize();
 		parallelize();

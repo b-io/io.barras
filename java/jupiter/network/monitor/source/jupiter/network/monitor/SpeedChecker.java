@@ -190,7 +190,7 @@ public class SpeedChecker {
 	 * Starts {@code this}.
 	 */
 	protected static synchronized void start() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		for (final String urlName : URL_NAMES) {
@@ -209,7 +209,7 @@ public class SpeedChecker {
 	 * Stops {@code this}.
 	 */
 	protected static synchronized void stop() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		final Collection<FileHandler> dataFileHandlers = DATA_FILES.values();
@@ -223,7 +223,7 @@ public class SpeedChecker {
 	 * Restarts {@code this}.
 	 */
 	public static synchronized void restart() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		stop();
 		start();
@@ -235,13 +235,13 @@ public class SpeedChecker {
 	 * Parallelizes {@code this}.
 	 */
 	protected static synchronized void parallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		if (WORK_QUEUE == null) {
 			WORK_QUEUE = new LockedWorkQueue<String, Result<Double>>(new Checker());
 		} else {
-			IO.debug("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -249,7 +249,7 @@ public class SpeedChecker {
 	 * Unparallelizes {@code this}.
 	 */
 	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
@@ -262,7 +262,7 @@ public class SpeedChecker {
 	 * Reparallelizes {@code this}.
 	 */
 	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		unparallelize();
 		parallelize();

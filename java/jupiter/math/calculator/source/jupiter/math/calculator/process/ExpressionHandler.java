@@ -155,14 +155,14 @@ public class ExpressionHandler
 	 * Parallelizes {@code this}.
 	 */
 	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		if (WORK_QUEUE == null) {
 			WORK_QUEUE = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
 					new Parser());
 		} else {
-			IO.debug("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -170,7 +170,7 @@ public class ExpressionHandler
 	 * Unparallelizes {@code this}.
 	 */
 	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		if (WORK_QUEUE != null) {
@@ -183,7 +183,7 @@ public class ExpressionHandler
 	 * Reparallelizes {@code this}.
 	 */
 	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		unparallelize();
 		parallelize();

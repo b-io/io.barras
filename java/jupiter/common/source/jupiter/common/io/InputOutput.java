@@ -1223,7 +1223,7 @@ public class InputOutput
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.debug(this, " is finalized");
+		IO.trace(this, " is finalized");
 		try {
 			close();
 		} finally {

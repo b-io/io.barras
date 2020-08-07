@@ -107,7 +107,7 @@ public class Calculator
 	 * Parallelizes {@code this}.
 	 */
 	public static synchronized void parallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Initialize
 		// • The expression handler
@@ -117,7 +117,7 @@ public class Calculator
 			WORK_QUEUE = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
 					new Evaluator());
 		} else {
-			IO.debug("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
@@ -125,7 +125,7 @@ public class Calculator
 	 * Unparallelizes {@code this}.
 	 */
 	public static synchronized void unparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		// Shutdown
 		// • The work queue
@@ -141,7 +141,7 @@ public class Calculator
 	 * Reparallelizes {@code this}.
 	 */
 	public static synchronized void reparallelize() {
-		IO.debug(EMPTY);
+		IO.trace(EMPTY);
 
 		unparallelize();
 		parallelize();

@@ -179,7 +179,7 @@ public class WorkQueue<I, O>
 	 * @param force the flag specifying whether to force shutdowning
 	 */
 	public void shutdown(final boolean force) {
-		IO.debug("Shutdown the work queue ", this);
+		IO.trace("Shutdown the work queue ", this);
 		isRunning = false;
 	}
 
@@ -199,7 +199,7 @@ public class WorkQueue<I, O>
 	 */
 	public void restart(final boolean force) {
 		shutdown(force);
-		IO.debug("Restart the work queue ", this);
+		IO.trace("Restart the work queue ", this);
 		isRunning = true;
 		createWorkers(minThreadCount);
 		synchronized (this) {
@@ -296,7 +296,7 @@ public class WorkQueue<I, O>
 		++workerCount;
 		++availableWorkerCount;
 		++createdWorkerCount;
-		IO.debug(workerCount, ") Start the worker ", worker);
+		IO.trace(workerCount, ") Start the worker ", worker);
 		worker.start();
 		return createdWorkerCount;
 	}
@@ -337,9 +337,9 @@ public class WorkQueue<I, O>
 		IntegerArguments.requirePositive(workerToReserveCount);
 
 		// Reserve the workers
-		IO.debug("Try to reserve ", workerToReserveCount, " workers of ", c);
+		IO.trace("Try to reserve ", workerToReserveCount, " workers of ", c);
 		if (maxThreadCount - reservedWorkerCount < workerToReserveCount) {
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
+			IO.trace("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return false;
 		}
@@ -347,17 +347,17 @@ public class WorkQueue<I, O>
 		// Create more workers if required
 		final int workerToCreateCount = reservedWorkerCount - workerCount;
 		if (workerToCreateCount <= 0) {
-			IO.debug("OK, the workers of ", c, " are already created (",
+			IO.trace("OK, the workers of ", c, " are already created (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return true;
 		}
 		if (createWorkers(workerToCreateCount) != workerToCreateCount) {
 			reservedWorkerCount -= workerToReserveCount;
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
+			IO.trace("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return false;
 		}
-		IO.debug("OK, create ", workerToCreateCount, " more workers of ", c, " (",
+		IO.trace("OK, create ", workerToCreateCount, " more workers of ", c, " (",
 				reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 		return true;
 	}
@@ -374,11 +374,11 @@ public class WorkQueue<I, O>
 		IntegerArguments.requirePositive(maxWorkerToReserveCount);
 
 		// Reserve the workers
-		IO.debug("Reserve maximum ", maxWorkerToReserveCount, " workers of ", c);
+		IO.trace("Reserve maximum ", maxWorkerToReserveCount, " workers of ", c);
 		final int workerToReserveCount = Math.min(maxThreadCount - reservedWorkerCount,
 				maxWorkerToReserveCount);
 		if (workerToReserveCount <= 0) {
-			IO.debug("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
+			IO.trace("Cannot reserve ", workerToReserveCount, " workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return 0;
 		}
@@ -386,11 +386,11 @@ public class WorkQueue<I, O>
 		// Create more workers if required
 		final int workerToCreateCount = reservedWorkerCount - workerCount;
 		if (workerToCreateCount <= 0) {
-			IO.debug("OK, create ", workerToCreateCount, " more workers of ", c, " (",
+			IO.trace("OK, create ", workerToCreateCount, " more workers of ", c, " (",
 					reservedWorkerCount, "/", maxThreadCount, " reserved workers)");
 			return workerToReserveCount;
 		}
-		IO.debug("OK, create ", workerToCreateCount, " more workers of ", c,
+		IO.trace("OK, create ", workerToCreateCount, " more workers of ", c,
 				" (total reserved: ", reservedWorkerCount, "/", maxThreadCount, ")");
 		final int missingWorkerCount = workerToCreateCount - createWorkers(workerToCreateCount);
 		reservedWorkerCount -= missingWorkerCount;
@@ -447,7 +447,7 @@ public class WorkQueue<I, O>
 	 */
 	public long submit(final I input) {
 		++currentTaskId;
-		IO.debug("Submit task ", currentTaskId);
+		IO.trace("Submit task ", currentTaskId);
 		tasks.add(new Task<I>(currentTaskId, input));
 		return currentTaskId;
 	}
@@ -461,7 +461,7 @@ public class WorkQueue<I, O>
 	 */
 	public Task<I> getNextTask() {
 		if (isRunning) {
-			IO.debug("Get the next task");
+			IO.trace("Get the next task");
 			--availableWorkerCount;
 			return tasks.removeFirst();
 		}
@@ -480,7 +480,7 @@ public class WorkQueue<I, O>
 	 * @param result the {@code O} result of the {@link Task}
 	 */
 	public void addResult(final long id, final O result) {
-		IO.debug("Add the result of task ", id);
+		IO.trace("Add the result of task ", id);
 		results.put(id, result);
 		++availableWorkerCount;
 	}
@@ -493,7 +493,7 @@ public class WorkQueue<I, O>
 	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
 	public O get(final long id) {
-		IO.debug("Get the result of task ", id);
+		IO.trace("Get the result of task ", id);
 		return results.remove(id);
 	}
 
