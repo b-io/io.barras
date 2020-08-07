@@ -1353,6 +1353,9 @@ public class Doubles {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static double[] take(final double[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final double[] subarray = new double[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

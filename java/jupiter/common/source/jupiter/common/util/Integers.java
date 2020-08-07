@@ -1470,6 +1470,9 @@ public class Integers {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static int[] take(final int[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final int[] subarray = new int[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

@@ -1618,6 +1618,9 @@ public class Bytes {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static byte[] take(final byte[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final byte[] subarray = new byte[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

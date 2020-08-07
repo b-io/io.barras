@@ -1346,6 +1346,9 @@ public class Longs {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static long[] take(final long[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final long[] subarray = new long[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

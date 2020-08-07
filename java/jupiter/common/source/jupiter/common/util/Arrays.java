@@ -1282,6 +1282,9 @@ public class Arrays {
 
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] take(final T[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final T[] subarray = (T[]) create(getComponentClass(array), maxLength);
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

@@ -1119,6 +1119,9 @@ public class Booleans {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static boolean[] take(final boolean[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final boolean[] subarray = new boolean[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

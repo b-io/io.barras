@@ -1366,6 +1366,9 @@ public class Floats {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static float[] take(final float[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final float[] subarray = new float[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

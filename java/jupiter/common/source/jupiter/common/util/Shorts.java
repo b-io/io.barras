@@ -1380,6 +1380,9 @@ public class Shorts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static short[] take(final short[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final short[] subarray = new short[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);

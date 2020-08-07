@@ -1396,6 +1396,9 @@ public class Characters {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static char[] take(final char[] array, final int fromIndex, final int length) {
+		if (isNullOrEmpty(array)) {
+			return array;
+		}
 		final int maxLength = Math.min(length, array.length - fromIndex);
 		final char[] subarray = new char[maxLength];
 		System.arraycopy(array, fromIndex, subarray, 0, maxLength);
