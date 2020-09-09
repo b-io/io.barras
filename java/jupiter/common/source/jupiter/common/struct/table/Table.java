@@ -951,7 +951,7 @@ public class Table<E>
 						delimiter = d;
 						n = occurrenceCount;
 					} else {
-						IO.warn("The file contains different delimiters; ",
+						IO.warn("The text read from the stream contains different delimiters; ",
 								Strings.quote(delimiter), " is selected");
 						break;
 					}
@@ -961,7 +961,8 @@ public class Table<E>
 				delimiter = COLUMN_DELIMITERS[0];
 			}
 			++n;
-			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
+			IO.debug("The text read from the stream contains ", n, " columns separated by ",
+					Strings.quote(delimiter));
 			// Create the replacer for the delimiter
 			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
 					Objects.toString(delimiter));
