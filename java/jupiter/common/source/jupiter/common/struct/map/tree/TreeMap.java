@@ -279,7 +279,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
-		// Get the value
+		// Return the value
 		final N node = getNode(key);
 		return node != null ? node.value : null;
 	}
@@ -301,7 +301,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Check the arguments
 		Arguments.requireNonNull(keys, "keys");
 
-		// Get the values associated to the keys
+		// Return the values associated to the keys
 		return Maps.<V>getAll(this, keys);
 	}
 
@@ -323,7 +323,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Check the arguments
 		Arguments.requireNonNull(keys, "keys");
 
-		// Get the values associated to the keys or the default value for those that are not present
+		// Return the values associated to the keys or the default value for those that are not present
 		return Maps.<V>getAll(this, keys, defaultValue);
 	}
 
@@ -367,7 +367,7 @@ public abstract class TreeMap<K, V, N extends TreeNode<K, V>>
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
-		// Get the node
+		// Return the node
 		return findNode((Comparable<? super K>) key);
 	}
 

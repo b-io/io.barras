@@ -60,7 +60,11 @@ public class Row
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The header.
+	 * The index (row name).
+	 */
+	public Object index;
+	/**
+	 * The header (column names).
 	 */
 	public String[] header;
 	/**
@@ -80,11 +84,22 @@ public class Row
 	 * @param elements an array of {@link Object}
 	 */
 	public Row(final String[] header, final Object... elements) {
+		this(null, header, elements);
+	}
+
+	/**
+	 * Constructs a {@link Row} with the specified header and elements.
+	 * <p>
+	 * @param header   an array of {@link String}
+	 * @param elements an array of {@link Object}
+	 */
+	public Row(final Object index, final String[] header, final Object... elements) {
 		// Check the arguments
 		Arguments.requireNonNull(header, "header");
 		Arguments.requireNonNull(elements, "elements");
 
 		// Set the attributes
+		this.index = index;
 		this.header = header;
 		this.elements = elements;
 	}
@@ -247,6 +262,7 @@ public class Row
 	public Row clone() {
 		try {
 			final Row clone = (Row) super.clone();
+			clone.index = Objects.clone(index);
 			clone.header = Arrays.clone(header);
 			clone.elements = Arrays.clone(elements);
 			return clone;

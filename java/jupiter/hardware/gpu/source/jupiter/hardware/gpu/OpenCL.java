@@ -172,10 +172,10 @@ public abstract class OpenCL
 	 * @param sourceCode the source code {@link String}
 	 */
 	protected OpenCL(final String sourceCode) {
+		// Verify the feasibility
 		if (!IS_ACTIVE) {
 			throw new IllegalStateException("OpenCL is not active");
 		}
-
 		// Check the arguments
 		StringArguments.requireNonEmpty(sourceCode);
 

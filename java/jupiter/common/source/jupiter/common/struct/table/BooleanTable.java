@@ -62,12 +62,26 @@ public class BooleanTable
 	/**
 	 * Constructs a {@link BooleanTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
 	public BooleanTable(final String[] header, final int rowCount, final int columnCount) {
 		super(Boolean.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link BooleanTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public BooleanTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Boolean.class, index, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +124,28 @@ public class BooleanTable
 		super(Boolean.class, header, elements);
 	}
 
+	/**
+	 * Constructs a {@link BooleanTable} with the specified index, header and values.
+	 * <p>
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code boolean} array
+	 */
+	public BooleanTable(final Object[] index, final String[] header, final boolean[]... values) {
+		this(index, header, Booleans.toArray2D(values));
+	}
+
+	/**
+	 * Constructs a {@link BooleanTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Boolean}
+	 */
+	public BooleanTable(final Object[] index, final String[] header, final Boolean[]... elements) {
+		super(Boolean.class, index, header, elements);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -123,21 +159,6 @@ public class BooleanTable
 	public BooleanTable(final String path, final boolean hasHeader)
 			throws IOException {
 		super(IParsers.BOOLEAN_PARSER, path, hasHeader);
-	}
-
-	/**
-	 * Constructs a {@link BooleanTable} with the specified header loaded from the file denoted by
-	 * the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public BooleanTable(final String[] header, final String path, final boolean hasHeader)
-			throws IOException {
-		super(header, IParsers.BOOLEAN_PARSER, path, hasHeader);
 	}
 
 

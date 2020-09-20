@@ -309,7 +309,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 		// Check the arguments
 		Arguments.requireNonNull(keyComparable, "key comparable");
 
-		// Get the node
+		// Return the node
 		N node = root;
 		while (node != null) {
 			final int comparison = Comparables.compare(keyComparable, node.key);

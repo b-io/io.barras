@@ -62,12 +62,26 @@ public class IntegerTable
 	/**
 	 * Constructs an {@link IntegerTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
 	public IntegerTable(final String[] header, final int rowCount, final int columnCount) {
 		super(Integer.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs an {@link IntegerTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public IntegerTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Integer.class, index, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +124,28 @@ public class IntegerTable
 		super(Integer.class, header, elements);
 	}
 
+	/**
+	 * Constructs an {@link IntegerTable} with the specified index, header and values.
+	 * <p>
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code int} array
+	 */
+	public IntegerTable(final Object[] index, final String[] header, final int[]... values) {
+		this(index, header, Integers.toArray2D(values));
+	}
+
+	/**
+	 * Constructs an {@link IntegerTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Integer}
+	 */
+	public IntegerTable(final Object[] index, final String[] header, final Integer[]... elements) {
+		super(Integer.class, index, header, elements);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -123,21 +159,6 @@ public class IntegerTable
 	public IntegerTable(final String path, final boolean hasHeader)
 			throws IOException {
 		super(IParsers.INTEGER_PARSER, path, hasHeader);
-	}
-
-	/**
-	 * Constructs an {@link IntegerTable} with the specified header loaded from the file denoted by
-	 * the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public IntegerTable(final String[] header, final String path, final boolean hasHeader)
-			throws IOException {
-		super(header, IParsers.INTEGER_PARSER, path, hasHeader);
 	}
 
 

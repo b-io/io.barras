@@ -123,7 +123,7 @@ public class ExtendedList<E>
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
-		// Get the first element
+		// Return the first element
 		return get(0);
 	}
 
@@ -136,7 +136,7 @@ public class ExtendedList<E>
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
-		// Get the middle element
+		// Return the middle element
 		return get(Integers.middle(size()));
 	}
 
@@ -149,7 +149,7 @@ public class ExtendedList<E>
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
-		// Get the last element
+		// Return the last element
 		return get(size() - 1);
 	}
 

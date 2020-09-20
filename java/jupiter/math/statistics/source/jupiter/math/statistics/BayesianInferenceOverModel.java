@@ -101,7 +101,7 @@ public class BayesianInferenceOverModel
 		// Check the arguments
 		ArrayArguments.requireIndex(hypothesisIndex, hypothesisCount);
 
-		// Get the likelihood of the evidence given the statistical model
+		// Return the likelihood of the evidence given the statistical model
 		return models[hypothesisIndex].getLikelihood(evidence);
 	}
 

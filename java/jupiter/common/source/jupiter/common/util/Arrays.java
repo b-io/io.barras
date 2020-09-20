@@ -98,7 +98,7 @@ public class Arrays {
 			return OBJECT_CLASS;
 		}
 
-		// Get the element class of the array (common ancestor of the element classes)
+		// Return the element class of the array (common ancestor of the element classes)
 		Class<?> c = Classes.get(array[0]);
 		for (int i = 1; i < array.length; ++i) {
 			c = Classes.getCommonAncestor(c, Classes.get(array[i]));

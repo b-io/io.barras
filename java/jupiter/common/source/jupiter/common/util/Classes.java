@@ -92,7 +92,7 @@ public class Classes {
 			return c2;
 		}
 
-		// Get the common ancestor of the classes
+		// Return the common ancestor of the classes
 		Class<?> ancestor = c1;
 		do {
 			ancestor = ancestor.getSuperclass();
@@ -118,7 +118,7 @@ public class Classes {
 			return null;
 		}
 
-		// Get the common ancestor of the classes
+		// Return the common ancestor of the classes
 		Class<?> ancestor = classes[0];
 		for (int ci = 1; ci < classes.length; ++ci) {
 			ancestor = getCommonAncestor(ancestor, classes[ci]);

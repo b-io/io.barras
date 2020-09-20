@@ -393,8 +393,8 @@ public class SpeedChecker {
 	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
 			final String path) {
 		try {
-			final StringTable coordinates = new StringTable(new String[] {"Time",
-				Files.getNameWithoutExtension(path)}, path, false);
+			final StringTable coordinates = new StringTable(path, false);
+			coordinates.setHeader(new String[] {"Time", Files.getNameWithoutExtension(path)});
 			graph.load(axisDatasetIndex, coordinates, 0, 1);
 		} catch (final IOException ex) {
 			IO.error(ex);

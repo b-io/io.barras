@@ -62,12 +62,26 @@ public class StringTable
 	/**
 	 * Constructs a {@link StringTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
 	public StringTable(final String[] header, final int rowCount, final int columnCount) {
 		super(String.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link StringTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public StringTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(String.class, index, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +105,17 @@ public class StringTable
 		super(String.class, header, elements);
 	}
 
+	/**
+	 * Constructs a {@link StringTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link String}
+	 */
+	public StringTable(final Object[] index, final String[] header, final String[]... elements) {
+		super(String.class, index, header, elements);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -104,21 +129,6 @@ public class StringTable
 	public StringTable(final String path, final boolean hasHeader)
 			throws IOException {
 		super(IParsers.STRING_PARSER, path, hasHeader);
-	}
-
-	/**
-	 * Constructs a {@link StringTable} with the specified header loaded from the file denoted by
-	 * the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public StringTable(final String[] header, final String path, final boolean hasHeader)
-			throws IOException {
-		super(header, IParsers.STRING_PARSER, path, hasHeader);
 	}
 
 

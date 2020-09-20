@@ -647,7 +647,7 @@ public class ExpressionHandler
 		final int allOperatorCount = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
-		// Get the operator indices
+		// Return the operator indices
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
 			int index = fromIndex;
@@ -702,7 +702,7 @@ public class ExpressionHandler
 		// Initialize
 		final int allOperatorCount = allOperators.size();
 
-		// Get the last operator index
+		// Return the last operator index
 		int index, binaryOperatorsIndex = 0;
 		do {
 			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex,
@@ -773,7 +773,7 @@ public class ExpressionHandler
 		// Initialize
 		final IntervalList<Integer> delimitingIntervals = new IntervalList<Integer>();
 
-		// Get the delimiting intervals
+		// Return the delimiting intervals
 		int parenthesisCount = 0, fromIndex, toIndex = -1;
 		for (int i = expression.length() - 1; i >= 0; --i) {
 			final Element.Type type = getType(expression.charAt(i));

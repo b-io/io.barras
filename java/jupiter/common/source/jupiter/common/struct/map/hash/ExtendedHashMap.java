@@ -164,7 +164,7 @@ public class ExtendedHashMap<K, V>
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
-		// Get the value associated to the key, or the default value if it is not present
+		// Return the value associated to the key, or the default value if it is not present
 		return Maps.<V>getOrDefault(this, key, defaultValue);
 	}
 
@@ -183,7 +183,7 @@ public class ExtendedHashMap<K, V>
 		// Check the arguments
 		Arguments.requireNonNull(keys, "keys");
 
-		// Get the values associated to the keys
+		// Return the values associated to the keys
 		return Maps.<V>getAll(this, keys);
 	}
 
@@ -203,7 +203,7 @@ public class ExtendedHashMap<K, V>
 		// Check the arguments
 		Arguments.requireNonNull(keys, "keys");
 
-		// Get the values associated to the keys or the default value for those that are not present
+		// Return the values associated to the keys or the default value for those that are not present
 		return Maps.<V>getAll(this, keys, defaultValue);
 	}
 

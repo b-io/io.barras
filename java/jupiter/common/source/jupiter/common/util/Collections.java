@@ -81,7 +81,7 @@ public class Collections {
 			return OBJECT_CLASS;
 		}
 
-		// Get the element class of the collection (common ancestor of the element classes)
+		// Return the element class of the collection (common ancestor of the element classes)
 		final Iterator<?> iterator = collection.iterator();
 		Class<?> c = Classes.get(iterator.next());
 		while (iterator.hasNext()) {
@@ -235,7 +235,7 @@ public class Collections {
 		// Check the arguments
 		Arguments.requireNonNull(collection, "collection");
 
-		// Get the element at the index of the elements returned by the iterator of the collection
+		// Return the element at the index of the elements returned by the iterator of the collection
 		final Iterator<? extends E> iterator = collection.iterator();
 		for (int i = 0; i < index; ++i) {
 			iterator.next();

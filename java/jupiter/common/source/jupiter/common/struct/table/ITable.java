@@ -32,15 +32,6 @@ public interface ITable {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element {@link Class} of the specified column.
-	 * <p>
-	 * @param j the column index
-	 * <p>
-	 * @return the element {@link Class} of the specified column
-	 */
-	public Class<?> getColumnClass(final int j);
-
-	/**
 	 * Returns the number of rows.
 	 * <p>
 	 * @return the number of rows
@@ -54,19 +45,64 @@ public interface ITable {
 	 */
 	public int getColumnCount();
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the header.
+	 * Returns the row names.
 	 * <p>
-	 * @return the header
+	 * @return the row names
 	 */
-	public String[] getHeader();
+	public Object[] getIndex();
+
+	/**
+	 * Returns the name of the specified row.
+	 * <p>
+	 * @param i the row index
+	 * <p>
+	 * @return the name of the specified row
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public Object getRowName(final int i);
+
+	/**
+	 * Returns the index of the specified row, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param name the row name
+	 * <p>
+	 * @return the index of the specified row, or {@code -1} if there is no such occurrence
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no index
+	 */
+	public int getRowIndex(final Object name);
 
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the column names.
+	 * <p>
+	 * @return the column names
+	 */
+	public String[] getHeader();
+
+	/**
+	 * Returns the name of the specified column.
+	 * <p>
+	 * @param j the column index
+	 * <p>
+	 * @return the name of the specified column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+	 * @throws IllegalOperationException      if there is no header
+	 */
+	public String getColumnName(final int j);
+
+	/**
 	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param name the column name (may be {@code null})
+	 * @param name the column name
 	 * <p>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
 	 * <p>
@@ -75,24 +111,65 @@ public interface ITable {
 	 */
 	public int getColumnIndex(final String name);
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the name of the specified column.
+	 * Returns the element {@link Class} of the specified row.
+	 * <p>
+	 * @param i the row index
+	 * <p>
+	 * @return the element {@link Class} of the specified row
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 */
+	public Class<?> getRowClass(final int i);
+
+	/**
+	 * Returns the element {@link Class} of the specified column.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the name of the specified column
+	 * @return the element {@link Class} of the specified column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public String getColumnName(final int j);
+	public Class<?> getColumnClass(final int j);
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indices.
+	 * Returns the element at the specified row and column.
+	 * <p>
+	 * @param i the row index
+	 * @param j the column index
+	 * <p>
+	 * @return the element at the specified row and column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+	 */
+	public Object get(final int i, final int j);
+
+	/**
+	 * Returns the element at the specified row and column.
+	 * <p>
+	 * @param name the row name
+	 * @param j    the column index
+	 * <p>
+	 * @return the element at the specified row and column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public Object get(final Object name, final int j);
+
+	/**
+	 * Returns the element at the specified row and column.
 	 * <p>
 	 * @param i    the row index
 	 * @param name the column name
 	 * <p>
-	 * @return the element at the specified row and column indices
+	 * @return the element at the specified row and column
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
@@ -101,16 +178,17 @@ public interface ITable {
 	public Object get(final int i, final String name);
 
 	/**
-	 * Returns the element at the specified row and column indices.
+	 * Returns the element at the specified row and column.
 	 * <p>
-	 * @param i the row index
-	 * @param j the column index
+	 * @param rowName    the row name
+	 * @param columnName the column name
 	 * <p>
-	 * @return the element at the specified row and column indices
+	 * @return the element at the specified row and column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
+	 * @throws IllegalArgumentException  if {@code rowName} or {@code columnName} is not present
+	 * @throws IllegalOperationException if there is no index or header
 	 */
-	public Object get(final int i, final int j);
+	public Object get(final Object rowName, final String columnName);
 
 	//////////////////////////////////////////////
 
@@ -126,6 +204,18 @@ public interface ITable {
 	public Object[] getRow(final int i);
 
 	/**
+	 * Returns the elements of the specified row.
+	 * <p>
+	 * @param name the row name
+	 * <p>
+	 * @return the elements of the specified row
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no index
+	 */
+	public Object[] getRow(final Object name);
+
+	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
 	 * <p>
 	 * @param i          the row index
@@ -136,6 +226,20 @@ public interface ITable {
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public Object[] getRow(final int i, final int fromColumn);
+
+	/**
+	 * Returns the elements of the specified row truncated from the specified column index.
+	 * <p>
+	 * @param name       the row name
+	 * @param fromColumn the initial column index (inclusive)
+	 * <p>
+	 * @return the elements of the specified row truncated from the specified column index
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public Object[] getRow(final Object name, final int fromColumn);
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
@@ -152,18 +256,24 @@ public interface ITable {
 	 */
 	public Object[] getRow(final int i, final int fromColumn, final int length);
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the elements of the specified column.
+	 * Returns the elements of the specified row truncated from the specified column index to the
+	 * specified length.
 	 * <p>
-	 * @param name the column name
+	 * @param name       the row name
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to get
 	 * <p>
-	 * @return the elements of the specified column
+	 * @return the elements of the specified row truncated from the specified column index to the
+	 *         specified length
 	 * <p>
-	 * @throws IllegalOperationException if there is no header
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
 	 */
-	public Object[] getColumn(final String name);
+	public Object[] getRow(final Object name, final int fromColumn, final int length);
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the elements of the specified column.
@@ -175,6 +285,30 @@ public interface ITable {
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public Object[] getColumn(final int j);
+
+	/**
+	 * Returns the elements of the specified column.
+	 * <p>
+	 * @param name the column name
+	 * <p>
+	 * @return the elements of the specified column
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no header
+	 */
+	public Object[] getColumn(final String name);
+
+	/**
+	 * Returns the elements of the specified column truncated from the specified row index.
+	 * <p>
+	 * @param j       the column index
+	 * @param fromRow the initial row index (inclusive)
+	 * <p>
+	 * @return the elements of the specified column truncated from the specified row index
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
+	 */
+	public Object[] getColumn(final int j, final int fromRow);
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
@@ -191,16 +325,19 @@ public interface ITable {
 	public Object[] getColumn(final String name, final int fromRow);
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index.
+	 * Returns the elements of the specified column truncated from the specified row index to the
+	 * specified length.
 	 * <p>
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to get
 	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index
+	 * @return the elements of the specified column truncated from the specified row index to the
+	 *         specified length
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
-	public Object[] getColumn(final int j, final int fromRow);
+	public Object[] getColumn(final int j, final int fromRow, final int length);
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
@@ -219,20 +356,21 @@ public interface ITable {
 	 */
 	public Object[] getColumn(final String name, final int fromRow, final int length);
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index to the
-	 * specified length.
+	 * Sets the index.
 	 * <p>
-	 * @param j       the column index
-	 * @param fromRow the initial row index (inclusive)
-	 * @param length  the number of column elements to get
-	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index to the
-	 *         specified length
-	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
+	 * @param index an array of {@link Object}
 	 */
-	public Object[] getColumn(final int j, final int fromRow, final int length);
+	public void setIndex(final Object... index);
+
+	/**
+	 * Sets the header.
+	 * <p>
+	 * @param header an array of {@link String}
+	 */
+	public void setHeader(final String... header);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

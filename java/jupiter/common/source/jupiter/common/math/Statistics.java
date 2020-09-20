@@ -51,7 +51,7 @@ public class Statistics {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the mean
+		// Return the mean
 		return Maths.sumWithoutNaN(values) / values.length;
 	}
 
@@ -59,7 +59,7 @@ public class Statistics {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the mean
+		// Return the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.length;
 	}
 
@@ -67,7 +67,7 @@ public class Statistics {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the mean
+		// Return the mean
 		return Maths.sumWithoutNaN(numbers) / numbers.size();
 	}
 
@@ -89,7 +89,7 @@ public class Statistics {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the variance
+		// Return the variance
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / values.length;
 	}
 
@@ -97,7 +97,7 @@ public class Statistics {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the variance
+		// Return the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.length;
 	}
 
@@ -106,7 +106,7 @@ public class Statistics {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the variance
+		// Return the variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / numbers.size();
 	}
 
@@ -128,7 +128,7 @@ public class Statistics {
 		// Check the arguments
 		DoubleArguments.requireMinLength(values, 2);
 
-		// Get the sample variance
+		// Return the sample variance
 		return Maths.sumOfSquaresWithoutNaN(values, mean) / (values.length - 1);
 	}
 
@@ -136,7 +136,7 @@ public class Statistics {
 		// Check the arguments
 		ArrayArguments.requireMinLength(numbers, 2);
 
-		// Get the sample variance
+		// Return the sample variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / (numbers.length - 1);
 	}
 
@@ -145,7 +145,7 @@ public class Statistics {
 		// Check the arguments
 		CollectionArguments.requireMinSize(numbers, 2);
 
-		// Get the sample variance
+		// Return the sample variance
 		return Maths.sumOfSquaresWithoutNaN(numbers, mean) / (numbers.size() - 1);
 	}
 

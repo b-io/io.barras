@@ -29,6 +29,7 @@ import jupiter.common.map.parser.IParser;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.model.ICloneable;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 
@@ -71,13 +72,28 @@ public class NumberTable<E extends Number>
 	 * numbers of rows and columns.
 	 * <p>
 	 * @param c           the {@link Class} of {@code E} element type
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
 	public NumberTable(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
 		super(c, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link NumberTable} of {@code E} element type with the specified index, header
+	 * and numbers of rows and columns.
+	 * <p>
+	 * @param c           the {@link Class} of {@code E} element type
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public NumberTable(final Class<E> c, final Object[] index, final String[] header,
+			final int rowCount, final int columnCount) {
+		super(c, index, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,11 +113,25 @@ public class NumberTable<E extends Number>
 	 * elements.
 	 * <p>
 	 * @param c        the {@link Class} of {@code E} element type
-	 * @param header   an {@code E} array
+	 * @param header   an array of {@link String}
 	 * @param elements a 2D {@code E} array
 	 */
 	public NumberTable(final Class<E> c, final String[] header, final E[][] elements) {
 		super(c, header, elements);
+	}
+
+	/**
+	 * Constructs a {@link NumberTable} of {@code E} element type with specified index, header and
+	 * elements.
+	 * <p>
+	 * @param c        the {@link Class} of {@code E} element type
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Number}
+	 */
+	public NumberTable(final Class<E> c, final Object[] index, final String[] header,
+			final E[]... elements) {
+		super(c, index, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,23 +149,6 @@ public class NumberTable<E extends Number>
 	public NumberTable(final IParser<E> parser, final String path, final boolean hasHeader)
 			throws IOException {
 		super(parser, path, hasHeader);
-	}
-
-	/**
-	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header loaded
-	 * from the file denoted by the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param parser    an {@link IParser} of {@code E} element type
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public NumberTable(final String[] header, final IParser<E> parser, final String path,
-			final boolean hasHeader)
-			throws IOException {
-		super(header, parser, path, hasHeader);
 	}
 
 
@@ -226,10 +239,11 @@ public class NumberTable<E extends Number>
 				n != otherNumberTable.n) {
 			return false;
 		}
-		for (int j = 0; j < n; ++j) {
-			if (!Objects.equals(header[j], otherNumberTable.header[j])) {
-				return false;
-			}
+		if (!Arrays.equals(index, otherNumberTable.index)) {
+			return false;
+		}
+		if (!Arrays.equals(header, otherNumberTable.header)) {
+			return false;
 		}
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {

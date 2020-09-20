@@ -2450,7 +2450,7 @@ public class Maths {
 		// Check the arguments
 		ByteArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		byte min = Byte.MAX_VALUE;
 		for (final byte value : values) {
 			min = value < min ? value : min;
@@ -2462,7 +2462,7 @@ public class Maths {
 		// Check the arguments
 		ShortArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		short min = Short.MAX_VALUE;
 		for (final short value : values) {
 			min = value < min ? value : min;
@@ -2474,7 +2474,7 @@ public class Maths {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		int min = Integer.MAX_VALUE;
 		for (final int value : values) {
 			min = value < min ? value : min;
@@ -2486,7 +2486,7 @@ public class Maths {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		long min = Long.MAX_VALUE;
 		for (final long value : values) {
 			min = value < min ? value : min;
@@ -2498,7 +2498,7 @@ public class Maths {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		float min = Float.MAX_VALUE;
 		for (final float value : values) {
 			min = Math.min(value, min);
@@ -2510,7 +2510,7 @@ public class Maths {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the minimum value
+		// Return the minimum value
 		double min = Double.MAX_VALUE;
 		for (final double value : values) {
 			min = Math.min(value, min);
@@ -2522,7 +2522,7 @@ public class Maths {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the minimum value
+		// Return the minimum value
 		double min = Double.MAX_VALUE;
 		for (final Number number : numbers) {
 			if (number != null) {
@@ -2536,7 +2536,7 @@ public class Maths {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the minimum value
+		// Return the minimum value
 		double min = Double.MAX_VALUE;
 		for (final Number number : numbers) {
 			if (number != null) {
@@ -2552,7 +2552,7 @@ public class Maths {
 		// Check the arguments
 		ByteArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		byte max = Byte.MIN_VALUE;
 		for (final byte value : values) {
 			max = value > max ? value : max;
@@ -2564,7 +2564,7 @@ public class Maths {
 		// Check the arguments
 		ShortArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		short max = Short.MIN_VALUE;
 		for (final short value : values) {
 			max = value > max ? value : max;
@@ -2576,7 +2576,7 @@ public class Maths {
 		// Check the arguments
 		IntegerArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		int max = Integer.MIN_VALUE;
 		for (final int value : values) {
 			max = value > max ? value : max;
@@ -2588,7 +2588,7 @@ public class Maths {
 		// Check the arguments
 		LongArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		long max = Long.MIN_VALUE;
 		for (final long value : values) {
 			max = value > max ? value : max;
@@ -2600,7 +2600,7 @@ public class Maths {
 		// Check the arguments
 		FloatArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		float max = Float.MIN_VALUE;
 		for (final float value : values) {
 			max = Math.max(max, value);
@@ -2612,7 +2612,7 @@ public class Maths {
 		// Check the arguments
 		DoubleArguments.requireNonEmpty(values);
 
-		// Get the maximum value
+		// Return the maximum value
 		double max = Double.MIN_VALUE;
 		for (final double value : values) {
 			max = Math.max(max, value);
@@ -2624,7 +2624,7 @@ public class Maths {
 		// Check the arguments
 		ArrayArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the maximum value
+		// Return the maximum value
 		double max = Double.MIN_VALUE;
 		for (final Number number : numbers) {
 			if (number != null) {
@@ -2638,7 +2638,7 @@ public class Maths {
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(numbers, "numbers");
 
-		// Get the maximum value
+		// Return the maximum value
 		double max = Double.MIN_VALUE;
 		for (final Number number : numbers) {
 			if (number != null) {

@@ -109,7 +109,7 @@ public class ExtendedLinkedList<E>
 		// Check the arguments
 		CollectionArguments.requireNonEmpty(this);
 
-		// Get the middle element
+		// Return the middle element
 		return get(Integers.middle(size()));
 	}
 

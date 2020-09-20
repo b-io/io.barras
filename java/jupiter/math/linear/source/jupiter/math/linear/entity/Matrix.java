@@ -430,12 +430,12 @@ public class Matrix
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indices.
+	 * Returns the element at the specified row and column.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indices
+	 * @return the element at the specified row and column
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -664,7 +664,7 @@ public class Matrix
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indices.
+	 * Sets the element at the specified row and column.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -677,7 +677,7 @@ public class Matrix
 	}
 
 	/**
-	 * Sets the element at the specified row and column indices.
+	 * Sets the element at the specified row and column.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index

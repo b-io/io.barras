@@ -62,12 +62,26 @@ public class DoubleTable
 	/**
 	 * Constructs a {@link DoubleTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param header      an array of {@link String}
+	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
 	public DoubleTable(final String[] header, final int rowCount, final int columnCount) {
 		super(Double.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link DoubleTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public DoubleTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Double.class, index, header, rowCount, columnCount);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +124,28 @@ public class DoubleTable
 		super(Double.class, header, elements);
 	}
 
+	/**
+	 * Constructs a {@link DoubleTable} with the specified index, header and values.
+	 * <p>
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code double} array
+	 */
+	public DoubleTable(final Object[] index, final String[] header, final double[]... values) {
+		this(index, header, Doubles.toArray2D(values));
+	}
+
+	/**
+	 * Constructs a {@link DoubleTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Double}
+	 */
+	public DoubleTable(final Object[] index, final String[] header, final Double[]... elements) {
+		super(Double.class, index, header, elements);
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -123,21 +159,6 @@ public class DoubleTable
 	public DoubleTable(final String path, final boolean hasHeader)
 			throws IOException {
 		super(IParsers.DOUBLE_PARSER, path, hasHeader);
-	}
-
-	/**
-	 * Constructs a {@link DoubleTable} with the specified header loaded from the file denoted by
-	 * the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public DoubleTable(final String[] header, final String path, final boolean hasHeader)
-			throws IOException {
-		super(header, IParsers.DOUBLE_PARSER, path, hasHeader);
 	}
 
 

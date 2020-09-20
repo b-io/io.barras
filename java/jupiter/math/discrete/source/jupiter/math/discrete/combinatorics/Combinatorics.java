@@ -93,7 +93,7 @@ public class Combinatorics {
 		final ExtendedLinkedList<Integer> s = sequence.clone();
 		final ExtendedLinkedList<Integer> factoradicValue = new ExtendedLinkedList<Integer>();
 
-		// Get the factoradic of the permutation
+		// Return the factoradic of the permutation
 		for (final int permutationIndex : permutationIndices) {
 			factoradicValue.add(s.removeFirst(permutationIndex));
 		}
@@ -137,7 +137,7 @@ public class Combinatorics {
 		final int k = permutationIndices.length;
 		final int divisor = getKPermutationDivisor(n, k);
 
-		// Get the index of the k-permutation
+		// Return the index of the k-permutation
 		return getKPermutationIndex(permutationIndices, sequence, divisor);
 	}
 

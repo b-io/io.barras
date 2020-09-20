@@ -50,7 +50,6 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
-import jupiter.common.util.Classes;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -96,7 +95,11 @@ public class Table<E>
 	 */
 	protected int n;
 	/**
-	 * The header.
+	 * The index (row names).
+	 */
+	protected Object[] index;
+	/**
+	 * The header (column names).
 	 */
 	protected String[] header;
 	/**
@@ -137,7 +140,7 @@ public class Table<E>
 	 * @param columnCount the number of columns
 	 */
 	public Table(final Class<E> c, final int rowCount, final int columnCount) {
-		this(c, createHeader(columnCount), rowCount, columnCount);
+		this(c, null, createHeader(columnCount), rowCount, columnCount);
 	}
 
 	/**
@@ -151,8 +154,26 @@ public class Table<E>
 	 */
 	public Table(final Class<E> c, final String[] header, final int rowCount,
 			final int columnCount) {
+		this(c, null, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link Table} of {@code E} element type with the specified index, header and
+	 * numbers of rows and columns.
+	 * <p>
+	 * @param c           the {@link Class} of {@code E} element type
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public Table(final Class<E> c, final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
+		if (index != null) {
+			ArrayArguments.requireLength(index, rowCount);
+		}
 		if (header != null) {
 			ArrayArguments.requireLength(header, columnCount);
 		}
@@ -163,6 +184,7 @@ public class Table<E>
 		this.c = c;
 		m = rowCount;
 		n = columnCount;
+		this.index = index;
 		this.header = header;
 		elements = createArray2D(rowCount, columnCount);
 	}
@@ -200,6 +222,20 @@ public class Table<E>
 	 * @param elements a 2D {@code E} array
 	 */
 	public Table(final Class<E> c, final String[] header, final E[][] elements) {
+		this(c, null, header, elements);
+	}
+
+	/**
+	 * Constructs a {@link Table} of {@code E} element type with the specified index, header and
+	 * elements.
+	 * <p>
+	 * @param c        the {@link Class} of {@code E} element type
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D {@code E} array
+	 */
+	public Table(final Class<E> c, final Object[] index, final String[] header,
+			final E[][] elements) {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
 		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(header, "header"),
@@ -209,6 +245,7 @@ public class Table<E>
 		this.c = c;
 		m = elements.length;
 		n = header.length;
+		this.index = index;
 		this.header = header;
 		this.elements = elements;
 	}
@@ -237,64 +274,10 @@ public class Table<E>
 		load(parser, path, hasHeader);
 	}
 
-	/**
-	 * Constructs a {@link Table} of {@code E} element type with the specified header loaded from
-	 * the file denoted by the specified path.
-	 * <p>
-	 * @param header    an array of {@link String}
-	 * @param parser    an {@link IParser} of {@code E} element type
-	 * @param path      the path to the file to load
-	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
-	 */
-	public Table(final String[] header, final IParser<E> parser, final String path,
-			final boolean hasHeader)
-			throws IOException {
-		// Check the arguments
-		ArrayArguments.requireNonEmpty(header, "header");
-		Arguments.requireNonNull(parser, "parser");
-
-		// Set the attributes
-		c = parser.getOutputClass();
-
-		// Load the file
-		load(parser, path, hasHeader);
-		this.header = header;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the element {@link Class}.
-	 * <p>
-	 * @return the element {@link Class}
-	 */
-	public Class<E> getElementClass() {
-		return c;
-	}
-
-	/**
-	 * Returns the element {@link Class} of the specified column.
-	 * <p>
-	 * @param j the column index
-	 * <p>
-	 * @return the element {@link Class} of the specified column
-	 */
-	public Class<?> getColumnClass(final int j) {
-		// Check the arguments
-		ArrayArguments.requireIndex(j, n);
-
-		// Get the corresponding column class (common ancestor of the column element classes)
-		Class<?> columnClass = c;
-		for (int i = 0; i < m; ++i) {
-			columnClass = Classes.getCommonAncestor(columnClass, Classes.get(elements[i][j]));
-		}
-		return columnClass;
-	}
 
 	/**
 	 * Returns the number of rows.
@@ -314,30 +297,101 @@ public class Table<E>
 		return n;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the header.
+	 * Returns the row names.
 	 * <p>
-	 * @return the header
+	 * @return the row names
+	 */
+	public Object[] getIndex() {
+		return index;
+	}
+
+	/**
+	 * Returns the name of the specified row.
+	 * <p>
+	 * @param i the row index
+	 * <p>
+	 * @return the name of the specified row
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public Object getRowName(final int i) {
+		// Verify the feasibility
+		if (index == null) {
+			throw new IllegalOperationException("There is no index");
+		}
+		// Check the arguments
+		ArrayArguments.requireIndex(i, m);
+
+		// Return the row name
+		return index[i];
+	}
+
+	/**
+	 * Returns the index of the specified row, or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param name the row name
+	 * <p>
+	 * @return the index of the specified row, or {@code -1} if there is no such occurrence
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no index
+	 */
+	public int getRowIndex(final Object name) {
+		// Verify the feasibility
+		if (index == null) {
+			throw new IllegalOperationException("There is no index");
+		}
+
+		// Return the row index
+		final int i = Arrays.findFirstIndex(index, name);
+		if (i < 0) {
+			throw new IllegalArgumentException(
+					Strings.join("There is no row ", Strings.quote(name)));
+		}
+		return i;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the column names.
+	 * <p>
+	 * @return the column names
 	 */
 	public String[] getHeader() {
 		return header;
 	}
 
 	/**
-	 * Returns the elements.
+	 * Returns the name of the specified column.
 	 * <p>
-	 * @return the elements
+	 * @param j the column index
+	 * <p>
+	 * @return the name of the specified column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+	 * @throws IllegalOperationException      if there is no header
 	 */
-	public E[][] getElements() {
-		return elements;
-	}
+	public String getColumnName(final int j) {
+		// Verify the feasibility
+		if (header == null) {
+			throw new IllegalOperationException("There is no header");
+		}
+		// Check the arguments
+		ArrayArguments.requireIndex(j, n);
 
-	//////////////////////////////////////////////
+		// Return the column name
+		return header[j];
+	}
 
 	/**
 	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param name the column name (may be {@code null})
+	 * @param name the column name
 	 * <p>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
 	 * <p>
@@ -350,7 +404,7 @@ public class Table<E>
 			throw new IllegalOperationException("There is no header");
 		}
 
-		// Get the column index
+		// Return the column index
 		final int j = Strings.findFirstIndexIgnoreCase(header, name);
 		if (j < 0) {
 			throw new IllegalArgumentException(
@@ -359,53 +413,66 @@ public class Table<E>
 		return j;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the name of the specified column.
+	 * Returns the element {@link Class}.
+	 * <p>
+	 * @return the element {@link Class}
+	 */
+	public Class<E> getElementClass() {
+		return c;
+	}
+
+	/**
+	 * Returns the element {@link Class} of the specified row.
+	 * <p>
+	 * @param i the row index
+	 * <p>
+	 * @return the element {@link Class} of the specified row
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 */
+	public Class<?> getRowClass(final int i) {
+		// Check the arguments
+		if (isEmpty()) {
+			return OBJECT_CLASS;
+		}
+		ArrayArguments.requireIndex(i, m);
+
+		// Return the corresponding row class (common ancestor of the row element classes)
+		return Arrays.getElementClass(getRow(i));
+	}
+
+	/**
+	 * Returns the element {@link Class} of the specified column.
 	 * <p>
 	 * @param j the column index
 	 * <p>
-	 * @return the name of the specified column
+	 * @return the element {@link Class} of the specified column
 	 * <p>
-	 * @throws IllegalOperationException if there is no header
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
-	public String getColumnName(final int j) {
-		// Verify the feasibility
-		if (header == null) {
-			throw new IllegalOperationException("There is no header");
-		}
-
+	public Class<?> getColumnClass(final int j) {
 		// Check the arguments
+		if (isEmpty()) {
+			return OBJECT_CLASS;
+		}
 		ArrayArguments.requireIndex(j, n);
 
-		// Get the column name
-		return header[j];
+		// Return the corresponding column class (common ancestor of the column element classes)
+		return Arrays.getElementClass(getColumn(j));
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified row and column indices.
-	 * <p>
-	 * @param i    the row index
-	 * @param name the column name
-	 * <p>
-	 * @return the element at the specified row and column indices
-	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
-	 * @throws IllegalArgumentException       if {@code name} is not present
-	 * @throws IllegalOperationException      if there is no header
-	 */
-	public E get(final int i, final String name) {
-		return get(i, getColumnIndex(name));
-	}
-
-	/**
-	 * Returns the element at the specified row and column indices.
+	 * Returns the element at the specified row and column.
 	 * <p>
 	 * @param i the row index
 	 * @param j the column index
 	 * <p>
-	 * @return the element at the specified row and column indices
+	 * @return the element at the specified row and column
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
@@ -416,8 +483,55 @@ public class Table<E>
 		// • j
 		ArrayArguments.requireIndex(j, n);
 
-		// Get the corresponding element
+		// Return the corresponding element
 		return elements[i][j];
+	}
+
+	/**
+	 * Returns the element at the specified row and column.
+	 * <p>
+	 * @param name the row name
+	 * @param j    the column index
+	 * <p>
+	 * @return the element at the specified row and column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public E get(final Object name, final int j) {
+		return get(getRowIndex(name), j);
+	}
+
+	/**
+	 * Returns the element at the specified row and column.
+	 * <p>
+	 * @param i    the row index
+	 * @param name the column name
+	 * <p>
+	 * @return the element at the specified row and column
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no header
+	 */
+	public E get(final int i, final String name) {
+		return get(i, getColumnIndex(name));
+	}
+
+	/**
+	 * Returns the element at the specified row and column.
+	 * <p>
+	 * @param rowName    the row name
+	 * @param columnName the column name
+	 * <p>
+	 * @return the element at the specified row and column
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code rowName} or {@code columnName} is not present
+	 * @throws IllegalOperationException if there is no index or header
+	 */
+	public E get(final Object rowName, final String columnName) {
+		return get(getRowIndex(rowName), getColumnIndex(columnName));
 	}
 
 	//////////////////////////////////////////////
@@ -436,6 +550,20 @@ public class Table<E>
 	}
 
 	/**
+	 * Returns the elements of the specified row.
+	 * <p>
+	 * @param name the row name
+	 * <p>
+	 * @return the elements of the specified row
+	 * <p>
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no index
+	 */
+	public Object[] getRow(final Object name) {
+		return getRow(getRowIndex(name));
+	}
+
+	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
 	 * <p>
 	 * @param i          the row index
@@ -447,6 +575,22 @@ public class Table<E>
 	 */
 	public E[] getRow(final int i, final int fromColumn) {
 		return getRow(i, fromColumn, n - fromColumn);
+	}
+
+	/**
+	 * Returns the elements of the specified row truncated from the specified column index.
+	 * <p>
+	 * @param name       the row name
+	 * @param fromColumn the initial column index (inclusive)
+	 * <p>
+	 * @return the elements of the specified row truncated from the specified column index
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
+	 */
+	public Object[] getRow(final Object name, final int fromColumn) {
+		return getRow(getRowIndex(name), fromColumn);
 	}
 
 	/**
@@ -474,26 +618,32 @@ public class Table<E>
 		// Initialize
 		final int l = Math.min(length, n - fromColumn);
 
-		// Get the corresponding row
-		final E[] row = createArray(l);
+		// Return the corresponding row
+		final E[] row = createRowArray(i, l);
 		System.arraycopy(elements[i], fromColumn, row, 0, l);
 		return row;
 	}
 
-	//////////////////////////////////////////////
-
 	/**
-	 * Returns the elements of the specified column.
+	 * Returns the elements of the specified row truncated from the specified column index to the
+	 * specified length.
 	 * <p>
-	 * @param name the column name
+	 * @param name       the row name
+	 * @param fromColumn the initial column index (inclusive)
+	 * @param length     the number of row elements to get
 	 * <p>
-	 * @return the elements of the specified column
+	 * @return the elements of the specified row truncated from the specified column index to the
+	 *         specified length
 	 * <p>
-	 * @throws IllegalOperationException if there is no header
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no index
 	 */
-	public E[] getColumn(final String name) {
-		return getColumn(name, 0, m);
+	public E[] getRow(final Object name, final int fromColumn, final int length) {
+		return getRow(getRowIndex(name), fromColumn, length);
 	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the elements of the specified column.
@@ -509,19 +659,17 @@ public class Table<E>
 	}
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index.
+	 * Returns the elements of the specified column.
 	 * <p>
-	 * @param name    the column name
-	 * @param fromRow the initial row index (inclusive)
+	 * @param name the column name
 	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index
+	 * @return the elements of the specified column
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
-	 * @throws IllegalArgumentException       if {@code name} is not present
-	 * @throws IllegalOperationException      if there is no header
+	 * @throws IllegalArgumentException  if {@code name} is not present
+	 * @throws IllegalOperationException if there is no header
 	 */
-	public E[] getColumn(final String name, final int fromRow) {
-		return getColumn(name, fromRow, m - fromRow);
+	public E[] getColumn(final String name) {
+		return getColumn(getColumnIndex(name));
 	}
 
 	/**
@@ -539,22 +687,19 @@ public class Table<E>
 	}
 
 	/**
-	 * Returns the elements of the specified column truncated from the specified row index to the
-	 * specified length.
+	 * Returns the elements of the specified column truncated from the specified row index.
 	 * <p>
 	 * @param name    the column name
 	 * @param fromRow the initial row index (inclusive)
-	 * @param length  the number of column elements to get
 	 * <p>
-	 * @return the elements of the specified column truncated from the specified row index to the
-	 *         specified length
+	 * @return the elements of the specified column truncated from the specified row index
 	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
 	 */
-	public E[] getColumn(final String name, final int fromRow, final int length) {
-		return getColumn(getColumnIndex(name), fromRow, length);
+	public E[] getColumn(final String name, final int fromRow) {
+		return getColumn(getColumnIndex(name), fromRow);
 	}
 
 	/**
@@ -582,15 +727,58 @@ public class Table<E>
 		// Initialize
 		final int l = Math.min(length, m - fromRow);
 
-		// Get the corresponding column
-		final E[] column = createArray(j, l);
+		// Return the corresponding column
+		final E[] column = createColumnArray(j, l);
 		for (int i = 0; i < l; ++i) {
 			column[i] = elements[fromRow + i][j];
 		}
 		return column;
 	}
 
+	/**
+	 * Returns the elements of the specified column truncated from the specified row index to the
+	 * specified length.
+	 * <p>
+	 * @param name    the column name
+	 * @param fromRow the initial row index (inclusive)
+	 * @param length  the number of column elements to get
+	 * <p>
+	 * @return the elements of the specified column truncated from the specified row index to the
+	 *         specified length
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
+	 * @throws IllegalArgumentException       if {@code name} is not present
+	 * @throws IllegalOperationException      if there is no header
+	 */
+	public E[] getColumn(final String name, final int fromRow, final int length) {
+		return getColumn(getColumnIndex(name), fromRow, length);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the elements.
+	 * <p>
+	 * @return the elements
+	 */
+	public E[][] getElements() {
+		return elements;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the index.
+	 * <p>
+	 * @param index an array of {@link Object}
+	 */
+	public void setIndex(final Object... index) {
+		// Check the arguments
+		ArrayArguments.requireLength(index, m);
+
+		// Set the index
+		this.index = index;
+	}
 
 	/**
 	 * Sets the header.
@@ -608,7 +796,7 @@ public class Table<E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Sets the element at the specified row and column indices.
+	 * Sets the element at the specified row and column.
 	 * <p>
 	 * @param i     the row index
 	 * @param j     the column index
@@ -855,6 +1043,21 @@ public class Table<E>
 	}
 
 	/**
+	 * Creates an array of the element {@link Class} of the specified row of the specified length.
+	 * <p>
+	 * @param i      the row index
+	 * @param length the length of the array to create
+	 * <p>
+	 * @return an array of the element {@link Class} of the specified row of the specified length
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	protected E[] createRowArray(final int i, final int length) {
+		return (E[]) Arrays.create(getRowClass(i), length);
+	}
+
+	/**
 	 * Creates an array of the element {@link Class} of the specified column of the specified
 	 * length.
 	 * <p>
@@ -862,9 +1065,11 @@ public class Table<E>
 	 * @param length the length of the array to create
 	 * <p>
 	 * @return an array of the element {@link Class} of the specified column of the specified length
+	 * <p>
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
-	protected E[] createArray(final int j, final int length) {
+	protected E[] createColumnArray(final int j, final int length) {
 		return (E[]) Arrays.create(getColumnClass(j), length);
 	}
 
@@ -1359,6 +1564,7 @@ public class Table<E>
 		try {
 			final Table<E> clone = (Table<E>) super.clone();
 			clone.c = Objects.clone(c);
+			clone.index = Objects.clone(index);
 			clone.header = Arrays.clone(header);
 			clone.elements = Arrays.clone(elements);
 			return clone;
@@ -1390,17 +1596,14 @@ public class Table<E>
 		if (!Objects.equals(c, otherTable.c) || m != otherTable.m || n != otherTable.n) {
 			return false;
 		}
-		for (int j = 0; j < n; ++j) {
-			if (!Objects.equals(header[j], otherTable.header[j])) {
-				return false;
-			}
+		if (!Arrays.equals(index, otherTable.index)) {
+			return false;
 		}
-		for (int i = 0; i < m; ++i) {
-			for (int j = 0; j < n; ++j) {
-				if (!Objects.equals(elements[i][j], otherTable.elements[i][j])) {
-					return false;
-				}
-			}
+		if (!Arrays.equals(header, otherTable.header)) {
+			return false;
+		}
+		if (!Arrays.equals(elements, otherTable.elements)) {
+			return false;
 		}
 		return true;
 	}
@@ -1415,7 +1618,7 @@ public class Table<E>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, c, m, n, header, elements);
+		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
