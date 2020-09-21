@@ -50,6 +50,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -441,7 +442,11 @@ public class Table<E>
 		ArrayArguments.requireIndex(i, m);
 
 		// Return the corresponding row class (common ancestor of the row element classes)
-		return Arrays.getElementClass(getRow(i));
+		Class<?> rowClass = c;
+		for (int j = 0; j < n; ++j) {
+			rowClass = Classes.getCommonAncestor(rowClass, Classes.get(elements[i][j]));
+		}
+		return rowClass;
 	}
 
 	/**
@@ -461,7 +466,11 @@ public class Table<E>
 		ArrayArguments.requireIndex(j, n);
 
 		// Return the corresponding column class (common ancestor of the column element classes)
-		return Arrays.getElementClass(getColumn(j));
+		Class<?> columnClass = c;
+		for (int i = 0; i < m; ++i) {
+			columnClass = Classes.getCommonAncestor(columnClass, Classes.get(elements[i][j]));
+		}
+		return columnClass;
 	}
 
 	//////////////////////////////////////////////

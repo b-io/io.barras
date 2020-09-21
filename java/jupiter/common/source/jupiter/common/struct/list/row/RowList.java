@@ -35,6 +35,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
@@ -362,7 +363,11 @@ public class RowList
 		ArrayArguments.requireIndex(i, getRowCount());
 
 		// Return the corresponding row class (common ancestor of the row element classes)
-		return Arrays.getElementClass(get(i));
+		Class<?> rowClass = Classes.get(get(i).elements[0]);
+		for (int j = 1; j < getColumnCount(); ++j) {
+			rowClass = Classes.getCommonAncestor(rowClass, Classes.get(get(i).elements[j]));
+		}
+		return rowClass != null ? rowClass : OBJECT_CLASS;
 	}
 
 	/**
@@ -382,7 +387,11 @@ public class RowList
 		ArrayArguments.requireIndex(j, getColumnCount());
 
 		// Return the corresponding column class (common ancestor of the column element classes)
-		return Arrays.getElementClass(getColumn(j));
+		Class<?> columnClass = Classes.get(get(0).elements[j]);
+		for (int i = 1; i < getRowCount(); ++i) {
+			columnClass = Classes.getCommonAncestor(columnClass, Classes.get(get(i).elements[j]));
+		}
+		return columnClass != null ? columnClass : OBJECT_CLASS;
 	}
 
 	//////////////////////////////////////////////
