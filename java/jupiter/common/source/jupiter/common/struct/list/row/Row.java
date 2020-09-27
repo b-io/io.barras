@@ -90,6 +90,7 @@ public class Row
 	/**
 	 * Constructs a {@link Row} with the specified header and elements.
 	 * <p>
+	 * @param index    an {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Object}
 	 */

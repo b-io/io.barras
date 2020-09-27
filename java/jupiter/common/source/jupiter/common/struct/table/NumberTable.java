@@ -130,7 +130,7 @@ public class NumberTable<E extends Number>
 	 * @param elements a 2D array of {@link Number}
 	 */
 	public NumberTable(final Class<E> c, final Object[] index, final String[] header,
-			final E[]... elements) {
+			final E[][] elements) {
 		super(c, index, header, elements);
 	}
 
