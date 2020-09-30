@@ -112,12 +112,12 @@ public class ExpressionHandler
 			Element.Type.CEIL.toString().toLowerCase(),
 			Element.Type.ROUND.toString().toLowerCase(),
 
-			Element.Type.COS.toString().toLowerCase(),
 			Element.Type.COSH.toString().toLowerCase(),
-			Element.Type.SIN.toString().toLowerCase(),
+			Element.Type.COS.toString().toLowerCase(),
 			Element.Type.SINH.toString().toLowerCase(),
-			Element.Type.TAN.toString().toLowerCase(),
+			Element.Type.SIN.toString().toLowerCase(),
 			Element.Type.TANH.toString().toLowerCase(),
+			Element.Type.TAN.toString().toLowerCase(),
 			Element.Type.HAV.toString().toLowerCase());
 	/**
 	 * The {@link ExtendedList} of bivariate functions.
