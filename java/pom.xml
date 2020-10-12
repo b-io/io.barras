@@ -29,7 +29,7 @@
 		<!-- Compilation -->
 		<standard.option>-std=c99</standard.option>
 		<!-- JUnit -->
-		<junit.verison>3.8.1</junit.verison>
+		<junit.verison>4.13.1</junit.verison>
 	</properties>
 
 	<!-- Project Settings -->
