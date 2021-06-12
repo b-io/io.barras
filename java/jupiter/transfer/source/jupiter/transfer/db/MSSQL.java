@@ -36,6 +36,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import jupiter.common.io.Resources;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -99,13 +100,7 @@ public class MSSQL
 			}
 			return types;
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (final SQLException ex) {
-					IO.error(ex);
-				}
-			}
+			Resources.closeAuto(statement);
 		}
 	}
 

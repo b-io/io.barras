@@ -47,6 +47,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 
 import jupiter.common.exception.IllegalClassException;
+import jupiter.common.io.Resources;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.list.row.Row;
@@ -718,13 +719,7 @@ public class SQL {
 			// Execute the SQL query and return the selected rows
 			return selectWith(statement, parameterTypes, parameterValues);
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (final SQLException ex) {
-					IO.error(ex);
-				}
-			}
+			Resources.closeAuto(statement);
 		}
 	}
 
@@ -1028,13 +1023,7 @@ public class SQL {
 			// Execute the SQL query and return the selected rows
 			return selectWith(c, statement, parameterTypes, parameterValues);
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (final SQLException ex) {
-					IO.error(ex);
-				}
-			}
+			Resources.closeAuto(statement);
 		}
 	}
 
@@ -1331,13 +1320,7 @@ public class SQL {
 			// Execute the SQL query and return any auto-generated keys
 			return insertWith(statement, parameterTypes, parameterValues);
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (final SQLException ex) {
-					IO.error(ex);
-				}
-			}
+			Resources.closeAuto(statement);
 		}
 	}
 
@@ -1594,13 +1577,7 @@ public class SQL {
 			// Execute the SQL query and return the number of updated rows
 			return updateWith(statement, parameterTypes, parameterValues);
 		} finally {
-			if (statement != null) {
-				try {
-					statement.close();
-				} catch (final SQLException ex) {
-					IO.error(ex);
-				}
-			}
+			Resources.closeAuto(statement);
 		}
 	}
 

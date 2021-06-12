@@ -12,7 +12,7 @@
 
 	<groupId>io.barras.java</groupId>
 	<artifactId>io.barras.java</artifactId>
-	<version>1.6.0</version>
+	<version>1.8.0</version>
 	<packaging>pom</packaging>
 
 	<name>Java</name>
@@ -21,12 +21,11 @@
 
 	<properties>
 		<!-- Project -->
-		<project.build.source>1.6</project.build.source>
-		<project.build.target>1.6</project.build.target>
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
 		<!-- Maven -->
-		<maven.compiler.version>2.5.1</maven.compiler.version>
-		<maven.helper.version>1.12</maven.helper.version>
-		<maven.nar.version>3.2.3</maven.nar.version>
+		<maven.compiler.version>3.8.1</maven.compiler.version>
+		<maven.helper.version>3.1.0</maven.helper.version>
 		<!-- Compilation -->
 		<standard.option>-std=c99</standard.option>
 		<!-- JUnit -->
@@ -77,7 +76,6 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<version>${maven.nar.version}</version>
 
 				<configuration>
 					<c>

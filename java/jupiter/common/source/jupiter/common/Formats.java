@@ -50,7 +50,7 @@ public class Formats {
 	/**
 	 * The current version.
 	 */
-	public static final String VERSION = "1.6.0";
+	public static final String VERSION = "1.8.0";
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
