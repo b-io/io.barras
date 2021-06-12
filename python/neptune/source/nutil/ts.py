@@ -81,7 +81,7 @@ def cum_log_returns(series, offset):
 
 ##################################################
 
-def group_series(series, clean=True, freq=FREQUENCY, sort=True):
+def group_series(series, clean=False, freq=FREQUENCY, sort=True):
 	if clean:
 		series = remove_null(series)
 	if is_empty(series):
@@ -101,7 +101,7 @@ def group_series(series, clean=True, freq=FREQUENCY, sort=True):
 	return series.groupby(index, sort=sort)
 
 
-def ungroup_series(series, clean=True, freq=FREQUENCY, end=True):
+def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
 	if clean:
 		series = remove_null(series)
 	if is_empty(series):
@@ -155,7 +155,7 @@ def transform_series(series, clean=True, freq=FREQUENCY, group=GROUP, transforma
 		series = series.var()
 	elif group is Group.SUM:
 		series = series.sum()
-	series = ungroup_series(series, freq=freq, end=group != Group.FIRST)
+	series = ungroup_series(series, clean=clean, freq=freq, end=group != Group.FIRST)
 	if transformation is Transformation.LOG:
 		series = log(series)
 	elif transformation is Transformation.DIFF:
