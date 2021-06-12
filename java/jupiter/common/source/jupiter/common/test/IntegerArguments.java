@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,13 @@ public class IntegerArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link IntegerArguments}.
+	 */
 	protected IntegerArguments() {
+		super();
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
@@ -85,7 +90,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNegative(final int found) {
-		if (CHECK_ARGS && found >= 0.) {
+		if (CHECK_ARGS && found >= 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is zero or positive");
 		}
@@ -93,7 +98,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNonNegative(final int found) {
-		if (CHECK_ARGS && found < 0.) {
+		if (CHECK_ARGS && found < 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is negative");
 		}
@@ -101,14 +106,14 @@ public class IntegerArguments
 	}
 
 	public static int requireNonZero(final int found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0) {
 			throw new IllegalArgumentException("The specified int number " + found + " is zero");
 		}
 		return found;
 	}
 
 	public static int requirePositive(final int found) {
-		if (CHECK_ARGS && found <= 0.) {
+		if (CHECK_ARGS && found <= 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is zero or negative");
 		}
@@ -116,7 +121,7 @@ public class IntegerArguments
 	}
 
 	public static int requireNonPositive(final int found) {
-		if (CHECK_ARGS && found > 0.) {
+		if (CHECK_ARGS && found > 0) {
 			throw new IllegalArgumentException(
 					"The specified int number " + found + " is positive");
 		}
@@ -137,6 +142,8 @@ public class IntegerArguments
 			throw new IllegalArgumentException("The specified int array is empty");
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static int[] requireLength(final int[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
@@ -177,6 +184,14 @@ public class IntegerArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified int array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final int[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

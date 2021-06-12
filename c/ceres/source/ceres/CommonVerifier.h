@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_VERIFIER_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -44,9 +43,9 @@ extern "C"
 #include "ceres/io/CommonIO.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ARGUMENT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified argument is correct,
@@ -75,9 +74,9 @@ extern "C"
 	boolean checks(const type firstType, const void* firstValue, const type secondType, const void* secondValue);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TYPE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified types are equal, {@code _FALSE}
@@ -92,9 +91,9 @@ extern "C"
 	boolean type_check(const type givenType, const type expectedType);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * STRUCTURE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified Structure is correct,
@@ -120,9 +119,9 @@ extern "C"
 	boolean Structure_checks(const Structure* first, const Structure* second);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ARRAY
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified array is correct and nonempty,

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,16 +29,16 @@ extern "C"
 #define _COMMON_MACROS_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CHECK
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * The {@code if} control statement of the checks.
@@ -142,11 +141,11 @@ extern "C"
 #define _CHARS_CHECK(STRING, SIZE)			_ARRAY_CHECK(STRING, SIZE, _CHARACTERS_NAME)
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * DYNAMIC MEMORY ALLOCATION
-	 **************************************************************************/
+	 **********************************************************************************************/
 
-#ifdef _TEST_MODE
+#ifdef _TRACE_MODE
 #define _PRINT_NEW							printn(_S("<new />"))
 #define _PRINT_RESIZE						printn(_S("<resize />"))
 #define _PRINT_FREE							printn(_S("<free />"))
@@ -202,9 +201,9 @@ extern "C"
 #define _PRINT_ERROR_ARRAY_REALLOCATION(T)	{ string _message; string_format(_message, _S("Memory reallocation for the array of type '%t' failed"), (T)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMMON
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the wide or normal characters.
@@ -287,12 +286,12 @@ extern "C"
 #define _PRINT_WARNING_NO_FUNCTION(NAME, T)	{ string _message; string_format(_message, _S("There is no function %s for the specified type '%t'"), (NAME), (T)); _PRINT_WARNING(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * I/O
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
-	 * Writes formatted data to string.
+	 * Writes the specified value to the specified string in the specified format.
 	 */
 #ifdef _WIDE_STRING
 #define _SPRINTF(STRING, SIZE, FORMAT, VALUE)	swprintf(STRING, SIZE, FORMAT, VALUE)
@@ -316,21 +315,31 @@ extern "C"
 #define _PRINT_CARRIAGE_RETURN(FILE)		char_to_stream(_CARRIAGE_RETURN, FILE)
 
 	/**
-	 * Prints the specified result/info/test message to stdout.
+	 * Prints the specified trace/debug/test/info/result message to stdout.
 	 */
-#define _PRINT_RESULT(CONTENT)				print_result(CONTENT)
-#define _PRINT_INFO(CONTENT)				print_info(_S(__FILE__), _STRING_EMPTY, CONTENT)
+#ifdef _TRACE_MODE
+#define _PRINT_TRACE(CONTENT)				print_trace(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
+#else
+#define _PRINT_TRACE(CONTENT)
+#endif
+#ifdef _DEBUG_MODE
+#define _PRINT_DEBUG(CONTENT)				print_debug(_S(__FILE__), __LINE__, CONTENT)
+#else
+#define _PRINT_DEBUG(CONTENT)
+#endif
 #ifdef _TEST_MODE
-#define _PRINT_TEST(CONTENT)				print_test(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
+#define _PRINT_TEST(CONTENT)				print_test(_S(__FILE__), CONTENT)
 #else
 #define _PRINT_TEST(CONTENT)
 #endif
+#define _PRINT_INFO(CONTENT)				print_info(CONTENT)
+#define _PRINT_RESULT(CONTENT)				print_result(CONTENT)
 
 	/**
 	 * Prints the specified warning/error/failure message to stderr.
 	 */
-#ifdef _WARN_MODE
-#define _PRINT_WARNING(CONTENT)				print_warning(CONTENT)
+#ifdef _WARNING_MODE
+#define _PRINT_WARNING(CONTENT)				print_warning(_S(__FILE__), CONTENT)
 #else
 #define _PRINT_WARNING(CONTENT)
 #endif
@@ -338,14 +347,14 @@ extern "C"
 #define _PRINT_FAILURE(CONTENT)				print_failure(_S(__FILE__), _STRING_EMPTY, __LINE__, CONTENT)
 
 	/**
-	 * Prints the error for unknown format specifier.
+	 * Prints an error for the specified unknown format specifier.
 	 */
 #define _PRINT_ERROR_FORMAT(SPECIFIER)		{ string _message; string_format(_message, _S("Unknown format specifier '%c'"), (SPECIFIER)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the next element of the Iterator.
@@ -466,9 +475,9 @@ extern "C"
 #define _PRINT_WARNING_TRUNCATION(NAME)		{ string _message; string_format(_message, _S("The target %s is truncated"), (NAME)); _PRINT_WARNING(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * MATH
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Gets the minimum number.
@@ -482,7 +491,7 @@ extern "C"
 	/**
 	 * Converts the specified number.
 	 */
-#define _CONVERT(TYPE, VALUE, TO_TYPE, MIN, MAX)	if (VALUE > (TYPE) MAX) { return MAX; } else if (VALUE < (TYPE) MIN) { return MIN; } else { return (TO_TYPE) number; }
+#define _CONVERT(TYPE, VALUE, TO_TYPE, MIN, MAX)	if (VALUE < (TYPE) MIN) { return MIN; } else if (VALUE > (TYPE) MAX) { return MAX; } else { return (TO_TYPE) number; }
 
 	/**
 	 * Prints the error for negative number.
@@ -498,9 +507,9 @@ extern "C"
 #define _PRINT_ERROR_GREATER_THAN(NAME, UPPER_BOUND)	{ string _message; string_format(_message, _S("The %s is greater than %i"), (NAME), (UPPER_BOUND)); _PRINT_ERROR(_message); }
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TIME
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Sets the Coordinated Universal Time.
@@ -525,9 +534,9 @@ extern "C"
 #endif
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TYPE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the comparison for equality between the real numbers.

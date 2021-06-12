@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/type/CommonObject.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTANTS
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural OBJECT_SIZE = sizeof (Object);
+const size OBJECT_SIZE = sizeof (Object);
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Object Object_create(const Structure* structure)
 {
@@ -54,7 +52,7 @@ Object* Object_new(const Structure* structure)
 {
 	Object* o = _NEW(Object);
 
-	_PRINT_TEST(_S("<newObject>"));
+	_PRINT_DEBUG(_S("<newObject>"));
 	if (o != NULL)
 	{
 		o->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -64,18 +62,18 @@ Object* Object_new(const Structure* structure)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_OBJECT_NAME);
 	}
-	_PRINT_TEST(_S("</newObject>"));
+	_PRINT_DEBUG(_S("</newObject>"));
 	return o;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Object_reset(void* object, const Structure* structure)
 {
-	_PRINT_TEST(_S("<resetObject>"));
+	_PRINT_DEBUG(_S("<resetObject>"));
 	_IF (_CHECK(object, _OBJECT_NAME)
 		&& _STRUCTURE_CHECK(structure))
 	{
@@ -118,7 +116,7 @@ void Object_reset(void* object, const Structure* structure)
 			o->structure = *structure;
 		}
 	}
-	_PRINT_TEST(_S("</resetObject>"));
+	_PRINT_DEBUG(_S("</resetObject>"));
 }
 
 Object* Object_leaf(const void* object)
@@ -138,9 +136,9 @@ Object* Object_leaf(const void* object)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* Object_Iterator_next(Iterator* iterator)
 {
@@ -158,9 +156,9 @@ void* Object_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Object_create_Comparable(void)
 {
@@ -197,13 +195,13 @@ integer Object_compare_to(const void* structure, const type type, const void* va
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Object_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseObject>"));
+	_PRINT_DEBUG(_S("<releaseObject>"));
 	if (structure != NULL)
 	{
 		/* Get the Object */
@@ -221,10 +219,10 @@ void Object_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_OBJECT_NAME);
 	}
-	_PRINT_TEST(_S("</releaseObject>"));
+	_PRINT_DEBUG(_S("</releaseObject>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Object_clone(const void* structure)
 {
@@ -239,7 +237,7 @@ void* Object_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Object_equals(const void* structure, const type type, const void* value)
 {
@@ -270,7 +268,7 @@ boolean Object_equals(const void* structure, const type type, const void* value)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Object_hash(const void* structure)
 {
@@ -284,7 +282,7 @@ integer Object_hash(const void* structure)
 	return integer_random();
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Object_to_string(const void* source, string target)
 {

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_CHARACTER_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -49,9 +48,9 @@ extern "C"
 #include "ceres/iterable/CommonIterator.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the next element in the iteration.
@@ -63,9 +62,9 @@ extern "C"
 	void* char_Iterator_next(Iterator* iterator);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Comparable.
@@ -89,9 +88,9 @@ extern "C"
 	integer char_compare_to(const void* structure, const type type, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
@@ -106,7 +105,7 @@ extern "C"
 	 */
 	boolean char_equals(const void* structure, const type type, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the hash code of the specified structure.
@@ -117,7 +116,7 @@ extern "C"
 	 */
 	integer char_hash(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

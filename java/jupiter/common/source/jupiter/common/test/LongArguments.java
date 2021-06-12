@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,8 +30,13 @@ public class LongArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link LongArguments}.
+	 */
 	protected LongArguments() {
+		super();
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
@@ -84,41 +89,17 @@ public class LongArguments
 		return found;
 	}
 
-	public static long requireNegative(final long found) {
-		if (CHECK_ARGS && found >= 0.) {
-			throw new IllegalArgumentException(
-					"The specified long number " + found + " is zero or positive");
-		}
-		return found;
-	}
-
-	public static long requireNonNegative(final long found) {
-		if (CHECK_ARGS && found < 0.) {
-			throw new IllegalArgumentException(
-					"The specified long number " + found + " is negative");
-		}
-		return found;
-	}
-
 	public static long requireNonZero(final long found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0L) {
 			throw new IllegalArgumentException("The specified long number " + found + " is zero");
 		}
 		return found;
 	}
 
-	public static long requirePositive(final long found) {
-		if (CHECK_ARGS && found <= 0.) {
+	public static long requireZero(final long found) {
+		if (CHECK_ARGS && found > 0L) {
 			throw new IllegalArgumentException(
-					"The specified long number " + found + " is zero or negative");
-		}
-		return found;
-	}
-
-	public static long requireNonPositive(final long found) {
-		if (CHECK_ARGS && found > 0.) {
-			throw new IllegalArgumentException(
-					"The specified long number " + found + " is positive");
+					"The specified long number " + found + " is not zero");
 		}
 		return found;
 	}
@@ -137,6 +118,8 @@ public class LongArguments
 			throw new IllegalArgumentException("The specified long array is empty");
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static long[] requireLength(final long[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
@@ -177,6 +160,14 @@ public class LongArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified long array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final long[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

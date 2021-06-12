@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,45 +23,72 @@
  */
 package jupiter.common.time;
 
+import static jupiter.common.util.Characters.COLON;
+import static jupiter.common.util.Characters.POINT;
+import static jupiter.common.util.Strings.EMPTY;
+
+import java.io.Serializable;
+
+import jupiter.common.math.Maths;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Strings;
 
-public class Chronometer {
+public class Chronometer
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The number of time units
-	public static final int N_TIME_UNITS = TimeUnit.values().length;
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The number of time units.
+	 */
+	public static final int TIME_UNITS_COUNT = TimeUnit.values().length;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Information of the chronometer
-	protected final long[] time = new long[N_TIME_UNITS];
-	protected final double[] timeByUnit = new double[N_TIME_UNITS];
+	protected final long[] time = new long[TIME_UNITS_COUNT];
+	protected final double[] timeByUnit = new double[TIME_UNITS_COUNT];
 	protected long begin = 0L, end = 0L;
 	protected long difference = 0L;
-	protected String representation = Strings.EMPTY;
+	protected String representation = EMPTY;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Chronometer}.
+	 */
 	public Chronometer() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public long getMilliseconds() {
-		return difference;
+	public double getNanoseconds() {
+		return timeByUnit[TimeUnit.NANOSECOND.value];
+	}
+
+	public double getMicroseconds() {
+		return timeByUnit[TimeUnit.MICROSECOND.value];
+	}
+
+	public double getMilliseconds() {
+		return timeByUnit[TimeUnit.MILLISECOND.value];
 	}
 
 	public double getSeconds() {
@@ -91,29 +118,36 @@ public class Chronometer {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void start() {
-		begin = System.currentTimeMillis();
+	public synchronized void start() {
+		begin = System.nanoTime();
 	}
 
-	public long stop() {
-		end = System.currentTimeMillis();
+	public synchronized long stop() {
+		end = System.nanoTime();
 		compute();
 		return difference;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	protected void compute() {
 		difference = end - begin;
-		timeByUnit[0] = difference;
-		time[0] = Longs.convert(timeByUnit[0] % 1000);
-		for (int i = 1; i < N_TIME_UNITS; ++i) {
-			timeByUnit[i] = difference / (1000. * Math.pow(60., i - 1));
-			time[i] = Longs.convert(timeByUnit[i] % 60);
+		for (int ti = 0; ti < 3; ++ti) {
+			timeByUnit[ti] = difference / Maths.pow(1E3, ti);
+			time[ti] = Maths.round(timeByUnit[ti]) % 1000L;
 		}
-		representation = time[TimeUnit.HOUR.value] + ":" + time[TimeUnit.MINUTE.value] + ":" +
-				time[TimeUnit.SECOND.value] + "." + time[TimeUnit.MILLISECOND.value];
+		for (int ti = 3; ti < TIME_UNITS_COUNT; ++ti) {
+			timeByUnit[ti] = difference / (1E9 * Maths.pow(60., ti - 3));
+			time[ti] = Longs.convert(timeByUnit[ti]) % 60L;
+		}
+		representation = Strings.join(time[TimeUnit.HOUR.value], COLON, time[TimeUnit.MINUTE.value],
+				COLON, time[TimeUnit.SECOND.value], POINT, time[TimeUnit.MILLISECOND.value]);
 	}
 
 
@@ -121,6 +155,11 @@ public class Chronometer {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return representation;
@@ -132,15 +171,17 @@ public class Chronometer {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum TimeUnit {
-		MILLISECOND(0),
-		SECOND(1),
-		MINUTE(2),
-		HOUR(3);
+		NANOSECOND(0),
+		MICROSECOND(1),
+		MILLISECOND(2),
+		SECOND(3),
+		MINUTE(4),
+		HOUR(5);
 
 		public final int value;
 
-		private TimeUnit(final int index) {
-			value = index;
+		private TimeUnit(final int value) {
+			this.value = value;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/math/Vector.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CHECK
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean Vector_check(const Vector* vector)
 {
@@ -74,15 +72,15 @@ boolean Vector_checks(const Vector* first, const Vector* second)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Vector* Vector_new(const natural dimension)
 {
 	Vector* v = _NEW(Vector);
 
-	_PRINT_TEST(_S("<newVector"));
+	_PRINT_DEBUG(_S("<newVector"));
 	if (v != NULL)
 	{
 		v->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -93,11 +91,11 @@ Vector* Vector_new(const natural dimension)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_VECTOR_NAME);
 	}
-	_PRINT_TEST(_S("</newVector"));
+	_PRINT_DEBUG(_S("</newVector"));
 	return v;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Vector* Vector_from_to_new(const Vector* startingPoint, const Vector* endingPoint)
 {
@@ -119,13 +117,13 @@ Vector* Vector_from_to_new(const Vector* startingPoint, const Vector* endingPoin
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Vector_reset(void* vector, const natural dimension)
 {
-	_PRINT_TEST(_S("<resetVector>"));
+	_PRINT_DEBUG(_S("<resetVector>"));
 	_IF (_CHECK(vector, _VECTOR_NAME))
 	{
 		/* Get the Vector*/
@@ -169,13 +167,13 @@ void Vector_reset(void* vector, const natural dimension)
 			_PRINT_ERROR_ARRAY_ALLOCATION(_REAL_TYPE);
 		}
 	}
-	_PRINT_TEST(_S("</resetVector>"));
+	_PRINT_DEBUG(_S("</resetVector>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * VECTOR
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Vector_clear(Vector* vector)
 {
@@ -257,7 +255,7 @@ void Vector_set_zero(Vector* vector)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 real Vector_norm(const Vector* vector)
 {
@@ -307,7 +305,7 @@ Vector* Vector_scale(Vector* vector, const real scaleFactor)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Vector* Vector_plus(Vector* first, const Vector* second)
 {
@@ -357,7 +355,7 @@ Vector* Vector_times(Vector* first, const Vector* second)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 real Vector_dot(const Vector* first, const Vector* second)
 {
@@ -395,7 +393,7 @@ Vector* Vector_cross(const Vector* first, const Vector* second, Vector* result)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Vector* Vector_rotate(const Vector* vector, const Vector* axis, const real angle, Vector* result)
 {
@@ -433,7 +431,7 @@ Vector* Vector_rotate(const Vector* vector, const Vector* axis, const real angle
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 real Vector_angle(const Vector* first, const Vector* second)
 {
@@ -494,9 +492,9 @@ real Vector_oriented_angle(const Vector* firstPoint, Vector* firstNormal, const 
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Vector_create_Comparable(void)
 {
@@ -544,13 +542,13 @@ integer Vector_compare_to(const void* structure, const type type, const void* va
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Vector_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseVector>"));
+	_PRINT_DEBUG(_S("<releaseVector>"));
 	if (structure != NULL)
 	{
 		/* Get the Vector*/
@@ -569,10 +567,10 @@ void Vector_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_VECTOR_NAME);
 	}
-	_PRINT_TEST(_S("</releaseVector>"));
+	_PRINT_DEBUG(_S("</releaseVector>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Vector_clone(const void* structure)
 {
@@ -589,14 +587,14 @@ void* Vector_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Vector_equals(const void* structure, const type type, const void* value)
 {
 	return Vector_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Vector_hash(const void* structure)
 {
@@ -635,7 +633,7 @@ integer Vector_hash(const void* structure)
 	return code;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Vector_to_string(const void* source, string target)
 {

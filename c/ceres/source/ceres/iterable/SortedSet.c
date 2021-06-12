@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/SortedSet.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 SortedSet* SortedSet_new(const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
 	SortedSet* ss = _NEW(SortedSet);
 
-	_PRINT_TEST(_S("<newSortedSet>"));
+	_PRINT_DEBUG(_S("<newSortedSet>"));
 	if (ss != NULL)
 	{
 		ss->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -54,18 +52,18 @@ SortedSet* SortedSet_new(const type elementType, const natural elementSize, cons
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_SORTED_SET_NAME);
 	}
-	_PRINT_TEST(_S("</newSortedSet>"));
+	_PRINT_DEBUG(_S("</newSortedSet>"));
 	return ss;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void SortedSet_reset(void* sortedSet, const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
-	_PRINT_TEST(_S("<resetSortedSet>"));
+	_PRINT_DEBUG(_S("<resetSortedSet>"));
 	_IF (_CHECK(sortedSet, _SORTED_SET_NAME))
 	{
 		/* Get the Sorted Set */
@@ -82,13 +80,13 @@ void SortedSet_reset(void* sortedSet, const type elementType, const natural elem
 		/* - Basic */
 		ss->clone = SortedSet_clone;
 	}
-	_PRINT_TEST(_S("</resetSortedSet>"));
+	_PRINT_DEBUG(_S("</resetSortedSet>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean SortedSet_add(void* collection, const type type, void* value)
 {
@@ -178,9 +176,9 @@ boolean SortedSet_add_Structure(void* collection, const Structure* structure)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* SortedSet_clone(const void* structure)
 {

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,84 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import jupiter.common.map.ObjectToDoubleMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link DoubleParser} is a map operator parsing an {@link Object} to a {@link Double}.
+ * {@link DoubleParser} is the {@link ObjectToDoubleMapper} parsing an input {@link Object} to an
+ * output {@link Double}.
  */
 public class DoubleParser
 		extends ObjectToDoubleMapper
-		implements Parser<Double> {
+		implements IParser<Double> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link DoubleParser}.
+	 */
 	public DoubleParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Double parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Double[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Double[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Double[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Double[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Double[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Double[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -57,32 +114,16 @@ public class DoubleParser
 		if (input instanceof Number) {
 			return ((Number) input).doubleValue();
 		}
-		return Double.valueOf(Strings.toString(input));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Double parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public Double[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public Double[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public Double[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Double.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 
@@ -90,6 +131,13 @@ public class DoubleParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public DoubleParser clone() {
 		return new DoubleParser();

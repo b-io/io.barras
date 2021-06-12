@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/CommonList.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void List_reset(void* list, const natural length, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetList>"));
+	_PRINT_DEBUG(_S("<resetList>"));
 	_IF (_CHECK(list, _LIST_NAME))
 	{
 		/* Get the List */
@@ -50,13 +48,13 @@ void List_reset(void* list, const natural length, const type elementType, const 
 		l->get = List_get;
 		l->removeAt = NULL;
 	}
-	_PRINT_TEST(_S("</resetList>"));
+	_PRINT_DEBUG(_S("</resetList>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * LIST
- ******************************************************************************/
+ **************************************************************************************************/
 
 Structure List_get(const void* list, const natural index)
 {

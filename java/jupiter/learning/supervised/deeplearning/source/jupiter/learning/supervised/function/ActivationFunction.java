@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,32 +23,80 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Function;
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.math.linear.entity.Entity;
 
+/**
+ * {@link ActivationFunction} of a node defines the output of that node given an input or set of
+ * inputs.
+ */
 public abstract class ActivationFunction
-		extends Function {
+		implements ICloneable<ActivationFunction>, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the activation function to the specified {@link Entity} and returns the result.
-	 * <p>
-	 * @param A an {@link Entity}
-	 * <p>
-	 * @return the result
+	 * The generated serial version ID.
 	 */
-	public abstract Entity apply(final Entity A);
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the derivative of the activation function to the specified {@link Entity} and returns
-	 * the result.
-	 * <p>
-	 * @param A an {@link Entity}
-	 * <p>
-	 * @return the result
+	 * Constructs an {@link ActivationFunction}.
 	 */
-	public abstract Entity derive(final Entity A);
+	protected ActivationFunction() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the activation function to the specified {@link Entity}.
+	 * <p>
+	 * @param E an {@link Entity}
+	 * <p>
+	 * @return the resulting {@link Entity}
+	 */
+	public abstract Entity apply(final Entity E);
+
+	/**
+	 * Applies the derivative of the activation function to the specified {@link Entity}.
+	 * <p>
+	 * @param E an {@link Entity}
+	 * <p>
+	 * @return the resulting {@link Entity}
+	 */
+	public abstract Entity derive(final Entity E);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ActivationFunction clone() {
+		try {
+			return (ActivationFunction) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
 }

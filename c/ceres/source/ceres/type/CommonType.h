@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_TYPE_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/type/CommonBits.h"
 

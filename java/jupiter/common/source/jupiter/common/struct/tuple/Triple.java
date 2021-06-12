@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,13 @@ package jupiter.common.struct.tuple;
 
 import java.io.Serializable;
 
+import jupiter.common.math.ITuple;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
 
 public class Triple<T1, T2, T3>
-		implements Serializable {
+		implements ICloneable<Triple<T1, T2, T3>>, ITuple, Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -38,7 +40,7 @@ public class Triple<T1, T2, T3>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 7006401742978894167L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,15 +48,15 @@ public class Triple<T1, T2, T3>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The first component.
+	 * The {@code T1} component.
 	 */
 	protected T1 first;
 	/**
-	 * The second component.
+	 * The {@code T2} component.
 	 */
 	protected T2 second;
 	/**
-	 * The third component.
+	 * The {@code T3} component.
 	 */
 	protected T3 third;
 
@@ -63,9 +65,20 @@ public class Triple<T1, T2, T3>
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Triple}.
+	 */
 	public Triple() {
 	}
 
+	/**
+	 * Constructs a {@link Triple} with the specified {@code T1}, {@code T2} and {@code T3}
+	 * components.
+	 * <p>
+	 * @param first  the {@code T1} component
+	 * @param second the {@code T2} component
+	 * @param third  the {@code T3} component
+	 */
 	public Triple(final T1 first, final T2 second, final T3 third) {
 		this.first = first;
 		this.second = second;
@@ -74,40 +87,52 @@ public class Triple<T1, T2, T3>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the first component.
+	 * Returns the {@code T1} component.
 	 * <p>
-	 * @return the first component
+	 * @return the {@code T1} component
 	 */
 	public T1 getFirst() {
 		return first;
 	}
 
 	/**
-	 * Returns the second component.
+	 * Returns the {@code T2} component.
 	 * <p>
-	 * @return the second component
+	 * @return the {@code T2} component
 	 */
 	public T2 getSecond() {
 		return second;
 	}
 
 	/**
-	 * Returns the third component.
+	 * Returns the {@code T3} component.
 	 * <p>
-	 * @return the third component
+	 * @return the {@code T3} component
 	 */
 	public T3 getThird() {
 		return third;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the size of {@code this}.
+	 * <p>
+	 * @return the size of {@code this}
+	 */
+	@Override
+	public int size() {
+		return 3;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the first component.
+	 * Sets the {@code T1} component.
 	 * <p>
 	 * @param first a {@code T1} object
 	 */
@@ -116,7 +141,7 @@ public class Triple<T1, T2, T3>
 	}
 
 	/**
-	 * Sets the second component.
+	 * Sets the {@code T2} component.
 	 * <p>
 	 * @param second a {@code T2} object
 	 */
@@ -125,7 +150,7 @@ public class Triple<T1, T2, T3>
 	}
 
 	/**
-	 * Sets the third component.
+	 * Sets the {@code T3} component.
 	 * <p>
 	 * @param third a {@code T3} object
 	 */
@@ -138,6 +163,38 @@ public class Triple<T1, T2, T3>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	@SuppressWarnings({"cast", "unchecked"})
+	public Triple<T1, T2, T3> clone() {
+		try {
+			final Triple<T1, T2, T3> clone = (Triple<T1, T2, T3>) super.clone();
+			clone.first = Objects.clone(first);
+			clone.second = Objects.clone(second);
+			clone.third = Objects.clone(third);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
 		if (this == other) {
@@ -146,17 +203,34 @@ public class Triple<T1, T2, T3>
 		if (other == null || !(other instanceof Triple)) {
 			return false;
 		}
-		final Triple<?, ?, ?> otherTriple = (Triple) other;
-		return Objects.equals(first, otherTriple.getFirst()) &&
-				Objects.equals(second, otherTriple.getSecond()) &&
-				Objects.equals(third, otherTriple.getThird());
+		final Triple<?, ?, ?> otherTriple = (Triple<?, ?, ?>) other;
+		return Objects.equals(first, otherTriple.first) &&
+				Objects.equals(second, otherTriple.second) &&
+				Objects.equals(third, otherTriple.third);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, first, second, third);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
 		return Arrays.toString(first, second, third);

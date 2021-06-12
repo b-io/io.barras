@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,19 +24,38 @@
 package jupiter.common.map.wrapper;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringWrapper} is a map operator wrapping a {@link String}.
+ * {@link StringWrapper} is the {@link ObjectToStringMapper} wrapping an input {@link String} with
+ * the specified left and right {@code char} tokens.
  */
 public class StringWrapper
 		extends ObjectToStringMapper {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The left wrapping {@link String}.
+	 */
 	protected final String left;
+	/**
+	 * The right wrapping {@link String}.
+	 */
 	protected final String right;
 
 
@@ -44,12 +63,25 @@ public class StringWrapper
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringWrapper} with the specified left and right wrapping {@code char}
+	 * tokens.
+	 * <p>
+	 * @param left  the left wrapping {@code char} token
+	 * @param right the right wrapping {@code char} token
+	 */
 	public StringWrapper(final char left, final char right) {
 		super();
-		this.left = Strings.toString(left);
-		this.right = Strings.toString(right);
+		this.left = Objects.toString(left);
+		this.right = Objects.toString(right);
 	}
 
+	/**
+	 * Constructs a {@link StringWrapper} with the specified left and right wrapping {@link String}.
+	 * <p>
+	 * @param left  the left wrapping {@link String}
+	 * @param right the right wrapping {@link String}
+	 */
 	public StringWrapper(final String left, final String right) {
 		super();
 		this.left = left;
@@ -58,7 +90,7 @@ public class StringWrapper
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -71,6 +103,13 @@ public class StringWrapper
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public StringWrapper clone() {
 		return new StringWrapper(left, right);

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,51 +23,66 @@
  */
 package jupiter.common.struct.map.tree;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
+import jupiter.common.util.Strings;
 
 public class AvlTreeMapTest
-		extends TestCase {
+		extends Test {
 
-	public AvlTreeMapTest() {
+	public AvlTreeMapTest(final String name) {
+		super(name);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Test of getHeight method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#getHeight}.
 	 */
 	public void testGetHeight() {
-		IO.test("getHeight");
+		IO.test(BULLET, " getHeight");
 
-		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		// • Fill with 7 elements
+		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(Integer.class);
 		fill(instance, 7);
-		assertEquals(2, instance.getHeight());
-		instance = new AvlTreeMap<Integer, Integer>();
-		fill(instance, 8);
+		String representation = instance.toString();
+		IO.result(representation);
 		assertEquals(3, instance.getHeight());
+		assertTrue(Strings.countLines(representation) <= instance.getMaxHeight());
+
+		// • Fill with 15 elements
+		instance = new AvlTreeMap<Integer, Integer>(Integer.class);
+		fill(instance, 15);
+		representation = instance.toString();
+		assertEquals(4, instance.getHeight());
+		assertTrue(Strings.countLines(representation) <= instance.getMaxHeight());
 	}
 
 	/**
-	 * Test of put method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#put}.
 	 */
 	public void testPut() {
-		IO.test("put");
+		IO.test(BULLET, " put");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		assertEquals(0, (int) instance.getFirstEntry().key);
 		assertEquals(6, (int) instance.getLastEntry().value);
 	}
 
 	/**
-	 * Test of remove method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#remove}.
 	 */
 	public void testRemove() {
-		IO.test("removeNode");
+		IO.test(BULLET, " removeNode");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
 		instance.remove(0);
 		assertEquals(1, (int) instance.getFirstEntry().key);
@@ -75,15 +90,15 @@ public class AvlTreeMapTest
 	}
 
 	/**
-	 * Test of clone method, of class AvlTreeMap.
+	 * Tests {@link AvlTreeMap#clone}.
 	 */
 	public void testClone() {
-		IO.test("clone");
+		IO.test(BULLET, " clone");
 
-		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>();
+		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
+				Integer.class);
 		fill(instance);
-		final AvlTreeMap clone = instance.clone();
-		assertEquals(instance, clone);
+		assertEquals(instance, instance.clone());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

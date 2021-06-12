@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,26 @@
  */
 package jupiter.math.linear.decomposition;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import java.io.Serializable;
 
-import jupiter.common.exception.IllegalOperationException;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * QR Decomposition.
+ * {@link QRDecomposition} performs a QR decomposition on a {@link Matrix}.
  * <p>
- * For a (m x n) matrix A with m {@literal >}= n, the QR decomposition is a (m x n) orthogonal
- * matrix Q and a (n x n) upper triangular matrix R so that A = Q * R.
+ * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the QR decomposition is a
+ * {@code m x n} orthogonal matrix {@code Q} and a {@code n x n} upper triangular matrix {@code R}
+ * so that {@code A = Q R}.
  * <p>
  * The QR decomposition always exists, even if the matrix does not have full rank, so the
  * constructor never fails. The primary use of the QR decomposition is in the least squares solution
- * of non-square systems of simultaneous linear equations. This fails if isFullRank() returns false.
+ * of non-square systems of simultaneous linear equations. This fails if the method
+ * {@link #isFullRank} returns {@code false}.
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class QRDecomposition
@@ -52,18 +55,28 @@ public class QRDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -5830957598032372042L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimensions
-	protected final int m, n;
-	// The decomposition
+	/**
+	 * The row dimension.
+	 */
+	protected final int m;
+	/**
+	 * The column dimension.
+	 */
+	protected final int n;
+	/**
+	 * The decomposition containing {@code Q} and {@code R}.
+	 */
 	protected final double[][] QR;
-	// The diagonal of {@code R}
+	/**
+	 * The {@code R} diagonal.
+	 */
 	protected final double[] Rdiag;
 
 
@@ -72,32 +85,32 @@ public class QRDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * QR Decomposition, computed by Householder reflections. Sets {@code R} and the Householder
-	 * vectors and computes {@code Q}.
+	 * Constructs a {@link QRDecomposition} of the specified rectangular {@link Matrix}, computed by
+	 * Householder reflections. Sets {@code R} and the Householder vectors and computes {@code Q}.
 	 * <p>
-	 * @param A a rectangular {@link Matrix}
+	 * @param A the rectangular {@link Matrix} to decompose
 	 */
 	public QRDecomposition(final Matrix A) {
 		// Initialize
-		QR = A.getAll();
+		QR = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		Rdiag = new double[n];
 
 		// Decompose
 		for (int k = 0; k < n; ++k) {
-			// Compute the 2-norm of the k-th column without under / overflow
-			double nrm = 0;
+			// Compute the 2-norm of the k-th column without under/overflow
+			double norm = 0.;
 			for (int i = k; i < m; ++i) {
-				nrm = Norms.getEuclideanNorm(nrm, QR[i][k]);
+				norm = Norms.euclideanNorm(norm, QR[i][k]);
 			}
-			if (nrm != 0.) {
+			if (norm != 0.) {
 				// Form the k-th Householder vector
 				if (QR[k][k] < 0) {
-					nrm = -nrm;
+					norm = -norm;
 				}
 				for (int i = k; i < m; ++i) {
-					QR[i][k] /= nrm;
+					QR[i][k] /= norm;
 				}
 				QR[k][k] += 1.;
 				// Apply the transformation to the remaining columns
@@ -112,19 +125,24 @@ public class QRDecomposition
 					}
 				}
 			}
-			Rdiag[k] = -nrm;
+			Rdiag[k] = -norm;
+		}
+
+		// Verify the feasibility
+		if (!isFullRank()) {
+			IO.warn("The matrix is rank deficient");
 		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code A} is full rank.
+	 * Tests whether {@code R} (and hence {@code A}) is full rank.
 	 * <p>
-	 * @return {@code true} if {@code R} (and hence {@code A}) is full rank
+	 * @return {@code true} if {@code R} (and hence {@code A}) is full rank, {@code false} otherwise
 	 */
 	public boolean isFullRank() {
 		for (int j = 0; j < n; ++j) {
@@ -141,8 +159,7 @@ public class QRDecomposition
 	 * @return the lower trapezoidal matrix whose columns define the reflections
 	 */
 	public Matrix getH() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] H = X.getElements();
+		final double[][] H = new double[m][n];
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i >= j) {
@@ -152,17 +169,16 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(H);
 	}
 
 	/**
-	 * Return the upper triangular factor {@code R}.
+	 * Returns the upper triangular factor {@code R}.
 	 * <p>
 	 * @return the upper triangular factor {@code R}
 	 */
 	public Matrix getR() {
-		final Matrix X = new Matrix(n, n);
-		final double[][] R = X.getElements();
+		final double[][] R = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i < j) {
@@ -174,7 +190,7 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(R);
 	}
 
 	/**
@@ -183,8 +199,7 @@ public class QRDecomposition
 	 * @return the (economy-sized) orthogonal factor {@code Q}
 	 */
 	public Matrix getQ() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] Q = X.getElements();
+		final double[][] Q = new double[m][n];
 		for (int k = n - 1; k >= 0; --k) {
 			for (int i = 0; i < m; ++i) {
 				Q[i][k] = 0.;
@@ -203,7 +218,7 @@ public class QRDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(Q);
 	}
 
 
@@ -212,54 +227,48 @@ public class QRDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the least squares solution of {@code A * X = B}.
+	 * Returns the least squares solution of {@code A X = B}.
 	 * <p>
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
 	 * <p>
-	 * @return {@code X} that minimizes the two norm of {@code Q * R * X - B}
+	 * @return {@code X} that minimizes the two norm of {@code Q R X - B}
 	 * <p>
-	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
-	 * @throws IllegalOperationException if {@code A} is rank deficient
+	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
 		MatrixArguments.requireRowDimension(B.getRowDimension(), m);
 
-		// Verify the feasibility
-		if (!isFullRank()) {
-			throw new IllegalOperationException("The matrix is rank deficient");
-		}
-
 		// Initialize
-		final int nx = B.getColumnDimension();
-		final double[][] xElements = B.getAll();
+		final Matrix X = B.clone();
+		final int n = X.getColumnDimension();
+		final double[] elements = X.getElements();
 
 		// Compute Y = Q' * B
 		for (int k = 0; k < n; ++k) {
-			for (int j = 0; j < nx; ++j) {
+			for (int j = 0; j < n; ++j) {
 				double s = 0.;
 				for (int i = k; i < m; ++i) {
-					s += QR[i][k] * xElements[i][j];
+					s += QR[i][k] * elements[i * n + j];
 				}
 				s = -s / QR[k][k];
 				for (int i = k; i < m; ++i) {
-					xElements[i][j] += s * QR[i][k];
+					elements[i * n + j] += s * QR[i][k];
 				}
 			}
 		}
 
-		// Solve R * X = Y
+		// Solve R * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < nx; ++j) {
-				xElements[k][j] /= Rdiag[k];
+			for (int j = 0; j < n; ++j) {
+				elements[k * n + j] /= Rdiag[k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * QR[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * QR[i][k];
 				}
 			}
 		}
-
-		return new Matrix(n, nx, xElements).getSubmatrix(0, n, 0, nx);
+		return X;
 	}
 }

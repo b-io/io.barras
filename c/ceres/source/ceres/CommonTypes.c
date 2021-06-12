@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,23 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/CommonTypes.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * SIZES
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural BOOLEAN_SIZE = sizeof (boolean);
-const natural CHARACTER_SIZE = sizeof (character);
-const natural DIGIT_SIZE = sizeof (digit);
-const natural INTEGER_SIZE = sizeof (integer);
-const natural NATURAL_SIZE = sizeof (natural);
-const natural REAL_SIZE = sizeof (real);
-const natural STRING_SIZE = _STRING_SIZE * sizeof (character);
+const size BOOLEAN_SIZE = sizeof (boolean);
+const size CHARACTER_SIZE = sizeof (character);
+const size DIGIT_SIZE = sizeof (digit);
+const size INTEGER_SIZE = sizeof (integer);
+const size NATURAL_SIZE = sizeof (natural);
+const size REAL_SIZE = sizeof (real);
+const size STRING_SIZE = _STRING_SIZE * sizeof (character);

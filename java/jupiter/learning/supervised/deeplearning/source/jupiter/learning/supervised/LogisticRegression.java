@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,55 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.SIGMOID;
 
 import java.io.IOException;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
-import jupiter.math.analysis.function.Functions;
+import jupiter.common.util.Objects;
 import jupiter.math.linear.entity.Entity;
+import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * Binary classifier using the logistic model to estimate the probability of a binary response based
- * on one or more predictor (or independent) variables (features).
+ * {@link LogisticRegression} is the {@link Classifier} using the logistic model to estimate the
+ * probability of a binary response based on one or more predictor (or independent) variables
+ * (features).
  */
 public class LogisticRegression
-		extends BinaryClassifier {
+		extends Classifier {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The weight vector W
+	/**
+	 * The {@link Vector} {@code W} containing the weights.
+	 */
 	protected Vector W; // (1 x n)
 
-	// The bias b
+	/**
+	 * The {@link Scalar} {@code b} containing the bias.
+	 */
 	protected Scalar b;
 
-	// The hidden vector A
+	/**
+	 * The {@link Vector} {@code A} containing the {@code Y} estimates.
+	 */
 	protected Entity A;
 
 
@@ -60,56 +80,68 @@ public class LogisticRegression
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a logistic regression model.
+	 * Constructs a {@link LogisticRegression} with the specified number of features {@code n}.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features {@code n}
 	 */
-	public LogisticRegression(final int nFeatures) {
-		super(nFeatures);
+	public LogisticRegression(final int featureCount) {
+		super(featureCount);
 	}
 
 	/**
-	 * Constructs a logistic regression model from the specified files containing the feature
-	 * vectors and the classes.
+	 * Constructs a {@link LogisticRegression} with the files denoted by the specified paths
+	 * containing the feature vectors and classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
-	 *                               (n x m)
-	 * @param classesPathname        the pathname of the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m}
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
-	public LogisticRegression(final String featureVectorsPathname, final String classesPathname)
+	public LogisticRegression(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		super(featureVectorsPathname, classesPathname);
+		super(featureVectorsPath, classesPath);
 	}
 
 	/**
-	 * Constructs a logistic regression model from the specified files containing the feature
-	 * vectors and the classes.
+	 * Constructs a {@link LogisticRegression} with the files denoted by the specified paths
+	 * containing the feature vectors and classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
-	 *                               (n x m) (or (m x n) if {@code transpose})
-	 * @param classesPathname        the pathname of the file containing the classes of size m
-	 * @param transpose              the option specifying whether to transpose the feature vectors
-	 *                               and the classes
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
-	public LogisticRegression(final String featureVectorsPathname, final String classesPathname,
+	public LogisticRegression(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		super(featureVectorsPathname, classesPathname, transpose);
+		super(featureVectorsPath, classesPath, transpose);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the {@link Vector} {@code W} containing the weights.
+	 * <p>
+	 * @return the {@link Vector} {@code W} containing the weights
+	 */
 	public synchronized Vector getWeights() {
 		return W;
 	}
 
+	/**
+	 * Returns the {@link Scalar} {@code b} containing the bias.
+	 * <p>
+	 * @return the {@link Scalar} {@code b} containing the bias
+	 */
 	public synchronized Scalar getBias() {
 		return b;
 	}
@@ -118,7 +150,7 @@ public class LogisticRegression
 
 	public synchronized void setWeights(final Vector weights) {
 		// Check the arguments
-		Arguments.require(weights.getColumnDimension(), nFeatures);
+		Arguments.require(weights.getColumnDimension(), featureCount);
 
 		// Set the weights
 		W = weights;
@@ -126,7 +158,7 @@ public class LogisticRegression
 
 	public synchronized void setBias(final Scalar bias) {
 		// Check the arguments
-		Arguments.requireNonNull(bias);
+		Arguments.requireNonNull(bias, "bias");
 
 		// Set the bias
 		b = bias;
@@ -134,71 +166,74 @@ public class LogisticRegression
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
-	 * @param learningRate  the learning rate
-	 * @param tolerance     the tolerance level
-	 * @param maxIterations the maximum number of iterations
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterations) {
-		if (mTrainingExamples == 0) {
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
+			final int maxIterationCount) {
+		// Check the arguments
+		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;
 		}
 
-		// Initialize
-		final Scalar alpha = new Scalar(learningRate);
-		// - The weight vector
-		if (W == null) {
-			W = new Vector(nFeatures, true); // (1 x n)
-		}
-		// - The bias
-		if (b == null) {
-			b = Scalar.ZERO;
-		}
-		// - The frequency of the convergence test
-		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
-				Maths.roundToInt(1. / learningRate));
-		// - The cost
-		double j = Double.POSITIVE_INFINITY;
+		Matrix.parallelize();
+		try {
+			// Initialize
+			// • The weight vector
+			if (W == null) {
+				W = new Vector(featureCount, true); // (1 x n)
+			}
+			// • The bias
+			if (b == null) {
+				b = new Scalar(0.);
+			}
+			// • The frequency of the convergence test
+			final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
+					Maths.roundToInt(1. / learningRate));
+			// • The cost
+			cost = Double.POSITIVE_INFINITY;
 
-		// Train
-		for (int i = 0; i < maxIterations; ++i) {
-			// Compute A = sigmoid(Z) = sigmoid(W X + b)
-			A = estimate(X); // (1 x m)
+			// Train
+			for (int i = 0; i < maxIterationCount; ++i) {
+				// Compute A = sigmoid(Z) = sigmoid(W X + b)
+				A = estimate(X); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				final double delta = Maths.delta(j, cost);
-				j = cost;
-
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
+				// Test whether the tolerance level ε is reached
+				if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+					IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
 					return i;
 				}
+
+				// Compute the derivatives with respect to Z, W and b
+				final Entity dZT = A.minus(Y).transpose(); // (m x 1)
+				final Entity dW = X.times(dZT).divide(trainingExampleCount).transpose(); // (1 x n)
+				final Scalar db = dZT.mean().toScalar();
+
+				// Update the weights and bias
+				W.subtract(dW.multiply(learningRate)).toVector(); // (1 x n)
+				b.subtract(db.multiply(learningRate)).toScalar();
 			}
-
-			// Compute the derivatives
-			final Entity dZT = A.minus(Y).transpose(); // (m x 1)
-			final Entity dW = X.times(dZT).division(new Scalar(mTrainingExamples)).transpose(); // (1 x n)
-			final Scalar db = dZT.mean().toScalar();
-
-			// Update the weights and the bias
-			W = W.minus(alpha.times(dW)).toVector(); // (1 x n)
-			b = b.minus(alpha.times(db)).toScalar();
+			IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
+		} finally {
+			Matrix.unparallelize();
 		}
-
-		return maxIterations;
+		return maxIterationCount;
 	}
 
 	/**
@@ -220,12 +255,33 @@ public class LogisticRegression
 	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
 	 * Computes the sigmoid of {@code Z = W X + b}.
 	 * <p>
-	 * @param X the feature vectors of size (n x m)
+	 * @param X the feature vectors of size {@code n x m}
 	 * <p>
 	 * @return the estimated probability of the binary response for all feature vector in {@code X}
 	 */
 	@Override
 	public synchronized Entity estimate(final Entity X) {
-		return W.times(X).plus(b).apply(Functions.SIGMOID); // (1 x m)
+		return W.times(X).add(b).apply(SIGMOID); // (1 x m)
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public LogisticRegression clone() {
+		final LogisticRegression clone = (LogisticRegression) super.clone();
+		clone.W = Objects.clone(W);
+		clone.b = Objects.clone(b);
+		clone.A = Objects.clone(A);
+		return clone;
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,10 +29,26 @@ public class GaussianModel
 		extends StatisticalModel {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The mean.
+	 */
 	protected final double mean;
+	/**
+	 * The standard deviation.
+	 */
 	protected final double standardDeviation;
 
 
@@ -40,18 +56,32 @@ public class GaussianModel
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link GaussianModel} with the specified mean and standard deviation.
+	 * <p>
+	 * @param mean              the mean
+	 * @param standardDeviation the standard deviation
+	 */
 	public GaussianModel(final double mean, final double standardDeviation) {
+		super();
 		this.mean = mean;
 		this.standardDeviation = standardDeviation;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// STATISTICAL MODEL
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidence.
+	 * <p>
+	 * @param evidence a {@code double} value
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidence
+	 */
 	@Override
-	public double getLikelihood(final double value) {
-		return Statistics.getNormalPdf(value, mean, standardDeviation);
+	public double getLikelihood(final double evidence) {
+		return Statistics.normalPDF(evidence, mean, standardDeviation);
 	}
 }

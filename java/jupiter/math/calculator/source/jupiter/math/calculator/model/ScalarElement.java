@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,38 @@ public class ScalarElement
 		extends Element {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ScalarElement} with the specified parent {@link Element} and expression
+	 * {@link String}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 */
 	public ScalarElement(final Element parent, final String expression) {
 		super(parent, expression, new Scalar(Double.parseDouble(expression)));
 	}
 
+	/**
+	 * Constructs a {@link ScalarElement} with the specified parent {@link Element}, expression
+	 * {@link String} and {@link Scalar}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param scalar     the {@link Scalar}
+	 */
 	public ScalarElement(final Element parent, final String expression, final Scalar scalar) {
 		super(parent, expression, scalar);
 	}

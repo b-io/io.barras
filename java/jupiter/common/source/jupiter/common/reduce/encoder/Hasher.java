@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,32 +23,64 @@
  */
 package jupiter.common.reduce.encoder;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.reduce.Reducer;
 import jupiter.common.util.Objects;
 
 /**
- * {@link Hasher} is a reduce operator hashing an array of {@code I} objects to an {@code Integer}.
+ * {@link Hasher} is the {@link Reducer} hashing an {@code I} input array to an output
+ * {@link Integer}.
  * <p>
- * @param <I> the type of the array to hash
+ * @param <I> the component type of the input array to hash
  */
 public class Hasher<I>
 		extends Reducer<I, Integer> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Hasher(final Class<Integer> type) {
+	/**
+	 * Constructs a {@link Hasher} of {@code I} type.
+	 */
+	public Hasher() {
 		super(Integer.class);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public Integer call(final I... input) {
+	public Integer call(final I[] input) {
 		return Objects.hashCode(input);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Hasher<I> clone() {
+		return new Hasher<I>();
 	}
 }

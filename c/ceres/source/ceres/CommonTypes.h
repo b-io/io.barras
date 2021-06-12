@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_TYPES_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -40,9 +39,9 @@ extern "C"
 #include <time.h>
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * PRIMITIVE TYPES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the addresses.
@@ -64,14 +63,14 @@ extern "C"
 #endif
 
 	/**
-	 * Defines the digits (symbols) as unsigned characters ([_DIGIT_MIN, _DIGIT_MAX]).
+	 * Defines the digits (symbols) ([_DIGIT_MIN, _DIGIT_MAX]).
 	 */
 	typedef unsigned char digit;
 
 	/**
 	 * Defines the integers ([_INTEGER_MIN, _INTEGER_MAX]).
 	 */
-#if __STDC__
+#if _32_BITS
 	typedef signed long int integer;
 #else
 	typedef signed long long int integer;
@@ -80,12 +79,21 @@ extern "C"
 	/**
 	 * Defines the natural numbers ([_NATURAL_MIN, _NATURAL_MAX]).
 	 */
-	typedef size_t natural;
+#if _32_BITS
+	typedef unsigned long int natural;
+#else
+	typedef unsigned long long int natural;
+#endif
 
 	/**
 	 * Defines the real numbers ([_REAL_MIN, _REAL_MAX]).
 	 */
 	typedef long double real;
+
+	/**
+	 * Defines the sizes.
+	 */
+	typedef size_t size;
 
 	/**
 	 * Defines the status.
@@ -98,9 +106,9 @@ extern "C"
 	typedef integer type;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ARRAY TYPES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines a string as an array of characters of size {@code _STRING_SIZE}.
@@ -108,9 +116,9 @@ extern "C"
 	typedef character string[_STRING_SIZE];
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	typedef void (*function_release)(void*);
 	typedef void* (*function_clone)(const void*);
@@ -120,16 +128,16 @@ extern "C"
 	typedef boolean(*function_append_to_string)(const void*, string);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	typedef integer(*function_compare_to)(const void*, const type, const void*);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * I/O
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the I/O types.
@@ -141,27 +149,29 @@ extern "C"
 	} IOType;
 
 	/**
-	 * Defines the Severity Levels.
+	 * Defines the severity levels.
 	 */
 	typedef enum SeverityLevel
 	{
-		_RESULT,
-		_INFO,
+		_TRACE,
+		_DEBUG,
 		_TEST,
+		_INFO,
+		_RESULT,
 		_WARNING,
 		_ERROR,
 		_FAILURE
 	} SeverityLevel;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TIME
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the clock ticks.
 	 */
-	typedef clock_t clocks;
+	typedef clock_t tick;
 
 	/**
 	 * Defines the timestamps.
@@ -174,44 +184,44 @@ extern "C"
 	typedef struct tm Time;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * SIZES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the size of the booleans.
 	 */
-	extern const natural BOOLEAN_SIZE;
+	extern const size BOOLEAN_SIZE;
 
 	/**
 	 * Defines the size of the characters.
 	 */
-	extern const natural CHARACTER_SIZE;
+	extern const size CHARACTER_SIZE;
 
 	/**
 	 * Defines the size of the digits.
 	 */
-	extern const natural DIGIT_SIZE;
+	extern const size DIGIT_SIZE;
 
 	/**
 	 * Defines the size of the integers.
 	 */
-	extern const natural INTEGER_SIZE;
+	extern const size INTEGER_SIZE;
 
 	/**
 	 * Defines the size of the natural numbers.
 	 */
-	extern const natural NATURAL_SIZE;
+	extern const size NATURAL_SIZE;
 
 	/**
 	 * Defines the size of the real numbers.
 	 */
-	extern const natural REAL_SIZE;
+	extern const size REAL_SIZE;
 
 	/**
 	 * Defines the size of the strings.
 	 */
-	extern const natural STRING_SIZE;
+	extern const size STRING_SIZE;
 
 
 #endif /* _COMMON_TYPES_H */

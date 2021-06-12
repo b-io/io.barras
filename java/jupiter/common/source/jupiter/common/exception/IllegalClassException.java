@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,6 @@
  */
 package jupiter.common.exception;
 
-import jupiter.common.util.Strings;
-
 public class IllegalClassException
 		extends IllegalStateException {
 
@@ -35,7 +33,7 @@ public class IllegalClassException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -8322965059593957439L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,13 +41,23 @@ public class IllegalClassException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class} of type
-	 * {@code T}.
+	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class}.
 	 * <p>
-	 * @param <T> the type of the illegal {@link Class}
-	 * @param c   the illegal {@link Class} of type {@code T}
+	 * @param c the illegal {@link Class}
 	 */
-	public <T> IllegalClassException(final Class<T> c) {
-		super("Illegal class " + Strings.quote(c.getCanonicalName()));
+	public IllegalClassException(final Class<?> c) {
+		super("Illegal " + c);
+	}
+
+	/**
+	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class} and
+	 * {@link Throwable} cause (which is saved for later retrieval by the method {@link #getCause}).
+	 * <p>
+	 * @param c     the illegal {@link Class}
+	 * @param cause the {@link Throwable} cause (which is saved for later retrieval by the method
+	 *              {@link #getCause})
+	 */
+	public IllegalClassException(final Class<?> c, final Throwable cause) {
+		super("Illegal " + c, cause);
 	}
 }

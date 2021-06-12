@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,9 @@
 #define _COMMON_H
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // CONSTANTS
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #if defined(_WIN16) || defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
 #define _WINDOWS
@@ -40,6 +40,12 @@
 #define _FALSE	0
 #define _TRUE	1
 
+#ifdef TRACE
+#define _TRACE_MODE	_TRUE
+#else
+#define _TRACE_MODE	_FALSE
+#endif
+
 #ifdef DEBUG
 #define _DEBUG_MODE	_TRUE
 #else
@@ -47,12 +53,12 @@
 #endif
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // MACROS
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _DELETE(pointer)		if(pointer != NULL) { delete pointer; pointer = NULL; }
-#define _DELETE_TABLE(table)	if(table != NULL) { delete [] table; table = NULL; }
+#define _DELETE(pointer)					if(pointer != NULL) { delete pointer; pointer = NULL; }
+#define _DELETE_TABLE(table)				if(table != NULL) { delete [] table; table = NULL; }
 
 
 #endif // _COMMON_H

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,20 +23,38 @@
  */
 package jupiter.common.io.console;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 
 public class SystemConsole
-		implements IConsole {
+		implements IConsole, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link Charset} of the input lines to read.
+	 */
 	protected final Charset charset;
+	/**
+	 * The {@link Scanner} of the input lines to read.
+	 */
 	protected final Scanner scanner;
 
 
@@ -44,49 +62,62 @@ public class SystemConsole
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link SystemConsole} by default.
+	 */
 	public SystemConsole() {
-		charset = Charset.defaultCharset();
-		scanner = new Scanner(System.in, charset.name());
+		this(Charset.defaultCharset());
 	}
 
+	/**
+	 * Constructs a {@link SystemConsole} with the specified {@link Charset}.
+	 * <p>
+	 * @param charset the {@link Charset} of the input lines to read
+	 */
 	public SystemConsole(final Charset charset) {
 		this.charset = charset;
-		scanner = new Scanner(System.in, charset.name());
+		scanner = new Scanner(getIn(), charset.name());
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the standard input {@link InputStream}.
+	 * <p>
+	 * @return the standard input {@link InputStream}
+	 */
+	public InputStream getIn() {
+		return System.in;
+	}
 
 	/**
 	 * Returns the input line.
 	 * <p>
 	 * @return the input line
 	 */
-	public String input() {
-		IO.printInput();
+	public String getInputLine() {
+		IO.input();
 		return scanner.nextLine();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the "standard" output stream.
+	 * Returns the standard output {@link PrintStream}.
 	 * <p>
-	 * @return the "standard" output stream
+	 * @return the standard output {@link PrintStream}
 	 */
 	public PrintStream getOut() {
 		return System.out;
 	}
 
 	/**
-	 * Returns the "standard" error output stream.
+	 * Returns the standard error {@link PrintStream}.
 	 * <p>
-	 * @return the "standard" error output stream
+	 * @return the standard error {@link PrintStream}
 	 */
 	public PrintStream getErr() {
 		return System.err;

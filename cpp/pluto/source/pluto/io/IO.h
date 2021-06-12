@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,9 @@
 #define _IO_H
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // INCLUDES
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdlib.h>
 #include <string.h>
@@ -35,54 +35,78 @@
 #include "pluto/io/ConsoleHandler.h"
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // DEFINES
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#define _RESULT(content) IO::result(content)
-#define _INFO(content)  IO::info(content)
-#define _TEST(content)  IO::test(__FILE__, content)
-#define _DEBUG(content)  IO::debug(__FILE__, __FUNCTION__, __LINE__, content)
-#define _WARN(content)  IO::warning(content)
-#define _ERROR(content)  IO::error(__FILE__, content)
-#define _FAIL(content)  IO::failure(__FILE__, __FUNCTION__, __LINE__, content)
+#define _TRACE(content)						IO::trace(__FILE__, __FUNCTION__, __LINE__, content)
+#define _DEBUG(content)						IO::debug(__FILE__, __FUNCTION__, content)
+#define _TEST(content)						IO::test(__FILE__, content)
+#define _INFO(content)						IO::info(content)
+#define _RESULT(content)					IO::result(content)
+#define _WARN(content)						IO::warn(__FILE__, content)
+#define _ERROR(content)						IO::error(__FILE__, __FUNCTION__, content)
+#define _FAIL(content)						IO::fail(__FILE__, __FUNCTION__, __LINE__, content)
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // USING
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 using namespace std;
 
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // CLASS
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class IO
 {
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
 
 	static bool USE_LOGS;
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-private:
+protected:
 
 	IO();
 	virtual ~IO();
 
 
-	////////////////////////////////////////////////////////////////////////////
-	// PRINTS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OPERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+public:
+
+	/**
+	 * Gets the input line using the console handler and writes it in the log
+	 * indicating the I/O type {@code IOType.IN}.
+	 * <p>
+	 * @return the input {@link string}
+	 */
+	static string input()
+	{
+		const Message message = Message::createInputMessage(ConsoleHandler::getInputLine());
+		if (USE_LOGS)
+		{
+			//LogHandler.writeLine(message);
+		}
+		return message.getContent();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 public:
 
@@ -106,42 +130,72 @@ public:
 	 * @param error if {@code true}, use stderr instead of stdout
 	 */
 	template<typename T>
-	static void printLine(const T& message, const bool error)
+	static void printn(const T& message, const bool error)
 	{
-		ConsoleHandler::printLine(message, error);
+		ConsoleHandler::printn(message, error);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Gets the input line using the console handler and writes it in the log
-	 * indicating the I/O type {@code IOType.IN}.
+	 * Prints the specified string in the console and writes it in the log
+	 * indicating the severity level {@code SeverityLevel.TRACE}.
 	 * <p>
-	 * @return the input {@link string}
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param lineNumber   the line number
+	 * @param content      the content of the message to be printed
+	 * <p>
+	 * @return a {@link Message} containing the specified string
 	 */
-	static string getInputLine()
+	static Message trace(const string& filePath, const string& functionName, int lineNumber, const string& content)
 	{
-		const Message message = Message::createInputMessage(ConsoleHandler::getInputLine());
+		const Message message = Message::createOutputMessage(TRACE, filePath, functionName, lineNumber, content);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
-			// LogHandler.writeLine(message);
+			//LogHandler.writeLine(message);
 		}
-		return message.getContent();
+		return message;
 	}
 
 	/**
 	 * Prints the specified string in the console and writes it in the log
-	 * indicating the severity level {@code SeverityLevel.RESULT}.
+	 * indicating the severity level {@code SeverityLevel.DEBUG}.
 	 * <p>
-	 * @param string the {@link string} to be printed
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param content      the content of the message to be printed
 	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
-	static Message result(const string& content)
+	static Message debug(const string& filePath, const string& functionName, const string& content)
 	{
-		const Message message = Message::createOutputMessage(RESULT, content);
-		ConsoleHandler::printLine(message);
+		const Message message = Message::createOutputMessage(DEBUG, filePath, functionName, content);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
-			// LogHandler.writeLine(message);
+			//LogHandler.writeLine(message);
+		}
+		return message;
+	}
+
+	/**
+	 * Prints the specified string in the console and writes it in the log
+	 * indicating the severity level {@code SeverityLevel.TEST}.
+	 * <p>
+	 * @param filePath the file path
+	 * @param content  the content of the message to be printed
+	 * <p>
+	 * @return a {@link Message} containing the specified string
+	 */
+	static Message test(const string& filePath, const string& content)
+	{
+		const Message message = Message::createOutputMessage(TEST, filePath, content);
+		ConsoleHandler::printn(message);
+		if (USE_LOGS)
+		{
+			//LogHandler.writeLine(message);
 		}
 		return message;
 	}
@@ -157,7 +211,7 @@ public:
 	static Message info(const string& content)
 	{
 		const Message message = Message::createOutputMessage(INFO, content);
-		ConsoleHandler::printLine(message);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
 			// LogHandler.writeLine(message);
@@ -167,35 +221,16 @@ public:
 
 	/**
 	 * Prints the specified string in the console and writes it in the log
-	 * indicating the severity level {@code SeverityLevel.TEST}.
+	 * indicating the severity level {@code SeverityLevel.RESULT}.
 	 * <p>
 	 * @param string the {@link string} to be printed
 	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
-	static Message test(const string& filePath, const string& content)
+	static Message result(const string& content)
 	{
-		const Message message = Message::createOutputMessage(TEST, filePath, content);
-		ConsoleHandler::printLine(message);
-		if (USE_LOGS)
-		{
-			// LogHandler.writeLine(message);
-		}
-		return message;
-	}
-
-	/**
-	 * Prints the specified string in the console and writes it in the log
-	 * indicating the severity level {@code SeverityLevel.DEBUG}.
-	 * <p>
-	 * @param string the {@link string} to be printed
-	 * <p>
-	 * @return a {@link Message} containing the specified string
-	 */
-	static Message debug(const string& filePath, const string& functionName, int lineNumber, const string& content)
-	{
-		const Message message = Message::createOutputMessage(DEBUG, filePath, functionName, lineNumber, content);
-		ConsoleHandler::printLine(message);
+		const Message message = Message::createOutputMessage(RESULT, content);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
 			// LogHandler.writeLine(message);
@@ -207,17 +242,18 @@ public:
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.WARNING}.
 	 * <p>
-	 * @param string the {@link string} to be printed
+	 * @param filePath the file path
+	 * @param content  the content of the message to be printed
 	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
-	static Message warning(const string& content)
+	static Message warn(const string& filePath, const string& content)
 	{
-		const Message message = Message::createOutputMessage(WARNING, content);
-		ConsoleHandler::printLine(message);
+		const Message message = Message::createOutputMessage(WARNING, filePath, content);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
-			// LogHandler.writeLine(message);
+			//LogHandler.writeLine(message);
 		}
 		return message;
 	}
@@ -226,17 +262,19 @@ public:
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.ERROR}.
 	 * <p>
-	 * @param string the {@link string} to be printed
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param content      the content of the message to be printed
 	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
-	static Message error(const string& filePath, const string& content)
+	static Message error(const string& filePath, const string& functionName, const string& content)
 	{
-		const Message message = Message::createOutputMessage(ERROR, filePath, content);
-		ConsoleHandler::printLine(message);
+		const Message message = Message::createOutputMessage(ERROR, filePath, functionName, content);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
-			// LogHandler.writeLine(message);
+			//LogHandler.writeLine(message);
 		}
 		return message;
 	}
@@ -245,17 +283,20 @@ public:
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.FAILURE}.
 	 * <p>
-	 * @param string the {@link string} to be printed
+	 * @param filePath     the file path
+	 * @param functionName the function name
+	 * @param lineNumber   the line number
+	 * @param content      the content of the message to be printed
 	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
-	static Message failure(const string& filePath, const string& functionName, int lineNumber, const string& content)
+	static Message fail(const string& filePath, const string& functionName, int lineNumber, const string& content)
 	{
 		const Message message = Message::createOutputMessage(FAILURE, filePath, functionName, lineNumber, content);
-		ConsoleHandler::printLine(message);
+		ConsoleHandler::printn(message);
 		if (USE_LOGS)
 		{
-			// LogHandler.writeLine(message);
+			//LogHandler.writeLine(message);
 		}
 		exit(EXIT_FAILURE);
 		return message;

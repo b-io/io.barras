@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,16 +29,16 @@ extern "C"
 #define _VECTOR_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/Common.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONSTANTS
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the name of the Vectors.
@@ -49,16 +48,16 @@ extern "C"
 	/**
 	 * Defines the type of the Vectors.
 	 */
-#if defined(_32_BITS)
+#if _32_BITS
 #define _VECTOR_TYPE				-268035336L /* 32 bits */
-#elif defined(_64_BITS)
-#define _VECTOR_TYPE				7998392945010445330L /* 64 bits */
+#else
+#define _VECTOR_TYPE				7998392945010445330LL /* 64 bits */
 #endif
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * MACROS
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Checks if the specified Vector is correct.
@@ -76,18 +75,18 @@ extern "C"
 #define _VECTOR_CHECKS(V1, V2)					((V1) && (V2) && (V1)->dimension == (V2)->dimension && (V1)->dimension > 0 || Vector_checks(V1, V2))
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * STRUCTURES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the Vector.
 	 */
 	typedef struct Vector
 	{
-		/***********************************************************************
+		/*******************************************************************************************
 		 * BASIC
-		 **********************************************************************/
+		 ******************************************************************************************/
 
 		Core core;
 
@@ -97,15 +96,15 @@ extern "C"
 		integer(*hash)(const void* structure);
 		boolean(*toString)(const void* source, string target);
 
-		/***********************************************************************
+		/*******************************************************************************************
 		 * COMPARABLE
-		 **********************************************************************/
+		 ******************************************************************************************/
 
 		integer(*compareTo)(const void* structure, const type type, const void* value);
 
-		/***********************************************************************
+		/*******************************************************************************************
 		 * VECTOR
-		 **********************************************************************/
+		 ******************************************************************************************/
 
 		natural dimension;
 		real* values;
@@ -133,9 +132,9 @@ extern "C"
 	} Vector;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CHECK
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified Vector is not {@code NULL} and its
@@ -163,9 +162,9 @@ extern "C"
 	boolean Vector_checks(const Vector* first, const Vector* second);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONSTRUCT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Vector dynamically.
@@ -176,7 +175,7 @@ extern "C"
 	 */
 	Vector* Vector_new(const natural dimension);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Constructs a Vector from {@code startingPoint} to {@code endingPoint}
@@ -190,9 +189,9 @@ extern "C"
 	Vector* Vector_from_to_new(const Vector* startingPoint, const Vector* endingPoint);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RESET
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Resets the specified Vector.
@@ -203,9 +202,9 @@ extern "C"
 	void Vector_reset(void* vector, const natural dimension);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * VECTOR
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Resets the specified Vector to the origin.
@@ -235,8 +234,7 @@ extern "C"
 	void Vector_set_from(Vector* vector, const natural from, const real* values, const natural size);
 
 	/**
-	 * Sets the values of {@code first} to the values of
-	 * {@code second}.
+	 * Sets the values of {@code first} to the values of {@code second}.
 	 * <p>
 	 * @param first  the Vector to be set
 	 * @param second the Vector to set
@@ -250,7 +248,7 @@ extern "C"
 	 */
 	void Vector_set_zero(Vector* vector);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the norm of the specified Vector.
@@ -280,7 +278,7 @@ extern "C"
 	 */
 	Vector* Vector_scale(Vector* vector, const real scaleFactor);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Add {@code second} to {@code first}.
@@ -312,23 +310,21 @@ extern "C"
 	 */
 	Vector* Vector_times(Vector* first, const Vector* second);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
-	 * Returns the dot value between {@code first} and
-	 * {@code second}.
+	 * Returns the dot value between {@code first} and {@code second}.
 	 * <p>
 	 * @param first  the first Vector
 	 * @param second the second Vector
 	 * <p>
-	 * @return the dot value between {@code first} and
-	 *         {@code second}
+	 * @return the dot value between {@code first} and {@code second}
 	 */
 	real Vector_dot(const Vector* first, const Vector* second);
 
 	/**
-	 * Computes the cross value between {@code first} and
-	 * {@code second} and stores the result in {@code result}.
+	 * Computes the cross value between {@code first} and {@code second} and
+	 * stores the result in {@code result}.
 	 * <p>
 	 * @param first  the first Vector
 	 * @param second the second Vector
@@ -338,7 +334,7 @@ extern "C"
 	 */
 	Vector* Vector_cross(const Vector* first, const Vector* second, Vector* result);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Rotates {@code vector} around {@code axis} of {@code angle} radians and
@@ -353,7 +349,7 @@ extern "C"
 	 */
 	Vector* Vector_rotate(const Vector* vector, const Vector* axis, const real angle, Vector* result);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the angle between {@code first} and {@code second}.
@@ -382,9 +378,9 @@ extern "C"
 	real Vector_oriented_angle(const Vector* firstPoint, Vector* firstNormal, const Vector* secondPoint, Vector* secondNormal);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Comparable.
@@ -408,9 +404,9 @@ extern "C"
 	integer Vector_compare_to(const void* structure, const type type, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Releases the specified structure and frees it if requested.
@@ -419,7 +415,7 @@ extern "C"
 	 */
 	void Vector_release(void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
@@ -430,7 +426,7 @@ extern "C"
 	 */
 	void* Vector_clone(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
@@ -445,7 +441,7 @@ extern "C"
 	 */
 	boolean Vector_equals(const void* structure, const type type, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the hash code of the specified structure.
@@ -456,7 +452,7 @@ extern "C"
 	 */
 	integer Vector_hash(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

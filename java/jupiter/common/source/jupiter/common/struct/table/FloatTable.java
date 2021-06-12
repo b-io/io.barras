@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Floats;
 
 /**
- * {@link FloatTable} is a {@link NumberTable} of {@link Float}.
+ * {@link FloatTable} is the {@link NumberTable} of {@link Float}.
  */
 public class FloatTable
 		extends NumberTable<Float> {
@@ -41,7 +42,7 @@ public class FloatTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -7235373426251739423L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,26 +50,53 @@ public class FloatTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link FloatTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link FloatTable} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public FloatTable(final int m, final int n) {
-		super(Float.class, m, n);
+	public FloatTable(final int rowCount, final int columnCount) {
+		super(Float.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} from the specified values.
+	 * Constructs a {@link FloatTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param values a 2D array of {@code float} values
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public FloatTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Float.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link FloatTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public FloatTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Float.class, index, header, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FloatTable} with the specified {@code float} values.
+	 * <p>
+	 * @param values a 2D {@code float} array
 	 */
 	public FloatTable(final float[]... values) {
 		this(Floats.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} from the specified elements.
+	 * Constructs a {@link FloatTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Float}
 	 */
@@ -77,17 +105,17 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} from the specified header and values.
+	 * Constructs a {@link FloatTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code float} values
+	 * @param values a 2D {@code float} array
 	 */
 	public FloatTable(final String[] header, final float[]... values) {
 		this(header, Floats.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} from the specified header and elements.
+	 * Constructs a {@link FloatTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Float}
@@ -97,16 +125,40 @@ public class FloatTable
 	}
 
 	/**
-	 * Constructs a {@link FloatTable} imported from the specified file.
+	 * Constructs a {@link FloatTable} with the specified index, header and values.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code float} array
 	 */
-	public FloatTable(final String pathname, final boolean hasHeader)
+	public FloatTable(final Object[] index, final String[] header, final float[]... values) {
+		this(index, header, Floats.toArray2D(values));
+	}
+
+	/**
+	 * Constructs a {@link FloatTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Float}
+	 */
+	public FloatTable(final Object[] index, final String[] header, final Float[]... elements) {
+		super(Float.class, index, header, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link FloatTable} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public FloatTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.FLOAT_PARSER, pathname, hasHeader);
+		super(IParsers.FLOAT_PARSER, path, hasHeader);
 	}
 
 
@@ -114,7 +166,46 @@ public class FloatTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code float} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code float} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Floats#toPrimitiveArray(Object[][])
+	 */
+	public float[] toPrimitiveArray() {
+		return Floats.toPrimitiveArray(elements);
+	}
+
+	/**
+	 * Returns a 2D {@code float} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code float} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Floats#toPrimitiveArray2D(Object[][])
+	 */
 	public float[][] toPrimitiveArray2D() {
 		return Floats.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public FloatTable clone() {
+		return (FloatTable) super.clone();
 	}
 }

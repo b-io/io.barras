@@ -10,7 +10,7 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 #COPYRIGHT
-#    Copyright © 2013-2018 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2021 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ################################################################################
 
@@ -180,7 +180,7 @@ installRpmFile()
 	fi &&
 	checkFile "$filename" &&
 
-	startList 'Uninstall the previous package (if exists)' &&
+	startList 'Uninstall the previous package (if it exists)' &&
 		uninstallRpmFile "`getBaseWithoutExtension "$filename"`" &&
 	endList &&
 

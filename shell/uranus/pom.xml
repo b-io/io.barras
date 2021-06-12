@@ -18,24 +18,19 @@
 	<description>Utility library for POSIX Shell</description>
 	<url>https://github.com/b-io/io.barras/tree/master/shell/uranus</url>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
-			<!-- Install -->
+			<!-- Execute the installation -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>install</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
+
 				<configuration>
 					<executable>sh</executable>
 					<!-- Optional -->
 					<workingDirectory>${basedir}</workingDirectory>
+
 					<arguments>
 						<argument>${basedir}/ura-install</argument>
 						<argument>-v</argument>

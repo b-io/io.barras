@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,20 @@
 package saturn.common.util
 
 object Numbers {
-	////////////////////////////////////////////////////////////////////////////
-	// CONVERSIONS
-	////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def binToDec(digits: String): String = BigInt(digits, 2).toString(10)
+
 	def binToHex(digits: String): String = BigInt(digits, 2).toString(16)
 
 	def decToBin(digits: String): String = BigInt(digits, 10).toString(2)
+
 	def decToHex(digits: String): String = BigInt(digits, 10).toString(16)
 
 	def hexToBin(digits: String): String = BigInt(digits, 16).toString(2)
+
 	def hexToDec(digits: String): String = BigInt(digits, 16).toString(10)
 }

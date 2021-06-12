@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,21 @@
  */
 package jupiter.common.struct.map.tree;
 
-
+import java.util.Comparator;
 import java.util.Map;
 
-import jupiter.common.struct.map.tree.node.RedBlackTreeNode;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 
-public class RedBlackTreeMap<K extends Comparable<K>, V>
+/**
+ * {@link RedBlackTreeMap} is the red-black {@link BinaryTreeMap} of {@code K} and {@code V} types.
+ * <p>
+ * @param <K> the key type of the {@link RedBlackTreeMap}
+ * @param <V> the value type of the {@link RedBlackTreeMap}
+ */
+public class RedBlackTreeMap<K, V>
 		extends BinaryTreeMap<K, V, RedBlackTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,72 +47,207 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3902043593311520079L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public RedBlackTreeMap() {
-		super();
+	/**
+	 * Constructs an empty {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types by
+	 * default.
+	 * <p>
+	 * @param c the key {@link Class} of {@code K} type
+	 */
+	public RedBlackTreeMap(final Class<K> c) {
+		super(c);
 	}
 
-	public RedBlackTreeMap(final Map<? extends K, ? extends V> map) {
-		putAll(map);
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected RedBlackTreeMap(final Class<K> c, final K[] keys, final V[] values) {
+		super(c, keys, values);
+	}
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified {@link Map} containing the key-value mappings.
+	 * <p>
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
+	 *                            default {@code keyComparator}
+	 */
+	public RedBlackTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
+		super(c, map);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an empty {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with
+	 * the specified key {@link Comparator}.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 */
+	public RedBlackTreeMap(final Comparator<? super K> keyComparator) {
+		super(keyComparator);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified key and value arrays containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@code K} array containing the keys of the key-value mappings to
+	 *                      load
+	 * @param values        the {@code V} array containing the values of the key-value mappings to
+	 *                      load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected RedBlackTreeMap(final Comparator<? super K> keyComparator, final K[] keys,
+			final V[] values) {
+		super(keyComparator, keys, values);
+	}
+
+	/**
+	 * Constructs a {@link RedBlackTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
+	 *                            {@code keyComparator}
+	 */
+	public RedBlackTreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super(keyComparator, map);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the height.
+	 * <p>
+	 * @return the height
+	 */
+	@Override
+	@SuppressWarnings({"unchecked", "varargs"})
+	public int getHeight() {
+		// Initialize
+		final ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>> nodes = new ExtendedLinkedList<Pair<Integer, RedBlackTreeNode<K, V>>>(
+				new Pair<Integer, RedBlackTreeNode<K, V>>(0, root));
+
+		// Compute the height
+		int currentHeight = 0, nextHeight = 1;
+		boolean hasLeaf = false;
+		while (nodes.isNonEmpty()) {
+			final Pair<Integer, RedBlackTreeNode<K, V>> element = nodes.remove();
+			final int height = element.getFirst();
+			final RedBlackTreeNode<K, V> node = element.getSecond();
+			if (currentHeight < height) {
+				if (!hasLeaf) {
+					break;
+				}
+				++currentHeight;
+				++nextHeight;
+				hasLeaf = false;
+			}
+			if (node != null) {
+				hasLeaf = hasLeaf || node.left != null || node.right != null;
+				nodes.add(new Pair<Integer, RedBlackTreeNode<K, V>>(nextHeight, node.left));
+				nodes.add(new Pair<Integer, RedBlackTreeNode<K, V>>(nextHeight, node.right));
+			}
+		}
+		return currentHeight + 1;
+	}
+
+	/**
+	 * Returns the maximum height.
+	 * <p>
+	 * @return the maximum height
+	 */
+	@Override
+	public int getMaxHeight() {
+		return 2 * getOptimalHeight();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@link RedBlackTreeNode} of type {@code K} and {@code V}
+	 * @param node a {@link RedBlackTreeNode} of {@code K} and {@code V} types (may be {@code null})
 	 */
 	@Override
 	protected void setRoot(final RedBlackTreeNode<K, V> node) {
 		root = node;
 		if (root != null) {
 			root.parent = null;
-			root.isRed = false;
+			root.isBlack = true;
 		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified value with the specified key and returns the previous associated
-	 * value, or {@code null} if not present.
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
-	 * @param key   the key of the key-value mapping to put
-	 * @param value the value of the key-value mapping to put
+	 * @param key   the {@code K} key of the key-value mapping to put
+	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
 	 * <p>
-	 * @return the previous associated value, or {@code null} if not present
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Put the key-value mapping
 		RedBlackTreeNode<K, V> tree = root;
 		if (tree == null) {
-			// The root is set to a new node containing the specified key and value
-			setRoot(new RedBlackTreeNode<K, V>(key, value));
+			// The root is set to a new node containing the key and value
+			setRoot(new RedBlackTreeNode<K, V>(key, value, keyComparator));
 		} else {
 			int comparison;
 			RedBlackTreeNode<K, V> parent;
 			do {
-				comparison = key.compareTo(tree.key);
+				comparison = keyComparator.compare(key, tree.key);
 				if (comparison < 0) {
 					parent = tree;
 					tree = tree.left;
@@ -116,8 +259,9 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 					return tree.setValue(value);
 				}
 			} while (tree != null);
-			// Create a new node containing the specified key and value
-			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value);
+			// Create the node containing the key and value
+			final RedBlackTreeNode<K, V> newNode = new RedBlackTreeNode<K, V>(key, value,
+					keyComparator);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
 				parent.setLeft(newNode);
@@ -125,7 +269,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 				// The new node is the right node of the parent
 				parent.setRight(newNode);
 			}
-			// Balance this tree if necessary
+			// Balance this tree if required
 			balanceAfterInsertion(newNode);
 		}
 		// Increment the number of nodes
@@ -137,19 +281,19 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified node.
+	 * Removes the specified {@link RedBlackTreeNode} from {@code this}.
 	 * <p>
-	 * @param node the node to remove
+	 * @param node the {@link RedBlackTreeNode} of {@code K} and {@code V} types to remove
 	 */
 	@Override
 	protected void removeNode(final RedBlackTreeNode<K, V> node) {
-		// Get the parent and the successor of the specified node
+		// Get the parent and successor of the node
 		final RedBlackTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
-			// - There is 0 or 1 child (so the tree is guaranteed to be balanced)
-			// Get the child if present
-			RedBlackTreeNode<K, V> child;
+			// • There is 0 or 1 child (so the tree is guaranteed to be balanced)
+			// Get the child (if it exists)
+			final RedBlackTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;
 			} else if (node.right != null) {
@@ -157,7 +301,7 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 			} else {
 				child = null;
 				// If the node is black
-				if (!node.isRed) {
+				if (node.isBlack) {
 					// Balance this tree from the node
 					balanceAfterDeletion(node);
 				}
@@ -171,14 +315,14 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 				parent.setRight(child);
 			}
 			// If the node has at least one child and is black
-			if (child != null && !node.isRed) {
+			if (child != null && node.isBlack) {
 				// Balance this tree from the child
 				balanceAfterDeletion(child);
 			}
 			// Decrement the number of nodes
 			--size;
 		} else {
-			// - There are 2 children (so the tree is not guaranteed to be balanced)
+			// • There are 2 children (so the tree is not guaranteed to be balanced)
 			// Get the successor of the node to remove
 			// @note the successor cannot be null since the node has a right node
 			final RedBlackTreeNode<K, V> successor = getSuccessor(node);
@@ -193,9 +337,9 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances after inserting the specified node.
+	 * Balances after inserting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the inserted node
+	 * @param node the inserted {@link RedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterInsertion(RedBlackTreeNode<K, V> node) {
@@ -205,15 +349,15 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 		// Get the grand-parent
 		RedBlackTreeNode<K, V> grandParent = parent.parent;
 		RedBlackTreeNode<K, V> uncle;
-		while (parent.isRed) {
+		while (!parent.isBlack) {
 			if (parent.isLeft) {
 				// Get the uncle
-				uncle = grandParent == null ? null : grandParent.right;
-				if (uncle != null && uncle.isRed) {
-					// Update the colors
-					parent.isRed = false;
-					uncle.isRed = false;
-					grandParent.isRed = true;
+				uncle = grandParent != null ? grandParent.right : null;
+				if (uncle != null && !uncle.isBlack) {
+					// Update the node colors
+					parent.isBlack = true;
+					uncle.isBlack = true;
+					grandParent.isBlack = false;
 					// Update the references
 					node = grandParent;
 					parent = node.parent;
@@ -233,21 +377,21 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 							break;
 						}
 					}
-					// Update the colors and rotate right
-					parent.isRed = false;
+					// Update the node colors and rotate right
+					parent.isBlack = true;
 					if (grandParent != null) {
-						grandParent.isRed = true;
+						grandParent.isBlack = false;
 						rotateRight(grandParent);
 					}
 				}
 			} else {
 				// Get the uncle
-				uncle = grandParent == null ? null : grandParent.left;
-				if (uncle != null && uncle.isRed) {
-					// Update the colors
-					parent.isRed = false;
-					uncle.isRed = false;
-					grandParent.isRed = true;
+				uncle = grandParent != null ? grandParent.left : null;
+				if (uncle != null && !uncle.isBlack) {
+					// Update the node colors
+					parent.isBlack = true;
+					uncle.isBlack = true;
+					grandParent.isBlack = false;
 					// Update the references
 					node = grandParent;
 					parent = node.parent;
@@ -267,55 +411,55 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 							break;
 						}
 					}
-					// Update the colors and rotate left
-					parent.isRed = false;
+					// Update the node colors and rotate left
+					parent.isBlack = true;
 					if (grandParent != null) {
-						grandParent.isRed = true;
+						grandParent.isBlack = false;
 						rotateLeft(grandParent);
 					}
 				}
 			}
 		}
-		root.isRed = false;
+		root.isBlack = true;
 	}
 
 	/**
-	 * Balances after deleting the specified node.
+	 * Balances after deleting the specified {@link RedBlackTreeNode}.
 	 * <p>
-	 * @param node the deleted node
+	 * @param node the deleted {@link RedBlackTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void balanceAfterDeletion(RedBlackTreeNode<K, V> node) {
 		RedBlackTreeNode<K, V> parent, brother, left, right;
-		while (node != root && !node.isRed) {
+		while (node != root && node.isBlack) {
 			// Get the parent
 			parent = node.parent;
 			if (node.isLeft) {
 				// Get the brother node
 				brother = parent.right;
-				if (brother.isRed) {
-					brother.isRed = false;
-					parent.isRed = true;
+				if (!brother.isBlack) {
+					brother.isBlack = true;
+					parent.isBlack = false;
 					rotateLeft(parent);
 					brother = parent.right;
 				}
 				left = brother.left;
 				right = brother.right;
-				if ((left == null || !left.isRed) && (right == null || !right.isRed)) {
-					brother.isRed = true;
+				if ((left == null || left.isBlack) && (right == null || right.isBlack)) {
+					brother.isBlack = false;
 					node = parent;
 				} else {
-					if (right == null || !right.isRed) {
+					if (right == null || right.isBlack) {
 						if (left != null) {
-							left.isRed = false;
+							left.isBlack = true;
 						}
-						brother.isRed = true;
+						brother.isBlack = false;
 						rotateRight(brother);
 						brother = parent.right;
 					}
-					brother.isRed = parent.isRed;
-					parent.isRed = false;
-					right.isRed = false;
+					brother.isBlack = parent.isBlack;
+					parent.isBlack = true;
+					right.isBlack = true;
 					rotateLeft(parent);
 					node = root;
 					break;
@@ -323,36 +467,36 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 			} else {
 				// Get the brother node
 				brother = parent.left;
-				if (brother.isRed) {
-					brother.isRed = false;
-					parent.isRed = true;
+				if (!brother.isBlack) {
+					brother.isBlack = true;
+					parent.isBlack = false;
 					rotateRight(parent);
 					brother = parent.left;
 				}
 				left = brother.left;
 				right = brother.right;
-				if ((left == null || !left.isRed) && (right == null || !right.isRed)) {
-					brother.isRed = true;
+				if ((left == null || left.isBlack) && (right == null || right.isBlack)) {
+					brother.isBlack = false;
 					node = parent;
 				} else {
-					if (left == null || !left.isRed) {
+					if (left == null || left.isBlack) {
 						if (right != null) {
-							right.isRed = false;
+							right.isBlack = true;
 						}
-						brother.isRed = true;
+						brother.isBlack = false;
 						rotateLeft(brother);
 						brother = parent.left;
 					}
-					brother.isRed = parent.isRed;
-					parent.isRed = false;
-					left.isRed = false;
+					brother.isBlack = parent.isBlack;
+					parent.isBlack = true;
+					left.isBlack = true;
 					rotateRight(parent);
 					node = root;
 					break;
 				}
 			}
 		}
-		node.isRed = false;
+		node.isBlack = true;
 	}
 
 
@@ -360,8 +504,15 @@ public class RedBlackTreeMap<K extends Comparable<K>, V>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public RedBlackTreeMap<K, V> clone() {
-		return new RedBlackTreeMap<K, V>(this);
+		return new RedBlackTreeMap<K, V>(keyComparator, this);
 	}
 }

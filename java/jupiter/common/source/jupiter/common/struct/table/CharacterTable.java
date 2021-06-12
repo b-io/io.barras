@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Characters;
 
 /**
- * {@link CharacterTable} is a {@link Table} of {@link Character}.
+ * {@link CharacterTable} is the {@link Table} of {@link Character}.
  */
 public class CharacterTable
 		extends Table<Character> {
@@ -41,7 +42,7 @@ public class CharacterTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6300218397547054958L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,26 +50,54 @@ public class CharacterTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link CharacterTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link CharacterTable} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public CharacterTable(final int m, final int n) {
-		super(Character.class, m, n);
+	public CharacterTable(final int rowCount, final int columnCount) {
+		super(Character.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified values.
+	 * Constructs a {@link CharacterTable} with the specified header and numbers of rows and
+	 * columns.
 	 * <p>
-	 * @param values a 2D array of {@code char} values
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public CharacterTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Character.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link CharacterTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public CharacterTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Character.class, index, header, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link CharacterTable} with the specified {@code char} values.
+	 * <p>
+	 * @param values a 2D {@code char} array
 	 */
 	public CharacterTable(final char[]... values) {
 		this(Characters.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified elements.
+	 * Constructs a {@link CharacterTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Character}
 	 */
@@ -77,17 +106,17 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified header and values.
+	 * Constructs a {@link CharacterTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code char} values
+	 * @param values a 2D {@code char} array
 	 */
 	public CharacterTable(final String[] header, final char[]... values) {
 		this(header, Characters.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} from the specified header and elements.
+	 * Constructs a {@link CharacterTable} with specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Character}
@@ -97,16 +126,41 @@ public class CharacterTable
 	}
 
 	/**
-	 * Constructs a {@link CharacterTable} imported from the specified file.
+	 * Constructs a {@link CharacterTable} with the specified index, header and values.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code char} array
 	 */
-	public CharacterTable(final String pathname, final boolean hasHeader)
+	public CharacterTable(final Object[] index, final String[] header, final char[]... values) {
+		this(index, header, Characters.toArray2D(values));
+	}
+
+	/**
+	 * Constructs a {@link CharacterTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Character}
+	 */
+	public CharacterTable(final Object[] index, final String[] header,
+			final Character[]... elements) {
+		super(Character.class, index, header, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link CharacterTable} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public CharacterTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.CHARACTER_PARSER, pathname, hasHeader);
+		super(IParsers.CHARACTER_PARSER, path, hasHeader);
 	}
 
 
@@ -114,7 +168,46 @@ public class CharacterTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code char} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code char} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Characters#toPrimitiveArray(Object[][])
+	 */
+	public char[] toPrimitiveArray() {
+		return Characters.toPrimitiveArray(elements);
+	}
+
+	/**
+	 * Returns a 2D {@code char} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code char} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Characters#toPrimitiveArray2D(Object[][])
+	 */
 	public char[][] toPrimitiveArray2D() {
 		return Characters.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public CharacterTable clone() {
+		return (CharacterTable) super.clone();
 	}
 }

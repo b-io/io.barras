@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,43 +24,73 @@
 package jupiter.common.map.remover;
 
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringRemover} is a map operator removing characters from a {@link String}.
+ * {@link StringRemover} is the {@link ObjectToStringMapper} removing the specified {@code char}
+ * tokens from an input {@link String}.
  */
 public class StringRemover
 		extends ObjectToStringMapper {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final String characters;
+	/**
+	 * The {@link String} containing the {@code char} tokens to remove.
+	 */
+	protected final String tokens;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public StringRemover(final char... characters) {
+	/**
+	 * Constructs a {@link StringRemover} with the specified {@code char} tokens.
+	 * <p>
+	 * @param tokens the {@code char} tokens to remove
+	 */
+	public StringRemover(final char... tokens) {
 		super();
-		this.characters = Strings.join(characters);
+		this.tokens = Strings.join(tokens);
 	}
 
-	public StringRemover(final String characters) {
+	/**
+	 * Constructs a {@link StringRemover} with the specified {@link String} containing the
+	 * {@code char} tokens.
+	 * <p>
+	 * @param tokens the {@link String} containing the {@code char} tokens to remove
+	 */
+	public StringRemover(final String tokens) {
 		super();
-		this.characters = characters;
+		this.tokens = tokens;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String call(final Object input) {
-		return Strings.remove(input, characters);
+		if (input == null) {
+			return null;
+		}
+		return Strings.removeAll(Objects.toString(input), tokens);
 	}
 
 
@@ -68,6 +98,13 @@ public class StringRemover
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public StringRemover clone() {
 		return new StringRemover();

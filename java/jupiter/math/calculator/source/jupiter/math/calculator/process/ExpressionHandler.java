@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,28 @@
  */
 package jupiter.math.calculator.process;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
+import static jupiter.common.util.Strings.EMPTY;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
 import jupiter.common.exception.ParseException;
 import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.list.Index;
 import jupiter.common.struct.tuple.Triple;
-import jupiter.common.thread.LockedWorkQueue;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
+import jupiter.common.thread.SynchronizedWorkQueue;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Characters;
@@ -45,31 +55,88 @@ import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
 import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;
+import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 
-public class ExpressionHandler {
+public class ExpressionHandler
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The option specifying whether to use threads
-	protected static final boolean USE_THREADS = true;
-
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
+
+	/**
+	 * The {@link ExtendedList} of unary operators.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<ExtendedList<Character>> UNARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList('!', '\''));
+	/**
+	 * The {@link ExtendedList} of binary operators.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<ExtendedList<Character>> BINARY_OPERATORS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList('+', '-'),
+			Arrays.<Character>asList('*', '/', '%'),
+			Arrays.<Character>asList('^'),
+			Arrays.<Character>asList('~'));
+
+	/**
+	 * The {@link ExtendedList} of argument delimiters.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<ExtendedList<Character>> ARGUMENT_DELIMITERS = new ExtendedList<ExtendedList<Character>>(
+			Arrays.<Character>asList(Arrays.DELIMITER));
+	/**
+	 * The {@link ExtendedList} of univariate functions.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<String> UNIVARIATE_FUNCTIONS = new ExtendedList<String>(
+			Element.Type.MAGIC.toString().toLowerCase(),
+			Element.Type.RANDOM.toString().toLowerCase(),
+
+			Element.Type.ABS.toString().toLowerCase(),
+			Element.Type.EXP.toString().toLowerCase(),
+			Element.Type.INV.toString().toLowerCase(),
+			Element.Type.LOG.toString().toLowerCase(),
+			Element.Type.ROOT.toString().toLowerCase(),
+
+			Element.Type.FLOOR.toString().toLowerCase(),
+			Element.Type.CEIL.toString().toLowerCase(),
+			Element.Type.ROUND.toString().toLowerCase(),
+
+			Element.Type.COSH.toString().toLowerCase(),
+			Element.Type.COS.toString().toLowerCase(),
+			Element.Type.SINH.toString().toLowerCase(),
+			Element.Type.SIN.toString().toLowerCase(),
+			Element.Type.TANH.toString().toLowerCase(),
+			Element.Type.TAN.toString().toLowerCase(),
+			Element.Type.HAV.toString().toLowerCase());
+	/**
+	 * The {@link ExtendedList} of bivariate functions.
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	protected static final ExtendedList<String> BIVARIATE_FUNCTIONS = new ExtendedList<String>(
+			Element.Type.MIN.toString().toLowerCase(),
+			Element.Type.MAX.toString().toLowerCase());
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The thread pool
-	protected static LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>> THREAD_POOL = null;
-	// The list of binary operators
-	protected static final List<List<Character>> BINARY_OPERATORS = Arrays.toList(
-			Arrays.toList('+', '-'), Arrays.toList('*', '/'), Arrays.<Character>toList('^'),
-			Arrays.toList('~'));
-	// The list of unary operators
-	protected static final List<List<Character>> UNARY_OPERATORS = Arrays
-			.toList(Arrays.toList('!', '\''), Arrays.toList('@'));
+	/**
+	 * The threshold on the length of the expressions to parallelize.
+	 */
+	protected static volatile int THRESHOLD = 100;
+	/**
+	 * The {@link WorkQueue} used for parsing the expressions.
+	 */
+	protected static volatile WorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,117 +148,316 @@ public class ExpressionHandler {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// EXPRESSION HANDLER
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the thread pool.
+	 * Parallelizes {@code this}.
 	 */
-	public static void start() {
-		IO.debug("");
-		stop();
-		if (USE_THREADS) {
-			THREAD_POOL = new LockedWorkQueue<Triple<Element, String, Map<String, Element>>, Report<Element>>(
+	public static synchronized void parallelize() {
+		IO.trace(EMPTY);
+
+		// Initialize
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new SynchronizedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
 					new Parser());
+		} else {
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
 	/**
-	 * Stops the thread pool.
+	 * Unparallelizes {@code this}.
 	 */
-	public static void stop() {
-		IO.debug("");
-		if (USE_THREADS) {
-			if (THREAD_POOL != null) {
-				THREAD_POOL.shutdown();
-			}
+	public static synchronized void unparallelize() {
+		IO.trace(EMPTY);
+
+		// Shutdown
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+			WORK_QUEUE = null;
 		}
 	}
 
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.trace(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a tree whose nodes and leaves correspond respectively to the operations and numbers
-	 * of the specified expression.
+	 * Returns the root {@link Element} of the tree whose nodes and leaves correspond respectively
+	 * to the operations and {@link Entity} of the specified expression {@link String} with the
+	 * specified context {@link Map}.
 	 * <p>
-	 * @param expression the expression to parse
-	 * @param context    the context containing the values of the variables
+	 * @param expression the expression {@link String} to parse
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return a tree of operations and numbers corresponding to {@code expression}
+	 * @return the root {@link Element} of the tree whose nodes and leaves correspond respectively
+	 *         to the operations and {@link Entity} of the specified expression {@link String} with
+	 *         the specified context {@link Map}
 	 */
-	public static Report<Element> parseExpression(final String expression,
+	public static Result<Element> parseExpression(final String expression,
 			final Map<String, Element> context) {
 		return parseExpression(null, expression, context);
 	}
 
 	/**
-	 * Returns a tree whose nodes and leaves correspond respectively to the operations and numbers
-	 * of the specified expression.
+	 * Returns a node or leaf {@link Element} with the specified parent {@link Element}
+	 * corresponding respectively to an operation or an {@link Entity} parsed from the specified
+	 * expression {@link String} with the specified context {@link Map}.
 	 * <p>
-	 * @param parent     the parent node of the expression
-	 * @param expression the expression to parse
-	 * @param context    the context containing the values of the variables
+	 * @param parent     the parent {@link Element} of the expression {@link String} to parse
+	 * @param expression the expression {@link String} to parse
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return a node (or leaf) corresponding to {@code expression} with {@code parent}
+	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
+	 *         corresponding respectively to an operation or an {@link Entity} parsed from the
+	 *         specified expression {@link String} with the specified context {@link Map}
 	 */
-	public static Report<Element> parseExpression(final Element parent, final String expression,
+	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
 		// Trim the expression
 		final String trimmedExpression = expression.trim();
 		IO.debug(trimmedExpression);
 
-		// Find the delimiters
-		final IntervalList<Integer> delimiters = getDelimiters(trimmedExpression);
+		// Find the delimiting intervals
+		final IntervalList<Integer> delimitingIntervals = getDelimitingIntervals(trimmedExpression);
 
-		// Get the index of the binary operator (if any)
-		final int binaryOperatorIndex = getBinaryOperatorIndex(trimmedExpression, delimiters);
-
-		// Parse the operation
-		if (binaryOperatorIndex >= 0) {
-			return parseBinaryOperation(parent, trimmedExpression, binaryOperatorIndex, context);
+		// Parse the expression
+		// • Binary operator
+		Result<Element> result = parseBinaryOperator(parent, trimmedExpression, delimitingIntervals,
+				context);
+		if (result != null) {
+			return result;
 		}
-		return parseUnaryOperation(parent, trimmedExpression, delimiters, context);
+		// • Unary operator
+		result = parseUnaryOperator(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Univariate function
+		result = parseUnivariateFunction(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Bivariate function
+		result = parseBivariateFunction(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Nested expression
+		result = parseNestedExpression(parent, trimmedExpression, delimitingIntervals, context);
+		if (result != null) {
+			return result;
+		}
+		// • Entity
+		return parseEntity(parent, trimmedExpression, delimitingIntervals, context);
 	}
 
-	protected static Report<Element> parseBinaryOperation(final Element parent,
-			final String expression, final int binaryOperatorIndex,
-			final Map<String, Element> context) {
-		// Get the binary operator
-		final Type type = getType(expression.charAt(binaryOperatorIndex));
-		IO.debug("Type: ", type);
+	//////////////////////////////////////////////
 
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to an
+	 * unary operator parsed from the specified expression {@link String} with the specified context
+	 * {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to an
+	 *         unary operator parsed from the specified expression {@link String} with the specified
+	 *         context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseUnaryOperator(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the last unary operator
+		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimitingIntervals);
+		if (unaryOperatorIndex < 0) {
+			return null;
+		}
+		// Get the type of the last unary operator
+		final char unaryOperator = expression.charAt(unaryOperatorIndex);
+		final Element.Type type = getType(unaryOperator);
+		IO.debug("Type: ", type);
+		// Parse the unary operation
+		final String nestedExpression = Strings.removeEmpty(
+				Strings.split(expression, unaryOperator)).get(0);
+		IO.debug("Nested expression: ", nestedExpression);
+		return parseUnaryOperation(type, parent, nestedExpression, context);
+	}
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * univariate function parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         univariate function parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseUnivariateFunction(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the last univariate function
+		final Index<String> univariateFunctionIndex = getLastUnivariateFunctionIndex(expression,
+				delimitingIntervals);
+		if (univariateFunctionIndex == null) {
+			return null;
+		}
+		// Get the type of the last univariate function
+		final int index = univariateFunctionIndex.getIndex();
+		final String function = univariateFunctionIndex.getToken();
+		final Element.Type type = getType(function);
+		IO.debug("Type: ", type);
+		// Parse the unary operation
+		final String nestedExpression = expression.substring(index + function.length()).trim();
+		IO.debug("Nested expression: ", nestedExpression);
+		return parseUnaryOperation(type, parent, nestedExpression, context);
+	}
+
+	protected static Result<Element> parseUnaryOperation(final Element.Type type,
+			final Element parent, final String expression, final Map<String, Element> context) {
+		// Parse the nested expression
+		final Result<Element> nodeResult = parseExpression(parent, expression, context);
+		final Element node = nodeResult.getOutput();
+		if (node == null) {
+			return nodeResult;
+		}
+
+		// Return the unary operation
+		IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
+		return new Result<Element>(new UnaryOperation(parent, expression, type, node));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * binary operator parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         binary operator parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseBinaryOperator(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the middle binary operator
+		final int binaryOperatorIndex = getMiddleBinaryOperatorIndex(expression,
+				delimitingIntervals);
+		if (binaryOperatorIndex < 0) {
+			return null;
+		}
+		// Get the type of the middle binary operator
+		final Element.Type type = getType(expression.charAt(binaryOperatorIndex));
+		IO.debug("Type: ", type);
+		// Parse the binary operation
+		return parseBinaryOperation(type, parent, expression, binaryOperatorIndex, context);
+	}
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * bivariate function parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         bivariate function parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseBivariateFunction(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
+			final Map<String, Element> context) {
+		// Get the index of the last bivariate function
+		final Index<String> bivariateFunctionIndex = getLastBivariateFunctionIndex(expression,
+				delimitingIntervals);
+		if (bivariateFunctionIndex == null) {
+			return null;
+		}
+		// Get the type of the last bivariate function
+		final String function = bivariateFunctionIndex.getToken();
+		final Element.Type type = getType(function);
+		IO.debug("Type: ", type);
+		// Parse the binary operation
+		final String nestedExpression = getNestedExpression(expression,
+				delimitingIntervals.getLast()).trim();
+		IO.debug("Nested expression: ", nestedExpression);
+		final int argumentDelimiterIndex = getArgumentDelimiterIndex(nestedExpression,
+				getDelimitingIntervals(nestedExpression));
+		if (argumentDelimiterIndex < 0) {
+			return null;
+		}
+		return parseBinaryOperation(type, parent, nestedExpression, argumentDelimiterIndex,
+				context);
+	}
+
+	protected static Result<Element> parseBinaryOperation(final Element.Type type,
+			final Element parent, final String expression, final int binaryOperatorIndex,
+			final Map<String, Element> context) {
 		// Extract the left and right expressions
 		final String leftExpression = expression.substring(0, binaryOperatorIndex);
 		final String rightExpression = expression.substring(binaryOperatorIndex + 1);
 
 		// Parse the left and right expressions
 		final Element leftNode, rightNode;
-		final Report<Element> leftNodeResult, rightNodeResult;
-		if (USE_THREADS && (leftExpression.length() > 100 || rightExpression.length() > 100) &&
-				THREAD_POOL.reserveWorkers(2)) {
+		final Result<Element> leftNodeResult, rightNodeResult;
+		if ((leftExpression.length() > THRESHOLD || rightExpression.length() > THRESHOLD) &&
+				WORK_QUEUE != null && WORK_QUEUE.reserveWorkers(2)) {
 			// Submit the tasks
-			final long leftId = THREAD_POOL
-					.submit(new Triple<Element, String, Map<String, Element>>(parent,
-							leftExpression, context));
-			final long rightId = THREAD_POOL
+			final long leftId = WORK_QUEUE.submit(new Triple<Element, String, Map<String, Element>>(
+					parent, leftExpression, context));
+			final long rightId = WORK_QUEUE
 					.submit(new Triple<Element, String, Map<String, Element>>(parent,
 							rightExpression, context));
 
-			// Get the results
-			leftNodeResult = THREAD_POOL.get(leftId);
-			rightNodeResult = THREAD_POOL.get(rightId);
+			// Collect the results
+			leftNodeResult = WORK_QUEUE.get(leftId);
+			rightNodeResult = WORK_QUEUE.get(rightId);
+			WORK_QUEUE.freeWorkers(2);
 		} else {
-			// Get the results
+			// Collect the results
 			leftNodeResult = parseExpression(parent, leftExpression, context);
 			rightNodeResult = parseExpression(parent, rightExpression, context);
 		}
 		// Get the elements from the results
-		// - Left node
+		// • Left node
 		leftNode = leftNodeResult.getOutput();
 		if (leftNode == null) {
 			return leftNodeResult;
 		}
-		// - Right node
+		// • Right node
 		rightNode = rightNodeResult.getOutput();
 		if (rightNode == null) {
 			return rightNodeResult;
@@ -200,299 +466,424 @@ public class ExpressionHandler {
 		// Return the binary operation
 		IO.debug("Create new ", type, " Node: <", leftNode.getExpression(), "> ", type, " <",
 				rightNode.getExpression(), ">");
-		return new Report<Element>(
+		return new Result<Element>(
 				new BinaryOperation(parent, expression, type, leftNode, rightNode));
 	}
 
-	protected static Report<Element> parseUnaryOperation(final Element parent,
-			final String expression, final IntervalList<Integer> delimiters,
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 * nested expression parsed from the specified expression {@link String} with the specified
+	 * context {@link Map}, or {@code null} if there is no such occurrence.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
+	 *         nested expression parsed from the specified expression {@link String} with the
+	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
+	 */
+	protected static Result<Element> parseNestedExpression(final Element parent,
+			final String expression, final IntervalList<Integer> delimitingIntervals,
 			final Map<String, Element> context) {
-		// Parse an unary operation, a nested expression or a single element
-		final int unaryOperatorIndex = getLastUnaryOperatorIndex(expression, delimiters);
-
-		// - Unary operation
-		if (unaryOperatorIndex >= 0) {
-			// Parse the unary operator
-			final char unaryOperator = expression.charAt(unaryOperatorIndex);
-			final Type type = getType(unaryOperator);
-			IO.debug("Type: ", type);
-			// Parse the nested expression
-			final String nestedExpression = Strings.split(expression, unaryOperator).get(0);
-			IO.debug("Nested expression: ", nestedExpression);
-			final Report<Element> nodeResult = parseExpression(parent, nestedExpression, context);
-			final Element node = nodeResult.getOutput();
-			if (node == null) {
-				return nodeResult;
-			}
-			// Return the unary operation
-			IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
-			return new Report<Element>(new UnaryOperation(parent, expression, type, node));
-		}
-
-		// - Nested expression
-		if (delimiters.isValid()) {
-			// Parse the nested expression
-			final List<Interval<Integer>> intervals = delimiters.getIntervals();
-			if (intervals.size() == 1) {
-				final Interval<Integer> interval = intervals.get(0);
-				if (Characters.isParenthesis(expression.charAt(interval.getLowerBound())) &&
-						Characters.isParenthesis(expression.charAt(interval.getUpperBound()))) {
-					// Return the nested expression
-					final String nestedExpression = expression
-							.substring(interval.getLowerBound() + 1, interval.getUpperBound());
-					IO.debug("Nested expression: ", nestedExpression);
-					return parseExpression(parent, nestedExpression, context);
-				}
+		// Parse the nested expression
+		if (delimitingIntervals.isValid() && delimitingIntervals.size() == 1) {
+			final String nestedExpression = getNestedExpression(expression,
+					delimitingIntervals.get(0));
+			if (nestedExpression != null) {
+				IO.debug("Nested expression: ", nestedExpression);
+				return parseExpression(parent, nestedExpression, context);
 			}
 		}
+		return null;
+	}
 
-		// - Single element
-		// Parse the single element
+	protected static String getNestedExpression(final String expression,
+			final Interval<Integer> interval) {
+		if (Characters.isParenthesis(expression.charAt(interval.getLowerBound().getValue())) &&
+				Characters.isParenthesis(expression.charAt(interval.getUpperBound().getValue()))) {
+			return expression.substring(interval.getLowerBound().getValue() + 1,
+					interval.getUpperBound().getValue());
+		}
+		return null;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a leaf {@link Element} with the specified parent {@link Element} corresponding to an
+	 * {@link Entity} parsed from the specified expression {@link String} with the specified context
+	 * {@link Map}.
+	 * <p>
+	 * @param parent              the parent {@link Element} of the expression {@link String} to
+	 *                            parse
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param context             the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return a leaf {@link Element} with the specified parent {@link Element} corresponding to an
+	 *         {@link Entity} parsed from the specified expression {@link String} with the specified
+	 *         context {@link Map}
+	 */
+	protected static Result<Element> parseEntity(final Element parent, final String expression,
+			final IntervalList<Integer> delimitingIntervals, final Map<String, Element> context) {
 		IO.debug("Create new Leaf: <", expression, ">");
-		final Element leaf;
+		final Element entity;
 		if (context.containsKey(expression)) {
-			// Variable
-			leaf = context.get(expression);
-		} else if (Matrix.isMatrix(expression)) {
-			// Matrix
-			leaf = new MatrixElement(parent, expression);
-		} else if (Strings.isNumeric(expression)) {
-			// Scalar
-			leaf = new ScalarElement(parent, expression);
+			// Parse the variable
+			entity = context.get(expression);
+		} else if (Matrix.isParsableFrom(expression)) {
+			// Parse the matrix
+			entity = new MatrixElement(parent, expression);
 		} else {
-			return new Report<Element>(
-					new ParseException("Unparsable element: <" + expression + ">"));
+			// Parse the scalar
+			try {
+				entity = new ScalarElement(parent, expression);
+			} catch (final NumberFormatException ex) {
+				return new Result<Element>(
+						new ParseException("Unparsable element: <" + expression + ">", ex));
+			}
 		}
-		// Return the single element
-		leaf.setParent(parent);
-		leaf.setExpression(expression);
-		return new Report<Element>(leaf);
+		entity.setParent(parent);
+		entity.setExpression(expression);
+		return new Result<Element>(entity);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the index of the binary operator in {@code expression}, or {@code -1} if there is no
-	 * such occurrence.
+	 * Returns the index of the last unary operator in the specified expression {@link String} that
+	 * is not in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param expression the expression to parse
-	 * @param delimiters the delimiters in {@code expression}
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the binary operator in {@code expression}, or {@code -1} if there is no
-	 *         such occurrence
+	 * @return the index of the last unary operator in the specified expression {@link String} that
+	 *         is not in the specified delimiting intervals, or {@code -1} if there is no such
+	 *         occurrence
 	 */
-	protected static int getBinaryOperatorIndex(final String expression,
-			final IntervalList<Integer> delimiters) {
-		final ExtendedList<Integer> indexes = getBinaryOperatorIndexes(expression, delimiters);
-		IO.debug("Indexes: ", indexes);
-		if (indexes.size() > 0) {
-			return indexes.getMiddle();
+	protected static int getLastUnaryOperatorIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		return getLastOperatorIndexFromList(expression, delimitingIntervals,
+				expression.length() - 1, UNARY_OPERATORS);
+	}
+
+	/**
+	 * Returns the index of the middle binary operator in the specified expression {@link String},
+	 * or {@code -1} if there is no such occurrence.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the index of the middle binary operator in the specified expression {@link String},
+	 *         or {@code -1} if there is no such occurrence
+	 */
+	protected static int getMiddleBinaryOperatorIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		final ExtendedLinkedList<Integer> indices = getBinaryOperatorIndices(expression,
+				delimitingIntervals);
+		IO.debug("Indices: ", indices);
+		if (indices.isNonEmpty()) {
+			return indices.getMiddle();
 		}
 		return -1;
 	}
 
 	/**
-	 * Returns the indexes of all the binary operators in {@code expression} that are not in
-	 * {@code delimiters}.
+	 * Returns the indices of all the binary operators in the specified expression {@link String}
+	 * that are not in the specified delimiting intervals.
 	 * <p>
-	 * @param expression a {@link String}
-	 * @param delimiters the delimiters in {@code expression}
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the indexes of all the binary operators in {@code expression} that are not in
-	 *         {@code delimiters}
+	 * @return the indices of all the binary operators in the specified expression {@link String}
+	 *         that are not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getBinaryOperatorIndexes(final String expression,
-			final IntervalList<Integer> delimiters) {
-		return getOperatorIndexes(expression, delimiters, expression.length(), BINARY_OPERATORS);
+	protected static ExtendedLinkedList<Integer> getBinaryOperatorIndices(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		return getOperatorIndices(expression, delimitingIntervals, expression.length() - 1,
+				BINARY_OPERATORS);
 	}
 
 	/**
-	 * Returns the index of the last unary operator in {@code expression} that is not in
-	 * {@code delimiters}.
+	 * Returns the index of the argument delimiter in the specified expression {@link String}, or
+	 * {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param expression a {@link String}
-	 * @param delimiters the delimiters in {@code expression}
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * <p>
-	 * @return the index of the last unary operator in {@code expression} that is not in
-	 *         {@code delimiters}
+	 * @return the index of the argument delimiter in the specified expression {@link String}, or
+	 *         {@code -1} if there is no such occurrence
 	 */
-	protected static Integer getLastUnaryOperatorIndex(final String expression,
-			final IntervalList<Integer> delimiters) {
-		return getLastOperatorIndexFromList(expression, delimiters, expression.length(),
-				UNARY_OPERATORS);
+	protected static int getArgumentDelimiterIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		return getLastOperatorIndexFromList(expression, delimitingIntervals,
+				expression.length() - 1, ARGUMENT_DELIMITERS);
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the indexes of all the operators in {@code expression} that are not in
-	 * {@code delimiters}.
+	 * Returns the indices of all the operators in the specified expression {@link String} that are
+	 * not in the specified delimiting intervals.
 	 * <p>
-	 * @param expression   a {@link String}
-	 * @param delimiters   the delimiters in {@code expression}
-	 * @param to           the index to finish seeking at (exclusive)
-	 * @param allOperators the {@link List} of all the operators to find
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
+	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
-	 * @return the indexes of all the operators in {@code expression} that are not in
-	 *         {@code delimiters}
+	 * @return the indices of all the operators in the specified expression {@link String} that are
+	 *         not in the specified delimiting intervals
 	 */
-	protected static ExtendedList<Integer> getOperatorIndexes(final String expression,
-			final IntervalList<Integer> delimiters, final int to,
-			final List<List<Character>> allOperators) {
-		final ExtendedList<Integer> indexes = new ExtendedList<Integer>();
-		final int size = allOperators.size();
+	protected static ExtendedLinkedList<Integer> getOperatorIndices(final String expression,
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
+			final List<? extends List<Character>> allOperators) {
+		// Initialize
+		final ExtendedLinkedList<Integer> indices = new ExtendedLinkedList<Integer>();
+		final int allOperatorCount = allOperators.size();
 		int binaryOperatorsIndex = 0;
 
+		// Return the operator indices
 		do {
 			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			int index = getLastOperatorIndex(expression, delimiters, to, operators);
-			while (index >= 0) {
-				indexes.add(index);
-				index = getLastOperatorIndex(expression, delimiters, index, operators);
+			int index = fromIndex;
+			while ((index = getLastOperatorIndex(expression, delimitingIntervals, index,
+					operators)) >= 0) {
+				indices.add(index);
+				--index;
 			}
 			++binaryOperatorsIndex;
-		} while (binaryOperatorsIndex < size && indexes.isEmpty());
-
-		return indexes;
+		} while (binaryOperatorsIndex < allOperatorCount && indices.isEmpty());
+		return indices;
 	}
 
 	/**
-	 * Returns the index of the last operator in {@code expression} that is not in
-	 * {@code delimiters}.
+	 * Returns the index of the last operator in the specified expression {@link String} that is not
+	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param expression a {@link String}
-	 * @param delimiters the delimiters in {@code expression}
-	 * @param to         the index to finish seeking at (exclusive)
-	 * @param operators  the {@link List} of operators to find
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
+	 * @param operators           the {@link List} of operators to find
 	 * <p>
-	 * @return the index of the last operator in {@code expression} that is not in
-	 *         {@code delimiters}
+	 * @return the index of the last operator in the specified expression {@link String} that is not
+	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
 	protected static int getLastOperatorIndex(final String expression,
-			final IntervalList<Integer> delimiters, final int to, final List<Character> operators) {
-		int index = to;
-		do {
-			index = Strings.findLastCharacter(expression, operators, index);
-		} while (index >= 0 && delimiters.isValid() && delimiters.isInside(index));
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
+			final List<Character> operators) {
+		int index = fromIndex;
+		while ((index = Strings.findLast(expression, operators, index)) >= 0 &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index)) {
+			--index;
+		}
 		return index;
 	}
 
 	/**
-	 * Returns the index of the last operator in {@code expression} that is not in
-	 * {@code delimiters}.
+	 * Returns the index of the last operator in the specified expression {@link String} that is not
+	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
 	 * <p>
-	 * @param expression   a {@link String}
-	 * @param delimiters   the delimiters in {@code expression}
-	 * @param to           the index to finish seeking at (exclusive)
-	 * @param allOperators the {@link List} of all the operators to find
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * @param fromIndex           the index to start seeking backward from (inclusive)
+	 * @param allOperators        the {@link List} of all the operators to find
 	 * <p>
-	 * @return the index of the last operator in {@code expression} that is not in
-	 *         {@code delimiters}
+	 * @return the index of the last operator in the specified expression {@link String} that is not
+	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
 	protected static int getLastOperatorIndexFromList(final String expression,
-			final IntervalList<Integer> delimiters, final int to,
-			final List<List<Character>> allOperators) {
-		final int size = allOperators.size();
-		int index;
-		int binaryOperatorsIndex = 0;
+			final IntervalList<Integer> delimitingIntervals, final int fromIndex,
+			final List<? extends List<Character>> allOperators) {
+		// Initialize
+		final int allOperatorCount = allOperators.size();
 
+		// Return the last operator index
+		int index, binaryOperatorsIndex = 0;
 		do {
-			final List<Character> operators = allOperators.get(binaryOperatorsIndex);
-			index = getLastOperatorIndex(expression, delimiters, to, operators);
+			index = getLastOperatorIndex(expression, delimitingIntervals, fromIndex,
+					allOperators.get(binaryOperatorsIndex));
 			++binaryOperatorsIndex;
-		} while (index < 0 && binaryOperatorsIndex < size);
+		} while (index < 0 && binaryOperatorsIndex < allOperatorCount);
+		return index;
+	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link Index} of the last univariate function in the specified expression
+	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Index} of the last univariate function in the specified expression
+	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	protected static Index<String> getLastUnivariateFunctionIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		Index<String> index = null;
+		int i = expression.length() - 1;
+		while ((index = Strings.findLastString(expression, UNIVARIATE_FUNCTIONS, i)) != null &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index.getIndex())) {
+			i = index.getIndex() - 1;
+		}
+		return index;
+	}
+
+	/**
+	 * Returns the {@link Index} of the last bivariate function in the specified expression
+	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
+	 * no such occurrence.
+	 * <p>
+	 * @param expression          the expression {@link String} to parse
+	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Index} of the last bivariate function in the specified expression
+	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
+	 *         there is no such occurrence
+	 */
+	protected static Index<String> getLastBivariateFunctionIndex(final String expression,
+			final IntervalList<Integer> delimitingIntervals) {
+		Index<String> index = null;
+		int i = expression.length() - 1;
+		while ((index = Strings.findLastString(expression, BIVARIATE_FUNCTIONS, i)) != null &&
+				delimitingIntervals.isValid() && delimitingIntervals.isInside(index.getIndex())) {
+			i = index.getIndex() - 1;
+		}
 		return index;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the delimiters in {@code expression}.
+	 * Returns the delimiting intervals in the specified expression {@link String}.
 	 * <p>
-	 * @param expression a {@link String}
+	 * @param expression the expression {@link String} to parse
 	 * <p>
-	 * @return the delimiters in {@code expression}
+	 * @return the delimiting intervals in the specified expression {@link String}
 	 */
-	protected static IntervalList<Integer> getDelimiters(final String expression) {
-		final List<Interval<Integer>> delimiters = new ExtendedList<Interval<Integer>>();
-		final int length = expression.length();
-		int counter = 0;
-		int lowerBound, upperBound = -1;
+	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
+		// Initialize
+		final IntervalList<Integer> delimitingIntervals = new IntervalList<Integer>();
 
-		for (int index = length - 1; index >= 0; --index) {
-			final Type type = getType(expression.charAt(index));
-			if (type == Type.RIGHT_PARENTHESIS || type == Type.RIGHT_BRACKET) {
-				if (counter == 0) {
-					upperBound = index;
+		// Return the delimiting intervals
+		int parenthesisCount = 0, fromIndex, toIndex = -1;
+		for (int i = expression.length() - 1; i >= 0; --i) {
+			final Element.Type type = getType(expression.charAt(i));
+			if (type == Element.Type.RIGHT_PARENTHESIS || type == Element.Type.RIGHT_BRACKET) {
+				if (parenthesisCount == 0) {
+					toIndex = i;
 				}
-				++counter;
-			} else if (type == Type.LEFT_PARENTHESIS || type == Type.LEFT_BRACKET) {
-				--counter;
-				if (counter == 0) {
-					lowerBound = index;
-					delimiters.add(new Interval<Integer>(lowerBound, upperBound));
+				++parenthesisCount;
+			} else if (type == Element.Type.LEFT_PARENTHESIS || type == Element.Type.LEFT_BRACKET) {
+				--parenthesisCount;
+				if (parenthesisCount == 0) {
+					fromIndex = i;
+					delimitingIntervals.add(new Interval<Integer>(fromIndex, toIndex));
 				}
 			}
 		}
-
-		return new IntervalList<Integer>(delimiters);
+		return delimitingIntervals;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link Type} of the specified token.
+	 * Returns the {@link Type} of the specified {@code char} token.
 	 * <p>
-	 * @param token a {@code char} value
+	 * @param token a {@code char} token
 	 * <p>
-	 * @return the {@link Type} of the specified token
+	 * @return the {@link Type} of the specified {@code char} token
 	 */
-	protected static Type getType(final char token) {
+	protected static Element.Type getType(final char token) {
 		switch (token) {
+			// • Binary operators
 			case '+':
-				return Type.ADDITION;
+				return Element.Type.ADDITION;
 			case '-':
-				return Type.SUBTRACTION;
+				return Element.Type.SUBTRACTION;
 			case '*':
-				return Type.MULTIPLICATION;
+				return Element.Type.MULTIPLICATION;
 			case '/':
-				return Type.DIVISION;
+				return Element.Type.DIVISION;
+			case '%':
+				return Element.Type.MODULO;
 			case '^':
-				return Type.POWER;
+				return Element.Type.POWER;
 			case '~':
-				return Type.SOLUTION;
+				return Element.Type.SOLUTION;
 
+			// • Unary operators
 			case '!':
-				return Type.FACTORIAL;
-			case '@':
-				return Type.INVERSE;
+				return Element.Type.FACTORIAL;
 			case '\'':
-				return Type.TRANSPOSE;
+				return Element.Type.TRANSPOSE;
 
-			case Characters.LEFT_PARENTHESIS:
-				return Type.LEFT_PARENTHESIS;
-			case Characters.RIGHT_PARENTHESIS:
-				return Type.RIGHT_PARENTHESIS;
-			case Characters.LEFT_BRACKET:
-				return Type.LEFT_BRACKET;
-			case Characters.RIGHT_BRACKET:
-				return Type.RIGHT_BRACKET;
+			// • Nested expressions
+			case LEFT_PARENTHESIS:
+				return Element.Type.LEFT_PARENTHESIS;
+			case RIGHT_PARENTHESIS:
+				return Element.Type.RIGHT_PARENTHESIS;
+			case LEFT_BRACKET:
+				return Element.Type.LEFT_BRACKET;
+			case RIGHT_BRACKET:
+				return Element.Type.RIGHT_BRACKET;
 		}
-		return Type.ENTITY;
+		// • Entities
+		return Element.Type.ENTITY;
+	}
+
+	/**
+	 * Returns the {@link Type} of the specified token {@link String}.
+	 * <p>
+	 * @param token a token {@link String}
+	 * <p>
+	 * @return the {@link Type} of the specified token {@link String}
+	 */
+	protected static Element.Type getType(final String token) {
+		// • Univariate and bivariate functions
+		return Element.Type.valueOf(token.toUpperCase());
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Parser
-			extends Worker<Triple<Element, String, Map<String, Element>>, Report<Element>> {
+			extends Worker<Triple<Element, String, Map<String, Element>>, Result<Element>> {
+
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Constructs a {@link Parser}.
+		 */
+		protected Parser() {
+			super();
+		}
 
 		@Override
-		public Report<Element> call(final Triple<Element, String, Map<String, Element>> input) {
+		public Result<Element> call(final Triple<Element, String, Map<String, Element>> input) {
 			return parseExpression(input.getFirst(), input.getSecond(), input.getThird());
 		}
 
+		/**
+		 * Clones {@code this}.
+		 * <p>
+		 * @return a clone of {@code this}
+		 *
+		 * @see ICloneable
+		 */
 		@Override
 		public Parser clone() {
 			return new Parser();

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,7 @@
  */
 package saturn.security.crypto
 
-import java.security._
-import java.security.interfaces._
-import java.security.spec._
-
 import javax.crypto._
-import javax.crypto.spec._
 
 object CipherMethod extends Enumeration {
 	type CipherMethod = String
@@ -53,9 +48,9 @@ object CipherPadding extends Enumeration {
 	val OAEPWithSHA256AndMGF1Padding = "OAEPWithSHA-256AndMGF1Padding"
 }
 
-import CipherMethod._
-import CipherMode._
-import CipherPadding._
+import saturn.security.crypto.CipherMethod._
+import saturn.security.crypto.CipherMode._
+import saturn.security.crypto.CipherPadding._
 
 /**
  * Cipher handling the following transformations:
@@ -81,47 +76,56 @@ import CipherPadding._
  */
 abstract class Crypto(method: CipherMethod, mode: CipherMode, padding: CipherPadding) {
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PARAMETERS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def getParameters(): String = method + "/" + mode + "/" + padding
+
 	def getMethod(): CipherMethod = method
+
 	def getMode(): CipherMode = mode
+
 	def getPadding(): CipherPadding = padding
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// KEYS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def checkKeySize(size: Int): Boolean = (size <= Cipher.getMaxAllowedKeyLength(method))
 
 	def getDefaultKeySize(): Int
+
 	def getKeySize(): Int
 
 	def setDefaultKeySize(): Unit
+
 	def setKeySize(n: Int): Unit
 
 	def generateKey(): Unit
+
 	def generateKey(size: Int): Unit
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ENCRYPT / DECRYPT
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def getEncryptCipher(): Cipher
+
 	def getDecryptCipher(): Cipher
 
 	def encrypt(text: Array[Byte]): Array[Byte] = getEncryptCipher().doFinal(text)
+
 	def decrypt(text: Array[Byte]): Array[Byte] = getDecryptCipher().doFinal(text)
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMBINE / UNCOMBINE KEYS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def combine(): Array[Byte]
+
 	def uncombine(combination: Array[Byte]): Unit
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,17 @@
  */
 package jupiter.common.io;
 
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.SPACE;
+import static jupiter.common.util.Strings.SINGLE_QUOTER;
+
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+
+import jupiter.common.thread.SynchronizedWorkQueue;
+import jupiter.common.thread.WorkQueue;
+import jupiter.common.util.Strings;
 
 public class Systems {
 
@@ -32,8 +41,14 @@ public class Systems {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The OS name.
+	 */
 	public static final String OS_NAME = System.getProperty("os.name", "generic")
 			.toLowerCase(Locale.ENGLISH);
+	/**
+	 * The OS type.
+	 */
 	public static final OS OS = getOS();
 
 
@@ -41,41 +56,120 @@ public class Systems {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Systems}.
+	 */
 	protected Systems() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SYSTEMS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static OS getOS() {
 		if (OS_NAME.contains("nux")) {
-			return jupiter.common.io.Systems.OS.LINUX;
+			return OS.LINUX;
 		} else if (OS_NAME.contains("darwin") || OS_NAME.contains("mac")) {
-			return jupiter.common.io.Systems.OS.MACOS;
+			return OS.MACOS;
 		} else if (OS_NAME.contains("win")) {
-			return jupiter.common.io.Systems.OS.WINDOWS;
+			return OS.WINDOWS;
 		}
-		return jupiter.common.io.Systems.OS.OTHER;
+		return OS.OTHER;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Executes the specified command on the system.
+	 * <p>
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the system
+	 * <p>
+	 * @throws InterruptedException if {@code command} is interrupted
+	 * @throws IOException          if there is a problem with querying the system
+	 */
+	public static int execute(final String... command)
+			throws InterruptedException, IOException {
+		return execute(IO.getPrinter(), command);
+	}
+
+	/**
+	 * Executes the specified command on the system, prints the output with the specified printer
+	 * {@link IOHandler}.
+	 * <p>
+	 * @param printer the printer {@link IOHandler}
+	 * @param command the command to execute
+	 * <p>
+	 * @return the exit value of the specified command executed on the system
+	 * <p>
+	 * @throws InterruptedException if {@code command} is interrupted
+	 * @throws IOException          if there is a problem with querying the system
+	 */
+	public static int execute(final IOHandler printer, final String... command)
+			throws InterruptedException, IOException {
+		IO.debug(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+		Process process = null;
+		try {
+			process = Runtime.getRuntime().exec(command);
+			// Read the input stream from the process and print it
+			final WorkQueue<InputStream, Integer> printerQueue = new SynchronizedWorkQueue<InputStream, Integer>(
+					new IOStreamWriter(printer, false), 1, 1);
+			printerQueue.submit(process.getInputStream());
+			// Read the error stream from the process and print it
+			final WorkQueue<InputStream, Integer> errorPrinterQueue = new SynchronizedWorkQueue<InputStream, Integer>(
+					new IOStreamWriter(printer, true), 1, 1);
+			errorPrinterQueue.submit(process.getErrorStream());
+			// Wait until the process has terminated
+			process.waitFor();
+			// Clear
+			printerQueue.shutdown();
+			errorPrinterQueue.shutdown();
+			return process.exitValue();
+		} finally {
+			if (process != null) {
+				IO.trace("Destroy the process executing the command ",
+						Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+				process.destroy();
+			}
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether the system is {@link OS#LINUX} or {@link OS#MACOS}.
+	 * <p>
+	 * @return {@code true} if the system is {@link OS#LINUX} or {@link OS#MACOS}, {@code false}
+	 *         otherwise
+	 */
 	public static boolean isUnix() {
-		return OS == jupiter.common.io.Systems.OS.LINUX || OS == jupiter.common.io.Systems.OS.MACOS;
+		return OS == OS.LINUX || OS == OS.MACOS;
 	}
 
+	/**
+	 * Tests whether the system is {@link OS#WINDOWS}.
+	 * <p>
+	 * @return {@code true} if the system is {@link OS#WINDOWS}, {@code false} otherwise
+	 */
 	public static boolean isWindows() {
-		return OS == jupiter.common.io.Systems.OS.WINDOWS;
+		return OS == OS.WINDOWS;
 	}
 
-	public static Process exec(final String command)
-			throws IOException {
-		return Runtime.getRuntime().exec(command);
-	}
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Process exec(final String[] commands)
-			throws IOException {
-		return Runtime.getRuntime().exec(commands);
+	public static void requireOS() {
+		if (!isUnix() && !isWindows()) {
+			throw new IllegalStateException(
+					Strings.join("The OS ", Strings.quote(OS), " is not yet supported"));
+		}
 	}
 
 

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,8 @@
  */
 package jupiter.math.linear.test;
 
+import static jupiter.common.test.Arguments.CHECK_ARGS;
+
 import jupiter.common.test.Arguments;
 import jupiter.math.linear.entity.Matrix;
 
@@ -32,6 +34,9 @@ public class MatrixArguments {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link MatrixArguments}.
+	 */
 	protected MatrixArguments() {
 	}
 
@@ -42,14 +47,16 @@ public class MatrixArguments {
 
 	public static void requireDimensions(final Matrix matrix, final int expectedRowDimension,
 			final int expectedColumnDimension) {
-		Arguments.requireNonNull(matrix);
-		requireRowDimension(matrix.getRowDimension(), expectedRowDimension);
-		requireColumnDimension(matrix.getColumnDimension(), expectedColumnDimension);
+		if (CHECK_ARGS) {
+			Arguments.requireNonNull(matrix, "matrix");
+			requireRowDimension(matrix.getRowDimension(), expectedRowDimension);
+			requireColumnDimension(matrix.getColumnDimension(), expectedColumnDimension);
+		}
 	}
 
 	public static void requireRowDimension(final int foundRowDimension,
 			final int expectedRowDimension) {
-		if (foundRowDimension != expectedRowDimension) {
+		if (CHECK_ARGS && foundRowDimension != expectedRowDimension) {
 			throw new IllegalArgumentException("The specified matrix has wrong row dimension " +
 					Arguments.expectedButFound(foundRowDimension, expectedRowDimension));
 		}
@@ -57,7 +64,7 @@ public class MatrixArguments {
 
 	public static void requireColumnDimension(final int foundColumnDimension,
 			final int expectedColumnDimension) {
-		if (foundColumnDimension != expectedColumnDimension) {
+		if (CHECK_ARGS && foundColumnDimension != expectedColumnDimension) {
 			throw new IllegalArgumentException("The specified matrix has wrong column dimension " +
 					Arguments.expectedButFound(foundColumnDimension, expectedColumnDimension));
 		}
@@ -67,13 +74,15 @@ public class MatrixArguments {
 
 	public static void requireInnerDimension(final Matrix matrix,
 			final int expectedInnerDimension) {
-		requireInnerDimension(Arguments.requireNonNull(matrix).getRowDimension(),
-				expectedInnerDimension);
+		if (CHECK_ARGS) {
+			requireInnerDimension(Arguments.requireNonNull(matrix, "matrix").getRowDimension(),
+					expectedInnerDimension);
+		}
 	}
 
 	public static void requireInnerDimension(final int foundInnerDimension,
 			final int expectedInnerDimension) {
-		if (foundInnerDimension != expectedInnerDimension) {
+		if (CHECK_ARGS && foundInnerDimension != expectedInnerDimension) {
 			throw new IllegalArgumentException(
 					"The specified matrix has wrong (inner) row dimension " + Arguments
 							.expectedButFound(foundInnerDimension, expectedInnerDimension));

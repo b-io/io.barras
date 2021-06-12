@@ -17,4 +17,24 @@
 	<name>Pluto</name>
 	<description>Utility library for C++</description>
 	<url>https://github.com/b-io/io.barras/tree/master/cpp/pluto</url>
+
+	<!-- Build Settings -->
+	<build>
+		<plugins>
+			<!-- Compile C++ to a shared library -->
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+
+				<configuration>
+					<libraries>
+						<library>
+							<type>shared</type>
+							<narSystemPackage>${project.groupId}</narSystemPackage>
+						</library>
+					</libraries>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

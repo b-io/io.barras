@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,36 @@
  */
 package jupiter.math.analysis;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.SIN;
 
-import junit.framework.TestCase;
-import jupiter.common.util.Doubles;
-import jupiter.math.analysis.function.Function;
-import jupiter.math.analysis.function.Functions;
+import jupiter.common.test.Test;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 import jupiter.math.analysis.interpolation.SplineInterpolator;
 
 public class SplineInterpolatorTest
-		extends TestCase {
+		extends Test {
 
-	public SplineInterpolatorTest() {
+	public SplineInterpolatorTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of interpolate method, of class SplineInterpolator.
+	 * Tests {@link SplineInterpolator#interpolate}.
 	 */
 	public void testInterpolate() {
-		IO.test("interpolate");
+		IO.test(BULLET, " interpolate");
 
-		final Function f = Functions.SIN;
-		final double[] x = Doubles.toPrimitiveArray(0., 1., 2., 3., 4., 5., 6., 7., 8., 9.);
+		final UnivariateFunction f = SIN;
+		final double[] x = new double[] {0., 1., 2., 3., 4., 5., 6., 7., 8., 9.};
 		final double[] y = f.applyToPrimitiveArray(x);
-		final SplineInterpolator instance = SplineInterpolator.createMonotoneCubicSpline(x, y);
+		final SplineInterpolator interpolator = SplineInterpolator.create(x, y);
 		for (int i = 0; i < x.length - 1; ++i) {
-			final double result = instance.interpolate(x[i] + 0.5);
-			IO.test(result, " == ", f.apply(x[i] + 0.5), " ?");
+			final double result = interpolator.apply(x[i] + 0.5);
+			IO.test(result, " ~ ", f.apply(x[i] + 0.5), " ?");
 			assertEquals(f.apply(x[i] + 0.5), result, 0.05);
 		}
 	}

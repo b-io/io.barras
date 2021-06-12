@@ -1,31 +1,76 @@
 # Binary files #####################################################################################
+
+# • Common
 bin
 build
 dist
 obj
-
-# Java
+pkg
 target
-*.class
+*.bin
+*.dat
+*.lib
 
-# C++
+# • Java
+*.class
+*.ear
+*.jar
+*.war
+
+# • UNIX
+*.a
+*.ar
+*.o
+*.so
+
+# • Visual Studio
 Debug
 Release
 Win32
 X64
+
+# • Win32
 *.dll
+*.exe
+*.obj
+
 
 # Configuration files ##############################################################################
-# Eclipse
+
+# • Eclipse
 .classpath
 .project
+.settings
 *.prefs
 
-# Netbeans
-nb-configuration.xml
-nbproject
+# • JetBrains
+.idea
+modules.xml
+profiles_settings.xml
+vcs.xml
+workspace.xml
+*.iml
 
-# Visual Studio
+# • Netbeans
+nbproject
+nb-configuration.xml
+nbactions.xml
+
+# • Properties
+log4j.properties
+
+# • Python
+__pycache__
+venv
+*.egg-info
+
+# • RStudio
+.RData
+.Rhistory
+.Rproj.user
+*.Rproj
+
+# • Visual Studio
 .vs
 *.opensdf
 *.sdf
@@ -33,26 +78,97 @@ nbproject
 *.vcxproj.user
 
 
+# Generated Files ##################################################################################
+
+# • Uranus
+profile-all
+uranus-all.sh
+
+
 # Log files ########################################################################################
+
+# • Common
 logs
 *.log
-*err.log
-*out.log
 
-# Java virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# • Java virtual machine crash logs (see http://www.java.com/en/download/help/error_hotspot.xml)
 hs_err_pid*
 
 
 # Package files ####################################################################################
-*.ear
-*.jar
+
+# • Common
+*.7z
+*.apk
+*.arj
+*.b1
+*.cfs
+*.iso
+*.par
+*.par2
 *.rar
-*.tar.gz
-*.war
+*.sbx
+*.xar
 *.zip
+*.zipx
+*.zoo
+*.zst
+
+# • macOS
+*.dmg
+*.s7z
+*.sit
+*.sitx
+
+# • UNIX
+*.afa
+*.bz2
+*.cpio
+*.dar
+*.gz
+*.lz
+*.lzma
+*.lzo
+*.shar
+*.sz
+*.tar
+*.tbz2
+*.tgz
+*.tlz
+*.txz
+*.tz
+*.xz
+*.z
+*.Z
+
+# • Win32
+*.ace
+*.alz
+*.cab
+*.dgc
+*.wim
 
 
-# Personal files ###################################################################################
-$*
+# Temporary files ##################################################################################
+
+# • Common
 *.new
 *.old
+*.tmp
+
+# • UNIX
+tmp
+
+# • Win32
+Temp
+
+
+# System files #####################################################################################
+
+# • UNIX
+.*
+!/.gitignore
+
+# • Win32
+$*
+Thumbs.db

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/Set.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Set* Set_new(const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
 	Set* s = _NEW(Set);
 
-	_PRINT_TEST(_S("<newSet>"));
+	_PRINT_DEBUG(_S("<newSet>"));
 	if (s != NULL)
 	{
 		s->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -54,18 +52,18 @@ Set* Set_new(const type elementType, const natural elementSize, const natural in
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_SET_NAME);
 	}
-	_PRINT_TEST(_S("</newSet>"));
+	_PRINT_DEBUG(_S("</newSet>"));
 	return s;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Set_reset(void* set, const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator)
 {
-	_PRINT_TEST(_S("<resetSet>"));
+	_PRINT_DEBUG(_S("<resetSet>"));
 	_IF (_CHECK(set, _SET_NAME))
 	{
 		/* Get the Set */
@@ -111,13 +109,13 @@ void Set_reset(void* set, const type elementType, const natural elementSize, con
 		}
 		s->comparator = comparator;
 	}
-	_PRINT_TEST(_S("</resetSet>"));
+	_PRINT_DEBUG(_S("</resetSet>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean Set_add(void* collection, const type type, void* value)
 {
@@ -189,9 +187,9 @@ boolean Set_add_Structure(void* collection, const Structure* structure)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* Set_Iterator_next(Iterator* iterator)
 {
@@ -209,9 +207,9 @@ void* Set_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Set_create_Comparable(void)
 {
@@ -257,13 +255,13 @@ integer Set_compare_to(const void* structure, const type type, const void* value
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Set_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseSet>"));
+	_PRINT_DEBUG(_S("<releaseSet>"));
 	if (structure != NULL)
 	{
 		/* Get the Set */
@@ -283,10 +281,10 @@ void Set_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_SET_NAME);
 	}
-	_PRINT_TEST(_S("</releaseSet>"));
+	_PRINT_DEBUG(_S("</releaseSet>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Set_clone(const void* structure)
 {
@@ -303,14 +301,14 @@ void* Set_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Set_equals(const void* structure, const type type, const void* value)
 {
 	return Set_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Set_hash(const void* structure)
 {
@@ -346,7 +344,7 @@ integer Set_hash(const void* structure)
 	return code;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Set_to_string(const void* source, string target)
 {

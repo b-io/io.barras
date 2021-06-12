@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,38 @@
  */
 package jupiter.common.math;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class StatisticsTest
-		extends TestCase {
+		extends Test {
 
-	public StatisticsTest() {
+	public StatisticsTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of getNormalCdf method, of class Statistics.
+	 * Tests {@link Statistics#normalCDF}.
 	 */
-	public void testGetNormalCdf() {
-		IO.test("getNormalCdf");
+	public void testNormalCDF() {
+		IO.test(BULLET, " normalCDF");
 
-		final double normalCdf = Statistics.getNormalCdf(0.);
-		assertEquals(0.5, normalCdf, Maths.DEFAULT_TOLERANCE);
+		final double normalCDF = Statistics.normalCDF(0.);
+		assertEquals(0.5, normalCDF, Maths.TOLERANCE);
 	}
 
 	/**
-	 * Test of getNormalCdfInverse method, of class Statistics.
+	 * Tests {@link Statistics#normalCDFInverse}.
 	 */
-	public void testGetNormalCdfInverse() {
-		IO.test("getNormalCdfInverse");
+	public void testNormalCDFInverse() {
+		IO.test(BULLET, " normalCDFInverse");
 
-		final double normalCdfInverse = Statistics.getNormalCdfInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: " + Maths.delta(normalCdfInverse, Maths.DEFAULT_Z));
-		assertEquals(Maths.DEFAULT_Z, normalCdfInverse, Maths.DEFAULT_TOLERANCE);
+		final double normalCDFInverse = Statistics.normalCDFInverse(Maths.DEFAULT_CONFIDENCE);
+		IO.test("Accuracy: ", Maths.distance(normalCDFInverse, Maths.DEFAULT_Z));
+		assertEquals(Maths.DEFAULT_Z, normalCDFInverse, Maths.TOLERANCE);
 	}
 }

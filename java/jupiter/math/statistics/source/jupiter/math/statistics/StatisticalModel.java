@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,28 +23,60 @@
  */
 package jupiter.math.statistics;
 
-import java.util.Collection;
+import java.io.Serializable;
 
-public abstract class StatisticalModel {
+/**
+ * {@link StatisticalModel} is a mathematical model that embodies a set of statistical assumptions
+ * concerning the generation of sample data (and similar data from a larger population).
+ */
+public abstract class StatisticalModel
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StatisticalModel}.
+	 */
 	protected StatisticalModel() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// STATISTICAL MODEL
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public abstract double getLikelihood(final double value);
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidence.
+	 * <p>
+	 * @param evidence a {@code double} value
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidence
+	 */
+	public abstract double getLikelihood(final double evidence);
 
-	public double getLikelihood(final Collection<Double> values) {
+	/**
+	 * Returns the likelihood of {@code this} given the specified evidences.
+	 * <p>
+	 * @param evidences a {@code double} array
+	 * <p>
+	 * @return the likelihood of {@code this} given the specified evidences
+	 */
+	public double getLikelihood(final double... evidences) {
 		double likelihood = 1.;
-		for (final double value : values) {
-			likelihood *= getLikelihood(value);
+		for (final double evidence : evidences) {
+			likelihood *= getLikelihood(evidence);
 		}
 		return likelihood;
 	}

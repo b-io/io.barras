@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,47 @@
  */
 package jupiter.common.math;
 
+import static jupiter.common.io.InputOutput.IO;
+
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.tuple.Pair;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public class Interval<T extends Comparable<T>>
-		implements IGroup<T> {
+/**
+ * {@link Interval} is an {@link ISet} of {@code T} type.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link Interval}
+ */
+public class Interval<T extends Comparable<? super T>>
+		implements Comparable<Interval<T>>, ICloneable<Interval<T>>, ISet<T>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected T lowerBound = null, upperBound = null;
+	/**
+	 * The {@link LowerBound} of {@code T} type.
+	 */
+	protected LowerBound<T> lowerBound;
+	/**
+	 * The {@link UpperBound} of {@code T} type.
+	 */
+	protected UpperBound<T> upperBound;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,107 +71,360 @@ public class Interval<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link Interval}.
+	 * Constructs an empty {@link Interval} of {@code T} type by default.
 	 */
 	public Interval() {
+		this(new LowerBound<T>(), new UpperBound<T>());
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link Interval} of {@code T} type with the specified values of the
+	 * {@link LowerBound} and {@link UpperBound}.
+	 * <p>
+	 * @param from the {@code T} value of the {@link LowerBound} (inclusive) (may be {@code null})
+	 * @param to   the {@code T} value of the {@link UpperBound} (inclusive) (may be {@code null})
+	 */
+	public Interval(final T from, final T to) {
+		this(new LowerBound<T>(from), new UpperBound<T>(to));
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified lower and upper bounds.
+	 * Constructs an {@link Interval} of {@code T} type with the specified {@link LowerBound} and
+	 * {@link UpperBound}.
 	 * <p>
-	 * @param lowerBound the lower bound
-	 * @param upperBound the upper bound
+	 * @param lowerBound the {@link LowerBound} of {@code T} type
+	 * @param upperBound the {@link UpperBound} of {@code T} type
 	 */
-	public Interval(final T lowerBound, final T upperBound) {
+	public Interval(final LowerBound<T> lowerBound, final UpperBound<T> upperBound) {
+		// Check the arguments
+		Arguments.requireNonNull(lowerBound, "lower bound");
+		Arguments.requireNonNull(upperBound, "upper bound");
+
+		// Set the attributes
 		this.lowerBound = lowerBound;
 		this.upperBound = upperBound;
+		updateMemberships();
 	}
 
 	/**
-	 * Constructs an {@link Interval} with the specified {@link Pair} of lower and upper bounds.
+	 * Constructs an {@link Interval} of {@code T} type with the specified {@link Pair} of
+	 * {@link LowerBound} and {@link UpperBound}.
 	 * <p>
-	 * @param pair the {@link Pair} of lower and upper bounds
+	 * @param pair the {@link Pair} of {@link LowerBound} and {@link UpperBound} of {@code T} type
 	 */
-	public Interval(final Pair<T, T> pair) {
-		this.lowerBound = pair.getFirst();
-		this.upperBound = pair.getSecond();
+	public Interval(final Pair<LowerBound<T>, UpperBound<T>> pair) {
+		this(Arguments.requireNonNull(pair, "pair of lower and upper bounds").getFirst(),
+				pair.getSecond());
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the lower bound.
+	 * Returns the {@link LowerBound} of {@code T} type.
 	 * <p>
-	 * @return the lower bound
+	 * @return the {@link LowerBound} of {@code T} type
 	 */
-	public T getLowerBound() {
+	public LowerBound<T> getLowerBound() {
 		return lowerBound;
 	}
 
 	/**
-	 * Returns the upper bound.
+	 * Returns the {@link UpperBound} of {@code T} type.
 	 * <p>
-	 * @return the upper bound
+	 * @return the {@link UpperBound} of {@code T} type
 	 */
-	public T getUpperBound() {
+	public UpperBound<T> getUpperBound() {
 		return upperBound;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the lower bound.
+	 * Sets the {@link LowerBound}.
 	 * <p>
-	 * @param lowerBound a {@code T} object
+	 * @param lowerBound a {@link LowerBound} of {@code T} type
 	 */
-	public void setLowerBound(final T lowerBound) {
+	public void setLowerBound(final LowerBound<T> lowerBound) {
+		// Check the arguments
+		Arguments.requireNonNull(lowerBound, "lower bound");
+
+		// Set the lower bound
 		this.lowerBound = lowerBound;
+		updateMemberships();
 	}
 
 	/**
-	 * Sets the upper bound.
+	 * Sets the {@link UpperBound}.
 	 * <p>
-	 * @param upperBound a {@code T} object
+	 * @param upperBound an {@link UpperBound} of {@code T} type
 	 */
-	public void setUpperBound(final T upperBound) {
+	public void setUpperBound(final UpperBound<T> upperBound) {
+		// Check the arguments
+		Arguments.requireNonNull(upperBound, "upper bound");
+
+		// Set the upper bound
 		this.upperBound = upperBound;
+		updateMemberships();
+	}
+
+	/**
+	 * Updates the memberships of the {@link LowerBound} and {@link UpperBound}.
+	 */
+	protected void updateMemberships() {
+		if ((lowerBound.isInclusive || upperBound.isInclusive) &&
+				Objects.equals(lowerBound.value, upperBound.value)) {
+			lowerBound.isInclusive = true;
+			upperBound.isInclusive = true;
+		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GROUP
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is empty, {@code false} otherwise.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
+	 * <p>
+	 * @param other the other {@link Interval} of {@code T} type to compare against for order (may
+	 *              be {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
+	 */
+	@Override
+	public int compareTo(final Interval<T> other) {
+		// Check the arguments
+		if (this == other) {
+			return 0;
+		}
+		if (other == null) {
+			return 1;
+		}
+
+		// Compare the intervals for order
+		final int comparison = Comparables.compare(lowerBound, other.lowerBound);
+		if (comparison != 0) {
+			return comparison;
+		}
+		return Comparables.compare(upperBound, other.upperBound);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns {@code value} if {@code value} is inside {@code this}, {@code null} otherwise.
+	 * <p>
+	 * @param value the {@code T} value to constrain (may be {@code null})
+	 * <p>
+	 * @return {@code value} if {@code value} is inside {@code this}, {@code null} otherwise
+	 */
+	public T constrain(final T value) {
+		if (value == null) {
+			IO.warn("The specified value is null");
+			return null;
+		}
+		if (isEmpty()) {
+			IO.warn("The interval is empty");
+			return null;
+		}
+		if (!isInside(value)) {
+			IO.warn("The specified value ", value, " is not inside the interval ", this);
+			return null;
+		}
+		return value;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Merges the specified {@link Interval} with {@code this}.
+	 * <p>
+	 * @param other the other {@link Interval} of {@code T} type to merge with
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	public boolean merge(final Interval<T> other) {
+		// Check the arguments
+		if (other == null) {
+			return false;
+		}
+
+		// Merge the intervals
+		boolean hasChanged = false;
+		// • The lower bound
+		if (other.lowerBound.value != null &&
+				(lowerBound.value == null &&
+						(upperBound.value == null || isValid(other.lowerBound, upperBound)) ||
+				lowerBound.value != null &&
+						Comparables.isGreaterThan(lowerBound, other.lowerBound) &&
+						(other.isInside(lowerBound.value) ||
+								lowerBound.isInclusive &&
+										lowerBound.value.equals(other.upperBound.value)))) {
+			lowerBound = other.lowerBound.clone();
+			hasChanged = true;
+		}
+		// • The upper bound
+		if (other.upperBound.value != null &&
+				(upperBound.value == null &&
+						(lowerBound.value == null || isValid(lowerBound, other.upperBound)) ||
+				upperBound.value != null &&
+						Comparables.isLessThan(upperBound, other.upperBound) &&
+						(other.isInside(upperBound.value) ||
+								upperBound.isInclusive &&
+										upperBound.value.equals(other.lowerBound.value)))) {
+			upperBound = other.upperBound.clone();
+			hasChanged = true;
+		}
+		updateMemberships();
+		return hasChanged;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is empty.
 	 * <p>
 	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
 	 */
 	public boolean isEmpty() {
-		return lowerBound == null || upperBound == null;
+		return isEmpty(lowerBound, upperBound);
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} contains the value, {@code false} otherwise.
+	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
+	 * {@link UpperBound} is empty.
 	 * <p>
-	 * @param value the value to test for presence
+	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
+	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
+	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
 	 * <p>
-	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
+	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
+	 *         {@link UpperBound} is empty, {@code false} otherwise
 	 */
-	public boolean isInside(final T value) {
-		return value.compareTo(lowerBound) >= 0 && value.compareTo(upperBound) <= 0;
+	public static <T extends Comparable<? super T>> boolean isEmpty(
+			final LowerBound<T> lowerBound, final UpperBound<T> upperBound) {
+		return lowerBound.value == null || upperBound.value == null ||
+				Comparables.isGreaterThan(lowerBound, upperBound) ||
+				!(lowerBound.isInclusive && upperBound.isInclusive) &&
+						lowerBound.value.equals(upperBound.value);
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is valid, {@code false} otherwise.
+	 * Tests whether {@code this} is non-empty.
+	 * <p>
+	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
+	 */
+	public boolean isNonEmpty() {
+		return isNonEmpty(lowerBound, upperBound);
+	}
+
+	/**
+	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
+	 * {@link UpperBound} is non-empty.
+	 * <p>
+	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
+	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
+	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
+	 * <p>
+	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
+	 *         {@link UpperBound} is non-empty, {@code false} otherwise
+	 */
+	public static <T extends Comparable<? super T>> boolean isNonEmpty(
+			final LowerBound<T> lowerBound, final UpperBound<T> upperBound) {
+		return !isEmpty(lowerBound, upperBound);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} contains the specified {@code T} object.
+	 * <p>
+	 * @param object the {@code T} object to test for membership (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} contains the specified {@code T} object, {@code false}
+	 *         otherwise
+	 */
+	public boolean isInside(final T object) {
+		return isInside(lowerBound, upperBound, object);
+	}
+
+	/**
+	 * Tests whether the specified {@code T} object is inside the {@link Interval} with the
+	 * specified {@link LowerBound} and {@link UpperBound}.
+	 * <p>
+	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
+	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
+	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
+	 * @param object     the {@code T} object to test for membership (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@code T} object is inside the {@link Interval} with
+	 *         the specified {@link LowerBound} and {@link UpperBound}, {@code false} otherwise
+	 */
+	public static <T extends Comparable<? super T>> boolean isInside(final LowerBound<T> lowerBound,
+			final UpperBound<T> upperBound, final T object) {
+		return isNonEmpty(lowerBound, upperBound) && object != null &&
+				(lowerBound.isInclusive ? Comparables.isGreaterOrEqualTo(object, lowerBound.value) :
+						Comparables.isGreaterThan(object, lowerBound.value)) &&
+				(upperBound.isInclusive ? Comparables.isLessOrEqualTo(object, upperBound.value) :
+						Comparables.isLessThan(object, upperBound.value));
+	}
+
+	/**
+	 * Tests whether {@code this} contains the specified {@link Interval}.
+	 * <p>
+	 * @param interval the {@link Interval} of {@code T} type to test for membership (may be
+	 *                 {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} contains the specified {@link Interval}, {@code false}
+	 *         otherwise
+	 */
+	public boolean isInside(final Interval<T> interval) {
+		return isNonEmpty() &&
+				Comparables.isLessOrEqualTo(lowerBound, interval.lowerBound) &&
+				Comparables.isGreaterOrEqualTo(upperBound, interval.upperBound);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is valid.
 	 * <p>
 	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
 	 */
 	public boolean isValid() {
-		return !isEmpty() && lowerBound.compareTo(upperBound) < 0;
+		return isValid(lowerBound, upperBound);
+	}
+
+	/**
+	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
+	 * {@link UpperBound} is valid.
+	 * <p>
+	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
+	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
+	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
+	 * <p>
+	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
+	 *         {@link UpperBound} is valid, {@code false} otherwise
+	 */
+	public static <T extends Comparable<? super T>> boolean isValid(final LowerBound<T> lowerBound,
+			final UpperBound<T> upperBound) {
+		return lowerBound.value != null && upperBound.value != null &&
+				Comparables.isLessOrEqualTo(lowerBound.value, upperBound.value);
 	}
 
 
@@ -150,8 +432,74 @@ public class Interval<T extends Comparable<T>>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	@SuppressWarnings({"cast", "unchecked"})
+	public Interval<T> clone() {
+		try {
+			final Interval<T> clone = (Interval<T>) super.clone();
+			clone.lowerBound = Objects.clone(lowerBound);
+			clone.upperBound = Objects.clone(upperBound);
+			return clone;
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Interval)) {
+			return false;
+		}
+		final Interval<?> otherInterval = (Interval<?>) other;
+		return Objects.equals(lowerBound, otherInterval.lowerBound) &&
+				Objects.equals(upperBound, otherInterval.upperBound);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, lowerBound, upperBound);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
-		return Strings.bracketize(Arrays.join(lowerBound, upperBound));
+		return Strings.join(lowerBound, Arrays.DELIMITER, upperBound);
 	}
 }

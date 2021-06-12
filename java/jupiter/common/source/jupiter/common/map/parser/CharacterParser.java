@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,80 @@
 package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToCharacterMapper;
-import jupiter.common.util.Strings;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 
 /**
- * {@link CharacterParser} is a map operator parsing an {@link Object} to a {@link Character}.
+ * {@link CharacterParser} is the {@link ObjectToCharacterMapper} parsing an input {@link Object} to
+ * an output {@link Character}.
  */
 public class CharacterParser
 		extends ObjectToCharacterMapper
-		implements Parser<Character> {
+		implements IParser<Character> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link CharacterParser}.
+	 */
 	public CharacterParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Character parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Character[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Character[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Character[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Character[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Character[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Character[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -58,7 +112,10 @@ public class CharacterParser
 		if (input instanceof CharSequence) {
 			inputCharSequence = (CharSequence) input;
 		} else {
-			inputCharSequence = Strings.toString(input);
+			inputCharSequence = Objects.toStringWithNull(input);
+			if (inputCharSequence == null) {
+				return null;
+			}
 		}
 		if (inputCharSequence.length() > 0) {
 			return inputCharSequence.charAt(0);
@@ -68,34 +125,16 @@ public class CharacterParser
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Character parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public Character[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public Character[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public Character[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public CharacterParser clone() {
 		return new CharacterParser();

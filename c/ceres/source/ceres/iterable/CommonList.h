@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_LIST_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -49,9 +48,9 @@ extern "C"
 #include "ceres/iterable/CommonCollection.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RESET
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Resets the specified List.
@@ -65,9 +64,9 @@ extern "C"
 	void List_reset(void* list, const natural length, const type elementType, const natural elementSize, const natural initialSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * LIST
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the element at the specified position in the specified List.

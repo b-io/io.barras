@@ -13,7 +13,7 @@ Please do not hesitate to leave your comments for further improvement!
 Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
-cd io.barras/
+cd io.barras/scala/saturn/
 mvn clean install
 ~~~
 
@@ -21,6 +21,6 @@ mvn clean install
 ## License
 
 Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License][license].
+while respecting [this MIT License (MIT)][license].
 
 [license]: <LICENSE>

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,107 +23,89 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class BitsTest
-		extends TestCase {
+		extends Test {
 
-	public BitsTest() {
+	public BitsTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests {@link Bits#rotateLeft(long)}.
 	 */
 	public void testRotateLeft_long() {
-		IO.test("rotateLeft");
+		IO.test(BULLET, " rotateLeft_long");
 
-		final long bits = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateLeft(bits);
+		assertEquals(0L, Bits.rotateLeft(0L));
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests {@link Bits#rotateLeft(long, long)}.
 	 */
 	public void testRotateLeft_long_long() {
-		IO.test("rotateLeft");
+		IO.test(BULLET, " rotateLeft_long_long");
 
-		final long bits = 0L;
-		final long k = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateLeft(bits, k);
+		assertEquals(0L, Bits.rotateLeft(0L, 0L));
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests {@link Bits#rotateLeft(int)}.
 	 */
 	public void testRotateLeft_int() {
-		IO.test("rotateLeft");
+		IO.test(BULLET, " rotateLeft_int");
 
-		final int bits = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateLeft(bits);
+		assertEquals(0, Bits.rotateLeft(0));
 	}
 
 	/**
-	 * Test of rotateLeft method, of class Bits.
+	 * Tests {@link Bits#rotateLeft(int, int)}.
 	 */
 	public void testRotateLeft_int_int() {
-		IO.test("rotateLeft");
+		IO.test(BULLET, " rotateLeft_int_int");
 
-		final int bits = 0;
-		final int k = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateLeft(bits, k);
+		assertEquals(0, Bits.rotateLeft(0, 0));
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests {@link Bits#rotateRight(long)}.
 	 */
 	public void testRotateRight_long() {
-		IO.test("rotateRight");
+		IO.test(BULLET, " rotateRight_long");
 
-		final long bits = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateRight(bits);
+		assertEquals(0L, Bits.rotateRight(0L));
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests {@link Bits#rotateRight(long, long)}.
 	 */
 	public void testRotateRight_long_long() {
-		IO.test("rotateRight");
+		IO.test(BULLET, " rotateRight_long_long");
 
-		final long bits = 0L;
-		final long k = 0L;
-		final long expResult = 0L;
-		final long result = Bits.rotateRight(bits, k);
+		assertEquals(0L, Bits.rotateRight(0L, 0L));
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests {@link Bits#rotateRight(int)}.
 	 */
 	public void testRotateRight_int() {
-		IO.test("rotateRight");
+		IO.test(BULLET, " rotateRight_int");
 
-		final int bits = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateRight(bits);
+		assertEquals(0, Bits.rotateRight(0));
 	}
 
 	/**
-	 * Test of rotateRight method, of class Bits.
+	 * Tests {@link Bits#rotateRight(int, int)}.
 	 */
 	public void testRotateRight_int_int() {
-		IO.test("rotateRight");
+		IO.test(BULLET, " rotateRight_int_int");
 
-		final int bits = 0;
-		final int k = 0;
-		final int expResult = 0;
-		final int result = Bits.rotateRight(bits, k);
+		assertEquals(0, Bits.rotateRight(0, 0));
 	}
 }

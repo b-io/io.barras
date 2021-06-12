@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
 		<artifactId>supervised</artifactId>
-		<version>1.0.0</version>
+		<version>1.6.0</version>
 	</parent>
 
 	<artifactId>svm</artifactId>
@@ -17,6 +17,7 @@
 	<description>Support vector machines</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/learning/supervised/svm</url>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- National Taiwan University -->
 		<dependency>

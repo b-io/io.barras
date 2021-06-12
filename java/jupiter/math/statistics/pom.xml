@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
 		<artifactId>math</artifactId>
-		<version>1.0.0</version>
+		<version>1.6.0</version>
 	</parent>
 
 	<artifactId>statistics</artifactId>
@@ -17,6 +17,7 @@
 	<description>Statistical methods</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/math/statistics</url>
 
+	<!-- Project Settings -->
 	<dependencies>
 		<!-- Jupiter -->
 		<dependency>

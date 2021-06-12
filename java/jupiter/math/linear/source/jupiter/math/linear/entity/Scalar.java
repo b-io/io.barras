@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +23,20 @@
  */
 package jupiter.math.linear.entity;
 
+import static jupiter.common.Formats.MIN_NUMBER_LENGTH;
 
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.math.ComparableNumber;
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Floats;
-import jupiter.common.util.Formats;
-import jupiter.common.util.Integers;
-import jupiter.common.util.Longs;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
-import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public class Scalar
-		extends ComparableNumber
-		implements Entity {
+		extends Entity {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -47,18 +45,28 @@ public class Scalar
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6529640797800491360L;
+	private static final long serialVersionUID = 1L;
 
-	public static final Scalar ZERO = new Scalar(0.);
-	public static final Scalar ONE = new Scalar(1.);
-	public static final Scalar TEN = new Scalar(10.);
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static final Dimensions DIMENSIONS = new Dimensions(1, 1);
+
+	public static final Scalar ZERO = new Scalar(0., true);
+	public static final Scalar ONE = new Scalar(1., true);
+	public static final Scalar TEN = new Scalar(10., true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The value
+	/**
+	 * The flag specifying whether {@code this} is immutable.
+	 */
+	protected final boolean isImmutable;
+	/**
+	 * The {@code double} value.
+	 */
 	protected double value;
 
 
@@ -66,41 +74,51 @@ public class Scalar
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a zero {@link Scalar} by default.
+	 */
 	public Scalar() {
-		value = 0.;
+		this(0.);
 	}
 
-	public Scalar(final byte value) {
-		this.value = value;
-	}
-
-	public Scalar(final short value) {
-		this.value = value;
-	}
-
-	public Scalar(final int value) {
-		this.value = value;
-	}
-
-	public Scalar(final long value) {
-		this.value = value;
-	}
-
-	public Scalar(final float value) {
-		this.value = value;
-	}
-
+	/**
+	 * Constructs a {@link Scalar} with the specified value.
+	 * <p>
+	 * @param value the {@code double} value
+	 */
 	public Scalar(final double value) {
+		super();
 		this.value = value;
+		isImmutable = false;
 	}
 
-	public Scalar(final Number value) {
-		this.value = value.doubleValue();
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a zero {@link Scalar} and the flag specifying whether {@code this} is immutable.
+	 * <p>
+	 * @param isImmutable the flag specifying whether {@code this} is immutable
+	 */
+	public Scalar(final boolean isImmutable) {
+		this(0., isImmutable);
+	}
+
+	/**
+	 * Constructs a {@link Scalar} with the specified value and the flag specifying whether
+	 * {@code this} is immutable.
+	 * <p>
+	 * @param value       the {@code double} value
+	 * @param isImmutable the flag specifying whether {@code this} is immutable
+	 */
+	public Scalar(final double value, final boolean isImmutable) {
+		super();
+		this.value = value;
+		this.isImmutable = isImmutable;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -108,23 +126,34 @@ public class Scalar
 	 * <p>
 	 * @return the name
 	 */
+	@Override
 	public String getName() {
-		return getSimpleName();
+		return Objects.getName(this);
 	}
 
 	/**
-	 * Returns the name of a {@link Scalar}.
+	 * Returns the {@link Dimensions}.
 	 * <p>
-	 * @return the name of a {@link Scalar}
+	 * @return the {@link Dimensions}
 	 */
-	public static String getSimpleName() {
-		return Scalar.class.getSimpleName();
+	@Override
+	public Dimensions getDimensions() {
+		return DIMENSIONS;
 	}
 
 	/**
-	 * Returns the value.
+	 * Returns the flag specifying whether {@code this} is immutable.
 	 * <p>
-	 * @return the value
+	 * @return the flag specifying whether {@code this} is immutable
+	 */
+	public boolean isImmutable() {
+		return isImmutable;
+	}
+
+	/**
+	 * Returns the {@code double} value.
+	 * <p>
+	 * @return the {@code double} value
 	 */
 	public double get() {
 		return value;
@@ -133,21 +162,19 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value.
+	 * Sets the {@code double} value.
 	 * <p>
 	 * @param value a {@code double} value
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	public void set(final double value) {
-		this.value = value;
-	}
-
-	/**
-	 * Sets the value.
-	 * <p>
-	 * @param value an {@link Object}
-	 */
-	public void set(final Object value) {
-		this.value = Doubles.convert(value);
+		if (!isImmutable) {
+			this.value = value;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
 	}
 
 
@@ -172,11 +199,7 @@ public class Scalar
 	 */
 	@Override
 	public Vector toVector() {
-		return new Vector(new double[][] {
-			new double[] {
-				value
-			}
-		});
+		return new Vector(new double[] {value});
 	}
 
 	/**
@@ -186,11 +209,17 @@ public class Scalar
 	 */
 	@Override
 	public Matrix toMatrix() {
-		return new Matrix(new double[][] {
-			new double[] {
-				value
-			}
-		});
+		return new Matrix(1, new double[] {value});
+	}
+
+	/**
+	 * Converts {@code this} to a {@code double} array.
+	 * <p>
+	 * @return a {@code double} array
+	 */
+	@Override
+	public double[] toPrimitiveArray() {
+		return new double[] {value};
 	}
 
 
@@ -215,7 +244,7 @@ public class Scalar
 	 */
 	@Override
 	public Scalar size() {
-		return new Scalar(1);
+		return new Scalar(1.);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +254,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code eye(size(this))}
 	 */
+	@Override
 	public Scalar identity() {
 		return new Scalar(1.);
 	}
@@ -234,23 +264,19 @@ public class Scalar
 	 * <p>
 	 * @return {@code rand(size(this))}
 	 */
+	@Override
 	public Scalar random() {
 		return new Scalar(Doubles.random());
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
-	 * Fills {@code this} with the specified value.
+	 * Returns the sequence of {@code size(this)}.
 	 * <p>
-	 * @param value the value to fill with
+	 * @return {@code reshape(1:prod(size(this)), size(this))'}
 	 */
 	@Override
-	public void fill(final double value) {
-		this.value = value;
+	public Scalar sequence() {
+		return ONE;
 	}
 
 
@@ -259,15 +285,39 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Scalar apply(final Function f) {
+	public Scalar apply(final UnivariateFunction f) {
 		return new Scalar(f.apply(value));
+	}
+
+	/**
+	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
+	 * <p>
+	 * @param f the {@link BivariateFunction} to apply column-wise
+	 * <p>
+	 * @return {@code f(this)}
+	 */
+	@Override
+	public Entity applyByColumn(final BivariateFunction f) {
+		return apply(f);
+	}
+
+	/**
+	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
+	 * <p>
+	 * @param f the {@link BivariateFunction} to apply row-wise
+	 * <p>
+	 * @return {@code f(this')}
+	 */
+	@Override
+	public Entity applyByRow(final BivariateFunction f) {
+		return apply(f);
 	}
 
 	/**
@@ -275,8 +325,19 @@ public class Scalar
 	 * <p>
 	 * @return {@code -this}
 	 */
+	@Override
 	public Scalar minus() {
 		return new Scalar(-value);
+	}
+
+	/**
+	 * Returns the sum of the elements.
+	 * <p>
+	 * @return {@code sum(sum(this))}
+	 */
+	@Override
+	public double sum() {
+		return value;
 	}
 
 	/**
@@ -284,6 +345,7 @@ public class Scalar
 	 * <p>
 	 * @return {@code this'}
 	 */
+	@Override
 	public Scalar transpose() {
 		return this;
 	}
@@ -294,96 +356,405 @@ public class Scalar
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the addition of the specified {@link Entity} to {@code this}.
+	 * Returns the addition of the specified scalar to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param scalar a {@code double} value
 	 * <p>
-	 * @return {@code this + entity}
+	 * @return {@code this + scalar}
 	 */
-	public Entity plus(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.plus(this);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value + scalar.get());
-		}
-		throw new IllegalOperationException(
-				"Cannot add a " + entity.getName() + " to a " + Scalar.getSimpleName());
+	@Override
+	public Scalar plus(final double scalar) {
+		return new Scalar(value + scalar);
 	}
 
 	/**
-	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
+	 * Returns the addition of the specified {@link Matrix} to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this - entity}
+	 * @return {@code this + matrix}
 	 */
-	public Entity minus(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.minus().plus(this);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value - scalar.get());
+	@Override
+	public Matrix plus(final Matrix matrix) {
+		return matrix.plus(value);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Adds the specified scalar to {@code this}.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this += scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public Scalar add(final double scalar) {
+		if (!isImmutable) {
+			value += scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
 		}
-		throw new IllegalOperationException("Cannot subtract a " + entity.getName() + " from a " +
-				Scalar.class.getSimpleName());
+		return this;
 	}
 
 	/**
-	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
+	 * Adds the specified {@link Matrix} to {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this * entity}
+	 * @return {@code this += matrix}
 	 */
-	public Entity times(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.times(value);
-		} else if (entity instanceof Scalar) {
-			final Scalar scalar = (Scalar) entity;
-			return new Scalar(value * scalar.get());
+	@Override
+	public Matrix add(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i * matrix.n + j] += value;
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot multiply a " + getName() + " by a " + entity.getName());
+		return matrix;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the subtraction of the specified scalar from {@code this}.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this - scalar}
+	 */
+	@Override
+	public Scalar minus(final double scalar) {
+		return new Scalar(value - scalar);
 	}
 
 	/**
-	 * Returns the division of {@code this} by the specified {@link Entity}.
+	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this / entity}
+	 * @return {@code this - matrix}
 	 */
-	public Entity division(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.division(value);
-		} else if (entity instanceof Scalar) {
-			return new Scalar(value / ((Scalar) entity).get());
+	@Override
+	public Matrix minus(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i * result.n + j] = value - matrix.elements[i * matrix.n + j];
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot divide a " + getName() + " by a " + entity.getName());
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Subtracts the specified scalar from {@code this}.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this -= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public Scalar subtract(final double scalar) {
+		if (!isImmutable) {
+			value -= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
+		return this;
 	}
 
 	/**
-	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}.
+	 * Subtracts the specified {@link Matrix} from {@code this}.
 	 * <p>
-	 * @param entity the entity
+	 * @param matrix a {@link Matrix}
 	 * <p>
-	 * @return {@code this ^ entity}
+	 * @return {@code this -= matrix}
 	 */
-	public Entity power(final Entity entity) {
-		if (entity instanceof Matrix) {
-			final Matrix matrix = (Matrix) entity;
-			return matrix.times(value);
-		} else if (entity instanceof Scalar) {
-			return new Scalar(Math.pow(value, ((Scalar) entity).get()));
+	@Override
+	public Matrix subtract(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i * matrix.n + j] = value - matrix.elements[i * matrix.n + j];
+			}
 		}
-		throw new IllegalOperationException(
-				"Cannot raise a " + getName() + " to the power of " + entity.getName());
+		return matrix;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the multiplication of {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this * scalar}
+	 */
+	@Override
+	public Scalar times(final double scalar) {
+		return new Scalar(value * scalar);
+	}
+
+	/**
+	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this * matrix}
+	 */
+	@Override
+	public Matrix times(final Matrix matrix) {
+		return matrix.times(value);
+	}
+
+	/**
+	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code diag(this * matrix)}
+	 * <p>
+	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
+	 *                                  do not agree
+	 */
+	@Override
+	public Entity diagonalTimes(final Matrix matrix) {
+		return matrix.diagonalTimes(matrix);
+	}
+
+	/**
+	 * Returns the element-by-element multiplication of {@code this} by the specified
+	 * {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .* matrix}
+	 */
+	@Override
+	public Matrix arrayTimes(final Matrix matrix) {
+		return times(matrix);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Multiplies {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this *= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public Scalar multiply(final double scalar) {
+		if (!isImmutable) {
+			value *= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
+		return this;
+	}
+
+	/**
+	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .*= matrix}
+	 */
+	@Override
+	public Matrix arrayMultiply(final Matrix matrix) {
+		return matrix.multiply(value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the division of {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this / scalar}
+	 */
+	@Override
+	public Scalar division(final double scalar) {
+		return new Scalar(value / scalar);
+	}
+
+	/**
+	 * Returns the division of {@code this} by the specified {@link Matrix}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this / matrix}
+	 */
+	@Override
+	public Matrix division(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i * result.n + j] = value / matrix.elements[i * matrix.n + j];
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Returns the element-by-element division of the specified {@link Matrix} by {@code this}.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this ./ matrix}
+	 */
+	@Override
+	public Matrix arrayDivision(final Matrix matrix) {
+		return division(matrix);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Divides {@code this} by the specified scalar.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this /= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public Scalar divide(final double scalar) {
+		if (!isImmutable) {
+			value /= scalar;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
+		return this;
+	}
+
+	/**
+	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this ./= matrix}
+	 */
+	@Override
+	public Matrix arrayDivide(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i * matrix.n + j] = value / matrix.elements[i * matrix.n + j];
+			}
+		}
+		return matrix;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified scalar
+	 * element-by-element.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this .^ scalar}
+	 */
+	@Override
+	public Scalar arrayPower(final double scalar) {
+		return new Scalar(Maths.pow(value, scalar));
+	}
+
+	/**
+	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
+	 * element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .^ matrix}
+	 */
+	@Override
+	public Matrix arrayPower(final Matrix matrix) {
+		final Matrix result = new Matrix(matrix.m, matrix.n);
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				result.elements[i * result.n + j] = Maths.pow(value,
+						matrix.elements[i * matrix.n + j]);
+			}
+		}
+		return result;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Raises {@code this} to the power of the specified scalar element-by-element.
+	 * <p>
+	 * @param scalar a {@code double} value
+	 * <p>
+	 * @return {@code this .^= scalar}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public Scalar arrayRaise(final double scalar) {
+		if (!isImmutable) {
+			value = Maths.pow(value, scalar);
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
+		return this;
+	}
+
+	/**
+	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
+	 * <p>
+	 * @param matrix a {@link Matrix}
+	 * <p>
+	 * @return {@code this .^= matrix}
+	 */
+	@Override
+	public Matrix arrayRaise(final Matrix matrix) {
+		for (int i = 0; i < matrix.m; ++i) {
+			for (int j = 0; j < matrix.n; ++j) {
+				matrix.elements[i * matrix.n + j] = Maths.pow(value,
+						matrix.elements[i * matrix.n + j]);
+			}
+		}
+		return matrix;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fills {@code this} with the specified constant.
+	 * <p>
+	 * @param constant the {@code double} constant to fill with
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} is immutable
+	 */
+	@Override
+	public void fill(final double constant) {
+		if (!isImmutable) {
+			value = constant;
+		} else {
+			throw new IllegalOperationException(
+					"Cannot change the value of an immutable " + getName());
+		}
 	}
 
 
@@ -394,15 +765,18 @@ public class Scalar
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
 	 * <p>
-	 * @param entity the entity
+	 * @param entity an {@link Entity}
 	 * <p>
 	 * @return the solution X of {@code this * X = entity}
+	 * <p>
+	 * @throws IllegalOperationException if {@code this} cannot be solved with {@code entity}
 	 */
+	@Override
 	public Scalar solve(final Entity entity) {
 		if (entity instanceof Scalar) {
 			final Scalar scalar = (Scalar) entity;
 			if (!equals(0.)) {
-				return new Scalar(scalar.get() / value);
+				return new Scalar(scalar.value / value);
 			}
 			if (!scalar.equals(0.)) {
 				throw new ArithmeticException(
@@ -420,43 +794,9 @@ public class Scalar
 	 * <p>
 	 * @return {@code inv(this)}
 	 */
+	@Override
 	public Scalar inverse() {
 		return new Scalar(1. / value);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// NUMBER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public byte byteValue() {
-		return (byte) value;
-	}
-
-	@Override
-	public short shortValue() {
-		return (short) value;
-	}
-
-	@Override
-	public int intValue() {
-		return Integers.convert(value);
-	}
-
-	@Override
-	public long longValue() {
-		return Longs.convert(value);
-	}
-
-	@Override
-	public float floatValue() {
-		return Floats.convert(value);
-	}
-
-	@Override
-	public double doubleValue() {
-		return value;
 	}
 
 
@@ -464,16 +804,46 @@ public class Scalar
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public Scalar clone() {
-		return new Scalar(value);
+		return (Scalar) super.clone();
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other) {
-		return equals(other, Maths.DEFAULT_TOLERANCE);
+		return equals(other, Maths.TOLERANCE);
 	}
 
+	/**
+	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
+	 * <p>
+	 * @param other     the other {@link Object} to compare against for equality (may be
+	 *                  {@code null})
+	 * @param tolerance the tolerance level
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
+	 *         {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
 	@Override
 	public boolean equals(final Object other, final double tolerance) {
 		if (this == other) {
@@ -482,27 +852,44 @@ public class Scalar
 		if (other == null || !(other instanceof Scalar)) {
 			return false;
 		}
-		return Doubles.equals(value, ((Scalar) other).get(), tolerance);
+		return Doubles.equals(value, ((Scalar) other).value, tolerance);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, value);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
-		return toString(Formats.MIN_NUMBER_LENGTH);
+		return toString(MIN_NUMBER_LENGTH);
 	}
 
+	/**
+	 * Returns a representative {@link String} of {@code this} of the specified width.
+	 * <p>
+	 * @param width the width of the representative {@link String} to create
+	 * <p>
+	 * @return a representative {@link String} of {@code this} of the specified width
+	 */
 	public String toString(final int width) {
-		final StringBuilder builder = Strings.createBuilder(Formats.NUMBER_SIZE);
-		final String formattedValue = Formats.format(value);
-		final int padding = Math.max(0, width - formattedValue.length());
-		for (int k = 0; k < padding; ++k) {
-			builder.append(' ');
-		}
-		builder.append(formattedValue);
-		return builder.toString();
+		return Strings.leftPad(Numbers.toString(value), width);
 	}
 }

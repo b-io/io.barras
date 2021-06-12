@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,15 +24,16 @@
 package jupiter.common.map;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link ObjectMapper} is an operator mapping an {@link Object} to an {@code O} object.
+ * {@link ObjectMapper} is the {@link Mapper} mapping an input {@link Object} to an {@code O}
+ * output.
  * <p>
  * @param <O> the output type
  */
@@ -40,45 +41,91 @@ public abstract class ObjectMapper<O>
 		extends Mapper<Object, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectMapper(final Class<O> c) {
+	/**
+	 * Constructs an {@link ObjectMapper} of {@code O} type.
+	 */
+	protected ObjectMapper() {
+		super();
+	}
+
+	/**
+	 * Constructs an {@link ObjectMapper} of {@code O} type with the specified output {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of {@code O} type
+	 */
+	protected ObjectMapper(final Class<O> c) {
 		super(c);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> O[] callCollectionToArray(final Collection<I> collection) {
-		final O[] result = Arrays.<O>create(c, collection.size());
+	public <I> O[] callCollectionToArray(final Collection<I> input) {
+		final O[] output = Arrays.<O>create(c, input.size());
 		int i = 0;
-		for (final I element : collection) {
-			result[i] = call(element);
-			++i;
+		for (final I element : input) {
+			output[i++] = call(element);
 		}
-		return result;
+		return output;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> List<O> callCollectionToList(final Collection<I> collection) {
-		final List<O> result = new ExtendedList<O>(collection.size());
-		for (final I element : collection) {
-			result.add(call(element));
+	public <I> ExtendedList<O> callCollectionToList(final Collection<I> input) {
+		final ExtendedList<O> output = new ExtendedList<O>(input.size());
+		for (final I element : input) {
+			output.add(call(element));
 		}
-		return result;
+		return output;
+	}
+
+	public <I> ExtendedLinkedList<O> callCollectionToLinkedList(final Collection<I> input) {
+		final ExtendedLinkedList<O> output = new ExtendedLinkedList<O>();
+		for (final I element : input) {
+			output.add(call(element));
+		}
+		return output;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public <I> Set<O> callCollectionToSet(final Collection<I> collection) {
-		final Set<O> result = new HashSet<O>(collection.size());
-		for (final I element : collection) {
-			result.add(call(element));
+	public <I> ExtendedHashSet<O> callCollectionToSet(final Collection<I> input) {
+		final ExtendedHashSet<O> output = new ExtendedHashSet<O>(input.size());
+		for (final I element : input) {
+			output.add(call(element));
 		}
-		return result;
+		return output;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ObjectMapper<O> clone() {
+		return this;
 	}
 }

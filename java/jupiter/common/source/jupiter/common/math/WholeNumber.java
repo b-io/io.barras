@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,13 @@
  */
 package jupiter.common.math;
 
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Bytes;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
+import jupiter.common.util.Numbers;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Shorts;
 
 public class WholeNumber
 		extends ComparableNumber {
@@ -38,13 +41,16 @@ public class WholeNumber
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 4962308765948283486L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@code long} value.
+	 */
 	protected long value;
 
 
@@ -52,13 +58,19 @@ public class WholeNumber
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link WholeNumber} with the specified value.
+	 * <p>
+	 * @param value the {@code long} value
+	 */
 	public WholeNumber(final long value) {
+		super();
 		this.value = value;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -73,7 +85,7 @@ public class WholeNumber
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the value.
+	 * Sets the {@code long} value.
 	 * <p>
 	 * @param value a {@code long} value
 	 */
@@ -83,16 +95,40 @@ public class WholeNumber
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the middle of the {@code long} value rounded to the lower {@code long} value.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @return the middle of the {@code long} value rounded to the lower {@code long} value
+	 * @param other the other {@link ComparableNumber} to compare against for order (may be
+	 *              {@code null})
+	 * <p>
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
+	 */
+	@Override
+	public int compareTo(final ComparableNumber other) {
+		if (other instanceof WholeNumber) {
+			return Longs.compare(value, ((WholeNumber) other).value);
+		}
+		return Numbers.compare(value, other);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the middle of {@code this} rounded down.
+	 * <p>
+	 * @return the middle of {@code this} rounded down
 	 */
 	public long middle() {
-		return WholeNumbers.middle(value);
+		return Longs.middle(value);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,12 +139,9 @@ public class WholeNumber
 	 * @param number a {@link Number}
 	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code this} and the specified {@link Number}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public long gcd(final Number number)
-			throws InterruptedException {
-		return WholeNumbers.gcd(value, number.longValue());
+	public long gcd(final Number number) {
+		return Maths.gcd(value, number.longValue());
 	}
 
 	/**
@@ -117,18 +150,25 @@ public class WholeNumber
 	 * @param number a {@link Number}
 	 * <p>
 	 * @return the least common multiple (LCM) of {@code this} and the specified {@link Number}
-	 * <p>
-	 * @throws InterruptedException {@inheritDoc}
 	 */
-	public long lcm(final Number number)
-			throws InterruptedException {
-		return WholeNumbers.lcm(value, number.longValue());
+	public long lcm(final Number number) {
+		return Maths.lcm(value, number.longValue());
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// NUMBER
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public byte byteValue() {
+		return Bytes.convert(value);
+	}
+
+	@Override
+	public short shortValue() {
+		return Shorts.convert(value);
+	}
 
 	@Override
 	public int intValue() {
@@ -152,57 +192,61 @@ public class WholeNumber
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// COMPARATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Compares {@code this} with {@code comparableNumber} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code this} is less than, equal to or greater than
-	 * {@code comparableNumber}.
-	 * <p>
-	 * @param comparableNumber the {@link ComparableNumber} to compare with for order
-	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code comparableNumber}
-	 * <p>
-	 * @throws NullPointerException if {@code comparableNumber} is {@code null}
-	 */
-	@Override
-	public int compareTo(final ComparableNumber comparableNumber) {
-		if (comparableNumber instanceof WholeNumber) {
-			return Longs.compare(value, ((WholeNumber) comparableNumber).get());
-		}
-		return Numbers.compare(value, comparableNumber);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise.
+	 * Clones {@code this}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public WholeNumber clone() {
+		return (WholeNumber) super.clone();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException   if the class of {@code other} prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
 	public boolean equals(final Object other) {
 		return super.equals(other);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hashCode(serialVersionUID, value);
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
-		return Strings.toString(value);
+		return Objects.toString(value);
 	}
 }

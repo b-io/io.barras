@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.java</groupId>
 		<artifactId>io.barras.java</artifactId>
-		<version>1.0.0</version>
+		<version>1.6.0</version>
 	</parent>
 
 	<groupId>io.barras.jupiter</groupId>
@@ -18,13 +18,21 @@
 	<description>Utility library for Java</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter</url>
 
+	<!-- Project Settings -->
 	<modules>
 		<module>common</module>
+		<module>execution</module>
 		<module>graphics</module>
 		<module>gui</module>
-		<module>integration</module>
+		<module>hardware</module>
+		<module>lang</module>
 		<module>learning</module>
+		<module>log</module>
 		<module>math</module>
+		<module>media</module>
+		<module>mobile</module>
 		<module>network</module>
+		<module>security</module>
+		<module>transfer</module>
 	</modules>
 </project>

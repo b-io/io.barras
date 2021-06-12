@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,45 @@
  */
 package jupiter.common.io;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.Formats.LINE_LENGTH;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.LEFT_BRACKET;
+import static jupiter.common.util.Characters.RIGHT_BRACKET;
 
-import jupiter.common.util.Characters;
-import jupiter.common.util.Formats;
+import java.io.Serializable;
+
 import jupiter.common.util.Integers;
 
-public class ProgressBar {
+public class ProgressBar
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The wrapping symbols
-	public static volatile char START_SYMBOL = Characters.LEFT_BRACKET;
-	public static volatile char END_SYMBOL = Characters.RIGHT_BRACKET;
-	// The symbol filling the progress bar
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The start {@code char} symbol.
+	 */
+	public static volatile char START_SYMBOL = LEFT_BRACKET;
+	/**
+	 * The end {@code char} symbol.
+	 */
+	public static volatile char END_SYMBOL = RIGHT_BRACKET;
+
+	/**
+	 * The symbol {@link String} filling the progress bar.
+	 */
 	public static volatile String SYMBOL = "#";
-	// The space filling the progress bar
+	/**
+	 * The space {@link String} filling the progress bar.
+	 */
 	public static volatile String SPACE = "-";
 
 
@@ -48,13 +69,19 @@ public class ProgressBar {
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The maximum number of symbols in the progress bar (excluding the wrapping symbols)
+	/**
+	 * The maximum number of symbols in the progress bar (excluding the wrapping symbols).
+	 */
 	protected final int length;
-	// The option specifying whether to print in the standard error or in the standard output
+	/**
+	 * The flag specifying whether to print in the standard error or in the standard output.
+	 */
 	protected final boolean isError;
 
-	// The current number of symbols in the progress bar (excluding the wrapping symbols)
-	protected volatile int progress = 0;
+	/**
+	 * The current number of symbols in the progress bar (excluding the wrapping symbols).
+	 */
+	protected int progress = 0;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,14 +89,14 @@ public class ProgressBar {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ProgressBar}.
+	 * Constructs a {@link ProgressBar} by default.
 	 */
 	public ProgressBar() {
-		this(Formats.DEFAULT_LINE_LENGTH - 2);
+		this(LINE_LENGTH - 2);
 	}
 
 	/**
-	 * Constructs a {@link ProgressBar} of the specified length.
+	 * Constructs a {@link ProgressBar} with the specified length.
 	 * <p>
 	 * @param length the maximum number of symbols (excluding the wrapping symbols)
 	 */
@@ -78,16 +105,16 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Constructs a {@link ProgressBar} of the specified length.
+	 * Constructs a {@link ProgressBar} with the specified length and flag specifying whether to
+	 * print in the standard error or in the standard output.
 	 * <p>
 	 * @param length  the maximum number of symbols (excluding the wrapping symbols)
-	 * @param isError the option specifying whether to print in the standard error or in the
-	 *                standard output
+	 * @param isError the flag specifying whether to print in the standard error or in the standard
+	 *                output
 	 */
 	public ProgressBar(final int length, final boolean isError) {
 		this.length = length;
 		this.isError = isError;
-		progress = 0;
 	}
 
 
@@ -105,17 +132,19 @@ public class ProgressBar {
 		if (i == 0) {
 			start();
 		}
-		final int nSymbols = countSymbols(i, n) - progress;
-		if (nSymbols > 0) {
-			printSymbols(nSymbols);
+		final int symbolCount = countSymbols(i, n) - progress;
+		if (symbolCount > 0) {
+			printSymbols(symbolCount);
 			if (progress == length) {
 				end();
 			}
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Prints a progress bar of {@code i / n * length} symbols.
+	 * Prints a progress bar of {@code i / n * length} symbols and terminates the line.
 	 * <p>
 	 * @param i a {@code double} value
 	 * @param n the upper bound of {@code i}
@@ -133,16 +162,16 @@ public class ProgressBar {
 	/**
 	 * Prints the start of the progress bar.
 	 */
-	public void start() {
+	public synchronized void start() {
 		progress = 0;
-		IO.print(START_SYMBOL, false);
+		IO.print(START_SYMBOL, isError);
 	}
 
 	/**
 	 * Prints the end of the progress bar.
 	 */
-	public void end() {
-		IO.println(END_SYMBOL, false);
+	public synchronized void end() {
+		IO.println(END_SYMBOL, isError);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,24 +185,24 @@ public class ProgressBar {
 	 * @return the number of symbols to print
 	 */
 	protected int countSymbols(final double i, final double n) {
-		return Integers.convert(i / n * length);
+		return Integers.convert(length * i / n);
 	}
 
 	/**
-	 * Prints {@code progress} symbols.
+	 * Prints the {@code progress} symbols.
 	 */
 	protected void printSymbols() {
 		printSymbols(progress);
 	}
 
 	/**
-	 * Prints {@code n} symbols.
+	 * Prints the specified number of symbols.
 	 * <p>
 	 * @param n the number of symbols to print
 	 */
-	protected void printSymbols(final int n) {
+	public synchronized void printSymbols(final int n) {
 		if (n > 0) {
-			IO.print(SYMBOL, n, false);
+			IO.print(SYMBOL, n, isError);
 			progress += n;
 		}
 	}
@@ -188,11 +217,11 @@ public class ProgressBar {
 	}
 
 	/**
-	 * Prints {@code n} spaces.
+	 * Prints the specified number of spaces.
 	 * <p>
 	 * @param n the number of spaces to print
 	 */
-	protected void printSpaces(final int n) {
+	protected synchronized void printSpaces(final int n) {
 		IO.print(SPACE, n, isError);
 	}
 }

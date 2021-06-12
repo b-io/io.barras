@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,21 @@
  */
 package jupiter.common.io.log;
 
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.SEPARATOR;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.io.IOHandler;
+import jupiter.common.io.Resources;
+import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
-import jupiter.common.util.Strings;
+import jupiter.common.util.Objects;
 
 public class LogHandler
 		extends IOHandler {
@@ -38,77 +46,123 @@ public class LogHandler
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The default log directory
-	protected static final String DEFAULT_LOG_DIR = Files.getPath() + "\\" + "logs";
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
-	// The default log names
-	protected static final String DEFAULT_OUTPUT_LOG_NAME = "jupiter.out.log";
-	protected static final String DEFAULT_ERROR_LOG_NAME = "jupiter.err.log";
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The default {@link String} log directory.
+	 */
+	public static final String DEFAULT_LOG_DIR_PATH = Files.getPath()
+			.concat(SEPARATOR)
+			.concat("logs");
+
+	/**
+	 * The default {@link String} output log name.
+	 */
+	public static final String DEFAULT_OUTPUT_LOG_NAME = "jupiter.out.log";
+	/**
+	 * The default {@link String} error log name.
+	 */
+	public static final String DEFAULT_ERROR_LOG_NAME = "jupiter.err.log";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The log directory
-	protected volatile String logDir;
-	// The output log
-	protected final Lock outputLogLock = new ReentrantLock();
-	protected volatile String outputLogPath;
-	protected final StringBuilder outputLineBuilder = Strings.createBuilder();
-	// The error log
-	protected final Lock errorLogLock = new ReentrantLock();
-	protected volatile String errorLogPath;
-	protected final StringBuilder errorLineBuilder = Strings.createBuilder();
+	/**
+	 * The log directory {@link File}.
+	 */
+	protected File logDir;
+
+	/**
+	 * The output log {@link FileHandler}.
+	 */
+	protected FileHandler outputLogHandler;
+	/**
+	 * The internal {@link Lock} of the output log {@link File} to handle.
+	 */
+	protected final Lock outputLogLock = new ReentrantLock(true);
+
+	/**
+	 * The error log {@link FileHandler}.
+	 */
+	protected FileHandler errorLogHandler;
+	/**
+	 * The internal {@link Lock} of the error log {@link File} to handle.
+	 */
+	protected final Lock errorLogLock = new ReentrantLock(true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LogHandler} by default.
+	 */
 	public LogHandler() {
-		this(DEFAULT_LOG_DIR);
+		this(DEFAULT_LOG_DIR_PATH);
 	}
 
-	public LogHandler(final String logDir) {
-		this(logDir, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
+	/**
+	 * Constructs a {@link LogHandler} with the specified path to the log directory.
+	 * <p>
+	 * @param logDirPath the path to the log directory
+	 */
+	public LogHandler(final String logDirPath) {
+		this(logDirPath, DEFAULT_OUTPUT_LOG_NAME, DEFAULT_ERROR_LOG_NAME);
 	}
 
-	public LogHandler(final String logDir, final String outputLogName, final String errorLogName) {
-		this.logDir = logDir;
-		outputLogPath = getPath(outputLogName);
-		errorLogPath = getPath(errorLogName);
+	/**
+	 * Constructs a {@link LogHandler} with the specified path to the log directory, output log and
+	 * error log.
+	 * <p>
+	 * @param logDirPath    the path to the log directory
+	 * @param outputLogName the name to the output log to handle
+	 * @param errorLogName  the name to the error log to handle
+	 */
+	public LogHandler(final String logDirPath, final String outputLogName,
+			final String errorLogName) {
+		super();
+		setLogDir(logDirPath);
+		setOutputLog(outputLogName);
+		setErrorLog(errorLogName);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the pathname of the specified log.
+	 * Returns the path to the specified log.
 	 * <p>
 	 * @param logName the name of the log
 	 * <p>
-	 * @return the pathname of the specified log
+	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
-		return logDir + "/" + logName;
+		return Files.getPath(logDir).concat(SEPARATOR).concat(logName);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the log directory.
+	 * Sets the log directory {@link File} with the specified directory path.
 	 * <p>
-	 * @param logDir a {@link String}
+	 * @param logDirPath a {@link String}
 	 */
-	public void setLogDir(final String logDir) {
+	public void setLogDir(final String logDirPath) {
 		outputLogLock.lock();
 		try {
 			errorLogLock.lock();
 			try {
-				this.logDir = logDir;
+				logDir = new File(logDirPath);
 			} finally {
 				errorLogLock.unlock();
 			}
@@ -118,28 +172,28 @@ public class LogHandler
 	}
 
 	/**
-	 * Sets the name of the output log.
+	 * Sets the output log {@link File} with the specified name.
 	 * <p>
 	 * @param outputLogName a {@link String}
 	 */
 	public void setOutputLog(final String outputLogName) {
 		outputLogLock.lock();
 		try {
-			outputLogPath = getPath(outputLogName);
+			outputLogHandler = new FileHandler(getPath(outputLogName));
 		} finally {
 			outputLogLock.unlock();
 		}
 	}
 
 	/**
-	 * Sets the name of the error log.
+	 * Sets the error log {@link File} with the specified name.
 	 * <p>
 	 * @param errorLogName a {@link String}
 	 */
 	public void setErrorLog(final String errorLogName) {
 		errorLogLock.lock();
 		try {
-			errorLogPath = getPath(errorLogName);
+			errorLogHandler = new FileHandler(getPath(errorLogName));
 		} finally {
 			errorLogLock.unlock();
 		}
@@ -147,111 +201,7 @@ public class LogHandler
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GENERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Creates all the directories of the logs pathname.
-	 * <p>
-	 * @return {@code true} if the directories are created, {@code false} otherwise
-	 */
-	protected boolean createDirectories() {
-		return Files.createDirectories(logDir);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PRINTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Appends the specified object to the line buffer with the specified type. Note that the line
-	 * buffer is written to the log when either {@code println} or {@code flush} is called.
-	 * <p>
-	 * @param content the {@link Object} to write
-	 * @param isError the option specifying whether to print in the error log or in the output log
-	 */
-	@Override
-	public void print(final Object content, final boolean isError) {
-		// Check the arguments
-		Arguments.requireNonNull(content);
-
-		// Update the log line
-		updateLogLine(content, isError);
-	}
-
-	/**
-	 * Writes the specified object to the log with the specified type.
-	 * <p>
-	 * @param content the {@link Object} to write
-	 * @param isError the option specifying whether to print in the error log or in the output log
-	 */
-	@Override
-	public void println(final Object content, final boolean isError) {
-		// Check the arguments
-		Arguments.requireNonNull(content);
-
-		// Print the content
-		if (isError) {
-			errorLogLock.lock();
-			try {
-				if (createDirectories()) {
-					updateLogLine(content, isError);
-					flush(isError);
-				}
-			} finally {
-				errorLogLock.unlock();
-			}
-		} else {
-			outputLogLock.lock();
-			try {
-				if (createDirectories()) {
-					updateLogLine(content, isError);
-					flush(isError);
-				}
-			} finally {
-				outputLogLock.unlock();
-			}
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	protected void updateLogLine(final Object content, final boolean isError) {
-		if (isError) {
-			errorLineBuilder.append(content);
-		} else {
-			outputLineBuilder.append(content);
-		}
-	}
-
-	protected String getLogLine(final boolean isError) {
-		return isError ? Strings.toString(errorLineBuilder) : Strings.toString(outputLineBuilder);
-	}
-
-	protected void clearLogLine(final boolean isError) {
-		if (isError) {
-			errorLineBuilder.setLength(0);
-		} else {
-			outputLineBuilder.setLength(0);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void flush() {
-		flush(false);
-		flush(true);
-	}
-
-	public void flush(final boolean isError) {
-		Files.writeLine(getLogLine(isError), isError ? errorLogPath : outputLogPath);
-		clearLogLine(isError);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CLEANERS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -282,8 +232,8 @@ public class LogHandler
 	public void deleteOutputLog() {
 		outputLogLock.lock();
 		try {
-			if (Files.exists(outputLogPath)) {
-				Files.delete(outputLogPath);
+			if (outputLogHandler.exists()) {
+				outputLogHandler.delete();
 			}
 		} finally {
 			outputLogLock.unlock();
@@ -296,11 +246,187 @@ public class LogHandler
 	public void deleteErrorLog() {
 		errorLogLock.lock();
 		try {
-			if (Files.exists(errorLogPath)) {
-				Files.delete(errorLogPath);
+			if (errorLogHandler.exists()) {
+				errorLogHandler.delete();
 			}
 		} finally {
 			errorLogLock.unlock();
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates all the directories of the log directory.
+	 * <p>
+	 * @throws IOException       if there is a problem with creating the directories
+	 * @throws SecurityException if there is a permission problem
+	 */
+	protected void createDirs()
+			throws IOException {
+		Files.createDirs(logDir);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints the specified content {@link Object} to the output log (error log if {@code isError}).
+	 * <p>
+	 * @param content the content {@link Object} to print
+	 * @param isError the flag specifying whether to print in the error log or in the output log
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	@Override
+	public boolean print(final Object content, final boolean isError) {
+		// Check the arguments
+		Arguments.requireNonNull(content, "content");
+
+		// Print the content
+		if (!isError) {
+			outputLogLock.lock();
+			try {
+				createDirs();
+				outputLogHandler.write(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				outputLogLock.unlock();
+			}
+		} else {
+			errorLogLock.lock();
+			try {
+				createDirs();
+				errorLogHandler.write(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				errorLogLock.unlock();
+			}
+		}
+		return false;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Prints the specified content {@link Object} to the output log (error log if {@code isError})
+	 * and terminates the line.
+	 * <p>
+	 * @param content the content {@link Object} to print
+	 * @param isError the flag specifying whether to print in the error log or in the output log
+	 * <p>
+	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
+	 */
+	@Override
+	public boolean println(final Object content, final boolean isError) {
+		// Check the arguments
+		Arguments.requireNonNull(content, "content");
+
+		// Print the content and terminate the line
+		if (!isError) {
+			outputLogLock.lock();
+			try {
+				createDirs();
+				outputLogHandler.writeLine(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				outputLogLock.unlock();
+			}
+		} else {
+			errorLogLock.lock();
+			try {
+				createDirs();
+				errorLogHandler.writeLine(Objects.toString(content));
+				return true;
+			} catch (final IOException ex) {
+				IO.error(ex);
+			} finally {
+				errorLogLock.unlock();
+			}
+		}
+		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLOSEABLE
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Closes {@code this}.
+	 */
+	@Override
+	public void close() {
+		Resources.close(outputLogHandler);
+		Resources.close(errorLogHandler);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public LogHandler clone() {
+		return new LogHandler(Files.getPath(logDir), outputLogHandler.getName(),
+				errorLogHandler.getName());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof LogHandler)) {
+			return false;
+		}
+		final LogHandler otherLogHandler = (LogHandler) other;
+		return Objects.equals(logDir, otherLogHandler.logDir) &&
+				Objects.equals(outputLogHandler, otherLogHandler.outputLogHandler) &&
+				Objects.equals(errorLogHandler, otherLogHandler.errorLogHandler);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, logDir, outputLogHandler, errorLogHandler);
 	}
 }

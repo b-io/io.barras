@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,153 +23,228 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
-
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Stack;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import jupiter.common.exception.IllegalOperationException;
-import jupiter.common.struct.tuple.Pair;
-import jupiter.common.util.Arrays;
+import jupiter.common.model.ICloneable;
 
 public class LockedWorkQueue<I, O>
-		implements IWorkQueue<I, O> {
+		extends WorkQueue<I, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Threads
-	public static volatile int MIN_THREADS = 2;
-	public static volatile int MAX_THREADS = Runtime.getRuntime().availableProcessors();
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Threads
-	protected volatile boolean isRunning = true;
-	// Workers
-	protected final Worker<I, O> model;
-	protected final Stack<Worker<I, O>> workers = new Stack<Worker<I, O>>();
-	protected final Lock workersLock = new ReentrantLock();
-	protected volatile int nWorkers = 0;
-	protected volatile int nReservedWorkers = 0;
-	// Tasks
-	protected final LinkedList<Pair<Long, I>> tasks = new LinkedList<Pair<Long, I>>();
-	protected final Lock tasksLock = new ReentrantLock();
-	protected final Condition tasksLockCondition = tasksLock.newCondition();
-	protected volatile long currentId = 0L;
-	// Results
-	protected final Map<Long, O> results = new HashMap<Long, O>(Arrays.DEFAULT_CAPACITY);
-	protected final Lock resultsLock = new ReentrantLock();
-	protected final Condition resultsLockCondition = resultsLock.newCondition();
+	/**
+	 * The flag specifying whether {@code this} is fair.
+	 */
+	protected final boolean isFair;
+
+	/**
+	 * The internal {@link Lock} of the workers.
+	 */
+	protected final Lock workersLock;
+	protected final Condition workersLockCondition;
+
+	/**
+	 * The internal {@link Lock} of the tasks.
+	 */
+	protected final Lock tasksLock;
+	protected final Condition tasksLockCondition;
+
+	/**
+	 * The internal {@link Lock} of the results.
+	 */
+	protected final Lock resultsLock;
+	protected final Condition resultsLockCondition;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} by default.
+	 * <p>
+	 * @param model the model {@link Worker} of {@code I} and {@code O} types
+	 */
 	public LockedWorkQueue(final Worker<I, O> model) {
-		this.model = model;
-		initWorkers();
+		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
+	}
+
+	/**
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker} and minimum and
+	 * maximum numbers of {@link Worker}.
+	 * <p>
+	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
+	 * @param minThreadCount the minimum number of {@link Worker} to handle
+	 * @param maxThreadCount the maximum number of {@link Worker} to handle
+	 */
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount) {
+		this(model, minThreadCount, maxThreadCount, false);
+	}
+
+	/**
+	 * Constructs a {@link LockedWorkQueue} with the specified model {@link Worker}, minimum and
+	 * maximum numbers of {@link Worker} and fairness policy.
+	 * <p>
+	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
+	 * @param minThreadCount the minimum number of {@link Worker} to handle
+	 * @param maxThreadCount the maximum number of {@link Worker} to handle
+	 * @param isFair         the flag specifying whether to use a fair ordering policy
+	 */
+	public LockedWorkQueue(final Worker<I, O> model, final int minThreadCount,
+			final int maxThreadCount, final boolean isFair) {
+		super(model, minThreadCount, maxThreadCount);
+		this.isFair = isFair;
+		workersLock = new ReentrantLock(isFair);
+		workersLockCondition = workersLock.newCondition();
+		tasksLock = new ReentrantLock(isFair);
+		tasksLockCondition = tasksLock.newCondition();
+		resultsLock = new ReentrantLock(isFair);
+		resultsLockCondition = resultsLock.newCondition();
+		createWorkers(minThreadCount);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Initializes the working threads.
+	 * Returns the flag specifying whether {@code this} is fair.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is fair
 	 */
-	public void initWorkers() {
-		createWorkers(MIN_THREADS);
+	public boolean isFair() {
+		return isFair;
 	}
 
-	/**
-	 * Instantiates n working threads according to the model.
-	 * <p>
-	 * @param n the number of working threads to create
-	 * <p>
-	 * @return the number of created working threads
-	 */
-	protected int createWorkers(final int n) {
-		int nCreatedWorkers = 0;
-		try {
-			for (int i = 0; i < n; ++i) {
-				nCreatedWorkers += createWorker();
-			}
-		} catch (final Exception ex) {
-			IO.error(ex);
-		}
-		return nCreatedWorkers;
-	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Instantiates a working thread according to the model.
+	 * Shutdowns {@code this}.
 	 * <p>
-	 * @return the number of created working threads
-	 * <p>
-	 * @throws Exception if the maximum number of working threads has been reached
+	 * @param force the flag specifying whether to force shutdowning
 	 */
-	protected int createWorker()
-			throws Exception {
-		int nCreatedWorkers = 0;
-		workersLock.lock();
+	@Override
+	public void shutdown(final boolean force) {
+		tasksLock.lock();
 		try {
-			IO.debug("Create the thread ", nWorkers + 1);
-			if (nWorkers >= MAX_THREADS) {
-				throw new IllegalOperationException(
-						"The maximum number of threads (" + MAX_THREADS + ") has been reached");
-			}
-			final Worker<I, O> worker = model.clone();
-			worker.setWorkQueue(this);
-			workers.push(worker);
-			++nWorkers;
-			++nCreatedWorkers;
-			worker.start();
+			super.shutdown(force);
+			tasksLockCondition.signalAll();
 		} finally {
-			workersLock.unlock();
+			tasksLock.unlock();
 		}
-		return nCreatedWorkers;
-	}
 
-	/**
-	 * Reserves n working threads.
-	 * <p>
-	 * @param n the number of working threads to reserve
-	 * <p>
-	 * @return {@code true} if the working threads are reserved, {@code false} otherwise
-	 */
-	public boolean reserveWorkers(final int n) {
 		workersLock.lock();
 		try {
-			IO.debug("Try to reserve ", n, " threads");
-			if (MAX_THREADS - nReservedWorkers >= n) {
-				nReservedWorkers += n;
-				// Create more workers if required
-				final int nWorkersToCreate = nReservedWorkers - nWorkers;
-				if (nWorkersToCreate > 0) {
-					IO.debug("OK, create ", nWorkersToCreate, " more workers (total reserved: ",
-							nReservedWorkers, ")");
-					return createWorkers(nWorkersToCreate) == nWorkersToCreate;
+			if (force) {
+				killAllWorkers();
+			}
+
+			while (workerCount > 0) {
+				try {
+					workersLockCondition.await();
+				} catch (final InterruptedException ignored) {
 				}
-				IO.debug("OK, the workers are already created (total reserved: ", nReservedWorkers,
-						")");
-				return true;
 			}
-			IO.debug("No workers available (total reserved: ", nReservedWorkers, ")");
 		} finally {
 			workersLock.unlock();
 		}
-		return false;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// WORKER
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link Worker} according to the model.
+	 * <p>
+	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
+	 * <p>
+	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
+	 */
+	@Override
+	protected int createWorker()
+			throws IllegalOperationException {
+		workersLock.lock();
+		try {
+			return super.createWorker();
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Reserves the specified number of {@link Worker}.
+	 * <p>
+	 * @param workerToReserveCount the number of {@link Worker} to reserve
+	 * <p>
+	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
+	 */
+	@Override
+	public boolean reserveWorkers(final int workerToReserveCount) {
+		workersLock.lock();
+		try {
+			return super.reserveWorkers(workerToReserveCount);
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+	/**
+	 * Reserves the specified maximum number of {@link Worker}.
+	 * <p>
+	 * @param maxWorkerToReserveCount the maximum number of {@link Worker} to reserve
+	 * <p>
+	 * @return the number of reserved {@link Worker}
+	 */
+	@Override
+	public int reserveMaxWorkers(final int maxWorkerToReserveCount) {
+		workersLock.lock();
+		try {
+			return super.reserveMaxWorkers(maxWorkerToReserveCount);
+		} finally {
+			workersLock.unlock();
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link Worker}.
+	 * <p>
+	 * @param worker the {@link Worker} of {@code I} and {@code O} types to remove
+	 */
+	@Override
+	public void removeWorker(final Worker<I, O> worker) {
+		workersLock.lock();
+		try {
+			super.removeWorker(worker);
+			workersLockCondition.signal();
+		} finally {
+			workersLock.unlock();
+		}
 	}
 
 
@@ -178,45 +253,48 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds a task with the specified input and returns its identifier.
+	 * Submits a {@link Task} with the specified {@code I} input for execution.
 	 * <p>
-	 * @param input the input of the task to add
+	 * @param input the {@code I} input of the {@link Task} to submit
 	 * <p>
-	 * @return the identifier of the added task
+	 * @return the identifier of the submitted {@link Task}
 	 */
+	@Override
 	public long submit(final I input) {
+		// Create a worker if required
+		createAvailableWorkers(1);
+		// Submit the task
 		tasksLock.lock();
 		try {
-			++currentId;
-			IO.debug("Add the task ", currentId);
-			tasks.add(new Pair<Long, I>(currentId, input));
+			final long taskId = super.submit(input);
 			tasksLockCondition.signal();
-			return currentId;
+			return taskId;
 		} finally {
 			tasksLock.unlock();
 		}
 	}
 
 	/**
-	 * Returns the next task.
+	 * Returns the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
+	 * otherwise.
 	 * <p>
-	 * @return the next task
+	 * @return the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
+	 *         otherwise
 	 */
-	public Pair<Long, I> getNextTask() {
+	@Override
+	public Task<I> getNextTask() {
 		tasksLock.lock();
 		try {
-			IO.debug("Get the next task");
 			while (isRunning && tasks.isEmpty()) {
-				tasksLockCondition.await();
+				try {
+					tasksLockCondition.await();
+				} catch (final InterruptedException ignored) {
+				}
 			}
-			if (isRunning) {
-				return tasks.removeFirst();
-			}
-		} catch (final InterruptedException ignored) {
+			return super.getNextTask();
 		} finally {
 			tasksLock.unlock();
 		}
-		return null;
 	}
 
 
@@ -225,46 +303,40 @@ public class LockedWorkQueue<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the result of the task with the specified identifier.
+	 * Adds the specified {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id     the identifier of the task
-	 * @param result the result of the task
+	 * @param id     the identifier of the {@link Task}
+	 * @param result the {@code O} result of the {@link Task}
 	 */
+	@Override
 	public void addResult(final long id, final O result) {
 		resultsLock.lock();
 		try {
-			IO.debug("Add the result of the task ", id);
-			results.put(id, result);
+			super.addResult(id, result);
 			resultsLockCondition.signalAll();
 		} finally {
 			resultsLock.unlock();
 		}
-		workersLock.lock();
-		try {
-			--nReservedWorkers;
-		} finally {
-			workersLock.unlock();
-		}
 	}
 
 	/**
-	 * Returns the result of the task with the specified identifier.
+	 * Returns the {@code O} result of the {@link Task} with the specified identifier.
 	 * <p>
-	 * @param id the identifier of the task
+	 * @param id the identifier of the {@link Task}
 	 * <p>
-	 * @return the result of the task with the specified identifier
+	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
+	@Override
 	public O get(final long id) {
 		resultsLock.lock();
 		try {
-			IO.debug("Get the result of the task ", id);
 			while (!results.containsKey(id)) {
 				try {
 					resultsLockCondition.await();
 				} catch (final InterruptedException ignored) {
 				}
 			}
-			return results.remove(id);
+			return super.get(id);
 		} finally {
 			resultsLock.unlock();
 		}
@@ -272,29 +344,18 @@ public class LockedWorkQueue<I, O>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// POOL
+	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is isRunning, {@code false} otherwise.
+	 * Clones {@code this}.
 	 * <p>
-	 * @return {@code true} if {@code this} is isRunning, {@code false} otherwise
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
 	 */
-	public boolean isRunning() {
-		return isRunning;
-	}
-
-	/**
-	 * Shutdowns {@code this}.
-	 */
-	public void shutdown() {
-		tasksLock.lock();
-		try {
-			IO.debug("Shutdown the thread pool");
-			isRunning = false;
-			tasksLockCondition.signalAll();
-		} finally {
-			tasksLock.unlock();
-		}
+	@Override
+	public LockedWorkQueue<I, O> clone() {
+		return new LockedWorkQueue<I, O>(model, minThreadCount, maxThreadCount, isFair);
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,14 @@
  */
 package jupiter.math.linear.entity;
 
+import java.io.IOException;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.table.DoubleTable;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
-import jupiter.common.util.Formats;
-import jupiter.math.analysis.function.Function;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public class Vector
 		extends Matrix {
@@ -39,15 +42,17 @@ public class Vector
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 1761570409676805062L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The transposed flag
-	protected volatile boolean isTransposed;
+	/**
+	 * The flag specifying whether {@code this} is transposed.
+	 */
+	protected boolean isTransposed;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +60,7 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a zero {@link Vector} of the specified number of elements.
+	 * Constructs a zero {@link Vector} with the specified number of elements.
 	 * <p>
 	 * @param dimension the number of elements
 	 */
@@ -64,103 +69,118 @@ public class Vector
 	}
 
 	/**
-	 * Constructs a zero {@link Vector} of the specified number of elements.
+	 * Constructs a zero {@link Vector} with the specified number of elements.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param transpose the option specifying whether to transpose
+	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final int dimension, final boolean transpose) {
 		super(transpose ? 1 : dimension, transpose ? dimension : 1);
 		isTransposed = transpose;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements from the specified
-	 * value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param value     a {@code double} value
+	 * @param constant  the {@code double} constant
 	 */
-	public Vector(final int dimension, final double value) {
-		this(dimension, value, false);
+	public Vector(final int dimension, final double constant) {
+		this(dimension, constant, false);
 	}
 
 	/**
-	 * Constructs a constant {@link Vector} of the specified number of elements from the specified
-	 * value.
+	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
 	 * <p>
 	 * @param dimension the number of elements
-	 * @param value     a {@code double} value
-	 * @param transpose the option specifying whether to transpose
+	 * @param constant  the {@code double} constant
+	 * @param transpose the flag specifying whether to transpose
 	 */
-	public Vector(final int dimension, final double value, final boolean transpose) {
-		super(transpose ? 1 : dimension, transpose ? dimension : 1, value);
+	public Vector(final int dimension, final double constant, final boolean transpose) {
+		super(transpose ? 1 : dimension, transpose ? dimension : 1, constant);
 		isTransposed = transpose;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a {@link Vector} from the specified values.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values an array of {@code double} values
+	 * @param values the {@code double} values of the elements
 	 */
 	public Vector(final double... values) {
 		this(values, false);
 	}
 
 	/**
-	 * Constructs a {@link Vector} from the specified values.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param values    an array of {@code double} values
-	 * @param transpose the option specifying whether to transpose
+	 * @param values    the {@code double} values of the elements
+	 * @param transpose the flag specifying whether to transpose
 	 */
 	public Vector(final double[] values, final boolean transpose) {
-		super(values.length, values, transpose);
+		super(Arguments.requireNonNull(values, "values").length, values, transpose);
 		isTransposed = transpose;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Constructs a {@link Vector} from the specified elements.
+	 * Constructs a {@link Vector} with the specified values.
 	 * <p>
-	 * @param elements a 2D array of {@code double} values
+	 * @param values the values of the elements in a 2D {@code double} array
 	 * <p>
-	 * @throws IllegalArgumentException if {@code elements} is not one-dimensional
+	 * @throws IllegalArgumentException if {@code values} is not one-dimensional
 	 */
-	public Vector(final double[]... elements) {
-		super(elements);
-		if (elements.length == 1) {
+	public Vector(final double[]... values) {
+		super(values);
+		if (values.length == 1) {
 			isTransposed = true;
-		} else if (elements[0].length == 1) {
+		} else if (values[0].length == 1) {
 			isTransposed = false;
 		} else {
 			throw new IllegalArgumentException("The specified 2D array of dimensions " +
-					Formats.getDimensions(elements.length, +elements[0].length) +
+					new Dimensions(values.length, values[0].length) +
+					" is not one-dimensional");
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link Vector} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public Vector(final String path, final boolean hasHeader)
+			throws IOException {
+		this(new DoubleTable(path, hasHeader));
+	}
+
+	/**
+	 * Constructs a {@link Vector} with the specified {@link DoubleTable} containing the elements.
+	 * <p>
+	 * @param table the {@link DoubleTable} containing the elements
+	 */
+	public Vector(final DoubleTable table) {
+		super(table);
+
+		// Check the arguments
+		if (m != 1 && n != 1) {
+			throw new IllegalArgumentException("The specified table of dimensions " + dimensions +
 					" is not one-dimensional");
 		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the name.
-	 * <p>
-	 * @return the name
-	 */
-	@Override
-	public String getName() {
-		return getSimpleName() + " of dimensions " + getDimensions();
-	}
-
-	/**
-	 * Returns the name of a {@link Vector}.
-	 * <p>
-	 * @return the name of a {@link Vector}
-	 */
-	public static String getSimpleName() {
-		return Vector.class.getSimpleName();
-	}
 
 	/**
 	 * Returns the dimension.
@@ -171,7 +191,16 @@ public class Vector
 		return m == 1 ? n : m;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	/**
+	 * Returns the flag specifying whether {@code this} is transposed.
+	 * <p>
+	 * @return the flag specifying whether {@code this} is transposed
+	 */
+	public boolean isTransposed() {
+		return isTransposed;
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the element at the specified row index.
@@ -180,15 +209,12 @@ public class Vector
 	 * <p>
 	 * @return the element at the specified row index
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double get(final int i) {
 		return get(i, 0);
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -197,22 +223,22 @@ public class Vector
 	 * @param i     the row index
 	 * @param value a {@code double} value
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final double value) {
-		elements[i][0] = value;
+		elements[i] = value;
 	}
 
 	/**
 	 * Sets the element at the specified row index.
 	 * <p>
 	 * @param i     the row index
-	 * @param value an {@link Object}
+	 * @param value a value {@link Object}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final Object value) {
-		elements[i][0] = Doubles.convert(value);
+		elements[i] = Doubles.convert(value);
 	}
 
 
@@ -257,32 +283,30 @@ public class Vector
 		return toMatrix(dimension, n);
 	}
 
-	public Matrix toMatrix(final int m, final int n) {
-		if (this.m == m && this.n == n) {
+	public Matrix toMatrix(final int rowCount, final int columnCount) {
+		if (m == rowCount && n == columnCount) {
 			return this;
 		}
 		if (isTransposed) {
-			if (this.n == n) {
-				final double[] row = getRow(0);
-				final Matrix result = new Matrix(m, n);
-				for (int i = 0; i < m; ++i) {
-					result.setRow(i, row);
+			if (n == columnCount) {
+				final Matrix result = new Matrix(rowCount, columnCount);
+				for (int i = 0; i < rowCount; ++i) {
+					result.setRow(i, elements);
 				}
 				return result;
 			}
-			throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-					Formats.getDimensions(m, n) + " (wrong number of columns)");
+			throw new IllegalOperationException("Cannot broadcast " + getName() +
+					" to " + getDimensions() + " (wrong number of columns)");
 		}
-		if (this.m == m) {
-			final double[] column = getColumn(0);
-			final Matrix result = new Matrix(m, n);
-			for (int j = 0; j < n; ++j) {
-				result.setColumn(j, column);
+		if (m == rowCount) {
+			final Matrix result = new Matrix(rowCount, columnCount);
+			for (int j = 0; j < columnCount; ++j) {
+				result.setColumn(j, elements);
 			}
 			return result;
 		}
-		throw new IllegalOperationException("Cannot broadcast " + getName() + " to " +
-				Formats.getDimensions(m, n) + " (wrong number of rows)");
+		throw new IllegalOperationException("Cannot broadcast " + getName() +
+				" to " + getDimensions() + " (wrong number of rows)");
 	}
 
 
@@ -299,26 +323,10 @@ public class Vector
 	 */
 	public static Vector random(final int m) {
 		final Vector random = new Vector(m);
-		final double[][] resultElements = random.getElements();
 		for (int i = 0; i < m; ++i) {
-			resultElements[i][0] = Doubles.random();
+			random.elements[i] = Doubles.random();
 		}
 		return random;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Fills {@code this} with the specified value.
-	 * <p>
-	 * @param value the value to fill with
-	 */
-	@Override
-	public void fill(final double value) {
-		Doubles.fill(elements, value);
 	}
 
 
@@ -327,15 +335,15 @@ public class Vector
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the specified function to {@code this}.
+	 * Applies the specified {@link UnivariateFunction} to {@code this}.
 	 * <p>
-	 * @param f the function to apply
+	 * @param f the {@link UnivariateFunction} to apply
 	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
-	public Vector apply(final Function f) {
-		return new Vector(f.applyToPrimitiveArray2D(elements));
+	public Vector apply(final UnivariateFunction f) {
+		return new Vector(f.applyToPrimitiveArray(elements));
 	}
 
 	/**
@@ -346,10 +354,9 @@ public class Vector
 	@Override
 	public Vector minus() {
 		final Vector result = new Vector(getDimension());
-		final double[][] resultElements = result.getElements();
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
-				resultElements[i][j] = -elements[i][j];
+				result.elements[i * result.n + j] = -elements[i * n + j];
 			}
 		}
 		return result;
@@ -362,7 +369,22 @@ public class Vector
 	 */
 	@Override
 	public Vector transpose() {
-		return new Vector(Doubles.transpose(elements));
+		return new Vector(Doubles.transpose(m, elements), !isTransposed);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Fills {@code this} with the specified constant.
+	 * <p>
+	 * @param constant the {@code double} constant to fill with
+	 */
+	@Override
+	public void fill(final double constant) {
+		Doubles.fill(elements, constant);
 	}
 
 
@@ -370,8 +392,15 @@ public class Vector
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public Vector clone() {
-		return new Vector(elements);
+		return (Vector) super.clone();
 	}
 }

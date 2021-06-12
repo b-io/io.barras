@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/type/CommonInteger.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * GENERATIONS
- ******************************************************************************/
+ **************************************************************************************************/
 
 integer* sequence_new(const natural size)
 {
@@ -61,9 +59,9 @@ integer* sequence_from_step_new(const natural size, const integer start, const i
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* integer_Iterator_next(Iterator* iterator)
 {
@@ -81,9 +79,9 @@ void* integer_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable integer_create_Comparable(void)
 {
@@ -142,9 +140,9 @@ integer integer_compare_to(const void* structure, const type type, const void* v
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean integer_equals(const void* structure, const type type, const void* value)
 {
@@ -181,7 +179,7 @@ boolean integer_equals(const void* structure, const type type, const void* value
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer integer_hash(const void* structure)
 {
@@ -195,7 +193,7 @@ integer integer_hash(const void* structure)
 	return integer_random();
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean integer_to_string(const void* source, string target)
 {
@@ -204,7 +202,7 @@ boolean integer_to_string(const void* source, string target)
 		/* Get the integer */
 		const integer* i = (integer*) source;
 
-#if __STDC__
+#if _32_BITS
 		_SPRINTF(target, _STRING_SIZE, _S("%ld"), *i);
 #else
 		_SPRINTF(target, _STRING_SIZE, _S("%lld"), *i);

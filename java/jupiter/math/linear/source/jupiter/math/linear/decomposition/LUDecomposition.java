@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,24 +23,30 @@
  */
 package jupiter.math.linear.decomposition;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import java.io.Serializable;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.math.Maths;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.test.MatrixArguments;
 
 /**
- * LU Decomposition.
+ * {@link LUDecomposition} performs a LU decomposition on a {@link Matrix}.
  * <p>
- * For a (m x n) matrix A with m {@literal >}= n, the LU decomposition is a (m x n) unit lower
- * triangular matrix L, a (n x n) upper triangular matrix U and a permutation vector piv of length m
- * so that A(piv, :) = L * U. If m {@literal <} n, then L is (m x m) and U is (m x n).
+ * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the LU decomposition is a
+ * {@code m x n} unit lower triangular matrix {@code L}, a {@code n x n} upper triangular matrix
+ * {@code U} and a permutation vector {@code pivot} of length {@code m} so that
+ * {@code A(pivot, :) = L U}. If {@code m {@literal <} n}, then {@code L} is {@code m x m} and
+ * {@code U} is {@code m x n}.
  * <p>
  * The LU decomposition with pivoting always exists, even if the matrix is singular, so the
  * constructor never fails. The primary use of the LU decomposition is in the solution of square
- * systems of simultaneous linear equations. This fails if isNonsingular() returns false.
+ * systems of simultaneous linear equations. This fails if the method {@link #isSingular} returns
+ * {@code true}.
  * <p>
- * @author JAMA, http://math.nist.gov/javanumerics/jama
+ * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
 public class LUDecomposition
@@ -53,20 +59,32 @@ public class LUDecomposition
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 4573517221084040490L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The row and column dimensions
-	protected final int m, n;
-	// The decomposition
+	/**
+	 * The row dimension.
+	 */
+	protected final int m;
+	/**
+	 * The column dimension.
+	 */
+	protected final int n;
+	/**
+	 * The decomposition containing {@code L} and {@code U}.
+	 */
 	protected final double[][] LU;
-	// The pivot vector
+	/**
+	 * The pivot vector.
+	 */
 	protected final int[] pivot;
-	// The pivot sign
+	/**
+	 * The pivot sign.
+	 */
 	protected int pivotSign;
 
 
@@ -75,14 +93,22 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs the LU Decomposition. Performs the "left-looking", dot-product, Crout / Doolittle
-	 * algorithm and sets {@code L}, {@code U} and {@code pivot}.
+	 * Constructs a {@link LUDecomposition} of the specified rectangular {@link Matrix}. Performs
+	 * the "left-looking", dot product, Crout/Doolittle algorithm and sets {@code LU} and
+	 * {@code pivot}.
 	 * <p>
-	 * @param A a rectangular {@link Matrix}
+	 * @param A the rectangular {@link Matrix} to decompose
+	 * <p>
+	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public LUDecomposition(final Matrix A) {
+		// Verify the feasibility
+		if (!A.isSquare()) {
+			throw new IllegalOperationException("The matrix is not square");
+		}
+
 		// Initialize
-		LU = A.getAll();
+		LU = A.toPrimitiveArray2D();
 		m = A.getRowDimension();
 		n = A.getColumnDimension();
 		pivotSign = 1;
@@ -110,50 +136,55 @@ public class LUDecomposition
 				}
 				row[j] = column[i] -= s;
 			}
-			// Find the pivot and exchange if necessary
+			// Find the pivot and exchange if required
 			int p = j;
 			for (int i = j + 1; i < m; ++i) {
-				if (Math.abs(column[i]) > Math.abs(column[p])) {
+				if (Maths.abs(column[i]) > Maths.abs(column[p])) {
 					p = i;
 				}
 			}
 			if (p != j) {
 				for (int k = 0; k < n; ++k) {
-					final double t = LU[p][k];
+					final double value = LU[p][k];
 					LU[p][k] = LU[j][k];
-					LU[j][k] = t;
+					LU[j][k] = value;
 				}
 				final int k = pivot[p];
 				pivot[p] = pivot[j];
 				pivot[j] = k;
 				pivotSign = -pivotSign;
 			}
-			// Compute multipliers
-			if (j < m & LU[j][j] != 0.) {
+			// Compute the multipliers
+			if (j < m && LU[j][j] != 0.) {
 				for (int i = j + 1; i < m; ++i) {
 					LU[i][j] /= LU[j][j];
 				}
 			}
 		}
+
+		// Verify the feasibility
+		if (isSingular()) {
+			IO.warn("The matrix is singular");
+		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests whether {@code A} is nonsingular.
+	 * Tests whether {@code U} (and hence {@code A}) is singular.
 	 * <p>
-	 * @return {@code true} if U (and hence {@code A}) is nonsingular, {@code false} otherwise
+	 * @return {@code true} if {@code U} (and hence {@code A}) is singular, {@code false} otherwise
 	 */
-	public boolean isNonsingular() {
+	public boolean isSingular() {
 		for (int j = 0; j < n; ++j) {
 			if (LU[j][j] == 0) {
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	/**
@@ -162,8 +193,7 @@ public class LUDecomposition
 	 * @return the lower triangular factor {@code L}
 	 */
 	public Matrix getL() {
-		final Matrix X = new Matrix(m, n);
-		final double[][] L = X.getElements();
+		final double[][] L = new double[m][n];
 		for (int i = 0; i < m; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i > j) {
@@ -175,7 +205,7 @@ public class LUDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(L);
 	}
 
 	/**
@@ -193,8 +223,7 @@ public class LUDecomposition
 	 * @return the upper triangular factor {@code U}
 	 */
 	public Matrix getU() {
-		final Matrix X = new Matrix(n, n);
-		final double[][] U = X.getElements();
+		final double[][] U = new double[n][n];
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
 				if (i <= j) {
@@ -204,7 +233,7 @@ public class LUDecomposition
 				}
 			}
 		}
-		return X;
+		return new Matrix(U);
 	}
 
 	/**
@@ -219,32 +248,24 @@ public class LUDecomposition
 	}
 
 	/**
-	 * Returns the pivot permutation vector as a one-dimensional double array.
+	 * Returns the pivot permutation vector {@code pivot} as a {@code double} array.
 	 * <p>
-	 * @return the pivot permutation vector as a one-dimensional double array
+	 * @return the pivot permutation vector {@code pivot} as a {@code double} array
 	 */
 	public double[] getDoublePivot() {
-		final double[] vals = new double[m];
+		final double[] p = new double[m];
 		for (int i = 0; i < m; ++i) {
-			vals[i] = pivot[i];
+			p[i] = pivot[i];
 		}
-		return vals;
+		return p;
 	}
 
 	/**
 	 * Returns the determinant of {@code A}.
 	 * <p>
 	 * @return the determinant of {@code A}
-	 * <p>
-	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public double det() {
-		// Verify the feasibility
-		if (m != n) {
-			throw new IllegalOperationException("The matrix is not square");
-		}
-
-		// Compute the determinant
 		double d = pivotSign;
 		for (int j = 0; j < n; ++j) {
 			d *= LU[j][j];
@@ -258,50 +279,43 @@ public class LUDecomposition
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the solution of {@code A * X = B}.
+	 * Returns the solution of {@code A X = B}.
 	 * <p>
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
 	 * <p>
-	 * @return {@code X} so that {@code L * U * X = B(pivot, :)}
+	 * @return {@code X} so that {@code L U X = B(pivot, :)}
 	 * <p>
-	 * @throws IllegalArgumentException  if the matrix row dimensions do not agree
-	 * @throws IllegalOperationException if {@code A} is singular
+	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {
 		// Check the arguments
 		MatrixArguments.requireRowDimension(B.getRowDimension(), m);
 
-		// Verify the feasibility
-		if (!isNonsingular()) {
-			throw new IllegalOperationException("The matrix is singular");
-		}
-
 		// Initialize
-		final int nx = B.getColumnDimension();
-		final Matrix X = B.getSubmatrix(pivot, 0, nx);
-		final double[][] xElements = X.getElements();
+		final Matrix X = B.getSubmatrix(pivot, 0, B.getRowDimension());
+		final int n = X.getColumnDimension();
+		final double[] elements = X.getElements();
 
 		// Solve L * Y = B(pivot, :)
 		for (int k = 0; k < n; ++k) {
 			for (int i = k + 1; i < n; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * LU[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * LU[i][k];
 				}
 			}
 		}
 
-		// Solve U * X = Y
+		// Solve U * X = Y and return X
 		for (int k = n - 1; k >= 0; --k) {
-			for (int j = 0; j < nx; ++j) {
-				xElements[k][j] /= LU[k][k];
+			for (int j = 0; j < n; ++j) {
+				elements[k * n + j] /= LU[k][k];
 			}
 			for (int i = 0; i < k; ++i) {
-				for (int j = 0; j < nx; ++j) {
-					xElements[i][j] -= xElements[k][j] * LU[i][k];
+				for (int j = 0; j < n; ++j) {
+					elements[i * n + j] -= elements[k * n + j] * LU[i][k];
 				}
 			}
 		}
-
 		return X;
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,67 +23,39 @@
  */
 package jupiter.common.util;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 
 public class ObjectsTest
-		extends TestCase {
+		extends Test {
 
-	public ObjectsTest() {
+	public ObjectsTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of hashCode method, of class Objects.
+	 * Tests {@link Objects#hashCode}.
 	 */
 	public void testHashCode() {
-		IO.test("hashCode");
+		IO.test(BULLET, " hashCode");
 
-		assertEquals(Objects.hashCode(new Integer[] {}), Objects.hashCode(new Integer[] {}));
-		assertEquals(Objects.hashCode(new Integer[][] {
-			new Integer[] {}
-		}), Objects.hashCode(new Integer[][] {
-			new Integer[] {}
-		}));
-		assertEquals(Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {}
-			}
-		}), Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {}
-			}
-		}));
+		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
+				Objects.hashCode(Integers.EMPTY_ARRAY));
+		assertEquals(Objects.hashCode(new Integer[][] {Integers.EMPTY_ARRAY}),
+				Objects.hashCode(new Integer[][] {Integers.EMPTY_ARRAY}));
+		assertEquals(Objects.hashCode(new Integer[][][] {new Integer[][] {Integers.EMPTY_ARRAY}}),
+				Objects.hashCode(new Integer[][][] {new Integer[][] {Integers.EMPTY_ARRAY}}));
 
 		assertEquals(Objects.hashCode(null), Objects.hashCode(null));
-		assertEquals(Objects.hashCode(new Integer[] {
-			null
-		}), Objects.hashCode(new Integer[] {
-			null
-		}));
-		assertEquals(Objects.hashCode(new Integer[][] {
-			new Integer[] {
-				null
-			}
-		}), Objects.hashCode(new Integer[][] {
-			new Integer[] {
-				null
-			}
-		}));
-		assertEquals(Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {
-					null
-				}
-			}
-		}), Objects.hashCode(new Integer[][][] {
-			new Integer[][] {
-				new Integer[] {
-					null
-				}
-			}
-		}));
+		assertEquals(Objects.hashCode(new Integer[] {null}),
+				Objects.hashCode(new Integer[] {null}));
+		assertEquals(Objects.hashCode(new Integer[][] {new Integer[] {null}}),
+				Objects.hashCode(new Integer[][] {new Integer[] {null}}));
+		assertEquals(Objects.hashCode(new Integer[][][] {new Integer[][] {new Integer[] {null}}}),
+				Objects.hashCode(new Integer[][][] {new Integer[][] {new Integer[] {null}}}));
 	}
 }

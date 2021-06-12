@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,26 +24,80 @@
 package jupiter.common.map.parser;
 
 import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.util.Strings;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 
 /**
- * {@link StringParser} is a map operator parsing an {@link Object} to a {@link String}.
+ * {@link StringParser} is the {@link ObjectToStringMapper} parsing an input {@link Object} to an
+ * output {@link String}.
  */
 public class StringParser
 		extends ObjectToStringMapper
-		implements Parser<String> {
+		implements IParser<String> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringParser}.
+	 */
 	public StringParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public String[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public String[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public String[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public String[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public String[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public String[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -54,32 +108,7 @@ public class StringParser
 		if (input instanceof String) {
 			return (String) input;
 		}
-		return Strings.toString(input);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public String parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public String[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public String[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public String[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+		return Objects.toString(input);
 	}
 
 
@@ -87,6 +116,13 @@ public class StringParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public StringParser clone() {
 		return new StringParser();

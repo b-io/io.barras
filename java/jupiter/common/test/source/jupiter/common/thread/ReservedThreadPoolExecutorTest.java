@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,60 +23,61 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 public class ReservedThreadPoolExecutorTest
-		extends TestCase {
+		extends Test {
 
-	public ReservedThreadPoolExecutorTest(final String testName) {
-		super(testName);
+	public ReservedThreadPoolExecutorTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class WorkQueue.
+	 * Tests {@link ReservedThreadPoolExecutor#addTask}.
 	 */
 	public void testSubmit() {
-		IO.test("submit");
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		IO.test(BULLET, " submit");
 
-		// Create a thread pool
-		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
-		IO.test("There are ", queue.getMaxPoolSize(), " threads");
-
-		// Process the tasks
+		// Initialize
+		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
+		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
+		IO.test("There are ", queue.getMaxPoolSize(), " workers");
+
+		// Submit the tasks
 		chrono.start();
-		final int nTasks = 1000000;
-		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>();
-		for (int i = 0; i < nTasks; ++i) {
+		final List<Future<Integer>> futures = new ExtendedList<Future<Integer>>(taskCount);
+		for (int ti = 0; ti < taskCount; ++ti) {
 			Future<Integer> future;
 			//do {
-			future = queue.submit((Callable<Integer>) new JobTest(i));
+			future = queue.submit((Callable<Integer>) new SimpleWorker(ti));
 			//} while (future == null);
 			futures.add(future);
 		}
-		final Set<Integer> results = new HashSet<Integer>(futures.size());
-		int nSkippedTasks = 0;
+
+		// Collect the results
+		final Set<Integer> results = new ExtendedHashSet<Integer>(futures.size());
+		int skippedTaskCount = 0;
 		for (final Future<Integer> future : futures) {
 			try {
 				if (future != null) {
 					results.add(future.get());
 				} else {
-					++nSkippedTasks;
+					++skippedTaskCount;
 				}
 			} catch (final ExecutionException ex) {
 				IO.error(ex);
@@ -86,15 +87,15 @@ public class ReservedThreadPoolExecutorTest
 		}
 		chrono.stop();
 		IO.test(chrono.getMilliseconds(), " [ms]");
-		IO.test(nSkippedTasks, " skipped tasks");
+		IO.test(skippedTaskCount, " skipped tasks");
 
-		// Test
-		int nCompletedTasks = 0;
-		for (int i = 0; i < nTasks; ++i) {
-			if (results.contains(i)) {
-				++nCompletedTasks;
+		// Report the number of completed tasks
+		int completedTaskCount = 0;
+		for (int ti = 0; ti < taskCount; ++ti) {
+			if (results.contains(ti)) {
+				++completedTaskCount;
 			}
 		}
-		IO.test(nCompletedTasks, "/", nTasks, " completed");
+		IO.test(completedTaskCount, "/", taskCount, " completed");
 	}
 }

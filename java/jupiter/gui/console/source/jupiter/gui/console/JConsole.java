@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,9 +23,12 @@
  */
 package jupiter.gui.console;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.Formats.CHARSET;
+import static jupiter.common.Formats.NEWLINE;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.ESCAPE;
+import static jupiter.common.util.Strings.EMPTY;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Font;
@@ -48,7 +51,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -63,22 +66,31 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
+import jupiter.common.io.InputOutput.SeverityLevel;
+import jupiter.common.io.console.ConsoleHandler;
+import jupiter.common.io.console.ConsoleHandler.Color;
 import jupiter.common.io.console.IConsole;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.util.Formats;
+import jupiter.common.struct.list.Index;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * A JFC / Swing based console for the BeanShell desktop.
+ * {@link JConsole} is the extended JFC/Swing based console for the BeanShell desktop.
  * <p>
- * @author Patrick Niemeyer, http://www.pat.net
+ * @author Florian Barras and Patrick Niemeyer (http://www.pat.net)
  */
 public class JConsole
 		extends JScrollPane
-		implements IConsole, Runnable, KeyListener, MouseListener, ActionListener,
-		PropertyChangeListener {
+		implements ActionListener, IConsole, KeyListener, MouseListener, PropertyChangeListener,
+		Runnable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -87,21 +99,52 @@ public class JConsole
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -4344016972311184815L;
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static final Font FONT = new Font("Monospaced", Font.PLAIN, 14);
 	protected static final String COPY = "Copy";
 	protected static final String CUT = "Cut";
 	protected static final String PASTE = "Paste";
-	protected static final String ZEROS = "000";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static final StyleContext STYLE_CONTEXT = new StyleContext();
+	public static final Style DEFAULT_STYLE = STYLE_CONTEXT.getStyle(StyleContext.DEFAULT_STYLE);
+
+	/**
+	 * The {@link Style} associated to their {@link Color}.
+	 */
+	protected static final ExtendedHashMap<Color, Style> STYLES = new ExtendedHashMap<Color, Style>();
+
+	static {
+		final SeverityLevel[] severityLevels = SeverityLevel.class.getEnumConstants();
+		for (final SeverityLevel severityLevel : severityLevels) {
+			final Color color = ConsoleHandler.getColor(severityLevel);
+			final Style style = STYLE_CONTEXT.addStyle(color.toString(), DEFAULT_STYLE);
+			final java.awt.Color c = color.toAWT();
+			if (c != null) {
+				StyleConstants.setForeground(style, c);
+			}
+			STYLES.put(color, style);
+		}
+	}
+
+	protected static final ExtendedList<String> COLORS = Strings.toList(
+			Color.class.getEnumConstants());
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile Color COLOR = Color.GREEN;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final List<String> history = new ExtendedList<String>();
-	protected final LinkedList<String> inputLines = new LinkedList<String>();
+	protected final ExtendedLinkedList<String> history = new ExtendedLinkedList<String>();
+	protected final ExtendedLinkedList<String> inputLines = new ExtendedLinkedList<String>();
 	protected volatile OutputStream outPipe;
 	protected volatile InputStream inPipe;
 	protected volatile InputStream in;
@@ -110,40 +153,136 @@ public class JConsole
 	protected volatile String currentLine;
 	protected volatile int historicalLineIndex = 0;
 	protected volatile JPopupMenu menu;
-	protected volatile JTextPane text;
+	protected volatile JTextPane textPane;
 	protected volatile boolean isKeyUp = true;
+
+	protected volatile String text = EMPTY;
+	protected volatile Color textColor = COLOR;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link JConsole} by default.
+	 */
 	public JConsole() {
-		super();
-		init(null, null);
+		this(null, null);
 	}
 
-	public JConsole(final InputStream cin, final OutputStream cout) {
+	/**
+	 * Constructs a {@link JConsole} with the specified {@link InputStream} and
+	 * {@link OutputStream}.
+	 * <p>
+	 * @param inputStream  the {@link InputStream} to read from
+	 * @param outputStream the {@link OutputStream} to write to
+	 */
+	public JConsole(final InputStream inputStream, final OutputStream outputStream) {
 		super();
-		init(cin, cout);
+		init(inputStream, outputStream);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// JCONSOLE
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void init(final InputStream cin, final OutputStream cout) {
-		// Special TextPane which catches for cut and paste, both L&F keys and programmatic behavior
-		text = new JTextPane(new DefaultStyledDocument()) {
+	/**
+	 * Clears the {@link JTextPane}.
+	 */
+	public void clear() {
+		textPane.setText(EMPTY);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public void print(final Icon icon) {
+		if (icon != null) {
+			append(icon);
+		}
+	}
+
+	public void print(final Object content) {
+		append(content);
+	}
+
+	public void print(final Object content, final Font font) {
+		print(content, font, null);
+	}
+
+	public void print(final Object content, final java.awt.Color color) {
+		print(content, null, color);
+	}
+
+	public void print(final Object content, final Font font, final java.awt.Color color) {
+		final AttributeSet previousStyle = getStyle();
+		setStyle(font, color);
+		append(content);
+		setStyle(previousStyle, true);
+	}
+
+	public void print(final Object content, final String fontFamilyName, final int size,
+			final java.awt.Color color) {
+		print(content, fontFamilyName, size, color, false, false, false);
+	}
+
+	public void print(final Object content, final String fontFamilyName, final int size,
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
+		final AttributeSet previousStyle = getStyle();
+		setStyle(fontFamilyName, size, color, bold, italic, underline);
+		append(content);
+		setStyle(previousStyle, true);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Terminates the line.
+	 */
+	public void println() {
+		print(NEWLINE);
+	}
+
+	/**
+	 * Prints the {@link Icon} and terminates the line.
+	 * <p>
+	 * @param icon the {@link Icon} to print
+	 */
+	public void println(final Icon icon) {
+		print(icon);
+		println();
+	}
+
+	/**
+	 * Prints the content {@link Object} and terminates the line.
+	 * <p>
+	 * @param content the content {@link Object} to print
+	 */
+	public void println(final Object content) {
+		append(Objects.toString(content).concat(NEWLINE));
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected void init(final InputStream inputStream, final OutputStream outputStream) {
+		// Initialize the special text pane catching cut/paste, keys and programmatic behavior
+		textPane = new JTextPane(new DefaultStyledDocument()) {
 			/**
 			 * The generated serial version ID.
 			 */
-			private static final long serialVersionUID = -1922769428193312459L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void cut() {
-				if (text.getCaretPosition() < commandStart) {
+				if (textPane.getCaretPosition() < commandStart) {
 					super.copy();
 				} else {
 					super.cut();
@@ -156,20 +295,21 @@ public class JConsole
 				super.paste();
 			}
 		};
-		text.setText(Strings.EMPTY);
-		text.setFont(FONT);
-		text.setMargin(new Insets(7, 5, 7, 5));
-		text.addKeyListener(this);
-		setViewportView(text);
+		textPane.setText(EMPTY);
+		textPane.setFont(FONT);
+		textPane.setMargin(new Insets(7, 5, 7, 5));
+		textPane.addKeyListener(this);
+		setViewportView(textPane);
 		// Create the popup menu
 		menu = new JPopupMenu("Menu");
 		menu.add(new JMenuItem(CUT)).addActionListener(this);
 		menu.add(new JMenuItem(COPY)).addActionListener(this);
 		menu.add(new JMenuItem(PASTE)).addActionListener(this);
-		text.addMouseListener(this);
+		textPane.addMouseListener(this);
 		// Make sure the popup menu follows the Look & Feel
 		UIManager.addPropertyChangeListener(this);
-		outPipe = cout;
+		// Set the input
+		outPipe = outputStream;
 		if (outPipe == null) {
 			outPipe = new PipedOutputStream();
 			try {
@@ -178,11 +318,12 @@ public class JConsole
 				IO.error(ex);
 			}
 		}
-		inPipe = cin;
+		// Set the output
+		inPipe = inputStream;
 		if (inPipe == null) {
 			final PipedOutputStream pout = new PipedOutputStream();
 			try {
-				out = new PrintStream(pout, true, Formats.DEFAULT_CHARSET_NAME);
+				out = new PrintStream(pout, true, CHARSET.name());
 				inPipe = new BlockingPipedInputStream(pout);
 			} catch (final IOException ex) {
 				IO.error(ex);
@@ -195,11 +336,25 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ICONSOLE
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public String input() {
-		String input;
+	/**
+	 * Returns the {@link InputStream}.
+	 * <p>
+	 * @return the {@link InputStream}
+	 */
+	public InputStream getIn() {
+		return in;
+	}
+
+	/**
+	 * Returns the input line.
+	 * <p>
+	 * @return the input line
+	 */
+	public String getInputLine() {
+		String inputLine;
 		synchronized (inputLines) {
 			while (inputLines.isEmpty()) {
 				try {
@@ -207,106 +362,45 @@ public class JConsole
 				} catch (final InterruptedException ignored) {
 				}
 			}
-			input = inputLines.removeFirst();
+			inputLine = inputLines.removeFirst();
 		}
-		return input;
-	}
-
-	public PrintStream getOut() {
-		return out;
-	}
-
-	public PrintStream getErr() {
-		return out;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public Reader getReader() {
-		return new InputStreamReader(in, Formats.DEFAULT_CHARSET);
+		return inputLine;
 	}
 
 	public InputStream getInputStream() {
 		return inPipe;
 	}
 
-	public List<String> getLines() {
-		return history;
-	}
-
 	public String getLastLine() {
 		return history.get(historicalLineIndex);
 	}
 
+	public List<String> getLines() {
+		return history;
+	}
+
+	public Reader getReader() {
+		return new InputStreamReader(in, CHARSET);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void print(final Object content) {
-		append(content);
+	/**
+	 * Returns the {@link PrintStream}.
+	 * <p>
+	 * @return the {@link PrintStream}
+	 */
+	public PrintStream getOut() {
+		return out;
 	}
 
 	/**
-	 * Prints "\\n" (i.e. newline).
+	 * Returns the error {@link PrintStream}.
+	 * <p>
+	 * @return the error {@link PrintStream}
 	 */
-	public void println() {
-		print("\n");
-		text.repaint();
-	}
-
-	public void println(final Object content) {
-		append(Strings.toString(content) + "\n");
-	}
-
-	public void error(final Object content) {
-		print(content, Color.RED);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void println(final Icon icon) {
-		print(icon);
-		println();
-		text.repaint();
-	}
-
-	public void print(final Icon icon) {
-		if (icon == null) {
-			return;
-		}
-		append(icon);
-	}
-
-	public void print(final Object s, final Font font) {
-		print(s, font, null);
-	}
-
-	public void print(final Object s, final Color color) {
-		print(s, null, color);
-	}
-
-	public void print(final Object content, final Font font, final Color color) {
-		final AttributeSet old = getStyle();
-		setStyle(font, color);
-		append(Strings.toString(content));
-		setStyle(old, true);
-	}
-
-	public void print(final Object s, final String fontFamilyName, final int size,
-			final Color color) {
-		print(s, fontFamilyName, size, color, false, false, false);
-	}
-
-	public void print(final Object content, final String fontFamilyName, final int size,
-			final Color color, final boolean bold, final boolean italic, final boolean underline) {
-		final AttributeSet old = getStyle();
-		setStyle(fontFamilyName, size, color, bold, italic, underline);
-		append(content);
-		setStyle(old, true);
+	public PrintStream getErr() {
+		return out;
 	}
 
 
@@ -315,19 +409,19 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void forceCaretMoveToEnd() {
-		if (text.getCaretPosition() < commandStart) {
+		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
-			text.setCaretPosition(getTextLength());
+			textPane.setCaretPosition(getTextLength());
+			textPane.repaint();
 		}
-		text.repaint();
 	}
 
 	protected void forceCaretMoveToStart() {
-		if (text.getCaretPosition() < commandStart) {
+		if (textPane.getCaretPosition() < commandStart) {
 			// Move the caret
-			text.setCaretPosition(getTextLength());
+			textPane.setCaretPosition(getTextLength());
+			textPane.repaint();
 		}
-		text.repaint();
 	}
 
 
@@ -335,12 +429,41 @@ public class JConsole
 	// CURSOR
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public void setWaitFeedback(final boolean enable) {
-		if (enable) {
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		} else {
-			setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		}
+	/**
+	 * Sets the cursor image to the specified predefined default cursor.
+	 */
+	public void setCursor() {
+		setCursor(Cursor.DEFAULT_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined cursor.
+	 * <p>
+	 * @param type a type of a predefined cursor
+	 */
+	public void setCursor(final int type) {
+		setCursor(Cursor.getPredefinedCursor(type));
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined crosshair cursor.
+	 */
+	public void setCursorToCrosshair() {
+		setCursor(Cursor.CROSSHAIR_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined text cursor.
+	 */
+	public void setCursorToText() {
+		setCursor(Cursor.TEXT_CURSOR);
+	}
+
+	/**
+	 * Sets the cursor image to the specified predefined wait cursor.
+	 */
+	public void setCursorToWait() {
+		setCursor(Cursor.WAIT_CURSOR);
 	}
 
 
@@ -349,25 +472,23 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected void historyUp() {
-		if (history.isEmpty()) {
-			return;
-		}
-		// Save the current line
-		if (historicalLineIndex == 0) {
-			currentLine = getCmd();
-		}
-		if (historicalLineIndex < history.size()) {
-			++historicalLineIndex;
-			showHistoryLine();
+		if (history.isNonEmpty()) {
+			// Save the current line
+			if (historicalLineIndex == 0) {
+				currentLine = getCommand();
+			}
+			if (historicalLineIndex < history.size()) {
+				++historicalLineIndex;
+				showHistoryLine();
+			}
 		}
 	}
 
 	protected void historyDown() {
-		if (historicalLineIndex == 0) {
-			return;
+		if (historicalLineIndex > 0) {
+			--historicalLineIndex;
+			showHistoryLine();
 		}
-		historicalLineIndex--;
-		showHistoryLine();
 	}
 
 	protected void showHistoryLine() {
@@ -378,8 +499,8 @@ public class JConsole
 			showline = history.get(history.size() - historicalLineIndex);
 		}
 		replaceRange(showline, commandStart, getTextLength());
-		text.setCaretPosition(getTextLength());
-		text.repaint();
+		textPane.setCaretPosition(getTextLength());
+		textPane.repaint();
 	}
 
 
@@ -387,29 +508,21 @@ public class JConsole
 	// LINE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void acceptLine(String line) {
-		// Handle Unicode characters
-		final StringBuilder builder = Strings.createBuilder();
-		final int lineLength = line.length();
-		for (int i = 0; i < lineLength; ++i) {
-			String val = Integer.toString(line.charAt(i), 16);
-			val = ZEROS.substring(0, 4 - val.length()) + val;
-			builder.append("\\u").append(val);
-		}
-		line = builder.toString();
+	protected void acceptLine(final String line) {
+		// Check the output stream
 		if (outPipe == null) {
 			IO.error("No console output stream");
-		} else {
-			try {
-				outPipe.write(line.getBytes(Formats.DEFAULT_CHARSET.name()));
-				outPipe.flush();
-			} catch (final IOException ex) {
-				outPipe = null;
-				throw new RuntimeException(
-						"Unable to write in the console" + IO.appendException(ex));
-			}
+			return;
 		}
-		// text.repaint();
+
+		// Write the line (handle Unicode characters)
+		try {
+			outPipe.write(Strings.toUnicode(line).getBytes(CHARSET.name()));
+			outPipe.flush();
+			textPane.repaint();
+		} catch (final IOException ex) {
+			throw new IllegalStateException("Cannot write in the console", ex);
+		}
 	}
 
 
@@ -418,12 +531,12 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected AttributeSet getStyle() {
-		return text.getCharacterAttributes();
+		return textPane.getCharacterAttributes();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected AttributeSet setStyle(final Font font, final Color color) {
+	protected AttributeSet setStyle(final Font font, final java.awt.Color color) {
 		if (font != null) {
 			return setStyle(font.getFamily(), font.getSize(), color, font.isBold(), font.isItalic(),
 					StyleConstants.isUnderline(getStyle()));
@@ -432,23 +545,24 @@ public class JConsole
 	}
 
 	protected AttributeSet setStyle(final String fontFamilyName, final int size,
-			final Color color) {
-		final MutableAttributeSet attr = new SimpleAttributeSet();
+			final java.awt.Color color) {
+		final MutableAttributeSet attributes = new SimpleAttributeSet();
 		if (color != null) {
-			StyleConstants.setForeground(attr, color);
+			StyleConstants.setForeground(attributes, color);
 		}
 		if (fontFamilyName != null) {
-			StyleConstants.setFontFamily(attr, fontFamilyName);
+			StyleConstants.setFontFamily(attributes, fontFamilyName);
 		}
-		if (size != -1) {
-			StyleConstants.setFontSize(attr, size);
+		if (size >= 0) {
+			StyleConstants.setFontSize(attributes, size);
 		}
-		setStyle(attr);
+		setStyle(attributes);
 		return getStyle();
 	}
 
-	protected AttributeSet setStyle(final String fontFamilyName, final int size, final Color color,
-			final boolean bold, final boolean italic, final boolean underline) {
+	protected AttributeSet setStyle(final String fontFamilyName, final int size,
+			final java.awt.Color color, final boolean bold, final boolean italic,
+			final boolean underline) {
 		final MutableAttributeSet attr = new SimpleAttributeSet();
 		if (color != null) {
 			StyleConstants.setForeground(attr, color);
@@ -456,7 +570,7 @@ public class JConsole
 		if (fontFamilyName != null) {
 			StyleConstants.setFontFamily(attr, fontFamilyName);
 		}
-		if (size != -1) {
+		if (size >= 0) {
 			StyleConstants.setFontSize(attr, size);
 		}
 		StyleConstants.setBold(attr, bold);
@@ -470,39 +584,17 @@ public class JConsole
 		setStyle(attributes, false);
 	}
 
-	protected void setStyle(final AttributeSet attributes, final boolean overwrite) {
-		text.setCharacterAttributes(attributes, overwrite);
+	protected void setStyle(final AttributeSet attributes, final boolean replace) {
+		textPane.setCharacterAttributes(attributes, replace);
 	}
+
+	//////////////////////////////////////////////
 
 	@Override
 	public void setFont(final Font font) {
 		super.setFont(font);
-		if (text != null) {
-			text.setFont(font);
-		}
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// RUNNABLE
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public void run() {
-		try {
-			inPipeWatcher();
-		} catch (final IOException ex) {
-			IO.error(ex);
-		}
-	}
-
-	protected void inPipeWatcher()
-			throws IOException {
-		// Arbitrary blocking factor
-		final byte[] ba = new byte[256];
-		int read;
-		while ((read = inPipe.read(ba)) != -1) {
-			print(new String(ba, 0, read, Formats.DEFAULT_CHARSET.name()));
-			// text.repaint();
+		if (textPane != null) {
+			textPane.setFont(font);
 		}
 	}
 
@@ -512,14 +604,15 @@ public class JConsole
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected int getTextLength() {
-		return text.getDocument().getLength();
+		return textPane.getDocument().getLength();
 	}
 
-	protected String replaceRange(final Object content, final int from, final int to) {
-		final String selection = Strings.toString(content);
-		text.select(from, to);
-		text.replaceSelection(selection);
-		// text.repaint();
+	protected String replaceRange(final Object content, final int fromSelection,
+			final int toSelection) {
+		final String selection = Objects.toString(content);
+		textPane.select(fromSelection, toSelection);
+		textPane.replaceSelection(selection);
+		textPane.repaint();
 		return selection;
 	}
 
@@ -528,15 +621,19 @@ public class JConsole
 	// ACTION LISTENER
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Handle cut, copy and paste
+	/**
+	 * Handles cut, copy and paste.
+	 * <p>
+	 * @param event an {@link ActionEvent}
+	 */
 	public void actionPerformed(final ActionEvent event) {
 		final String cmd = event.getActionCommand();
 		if (cmd.equals(CUT)) {
-			text.cut();
+			textPane.cut();
 		} else if (cmd.equals(COPY)) {
-			text.copy();
+			textPane.copy();
 		} else if (cmd.equals(PASTE)) {
-			text.paste();
+			textPane.paste();
 		}
 	}
 
@@ -548,7 +645,7 @@ public class JConsole
 	@Override
 	public void requestFocus() {
 		super.requestFocus();
-		text.requestFocus();
+		textPane.requestFocus();
 	}
 
 	public void keyPressed(final KeyEvent event) {
@@ -565,6 +662,7 @@ public class JConsole
 		type(event);
 	}
 
+	@SuppressWarnings("deprecation")
 	protected synchronized void type(final KeyEvent event) {
 		switch (event.getKeyCode()) {
 			case KeyEvent.VK_ENTER:
@@ -574,7 +672,7 @@ public class JConsole
 					}
 				}
 				event.consume();
-				text.repaint();
+				textPane.repaint();
 				break;
 			case KeyEvent.VK_UP:
 				if (event.getID() == KeyEvent.KEY_PRESSED) {
@@ -591,7 +689,7 @@ public class JConsole
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_BACK_SPACE:
 			case KeyEvent.VK_DELETE:
-				if (text.getCaretPosition() <= commandStart) {
+				if (textPane.getCaretPosition() <= commandStart) {
 					// This does not work for backspace; see the default case for a workaround
 					event.consume();
 				}
@@ -600,12 +698,12 @@ public class JConsole
 				forceCaretMoveToStart();
 				break;
 			case KeyEvent.VK_HOME:
-				text.setCaretPosition(commandStart);
+				textPane.setCaretPosition(commandStart);
 				event.consume();
 				break;
 			case KeyEvent.VK_U: // clear the line
 				if ((event.getModifiers() & InputEvent.CTRL_MASK) > 0) {
-					replaceRange(Strings.EMPTY, commandStart, getTextLength());
+					replaceRange(EMPTY, commandStart, getTextLength());
 					historicalLineIndex = 0;
 					event.consume();
 				}
@@ -634,7 +732,7 @@ public class JConsole
 				break;
 			// Control-C
 			case KeyEvent.VK_C:
-				if (text.getSelectedText() == null) {
+				if (textPane.getSelectedText() == null) {
 					if ((event.getModifiers() & InputEvent.CTRL_MASK) > 0 &&
 							event.getID() == KeyEvent.KEY_PRESSED) {
 						append("^C");
@@ -651,7 +749,7 @@ public class JConsole
 				// The getKeyCode function always returns VK_UNDEFINED for keyTyped events,
 				// so backspace is not fully consumed
 				if (event.paramString().contains("Backspace")) {
-					if (text.getCaretPosition() <= commandStart) {
+					if (textPane.getCaretPosition() <= commandStart) {
 						event.consume();
 						break;
 					}
@@ -661,44 +759,80 @@ public class JConsole
 	}
 
 	protected void enter() {
-		String s = getCmd();
+		String command = getCommand();
 		// Special hack for empty return
-		if (s.length() == 0) {
-			s = ";\n";
+		if (command.length() == 0) {
+			command = ";".concat(NEWLINE);
 		} else {
-			history.add(s);
+			history.add(command);
 			synchronized (inputLines) {
-				inputLines.add(s);
+				inputLines.add(command);
 				inputLines.notifyAll();
 			}
-			s += "\n";
+			command += NEWLINE;
 		}
-		append("\n");
+		append(NEWLINE);
 		historicalLineIndex = 0;
-		acceptLine(s);
+		acceptLine(command);
 	}
 
-	protected String getCmd() {
-		String s = Strings.EMPTY;
+	protected String getCommand() {
+		String command = EMPTY;
 		try {
-			s = text.getText(commandStart, getTextLength() - commandStart);
+			command = textPane.getText(commandStart, getTextLength() - commandStart);
 		} catch (final BadLocationException ex) {
 			IO.error(ex);
 		}
-		return s;
+		return command;
 	}
 
 	public synchronized void append(final Object content) {
-		if (content instanceof String) {
-			final int slen = getTextLength();
-			text.select(slen, slen);
-			text.replaceSelection((String) content);
-		} else if (content instanceof Icon) {
-			text.insertIcon((Icon) content);
+		if (content instanceof Icon) {
+			textPane.insertIcon((Icon) content);
+		} else {
+			// Initialize
+			final StyledDocument document = textPane.getStyledDocument();
+			final String styledText = text.concat(Objects.toString(content));
+			final List<Index<String>> delimiters = Strings.getStringIndices(styledText, COLORS);
+			final Iterator<Index<String>> delimiterIterator = delimiters.iterator();
+			final List<String> textParts = Strings.splitString(styledText, COLORS);
+			final Iterator<String> textIterator = textParts.iterator();
+
+			// Append the text
+			text = EMPTY;
+			if (delimiters.isEmpty()) {
+				textColor = COLOR;
+			}
+			while (textIterator.hasNext()) {
+				String textPart = textIterator.next();
+				// Store the text if required (if the text contains a part of the next delimiter)
+				if (!textIterator.hasNext() && textPart.indexOf(ESCAPE) >= 0) {
+					text = textPart;
+					textPart = EMPTY;
+				}
+				// Insert the text part
+				insertString(document, getTextLength(), textPart, textColor);
+				// Update the text color
+				if (delimiterIterator.hasNext()) {
+					textColor = Color.parse(delimiterIterator.next().getToken());
+				}
+			}
 		}
 		commandStart = getTextLength();
-		text.setCaretPosition(commandStart);
-		text.repaint();
+		textPane.setCaretPosition(commandStart);
+		textPane.repaint();
+	}
+
+	protected void insertString(final StyledDocument document, final int offset, final String text,
+			final ConsoleHandler.Color textColor) {
+		if (Strings.isNonEmpty(text)) {
+			try {
+				document.insertString(offset,
+						textColor != null ? textColor.getText(text) : text,
+						textColor != null ? STYLES.get(textColor) : DEFAULT_STYLE);
+			} catch (final BadLocationException ignored) {
+			}
+		}
 	}
 
 
@@ -718,8 +852,8 @@ public class JConsole
 	public void mouseReleased(final MouseEvent event) {
 		if (event.isPopupTrigger()) {
 			menu.show((Component) event.getSource(), event.getX(), event.getY());
+			textPane.repaint();
 		}
-		text.repaint();
 	}
 
 	public void mouseEntered(final MouseEvent event) {
@@ -741,30 +875,59 @@ public class JConsole
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OBJECT
+	// RUNNABLE
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Override
-	public String toString() {
-		return JConsole.class.getSimpleName();
+	public void run() {
+		try {
+			inPipeWatcher();
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+	}
+
+	protected void inPipeWatcher()
+			throws IOException {
+		// Arbitrary blocking factor
+		final byte[] ba = new byte[256];
+		int read;
+		while ((read = inPipe.read(ba)) >= 0) {
+			print(new String(ba, 0, read, CHARSET.name()));
+		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The overridden method {@code read} does not throw an {@link IOException}; it simply waits for
-	 * new writers and data. This is used by the JConsole internal read thread to allow writers in
-	 * different (and in particular ephemeral) threads to write to the pipe.
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
 	 */
-	public static class BlockingPipedInputStream
+	@Override
+	public String toString() {
+		return Objects.getName(this);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLASSES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The overridden method {@link BlockingPipedInputStream#read} does not throw an
+	 * {@link IOException} (except if the pipe is closed); it simply waits for new writers and data.
+	 * This is used by {@code this} internal read thread to allow writers in different (and in
+	 * particular ephemeral) threads to write to the pipe.
+	 */
+	protected static class BlockingPipedInputStream
 			extends PipedInputStream {
 
 		protected volatile boolean isClosed;
 
-		public BlockingPipedInputStream(final PipedOutputStream pipedOutputStream)
+		protected BlockingPipedInputStream(final PipedOutputStream pipedOutputStream)
 				throws IOException {
 			super(pipedOutputStream);
 			isClosed = false;
@@ -776,33 +939,38 @@ public class JConsole
 			if (isClosed) {
 				throw new IOException("No console input stream");
 			}
-			// While no data
+
+			// While there is no data
 			while (!isClosed && super.in < 0) {
-				// Notify any writers to wake up
+				// Notify all the writers
 				notifyAll();
 				try {
 					wait(750);
 				} catch (final InterruptedException ex) {
-					throw new InterruptedIOException(ex.getMessage());
+					throw new InterruptedIOException(Objects.toString(ex));
 				}
 			}
+
 			// This is what the superclass does
-			final int result = buffer[super.out++] & 0xFF;
+			final int nextByte = buffer[super.out++] & 0xFF;
 			if (super.out >= buffer.length) {
 				super.out = 0;
 			}
 			if (super.in == super.out) {
 				super.in = -1;
 			}
-			return result;
+			return nextByte;
 		}
 
 		@Override
 		public synchronized void close()
 				throws IOException {
-			super.close();
-			isClosed = true;
-			notifyAll();
+			try {
+				isClosed = true;
+				notifyAll();
+			} finally {
+				super.close();
+			}
 		}
 	}
 }

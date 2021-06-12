@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,42 +23,70 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
 
 import java.io.IOException;
 
 import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Objects;
 import jupiter.learning.supervised.function.ActivationFunction;
 import jupiter.learning.supervised.function.ActivationFunctions;
-import jupiter.math.analysis.function.Functions;
+import jupiter.learning.supervised.function.OptimizationAdam;
+import jupiter.learning.supervised.function.RegularizationFunction;
+import jupiter.learning.supervised.function.RegularizationFunctions;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
-import jupiter.math.linear.entity.Scalar;
 import jupiter.math.linear.entity.Vector;
 
 /**
- * Binary classifier using a neural network to estimate the probability of a binary response based
- * on one or more predictor (or independent) variables (features).
+ * {@link NeuralNetwork} is the {@link Classifier} using a neural network to estimate the
+ * probability of a binary (logistic) or multinary (softmax) response based on one or more predictor
+ * (or independent) variables (features).
  */
 public class NeuralNetwork
-		extends BinaryClassifier {
+		extends Classifier {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The array of weight matrices W
-	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (1 x nh)
+	/**
+	 * The array of {@link Matrix} {@code W} containing the weights.
+	 */
+	protected Matrix[] W; // n -> nh... -> 1: (nh x n) -> (nh x nh)... -> (k x nh)
+	/**
+	 * The array of {@link Vector} {@code b} containing the bias.
+	 */
+	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (k x 1)
+	/**
+	 * The array of {@link Entity} {@code A} containing the feature vectors, hidden vectors and
+	 * {@code Y} estimates ({@code A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])}).
+	 */
+	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (k x m)
 
-	// The array of bias vectors b
-	protected Vector[] b; // n -> nh... -> 1: (nh x 1) -> (nh x 1)... -> (1 x 1)
+	//////////////////////////////////////////////
 
-	// The array of matrices of feature and hidden vectors A (A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l]))
-	protected Entity[] A; // n -> nh... -> 1: (n x m) -> (nh x m)... -> (1 x m)
-
-	// The activation function g
+	/**
+	 * The {@link ActivationFunction} {@code g} for all the hidden layers.
+	 */
 	protected ActivationFunction activationFunction;
+	/**
+	 * The {@link RegularizationFunction} {@code r}.
+	 */
+	protected RegularizationFunction regularizationFunction;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,235 +94,368 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a neural network.
+	 * Constructs a {@link NeuralNetwork} with the specified number of features {@code n}.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features {@code n}
 	 */
-	public NeuralNetwork(final int nFeatures) {
-		super(nFeatures);
+	public NeuralNetwork(final int featureCount) {
+		super(featureCount);
+		setDefaultFunctions();
 	}
 
 	/**
-	 * Constructs a neural network from the specified files containing the feature vectors and the
-	 * classes.
+	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
+	 * the feature vectors and classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
-	 *                               (n x m)
-	 * @param classesPathname        the pathname of the file containing the classes of size m
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m}
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
-	public NeuralNetwork(final String featureVectorsPathname, final String classesPathname)
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath)
 			throws IOException {
-		super(featureVectorsPathname, classesPathname);
+		super(featureVectorsPath, classesPath);
+		setDefaultFunctions();
 	}
 
 	/**
-	 * Constructs a neural network from the specified files containing the feature vectors and the
-	 * classes.
+	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
+	 * the feature vectors and classes.
 	 * <p>
-	 * @param featureVectorsPathname the pathname of the file containing the feature vectors of size
-	 *                               (n x m) (or (m x n) if {@code transpose})
-	 * @param classesPathname        the pathname of the file containing the classes of size m
-	 * @param transpose              the option specifying whether to transpose the feature vectors
-	 *                               and the classes
+	 * @param featureVectorsPath the path to the file containing the feature vectors of size
+	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
+	 * @param classesPath        the path to the file containing the classes of size {@code m}
+	 * @param transpose          the flag specifying whether to transpose the feature vectors and
+	 *                           classes
 	 * <p>
-	 * @throws IOException if there is a problem with reading the files
+	 * @throws IOException if there is a problem with reading the files denoted by
+	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
-	public NeuralNetwork(final String featureVectorsPathname, final String classesPathname,
+	public NeuralNetwork(final String featureVectorsPath, final String classesPath,
 			final boolean transpose)
 			throws IOException {
-		super(featureVectorsPathname, classesPathname, transpose);
+		super(featureVectorsPath, classesPath, transpose);
+		setDefaultFunctions();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS && SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the array of {@link Matrix} {@code W} containing the weights.
+	 * <p>
+	 * @return the array of {@link Matrix} {@code W} containing the weights
+	 */
 	public synchronized Matrix[] getWeights() {
 		return W;
 	}
 
+	/**
+	 * Returns the array of {@link Vector} {@code b} containing the bias.
+	 * <p>
+	 * @return the array of {@link Vector} {@code b} containing the bias
+	 */
 	public synchronized Vector[] getBias() {
 		return b;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link ActivationFunction} {@code g} for all the hidden layers.
+	 * <p>
+	 * @return the {@link ActivationFunction} {@code g} for all the hidden layers
+	 */
 	public synchronized ActivationFunction getActivationFunction() {
 		return activationFunction;
 	}
 
+	/**
+	 * Returns the {@link RegularizationFunction} {@code r}.
+	 * <p>
+	 * @return the {@link RegularizationFunction} {@code r}
+	 */
+	public synchronized RegularizationFunction getRegularizationFunction() {
+		return regularizationFunction;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public synchronized void setWeights(final Matrix[] weights) {
+	/**
+	 * Sets the array of {@link Matrix} {@code W} containing the weights.
+	 * <p>
+	 * @param weights an array of {@link Matrix}
+	 */
+	public synchronized void setWeights(final Matrix... weights) {
 		// Check the arguments
-		Arguments.require(weights[0].getColumnDimension(), nFeatures);
+		if (weights != null) {
+			Arguments.require(weights[0].getColumnDimension(), featureCount);
+		}
 
 		// Set the weights
-		W = weights;
+		W = Arrays.clone(weights);
 	}
 
-	public synchronized void setBias(final Vector[] bias) {
+	/**
+	 * Sets the array of {@link Vector} {@code b} containing the bias.
+	 * <p>
+	 * @param bias an array of {@link Vector}
+	 */
+	public synchronized void setBias(final Vector... bias) {
 		// Check the arguments
-		Arguments.require(bias[0].getColumnDimension(), 1);
+		if (bias != null) {
+			Arguments.require(bias[0].getColumnDimension(), 1);
+		}
 
 		// Set the bias
-		b = bias;
+		b = Arrays.clone(bias);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Sets the {@link ActivationFunction} {@code g} for all the hidden layers.
+	 * <p>
+	 * @param activationFunction an {@link ActivationFunction}
+	 */
 	public synchronized void setActivationFunction(final ActivationFunction activationFunction) {
 		this.activationFunction = activationFunction;
 	}
 
+	/**
+	 * Sets the {@link RegularizationFunction} {@code r}.
+	 * <p>
+	 * @param regularizationFunction a {@link RegularizationFunction}
+	 */
+	public synchronized void setRegularizationFunction(
+			final RegularizationFunction regularizationFunction) {
+		this.regularizationFunction = regularizationFunction;
+	}
+
+	/**
+	 * Sets the {@link ActivationFunction} {@code g} for all the hidden layers and
+	 * {@link RegularizationFunction} {@code r} by default.
+	 */
+	protected void setDefaultFunctions() {
+		activationFunction = ActivationFunctions.TANH;
+		regularizationFunction = RegularizationFunctions.L2;
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
-	 * @param learningRate  the learning rate
-	 * @param tolerance     the tolerance level
-	 * @param maxIterations the maximum number of iterations
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
+	 * @param maxIterationCount                the maximum number of iterations
 	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterations) {
-		final int nHiddenLayers = nFeatures;
-		final int hiddenLayerSize = nFeatures * nFeatures;
-		return train(learningRate, tolerance, maxIterations, nHiddenLayers, hiddenLayerSize);
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
+			final int maxIterationCount) {
+		final int hiddenLayerCount;
+		final int hiddenLayerSize;
+		if (W == null) {
+			hiddenLayerCount = featureCount;
+			hiddenLayerSize = featureCount * featureCount;
+		} else {
+			hiddenLayerCount = W.length;
+			hiddenLayerSize = 0;
+		}
+		return train(learningRate, firstMomentExponentialDecayRate,
+				secondMomentExponentialDecayRate, tolerance, maxIterationCount, hiddenLayerCount,
+				hiddenLayerSize);
 	}
 
 	/**
-	 * Trains the model with the specified parameters and returns the number of iterations.
+	 * Trains the model with the specified hyper-parameters.
 	 * <p>
-	 * @param learningRate    the learning rate
-	 * @param tolerance       the tolerance level
-	 * @param maxIterations   the maximum number of iterations
-	 * @param nHiddenLayers   the number of hidden layers
-	 * @param hiddenLayerSize the size of the hidden layers nh
+	 * @param learningRate      the learning rate {@code α}
+	 * @param tolerance         the tolerance level {@code ε}
+	 * @param maxIterationCount the maximum number of iterations
+	 * @param hiddenLayerCount  the number of hidden layers {@code L - 1}
+	 * @param hiddenLayerSize   the size of the hidden layers
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate, final double tolerance,
-			final int maxIterations, final int nHiddenLayers, final int hiddenLayerSize) {
-		if (mTrainingExamples == 0) {
+	public synchronized int train(final double learningRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
+		return train(learningRate, DEFAULT_FIRST_MOMENT_EXPONENTIAL_DECAY_RATE,
+				DEFAULT_SECOND_MOMENT_EXPONENTIAL_DECAY_RATE, tolerance, maxIterationCount,
+				hiddenLayerCount, hiddenLayerSize);
+	}
+
+	/**
+	 * Trains the model with the specified hyper-parameters.
+	 * <p>
+	 * @param learningRate                     the learning rate {@code α}
+	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
+	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
+	 * @param tolerance                        the tolerance level {@code ε}
+	 * @param maxIterationCount                the maximum number of iterations
+	 * @param hiddenLayerCount                 the number of hidden layers {@code L - 1}
+	 * @param hiddenLayerSize                  the size of the hidden layers
+	 * <p>
+	 * @return the number of iterations
+	 */
+	public synchronized int train(final double learningRate,
+			final double firstMomentExponentialDecayRate,
+			final double secondMomentExponentialDecayRate,
+			final double tolerance,
+			final int maxIterationCount,
+			final int hiddenLayerCount,
+			final int hiddenLayerSize) {
+		// Check the arguments
+		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return 0;
 		}
 
-		// Initialize
-		final Scalar alpha = new Scalar(learningRate);
-		final int nLayers = nHiddenLayers + 1; // L
-		// - The weight matrices
-		if (W == null) {
-			W = new Matrix[nLayers];
-			W[0] = Matrix.random(hiddenLayerSize, nFeatures); // (nh x n)
-			for (int i = 1; i < nLayers - 1; ++i) {
-				W[i] = Matrix.random(hiddenLayerSize, hiddenLayerSize); // (nh x nh)
+		Matrix.parallelize();
+		try {
+			// Initialize
+			final int layerCount = hiddenLayerCount + 1; // L
+			// • The weight matrices
+			if (W == null) {
+				W = new Matrix[layerCount];
+				W[0] = Matrix.random(hiddenLayerSize, featureCount)
+						.subtract(0.5)
+						.multiply(Maths.sqrt(2. / featureCount)); // (nh x n)
+				final double scalingFactor = Maths.sqrt(2. / hiddenLayerSize);
+				for (int li = 1; li < layerCount - 1; ++li) {
+					W[li] = Matrix.random(hiddenLayerSize, hiddenLayerSize)
+							.subtract(0.5)
+							.multiply(scalingFactor); // (nh x nh)
+				}
+				W[layerCount - 1] = Matrix.random(classCount, hiddenLayerSize)
+						.subtract(0.5)
+						.multiply(scalingFactor); // (k x nh)
 			}
-			W[nLayers - 1] = Matrix.random(1, hiddenLayerSize); // (1 x nh)
-		}
-		// - The bias vectors
-		if (b == null) {
-			b = new Vector[nLayers];
-			for (int l = 0; l < nLayers - 1; ++l) {
-				b[l] = new Vector(hiddenLayerSize); // (nh x 1)
+			// • The bias vectors
+			if (b == null) {
+				b = new Vector[layerCount];
+				for (int li = 0; li < layerCount - 1; ++li) {
+					b[li] = new Vector(W[li].getRowDimension()); // (nh x 1)
+				}
+				b[layerCount - 1] = new Vector(classCount); // (k x 1)
 			}
-			b[nLayers - 1] = new Vector(1); // (1 x 1)
-		}
-		// - The matrices of feature and hidden vectors
-		A = new Matrix[nLayers + 1];
-		A[0] = X; // (n x m)
-		// - The activation function
-		if (activationFunction == null) {
-			activationFunction = ActivationFunctions.TANH;
-		}
-		// - The frequency of the convergence test
-		final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
-				Maths.roundToInt(1. / learningRate));
-		// - The cost
-		double j = Double.POSITIVE_INFINITY;
-		// - The derivative with respect to Z
-		Entity dZ = null;
-		// - The derivative with respect to A
-		Matrix dA = null;
-
-		// Train
-		for (int i = 0; i < maxIterations; ++i) {
-			// Perform the forward propagation step (n -> nh... -> 1)
-			for (int l = 0; l < nLayers - 1; ++l) {
-				// - Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
-				A[l + 1] = computeForward(l).apply(activationFunction); // (nh x m)
+			// • The feature and hidden vectors
+			A = new Matrix[layerCount + 1];
+			A[0] = X; // (n x m)
+			// • The frequency of the convergence test
+			final int convergenceTestFrequency = Math.max(MIN_CONVERGENCE_TEST_FREQUENCY,
+					Maths.roundToInt(1. / learningRate));
+			// • The cost
+			cost = Double.POSITIVE_INFINITY;
+			// • The derivative with respect to Z
+			Entity dZ;
+			// • The derivative with respect to A
+			Matrix dA = null;
+			// • The Adam variables
+			OptimizationAdam dwOptimizer = null;
+			OptimizationAdam dbOptimizer = null;
+			if (!Double.isNaN(firstMomentExponentialDecayRate) &&
+					!Double.isNaN(secondMomentExponentialDecayRate)) {
+				dwOptimizer = new OptimizationAdam(layerCount, W);
+				dbOptimizer = new OptimizationAdam(layerCount, b);
+				dwOptimizer.setParameters(firstMomentExponentialDecayRate,
+						secondMomentExponentialDecayRate, 1);
+				dbOptimizer.setParameters(firstMomentExponentialDecayRate,
+						secondMomentExponentialDecayRate, 1);
 			}
-			// - Compute A[L + 1] = sigmoid(Z[L + 1]) = sigmoid(W[L] A[L] + b[L])
-			A[nLayers] = computeForward(nLayers - 1).apply(Functions.SIGMOID); // (1 x m)
 
-			// Test the convergence
-			if (i % convergenceTestFrequency == 0) {
-				// - Compute the cost
-				final double cost = computeCost();
-				final double delta = Maths.delta(j, cost);
-				j = cost;
+			// Train
+			for (int i = 0; i < maxIterationCount; ++i) {
+				// Perform the forward propagation step (n -> nh... -> 1)
+				for (int li = 0; li < layerCount - 1; ++li) {
+					// • Compute A[l + 1] = g(Z[l + 1]) = g(W[l] A[l] + b[l])
+					A[li + 1] = activationFunction.apply(computeForward(li)); // (nh x m)
+				}
+				// • Compute A[L + 1] = h(Z[L + 1]) = h(W[L] A[L] + b[L])
+				A[layerCount] = outputActivationFunction.apply(computeForward(layerCount - 1)); // (k x m)
 
-				// - Test whether the tolerance level is reached
-				if (delta <= tolerance || j <= tolerance) {
+				// Test whether the tolerance level ε is reached
+				if (i % convergenceTestFrequency == 0 && testConvergence(tolerance)) {
+					IO.debug("Stop training after ", i, " iterations with ", cost, " cost");
 					return i;
 				}
-			}
 
-			// Perform the backward propagation step (n <- nh... <- 1)
-			for (int l = nLayers - 1; l >= 0; --l) {
-				// - Compute the derivative with respect to Z
-				if (l == nLayers - 1) {
-					dZ = A[l + 1].minus(Y); // (1 x m)
-				} else {
-					dZ = dA.arrayTimes(activationFunction.derive(A[l + 1]).toMatrix()); // (nh x m)
+				// Perform the backward propagation step (n <- nh... <- 1)
+				for (int li = layerCount - 1; li >= 0; --li) {
+					// • Compute the derivative with respect to Z
+					if (li == layerCount - 1) {
+						dZ = A[li + 1].minus(Y); // (k x m)
+					} else {
+						dZ = dA.arrayMultiply(activationFunction.derive(A[li + 1]).toMatrix()); // (nh x m)
+					}
+					dA = W[li].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
+					final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
+
+					// • Compute the derivatives with respect to W and b
+					Matrix dW = A[li].times(dZT)
+							.transpose()
+							.divide(trainingExampleCount)
+							.add(regularizationFunction.derive(trainingExampleCount, W[li]))
+							.toMatrix(); // (nh x n) <- (nh x nh)... <- (k x nh)
+					Vector db = dZT.mean().toVector(); // (nh x 1) <- (nh x 1)... <- (k x 1)
+					if (dwOptimizer != null && dbOptimizer != null) {
+						dW = dwOptimizer.optimize(li, dW).toMatrix();
+						db = dbOptimizer.optimize(li, db).toVector();
+					}
+
+					// • Update the weights and bias
+					W[li].subtract(dW.multiply(learningRate)); // (nh x n) <- (nh x nh)... <- (k x nh)
+					b[li].subtract(db.multiply(learningRate)); // (nh x 1) <- (nh x 1)... <- (k x 1)
 				}
-				final Entity dZT = dZ.transpose(); // (m x nh) <- (m x nh)... <- (m x 1)
-				dA = W[l].transpose().times(dZ).toMatrix(); // (n x m) <- (nh x m)... <- (nh x m)
-
-				// - Compute the derivatives with respect to W and b
-				final Entity dW = A[l].times(dZT).division(new Scalar(mTrainingExamples))
-						.transpose(); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				final Entity db = dZT.mean();
-
-				// - Update the weights and the bias
-				W[l] = W[l].minus(alpha.times(dW)); // (nh x n) <- (nh x nh)... <- (1 x nh)
-				b[l] = b[l].minus(alpha.times(db)).toVector(); // (nh x 1) <- (nh x 1)... <- (1 x 1)
 			}
+			IO.debug("Stop training after ", maxIterationCount, " iterations with ", cost, " cost");
+		} finally {
+			Matrix.unparallelize();
 		}
-
-		return maxIterations;
+		return maxIterationCount;
 	}
 
 	/**
 	 * Returns the result of {@code Z[l + 1] = W[l] A[l] + b[l]} for the specified layer.
 	 * <p>
-	 * @param l the layer to compute
+	 * @param layer the layer to compute
 	 * <p>
 	 * @return the result of {@code Z[l + 1] = W[l] A[l] + b[l]} for the specified layer
 	 */
-	protected Entity computeForward(final int l) {
-		return computeForward(l, A[l]);
+	protected Entity computeForward(final int layer) {
+		return computeForward(layer, A[layer]);
 	}
 
 	/**
 	 * Returns the result of {@code Z[l + 1] = W[l] A + b[l]} for the specified layer and
 	 * {@link Entity}.
 	 * <p>
-	 * @param l the layer to compute
-	 * @param A an {@link Entity}
+	 * @param layer the layer to compute
+	 * @param A     an {@link Entity}
 	 * <p>
 	 * @return the result of {@code Z[l + 1] = W[l] A + b[l]} for the specified layer and
 	 *         {@link Entity}
 	 */
-	protected Entity computeForward(final int l, final Entity A) {
-		return W[l].times(A).plus(b[l]); // n -> nh... -> 1: (nh x n) (n x m) + (nh x 1) ->
-		// (nh x nh) (nh x m) + (nh x 1)... -> (1 x nh) (nh x m) + (1 x 1)
+	protected Entity computeForward(final int layer, final Entity A) {
+		return W[layer].forward(A, b[layer]); // n -> nh... -> 1: (nh x n) (n x m) + (nh x 1) ->
+		// (nh x nh) (nh x m) + (nh x 1)... -> (k x nh) (nh x m) + (k x 1)
 	}
 
 	/**
@@ -304,7 +465,8 @@ public class NeuralNetwork
 	 */
 	@Override
 	public synchronized double computeCost() {
-		return computeCost(A[A.length - 1]);
+		return computeCost(A[A.length - 1]) +
+				regularizationFunction.computeCost(trainingExampleCount, W);
 	}
 
 
@@ -313,23 +475,48 @@ public class NeuralNetwork
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
+	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
+	 * for all feature vector in {@code X}.
 	 * <p>
-	 * @param X the feature vectors of size (n x m)
+	 * @param X the feature vectors of size {@code n x m}
 	 * <p>
-	 * @return the estimated probability of the binary response for all feature vector in {@code X}
+	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
+	 *         for all feature vector in {@code X}
 	 */
 	@Override
 	public synchronized Entity estimate(final Entity X) {
 		// Check the arguments
 		Arguments.requireEquals(W.length, b.length);
 
-		// Estimate the binary response
-		final int nLayers = W.length; // or b.length
+		// Estimate the binary (logistic) or multinary (softmax) response
+		final int layerCount = W.length; // or b.length
 		Entity estimate = X; // (n x m)
-		for (int l = 0; l < nLayers - 1; ++l) {
-			estimate = computeForward(l, estimate).apply(activationFunction); // (nh x m)
+		for (int li = 0; li < layerCount - 1; ++li) {
+			estimate = activationFunction.apply(computeForward(li, estimate)); // (nh x m)
 		}
-		return computeForward(nLayers - 1, estimate).apply(Functions.SIGMOID); // (1 x m)
+		return outputActivationFunction.apply(computeForward(layerCount - 1, estimate)); // (k x m)
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public NeuralNetwork clone() {
+		final NeuralNetwork clone = (NeuralNetwork) super.clone();
+		clone.W = Arrays.clone(W);
+		clone.b = Arrays.clone(b);
+		clone.A = Arrays.clone(A);
+		clone.activationFunction = Objects.clone(activationFunction);
+		clone.regularizationFunction = Objects.clone(regularizationFunction);
+		return clone;
 	}
 }

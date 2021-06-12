@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras.jupiter</groupId>
+		<artifactId>hardware</artifactId>
+		<version>1.6.0</version>
+	</parent>
+
+	<artifactId>jni</artifactId>
+	<packaging>nar</packaging>
+
+	<name>JNI</name>
+	<description>JNI interfaces</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/hardware/jni</url>
+
+	<properties>
+		<!-- Native Library Loader -->
+		<nativelib.loader.version>2.2.0</nativelib.loader.version>
+	</properties>
+
+	<!-- Project Settings -->
+	<dependencies>
+		<!-- Native Library Loader -->
+		<dependency>
+			<groupId>org.scijava</groupId>
+			<artifactId>native-lib-loader</artifactId>
+			<version>${nativelib.loader.version}</version>
+		</dependency>
+
+		<!-- Jupiter -->
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Build Settings -->
+	<build>
+		<plugins>
+			<!-- Package the JNI library -->
+			<plugin>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+
+				<configuration>
+					<libraries>
+						<library>
+							<type>jni</type>
+							<narSystemPackage>jupiter.hardware.jni</narSystemPackage>
+							<linkCPP>false</linkCPP>
+						</library>
+					</libraries>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

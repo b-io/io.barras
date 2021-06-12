@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,38 +23,43 @@
  */
 package jupiter.math.linear.decomposition;
 
+import jupiter.common.math.Maths;
+
 public class Norms {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link Norms}.
+	 */
 	protected Norms() {
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the Euclidean norm of {@code a} and {@code b} without under / overflow.
+	 * Returns the Euclidean norm of {@code a} and {@code b} without under/overflow.
 	 * <p>
 	 * @param a a {@code double} value
 	 * @param b another {@code double} value
 	 * <p>
 	 * @return the Euclidean norm of {@code a} and {@code b}
 	 */
-	public static double getEuclideanNorm(final double a, final double b) {
+	public static double euclideanNorm(final double a, final double b) {
 		double euclideanNorm;
-		final double absA = Math.abs(a);
-		final double absB = Math.abs(b);
+		final double absA = Maths.abs(a);
+		final double absB = Maths.abs(b);
 		if (absA > absB) {
 			euclideanNorm = b / a;
-			euclideanNorm = absA * Math.sqrt(1 + euclideanNorm * euclideanNorm);
+			euclideanNorm = absA * Maths.sqrt(1 + euclideanNorm * euclideanNorm);
 		} else if (absB > 0.) {
 			euclideanNorm = a / b;
-			euclideanNorm = absB * Math.sqrt(1 + euclideanNorm * euclideanNorm);
+			euclideanNorm = absB * Maths.sqrt(1 + euclideanNorm * euclideanNorm);
 		} else {
 			euclideanNorm = 0.;
 		}

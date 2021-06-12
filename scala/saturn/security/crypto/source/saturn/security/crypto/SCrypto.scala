@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,13 @@
  */
 package saturn.security.crypto
 
-import java.security._
-import java.security.interfaces._
-import java.security.spec._
+import saturn.common.util.Bytes
+import saturn.security.crypto.CipherMethod._
+import saturn.security.crypto.CipherMode._
+import saturn.security.crypto.CipherPadding._
 
 import javax.crypto._
 import javax.crypto.spec._
-
-import saturn.common.util.Bytes
-
-import CipherMethod._
-import CipherMode._
-import CipherPadding._
 
 /**
  * Cipher handling the following symmetric transformations:
@@ -55,52 +50,33 @@ import CipherPadding._
  * - DESede/ECB/PKCS5Padding
  */
 case class SCrypto(method: CipherMethod, mode: CipherMode, padding: CipherPadding)
-	extends Crypto(method, mode, padding) {
+        extends Crypto(method, mode, padding) {
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	var secretKeySize: Int = 0 // bits
+	var secretKeySize: Int = 0 // [bit]
 	var secretKey: SecretKey = null
 	var iv: IvParameterSpec = null
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def this(method: CipherMethod, mode: CipherMode) = this(method, mode, PKCS5Padding)
+
 	def this(method: CipherMethod) = this(method, CBC)
+
 	def this() = this(AES)
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// KEYS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	override def getDefaultKeySize(): Int = method match {
-		case AES => if (checkKeySize(256)) 256 else 128
-		case DES => 56
-		case DESede => 168
-	}
 	override def getKeySize(): Int = secretKeySize
-
-	override def setDefaultKeySize(): Unit = secretKeySize = getDefaultKeySize()
-	override def setKeySize(n: Int): Unit = secretKeySize = n
-
-	override def generateKey(): Unit = generateKey(getDefaultKeySize())
-	override def generateKey(size: Int): Unit = {
-		setKeySize(size)
-		val keyGenerator = KeyGenerator.getInstance(method)
-		keyGenerator.init(secretKeySize)
-		secretKey = keyGenerator.generateKey()
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////
-	// ENCRYPT / DECRYPT
-	////////////////////////////////////////////////////////////////////////////
 
 	override def getEncryptCipher(): Cipher = {
 		val cipher: Cipher = Cipher.getInstance(getParameters())
@@ -109,6 +85,28 @@ case class SCrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 		if (CBC.equals(mode)) iv = new IvParameterSpec(cipher.getIV())
 		cipher
 	}
+
+	override def generateKey(): Unit = generateKey(getDefaultKeySize())
+
+	override def getDefaultKeySize(): Int = method match {
+		case AES => if (checkKeySize(256)) 256 else 128
+		case DES => 56
+		case DESede => 168
+	}
+
+	override def generateKey(size: Int): Unit = {
+		setKeySize(size)
+		val keyGenerator = KeyGenerator.getInstance(method)
+		keyGenerator.init(secretKeySize)
+		secretKey = keyGenerator.generateKey()
+	}
+
+	override def setKeySize(n: Int): Unit = secretKeySize = n
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ENCRYPT / DECRYPT
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	override def getDecryptCipher(): Cipher = {
 		val cipher: Cipher = Cipher.getInstance(getParameters())
@@ -119,47 +117,49 @@ case class SCrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 		cipher
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////
-	// COMBINE / UNCOMBINE KEYS
-	////////////////////////////////////////////////////////////////////////////
-
 	override def combine(): Array[Byte] = mode match {
 		// Secret key
 		case ECB => secretKey.getEncoded()
 		// Secret key + IV
 		case CBC => secretKey.getEncoded() ++ iv.getIV()
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// COMBINE / UNCOMBINE KEYS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	override def uncombine(combination: Array[Byte]): Unit = mode match {
 		// Secret key
 		case ECB => {
-			secretKeySize = combination.length * Bytes.SIZE // bits
+			secretKeySize = combination.length * Bytes.SIZE // [bit]
 			secretKey = getSecretKey(combination)
 		}
 		// Secret key + IV
 		case CBC => {
 			if (secretKeySize == 0) setDefaultKeySize()
 			// - Get the secret key
-			val secretKeyLength: Int = secretKeySize / Bytes.SIZE // bytes
+			val secretKeyLength: Int = secretKeySize / Bytes.SIZE // [byte]
 			val secretKeyBytes = new Array[Byte](secretKeyLength)
 			Array.copy(combination, 0, secretKeyBytes, 0, secretKeyLength)
 			secretKey = getSecretKey(secretKeyBytes)
 			// - Get the initialization vector
-			val ivLength = combination.length - secretKeyLength // bytes
+			val ivLength = combination.length - secretKeyLength // [byte]
 			val ivBytes = new Array[Byte](ivLength)
 			Array.copy(combination, secretKeyLength, ivBytes, 0, ivLength)
 			iv = getIV(ivBytes)
 		}
 	}
 
+	override def setDefaultKeySize(): Unit = secretKeySize = getDefaultKeySize()
 
-	////////////////////////////////////////////////////////////////////////////
-	// SPECIFIC METHODS
-	////////////////////////////////////////////////////////////////////////////
-
-	def getSecretKey(): Array[Byte] = secretKey.getEncoded()
-	def getIV(): Array[Byte] = iv.getIV()
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	def getSecretKey(key: Array[Byte]): SecretKey = new SecretKeySpec(key, method)
+
 	def getIV(iv: Array[Byte]): IvParameterSpec = new IvParameterSpec(iv)
+
+	def getSecretKey(): Array[Byte] = secretKey.getEncoded()
+
+	def getIV(): Array[Byte] = iv.getIV()
 }

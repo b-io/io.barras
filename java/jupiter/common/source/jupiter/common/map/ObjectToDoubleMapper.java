@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,60 +25,125 @@ package jupiter.common.map;
 
 import java.util.Collection;
 
+import jupiter.common.model.ICloneable;
+
 /**
- * {@link ObjectToDoubleMapper} is an operator mapping an {@link Object} to a {@link Double}.
+ * {@link ObjectToDoubleMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link Double}.
  */
 public abstract class ObjectToDoubleMapper
 		extends ObjectMapper<Double> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToDoubleMapper() {
+	/**
+	 * Constructs an {@link ObjectToDoubleMapper}.
+	 */
+	protected ObjectToDoubleMapper() {
 		super(Double.class);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public <I> double callToPrimitive(final I input) {
 		return call(input);
 	}
 
-	public <I> double[] callToPrimitiveArray(final I... input) {
-		final double[] result = new double[input.length];
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public <I> double[] callToPrimitiveArray(final I[] input) {
+		final double[] output = new double[input.length];
 		for (int i = 0; i < input.length; ++i) {
-			result[i] = call(input[i]);
+			output[i] = call(input[i]);
 		}
-		return result;
+		return output;
 	}
 
-	public <I> double[][] callToPrimitiveArray2D(final I[]... input2D) {
-		final double[][] result = new double[input2D.length][];
+	public <I> double[] callToPrimitiveArray(final I[][] input2D) {
+		final int n = input2D[0].length;
+		final double[] output = new double[input2D.length * n];
 		for (int i = 0; i < input2D.length; ++i) {
-			result[i] = callToPrimitiveArray(input2D[i]);
+			for (int j = 0; j < n; ++j) {
+				output[i * n + j] = call(input2D[i][j]);
+			}
 		}
-		return result;
+		return output;
 	}
 
-	public <I> double[][][] callToPrimitiveArray3D(final I[][]... array3D) {
-		final double[][][] result = new double[array3D.length][][];
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToPrimitiveArray2D(array3D[i]);
+	public <I> double[] callToPrimitiveArray(final I[][][] input3D) {
+		final int n = input3D[0].length;
+		final int o = input3D[0][0].length;
+		final double[] output = new double[input3D.length * n * o];
+		for (int i = 0; i < input3D.length; ++i) {
+			for (int j = 0; j < n; ++j) {
+				for (int k = 0; k < o; ++k) {
+					output[i * n + j * o + k] = call(input3D[i][j][k]);
+				}
+			}
 		}
-		return result;
+		return output;
 	}
 
-	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> collection) {
-		final double[] result = new double[collection.size()];
+	//////////////////////////////////////////////
+
+	public <I> double[][] callToPrimitiveArray2D(final I[][] input2D) {
+		final double[][] output2D = new double[input2D.length][];
+		for (int i = 0; i < input2D.length; ++i) {
+			output2D[i] = callToPrimitiveArray(input2D[i]);
+		}
+		return output2D;
+	}
+
+	//////////////////////////////////////////////
+
+	public <I> double[][][] callToPrimitiveArray3D(final I[][][] input3D) {
+		final double[][][] output3D = new double[input3D.length][][];
+		for (int i = 0; i < input3D.length; ++i) {
+			output3D[i] = callToPrimitiveArray2D(input3D[i]);
+		}
+		return output3D;
+	}
+
+	//////////////////////////////////////////////
+
+	public <I> double[] callCollectionToPrimitiveArray(final Collection<I> input) {
+		final double[] output = new double[input.size()];
 		int i = 0;
-		for (final I element : collection) {
-			result[i] = call(element);
-			++i;
+		for (final I element : input) {
+			output[i++] = call(element);
 		}
-		return result;
+		return output;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ObjectToDoubleMapper clone() {
+		return this;
 	}
 }

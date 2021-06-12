@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2015 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,30 +23,42 @@
  */
 package jupiter.network.monitor;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.io.file.Files.ALL_SEPARATORS;
+import static jupiter.common.io.file.Files.SEPARATOR;
+import static jupiter.common.io.file.Files.TEMP_DIR_PATH;
+import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
+import jupiter.common.Formats;
+import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
+import jupiter.common.io.file.Files;
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.thread.Report;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.table.StringTable;
+import jupiter.common.thread.Result;
+import jupiter.common.thread.SynchronizedWorkQueue;
+import jupiter.common.thread.Threads;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
 import jupiter.common.time.Chronometer;
 import jupiter.common.time.Dates;
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Collections;
 import jupiter.common.util.Strings;
+import jupiter.graphics.charts.Charts;
+import jupiter.graphics.charts.TimeSeriesGraphic;
 
 public class SpeedChecker {
 
@@ -54,19 +66,37 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static final List<String> URLS = new ExtendedList<String>(Arrays.<String>asList(
-			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test"));
-	protected static final int N_RUNS = 1000;
-	protected static final int TIME_INTERVAL = 30000; // [ms]
-	protected static final int TIME_OUT = 10000;
-	protected static final String TEMP_DIR = "C:/Temp";
-	// The file handlers of the data files storing the downloading times
-	protected static final Map<String, FileHandler> DATA_FILES = new HashMap<String, FileHandler>(
-			URLS.size());
-	// The thread pool
-	protected static final WorkQueue<String, Report<Double>> THREAD_POOL = new WorkQueue<String, Report<Double>>(
-			new Checker());
-	protected static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+	public static volatile int RUNS_COUNT = 2880;
+	public static volatile int TIME_INTERVAL = 30000; // [ms]
+	public static volatile int TIME_OUT = 15000; // [ms]
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link ExtendedList} of names of the URLs pointing to the files to download.
+	 */
+	protected static final ExtendedList<String> URL_NAMES = Strings.asList(
+			"http://cachefly.cachefly.net/1mb.test", "http://cachefly.cachefly.net/10mb.test");
+
+	/**
+	 * The {@link FileHandler} of the data files storing the downloading speeds (in Mbits/s) of the
+	 * URLs associated to their URL names.
+	 */
+	protected static final ExtendedHashMap<String, FileHandler> DATA_FILES = new ExtendedHashMap<String, FileHandler>(
+			URL_NAMES.size());
+
+	/**
+	 * The {@link TimeSeriesGraphic} showing the downloading speeds (in Mbits/s) of the URLs.
+	 */
+	protected static final TimeSeriesGraphic GRAPH = new TimeSeriesGraphic("Network Speed", "Time",
+			"Downloading Speed [Mbits/s]");
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link WorkQueue} used for checking the downloading speeds (in Mbits/s).
+	 */
+	protected static volatile WorkQueue<String, Result<Double>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,143 +104,354 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Starts the speed checker.
+	 * Starts the {@link SpeedChecker}.
 	 * <p>
-	 * @param args ignored
+	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
-		init();
-
-		for (int i = 0; i < N_RUNS; ++i) {
-			check();
-			try {
-				Thread.sleep(TIME_INTERVAL);
-			} catch (final InterruptedException ex) {
-				IO.error(ex);
+		parallelize();
+		try {
+			start();
+			clear();
+			show();
+			for (int ri = 0; ri < RUNS_COUNT; ++ri) {
+				SpeedChecker.downloadAll();
+				Threads.sleep(TIME_INTERVAL);
 			}
+			stop();
+		} finally {
+			unparallelize();
 		}
-
-		clear();
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected static void init() {
-		// Initialize the handlers of the files storing the download statistics
-		for (final String urlName : URLS) {
+	/**
+	 * Constructs a {@link SpeedChecker}.
+	 */
+	protected SpeedChecker() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the name of the file pointed by the specified {@link URL}.
+	 * <p>
+	 * @param url an {@link URL}
+	 * <p>
+	 * @return the name of the file pointed by the specified {@link URL}
+	 */
+	public static String getURLFileName(final URL url) {
+		return Strings.removeAll(url.getFile(), ALL_SEPARATORS);
+	}
+
+	/**
+	 * Returns the path to the data file storing the downloading speeds (in Mbits/s) of the
+	 * specified {@link URL}.
+	 * <p>
+	 * @param url an {@link URL}
+	 * <p>
+	 * @return the path to the data file storing the downloading speeds (in Mbits/s) of the
+	 *         specified {@link URL}
+	 */
+	public static String getDataFilePath(final URL url) {
+		return Strings.join(TEMP_DIR_PATH, SEPARATOR,
+				"downloading_speeds_of_", getURLFileName(url), ".csv");
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Empties the data files.
+	 */
+	public static void clear() {
+		final FileHandler[] dataFileHandlers = Collections.<FileHandler>toArray(
+				DATA_FILES.values());
+		for (final FileHandler dataFileHandler : dataFileHandlers) {
+			dataFileHandler.empty();
+		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONTROLLERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Starts {@code this}.
+	 */
+	protected static synchronized void start() {
+		IO.trace(EMPTY);
+
+		// Initialize
+		for (final String urlName : URL_NAMES) {
 			try {
+				// Get the URL denoted by the name
 				final URL url = new URL(urlName);
-
-				// Get the name of the file pointed by the URL
-				final String filename = url.getFile().replace("/", Strings.EMPTY);
-
-				// Create a file handler of the data file storing the downloading times
-				DATA_FILES.put(urlName,
-						new FileHandler(TEMP_DIR + "/downloading_times_of_" + filename + ".csv"));
+				// Create the handler of the data file storing the downloading speeds of the URL
+				DATA_FILES.put(urlName, new FileHandler(getDataFilePath(url)));
 			} catch (final MalformedURLException ex) {
-				IO.error("The URL ", Strings.quote(urlName), " is malformed",
-						IO.appendException(ex));
+				IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
 			}
 		}
 	}
 
-	protected static void check() {
-		// Download the files pointed by the URLs (one by one)
-		for (final String urlName : URLS) {
-			final long taskId = THREAD_POOL.submit(urlName);
-			final Report<Double> report = THREAD_POOL.get(taskId);
-			final String result = DECIMAL_FORMAT.format(report.getOutput());
-			IO.info(result);
-			DATA_FILES.get(urlName).writeLine(Dates.getTime() + ": " + result);
+	/**
+	 * Stops {@code this}.
+	 */
+	protected static synchronized void stop() {
+		IO.trace(EMPTY);
+
+		// Shutdown
+		final Collection<FileHandler> dataFileHandlers = DATA_FILES.values();
+		for (final FileHandler dataFileHandler : dataFileHandlers) {
+			dataFileHandler.close();
+		}
+		DATA_FILES.clear();
+	}
+
+	/**
+	 * Restarts {@code this}.
+	 */
+	public static synchronized void restart() {
+		IO.trace(EMPTY);
+
+		stop();
+		start();
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parallelizes {@code this}.
+	 */
+	protected static synchronized void parallelize() {
+		IO.trace(EMPTY);
+
+		// Initialize
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new SynchronizedWorkQueue<String, Result<Double>>(new Checker());
+		} else {
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
 	}
 
-	protected static void clear() {
-		// Stop the thread pool
-		THREAD_POOL.shutdown();
+	/**
+	 * Unparallelizes {@code this}.
+	 */
+	public static synchronized void unparallelize() {
+		IO.trace(EMPTY);
 
-		// Close the file handlers of the data files storing the downloading times
-		for (final String urlName : URLS) {
-			DATA_FILES.get(urlName).closeWriter();
+		// Shutdown
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+			WORK_QUEUE = null;
+		}
+	}
+
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.trace(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// DOWNLOADERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Downloads all the files pointed by the URLs.
+	 */
+	protected static void downloadAll() {
+		if (WORK_QUEUE != null) {
+			// Distribute the tasks
+			final List<Long> ids = new ExtendedList<Long>(URL_NAMES.size());
+			for (final String urlName : URL_NAMES) {
+				ids.add(WORK_QUEUE.submit(urlName));
+			}
+
+			// Collect the results
+			int i = 0;
+			for (final long id : ids) {
+				final Result<Double> result = WORK_QUEUE.get(id);
+				final double downloadingSpeed = result.getOutput();
+				IO.info(downloadingSpeed, " [Mbits/s]");
+				final FileHandler dataFileHandler = DATA_FILES.get(URL_NAMES.get(i));
+				try {
+					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+							downloadingSpeed));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the data file ",
+							Strings.quote(dataFileHandler));
+				} catch (final IOException ex) {
+					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+				}
+				GRAPH.addPoint(0, i, downloadingSpeed);
+				++i;
+			}
+		} else {
+			// Collect the results
+			int i = 0;
+			for (final String urlName : URL_NAMES) {
+				final Result<Double> result = download(urlName);
+				final double downloadingSpeed = result.getOutput();
+				IO.info(downloadingSpeed, " [Mbits/s]");
+				final FileHandler dataFileHandler = DATA_FILES.get(urlName);
+				try {
+					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
+							downloadingSpeed));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the data file ",
+							Strings.quote(dataFileHandler));
+				} catch (final IOException ex) {
+					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+				}
+				GRAPH.addPoint(0, i, downloadingSpeed);
+				++i;
+			}
+		}
+	}
+
+	/**
+	 * Downloads the file pointed by the URL denoted by the specified name.
+	 * <p>
+	 * @param urlName the name of the URL pointing to the file to download
+	 * <p>
+	 * @return the downloading speed (in Mbits/s)
+	 */
+	protected static Result<Double> download(final String urlName) {
+		IO.debug("Download the file pointed by the URL ", Strings.quote(urlName));
+
+		// Initialize
+		final Chronometer chrono = new Chronometer();
+
+		// Check if the URL is well-formed
+		try {
+			final URL url = new URL(urlName);
+
+			// Check if the host of the URL is reachable
+			try {
+				final String hostName = url.getHost();
+				NetworkMonitors.ping(hostName);
+				IO.debug("The host ", Strings.quote(hostName), " is reachable");
+
+				// Download the file pointed by the URL
+				final String urlFileName = getURLFileName(url);
+				final File urlFile = new File(TEMP_DIR_PATH.concat(SEPARATOR).concat(urlFileName));
+				IO.debug("Download the file ", Strings.quote(urlFileName));
+				ReadableByteChannel inputChannel = null;
+				try {
+					inputChannel = Channels.newChannel(url.openStream());
+					chrono.start();
+					Files.copy(inputChannel, urlFile);
+					chrono.stop();
+					final double length = urlFile.length() / 1048576. * 8.;
+					final double time = chrono.getSeconds();
+					final double speed = length / time;
+					return new Result<Double>(speed,
+							IO.info("Downloaded ", length, " [Mbits] in ", time, " [s] => ",
+									speed, " [Mbits/s]"));
+				} catch (final FileNotFoundException ex) {
+					IO.error(ex, "Cannot open or create the URL file ", Strings.quote(urlFile));
+					return new Result<Double>(0., IO.error(ex));
+				} catch (final IOException ex) {
+					return new Result<Double>(0., IO.error(ex,
+							"Cannot download the URL file ", Strings.quote(urlName),
+							" to ", Strings.quote(urlFile)));
+				} finally {
+					Resources.close(inputChannel);
+				}
+			} catch (final IOException ex) {
+				IO.error(ex, "The URL ", Strings.quote(urlName), " is not reachable");
+				return new Result<Double>(0., IO.error(ex));
+			}
+		} catch (final MalformedURLException ex) {
+			IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
+			return new Result<Double>(0., IO.error(ex));
 		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// IMPORTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static class Checker
-			extends Worker<String, Report<Double>> {
+	protected static void loadSeries(final TimeSeriesGraphic graph, final int axisDatasetIndex,
+			final String path) {
+		try {
+			final StringTable coordinates = new StringTable(path, false);
+			coordinates.setHeader(new String[] {"Time", Files.getNameWithoutExtension(path)});
+			graph.load(axisDatasetIndex, coordinates, 0, 1);
+		} catch (final IOException ex) {
+			IO.error(ex);
+		}
+	}
 
-		protected final Chronometer chrono = new Chronometer();
 
-		public Checker() {
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GUI
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Shows the downloading speeds (in Mbits/s) contained in the data files in the
+	 * {@link TimeSeriesGraphic}.
+	 */
+	public static void show() {
+		final FileHandler[] dataFileHandlers = Collections.<FileHandler>toArray(
+				DATA_FILES.values());
+		Charts.DATE_FORMAT = Formats.DATE_TIME_FORMAT;
+		for (final FileHandler dataFileHandler : dataFileHandlers) {
+			loadSeries(GRAPH, 0, dataFileHandler.getPath());
+		}
+		GRAPH.display();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLASSES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected static class Checker
+			extends Worker<String, Result<Double>> {
+
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Constructs a {@link Checker}.
+		 */
+		protected Checker() {
+			super();
 		}
 
 		@Override
-		public Report<Double> call(final String input) {
-			IO.debug("Process URL ", Strings.quote(input));
-
-			// Check if the URL is well-formed
-			try {
-				final URL url = new URL(input);
-
-				// Check if the host of the URL is reachable
-				try {
-					final String hostname = url.getHost();
-					ping(hostname);
-					IO.debug("The host ", hostname, " is reachable");
-
-					// Download the file pointed by the URL
-					final String filename = url.getFile().replace("/", Strings.EMPTY);
-					final File targetFilePath = new File("C:/Temp/" + filename);
-					IO.debug("Download the file ", filename);
-					ReadableByteChannel rbc = null;
-					FileOutputStream tempFile = null;
-					try {
-						rbc = Channels.newChannel(url.openStream());
-						tempFile = new FileOutputStream(targetFilePath);
-						chrono.start();
-						tempFile.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-						chrono.stop();
-						final double length = targetFilePath.length() / 1048576. * 8.;
-						final double time = chrono.getMilliseconds() / 1000.;
-						final double speed = length / time;
-						return new Report<Double>(speed,
-								IO.info("Downloaded ", DECIMAL_FORMAT.format(length),
-										" [Mbits] in ", DECIMAL_FORMAT.format(time), " [s] => ",
-										DECIMAL_FORMAT.format(speed), " [Mbits/s]"));
-					} catch (final IOException ex) {
-						return new Report<Double>(0.,
-								IO.error("Unable to transfer the file ", Strings.quote(input),
-										" to ", targetFilePath.getCanonicalPath(),
-										IO.appendException(ex)));
-					} finally {
-						if (rbc != null) {
-							rbc.close();
-						}
-						if (tempFile != null) {
-							tempFile.close();
-						}
-					}
-				} catch (final IOException ex) {
-					IO.error("The URL ", Strings.quote(input), " is not reachable",
-							IO.appendException(ex));
-					return new Report<Double>(0., IO.error(ex));
-				}
-			} catch (final MalformedURLException ex) {
-				IO.error("The URL ", Strings.quote(input), " is malformed", IO.appendException(ex));
-				return new Report<Double>(0., IO.error(ex));
-			}
+		public Result<Double> call(final String input) {
+			return download(input);
 		}
 
-		protected static boolean ping(final String hostname)
-				throws IOException {
-			final InetAddress host = InetAddress.getByName(hostname);
-			return host.isReachable(TIME_OUT);
-		}
-
+		/**
+		 * Clones {@code this}.
+		 * <p>
+		 * @return a clone of {@code this}
+		 *
+		 * @see ICloneable
+		 */
 		@Override
 		public Checker clone() {
 			return new Checker();

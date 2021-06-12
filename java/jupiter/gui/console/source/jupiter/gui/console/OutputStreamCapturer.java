@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,49 +23,80 @@
  */
 package jupiter.gui.console;
 
+import static jupiter.common.Formats.NEWLINE;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
 
 import jupiter.common.util.Strings;
 
 public class OutputStreamCapturer
-		extends OutputStream {
+		extends OutputStream
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link StringBuilder}.
+	 */
 	protected final StringBuilder builder;
+	/**
+	 * The consuming {@link JConsole}.
+	 */
 	protected final JConsole consumer;
-	protected final PrintStream previousOutputStream;
+	/**
+	 * The previous {@link PrintStream}.
+	 */
+	protected final PrintStream previousPrintStream;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousOutputStream) {
+	/**
+	 * Constructs an {@link OutputStreamCapturer} with the specified consuming {@link JConsole} and
+	 * previous {@link PrintStream}.
+	 * <p>
+	 * @param consumer            the consuming {@link JConsole}
+	 * @param previousPrintStream the previous {@link PrintStream}
+	 */
+	public OutputStreamCapturer(final JConsole consumer, final PrintStream previousPrintStream) {
+		super();
 		this.consumer = consumer;
-		this.previousOutputStream = previousOutputStream;
+		this.previousPrintStream = previousPrintStream;
 		builder = Strings.createBuilder();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT STREAM
+	// WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public void write(final int b)
+	public synchronized void write(final int characterCode)
 			throws IOException {
-		final char c = (char) b;
-		final String value = Character.toString(c);
-		builder.append(value);
-		if (value.equals("\n")) {
+		final char character = (char) characterCode;
+		final String token = Character.toString(character);
+		builder.append(token);
+		if (token.equals(NEWLINE)) {
 			consumer.append(builder.toString());
 			builder.delete(0, builder.length());
 		}
-		previousOutputStream.print(c);
+		previousPrintStream.print(character);
 	}
 }

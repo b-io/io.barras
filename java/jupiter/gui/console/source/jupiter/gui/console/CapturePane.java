@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,13 +38,16 @@ public class CapturePane
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 7993224852718454384L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The {@link JConsole}.
+	 */
 	protected final JConsole output;
 
 
@@ -52,15 +55,18 @@ public class CapturePane
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link CapturePane} by default.
+	 */
 	public CapturePane() {
-		setLayout(new BorderLayout());
+		super(new BorderLayout());
 		output = new JConsole();
 		add(output);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// JPANEL
+	// WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void appendText(final String text) {

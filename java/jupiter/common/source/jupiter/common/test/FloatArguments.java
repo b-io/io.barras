@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,8 +32,13 @@ public class FloatArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link FloatArguments}.
+	 */
 	protected FloatArguments() {
+		super();
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
@@ -87,7 +92,7 @@ public class FloatArguments
 	}
 
 	public static float requireNegative(final float found) {
-		if (CHECK_ARGS && found >= 0.) {
+		if (CHECK_ARGS && found >= 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is zero or positive");
 		}
@@ -95,7 +100,7 @@ public class FloatArguments
 	}
 
 	public static float requireNonNegative(final float found) {
-		if (CHECK_ARGS && found < 0.) {
+		if (CHECK_ARGS && found < 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is negative");
 		}
@@ -103,14 +108,14 @@ public class FloatArguments
 	}
 
 	public static float requireNonZero(final float found) {
-		if (CHECK_ARGS && found == 0.) {
+		if (CHECK_ARGS && found == 0f) {
 			throw new IllegalArgumentException("The specified float number " + found + " is zero");
 		}
 		return found;
 	}
 
 	public static float requirePositive(final float found) {
-		if (CHECK_ARGS && found <= 0.) {
+		if (CHECK_ARGS && found <= 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is zero or negative");
 		}
@@ -118,7 +123,7 @@ public class FloatArguments
 	}
 
 	public static float requireNonPositive(final float found) {
-		if (CHECK_ARGS && found > 0.) {
+		if (CHECK_ARGS && found > 0f) {
 			throw new IllegalArgumentException(
 					"The specified float number " + found + " is positive");
 		}
@@ -139,6 +144,8 @@ public class FloatArguments
 			throw new IllegalArgumentException("The specified float array is empty");
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static float[] requireLength(final float[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
@@ -179,6 +186,14 @@ public class FloatArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified float array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final float[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

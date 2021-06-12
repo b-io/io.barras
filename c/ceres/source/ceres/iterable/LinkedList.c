@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/LinkedList.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 LinkedList* LinkedList_new(void)
 {
 	LinkedList* ll = _NEW(LinkedList);
 
-	_PRINT_TEST(_S("<newLinkedList"));
+	_PRINT_DEBUG(_S("<newLinkedList"));
 	if (ll != NULL)
 	{
 		ll->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -52,11 +50,11 @@ LinkedList* LinkedList_new(void)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_LINKED_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</newLinkedList"));
+	_PRINT_DEBUG(_S("</newLinkedList"));
 	return ll;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 LinkedNode* LinkedNode_new_from_Structure(const Structure* structure)
 {
@@ -95,13 +93,13 @@ LinkedNode* LinkedNode_new_from_Object(const Object* value)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void LinkedList_reset(void* linkedList)
 {
-	_PRINT_TEST(_S("<resetLinkedList>"));
+	_PRINT_DEBUG(_S("<resetLinkedList>"));
 	_IF (_CHECK(linkedList, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -141,14 +139,14 @@ void LinkedList_reset(void* linkedList)
 		/* Release the Linked Nodes */
 		ll->clear(ll);
 	}
-	_PRINT_TEST(_S("</resetLinkedList>"));
+	_PRINT_DEBUG(_S("</resetLinkedList>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void LinkedNode_reset(void* linkedNode, const Structure* structure)
 {
-	_PRINT_TEST(_S("<resetLinkedNode>"));
+	_PRINT_DEBUG(_S("<resetLinkedNode>"));
 	_IF (_CHECK(linkedNode, _LINKED_NODE_NAME))
 	{
 		/* Get the Linked Node */
@@ -162,13 +160,13 @@ void LinkedNode_reset(void* linkedNode, const Structure* structure)
 		node->previous = NULL;
 		node->next = NULL;
 	}
-	_PRINT_TEST(_S("</resetLinkedNode>"));
+	_PRINT_DEBUG(_S("</resetLinkedNode>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * LINKED LIST
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean LinkedList_insert_between(LinkedList* linkedList, LinkedNode* node, LinkedNode* previousNode, LinkedNode* nextNode)
 {
@@ -293,9 +291,9 @@ LinkedNode* LinkedList_get_LinkedNode(LinkedList* linkedList, const natural inde
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * LIST
- ******************************************************************************/
+ **************************************************************************************************/
 
 Structure LinkedList_get(const void* list, const natural index)
 {
@@ -334,9 +332,9 @@ boolean LinkedList_remove_at(void* list, const natural index)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean LinkedList_add(void* collection, const type type, void* value)
 {
@@ -398,11 +396,11 @@ boolean LinkedList_add_Structure(void* collection, const Structure* structure)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void LinkedList_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearLinkedList>"));
+	_PRINT_DEBUG(_S("<clearLinkedList>"));
 	_IF (_CHECK(collection, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -422,10 +420,10 @@ void LinkedList_clear(void* collection)
 		ll->first = NULL;
 		ll->last = NULL;
 	}
-	_PRINT_TEST(_S("</clearLinkedList>"));
+	_PRINT_DEBUG(_S("</clearLinkedList>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean LinkedList_contains(const void* collection, const type type, const void* value)
 {
@@ -469,7 +467,7 @@ boolean LinkedList_contains_Structure(const void* collection, const Structure* s
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural LinkedList_count(const void* collection, const type type, const void* value)
 {
@@ -519,7 +517,7 @@ natural LinkedList_count_Structure(const void* collection, const Structure* stru
 	return 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean LinkedList_remove(void* collection, const type type, const void* value)
 {
@@ -596,11 +594,11 @@ boolean LinkedList_remove_all(void* collection, const void* values)
 	return isModified;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean LinkedList_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeLinkedList>"));
+	_PRINT_DEBUG(_S("<resizeLinkedList>"));
 	_IF (_CHECK(collection, _LINKED_LIST_NAME))
 	{
 		/* Get the Linked List */
@@ -641,17 +639,17 @@ boolean LinkedList_resize(void* collection, const natural size)
 				ll->size = size;
 			}
 		}
-		_PRINT_TEST(_S("</resizeLinkedList>"));
+		_PRINT_DEBUG(_S("</resizeLinkedList>"));
 		return _TRUE;
 	}
-	_PRINT_TEST(_S("</resizeLinkedList>"));
+	_PRINT_DEBUG(_S("</resizeLinkedList>"));
 	return _FALSE;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Iterator LinkedList_iterator(const void* iterable)
 {
@@ -665,7 +663,7 @@ Iterator LinkedList_iterator(const void* iterable)
 	return _ITERATOR_DEFAULT;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* LinkedList_Iterator_next(Iterator* iterator)
 {
@@ -701,9 +699,9 @@ void* LinkedNode_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable LinkedList_create_Comparable(void)
 {
@@ -749,13 +747,13 @@ integer LinkedList_compare_to(const void* structure, const type type, const void
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void LinkedList_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseLinkedList>"));
+	_PRINT_DEBUG(_S("<releaseLinkedList>"));
 	if (structure != NULL)
 	{
 		/* Get the Linked List */
@@ -773,12 +771,12 @@ void LinkedList_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_LINKED_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</releaseLinkedList>"));
+	_PRINT_DEBUG(_S("</releaseLinkedList>"));
 }
 
 void LinkedNode_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseLinkedNode>"));
+	_PRINT_DEBUG(_S("<releaseLinkedNode>"));
 	if (structure != NULL)
 	{
 		/* Get the Linked Node */
@@ -791,10 +789,10 @@ void LinkedNode_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_LINKED_NODE_NAME);
 	}
-	_PRINT_TEST(_S("</releaseLinkedNode>"));
+	_PRINT_DEBUG(_S("</releaseLinkedNode>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* LinkedList_clone(const void* structure)
 {
@@ -811,14 +809,14 @@ void* LinkedList_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean LinkedList_equals(const void* structure, const type type, const void* value)
 {
 	return LinkedList_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean LinkedList_to_string(const void* source, string target)
 {

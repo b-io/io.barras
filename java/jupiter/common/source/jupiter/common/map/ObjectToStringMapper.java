@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,50 @@
  */
 package jupiter.common.map;
 
+import jupiter.common.model.ICloneable;
+
 /**
- * {@link ObjectToStringMapper} is an operator mapping an {@link Object} to a {@link String}.
+ * {@link ObjectToStringMapper} is the {@link ObjectMapper} mapping an input {@link Object} to an
+ * output {@link String}.
  */
 public abstract class ObjectToStringMapper
 		extends ObjectMapper<String> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public ObjectToStringMapper() {
+	/**
+	 * Constructs an {@link ObjectToStringMapper}.
+	 */
+	protected ObjectToStringMapper() {
 		super(String.class);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ObjectToStringMapper clone() {
+		return this;
 	}
 }

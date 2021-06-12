@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,15 +23,20 @@
  */
 package jupiter.common.struct.map.tree;
 
-
-import java.util.List;
+import java.util.Comparator;
 import java.util.Map;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.tree.node.AvlTreeNode;
 import jupiter.common.test.Arguments;
 
-public class AvlTreeMap<K extends Comparable<K>, V>
+/**
+ * {@link AvlTreeMap} is the AVL {@link BinaryTreeMap} of {@code K} and {@code V} types.
+ * <p>
+ * @param <K> the key type of the {@link AvlTreeMap}
+ * @param <V> the value type of the {@link AvlTreeMap}
+ */
+public class AvlTreeMap<K, V>
 		extends BinaryTreeMap<K, V, AvlTreeNode<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,30 +46,120 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -3501331197847125490L;
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The option specifying whether to update the nodes
+	 * The flag specifying whether to update the {@link AvlTreeNode}.
 	 */
-	protected boolean update;
+	protected boolean update = true;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public AvlTreeMap() {
-		super();
-		update = true;
+	/**
+	 * Constructs an empty {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types by
+	 * default.
+	 * <p>
+	 * @param c the key {@link Class} of {@code K} type
+	 */
+	public AvlTreeMap(final Class<K> c) {
+		super(c);
 	}
 
-	public AvlTreeMap(final Map<? extends K, ? extends V> map) {
-		super(map);
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
+	 * specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected AvlTreeMap(final Class<K> c, final K[] keys, final V[] values) {
+		super(c, keys, values);
+	}
+
+	/**
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded from the
+	 * specified {@link Map} containing the key-value mappings.
+	 * <p>
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
+	 *                            default {@code keyComparator}
+	 */
+	public AvlTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
+		super(c, map);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an empty {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator}.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 */
+	public AvlTreeMap(final Comparator<? super K> keyComparator) {
+		super(keyComparator);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified key and value arrays containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@code K} array containing the keys of the key-value mappings to
+	 *                      load
+	 * @param values        the {@code V} array containing the values of the key-value mappings to
+	 *                      load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected AvlTreeMap(final Comparator<? super K> keyComparator, final K[] keys,
+			final V[] values) {
+		super(keyComparator, keys, values);
+	}
+
+	/**
+	 * Constructs an {@link AvlTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
+	 *                            {@code keyComparator}
+	 */
+	public AvlTreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super(keyComparator, map);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -72,28 +167,41 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	 * <p>
 	 * @return the height
 	 */
-	public long getHeight() {
+	@Override
+	public int getHeight() {
 		return getHeight(root);
 	}
 
 	/**
-	 * Returns the height of the specified node, or {@code 0L} if the specified node is
-	 * {@code null}.
+	 * Returns the maximum height.
 	 * <p>
-	 * @param node the node to get the height from
-	 * <p>
-	 * @return the height of the specified node, or {@code 0L} if the specified node is {@code null}
+	 * @return the maximum height
 	 */
-	protected long getHeight(final AvlTreeNode<K, V> node) {
-		return node == null ? 0L : node.height;
+	@Override
+	public int getMaxHeight() {
+		return getHeight(); // equivalent to the optimal height
 	}
 
-	public List<Long> getBalances() {
+	/**
+	 * Returns the height of the specified {@link AvlTreeNode}, or {@code 0} if it is {@code null}.
+	 * <p>
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types
+	 * <p>
+	 * @return the height of the specified {@link AvlTreeNode}, or {@code 0} if it is {@code null}
+	 */
+	protected int getHeight(final AvlTreeNode<K, V> node) {
+		return node != null ? node.height + 1 : 0;
+	}
+
+	//////////////////////////////////////////////
+
+	public ExtendedList<Integer> getBalances() {
 		updateAll();
-		return getBalances(root, new ExtendedList<Long>(size));
+		return getBalances(root, new ExtendedList<Integer>(size));
 	}
 
-	protected List<Long> getBalances(final AvlTreeNode<K, V> node, final List<Long> list) {
+	protected ExtendedList<Integer> getBalances(final AvlTreeNode<K, V> node,
+			final ExtendedList<Integer> list) {
 		if (node != null) {
 			list.add(node.balance);
 			getBalances(node.left, list);
@@ -102,10 +210,12 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 		return list;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the option specifying whether to update the nodes.
+	 * Returns the flag specifying whether to update the tree {@link AvlTreeNode}.
 	 * <p>
-	 * @return the option specifying whether to update the nodes
+	 * @return the flag specifying whether to update the tree {@link AvlTreeNode}
 	 */
 	public boolean isUpdate() {
 		return update;
@@ -116,7 +226,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node an {@link AvlTreeNode} of type {@code K} and {@code V}
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types (may be {@code null})
 	 */
 	@Override
 	protected void setRoot(final AvlTreeNode<K, V> node) {
@@ -128,36 +238,37 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Associates the specified value with the specified key and returns the previous associated
-	 * value, or {@code null} if not present.
+	 * Puts the key-value mapping of the specified key and value into {@code this} replacing any
+	 * entry with an identical key.
 	 * <p>
-	 * @param key   the key of the key-value mapping to put
-	 * @param value the value of the key-value mapping to put
+	 * @param key   the {@code K} key of the key-value mapping to put
+	 * @param value the {@code V} value of the key-value mapping to put (may be {@code null})
 	 * <p>
-	 * @return the previous associated value, or {@code null} if not present
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public synchronized V put(final K key, final V value) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Put the key-value mapping
 		AvlTreeNode<K, V> tree = root;
 		if (tree == null) {
-			// The root is set to a new node containing the specified key and value
+			// The root is set to a new node containing the key and value
 			setRoot(new AvlTreeNode<K, V>(key, value, this));
 		} else {
 			int comparison;
 			AvlTreeNode<K, V> parent;
 			do {
-				comparison = key.compareTo(tree.key);
+				comparison = keyComparator.compare(key, tree.key);
 				if (comparison < 0) {
 					parent = tree;
 					tree = tree.left;
@@ -169,7 +280,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 					return tree.setValue(value);
 				}
 			} while (tree != null);
-			// Create a new node containing the specified key and value
+			// Create the node containing the key and value
 			final AvlTreeNode<K, V> newNode = new AvlTreeNode<K, V>(key, value, this);
 			if (comparison < 0) {
 				// The new node is the left node of the parent
@@ -178,7 +289,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 				// The new node is the right node of the parent
 				parent.setRight(newNode);
 			}
-			// Balance this tree if necessary
+			// Balance this tree if required
 			balanceAfterInsertion(newNode);
 		}
 		// Increment the number of nodes
@@ -190,19 +301,19 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the specified node.
+	 * Removes the specified {@link AvlTreeNode} from {@code this}.
 	 * <p>
-	 * @param node the node to remove
+	 * @param node an {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected void removeNode(final AvlTreeNode<K, V> node) {
-		// Get the parent and the successor of the specified node
+		// Get the parent and successor of the node
 		final AvlTreeNode<K, V> parent = node.parent;
 		// Test whether there is 0 or 1 child or there are 2 children
 		if (node.left == null || node.right == null) {
-			// - There is 0 or 1 child (so the tree is guaranteed to be balanced)
-			// Get the child if present
-			AvlTreeNode<K, V> child;
+			// • There is 0 or 1 child (so the tree is guaranteed to be balanced)
+			// Get the child (if it exists)
+			final AvlTreeNode<K, V> child;
 			if (node.left != null) {
 				child = node.left;
 			} else if (node.right != null) {
@@ -221,7 +332,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 			// Decrement the number of nodes
 			--size;
 		} else {
-			// - There are 2 children (so the tree is not guaranteed to be balanced)
+			// • There are 2 children (so the tree is not guaranteed to be balanced)
 			// Get the successor of the node to remove
 			// @note the successor cannot be null since the node has a right node
 			final AvlTreeNode<K, V> successor = getSuccessor(node);
@@ -238,34 +349,39 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Balances after inserting the specified node.
+	 * Balances after inserting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the inserted node
+	 * @param node the inserted {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
-	protected void balanceAfterInsertion(final AvlTreeNode<K, V> node) {
+	protected void balanceAfterInsertion(AvlTreeNode<K, V> node) {
 		balance(node);
 	}
 
 	/**
-	 * Balances after deleting the specified node.
+	 * Balances after deleting the specified {@link AvlTreeNode}.
 	 * <p>
-	 * @param node the deleted node
+	 * @param node the deleted {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
-	protected void balanceAfterDeletion(final AvlTreeNode<K, V> node) {
+	protected void balanceAfterDeletion(AvlTreeNode<K, V> node) {
 		balance(node);
 	}
 
+	/**
+	 * Balances the specified {@link AvlTreeNode}.
+	 * <p>
+	 * @param node the {@link AvlTreeNode} of {@code K} and {@code V} types to balance
+	 */
 	protected void balance(AvlTreeNode<K, V> node) {
 		AvlTreeNode<K, V> parent = node;
 		do {
 			node = parent;
 			// Get the balance of the node
-			final long balance = node.balance;
+			final int balance = node.balance;
 			// Test the imbalance
 			if (balance == -2) {
-				// Get the left node of the specified node
+				// Get the left node of the node
 				// @note the left node cannot be null since the balance is negative
 				final AvlTreeNode<K, V> leftNode = node.left;
 				// Test whether the imbalance is LL or LR
@@ -277,7 +393,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 					node = rotateLeftRight(node);
 				}
 			} else if (balance == 2) {
-				// Get the right node of the specified node
+				// Get the right node of the node
 				// @note the right node cannot be null since the balance is positive
 				final AvlTreeNode<K, V> rightNode = node.right;
 				// Test whether the imbalance is RR or RL
@@ -298,11 +414,11 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Rotates the specified tree to the left. Corrects a RR imbalance.
+	 * Rotates the specified tree {@link AvlTreeNode} to the left. Corrects a RR imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree the tree {@link AvlTreeNode} of {@code K} and {@code V} types to rotate
 	 * <p>
-	 * @return the rotated tree
+	 * @return the rotated tree {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateLeft(final AvlTreeNode<K, V> tree) {
@@ -310,16 +426,16 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 		final AvlTreeNode<K, V> rotatedTreeRoot = super.rotateLeft(tree);
 		update = true;
 		tree.update();
-		tree.updateParents();
+		tree.updateAllParents();
 		return rotatedTreeRoot;
 	}
 
 	/**
-	 * Rotates the specified tree to the right. Corrects a LL imbalance.
+	 * Rotates the specified tree {@link AvlTreeNode} to the right. Corrects a LL imbalance.
 	 * <p>
-	 * @param tree the tree to rotate
+	 * @param tree the tree {@link AvlTreeNode} of {@code K} and {@code V} types to rotate
 	 * <p>
-	 * @return the rotated tree
+	 * @return the rotated tree {@link AvlTreeNode} of {@code K} and {@code V} types
 	 */
 	@Override
 	protected AvlTreeNode<K, V> rotateRight(final AvlTreeNode<K, V> tree) {
@@ -327,7 +443,7 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 		final AvlTreeNode<K, V> rotatedTreeRoot = super.rotateRight(tree);
 		update = true;
 		tree.update();
-		tree.updateParents();
+		tree.updateAllParents();
 		return rotatedTreeRoot;
 	}
 
@@ -350,8 +466,15 @@ public class AvlTreeMap<K extends Comparable<K>, V>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public AvlTreeMap<K, V> clone() {
-		return new AvlTreeMap<K, V>(this);
+		return new AvlTreeMap<K, V>(keyComparator, this);
 	}
 }

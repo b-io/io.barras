@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,56 +23,63 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.test.Test;
 import jupiter.common.time.Chronometer;
 
 public class WorkQueueTest
-		extends TestCase {
+		extends Test {
 
-	public WorkQueueTest(final String testName) {
-		super(testName);
+	public WorkQueueTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class WorkQueue.
+	 * Tests the constants of {@link WorkQueue}.
 	 */
-	public void testAddTask() {
-		IO.test("addTask");
-		IO.setSeverityLevel(SeverityLevel.TEST);
+	public void testConstants() {
+		IO.test(BULLET, " constants");
 
-		// Create a thread pool
-		final IWorkQueue<Integer, Integer> queue = new WorkQueue<Integer, Integer>(new JobTest());
-		queue.reserveWorkers(WorkQueue.MAX_THREADS);
-		IO.test("There are ", WorkQueue.MAX_THREADS, " threads");
+		// Initialize
+		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(
+				new SimpleWorker());
+
+		// Verify the constants of the work queue
+		assertTrue(workQueue.minThreadCount <= workQueue.maxThreadCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected double test(final WorkQueue<Integer, Integer> workQueue) {
+		// Initialize
+		final int taskCount = 10000;
+		final Chronometer chrono = new Chronometer();
 
 		// Process the tasks
-		final Chronometer chrono = new Chronometer();
 		chrono.start();
-		final int nTasks = 1000000;
-		final List<Long> ids = new ExtendedList<Long>(nTasks);
-		for (int i = 0; i < nTasks; ++i) {
-			ids.add(queue.submit(i));
+		final List<Long> ids = new ExtendedList<Long>(taskCount);
+		for (int ti = 0; ti < taskCount; ++ti) {
+			ids.add(workQueue.submit(ti));
 		}
-		final Set<Integer> results = new HashSet<Integer>(ids.size());
+		final Set<Integer> results = new ExtendedHashSet<Integer>(ids.size());
 		for (final long id : ids) {
-			results.add(queue.get(id));
+			results.add(workQueue.get(id));
 		}
 		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
 
-		// Test
-		for (int i = 0; i < nTasks; ++i) {
-			assertTrue(results.contains(i));
+		// Verify the results
+		for (int ti = 0; ti < taskCount; ++ti) {
+			assertTrue(results.contains(ti));
 		}
+		return chrono.getMilliseconds();
 	}
 }

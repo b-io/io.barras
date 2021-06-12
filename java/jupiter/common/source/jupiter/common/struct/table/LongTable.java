@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Longs;
 
 /**
- * {@link LongTable} is a {@link NumberTable} of {@link Long}.
+ * {@link LongTable} is the {@link NumberTable} of {@link Long}.
  */
 public class LongTable
 		extends NumberTable<Long> {
@@ -41,7 +42,7 @@ public class LongTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -1095003857491168273L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,26 +50,53 @@ public class LongTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link LongTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link LongTable} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public LongTable(final int m, final int n) {
-		super(Long.class, m, n);
+	public LongTable(final int rowCount, final int columnCount) {
+		super(Long.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified values.
+	 * Constructs a {@link LongTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param values a 2D array of {@code long} values
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public LongTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Long.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link LongTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public LongTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Long.class, index, header, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link LongTable} with the specified {@code long} values.
+	 * <p>
+	 * @param values a 2D {@code long} array
 	 */
 	public LongTable(final long[]... values) {
 		this(Longs.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified elements.
+	 * Constructs a {@link LongTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Long}
 	 */
@@ -77,17 +105,17 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified header and values.
+	 * Constructs a {@link LongTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code long} values
+	 * @param values a 2D {@code long} array
 	 */
 	public LongTable(final String[] header, final long[]... values) {
 		this(header, Longs.toArray2D(values));
 	}
 
 	/**
-	 * Constructs a {@link LongTable} from the specified header and elements.
+	 * Constructs a {@link LongTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Long}
@@ -97,16 +125,40 @@ public class LongTable
 	}
 
 	/**
-	 * Constructs a {@link LongTable} imported from the specified file.
+	 * Constructs a {@link LongTable} with the specified index, header and values.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code long} array
 	 */
-	public LongTable(final String pathname, final boolean hasHeader)
+	public LongTable(final Object[] index, final String[] header, final long[]... values) {
+		this(index, header, Longs.toArray2D(values));
+	}
+
+	/**
+	 * Constructs a {@link LongTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Long}
+	 */
+	public LongTable(final Object[] index, final String[] header, final Long[]... elements) {
+		super(Long.class, index, header, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link LongTable} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public LongTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.LONG_PARSER, pathname, hasHeader);
+		super(IParsers.LONG_PARSER, path, hasHeader);
 	}
 
 
@@ -114,7 +166,46 @@ public class LongTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a {@code long} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a {@code long} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Longs#toPrimitiveArray(Object[][])
+	 */
+	public long[] toPrimitiveArray() {
+		return Longs.toPrimitiveArray(elements);
+	}
+
+	/**
+	 * Returns a 2D {@code long} array containing all the elements of {@code this} in the same
+	 * order, or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code long} array containing all the elements of {@code this} in the same
+	 *         order, or {@code null} if {@code this} is empty
+	 *
+	 * @see Longs#toPrimitiveArray2D(Object[][])
+	 */
 	public long[][] toPrimitiveArray2D() {
 		return Longs.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public LongTable clone() {
+		return (LongTable) super.clone();
 	}
 }

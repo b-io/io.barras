@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,12 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.util.Integers;
 
 /**
- * {@link IntegerTable} is a {@link NumberTable} of {@link Integer}.
+ * {@link IntegerTable} is the {@link NumberTable} of {@link Integer}.
  */
 public class IntegerTable
 		extends NumberTable<Integer> {
@@ -41,7 +42,7 @@ public class IntegerTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 915310277026342967L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,26 +50,53 @@ public class IntegerTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntegerTable} of the specified numbers of rows and columns.
+	 * Constructs an {@link IntegerTable} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public IntegerTable(final int m, final int n) {
-		super(Integer.class, m, n);
+	public IntegerTable(final int rowCount, final int columnCount) {
+		super(Integer.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} from the specified values.
+	 * Constructs an {@link IntegerTable} with the specified header and numbers of rows and columns.
 	 * <p>
-	 * @param values a 2D array of {@code int} values
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public IntegerTable(final String[] header, final int rowCount, final int columnCount) {
+		super(Integer.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs an {@link IntegerTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public IntegerTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(Integer.class, index, header, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link IntegerTable} with the specified {@code int} values.
+	 * <p>
+	 * @param values a 2D {@code int} array
 	 */
 	public IntegerTable(final int[]... values) {
 		this(Integers.toArray2D(values));
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} from the specified elements.
+	 * Constructs an {@link IntegerTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link Integer}
 	 */
@@ -77,17 +105,17 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} from the specified header and values.
+	 * Constructs an {@link IntegerTable} with the specified header and values.
 	 * <p>
 	 * @param header an array of {@link String}
-	 * @param values a 2D array of {@code int} values
+	 * @param values a 2D {@code int} array
 	 */
 	public IntegerTable(final String[] header, final int[]... values) {
 		this(header, Integers.toArray2D(values));
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} from the specified header and elements.
+	 * Constructs an {@link IntegerTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Integer}
@@ -97,16 +125,40 @@ public class IntegerTable
 	}
 
 	/**
-	 * Constructs an {@link IntegerTable} imported from the specified file.
+	 * Constructs an {@link IntegerTable} with the specified index, header and values.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @param index  an array of {@link Object} (may be {@code null})
+	 * @param header an array of {@link String}
+	 * @param values a 2D {@code int} array
 	 */
-	public IntegerTable(final String pathname, final boolean hasHeader)
+	public IntegerTable(final Object[] index, final String[] header, final int[]... values) {
+		this(index, header, Integers.toArray2D(values));
+	}
+
+	/**
+	 * Constructs an {@link IntegerTable} with specified index, header and elements.
+	 * <p>
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link Integer}
+	 */
+	public IntegerTable(final Object[] index, final String[] header, final Integer[]... elements) {
+		super(Integer.class, index, header, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link IntegerTable} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public IntegerTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.INTEGER_PARSER, pathname, hasHeader);
+		super(IParsers.INTEGER_PARSER, path, hasHeader);
 	}
 
 
@@ -114,7 +166,46 @@ public class IntegerTable
 	// CONVERTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns an {@code int} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return an {@code int} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Integers#toPrimitiveArray(Object[][])
+	 */
+	public int[] toPrimitiveArray() {
+		return Integers.toPrimitiveArray(elements);
+	}
+
+	/**
+	 * Returns a 2D {@code int} array containing all the elements of {@code this} in the same order,
+	 * or {@code null} if {@code this} is empty.
+	 * <p>
+	 * @return a 2D {@code int} array containing all the elements of {@code this} in the same order,
+	 *         or {@code null} if {@code this} is empty
+	 *
+	 * @see Integers#toPrimitiveArray2D(Object[][])
+	 */
 	public int[][] toPrimitiveArray2D() {
 		return Integers.toPrimitiveArray2D(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public IntegerTable clone() {
+		return (IntegerTable) super.clone();
 	}
 }

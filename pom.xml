@@ -14,6 +14,15 @@
 	<url>https://github.com/b-io/io.barras</url>
 	<inceptionYear>2013</inceptionYear>
 
+	<licenses>
+		<license>
+			<name>The MIT License (MIT)</name>
+			<url>https://github.com/b-io/io.barras/tree/master/LICENSE</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
 	<developers>
 		<developer>
 			<id>b-io</id>
@@ -23,29 +32,23 @@
 		</developer>
 	</developers>
 
-	<licenses>
-		<license>
-			<name>MIT License</name>
-			<url>https://github.com/b-io/io.barras/tree/master/LICENSE</url>
-			<distribution>repo</distribution>
-			<comments>A business-friendly OSS license</comments>
-		</license>
-	</licenses>
-
-	<modules>
-		<module>c</module>
-		<module>cpp</module>
-		<module>java</module>
-		<module>scala</module>
-		<module>shell</module>
-	</modules>
-
 	<properties>
 		<!-- Project -->
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Maven -->
-		<maven.version>2.2.1</maven.version>
-		<maven.release.version>2.5.3</maven.release.version>
+		<maven.compiler.source>${project.build.source}</maven.compiler.source>
+		<maven.compiler.target>${project.build.target}</maven.compiler.target>
+		<maven.artifact.version>2.2.1</maven.artifact.version>
+		<maven.info.version>2.9</maven.info.version>
+		<maven.install.version>2.5.2</maven.install.version>
+		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.nar.version>3.5.1</maven.nar.version>
+		<maven.project.version>2.2.1</maven.project.version>
+		<maven.site.version>3.9.1</maven.site.version>
+		<maven.source.version>2.4</maven.source.version>
+		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<!-- Build -->
 		<build.sourceFolder>source</build.sourceFolder>
 		<build.scriptFolder>scripts</build.scriptFolder>
@@ -53,41 +56,136 @@
 		<build.testFolder>test</build.testFolder>
 		<build.targetFolder>target</build.targetFolder>
 		<build.targetFilename>${project.artifactId}-${project.version}</build.targetFilename>
-		<!-- SCM -->
-		<scm.url>https://github.com/b-io/io.barras</scm.url>
+		<!-- Compilation -->
+		<stack.protector.option />
+		<architecture.option />
+		<subsystem.option />
+		<math.option>-ffast-math</math.option>
+		<optimization.option>-O2</optimization.option>
+		<debug.option>-g</debug.option>
+		<warning.option>-Wpadded</warning.option>
+		<verbose.option>-v</verbose.option>
 	</properties>
+
+	<!-- Environment Settings -->
+	<distributionManagement>
+		<site>
+			<id>io.barras</id>
+			<url>https://repo.barras.io</url>
+		</site>
+	</distributionManagement>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>${project.url}/issues</url>
+	</issueManagement>
+
+	<scm>
+		<url>${project.url}</url>
+		<connection>scm:git:${project.url}</connection>
+		<developerConnection>scm:git:${project.url}</developerConnection>
+	</scm>
+
+	<pluginRepositories>
+		<!-- Maven -->
+		<pluginRepository>
+			<id>central</id>
+			<name>Central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<!-- Maven -->
+		<repository>
+			<id>central</id>
+			<name>Central</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+
+		<!-- MVN Repository -->
+		<repository>
+			<id>mvnrepository</id>
+			<name>MVN Repository</name>
+			<url>https://mvnrepository.com</url>
+			<layout>default</layout>
+
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>daily</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<!-- Project Settings -->
+	<modules>
+		<module>c</module>
+		<module>cpp</module>
+		<module>java</module>
+		<module>python</module>
+		<module>scala</module>
+		<module>shell</module>
+	</modules>
 
 	<dependencies>
 		<!-- Maven -->
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-artifact</artifactId>
-			<version>${maven.version}</version>
+			<version>${maven.artifact.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-project</artifactId>
-			<version>${maven.version}</version>
+			<version>${maven.project.version}</version>
 		</dependency>
 	</dependencies>
 
-	<scm>
-		<url>${scm.url}</url>
-		<connection>scm:git:${scm.url}</connection>
-		<developerConnection>scm:git:${scm.url}</developerConnection>
-	</scm>
-
-	<issueManagement>
-		<system>GitHub</system>
-		<url>${scm.url}/issues</url>
-	</issueManagement>
-
+	<!-- Build Settings -->
 	<build>
 		<!-- Source -->
 		<sourceDirectory>${build.sourceFolder}</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>${build.resourceFolder}</directory>
+				<filtering>false</filtering>
+
+				<includes>
+					<include>*</include>
+				</includes>
 			</resource>
 		</resources>
 		<scriptSourceDirectory>${build.scriptFolder}</scriptSourceDirectory>
@@ -97,6 +195,11 @@
 		<testResources>
 			<testResource>
 				<directory>${build.testFolder}/${build.resourceFolder}</directory>
+				<filtering>false</filtering>
+
+				<includes>
+					<include>*</include>
+				</includes>
 			</testResource>
 		</testResources>
 
@@ -108,5 +211,120 @@
 
 		<!-- Process -->
 		<defaultGoal>install</defaultGoal>
+
+		<pluginManagement>
+			<plugins>
+				<!-- Compile C / C++ / JNI -->
+				<plugin>
+					<groupId>com.github.maven-nar</groupId>
+					<artifactId>nar-maven-plugin</artifactId>
+					<version>${maven.nar.version}</version>
+					<extensions>true</extensions>
+				</plugin>
+
+				<!-- Attach the sources -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven.source.version}</version>
+
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Attach the JavaDocs -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven.javadoc.version}</version>
+
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Generate the site -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>${maven.site.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<!-- Generate the integrity checksums -->
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>${maven.install.version}</version>
+
+				<configuration>
+					<createChecksum>true</createChecksum>
+				</configuration>
+			</plugin>
+
+			<!-- Run the unit tests and generate the reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.version}</version>
+
+				<configuration>
+					<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+					<useSystemClassLoader>false</useSystemClassLoader>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
+
+	<!-- Reporting Settings -->
+	<reporting>
+		<plugins>
+			<!-- Generate the information reports -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>${maven.info.version}</version>
+			</plugin>
+
+			<!-- Generate the JavaDocs -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven.javadoc.version}</version>
+
+				<reportSets>
+					<reportSet>
+						<id>default</id>
+
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+
+					<reportSet>
+						<id>aggregate</id>
+						<inherited>false</inherited>
+
+						<reports>
+							<report>aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>

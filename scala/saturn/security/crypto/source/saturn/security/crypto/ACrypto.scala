@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,14 @@
  */
 package saturn.security.crypto
 
-import java.security._
-import java.security.interfaces._
-import java.security.spec._
-
-import javax.crypto._
-import javax.crypto.spec._
-
 import saturn.common.util.Bytes
+import saturn.security.crypto.CipherMethod._
+import saturn.security.crypto.CipherMode._
+import saturn.security.crypto.CipherPadding._
 
-import CipherMethod._
-import CipherMode._
-import CipherPadding._
+import java.security._
+import java.security.spec._
+import javax.crypto._
 
 /**
  * Cipher handling the following asymmetric transformations:
@@ -46,37 +42,48 @@ import CipherPadding._
  * Note: without extension the possible public key sizes are 1024 and 2048 bits.
  */
 case class ACrypto(method: CipherMethod, mode: CipherMode, padding: CipherPadding)
-	extends Crypto(method, mode, padding) {
+        extends Crypto(method, mode, padding) {
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	var publicKeySize: Int = 0 // bits
+	var publicKeySize: Int = 0 // [bit]
 	var privateKey: PrivateKey = null
 	var publicKey: PublicKey = null
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	def this(method: CipherMethod, mode: CipherMode) = this(method, mode, OAEPWithSHA256AndMGF1Padding)
+	def this(method: CipherMethod, mode: CipherMode) = this(method, mode,
+		OAEPWithSHA256AndMGF1Padding)
+
 	def this(method: CipherMethod) = this(method, ECB)
+
 	def this() = this(RSA)
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// KEYS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	override def getDefaultKeySize(): Int = if (checkKeySize(4096)) 4096 else 2024
 	override def getKeySize(): Int = publicKeySize
 
 	override def setDefaultKeySize(): Unit = publicKeySize = getDefaultKeySize()
-	override def setKeySize(n: Int): Unit = publicKeySize = n
+
+	override def getEncryptCipher(): Cipher = {
+		val cipher: Cipher = Cipher.getInstance(getParameters())
+		if (publicKeySize == 0) generateKey()
+		cipher.init(Cipher.ENCRYPT_MODE, publicKey)
+		cipher
+	}
 
 	override def generateKey(): Unit = generateKey(getDefaultKeySize())
+
+	override def getDefaultKeySize(): Int = if (checkKeySize(4096)) 4096 else 2024
+
 	override def generateKey(size: Int): Unit = {
 		setKeySize(size)
 		val keyPairGenerator: KeyPairGenerator = KeyPairGenerator.getInstance(method)
@@ -87,16 +94,11 @@ case class ACrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ENCRYPT / DECRYPT
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	override def getEncryptCipher(): Cipher = {
-		val cipher: Cipher = Cipher.getInstance(getParameters())
-		if (publicKeySize == 0) generateKey()
-		cipher.init(Cipher.ENCRYPT_MODE, publicKey)
-		cipher
-	}
+	override def setKeySize(n: Int): Unit = publicKeySize = n
 
 	override def getDecryptCipher(): Cipher = {
 		val cipher: Cipher = Cipher.getInstance(getParameters())
@@ -105,27 +107,30 @@ case class ACrypto(method: CipherMethod, mode: CipherMode, padding: CipherPaddin
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// COMBINE / UNCOMBINE KEYS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	override def combine(): Array[Byte] = publicKey.getEncoded()
+
 	override def uncombine(combination: Array[Byte]): Unit = {
-		publicKeySize = combination.length * Bytes.SIZE // bits
+		publicKeySize = combination.length * Bytes.SIZE // [bit]
 		publicKey = getPublicKey(combination)
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////
-	// SPECIFIC METHODS
-	////////////////////////////////////////////////////////////////////////////
-
 	def getPrivateKey(): Array[Byte] = if (privateKey != null) privateKey.getEncoded() else null
-	def getPublicKey(): Array[Byte] = if (publicKey != null) publicKey.getEncoded() else null
-
-	def getPrivateKey(key: Array[Byte]): PrivateKey = KeyFactory.getInstance(method).generatePrivate(new PKCS8EncodedKeySpec(key))
-	def getPublicKey(key: Array[Byte]): PublicKey = KeyFactory.getInstance(method).generatePublic(new X509EncodedKeySpec(key))
 
 	def setPrivateKey(key: Array[Byte]) = privateKey = getPrivateKey(key)
+
+	def getPrivateKey(key: Array[Byte]): PrivateKey = KeyFactory.getInstance(method)
+			.generatePrivate(new PKCS8EncodedKeySpec(key))
+
+	def getPublicKey(): Array[Byte] = if (publicKey != null) publicKey.getEncoded() else null
+
 	def setPublicKey(key: Array[Byte]) = publicKey = getPublicKey(key)
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	def getPublicKey(key: Array[Byte]): PublicKey = KeyFactory.getInstance(method)
+			.generatePublic(new X509EncodedKeySpec(key))
 }

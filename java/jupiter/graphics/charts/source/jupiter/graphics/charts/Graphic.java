@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,15 @@
  */
 package jupiter.graphics.charts;
 
-import org.jfree.ui.ApplicationFrame;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
+import jupiter.gui.swing.Swings;
+
+import org.jfree.chart.ui.ApplicationFrame;
 
 public abstract class Graphic
-		extends ApplicationFrame {
+		extends ApplicationFrame
+		implements ICloneable<Graphic> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -35,7 +40,7 @@ public abstract class Graphic
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 6492371693942680564L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,8 +59,42 @@ public abstract class Graphic
 	 * <p>
 	 * @param title the title
 	 */
-	public Graphic(final String title) {
+	protected Graphic(final String title) {
 		super(title);
 		this.title = title;
+		setDefaultParameters();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Sets the parameters by default.
+	 */
+	public void setDefaultParameters() {
+		Swings.setDefaultParameters(this);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Graphic clone() {
+		try {
+			return (Graphic) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,19 +23,22 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
-
-import java.util.HashMap;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
+import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
+import static jupiter.common.util.Characters.SPACE;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.table.Table;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
-import jupiter.common.util.Arrays;
-import jupiter.common.util.Characters;
-import jupiter.math.analysis.function.Functions;
+import jupiter.common.util.Doubles;
+import jupiter.common.util.Integers;
+
 import libsvm.svm;
 import libsvm.svm_model;
 import libsvm.svm_node;
@@ -48,34 +51,48 @@ public class SVM {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The default cache size
-	protected static final double DEFAULT_CACHE_SIZE = 100;
+	/**
+	 * The default cache size.
+	 */
+	public static final double DEFAULT_CACHE_SIZE = 128;
 
-	// The default tolerance level (or termination criterion) ε
-	protected static final double DEFAULT_TOLERANCE = 1E-6;
+	/**
+	 * The default tolerance level (or termination criterion) {@code ε}.
+	 */
+	public static final double DEFAULT_TOLERANCE = 1E-8;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The number n of features
-	protected final int nFeatures;
+	/**
+	 * The number of features {@code n}.
+	 */
+	protected final int featureCount;
+	/**
+	 * The number of training examples {@code m}.
+	 */
+	protected int trainingExampleCount;
 
-	// The number m of training examples
-	protected int mTrainingExamples;
-
-	// The probability estimates
-	protected final HashMap<Integer, Double> probabilityEstimates;
-
-	// The problem
+	/**
+	 * The problem.
+	 */
 	protected final svm_problem problem;
+	/**
+	 * The hyper-parameters.
+	 */
+	protected final svm_parameter hyperParameters;
 
-	// The parameters
-	protected final svm_parameter parameters;
-
-	// The model
+	/**
+	 * The trained model.
+	 */
 	protected svm_model model;
+
+	/**
+	 * The probability estimates associated to their classes.
+	 */
+	protected final ExtendedHashMap<Integer, Double> probabilityEstimates;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,26 +100,27 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a support vector machine.
+	 * Constructs a support vector machine {@link SVM} with the specified number of features
+	 * {@code n}.
 	 * <p>
-	 * @param nFeatures the number of features
+	 * @param featureCount the number of features {@code n}
 	 */
-	public SVM(final int nFeatures) {
-		this.nFeatures = nFeatures;
-		mTrainingExamples = 0;
-		probabilityEstimates = new HashMap<Integer, Double>(Arrays.DEFAULT_CAPACITY);
+	public SVM(final int featureCount) {
+		this.featureCount = featureCount;
+		trainingExampleCount = 0;
 		problem = new svm_problem();
-		parameters = new svm_parameter();
+		hyperParameters = new svm_parameter();
 		setDefaultParameters();
+		probabilityEstimates = new ExtendedHashMap<Integer, Double>();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the feature vectors.
+	 * Returns the feature vectors.
 	 * <p>
 	 * @return the feature vectors
 	 */
@@ -111,7 +129,7 @@ public class SVM {
 	}
 
 	/**
-	 * Get the classes.
+	 * Returns the classes.
 	 * <p>
 	 * @return the classes
 	 */
@@ -124,20 +142,20 @@ public class SVM {
 	 * <p>
 	 * @return the probability estimates
 	 */
-	public HashMap<Integer, Double> getProbabilityEstimates() {
+	public ExtendedHashMap<Integer, Double> getProbabilityEstimates() {
 		return probabilityEstimates;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the default parameters.
+	 * Sets the hyper-parameters by default.
 	 */
 	public void setDefaultParameters() {
-		parameters.cache_size = DEFAULT_CACHE_SIZE;
-		parameters.eps = DEFAULT_TOLERANCE;
-		parameters.probability = 1; // do probability estimates
-		parameters.shrinking = 1; // use the shrinking heuristics
+		hyperParameters.cache_size = DEFAULT_CACHE_SIZE;
+		hyperParameters.eps = DEFAULT_TOLERANCE;
+		hyperParameters.probability = 1; // do probability estimates
+		hyperParameters.shrinking = 1; // use the shrinking heuristics
 		setTypeToCSVC();
 	}
 
@@ -147,18 +165,18 @@ public class SVM {
 	 * @param cacheSize a {@code double} value
 	 */
 	public void setCacheSize(final double cacheSize) {
-		parameters.cache_size = cacheSize;
+		hyperParameters.cache_size = cacheSize;
 	}
 
 	/**
 	 * Sets the kernel type to linear.
 	 */
 	public void setKernelTypeToLinear() {
-		parameters.kernel_type = svm_parameter.LINEAR;
+		hyperParameters.kernel_type = svm_parameter.LINEAR;
 	}
 
 	/**
-	 * Sets the kernel type to polynomial with the specified parameters.
+	 * Sets the kernel type to polynomial with the specified hyper-parameters.
 	 * <p>
 	 * @param degree      an {@code int} value
 	 * @param coefficient a {@code double} value
@@ -166,15 +184,15 @@ public class SVM {
 	 */
 	public void setKernelTypeToPolynomial(final int degree, final double coefficient,
 			final double constant) {
-		// Set the parameters
-		parameters.kernel_type = svm_parameter.POLY;
-		parameters.degree = IntegerArguments.requirePositive(degree);
-		parameters.gamma = DoubleArguments.requireNonZero(coefficient);
-		parameters.coef0 = DoubleArguments.requireNonNegative(constant);
+		// Set the hyper-parameters
+		hyperParameters.kernel_type = svm_parameter.POLY;
+		hyperParameters.degree = IntegerArguments.requirePositive(degree);
+		hyperParameters.gamma = DoubleArguments.requireNonZero(coefficient);
+		hyperParameters.coef0 = DoubleArguments.requireNonNegative(constant);
 	}
 
 	/**
-	 * Sets the kernel type to Gaussian with the specified parameter.
+	 * Sets the kernel type to Gaussian with the specified hyper-parameter.
 	 * <p>
 	 * @param variance a {@code double} value
 	 */
@@ -183,22 +201,22 @@ public class SVM {
 	}
 
 	/**
-	 * Sets the kernel type to radial basis function (RBF) with the specified parameter.
+	 * Sets the kernel type to radial basis function (RBF) with the specified hyper-parameter.
 	 * <p>
 	 * @param gamma a {@code double} value
 	 */
 	public void setKernelTypeToRBF(final double gamma) {
-		parameters.kernel_type = svm_parameter.RBF;
-		parameters.gamma = DoubleArguments.requirePositive(gamma);
+		hyperParameters.kernel_type = svm_parameter.RBF;
+		hyperParameters.gamma = DoubleArguments.requirePositive(gamma);
 	}
 
 	/**
-	 * Sets the tolerance level (or termination criterion).
+	 * Sets the tolerance level (or termination criterion) {@code ε}.
 	 * <p>
 	 * @param tolerance a {@code double} value
 	 */
 	public void setTolerance(final double tolerance) {
-		parameters.eps = tolerance;
+		hyperParameters.eps = tolerance;
 	}
 
 	/**
@@ -214,8 +232,8 @@ public class SVM {
 	 * @param c a {@code double} value
 	 */
 	public void setTypeToCSVC(final double c) {
-		parameters.svm_type = svm_parameter.C_SVC;
-		parameters.C = c;
+		hyperParameters.svm_type = svm_parameter.C_SVC;
+		hyperParameters.C = c;
 	}
 
 
@@ -234,8 +252,8 @@ public class SVM {
 	 * @param nu a {@code double} value
 	 */
 	public void setTypeToNuSVC(final double nu) {
-		parameters.svm_type = svm_parameter.NU_SVC;
-		parameters.nu = nu;
+		hyperParameters.svm_type = svm_parameter.NU_SVC;
+		hyperParameters.nu = nu;
 	}
 
 	/**
@@ -244,8 +262,8 @@ public class SVM {
 	 * @param nu a {@code double} value
 	 */
 	public void setTypeToOneClass(final double nu) {
-		parameters.svm_type = svm_parameter.ONE_CLASS;
-		parameters.nu = nu;
+		hyperParameters.svm_type = svm_parameter.ONE_CLASS;
+		hyperParameters.nu = nu;
 	}
 
 	/**
@@ -256,24 +274,24 @@ public class SVM {
 	 * @param epsilon a {@code double} value
 	 */
 	public void setTypeToEpsilonSVR(final double c, final double epsilon) {
-		parameters.svm_type = svm_parameter.EPSILON_SVR;
-		parameters.C = c;
-		parameters.p = epsilon;
+		hyperParameters.svm_type = svm_parameter.EPSILON_SVR;
+		hyperParameters.C = c;
+		hyperParameters.p = epsilon;
 	}
 
 	/**
 	 * Sets the weights (only for C-SVC).
 	 * <p>
-	 * @param weights an array of {@code double} values
+	 * @param weights a {@code double} array
 	 */
-	public void setWeights(final double[] weights) {
+	public void setWeights(final double... weights) {
 		// Check the arguments
-		DoubleArguments.requireMaxLength(weights, mTrainingExamples);
+		DoubleArguments.requireMaxLength(weights, trainingExampleCount);
 
-		// Set the parameters
-		parameters.weight = weights;
-		parameters.nr_weight = weights.length;
-		parameters.weight_label = Functions.ROUND.applyToIntPrimitiveArray(problem.y);
+		// Set the hyper-parameters
+		hyperParameters.weight = weights;
+		hyperParameters.nr_weight = weights.length;
+		hyperParameters.weight_label = ROUND.applyToPrimitiveIntArray(problem.y);
 	}
 
 
@@ -282,28 +300,31 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Loads the training examples from the specified arrays.
+	 * Loads the training examples (feature vectors and classes) from the specified 2D
+	 * {@code double} array of feature vectors and {@code double} array of classes.
 	 * <p>
-	 * @param featureVectors the feature vectors of the training examples of size (m x n)
-	 * @param classes        the SVM of the training examples of size m
+	 * @param featureVectors the 2D {@code double} array of feature vectors of size {@code m x n} to
+	 *                       load
+	 * @param classes        the {@code double} array of classes of size {@code m} to load
 	 */
-	public void loadTrainingExamples(final double[][] featureVectors, final int[] classes) {
+	public void load(final double[][] featureVectors, final int... classes) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(Arguments.requireNonNull(featureVectors).length,
-				Arguments.requireNonNull(classes).length);
+		ArrayArguments.requireSameLength(
+				Arguments.requireNonNull(featureVectors, "feature vectors").length,
+				Arguments.requireNonNull(classes, "classes").length);
 
 		// Load the training examples
 		if (featureVectors.length > 0) {
-			mTrainingExamples = featureVectors.length;
+			trainingExampleCount = featureVectors.length;
 			updateProblem();
-			for (int i = 0; i < mTrainingExamples; ++i) {
-				final int n = featureVectors[i].length;
-				if (n < nFeatures) {
+			for (int tei = 0; tei < trainingExampleCount; ++tei) {
+				final int n = featureVectors[tei].length;
+				if (n < featureCount) {
 					throw new IllegalArgumentException("The feature vector size is wrong at row " +
-							i + " " + Arguments.atLeastExpectedButFound(n, nFeatures));
+							tei + SPACE + Arguments.atLeastExpectedButFound(n, featureCount));
 				}
-				updateClassification(i, classes[i]);
-				updateFeatureVector(i, featureVectors[i]);
+				updateClassification(tei, classes[tei]);
+				updateFeatureVector(tei, featureVectors[tei]);
 			}
 		} else {
 			IO.warn("No training examples found");
@@ -311,45 +332,56 @@ public class SVM {
 	}
 
 	/**
-	 * Loads the training examples from the specified table.
+	 * Loads the training examples (feature vectors and classes) from the specified
+	 * {@link StringTable}.
 	 * <p>
-	 * @param trainingExamples the table containing the training examples of size (m x n + 1)
-	 * @param classesIndex     the index of the column containing the classes in the table
+	 * @param trainingExamples the {@link StringTable} containing the training examples (feature
+	 *                         vectors and classes) of size {@code m x n + 1} to load
+	 * @param classesIndex     the index of the column containing the classes of size {@code m} to
+	 *                         load
 	 */
-	public void loadTrainingExamples(final Table<String> trainingExamples, final int classesIndex) {
-		if (trainingExamples != null) {
-			final int m = trainingExamples.getRowCount();
-			if (m > 0) {
-				final int n = trainingExamples.getColumnCount();
-				if (n <= nFeatures) {
-					throw new IllegalArgumentException("There are not enough columns " +
-							Arguments.atLeastExpectedButFound(n, nFeatures + 1));
-				}
-				if (classesIndex < n - 1) {
-					throw new IllegalArgumentException("The classes index is out of bound " +
-							Arguments.atLeastExpectedButFound(classesIndex, n - 1));
-				}
-				mTrainingExamples = m;
-				updateProblem();
-				for (int i = 0; i < mTrainingExamples; ++i) {
-					updateClassification(i, Integer.valueOf(trainingExamples.get(i, classesIndex)));
-					for (int j = 0; j < nFeatures; ++j) {
-						updateValue(i, j, Double.valueOf(trainingExamples.get(i, j)));
-					}
-				}
-			} else {
-				IO.warn("No training examples found");
+	public void load(final StringTable trainingExamples, final int classesIndex) {
+		// Check the arguments
+		Arguments.requireNonNull(trainingExamples, "training examples");
+
+		// Load the training examples
+		final int m = trainingExamples.getRowCount();
+		if (m > 0) {
+			final int n = trainingExamples.getColumnCount();
+			if (n <= featureCount) {
+				throw new IllegalArgumentException("There are not enough columns " +
+						Arguments.atLeastExpectedButFound(n, featureCount + 1));
 			}
+			if (classesIndex < n - 1) {
+				throw new IllegalArgumentException("The classes index is out of bounds " +
+						Arguments.atLeastExpectedButFound(classesIndex, n - 1));
+			}
+			trainingExampleCount = m;
+			updateProblem();
+			for (int tei = 0; tei < trainingExampleCount; ++tei) {
+				updateClassification(tei,
+						Integers.convert(trainingExamples.get(tei, classesIndex)));
+				for (int fi = 0; fi < featureCount; ++fi) {
+					updateValue(tei, fi, Doubles.convert(trainingExamples.get(tei, fi)));
+				}
+			}
+		} else {
+			IO.warn("No training examples found");
 		}
 	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// UPDATERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Updates the problem.
 	 */
 	protected void updateProblem() {
-		problem.l = mTrainingExamples;
-		problem.x = new svm_node[mTrainingExamples][nFeatures];
-		problem.y = new double[mTrainingExamples];
+		problem.l = trainingExampleCount;
+		problem.x = new svm_node[trainingExampleCount][featureCount];
+		problem.y = new double[trainingExampleCount];
 	}
 
 	/**
@@ -370,50 +402,53 @@ public class SVM {
 	 * @param featureVector        the feature vector of the training example
 	 */
 	protected void updateFeatureVector(final int trainingExampleIndex,
-			final double[] featureVector) {
-		for (int featureIndex = 0; featureIndex < nFeatures; ++featureIndex) {
-			updateValue(trainingExampleIndex, featureIndex, featureVector[featureIndex]);
+			final double... featureVector) {
+		for (int fi = 0; fi < featureCount; ++fi) {
+			updateValue(trainingExampleIndex, fi, featureVector[fi]);
 		}
 	}
 
 	/**
-	 * Updates the value of the feature vector of the training example at the specified indexes.
+	 * Updates the value of the feature vector of the training example at the specified indices.
 	 * <p>
 	 * @param trainingExampleIndex the index of the training example
 	 * @param featureIndex         the index of the feature
-	 * @param value                the value at the indexes
+	 * @param value                the {@code double} value at the indices
 	 */
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {
 		if (featureIndex == 0) {
-			IO.debug(Characters.LEFT_PARENTHESIS, " ");
+			IO.debug(LEFT_PARENTHESIS, SPACE);
 		}
 		final svm_node node = new svm_node();
 		node.index = featureIndex;
 		node.value = value;
 		problem.x[trainingExampleIndex][featureIndex] = node;
-		IO.debug(node.value, " ");
-		if (featureIndex == nFeatures - 1) {
-			IO.debug(Characters.RIGHT_PARENTHESIS);
+		IO.debug(node.value, SPACE);
+		if (featureIndex == featureCount - 1) {
+			IO.debug(RIGHT_PARENTHESIS);
 		}
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// MODELER
+	// MODEL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Trains the model with the problem and the parameters and returns it.
+	 * Trains the model with the problem and hyper-parameters.
 	 * <p>
 	 * @return the trained model
 	 */
 	public svm_model train() {
-		if (mTrainingExamples == 0) {
+		// Check the arguments
+		if (trainingExampleCount == 0) {
 			IO.error("No training examples found");
 			return null;
 		}
-		model = svm.svm_train(problem, parameters);
+
+		// Train the model with the problem and hyper-parameters
+		model = svm.svm_train(problem, hyperParameters);
 		return model;
 	}
 
@@ -423,34 +458,37 @@ public class SVM {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Classifies the specified example and returns the estimated class.
+	 * Classifies the specified example.
 	 * <p>
 	 * @param example the example to classify
 	 * <p>
 	 * @return the estimated class
 	 */
-	public Integer classify(final double[] example) {
+	public Integer classify(final double... example) {
+		// Check the arguments
 		if (model == null) {
 			IO.error("No model found");
 			return null;
 		}
 
-		final svm_node[] nodes = new svm_node[nFeatures];
-		for (int i = 0; i < nFeatures; ++i) {
+		// Classify the example
+		final svm_node[] nodes = new svm_node[featureCount];
+		for (int fi = 0; fi < featureCount; ++fi) {
 			final svm_node node = new svm_node();
-			node.index = i;
-			node.value = example[i];
-			nodes[i] = node;
+			node.index = fi;
+			node.value = example[fi];
+			nodes[fi] = node;
 		}
-		final int totalClasses = model.nr_class;
-		final int[] labels = new int[totalClasses];
+		final int classCount = model.nr_class;
+		final int[] labels = new int[classCount];
 		svm.svm_get_labels(model, labels);
-		final double[] probabilityEstimates = new double[totalClasses];
-		final int prediction = Maths
-				.roundToInt(svm.svm_predict_probability(model, nodes, probabilityEstimates));
-		for (int i = 0; i < totalClasses; ++i) {
-			this.probabilityEstimates.put(labels[i], probabilityEstimates[i]);
+		final double[] probabilityEstimatesPerClass = new double[classCount];
+		final int estimatedClass = Maths.roundToInt(
+				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
+		for (int ci = 0; ci < classCount; ++ci) {
+			probabilityEstimates.put(labels[ci], probabilityEstimatesPerClass[ci]);
 		}
-		return prediction;
+		// Return the estimated class
+		return estimatedClass;
 	}
 }

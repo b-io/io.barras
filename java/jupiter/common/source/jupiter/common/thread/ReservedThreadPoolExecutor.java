@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2015-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
  */
 package jupiter.common.thread;
 
+import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
@@ -32,34 +33,67 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ReservedThreadPoolExecutor
-		extends ThreadPoolExecutor {
+		extends ThreadPoolExecutor
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The maximum thread pool size
+	/**
+	 * The maximum pool size.
+	 */
 	protected final int maxPoolSize;
-	// The internal lock for submission
-	protected final ReentrantLock submitLock = new ReentrantLock();
+
+	/**
+	 * The internal {@link Lock} for submission.
+	 */
+	protected final Lock submitLock = new ReentrantLock(true);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} by default.
+	 */
 	public ReservedThreadPoolExecutor() {
 		this(Runtime.getRuntime().availableProcessors());
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize the pool size
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize) {
-		super(poolSize, poolSize, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
-		maxPoolSize = poolSize;
+		this(poolSize, poolSize, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>());
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit,
 			final BlockingQueue<Runnable> workQueue) {
@@ -67,6 +101,18 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param threadFactory the {@link ThreadFactory}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final ThreadFactory threadFactory) {
@@ -74,6 +120,16 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param handler       the {@link RejectedExecutionHandler}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final RejectedExecutionHandler handler) {
@@ -81,6 +137,17 @@ public class ReservedThreadPoolExecutor
 		this.maxPoolSize = maxPoolSize;
 	}
 
+	/**
+	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
+	 * <p>
+	 * @param poolSize      the pool size
+	 * @param maxPoolSize   the maximum pool size
+	 * @param keepAliveTime the keep alive time
+	 * @param unit          the {@link TimeUnit}
+	 * @param workQueue     the {@link BlockingQueue} of {@link Runnable}
+	 * @param threadFactory the {@link ThreadFactory}
+	 * @param handler       the {@link RejectedExecutionHandler}
+	 */
 	public ReservedThreadPoolExecutor(final int poolSize, final int maxPoolSize,
 			final long keepAliveTime, final TimeUnit unit, final BlockingQueue<Runnable> workQueue,
 			final ThreadFactory threadFactory, final RejectedExecutionHandler handler) {
@@ -90,30 +157,38 @@ public class ReservedThreadPoolExecutor
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the maximum pool size.
+	 * <p>
+	 * @return the maximum pool size
+	 */
 	public int getMaxPoolSize() {
 		return maxPoolSize;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONDITIONAL SUBMIT
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
+	 * that is not actively executing tasks.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
+	 * </dl>
 	 * <p>
-	 * @param task the task to submit
+	 * @param task the {@link Runnable} task to submit
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Runnable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
 	public Future<?> submit(final Runnable task) {
@@ -129,25 +204,30 @@ public class ReservedThreadPoolExecutor
 	}
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Runnable} task for execution if there is at least one thread
+	 * that is not actively executing tasks.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return the specified default {@code T} result upon
+	 * successful completion.</dd>
+	 * </dl>
 	 * <p>
-	 * @param task   the task to submit
-	 * @param result the default value for the returned future
+	 * @param <T>           the type of the {@link Future} to return
+	 * @param task          the {@link Runnable} task to submit
+	 * @param defaultResult the default {@code T} result (may be {@code null})
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Runnable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
-	public <T> Future<T> submit(final Runnable task, final T result) {
+	public <T> Future<T> submit(final Runnable task, final T defaultResult) {
 		submitLock.lock();
 		try {
 			if (getActiveCount() < maxPoolSize) {
-				return super.submit(task, result);
+				return super.submit(task, defaultResult);
 			}
 		} finally {
 			submitLock.unlock();
@@ -156,17 +236,21 @@ public class ReservedThreadPoolExecutor
 	}
 
 	/**
-	 * Submits the specified task to the {@link ThreadPoolExecutor} if there is at least one thread
-	 * that is not actively executing tasks. Returns a {@link Future} representing the pending
-	 * results if the task is submitted, {@code null} otherwise.
+	 * Submits the specified {@link Callable} task for execution if there is at least one thread
+	 * that is not actively executing tasks.
+	 * <dl>
+	 * <dt><b>Note:</b></dt>
+	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
+	 * </dl>
 	 * <p>
-	 * @param task the task to submit
+	 * @param <T>  the type of the {@link Future} to return
+	 * @param task the {@link Callable} task of {@code T} type to submit
 	 * <p>
-	 * @return a {@link Future} representing the pending results if the task is submitted,
-	 *         {@code null} otherwise
+	 * @return a {@link Future} representing the pending completion of the specified
+	 *         {@link Callable} task if there is at least one thread that is not actively executing
+	 *         tasks, {@code null} otherwise
 	 * <p>
-	 * @throws RejectedExecutionException {@inheritDoc}
-	 * @throws NullPointerException       {@inheritDoc}
+	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
 	public <T> Future<T> submit(final Callable<T> task) {

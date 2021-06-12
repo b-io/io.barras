@@ -18,87 +18,63 @@
 	<description>Libraries written in C</description>
 	<url>https://github.com/b-io/io.barras/tree/master/c</url>
 
+	<properties>
+		<!-- Project -->
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
+		<!-- Compilation -->
+		<standard.option>-ansi</standard.option>
+		<pedentic.option>-pedantic</pedentic.option>
+	</properties>
+
+	<!-- Project Settings -->
 	<modules>
 		<module>ceres</module>
 	</modules>
 
-	<properties>
-		<!-- Maven -->
-		<maven.nar.version>3.0.0</maven.nar.version>
-		<!-- Compilation -->
-		<java.os.include />
-		<stack.protector.option />
-		<architecture.option />
-		<subsystem.option />
-		<standard.option>-ansi</standard.option>
-		<pedentic.option>-pedantic</pedentic.option>
-		<optimisation.option>-O2</optimisation.option>
-		<debug.option>-g</debug.option>
-		<extra.option>-Wpadded</extra.option>
-		<libdl.name>dl</libdl.name>
-	</properties>
-
+	<!-- Build Settings -->
 	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- Maven -->
-				<plugin>
-					<groupId>com.github.maven-nar</groupId>
-					<artifactId>nar-maven-plugin</artifactId>
-					<version>${maven.nar.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile C -->
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-				<extensions>true</extensions>
+
 				<configuration>
 					<c>
 						<name>gcc</name>
 						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+
 						<includePaths>
 							<includePath>${project.build.sourceDirectory}</includePath>
 						</includePaths>
+
 						<includes>
 							<include>**/*.h</include>
 							<include>**/*.c</include>
 						</includes>
+
 						<options>
-							<option>-I${JAVA_HOME}/include</option>
-							<option>${java.os.include}</option>
 							<option>${stack.protector.option}</option>
 							<option>${architecture.option}</option>
 							<option>${subsystem.option}</option>
 							<option>${standard.option}</option>
 							<option>${pedentic.option}</option>
-							<option>${optimisation.option}</option>
+							<option>${optimization.option}</option>
+							<option>${math.option}</option>
 							<option>${debug.option}</option>
-							<option>${extra.option}</option>
+							<option>${warning.option}</option>
 						</options>
 					</c>
+
 					<linker>
 						<name>gcc</name>
+
 						<options>
 							<option>${architecture.option}</option>
 							<option>${subsystem.option}</option>
-							<option>${optimisation.option}</option>
 						</options>
-						<sysLibs>
-							<sysLib>
-								<name>${libdl.name}</name>
-							</sysLib>
-						</sysLibs>
 					</linker>
-					<libraries>
-						<library>
-							<type>shared</type>
-							<narSystemPackage>${project.groupId}</narSystemPackage>
-						</library>
-					</libraries>
 				</configuration>
 			</plugin>
 		</plugins>

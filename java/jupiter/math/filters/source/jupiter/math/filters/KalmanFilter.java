@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,52 +23,66 @@
  */
 package jupiter.math.filters;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.SPACE;
+
+import java.io.Serializable;
 
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
-public class KalmanFilter {
+public class KalmanFilter
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Estimated state.
+	 * The estimated state {@link Entity}.
 	 */
 	public Entity x;
 	/**
-	 * State transition matrix (model the transitions between states).
+	 * The state transition {@link Matrix} (i.e. model the transitions between the states).
 	 */
 	public Entity F;
 	/**
-	 * Control variables.
+	 * The control variables {@link Entity}.
 	 */
 	public Entity u;
 	/**
-	 * Control matrix (map control variables to state variables).
+	 * The control {@link Matrix} (i.e. map the control variables to the state variables).
 	 */
 	public Entity B;
 	/**
-	 * State variance matrix (error of estimation).
+	 * The state variance {@link Matrix} (i.e. error of estimation).
 	 */
 	public Entity P;
 	/**
-	 * Process variance matrix (error due to process).
+	 * The process variance {@link Matrix} (i.e. error due to process).
 	 */
 	public Entity Q;
 	/**
-	 * Measurement matrix (map measurements onto state).
+	 * The measurement {@link Matrix} (i.e. map measurements onto state).
 	 */
 	public Entity H;
 	/**
-	 * Kalman gain.
+	 * The Kalman gain {@link Entity}.
 	 */
 	public Entity K;
 	/**
-	 * Measurement variance matrix (error from measurements).
+	 * The measurement variance {@link Matrix} (i.e. error from measurements).
 	 */
 	public Entity R;
 
@@ -77,6 +91,9 @@ public class KalmanFilter {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link KalmanFilter} by default.
+	 */
 	public KalmanFilter() {
 		x = new Scalar(0.);
 		F = new Scalar(1.);
@@ -91,7 +108,7 @@ public class KalmanFilter {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -112,25 +129,26 @@ public class KalmanFilter {
 	}
 
 	/**
-	 * Corrects the estimation {@code x}, updates the Kalman gain {@code K} and the state variance
-	 * matrix {@code P} (a posteriori).
+	 * Updates the estimation {@code x}, the Kalman gain {@code K} and the state variance matrix
+	 * {@code P} (a posteriori).
 	 * <p>
-	 * @param y the measurement
+	 * @param y the measurement {@link Entity}
 	 */
-	public void correct(final Entity y) {
+	public void update(final Entity y) {
 		// Compute K = P H' inv(H P H' + R),
 		// where (H P H' + R) is the innovation covariance
 		K = P.times(H.transpose()).times(H.times(P).times(H.transpose()).plus(R).inverse());
-		IO.debug("K = P H' inv(H P H' + R) = ", P, " ", H, "' inv(", H, " ", P, " ", H, "' + ", R,
-				") = ", K);
+		IO.debug("K = P H' inv(H P H' + R) = ",
+				P, SPACE, H, "' inv(", H, SPACE, P, SPACE, H, "' + ", R, ") = ",
+				K);
 		// Compute x = x + K (y - H x),
 		// where (y - H x) is the innovation
 		x = x.plus(K.times(y.minus(H.times(x))));
-		IO.debug("x = x + K (y - H x) = ", x, " + ", K, " (", y, " - ", H, " ", x, ") = ", x);
+		IO.debug("x = x + K (y - H x) = ", x, " + ", K, " (", y, " - ", H, SPACE, x, ") = ", x);
 		// Compute P = (I - K H) P
 		final Entity KH = K.times(H);
 		final Entity I = KH.identity();
-		IO.debug("P = (I - K H) P = (", I, " - ", K, " ", H, ") ", P, " = ", P);
+		IO.debug("P = (I - K H) P = (", I, " - ", K, SPACE, H, ") ", P, " = ", P);
 		P = I.minus(KH).times(P);
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,21 +23,35 @@
  */
 package jupiter.common.struct.map.tree;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.Formats.NEWLINE;
+import static jupiter.common.io.InputOutput.IO;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
+import jupiter.common.math.Comparables;
+import jupiter.common.math.Maths;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.tree.node.BinaryTreeNode;
+import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
-public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends BinaryTreeNode<K, V, N>>
+/**
+ * {@link BinaryTreeMap} is the binary {@link TreeMap} of {@code K} and {@code V} types.
+ * <p>
+ * @param <K> the key type of the {@link BinaryTreeMap}
+ * @param <V> the value type of the {@link BinaryTreeMap}
+ * @param <N> the {@link BinaryTreeNode} type of the {@link BinaryTreeMap}
+ */
+public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 		extends TreeMap<K, V, N> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,45 +61,156 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -8316439178943504028L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected BinaryTreeMap() {
-		super();
+	/**
+	 * Constructs an empty {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types by
+	 * default.
+	 * <p>
+	 * @param c the key {@link Class} of {@code K} type
+	 */
+	protected BinaryTreeMap(final Class<K> c) {
+		super(c);
 	}
 
-	protected BinaryTreeMap(final Map<? extends K, ? extends V> map) {
-		super(map);
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified key and value arrays containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@code V} array containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Class<K> c, final K[] keys, final V[] values) {
+		super(c, keys, values);
 	}
 
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified {@link Map} containing the key-value mappings.
+	 * <p>
+	 * @param c   the key {@link Class} of {@code K} type
+	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
+	 *            subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using the
+	 *                            default {@code keyComparator}
+	 */
+	protected BinaryTreeMap(final Class<K> c, final Map<? extends K, ? extends V> map) {
+		super(c, map);
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Performs the in-order traversal and returns the keys of the visited nodes in a list.
+	 * Constructs an empty {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with
+	 * the specified key {@link Comparator}.
 	 * <p>
-	 * @return the keys of the visited nodes in a list
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
 	 */
-	public List<K> getKeys() {
-		final List<K> keys = new ExtendedList<K>(size);
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator) {
+		super(keyComparator);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified key and value arrays containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@code K} array containing the keys of the key-value mappings to
+	 *                      load
+	 * @param values        the {@code V} array containing the values of the key-value mappings to
+	 *                      load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator, final K[] keys,
+			final V[] values) {
+		super(keyComparator, keys, values);
+	}
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified {@link Map} containing the
+	 * key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param map           the {@link Map} containing the key-value mappings of {@code K} and
+	 *                      {@code V} subtypes to load
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared using
+	 *                            {@code keyComparator}
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator,
+			final Map<? extends K, ? extends V> map) {
+		super(keyComparator, map);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the height.
+	 * <p>
+	 * @return the height
+	 */
+	public abstract int getHeight();
+
+	/**
+	 * Returns the maximum height.
+	 * <p>
+	 * @return the maximum height
+	 */
+	public abstract int getMaxHeight();
+
+	/**
+	 * Returns the optimal height.
+	 * <p>
+	 * @return the optimal height
+	 */
+	public int getOptimalHeight() {
+		return Maths.floorToInt(Maths.log(size()) / Maths.LOG_2) + 1;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Performs the in-order traversal.
+	 * <p>
+	 * @return the {@code K} keys of the visited {@code N} nodes in an {@link ExtendedList}
+	 */
+	public ExtendedList<K> getKeys() {
+		final ExtendedList<K> keys = new ExtendedList<K>(size);
 		getKeys(root, keys);
 		return keys;
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns the keys of the visited
-	 * nodes in the specified list.
+	 * Performs the in-order traversal of the specified {@code N} tree and stores the {@code K} keys
+	 * of the visited {@code N} nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree the tree to get the keys from
-	 * @param keys the list to store the keys in
+	 * @param tree the {@code N} tree to get the {@code K} keys from (may be {@code null})
+	 * @param keys the {@link List} of {@code K} supertype to store the {@code K} keys in
 	 */
-	protected void getKeys(final N tree, final List<K> keys) {
+	protected void getKeys(final N tree, final List<? super K> keys) {
 		if (tree != null) {
 			getKeys(tree.left, keys);
 			keys.add(tree.key);
@@ -93,25 +218,27 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Performs the in-order traversal and returns the values of the visited nodes in a list.
+	 * Performs the in-order traversal.
 	 * <p>
-	 * @return the values of the visited nodes in a list
+	 * @return the values of the visited nodes in an {@link ExtendedList}
 	 */
-	public List<V> getValues() {
-		final List<V> values = new ExtendedList<V>(size);
+	public ExtendedList<V> getValues() {
+		final ExtendedList<V> values = new ExtendedList<V>(size);
 		getValues(root, values);
 		return values;
 	}
 
 	/**
-	 * Performs the in-order traversal of the specified tree and returns the values of the visited
-	 * nodes in the specified list.
+	 * Performs the in-order traversal of the specified {@code N} tree and adds the values of the
+	 * visited nodes in the specified {@link List}.
 	 * <p>
-	 * @param tree   the tree to get the values from
-	 * @param values the list to store the values in
+	 * @param tree   the {@code N} tree to get the values from (may be {@code null})
+	 * @param values the {@link List} of {@code V} supertype to store the values in
 	 */
-	protected void getValues(final N tree, final List<V> values) {
+	protected void getValues(final N tree, final List<? super V> values) {
 		if (tree != null) {
 			getValues(tree.left, values);
 			values.add(tree.value);
@@ -119,50 +246,7 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the parent of the specified node, or {@code null} if the specified node is
-	 * {@code null}.
-	 * <p>
-	 * @param node the node to get the parent from
-	 * <p>
-	 * @return the parent of the specified node, or {@code null} if the specified node is
-	 *         {@code null}
-	 */
-	protected N getParent(final N node) {
-		return node == null ? null : node.parent;
-	}
-
-	/**
-	 * Returns the node associated to the specified key, or {@code null} if not present.
-	 * <p>
-	 * @param key the key of the node to get
-	 * <p>
-	 * @return the node associated to the specified key, or {@code null} if not present
-	 * <p>
-	 * @throws NullPointerException if the specified key is {@code null}
-	 */
-	@Override
-	protected N getNode(final Comparable<? super K> key) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
-
-		// Get the node
-		N node = root;
-		int comparison;
-		while (node != null) {
-			comparison = key.compareTo(node.key);
-			if (comparison < 0) {
-				node = node.left;
-			} else if (comparison > 0) {
-				node = node.right;
-			} else {
-				return node;
-			}
-		}
-		return null;
-	}
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns the first node (according to the key-sort function), or {@code null} if {@code this}
@@ -198,12 +282,27 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		return node;
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Returns the predecessor of the specified node.
+	 * Returns the {@code N} parent of the specified {@code N} node, or {@code null} if it is
+	 * {@code null}.
 	 * <p>
-	 * @param node the successor of the node to get
+	 * @param node the {@code N} node to get the parent from
 	 * <p>
-	 * @return the predecessor of the specified node
+	 * @return the {@code N} parent of the specified {@code N} node, or {@code null} if it is
+	 *         {@code null}
+	 */
+	protected N getParent(final N node) {
+		return node != null ? node.parent : null;
+	}
+
+	/**
+	 * Returns the {@code N} predecessor of the specified {@code N} node.
+	 * <p>
+	 * @param node a {@code N} node
+	 * <p>
+	 * @return the {@code N} predecessor of the specified {@code N} node
 	 */
 	protected N getPredecessor(final N node) {
 		N predecessor;
@@ -224,11 +323,11 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Returns the successor of the specified node.
+	 * Returns the {@code N} successor of the specified {@code N} node.
 	 * <p>
-	 * @param node the predecessor of the node to get
+	 * @param node a {@code N} node
 	 * <p>
-	 * @return the successor of the specified node
+	 * @return the {@code N} successor of the specified {@code N} node
 	 */
 	protected N getSuccessor(final N node) {
 		N successor;
@@ -248,149 +347,62 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		return successor;
 	}
 
+	//////////////////////////////////////////////
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	/**
+	 * Returns the {@code N} node associated to the specified {@link Comparable} key, or
+	 * {@code null} if it is not present.
+	 * <p>
+	 * @param keyComparable the {@link Comparable} key of {@code K} supertype to find
+	 * <p>
+	 * @return the {@code N} node associated to the specified {@link Comparable} key, or
+	 *         {@code null} if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code keyComparable} cannot be compared to {@code this} keys
+	 *                              using {@code keyComparator}
+	 * @throws NullPointerException if {@code keyComparable} is {@code null}
+	 */
+	@Override
+	protected N findNode(final Comparable<? super K> keyComparable) {
+		// Check the arguments
+		Arguments.requireNonNull(keyComparable, "key comparable");
+
+		// Return the node
+		N node = root;
+		while (node != null) {
+			final int comparison = Comparables.compare(keyComparable, node.key);
+			if (comparison < 0) {
+				node = node.left;
+			} else if (comparison > 0) {
+				node = node.right;
+			} else {
+				return node;
+			}
+		}
+		return null;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Sets the root.
 	 * <p>
-	 * @param node a {@code N} object
+	 * @param node a {@code N} node
 	 */
 	protected abstract void setRoot(final N node);
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CLEARERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes the key-value mapping of the specified key and returns the previous associated value,
-	 * or {@code null} if not present.
-	 * <p>
-	 * @param key the key of the key-value mapping to remove
-	 * <p>
-	 * @return the previous associated value, or {@code null} if not present
-	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * Removes all the key-value mappings from {@code this}.
 	 */
 	@Override
-	public synchronized V remove(final Object key) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
-
-		// Remove the key-value mapping
-		final N node = getNode(key);
-		if (node != null) {
-			removeNode(node);
-			return node.value;
-		}
-		return null;
-	}
-
-	/**
-	 * Removes the specified node.
-	 * <p>
-	 * @param node the node to remove
-	 */
-	protected abstract void removeNode(final N node);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Balances the tree after insertion.
-	 * <p>
-	 * @param tree the tree to balance
-	 */
-	protected abstract void balanceAfterInsertion(N tree);
-
-	/**
-	 * Balances the tree after deletion.
-	 * <p>
-	 * @param tree the tree to balance
-	 */
-	protected abstract void balanceAfterDeletion(N tree);
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Rotates the specified tree to the left. Corrects a RR imbalance.
-	 * <p>
-	 * @param tree the tree to rotate
-	 * <p>
-	 * @return the rotated tree
-	 */
-	protected N rotateLeft(final N tree) {
-		N rotatedTree;
-		// Set the root of the rotated tree
-		rotatedTree = tree.right;
-		// Update the parent
-		final N parent = tree.parent;
-		if (parent == null) {
-			setRoot(rotatedTree);
-		} else if (tree.isLeft) {
-			parent.setLeft(rotatedTree);
-		} else {
-			parent.setRight(rotatedTree);
-		}
-		// Update the children of the rotated tree
-		tree.setRight(rotatedTree.left);
-		rotatedTree.setLeft(tree);
-		return rotatedTree;
-	}
-
-	/**
-	 * Rotates the specified tree to the right. Corrects a LL imbalance.
-	 * <p>
-	 * @param tree the tree to rotate
-	 * <p>
-	 * @return the rotated tree
-	 */
-	protected N rotateRight(final N tree) {
-		N rotatedTree;
-		// Set the root of the rotated tree
-		rotatedTree = tree.left;
-		// Update the parent
-		final N treeParent = tree.parent;
-		if (treeParent == null) {
-			setRoot(rotatedTree);
-		} else if (tree.isLeft) {
-			treeParent.setLeft(rotatedTree);
-		} else {
-			treeParent.setRight(rotatedTree);
-		}
-		// Update the children of the rotated tree
-		tree.setLeft(rotatedTree.right);
-		rotatedTree.setRight(tree);
-		return rotatedTree;
-	}
-
-	/**
-	 * Rotates the left part of the specified tree to the left and rotates the specified tree to the
-	 * right. Corrects a LR imbalance.
-	 * <p>
-	 * @param tree the tree to rotate
-	 * <p>
-	 * @return the rotated tree
-	 */
-	protected N rotateLeftRight(final N tree) {
-		tree.setLeft(rotateLeft(tree.left));
-		return rotateRight(tree);
-	}
-
-	/**
-	 * Rotates the right part of the specified tree to the right and rotates the specified tree to
-	 * the left. Corrects a RL imbalance.
-	 * <p>
-	 * @param tree the tree to rotate
-	 * <p>
-	 * @return the rotated tree
-	 */
-	protected N rotateRightLeft(final N tree) {
-		tree.setRight(rotateRight(tree.right));
-		return rotateLeft(tree);
+	public synchronized void clear() {
+		root = null;
+		size = 0;
 	}
 
 
@@ -407,9 +419,9 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 	}
 
 	/**
-	 * Prints the specified tree.
+	 * Prints the specified {@code N} tree.
 	 * <p>
-	 * @param tree the tree to print
+	 * @param tree the {@code N} tree to print
 	 */
 	protected void print(final N tree) {
 		IO.result(tree);
@@ -423,43 +435,207 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ABSTRACT MAP
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Removes all the key-value mappings.
+	 * Performs the in-order traversal of {@code this}. The iterator of the {@link Set} returns the
+	 * entries in ascending key order. The {@link Set} is backed by {@code this}, so changes to
+	 * {@code this} are reflected in the {@link Set} and vice-versa. If {@code this} is modified
+	 * while an iteration over the {@link Set} is in progress (except through the operations
+	 * {@code remove} or {@code setValue} of the iterator), the results of the iteration are
+	 * undefined. The set supports element removal, which removes the corresponding key-value
+	 * mapping, via the {@link Iterator#remove},
+	 * {@link Set#remove}, {@code removeAll}, {@code retainAll} and {@code clear} operations. It
+	 * does not support the {@code add} or {@code addAll} operations.
+	 * <p>
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types
 	 */
 	@Override
-	public synchronized void clear() {
-		root = null;
-		size = 0;
+	public Set<Entry<K, V>> entrySet() {
+		return entrySet(root, new TreeSet<Entry<K, V>>());
 	}
 
 	/**
-	 * Returns {@code true} if a mapping for the specified key exists, {@code false} otherwise.
+	 * Performs the in-order traversal of the specified {@code N} tree.
 	 * <p>
-	 * @param key the key of the key-value mapping to test for presence
+	 * @param tree a {@code N} tree (may be {@code null})
+	 * @param set  a {@link Set} of {@link Entry} of {@code K} and {@code V} types
 	 * <p>
-	 * @return {@code true} if a mapping for the specified key exists, {@code false} otherwise
+	 * @return a {@link Set} view of the key-value {@link Entry} of {@code K} and {@code V} types of
+	 *         the visited nodes added to the specified {@link Set}
+	 */
+	protected Set<Entry<K, V>> entrySet(final N tree, final Set<Entry<K, V>> set) {
+		if (tree != null) {
+			entrySet(tree.left, set);
+			set.add(tree);
+			entrySet(tree.right, set);
+		}
+		return set;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the key-value mapping of the specified key {@link Object} from {@code this}.
 	 * <p>
-	 * @throws ClassCastException   if the specified key cannot be compared with the current keys
-	 * @throws NullPointerException if the specified key is {@code null}
+	 * @param key the key {@link Object} of the key-value mapping to remove
+	 * <p>
+	 * @return the previous associated {@code V} value, or {@code null} if it is not present
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if {@code key} is {@code null}
+	 */
+	@Override
+	public synchronized V remove(final Object key) {
+		// Check the arguments
+		Arguments.requireNonNull(key, "key");
+
+		// Remove the key-value mapping
+		final N node = getNode(key);
+		if (node != null) {
+			removeNode(node);
+			return node.value;
+		}
+		return null;
+	}
+
+	/**
+	 * Removes the specified {@code N} node from {@code this}.
+	 * <p>
+	 * @param node the {@code N} node to remove
+	 */
+	protected abstract void removeNode(final N node);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Balances after inserting the specified {@code N} node.
+	 * <p>
+	 * @param node the inserted {@code N} node
+	 */
+	protected abstract void balanceAfterInsertion(N node);
+
+	/**
+	 * Balances after deleting the specified {@code N} node.
+	 * <p>
+	 * @param node the deleted {@code N} node
+	 */
+	protected abstract void balanceAfterDeletion(N node);
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Rotates the specified {@code N} tree to the left. Corrects a RR imbalance.
+	 * <p>
+	 * @param tree the {@code N} tree to rotate
+	 * <p>
+	 * @return the rotated {@code N} tree
+	 */
+	protected N rotateLeft(final N tree) {
+		// Set the root of the rotated tree
+		final N rotatedTree = tree.right;
+		// Update the parent
+		final N parent = tree.parent;
+		if (parent == null) {
+			setRoot(rotatedTree);
+		} else if (tree.isLeft) {
+			parent.setLeft(rotatedTree);
+		} else {
+			parent.setRight(rotatedTree);
+		}
+		// Update the children of the rotated tree
+		tree.setRight(rotatedTree.left);
+		rotatedTree.setLeft(tree);
+		return rotatedTree;
+	}
+
+	/**
+	 * Rotates the specified {@code N} tree to the right. Corrects a LL imbalance.
+	 * <p>
+	 * @param tree the {@code N} tree to rotate
+	 * <p>
+	 * @return the rotated {@code N} tree
+	 */
+	protected N rotateRight(final N tree) {
+		// Set the root of the rotated tree
+		final N rotatedTree = tree.left;
+		// Update the parent
+		final N treeParent = tree.parent;
+		if (treeParent == null) {
+			setRoot(rotatedTree);
+		} else if (tree.isLeft) {
+			treeParent.setLeft(rotatedTree);
+		} else {
+			treeParent.setRight(rotatedTree);
+		}
+		// Update the children of the rotated tree
+		tree.setLeft(rotatedTree.right);
+		rotatedTree.setRight(tree);
+		return rotatedTree;
+	}
+
+	/**
+	 * Rotates the left part of the specified {@code N} tree to the left and rotates it to the
+	 * right. Corrects a LR imbalance.
+	 * <p>
+	 * @param tree the {@code N} tree to rotate
+	 * <p>
+	 * @return the rotated tree
+	 */
+	protected N rotateLeftRight(final N tree) {
+		tree.setLeft(rotateLeft(tree.left));
+		return rotateRight(tree);
+	}
+
+	/**
+	 * Rotates the right part of the specified {@code N} tree to the right and rotates it to the
+	 * left. Corrects a RL imbalance.
+	 * <p>
+	 * @param tree the {@code N} tree to rotate
+	 * <p>
+	 * @return the rotated tree
+	 */
+	protected N rotateRightLeft(final N tree) {
+		tree.setRight(rotateRight(tree.right));
+		return rotateLeft(tree);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether a key-value mapping for the specified key {@link Object} exists.
+	 * <p>
+	 * @param key the key {@link Object} of the key-value mapping to test for presence
+	 * <p>
+	 * @return {@code true} if a mapping for the specified key {@link Object} exists, {@code false}
+	 *         otherwise
+	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
 	public boolean containsKey(final Object key) {
 		// Check the arguments
-		Arguments.requireNonNull(key, "The specified key is null");
+		Arguments.requireNonNull(key, "key");
 
 		// Test the presence of the key
 		return getNode(key) != null;
 	}
 
 	/**
-	 * Returns {@code true} if a mapping for the specified value exists, {@code false} otherwise.
+	 * Tests whether a mapping for the specified value {@link Object} exists.
 	 * <p>
-	 * @param value the value of the key-value mapping to test for presence
+	 * @param value the value {@link Object} of the key-value mapping to test for presence (may be
+	 *              {@code null})
 	 * <p>
-	 * @return {@code true} if a mapping for the specified value exists, {@code false} otherwise
+	 * @return {@code true} if a mapping for the specified value {@link Object} exists,
+	 *         {@code false} otherwise
 	 */
 	@Override
 	public boolean containsValue(final Object value) {
@@ -472,70 +648,77 @@ public abstract class BinaryTreeMap<K extends Comparable<K>, V, N extends Binary
 		return false;
 	}
 
-	/**
-	 * Returns a {@link Set} view of the key-value mappings. The iterator of the set returns the
-	 * entries in ascending key order. The set is backed by {@code this}, so changes to {@code this}
-	 * are reflected in the set and vice-versa. If {@code this} is modified while an iteration over
-	 * the set is in progress (except through the operations {@code remove} or {@code setValue} of
-	 * the iterator), the results of the iteration are undefined. The set supports element removal,
-	 * which removes the corresponding mapping from {@code this}, via the
-	 * {@link Iterator#remove}, {@link Set#remove}, {@code removeAll}, {@code retainAll} and
-	 * {@code clear} operations. It does not support the {@code add} or {@code addAll} operations.
-	 * <p>
-	 * @return a {@link Set} view of the key-value mappings
-	 */
-	@Override
-	public Set<Entry<K, V>> entrySet() {
-		return getEntries(root, new TreeSet<Entry<K, V>>());
-	}
-
-	/**
-	 * Performs the in-order traversal of the specified tree and returns the key-value mappings of
-	 * the visited nodes in the specified set.
-	 * <p>
-	 * @param tree the tree to get the key-value mappings from
-	 * @param set  the set to fill with the key-value mappings
-	 * <p>
-	 * @return the set of the key-value mappings contained in the specified tree
-	 */
-	public Set<Entry<K, V>> getEntries(final N tree, final Set<Entry<K, V>> set) {
-		if (tree != null) {
-			getEntries(tree.left, set);
-			set.add(tree);
-			getEntries(tree.right, set);
-		}
-		return set;
-	}
-
-	/**
-	 * Returns the number of key-value mappings.
-	 * <p>
-	 * @return the number of key-value mappings
-	 */
-	@Override
-	public int size() {
-		return size;
-	}
-
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public abstract BinaryTreeMap<K, V, N> clone();
 
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
-		final StringBuilder lineBuilder = Strings.createBuilder();
-		lineBuilder.append("<").append(toString(root)).append(">");
-		return Strings.toString(lineBuilder);
+		return toString(getHeight(), 10, false);
 	}
 
-	public String toString(final N node) {
-		final StringBuilder lineBuilder = Strings.createBuilder();
-		lineBuilder.append("<").append(node.parent).append("|").append(node).append("|")
-				.append(node.left).append("|").append(node.right).append(">");
-		return Strings.toString(lineBuilder);
+	/**
+	 * Returns a representative {@link String} of the specified {@code N} node.
+	 * <p>
+	 * @param toHeight   the height index to finish representing at (exclusive)
+	 * @param nodeLength the length of the representative {@link String} of each node
+	 * @param center     the flag specifying whether to center-pad
+	 * <p>
+	 * @return a representative {@link String} of the specified {@code N} node
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	public String toString(final int toHeight, final int nodeLength, final boolean center) {
+		// Initialize
+		final int leafCount = Maths.pow2(toHeight - 1);
+		final int length = leafCount * (nodeLength + 1) + 1;
+		final StringBuilder builder = Strings.createBuilder(toHeight * (length + 1));
+		final ExtendedLinkedList<Pair<Integer, N>> nodes = new ExtendedLinkedList<Pair<Integer, N>>(
+				new Pair<Integer, N>(0, root));
+
+		// Convert this to a representative string
+		int currentHeight = 0, nextHeight = 1, nodeCount = 1;
+		boolean hasLeaf = false;
+		while (nodes.isNonEmpty()) {
+			final Pair<Integer, N> element = nodes.remove();
+			final int height = element.getFirst();
+			final N node = element.getSecond();
+			if (currentHeight < height) {
+				builder.append(NEWLINE);
+				if (!hasLeaf) {
+					break;
+				}
+				++currentHeight;
+				++nextHeight;
+				nodeCount = Maths.pow2(currentHeight);
+				hasLeaf = false;
+			}
+			final String nodeString = Objects.toString(node, nodeLength);
+			builder.append(center ? Strings.centerPad(nodeString, length / nodeCount) :
+					Strings.rightPad(nodeString, length / nodeCount));
+			if (nextHeight < toHeight) {
+				hasLeaf = hasLeaf || node != null && (node.left != null || node.right != null);
+				nodes.add(new Pair<Integer, N>(nextHeight, node != null ? node.left : null));
+				nodes.add(new Pair<Integer, N>(nextHeight, node != null ? node.right : null));
+			}
+		}
+		return builder.toString();
 	}
 }

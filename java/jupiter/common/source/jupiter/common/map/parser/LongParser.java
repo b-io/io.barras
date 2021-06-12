@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,84 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import jupiter.common.map.ObjectToLongMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link LongParser} is a map operator parsing an {@link Object} to a {@link Long}.
+ * {@link LongParser} is the {@link ObjectToLongMapper} parsing an input {@link Object} to an output
+ * {@link Long}.
  */
 public class LongParser
 		extends ObjectToLongMapper
-		implements Parser<Long> {
+		implements IParser<Long> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link LongParser}.
+	 */
 	public LongParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Long parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Long[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Long[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Long[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Long[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Long[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Long[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -57,32 +114,16 @@ public class LongParser
 		if (input instanceof Number) {
 			return ((Number) input).longValue();
 		}
-		return Long.valueOf(Strings.toString(input));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Long parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public Long[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public Long[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public Long[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Long.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 
@@ -90,6 +131,13 @@ public class LongParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public LongParser clone() {
 		return new LongParser();

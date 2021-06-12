@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,11 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Arrays;
+import jupiter.common.util.Integers;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
+
 public class ArrayArguments
 		extends Arguments {
 
@@ -30,7 +35,11 @@ public class ArrayArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link ArrayArguments}.
+	 */
 	protected ArrayArguments() {
+		super();
 	}
 
 
@@ -38,18 +47,59 @@ public class ArrayArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> T[] requireNonEmpty(final T... array) {
+	public static void requireArray(final Object object) {
 		if (CHECK_ARGS) {
-			requireNonEmpty(requireNonNull(array).length);
+			requireArray(object, "object");
+		}
+	}
+
+	public static void requireArray(final Object object, final String name) {
+		if (CHECK_ARGS && !Arrays.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is not an array");
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
+	 * or interface represented by {@code b}.
+	 * <p>
+	 * @param a a {@link Class}
+	 * @param b another {@link Class}
+	 */
+	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
+		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
+			throw new IllegalArgumentException("Cannot store " + Objects.getName(b) +
+					" in an array of " + Objects.getName(a));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> T[] requireNonEmpty(final T[] array) {
+		if (CHECK_ARGS) {
+			return requireNonEmpty(array, "array");
 		}
 		return array;
 	}
 
-	public static void requireNonEmpty(final int length) {
+	public static <T> T[] requireNonEmpty(final T[] array, final String name) {
+		if (CHECK_ARGS) {
+			requireNonEmpty(requireNonNull(array, name).length, name);
+		}
+		return array;
+	}
+
+	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified array is empty");
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is empty");
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static <T> T[] requireLength(final T[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
@@ -93,6 +143,14 @@ public class ArrayArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
+	public static <T> void requireSameLength(final T[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
 	public static <T> void requireSameLength(final T[] a, final T[] b) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
@@ -102,7 +160,33 @@ public class ArrayArguments
 	public static void requireSameLength(final int a, final int b) {
 		if (CHECK_ARGS && a != b) {
 			throw new IllegalArgumentException(
-					"The specified arrays do not have the same length " + isNotEqualTo(a, b));
+					Strings.join("The specified arrays do not have the same length ",
+							isNotEqualTo(a, b)));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength) {
+		if (CHECK_ARGS) {
+			requireIndex(foundIndex, maxExpectedLength, true, false);
+		}
+	}
+
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
+			final boolean isUpperInclusive) {
+		if (CHECK_ARGS) {
+			requireIndex(foundIndex, maxExpectedLength, true, isUpperInclusive);
+		}
+	}
+
+	public static void requireIndex(final int foundIndex, final int maxExpectedLength,
+			final boolean isLowerInclusive, final boolean isUpperInclusive) {
+		if (CHECK_ARGS && !Integers.isBetween(foundIndex, 0, maxExpectedLength, isLowerInclusive,
+				isUpperInclusive)) {
+			throw new IllegalArgumentException(
+					Strings.join("The specified index is out of bounds ", betweenExpectedButFound(
+							foundIndex, 0, maxExpectedLength, isLowerInclusive, isUpperInclusive)));
 		}
 	}
 }

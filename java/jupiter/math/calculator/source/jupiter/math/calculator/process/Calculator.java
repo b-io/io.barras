@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,120 +23,163 @@
  */
 package jupiter.math.calculator.process;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.SPACE;
+import static jupiter.common.util.Strings.EMPTY;
 
-import java.math.BigInteger;
-import java.util.List;
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Map;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
-import jupiter.common.io.Message;
-import jupiter.common.math.Maths;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.model.ICloneable;
+import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 import jupiter.common.struct.tuple.Pair;
-import jupiter.common.thread.LockedWorkQueue;
-import jupiter.common.thread.Report;
+import jupiter.common.thread.Result;
+import jupiter.common.thread.SynchronizedWorkQueue;
+import jupiter.common.thread.WorkQueue;
 import jupiter.common.thread.Worker;
+import jupiter.common.util.Classes;
 import jupiter.common.util.Strings;
+import jupiter.math.analysis.function.bivariate.BivariateFunction;
+import jupiter.math.analysis.function.bivariate.BivariateFunctions;
+import jupiter.math.analysis.function.bivariate.Modulo;
+import jupiter.math.analysis.function.univariate.UnivariateFunction;
+import jupiter.math.analysis.function.univariate.UnivariateFunctions;
 import jupiter.math.calculator.model.BinaryOperation;
 import jupiter.math.calculator.model.Element;
 import jupiter.math.calculator.model.Element.Type;
 import jupiter.math.calculator.model.MatrixElement;
-import jupiter.math.calculator.model.Result;
 import jupiter.math.calculator.model.ScalarElement;
 import jupiter.math.calculator.model.UnaryOperation;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Matrix;
 import jupiter.math.linear.entity.Scalar;
 
-public class Calculator {
+public class Calculator
+		implements Serializable {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The option specifying whether to use threads
-	protected static final boolean USE_THREADS = true;
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The {@link WorkQueue} used for evaluating the elements.
+	 */
+	protected static volatile WorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>> WORK_QUEUE = null;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// The pool of threads
-	protected static LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>> THREAD_POOL = null;
-	// The context containing the values of the variables
-	protected volatile Map<String, Element> context;
+	/**
+	 * The {@link Element} associated to their variable names.
+	 */
+	protected final ExtendedHashMap<String, Element> context = new ExtendedHashMap<String, Element>();
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Calculator}.
+	 */
 	public Calculator() {
-		context = new RedBlackTreeMap<String, Element>();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALCULATOR
+	// CONTROLLERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Initializes the working threads.
+	 * Parallelizes {@code this}.
 	 */
-	public static void start() {
-		IO.debug("");
-		stop();
-		if (USE_THREADS) {
-			THREAD_POOL = new LockedWorkQueue<Pair<Element, Map<String, Element>>, Report<Entity>>(
+	public static synchronized void parallelize() {
+		IO.trace(EMPTY);
+
+		// Initialize
+		// • The expression handler
+		ExpressionHandler.parallelize();
+		// • The work queue
+		if (WORK_QUEUE == null) {
+			WORK_QUEUE = new SynchronizedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
 					new Evaluator());
+		} else {
+			IO.trace("The work queue ", WORK_QUEUE, " has already started");
 		}
-		ExpressionHandler.start();
 	}
 
 	/**
-	 * Stops the thread pool.
+	 * Unparallelizes {@code this}.
 	 */
-	public static void stop() {
-		IO.debug("");
-		ExpressionHandler.stop();
-		if (USE_THREADS) {
-			if (THREAD_POOL != null) {
-				THREAD_POOL.shutdown();
-			}
+	public static synchronized void unparallelize() {
+		IO.trace(EMPTY);
+
+		// Shutdown
+		// • The work queue
+		if (WORK_QUEUE != null) {
+			WORK_QUEUE.shutdown();
+			WORK_QUEUE = null;
 		}
+		// • The expression handler
+		ExpressionHandler.unparallelize();
 	}
 
+	/**
+	 * Reparallelizes {@code this}.
+	 */
+	public static synchronized void reparallelize() {
+		IO.trace(EMPTY);
+
+		unparallelize();
+		parallelize();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Processes the specified expression (assignment or simple evaluation).
+	 * Parses the specified expression {@link String} (assignment or simple evaluation) and
+	 * evaluates it to an {@link Entity}.
 	 * <p>
-	 * @param expression the {@link String} to parse
+	 * @param expression the expression {@link String} to parse and evaluate
 	 * <p>
-	 * @return the evaluation of {@code expression}
+	 * @return the {@link Entity} evaluated from the specified expression {@link String}
 	 */
-	public Result process(final String expression) {
+	public Result<Entity> process(final String expression) {
 		try {
 			// Trim the expression
 			String trimmedExpression = expression.trim();
 
 			// Test whether the epression is an assignment
-			final List<String> expressions = Strings.split(trimmedExpression, '=');
-			final int size = expressions.size();
-			if (size > 1) {
-				// - Assignment
+			final ExtendedLinkedList<String> expressions = Strings.removeEmpty(
+					Strings.split(trimmedExpression, '='));
+			final int expressionCount = expressions.size();
+			if (expressionCount > 1) {
+				// • Assignment
 				// Extract the right-hand side of the expression
-				trimmedExpression = expressions.get(size - 1).trim();
+				trimmedExpression = expressions.getLast().trim();
 			}
 
-			// Evaluate the (right-hand side) expression
-			final Report<Entity> result = evaluate(trimmedExpression, context);
+			// Parse and evaluate the (right-hand side) expression
+			final Result<Entity> result = process(trimmedExpression, context);
 			final Entity entity = result.getOutput();
 			if (entity == null) {
-				return new Result(null, result.getMessage());
+				return result;
 			}
 
 			// Get the corresponding element
@@ -146,189 +189,238 @@ public class Calculator {
 			} else if (entity instanceof Matrix) {
 				element = new MatrixElement(null, trimmedExpression, (Matrix) entity);
 			} else {
-				return new Result(null, new Message(new IllegalClassException(entity.getClass())));
+				return new Result<Entity>(new IllegalClassException(Classes.get(entity)));
 			}
 
-			if (size > 1) {
-				// - Assignment
+			// Test whether the epression is an assignment
+			if (expressionCount > 1) {
+				// • Assignment
 				// Set the corresponding variables
-				for (int i = 0; i < size - 1; ++i) {
-					context.put(expressions.get(i).trim(), element);
+				final Iterator<String> expressionIterator = expressions.iterator();
+				while (expressionIterator.hasNext()) {
+					final String e = expressionIterator.next();
+					if (expressionIterator.hasNext()) {
+						context.put(e.trim(), element);
+					}
 				}
 			}
 
 			// Return the evaluation of the (right-hand side) expression
-			return new Result(entity, null);
+			return result;
 		} catch (final Exception ex) {
-			return new Result(null, IO.error(ex));
+			return new Result<Entity>(ex);
 		}
 	}
 
 	/**
-	 * Parses the specified expression to a tree of operations and numbers and evaluates it.
+	 * Parses the specified expression {@link String} to a tree of operations and numbers with the
+	 * specified context {@link Map} and evaluates it to an {@link Entity}.
 	 * <p>
-	 * @param expression the {@link String} to parse
-	 * @param context    the context containing the values of the variables
+	 * @param expression the expression {@link String} to parse and evaluate
+	 * @param context    the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code expression}
+	 * @return the {@link Entity} evaluated from the specified expression {@link String} with the
+	 *         specified context {@link Map}
 	 */
-	protected Report<Entity> evaluate(final String expression, final Map<String, Element> context) {
-		final Report<Element> result = ExpressionHandler.parseExpression(expression, context);
+	protected Result<Entity> process(final String expression, final Map<String, Element> context) {
+		final Result<Element> result = ExpressionHandler.parseExpression(expression, context);
 		final Element element = result.getOutput();
 		if (element == null) {
-			return new Report<Entity>(result.getMessage());
+			return new Result<Entity>(result.getMessage());
 		}
 		return evaluateTree(element, context);
 	}
 
 	/**
-	 * Evaluates the specified tree of operations and numbers.
+	 * Evaluates the specified tree {@link Element} of operations and numbers with the specified
+	 * context {@link Map} to an {@link Entity}.
 	 * <p>
-	 * @param tree    the {@link Element} to evaluate
-	 * @param context the context containing the values of the variables
+	 * @param tree    the root {@link Element} of the tree to evaluate
+	 * @param context the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code tree}
+	 * @return the {@link Entity} evaluated from the specified tree {@link Element} of operations
+	 *         and numbers with the specified context {@link Map}
 	 */
-	public static Report<Entity> evaluateTree(final Element tree,
+	public static Result<Entity> evaluateTree(final Element tree,
 			final Map<String, Element> context) {
 		if (tree instanceof ScalarElement || tree instanceof MatrixElement) {
-			final Entity entity = tree.getEntity();
-			IO.debug("Get entity <", entity, ">");
-			return new Report<Entity>(entity);
-		} else if (tree instanceof BinaryOperation) {
-			return evaluateBinaryOperation((BinaryOperation) tree, context);
+			final Entity output = tree.getEntity();
+			IO.debug("Get entity <", output, ">");
+			return new Result<Entity>(output);
 		} else if (tree instanceof UnaryOperation) {
 			return evaluateUnaryOperation((UnaryOperation) tree, context);
+		} else if (tree instanceof BinaryOperation) {
+			return evaluateBinaryOperation((BinaryOperation) tree, context);
 		}
-		return new Report<Entity>(new IllegalClassException(tree.getClass()));
+		return new Result<Entity>(new IllegalClassException(Classes.get(tree)));
 	}
 
 	/**
-	 * Evaluates the specified binary operation.
-	 * <p>
-	 * @param binaryOperation the {@link BinaryOperation} to evaluate
-	 * @param context         the context containing the values of the variables
-	 * <p>
-	 * @return the evaluation of {@code binaryOperation}
-	 */
-	protected static Report<Entity> evaluateBinaryOperation(final BinaryOperation binaryOperation,
-			final Map<String, Element> context) {
-		// Evaluate the left and right expressions
-		Report<Entity> leftEntityResult, rightEntityResult;
-		if (USE_THREADS && THREAD_POOL.reserveWorkers(2)) {
-			// Submit the tasks
-			final long leftId = THREAD_POOL.submit(
-					new Pair<Element, Map<String, Element>>(binaryOperation.getLeft(), context));
-			final long rightId = THREAD_POOL.submit(
-					new Pair<Element, Map<String, Element>>(binaryOperation.getRight(), context));
-
-			// Get the results
-			leftEntityResult = THREAD_POOL.get(leftId);
-			rightEntityResult = THREAD_POOL.get(rightId);
-		} else {
-			// Get the results
-			leftEntityResult = evaluateTree(binaryOperation.getLeft(), context);
-			rightEntityResult = evaluateTree(binaryOperation.getRight(), context);
-		}
-		// Get the entities from the results
-		// - Left entity
-		final Entity leftEntity = leftEntityResult.getOutput();
-		if (leftEntity == null) {
-			return leftEntityResult;
-		}
-		// - Right entity
-		final Entity rightEntity = rightEntityResult.getOutput();
-		if (rightEntity == null) {
-			return rightEntityResult;
-		}
-
-		// Get the type of the binary operation
-		final Type type = binaryOperation.getType();
-		IO.debug(leftEntity, " ", type, " ", rightEntity);
-
-		// Evaluate the binary operation
-		final Entity result;
-		switch (type) {
-			case ADDITION:
-				result = leftEntity.plus(rightEntity);
-				break;
-			case SUBTRACTION:
-				result = leftEntity.minus(rightEntity);
-				break;
-			case MULTIPLICATION:
-				result = leftEntity.times(rightEntity);
-				break;
-			case DIVISION:
-				result = leftEntity.division(rightEntity);
-				break;
-			case POWER:
-				result = leftEntity.power(rightEntity);
-				break;
-			case SOLUTION:
-				result = leftEntity.solve(rightEntity);
-				break;
-			default:
-				return new Report<Entity>(new IllegalTypeException(type));
-		}
-
-		return new Report<Entity>(result);
-	}
-
-	/**
-	 * Evaluates the specified unary operation.
+	 * Evaluates the specified {@link UnaryOperation} with the specified context {@link Map} to an
+	 * {@link Entity}.
 	 * <p>
 	 * @param unaryOperation the {@link UnaryOperation} to evaluate
-	 * @param context        the context containing the values of the variables
+	 * @param context        the context {@link Map} containing the values of the variables
 	 * <p>
-	 * @return the evaluation of {@code unaryOperation}
+	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation} with the
+	 *         specified context {@link Map}
 	 */
-	protected static Report<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
+	protected static Result<Entity> evaluateUnaryOperation(final UnaryOperation unaryOperation,
 			final Map<String, Element> context) {
 		// Evaluate the nested expression
-		final Report<Entity> entityResult = evaluateTree(unaryOperation.getElement(), context);
-		final Entity entity = entityResult.getOutput();
+		final Result<Entity> result = evaluateTree(unaryOperation.getElement(), context);
+		final Entity entity = result.getOutput();
 		if (entity == null) {
-			return new Report<Entity>(entityResult.getMessage());
+			return result;
 		}
 
-		// Get the type of the unary operation
+		// Get the type of the unary operation (unary operator or univariate function)
 		final Type type = unaryOperation.getType();
-		IO.debug(type, " ", entity);
+		IO.debug(type, SPACE, entity);
 
-		// Evaluate the unary operation
-		final Entity result;
+		// Evaluate the unary operation (unary operator or univariate function)
+		final Entity output;
 		switch (type) {
-			case FACTORIAL:
-				final Scalar scalar = (Scalar) entity;
-				final BigInteger bigInt = Maths.factorial(scalar.intValue());
-				result = new Scalar(bigInt.doubleValue());
+			case MAGIC:
+				output = Matrix.magic((int) entity.toScalar().get());
 				break;
-			case INVERSE:
-				result = entity.inverse();
+			case RANDOM:
+				output = Matrix.random((int) entity.toScalar().get());
+				break;
+
+			case INV:
+				output = entity.inverse();
 				break;
 			case TRANSPOSE:
-				result = entity.transpose();
+				output = entity.transpose();
 				break;
 			default:
-				return new Report<Entity>(new IllegalTypeException(type));
+				try {
+					final UnivariateFunction function = (UnivariateFunction) Classes.getFieldValue(
+							UnivariateFunctions.class, type.toString());
+					output = entity.apply(function);
+				} catch (final Exception ignored) {
+					return new Result<Entity>(new IllegalTypeException(type));
+				}
+		}
+		return new Result<Entity>(output);
+	}
+
+	/**
+	 * Evaluates the specified {@link BinaryOperation} with the specified context {@link Map} to an
+	 * {@link Entity}.
+	 * <p>
+	 * @param binaryOperation the {@link BinaryOperation} to evaluate
+	 * @param context         the context {@link Map} containing the values of the variables
+	 * <p>
+	 * @return the {@link Entity} evaluated from the specified {@link BinaryOperation} with the
+	 *         specified context {@link Map}
+	 */
+	protected static Result<Entity> evaluateBinaryOperation(final BinaryOperation binaryOperation,
+			final Map<String, Element> context) {
+		// Evaluate the left and right expressions
+		Result<Entity> leftResult, rightResult;
+		if (WORK_QUEUE != null && WORK_QUEUE.reserveWorkers(2)) {
+			// Submit the tasks
+			final long leftId = WORK_QUEUE.submit(
+					new Pair<Element, Map<String, Element>>(binaryOperation.getLeft(), context));
+			final long rightId = WORK_QUEUE.submit(
+					new Pair<Element, Map<String, Element>>(binaryOperation.getRight(), context));
+
+			// Collect the results
+			leftResult = WORK_QUEUE.get(leftId);
+			rightResult = WORK_QUEUE.get(rightId);
+			WORK_QUEUE.freeWorkers(2);
+		} else {
+			// Collect the results
+			leftResult = evaluateTree(binaryOperation.getLeft(), context);
+			rightResult = evaluateTree(binaryOperation.getRight(), context);
+		}
+		// Get the entities from the results
+		// • Left entity
+		final Entity leftEntity = leftResult.getOutput();
+		if (leftEntity == null) {
+			return leftResult;
+		}
+		// • Right entity
+		final Entity rightEntity = rightResult.getOutput();
+		if (rightEntity == null) {
+			return rightResult;
 		}
 
-		return new Report<Entity>(result);
+		// Get the type of the binary operation (binary operator or bivariate function)
+		final Type type = binaryOperation.getType();
+		IO.debug(leftEntity, SPACE, type, SPACE, rightEntity);
+
+		// Evaluate the binary operation (binary operator or bivariate function)
+		final Entity output;
+		switch (type) {
+			case ADDITION:
+				output = leftEntity.plus(rightEntity);
+				break;
+			case SUBTRACTION:
+				output = leftEntity.minus(rightEntity);
+				break;
+			case MULTIPLICATION:
+				output = leftEntity.times(rightEntity);
+				break;
+			case DIVISION:
+				output = leftEntity.division(rightEntity);
+				break;
+			case MODULO:
+				output = leftEntity.apply(new Modulo(((Scalar) rightEntity).get()));
+				break;
+			case POWER:
+				output = leftEntity.arrayPower(rightEntity);
+				break;
+			case SOLUTION:
+				output = leftEntity.solve(rightEntity);
+				break;
+			default:
+				try {
+					final BivariateFunction function = (BivariateFunction) Classes.getFieldValue(
+							BivariateFunctions.class, type.toString());
+					output = new Scalar(function.apply(leftEntity.toScalar().get(),
+							rightEntity.toScalar().get()));
+				} catch (final Exception ignored) {
+					return new Result<Entity>(new IllegalTypeException(type));
+				}
+		}
+		return new Result<Entity>(output);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// WORKER
+	// CLASSES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	protected static class Evaluator
-			extends Worker<Pair<Element, Map<String, Element>>, Report<Entity>> {
+			extends Worker<Pair<Element, Map<String, Element>>, Result<Entity>> {
+
+		/**
+		 * The generated serial version ID.
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Constructs an {@link Evaluator}.
+		 */
+		protected Evaluator() {
+			super();
+		}
 
 		@Override
-		public Report<Entity> call(final Pair<Element, Map<String, Element>> input) {
+		public Result<Entity> call(final Pair<Element, Map<String, Element>> input) {
 			return Calculator.evaluateTree(input.getFirst(), input.getSecond());
 		}
 
+		/**
+		 * Clones {@code this}.
+		 * <p>
+		 * @return a clone of {@code this}
+		 *
+		 * @see ICloneable
+		 */
 		@Override
 		public Evaluator clone() {
 			return new Evaluator();

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@ package jupiter.common.test;
 
 import java.util.Collection;
 
+import jupiter.common.util.Strings;
+
 public class CollectionArguments
 		extends Arguments {
 
@@ -32,7 +34,11 @@ public class CollectionArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link CollectionArguments}.
+	 */
 	protected CollectionArguments() {
+		super();
 	}
 
 
@@ -40,14 +46,31 @@ public class CollectionArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T extends Collection<?>> T requireNonEmpty(final T collection) {
-		if (CHECK_ARGS && requireNonNull(collection).isEmpty()) {
-			throw new IllegalArgumentException("The specified collection is empty");
+	public static <C extends Collection<?>> C requireNonEmpty(final C collection) {
+		if (CHECK_ARGS) {
+			return requireNonEmpty(collection, "collection");
 		}
 		return collection;
 	}
 
-	public static <T extends Collection<?>> T requireMinSize(final T collection,
+	public static <C extends Collection<?>> C requireNonEmpty(final C collection,
+			final String name) {
+		if (CHECK_ARGS) {
+			requireNonEmpty(requireNonNull(collection, name).size(), name);
+		}
+		return collection;
+	}
+
+	public static void requireNonEmpty(final int length, final String name) {
+		if (CHECK_ARGS && length == 0) {
+			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
+					" is empty");
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static <C extends Collection<?>> C requireMinSize(final C collection,
 			final int minExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() < minExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
@@ -56,7 +79,7 @@ public class CollectionArguments
 		return collection;
 	}
 
-	public static <T extends Collection<?>> T requireMaxSize(final T collection,
+	public static <C extends Collection<?>> C requireMaxSize(final C collection,
 			final int maxExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() > maxExpectedSize) {
 			throw new IllegalArgumentException("The specified collection has a size " +
@@ -65,7 +88,7 @@ public class CollectionArguments
 		return collection;
 	}
 
-	public static <T extends Collection<?>> void requireSameSize(final T a, final T b) {
+	public static <C extends Collection<?>> void requireSameSize(final C a, final C b) {
 		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
 			throw new IllegalArgumentException(
 					"The specified collections do not have the same size " +

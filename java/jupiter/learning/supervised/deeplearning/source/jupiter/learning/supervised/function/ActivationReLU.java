@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,37 +23,59 @@
  */
 package jupiter.learning.supervised.function;
 
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.FILTER;
+
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.DoubleArguments;
-import jupiter.math.analysis.function.Filter;
-import jupiter.math.analysis.function.Functions;
-import jupiter.math.analysis.function.Max;
+import jupiter.math.analysis.function.bivariate.Max;
+import jupiter.math.analysis.function.parametric.Filter;
 import jupiter.math.linear.entity.Entity;
 
 /**
- * The rectified linear unit (ReLU) function.
+ * {@link ActivationReLU} is the rectified linear unit (ReLU) {@link ActivationFunction}.
  */
 public class ActivationReLU
 		extends ActivationFunction {
 
-	protected final Max max;
-	protected final Filter filter;
-
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a ReLU function.
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	protected final Max max;
+	protected final Filter filter;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link ActivationReLU}.
 	 */
 	protected ActivationReLU() {
-		max = Functions.MAX;
-		filter = Functions.FILTER;
+		super();
+		max = new Max(0.);
+		filter = FILTER;
 	}
 
 	/**
-	 * Constructs a leaky ReLU function with the specified positive gradient.
+	 * Constructs a leaky {@link ActivationReLU} with the specified positive gradient.
 	 * <p>
 	 * @param gradient a {@code double} value
 	 */
 	public ActivationReLU(final double gradient) {
+		super();
+
 		// Check the arguments
 		DoubleArguments.requirePositive(gradient);
 
@@ -62,42 +84,49 @@ public class ActivationReLU
 		filter = new Filter(0., gradient, 1.);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the ReLU function to the specified value and returns the result.
+	 * Applies the ReLU function to the specified {@link Entity}.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code max(E)}
 	 */
 	@Override
-	public double apply(final double x) {
-		return max.apply(x);
+	public Entity apply(final Entity E) {
+		return E.apply(max);
 	}
 
 	/**
-	 * Applies the ReLU function to the specified {@link Entity} and returns the result.
+	 * Applies the derivative of the ReLU function to the specified {@link Entity}.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code filter(E)}
 	 */
 	@Override
-	public Entity apply(final Entity A) {
-		return A.apply(max);
+	public Entity derive(final Entity E) {
+		return E.apply(filter);
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Applies the derivative of the ReLU function to the specified {@link Entity} and returns the
-	 * result.
+	 * Clones {@code this}.
 	 * <p>
-	 * @param A an {@link Entity}
-	 * <p>
-	 * @return the result
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
 	 */
 	@Override
-	public Entity derive(final Entity A) {
-		return A.apply(filter);
+	public ActivationReLU clone() {
+		return (ActivationReLU) super.clone();
 	}
 }

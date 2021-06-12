@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,84 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import jupiter.common.map.ObjectToFloatMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link FloatParser} is a map operator parsing an {@link Object} to a {@link Float}.
+ * {@link FloatParser} is the {@link ObjectToFloatMapper} parsing an input {@link Object} to an
+ * output {@link Float}.
  */
 public class FloatParser
 		extends ObjectToFloatMapper
-		implements Parser<Float> {
+		implements IParser<Float> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link FloatParser}.
+	 */
 	public FloatParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Float parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Float[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Float[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Float[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Float[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Float[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Float[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -57,32 +114,16 @@ public class FloatParser
 		if (input instanceof Number) {
 			return ((Number) input).floatValue();
 		}
-		return Float.valueOf(Strings.toString(input));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Float parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public Float[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public Float[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public Float[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Float.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 
@@ -90,6 +131,13 @@ public class FloatParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public FloatParser clone() {
 		return new FloatParser();

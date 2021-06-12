@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,52 +23,107 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.SIGMOID;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.LOG;
+
+import jupiter.common.model.ICloneable;
+import jupiter.learning.supervised.Classifier;
+import jupiter.math.analysis.function.parametric.Sigmoid;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 
+/**
+ * {@link ActivationSigmoid} is the logistic {@link OutputActivationFunction} with return values
+ * monotonically increasing from 0 to 1.
+ */
 public class ActivationSigmoid
-		extends ActivationFunction {
+		extends OutputActivationFunction {
 
-	protected ActivationSigmoid() {
-	}
-
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the sigmoid function to the specified value and returns the result.
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link ActivationSigmoid}.
+	 */
+	protected ActivationSigmoid() {
+		super();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the {@link Sigmoid} to the specified {@link Entity}.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code 1. / (1. + exp(E))}
 	 */
 	@Override
-	public double apply(final double x) {
-		return Functions.SIGMOID.apply(x);
+	public Entity apply(final Entity E) {
+		return E.apply(SIGMOID);
 	}
 
 	/**
-	 * Applies the sigmoid function to the specified {@link Entity} and returns the result.
+	 * Applies the derivative of the {@link Sigmoid} to the specified {@link Entity}.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code E (1. - E)}
 	 */
 	@Override
-	public Entity apply(final Entity A) {
-		return A.apply(Functions.SIGMOID);
+	public Entity derive(final Entity E) {
+		return E.times(Scalar.ONE.minus(E));
 	}
 
+	//////////////////////////////////////////////
+
 	/**
-	 * Applies the derivative of the sigmoid function to the specified {@link Entity} and returns
-	 * the result.
+	 * Computes the cost of {@code A}.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param classifier a {@link Classifier}
+	 * @param A          an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code -(log(A) Y' + log(1. - A) (1. - Y')) / m}
 	 */
 	@Override
-	public Entity derive(final Entity A) {
-		return A.times(Scalar.ONE.minus(A));
+	public double computeCost(final Classifier classifier, final Entity A) {
+		return -A.apply(LOG)
+				.diagonalTimes(classifier.getTransposedClasses())
+				.add(Scalar.ONE.minus(A)
+						.apply(LOG)
+						.diagonalTimes(Scalar.ONE.minus(classifier.getTransposedClasses())))
+				.toScalar()
+				.get() / classifier.getTrainingExampleCount();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ActivationSigmoid clone() {
+		return (ActivationSigmoid) super.clone();
 	}
 }

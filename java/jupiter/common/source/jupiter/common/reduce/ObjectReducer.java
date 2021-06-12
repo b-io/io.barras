@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,10 @@
  */
 package jupiter.common.reduce;
 
+import jupiter.common.model.ICloneable;
+
 /**
- * {@link ObjectReducer} is an operator reducing an array of {@link Object} to an {@code O} object.
+ * {@link ObjectReducer} is the {@link Reducer} reducing an input array to an {@code O} output.
  * <p>
  * @param <O> the output type
  */
@@ -32,18 +34,58 @@ public abstract class ObjectReducer<O>
 		extends Reducer<Object, O> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link ObjectReducer} of {@code O} type.
+	 */
+	protected ObjectReducer() {
+		super();
+	}
+
+	/**
+	 * Constructs an {@link ObjectReducer} of {@code O} type with the specified output
+	 * {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of {@code O} type
+	 */
 	protected ObjectReducer(final Class<O> c) {
 		super(c);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	public abstract O call(final Object... input);
+	public abstract O call(final Object[] input);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public ObjectReducer<O> clone() {
+		return this;
+	}
 }

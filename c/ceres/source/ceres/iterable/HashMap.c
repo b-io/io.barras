@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/HashMap.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 HashMap* HashMap_new(const type elementType, const natural elementSize, const natural initialSize)
 {
 	HashMap* hm = _NEW(HashMap);
 
-	_PRINT_TEST(_S("<newHashMap>"));
+	_PRINT_DEBUG(_S("<newHashMap>"));
 	if (hm != NULL)
 	{
 		hm->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -53,18 +51,18 @@ HashMap* HashMap_new(const type elementType, const natural elementSize, const na
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_HASH_MAP_NAME);
 	}
-	_PRINT_TEST(_S("</newHashMap>"));
+	_PRINT_DEBUG(_S("</newHashMap>"));
 	return hm;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void HashMap_reset(void* set, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetHashMap>"));
+	_PRINT_DEBUG(_S("<resetHashMap>"));
 	_IF (_CHECK(set, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -111,13 +109,13 @@ void HashMap_reset(void* set, const type elementType, const natural elementSize,
 			_PRINT_ERROR_ARRAY_ALLOCATION(elementType);
 		}
 	}
-	_PRINT_TEST(_S("</resetHashMap>"));
+	_PRINT_DEBUG(_S("</resetHashMap>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean HashMap_add(void* collection, const type type, void* value)
 {
@@ -146,11 +144,11 @@ boolean HashMap_add(void* collection, const type type, void* value)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void HashMap_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearHashMap>"));
+	_PRINT_DEBUG(_S("<clearHashMap>"));
 	_IF (_CHECK(collection, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -166,10 +164,10 @@ void HashMap_clear(void* collection)
 		}
 		hm->length = 0;
 	}
-	_PRINT_TEST(_S("</clearHashMap>"));
+	_PRINT_DEBUG(_S("</clearHashMap>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean HashMap_contains(const void* collection, const type type, const void* value)
 {
@@ -185,7 +183,7 @@ boolean HashMap_contains(const void* collection, const type type, const void* va
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural HashMap_count(const void* collection, const type type, const void* value)
 {
@@ -205,7 +203,7 @@ natural HashMap_count(const void* collection, const type type, const void* value
 	return 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean HashMap_remove(void* collection, const type type, const void* value)
 {
@@ -246,7 +244,7 @@ boolean HashMap_remove_all(void* collection, const void* values)
 
 boolean HashMap_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeHashMap>"));
+	_PRINT_DEBUG(_S("<resizeHashMap>"));
 	_IF (_CHECK(collection, _HASH_MAP_NAME))
 	{
 		/* Get the Hash Map */
@@ -274,14 +272,14 @@ boolean HashMap_resize(void* collection, const natural size)
 		}
 		/* TODO */
 	}
-	_PRINT_TEST(_S("</resizeHashMap>"));
+	_PRINT_DEBUG(_S("</resizeHashMap>"));
 	return _FALSE;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Iterator HashMap_iterator(const void* iterable)
 {
@@ -295,7 +293,7 @@ Iterator HashMap_iterator(const void* iterable)
 	return _ITERATOR_DEFAULT;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* HashMap_Iterator_next(Iterator* iterator)
 {
@@ -313,9 +311,9 @@ void* HashMap_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable HashMap_create_Comparable(void)
 {
@@ -341,13 +339,13 @@ integer HashMap_compare_to(const void* structure, const type type, const void* v
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void HashMap_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseHashMap>"));
+	_PRINT_DEBUG(_S("<releaseHashMap>"));
 	if (structure != NULL)
 	{
 		/* Get the Hash Map */
@@ -367,10 +365,10 @@ void HashMap_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_HASH_MAP_NAME);
 	}
-	_PRINT_TEST(_S("</releaseHashMap>"));
+	_PRINT_DEBUG(_S("</releaseHashMap>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* HashMap_clone(const void* structure)
 {
@@ -387,14 +385,14 @@ void* HashMap_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean HashMap_equals(const void* structure, const type type, const void* value)
 {
 	return HashMap_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer HashMap_hash(const void* structure)
 {
@@ -430,7 +428,7 @@ integer HashMap_hash(const void* structure)
 	return code;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean HashMap_to_string(const void* source, string target)
 {

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,57 +23,40 @@
  */
 package jupiter.common.thread;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import junit.framework.TestCase;
-import jupiter.common.io.IO.SeverityLevel;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.time.Chronometer;
+import jupiter.common.test.Tests;
 
 public class LockedWorkQueueTest
-		extends TestCase {
+		extends WorkQueueTest {
 
-	public LockedWorkQueueTest(final String testName) {
-		super(testName);
+	public LockedWorkQueueTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of addTask method, of class LockedWorkQueue.
+	 * Tests {@link LockedWorkQueue#addTask}.
 	 */
 	public void testAddTask() {
-		IO.test("addTask");
-		IO.setSeverityLevel(SeverityLevel.TEST);
+		IO.test(BULLET, " addTask");
 
-		// Create a thread pool
-		final IWorkQueue<Integer, Integer> queue = new LockedWorkQueue<Integer, Integer>(
-				new JobTest());
-		queue.reserveWorkers(LockedWorkQueue.MAX_THREADS);
-		IO.test("There are ", LockedWorkQueue.MAX_THREADS, " threads");
+		// Initialize
+		final int testCount = 100;
+		final double[] testTimes = new double[testCount];
+		final double[] threadCounts = new double[testCount];
 
-		// Process the tasks
-		final Chronometer chrono = new Chronometer();
-		chrono.start();
-		final int nTasks = 1000000;
-		final List<Long> ids = new ExtendedList<Long>(nTasks);
-		for (int i = 0; i < nTasks; ++i) {
-			ids.add(queue.submit(i));
+		// Test the locked work queue
+		final LockedWorkQueue<Integer, Integer> workQueue = new LockedWorkQueue<Integer, Integer>(
+				new SimpleWorker());
+		for (int ti = 0; ti < testCount; ++ti) {
+			testTimes[ti] = test(workQueue);
+			threadCounts[ti] = workQueue.getWorkerCount();
+			workQueue.restart();
 		}
-		final Set<Integer> results = new HashSet<Integer>(ids.size());
-		for (final long id : ids) {
-			results.add(queue.get(id));
-		}
-		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
-
-		// Test
-		for (int i = 0; i < nTasks; ++i) {
-			assertTrue(results.contains(i));
-		}
+		Tests.printTimes(testTimes);
+		Tests.printValues("number of threads", threadCounts);
 	}
 }

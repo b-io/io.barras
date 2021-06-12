@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/io/CommonIO.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * WRITE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void char_to_stream(const character source, FILE* target)
 {
@@ -53,9 +51,9 @@ void string_to_stream(const string source, FILE* target)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * PRINT
- ******************************************************************************/
+ **************************************************************************************************/
 
 void print(const string format, ...)
 {
@@ -89,7 +87,7 @@ void file_print(FILE* file, const string format, va_list* args)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void printn(const string format, ...)
 {
@@ -124,7 +122,7 @@ void file_printn(FILE* file, const string format, va_list* args)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void IOMessage_print(const IOMessage message)
 {
@@ -133,9 +131,11 @@ void IOMessage_print(const IOMessage message)
 	message.toString(&message, buffer);
 	switch (message.level)
 	{
-		case _RESULT:
-		case _INFO:
+		case _TRACE:
+		case _DEBUG:
 		case _TEST:
+		case _INFO:
+		case _RESULT:
 			string_to_stream(buffer, stdout);
 			_PRINT_LINE_FEED(stdout);
 			break;
@@ -148,7 +148,39 @@ void IOMessage_print(const IOMessage message)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
+
+IOMessage print_trace(const string filePath, const string functionName, const natural lineNumber, const string content)
+{
+	const IOMessage message = IOMessage_create(_OUT, _TRACE, filePath, functionName, lineNumber, content);
+
+	IOMessage_print(message);
+	return message;
+}
+
+IOMessage print_debug(const string filePath, const natural lineNumber, const string content)
+{
+	const IOMessage message = IOMessage_create(_OUT, _DEBUG, filePath, _STRING_EMPTY, lineNumber, content);
+
+	IOMessage_print(message);
+	return message;
+}
+
+IOMessage print_test(const string filePath, const string content)
+{
+	const IOMessage message = IOMessage_create(_OUT, _TEST, filePath, _STRING_EMPTY, 0, content);
+
+	IOMessage_print(message);
+	return message;
+}
+
+IOMessage print_info(const string content)
+{
+	const IOMessage message = IOMessage_create(_OUT, _INFO, _STRING_EMPTY, _STRING_EMPTY, 0, content);
+
+	IOMessage_print(message);
+	return message;
+}
 
 IOMessage print_result(const string content)
 {
@@ -158,27 +190,11 @@ IOMessage print_result(const string content)
 	return message;
 }
 
-IOMessage print_info(const string filePath, const string functionName, const string content)
+/**************************************************************************************************/
+
+IOMessage print_warning(const string filePath, const string content)
 {
-	const IOMessage message = IOMessage_create(_OUT, _INFO, filePath, functionName, 0, content);
-
-	IOMessage_print(message);
-	return message;
-}
-
-IOMessage print_test(const string filePath, const string functionName, const natural lineNumber, const string content)
-{
-	const IOMessage message = IOMessage_create(_OUT, _TEST, filePath, functionName, lineNumber, content);
-
-	IOMessage_print(message);
-	return message;
-}
-
-/******************************************************************************/
-
-IOMessage print_warning(const string content)
-{
-	const IOMessage message = IOMessage_create(_OUT, _WARNING, _STRING_EMPTY, _STRING_EMPTY, 0, content);
+	const IOMessage message = IOMessage_create(_OUT, _WARNING, filePath, _STRING_EMPTY, 0, content);
 
 	IOMessage_print(message);
 	return message;

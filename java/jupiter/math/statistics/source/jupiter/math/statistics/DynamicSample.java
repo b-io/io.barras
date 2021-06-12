@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,13 +33,20 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * The minimum sample size (2 for the first sample standard deviation and 1 for the second one).
 	 */
-	public static final int DEFAULT_MIN_SAMPLE_SIZE = 3;
+	public static final int MIN_SAMPLE_SIZE = 3;
 	/**
 	 * The maximum sample size.
 	 */
-	public static final int DEFAULT_MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
+	public static final int MAX_SAMPLE_SIZE = Integer.MAX_VALUE;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,11 +54,11 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The minimum sample size (inclusive).
+	 * The minimum sample size.
 	 */
 	protected int minSampleSize;
 	/**
-	 * The max sample size (inclusive).
+	 * The maximum sample size.
 	 */
 	protected int maxSampleSize;
 	/**
@@ -68,37 +75,58 @@ public class DynamicSample
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link DynamicSample} by default.
+	 */
 	public DynamicSample() {
-		this(DEFAULT_MIN_SAMPLE_SIZE);
+		this(MIN_SAMPLE_SIZE);
 	}
 
+	/**
+	 * Constructs a {@link DynamicSample} with the specified minimum sample size.
+	 * <p>
+	 * @param minSampleSize the minimum sample size
+	 */
 	public DynamicSample(final int minSampleSize) {
-		this(minSampleSize, DEFAULT_MAX_SAMPLE_SIZE);
+		this(minSampleSize, MAX_SAMPLE_SIZE);
 	}
 
+	/**
+	 * Constructs a {@link DynamicSample} with the specified minimum and maximum sample sizes.
+	 * <p>
+	 * @param minSampleSize the minimum sample size
+	 * @param maxSampleSize the maximum sample size
+	 */
 	public DynamicSample(final int minSampleSize, final int maxSampleSize) {
+		super();
+
 		// Check the arguments
-		IntegerArguments.requireGreaterOrEqualTo(minSampleSize, DEFAULT_MIN_SAMPLE_SIZE);
+		IntegerArguments.requireGreaterOrEqualTo(minSampleSize, MIN_SAMPLE_SIZE);
 		IntegerArguments.requireGreaterOrEqualTo(maxSampleSize, minSampleSize);
 
 		// Set the minimum and maximum sample sizes
 		this.minSampleSize = minSampleSize;
 		this.maxSampleSize = maxSampleSize;
-		// Reset the fields
-		reset();
+		// Clear the fields
+		clear();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns the sample mean.
+	 * <p>
+	 * @return the sample mean
+	 */
 	@Override
 	public double getSampleMean() {
-		if (size < minSampleSize && previousSampleMean != Double.NaN) {
+		if (sampleSize < minSampleSize && !Double.isNaN(previousSampleMean)) {
 			return previousSampleMean;
 		}
-		return mean;
+		return sampleMean;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -123,7 +151,21 @@ public class DynamicSample
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears {@code this}.
+	 */
+	@Override
+	public void clear() {
+		super.clear();
+		previousConfidenceInterval = Double.NaN;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -133,7 +175,7 @@ public class DynamicSample
 	 */
 	public void sample(final double x) {
 		// Update the previous sample standard deviation
-		if (size % (minSampleSize - 1) == 0) {
+		if (sampleSize % (minSampleSize - 1) == 0) {
 			previousConfidenceInterval = getSampleMeanConfidenceInterval();
 		}
 		// Update the sample mean and variance
@@ -141,16 +183,15 @@ public class DynamicSample
 	}
 
 	/**
-	 * Resamples if the size of the sample is greater than {@code maxSampleSize} or the precision is
-	 * decreasing, returns {@code false} otherwise.
+	 * Resamples.
 	 * <p>
-	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
+	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */
 	public boolean resample() {
 		if (isResampling()) {
-			previousSampleMean = mean;
-			reset();
+			previousSampleMean = sampleMean;
+			clear();
 			return true;
 		}
 		return false;
@@ -162,41 +203,28 @@ public class DynamicSample
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if the dynamic sample size is greater or equal to the lower bound and
-	 * the precision is decreasing, {@code false} otherwise.
+	 * Tests whether the dynamic sample size is greater or equal to the lower bound and the
+	 * precision is decreasing.
 	 * <p>
 	 * @return {@code true} if the dynamic sample size is greater or equal to the lower bound and
 	 *         the precision is decreasing, {@code false} otherwise
 	 */
 	public boolean isPrecisionDecreasing() {
 		final double sampleMeanConfidenceInterval = getSampleMeanConfidenceInterval();
-		return size >= minSampleSize && sampleMeanConfidenceInterval != Double.NaN &&
-				previousConfidenceInterval != Double.NaN &&
+		return sampleSize >= minSampleSize &&
+				!Double.isNaN(sampleMeanConfidenceInterval) &&
+				!Double.isNaN(previousConfidenceInterval) &&
 				sampleMeanConfidenceInterval >= previousConfidenceInterval;
 	}
 
 	/**
-	 * Returns {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
-	 * precision is decreasing, {@code false} otherwise.
+	 * Tests whether the sample size is greater than {@code maxSampleSize} or the precision is
+	 * decreasing.
 	 * <p>
-	 * @return {@code true} if the size of the sample is greater than {@code maxSampleSize} or the
+	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */
 	public boolean isResampling() {
-		return size == maxSampleSize || isPrecisionDecreasing();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ONLINE STATISTIC
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Resets the fields.
-	 */
-	@Override
-	public void reset() {
-		super.reset();
-		previousConfidenceInterval = Double.NaN;
+		return sampleSize == maxSampleSize || isPrecisionDecreasing();
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_COLLECTION_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -49,9 +48,9 @@ extern "C"
 #include "ceres/iterable/CommonIterable.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RESET
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Resets the specified Collection.
@@ -65,9 +64,9 @@ extern "C"
 	void Collection_reset(void* collection, const natural length, const type elementType, const natural elementSize, const natural initialSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COLLECTION
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Adds the specified value to the specified Collection.
@@ -125,17 +124,17 @@ extern "C"
 	 */
 	boolean Collection_add_all_and_resize(void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Removes all of the elements from the specified Collection. The specified
-	 * Collection will be empty after this method returns.
+	 * Collection will be empty after this function returns.
 	 * <p>
 	 * @param collection the Collection to be cleared
 	 */
 	void Collection_clear(void* collection);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified Collection contains the specified
@@ -186,7 +185,7 @@ extern "C"
 	 */
 	boolean Collection_contains_all(const void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the number of occurrences of the specified value in the specified
@@ -237,7 +236,7 @@ extern "C"
 	 */
 	natural Collection_count_all(const void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Removes a single instance of the specified value from the specified
@@ -287,7 +286,7 @@ extern "C"
 	 */
 	boolean Collection_remove_all(void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Resizes the specified Collection to the specified size.
@@ -301,9 +300,9 @@ extern "C"
 	boolean Collection_resize(void* collection, const natural size);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Comparable.
@@ -327,9 +326,9 @@ extern "C"
 	integer Collection_compare_to(const void* structure, const type type, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
@@ -344,7 +343,7 @@ extern "C"
 	 */
 	boolean Collection_equals(const void* structure, const type type, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the hash code of the specified structure.
@@ -355,7 +354,7 @@ extern "C"
 	 */
 	integer Collection_hash(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

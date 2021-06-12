@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,55 +23,127 @@
  */
 package jupiter.common.reduce;
 
+import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
+import jupiter.common.thread.Worker;
 import jupiter.common.util.Arrays;
 
 /**
- * {@link Reducer} is an operator reducing an array of {@code I} objects to an {@code O} object.
+ * {@link Reducer} is the {@link Worker} reducing an {@code I} input array to an {@code O} output.
  * <p>
  * @param <I> the input type
  * @param <O> the output type
  */
-public class Reducer<I, O> {
+public abstract class Reducer<I, O>
+		extends Worker<I[], O> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final Class<O> c;
+	/**
+	 * The output {@link Class} of {@code O} type.
+	 */
+	protected Class<O> c;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link Reducer} of {@code I} and {@code O} types.
+	 */
+	protected Reducer() {
+		super();
+	}
+
+	/**
+	 * Constructs a {@link Reducer} of {@code I} and {@code O} types with the specified output
+	 * {@link Class}.
+	 * <p>
+	 * @param c the output {@link Class} of {@code O} type
+	 */
 	protected Reducer(final Class<O> c) {
+		super();
+
+		// Check the arguments
+		Arguments.requireNonNull(c, "class");
+
+		// Set the attributes
 		this.c = c;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public O call(final I... input) {
+	/**
+	 * Returns the output {@link Class} of {@code O} type.
+	 * <p>
+	 * @return the output {@link Class} of {@code O} type
+	 */
+	public Class<O> getOutputClass() {
+		return c;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public O call(final I[] input) {
 		return c.cast(input);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public O[] callToArray(final I[]... array2D) {
-		final O[] result = Arrays.<O>create(c, array2D.length);
-		for (int i = 0; i < array2D.length; ++i) {
-			result[i] = call(array2D[i]);
+	@SuppressWarnings({"unchecked", "varargs"})
+	public O[] callToArray(final I[]... input2D) {
+		final O[] output = Arrays.<O>create(c, input2D.length);
+		for (int i = 0; i < input2D.length; ++i) {
+			output[i] = call(input2D[i]);
 		}
-		return result;
+		return output;
 	}
 
-	public O[][] callToArray2D(final I[][]... array3D) {
-		final O[][] result = Arrays.<O>create(c, array3D.length, 0);
-		for (int i = 0; i < array3D.length; ++i) {
-			result[i] = callToArray(array3D[i]);
+	//////////////////////////////////////////////
+
+	@SuppressWarnings({"unchecked", "varargs"})
+	public O[][] callToArray2D(final I[][]... input3D) {
+		final O[][] output2D = Arrays.<O>create(c, input3D.length, 0);
+		for (int i = 0; i < input3D.length; ++i) {
+			output2D[i] = callToArray(input3D[i]);
 		}
-		return result;
+		return output2D;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public Reducer<I, O> clone() {
+		return this;
 	}
 }

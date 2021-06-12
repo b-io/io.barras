@@ -18,26 +18,20 @@
 	<description>Libraries written in Scala</description>
 	<url>https://github.com/b-io/io.barras/tree/master/scala</url>
 
+	<properties>
+		<!-- Project -->
+		<project.build.source>1.8</project.build.source>
+		<project.build.target>1.8</project.build.target>
+		<!-- Scala -->
+		<scala.version>2.13.1</scala.version>
+		<scala.minor.version>2.13</scala.minor.version>
+		<scala.plugin.version>2.15.2</scala.plugin.version>
+	</properties>
+
+	<!-- Project Settings -->
 	<modules>
 		<module>saturn</module>
 	</modules>
-
-	<properties>
-		<!-- Project -->
-		<project.build.source>1.5</project.build.source>
-		<project.build.target>1.5</project.build.target>
-		<!-- Maven -->
-		<maven.compiler.source>${project.build.source}</maven.compiler.source>
-		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.compiler.version>2.5.1</maven.compiler.version>
-		<maven.source.version>2.4</maven.source.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
-		<maven.scala.version>2.15.2</maven.scala.version>
-		<!-- Scala -->
-		<scala.version>2.12.4</scala.version>
-		<scala.binary.version>2.12</scala.binary.version>
-		<scala.plugin.version>2.15.2</scala.plugin.version>
-	</properties>
 
 	<dependencies>
 		<!-- Scala -->
@@ -49,57 +43,46 @@
 		<!--
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-parser-combinators_${scala.binary.version}</artifactId>
-			<version>1.0.4</version>
+			<artifactId>scala-parser-combinators_${scala.minor.version}</artifactId>
+			<version>1.1.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-swing_${scala.binary.version}</artifactId>
-			<version>1.0.2</version>
+			<artifactId>scala-swing_${scala.minor.version}</artifactId>
+			<version>2.1.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-xml_${scala.binary.version}</artifactId>
-			<version>1.0.5</version>
+			<artifactId>scala-xml_${scala.minor.version}</artifactId>
+			<version>1.3.0</version>
 		</dependency>
 		-->
 	</dependencies>
 
+	<!-- Build Settings -->
 	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- Maven -->
-				<plugin>
-					<groupId>org.scala-tools</groupId>
-					<artifactId>maven-scala-plugin</artifactId>
-					<version>${maven.scala.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven.source.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven.javadoc.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile Scala -->
 			<plugin>
 				<groupId>org.scala-tools</groupId>
 				<artifactId>maven-scala-plugin</artifactId>
+				<version>${scala.plugin.version}</version>
+
 				<configuration>
 					<source>${project.build.source}</source>
+					<testSource>${project.build.source}</testSource>
+
 					<target>${project.build.target}</target>
+					<testTarget>${project.build.target}</testTarget>
+
+					<encoding>${project.build.sourceEncoding}</encoding>
+
 					<compilerArgs>
 						<!--<arg>-Xlint:deprecation</arg>-->
+						<!--<arg>-Xlint:unchecked</arg>-->
 					</compilerArgs>
-					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
+
 				<executions>
 					<execution>
 						<goals>
@@ -110,32 +93,16 @@
 				</executions>
 			</plugin>
 
-			<!-- Attach the source files  -->
+			<!-- Attach the sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
-			<!-- Generate the Javadoc  -->
+			<!-- Attach the JavaDocs -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

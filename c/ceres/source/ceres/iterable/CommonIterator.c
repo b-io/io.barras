@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/CommonIterator.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTANTS
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural ITERATOR_SIZE = sizeof (Iterator);
+const size ITERATOR_SIZE = sizeof (Iterator);
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Iterator Iterator_create(const natural length, const type elementType, const natural elementSize, void* node, void* (*next)(struct Iterator* iterator))
 {
@@ -54,7 +52,7 @@ Iterator* Iterator_new(const natural length, const type elementType, const natur
 {
 	Iterator* it = _NEW(Iterator);
 
-	_PRINT_TEST(_S("<newIterator>"));
+	_PRINT_DEBUG(_S("<newIterator>"));
 	if (it != NULL)
 	{
 		it->core = Core_create(_TRUE, _FALSE, _TRUE, _FALSE);
@@ -64,18 +62,18 @@ Iterator* Iterator_new(const natural length, const type elementType, const natur
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_ITERATOR_NAME);
 	}
-	_PRINT_TEST(_S("</newIterator>"));
+	_PRINT_DEBUG(_S("</newIterator>"));
 	return it;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Iterator_reset(void* iterator, const natural length, const type elementType, const natural elementSize, void* node, void* (*next)(struct Iterator* iterator))
 {
-	_PRINT_TEST(_S("<resetIterator>"));
+	_PRINT_DEBUG(_S("<resetIterator>"));
 	_IF (_CHECK(iterator, _ITERATOR_NAME))
 	{
 		/* Get the Iterator */
@@ -108,13 +106,13 @@ void Iterator_reset(void* iterator, const natural length, const type elementType
 		it->index = 0;
 		it->node = node;
 	}
-	_PRINT_TEST(_S("</resetIterator>"));
+	_PRINT_DEBUG(_S("</resetIterator>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* Iterator_next(Iterator* iterator)
 {
@@ -132,13 +130,13 @@ void* Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Iterator_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseIterator>"));
+	_PRINT_DEBUG(_S("<releaseIterator>"));
 	if (structure != NULL)
 	{
 		/* Get the Iterator */
@@ -154,10 +152,10 @@ void Iterator_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_ITERATOR_NAME);
 	}
-	_PRINT_TEST(_S("</releaseIterator>"));
+	_PRINT_DEBUG(_S("</releaseIterator>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Iterator_clone(const void* structure)
 {
@@ -175,7 +173,7 @@ void* Iterator_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Iterator_equals(const void* structure, const type type, const void* value)
 {
@@ -204,7 +202,7 @@ boolean Iterator_equals(const void* structure, const type type, const void* valu
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Iterator_hash(const void* structure)
 {
@@ -226,7 +224,7 @@ integer Iterator_hash(const void* structure)
 	return integer_random();
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Iterator_to_string(const void* source, string target)
 {

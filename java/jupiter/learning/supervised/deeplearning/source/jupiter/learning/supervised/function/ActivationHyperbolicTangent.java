@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,53 +23,85 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Functions;
+import static jupiter.math.analysis.function.parametric.ParametricFunctions.SQUARE;
+import static jupiter.math.analysis.function.univariate.UnivariateFunctions.TANH;
+
+import jupiter.common.model.ICloneable;
+import jupiter.math.analysis.function.univariate.HyperbolicTangent;
 import jupiter.math.linear.entity.Entity;
 import jupiter.math.linear.entity.Scalar;
 
+/**
+ * {@link ActivationHyperbolicTangent} is the hyperbolic tangent {@link ActivationFunction} with
+ * return values monotonically increasing from -1 to 1.
+ */
 public class ActivationHyperbolicTangent
 		extends ActivationFunction {
 
-	protected ActivationHyperbolicTangent() {
-	}
-
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified value and returns the result.
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link ActivationHyperbolicTangent}.
+	 */
+	protected ActivationHyperbolicTangent() {
+		super();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity}.
 	 * <p>
-	 * @param x a {@code double} value
+	 * @param E an {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code tanh(E)}
 	 */
 	@Override
-	public double apply(final double x) {
-		return Functions.TANH.apply(x);
+	public Entity apply(final Entity E) {
+		return E.apply(TANH);
 	}
 
 	/**
-	 * Applies the hyperbolic tangent function to the specified {@link Entity} and returns the
-	 * result.
+	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity}.
 	 * <p>
-	 * @param A an {@link Entity}
+	 * @param E an array of {@link Entity}
 	 * <p>
-	 * @return the result
+	 * @return {@code 1. - E .* E}
 	 */
 	@Override
-	public Entity apply(final Entity A) {
-		return A.apply(Functions.TANH);
+	public Entity derive(final Entity E) {
+		return Scalar.ONE.minus(E.apply(SQUARE));
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/**
-	 * Applies the derivative of the hyperbolic tangent function to the specified {@link Entity} and
-	 * returns the result.
+	 * Clones {@code this}.
 	 * <p>
-	 * @param A an array of {@link Entity}
-	 * <p>
-	 * @return the result
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
 	 */
 	@Override
-	public Entity derive(final Entity A) {
-		return Scalar.ONE.minus(A.apply(Functions.SQUARE));
+	public ActivationHyperbolicTangent clone() {
+		return (ActivationHyperbolicTangent) super.clone();
 	}
 }

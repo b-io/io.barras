@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,36 +24,53 @@
 package saturn.common.util
 
 object Bytes {
-	////////////////////////////////////////////////////////////////////////////
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	val SIZE: Int = 8
 
 
-	////////////////////////////////////////////////////////////////////////////
-	// CONVERSIONS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Byte(s) -> (Hexadecimal) String
-	def toString(byte: Byte): String = "%02X".format(byte & 0xff)
-	def toString(bytes: Array[Byte]): String = Arrays.toString[Byte](bytes, "", toString)
-
-	// (Hexadecimal) String -> Byte(s)
+	/**
+	 * Returns the {@link Array} of {@link Byte} of the specified hexadecimal representative
+	 * {@link String}.
+	 * <p>
+	 * @return the {@link Array} of {@link Byte} of the specified hexadecimal representative
+	 *         {@link String}
+	 */
 	def valueOf(hex: String): Array[Byte] = {
 		val length: Int = hex.length()
 		val bytes = new Array[Byte](length >> 1)
 		for (i <- 0 until length by 2) {
 			bytes(i >> 1) = ((Character.digit(hex.charAt(i), 16) << 4)
-				+ Character.digit(hex.charAt(i + 1), 16)).toByte
+					+ Character.digit(hex.charAt(i + 1), 16)).toByte
 		}
 		return bytes
 	}
 
 
-	////////////////////////////////////////////////////////////////////////////
-	// PRINTS
-	////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	def print(bytes: Array[Byte]): Unit = println(toString(bytes))
+	/**
+	 * Returns the hexadecimal representative {@link String} of the specified {@link Byte}.
+	 * <p>
+	 * @return the hexadecimal representative {@link String} of the specified {@link Byte}
+	 */
+	def toString(byte: Byte): String = "%02X".format(byte & 0xff)
+
+	/**
+	 * Returns the hexadecimal representative {@link String} of the specified {@link Array} of
+	 * {@link Byte}.
+	 * <p>
+	 * @return the hexadecimal representative {@link String} of the specified {@link Array} of
+	 *         {@link Byte}
+	 */
+	def toString(bytes: Array[Byte]): String = Arrays.toString[Byte](bytes, "", toString)
 }

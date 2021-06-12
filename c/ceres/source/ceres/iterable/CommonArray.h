@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_ARRAY_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -49,19 +48,19 @@ extern "C"
 #include "ceres/iterable/CommonList.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * SIZES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the size of the Arrays.
 	 */
-	extern const natural ARRAY_SIZE;
+	extern const size ARRAY_SIZE;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONSTRUCT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs an Array dynamically.
@@ -75,9 +74,9 @@ extern "C"
 	Array* Array_new(const type elementType, const natural elementSize, const natural initialSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RESET
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Resets the specified Array.
@@ -90,9 +89,9 @@ extern "C"
 	void Array_reset(void* array, const type elementType, const natural elementSize, const natural initialSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * LIST
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the element at the specified position in the specified List.
@@ -105,9 +104,9 @@ extern "C"
 	Structure Array_get(const void* list, const natural index);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COLLECTION
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Adds the specified value to the specified Collection.
@@ -154,17 +153,17 @@ extern "C"
 	 */
 	boolean Array_add_Array(void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Removes all of the elements from the specified Collection. The specified
-	 * Collection will be empty after this method returns.
+	 * Collection will be empty after this function returns.
 	 * <p>
 	 * @param collection the Collection to be cleared
 	 */
 	void Array_clear(void* collection);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified Collection contains the specified
@@ -203,7 +202,7 @@ extern "C"
 	 */
 	boolean Array_contains_all(const void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the number of occurrences of the specified value in the specified
@@ -242,7 +241,7 @@ extern "C"
 	 */
 	natural Array_count_all(const void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Removes a single instance of the specified value from the specified
@@ -280,7 +279,7 @@ extern "C"
 	 */
 	boolean Array_remove_all(void* collection, const void* values);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Resizes the specified Collection to the specified size.
@@ -294,9 +293,9 @@ extern "C"
 	boolean Array_resize(void* collection, const natural size);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns an Iterator over the elements in the specified Iterable structure.
@@ -307,7 +306,7 @@ extern "C"
 	 */
 	Iterator Array_iterator(const void* iterable);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the next element in the iteration.
@@ -319,9 +318,9 @@ extern "C"
 	void* Array_Iterator_next(Iterator* iterator);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Comparable.
@@ -345,9 +344,9 @@ extern "C"
 	integer Array_compare_to(const void* structure, const type type, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Releases the specified structure and frees it if requested.
@@ -356,7 +355,7 @@ extern "C"
 	 */
 	void Array_release(void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
@@ -367,7 +366,7 @@ extern "C"
 	 */
 	void* Array_clone(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
@@ -382,7 +381,7 @@ extern "C"
 	 */
 	boolean Array_equals(const void* structure, const type type, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the hash code of the specified structure.
@@ -393,7 +392,7 @@ extern "C"
 	 */
 	integer Array_hash(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,25 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/time/FormattedTime.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTANTS
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural FORMATTED_TIME_SIZE = sizeof (FormattedTime);
+const size FORMATTED_TIME_SIZE = sizeof (FormattedTime);
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 FormattedTime FormattedTime_create(const timestamp* stamp, const string format)
 {
@@ -54,7 +52,7 @@ FormattedTime* FormattedTime_new(const timestamp* stamp, const string format)
 {
 	FormattedTime* ft = _NEW(FormattedTime);
 
-	_PRINT_TEST(_S("<newFormattedTime>"));
+	_PRINT_DEBUG(_S("<newFormattedTime>"));
 	if (ft != NULL)
 	{
 		ft->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -64,18 +62,18 @@ FormattedTime* FormattedTime_new(const timestamp* stamp, const string format)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_FORMATTED_TIME_NAME);
 	}
-	_PRINT_TEST(_S("</newFormattedTime>"));
+	_PRINT_DEBUG(_S("</newFormattedTime>"));
 	return ft;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void FormattedTime_reset(void* formattedTime, const timestamp* stamp, const string format)
 {
-	_PRINT_TEST(_S("<resetFormattedTime>"));
+	_PRINT_DEBUG(_S("<resetFormattedTime>"));
 	_IF (_CHECK(formattedTime, _FORMATTED_TIME_NAME))
 	{
 		/* Get the Formatted Time */
@@ -98,13 +96,13 @@ void FormattedTime_reset(void* formattedTime, const timestamp* stamp, const stri
 		ft->local = Time_local(&ft->time);
 		string_to_string((format == NULL) ? _TIME_FORMAT : format, ft->format);
 	}
-	_PRINT_TEST(_S("</resetFormattedTime>"));
+	_PRINT_DEBUG(_S("</resetFormattedTime>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* FormattedTime_Iterator_next(Iterator* iterator)
 {
@@ -122,9 +120,9 @@ void* FormattedTime_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable FormattedTime_create_Comparable(void)
 {
@@ -153,13 +151,13 @@ integer FormattedTime_compare_to(const void* structure, const type type, const v
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void FormattedTime_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseFormattedTime>"));
+	_PRINT_DEBUG(_S("<releaseFormattedTime>"));
 	if (structure != NULL)
 	{
 		/* Get the Formatted Time */
@@ -175,10 +173,10 @@ void FormattedTime_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_FORMATTED_TIME_NAME);
 	}
-	_PRINT_TEST(_S("</releaseFormattedTime>"));
+	_PRINT_DEBUG(_S("</releaseFormattedTime>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* FormattedTime_clone(const void* structure)
 {
@@ -193,7 +191,7 @@ void* FormattedTime_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer FormattedTime_hash(const void* structure)
 {
@@ -210,14 +208,14 @@ integer FormattedTime_hash(const void* structure)
 	return integer_random();
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean FormattedTime_equals(const void* structure, const type type, const void* value)
 {
 	return FormattedTime_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean FormattedTime_to_string(const void* source, string target)
 {

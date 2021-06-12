@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,27 @@
  */
 package jupiter.common.math;
 
-import java.util.List;
+import java.util.Collection;
 
-import jupiter.common.util.Strings;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 
-public class IntervalList<T extends Comparable<T>>
-		implements IGroup<T> {
+/**
+ * {@link IntervalList} is the {@link GenericIntervalList} of {@link Interval} of {@code T} type.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link Interval}
+ */
+public class IntervalList<T extends Comparable<? super T>>
+		extends GenericIntervalList<Interval<T>, T> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
+	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected List<Interval<T>> intervals;
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,87 +51,44 @@ public class IntervalList<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link IntervalList}.
+	 * Constructs an empty {@link IntervalList} of {@code T} type.
 	 */
 	public IntervalList() {
+		super();
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link IntervalList} of {@code T} type with the specified elements.
+	 * <p>
+	 * @param elements an array of {@link Interval} of {@code T} type
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	public IntervalList(final Interval<T>... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Constructs an {@link IntervalList} with the specified {@link List} of {@link Interval}.
+	 * Constructs an {@link IntervalList} of {@code T} type with the elements of the specified
+	 * {@link Collection}.
 	 * <p>
-	 * @param intervals a {@link List} of {@link Interval}
+	 * @param elements a {@link Collection} of {@link Interval} of {@code T} type
 	 */
-	public IntervalList(final List<Interval<T>> intervals) {
-		this.intervals = intervals;
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the {@link List} of {@link Interval}.
-	 * <p>
-	 * @return the {@link List} of {@link Interval}
-	 */
-	public List<Interval<T>> getIntervals() {
-		return intervals;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Sets the intervals.
-	 * <p>
-	 * @param intervals a {@link List} of {@link Interval}
-	 */
-	public void setIntervals(final List<Interval<T>> intervals) {
-		this.intervals = intervals;
+	public IntervalList(final Collection<? extends Interval<T>> elements) {
+		super(elements);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GROUP
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * Returns {@code true} if {@code this} is empty, {@code false} otherwise.
-	 * <p>
-	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
-	 */
-	public boolean isEmpty() {
-		return intervals.isEmpty();
-	}
-
-	/**
-	 * Returns {@code true} if {@code this} contains the value, {@code false} otherwise.
-	 * <p>
-	 * @param value the value to test for presence
-	 * <p>
-	 * @return {@code true} if {@code this} contains the value, {@code false} otherwise
-	 */
-	public boolean isInside(final T value) {
-		for (final Interval<T> interval : intervals) {
-			if (interval.isInside(value)) {
-				return true;
-			}
+	public IntervalList<T> addAll(final IntervalList<T> intervalList) {
+		for (final Interval<T> interval : intervalList) {
+			add(interval);
 		}
-		return false;
-	}
-
-	/**
-	 * Returns {@code true} if {@code this} is valid, {@code false} otherwise.
-	 * <p>
-	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
-	 */
-	public boolean isValid() {
-		for (final Interval<T> interval : intervals) {
-			if (!interval.isValid()) {
-				return false;
-			}
-		}
-		return !isEmpty();
+		return this;
 	}
 
 
@@ -130,8 +96,19 @@ public class IntervalList<T extends Comparable<T>>
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
-	public String toString() {
-		return Strings.toString(intervals);
+	public IntervalList<T> clone() {
+		final IntervalList<T> clone = new IntervalList<T>();
+		for (final Interval<T> element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
 	}
 }

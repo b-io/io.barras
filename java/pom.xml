@@ -12,29 +12,31 @@
 
 	<groupId>io.barras.java</groupId>
 	<artifactId>io.barras.java</artifactId>
+	<version>1.6.0</version>
 	<packaging>pom</packaging>
 
 	<name>Java</name>
 	<description>Libraries written in Java</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java</url>
 
+	<properties>
+		<!-- Project -->
+		<project.build.source>1.6</project.build.source>
+		<project.build.target>1.6</project.build.target>
+		<!-- Maven -->
+		<maven.compiler.version>2.5.1</maven.compiler.version>
+		<maven.helper.version>1.12</maven.helper.version>
+		<maven.nar.version>3.2.3</maven.nar.version>
+		<!-- Compilation -->
+		<standard.option>-std=c99</standard.option>
+		<!-- JUnit -->
+		<junit.verison>3.8.1</junit.verison>
+	</properties>
+
+	<!-- Project Settings -->
 	<modules>
 		<module>jupiter</module>
 	</modules>
-
-	<properties>
-		<!-- Project -->
-		<project.build.source>1.5</project.build.source>
-		<project.build.target>1.5</project.build.target>
-		<!-- Maven -->
-		<maven.compiler.source>${project.build.source}</maven.compiler.source>
-		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.compiler.version>2.5.1</maven.compiler.version>
-		<maven.source.version>2.4</maven.source.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
-		<!-- JUnit -->
-		<junit.verison>4.12</junit.verison>
-	</properties>
 
 	<dependencies>
 		<!-- JUnit -->
@@ -42,55 +44,136 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.verison}</version>
-			<scope>test</scope>
+			<!--<scope>test</scope>-->
 		</dependency>
 	</dependencies>
 
+	<!-- Build Settings -->
 	<build>
 		<plugins>
-			<!-- Compile -->
+			<!-- Compile Java -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.version}</version>
+
 				<configuration>
 					<source>${project.build.source}</source>
+					<testSource>${project.build.source}</testSource>
+
 					<target>${project.build.target}</target>
-					<compilerArgs>
-						<!--<arg>-Xlint:deprecation</arg>-->
-					</compilerArgs>
+					<testTarget>${project.build.target}</testTarget>
+
 					<encoding>${project.build.sourceEncoding}</encoding>
+
+					<compilerArgs>
+						<arg>-Xlint:deprecation</arg>
+						<arg>-Xlint:unchecked</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 
-			<!-- Attach the source files  -->
+			<!-- Compile JNI -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven.source.version}</version>
+				<groupId>com.github.maven-nar</groupId>
+				<artifactId>nar-maven-plugin</artifactId>
+				<version>${maven.nar.version}</version>
+
+				<configuration>
+					<c>
+						<name>gcc</name>
+						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+
+						<includePaths>
+							<includePath>${project.build.sourceDirectory}</includePath>
+						</includePaths>
+
+						<includes>
+							<include>**/*.h</include>
+							<include>**/*.c</include>
+						</includes>
+
+						<options>
+							<option>-D__int64=int64_t</option>
+							<option>-I${JAVA_HOME}/include</option>
+							<option>-I${JAVA_HOME}/include/win32</option>
+							<option>${stack.protector.option}</option>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+							<option>${standard.option}</option>
+							<option>${optimization.option}</option>
+							<option>${math.option}</option>
+							<option>${debug.option}</option>
+							<option>${warning.option}</option>
+						</options>
+					</c>
+
+					<linker>
+						<name>gcc</name>
+
+						<options>
+							<option>${architecture.option}</option>
+							<option>${subsystem.option}</option>
+						</options>
+					</linker>
+				</configuration>
+
 				<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>nar-download</id>
 						<goals>
-							<goal>jar</goal>
+							<goal>nar-download</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>nar-test-unpack</id>
+						<goals>
+							<goal>nar-test-unpack</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>nar-integration-test</id>
+						<goals>
+							<goal>nar-integration-test</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
 
-			<!-- Generate the Javadoc  -->
+			<!-- Add the generated sources -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.version}</version>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${maven.helper.version}</version>
+
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+
+						<configuration>
+							<sources>
+								<source>${project.build.directory}/nar/nar-generated</source>
+							</sources>
+						</configuration>
+
 						<goals>
-							<goal>jar</goal>
+							<goal>add-source</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<!-- Attach the sources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<!-- Attach the JavaDocs -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

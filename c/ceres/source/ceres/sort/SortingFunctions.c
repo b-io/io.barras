@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/sort/SortingFunctions.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * QUICKSORT
- ******************************************************************************/
+ **************************************************************************************************/
 
 void integers_quicksort(integer* array, const natural length)
 {
@@ -97,7 +95,7 @@ IPartition integers_quicksort_partition(integer* from, integer* to, const intege
 	return partition;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void integers_dual_pivot_quicksort(integer* array, const natural length)
 {
@@ -154,7 +152,7 @@ void integers_dual_pivot_quicksort_step(integer* left, integer* right)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void Objects_quicksort(Object* array, const natural length)
 {
@@ -220,9 +218,9 @@ OPartition Objects_quicksort_partition(Object* from, Object* to, const Object* p
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RANDOMIZED QUICKSORT
- ******************************************************************************/
+ **************************************************************************************************/
 
 void integers_random_quicksort(integer* array, const natural length)
 {
@@ -248,7 +246,7 @@ void integers_random_quicksort_step(integer* from, integer* to)
 	}
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void Objects_random_quicksort(Object* array, const natural length)
 {

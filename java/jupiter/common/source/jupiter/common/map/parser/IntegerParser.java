@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,84 @@
  */
 package jupiter.common.map.parser;
 
+import static jupiter.common.io.InputOutput.IO;
+
 import jupiter.common.map.ObjectToIntegerMapper;
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
- * {@link IntegerParser} is a map operator parsing an {@link Object} to an {@link Integer}.
+ * {@link IntegerParser} is the {@link ObjectToIntegerMapper} parsing an input {@link Object} to an
+ * output {@link Integer}.
  */
 public class IntegerParser
 		extends ObjectToIntegerMapper
-		implements Parser<Integer> {
+		implements IParser<Integer> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link IntegerParser}.
+	 */
 	public IntegerParser() {
 		super();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CALLABLE
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Integer parse(final Object input) {
+		return call(input);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public Integer[] parseToArray(final Object[] input) {
+		return callToArray(input);
+	}
+
+	public Integer[] parseAsArray(final Object... input) {
+		return callToArray(input);
+	}
+
+	//////////////////////////////////////////////
+
+	public Integer[][] parseToArray2D(final Object[][] input2D) {
+		return callToArray2D(input2D);
+	}
+
+	public Integer[][] parseAsArray2D(final Object[]... input2D) {
+		return callToArray2D(input2D);
+	}
+
+	//////////////////////////////////////////////
+
+	public Integer[][][] parseToArray3D(final Object[][][] input3D) {
+		return callToArray3D(input3D);
+	}
+
+	public Integer[][][] parseAsArray3D(final Object[][]... input3D) {
+		return callToArray3D(input3D);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
@@ -57,32 +114,16 @@ public class IntegerParser
 		if (input instanceof Number) {
 			return ((Number) input).intValue();
 		}
-		return Integer.valueOf(Strings.toString(input));
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PARSER
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	@Override
-	public Integer parse(final Object input) {
-		return call(input);
-	}
-
-	@Override
-	public Integer[] parseToArray(final Object... input) {
-		return callToArray(input);
-	}
-
-	@Override
-	public Integer[][] parseToArray2D(final Object[]... input) {
-		return callToArray2D(input);
-	}
-
-	@Override
-	public Integer[][][] parseToArray3D(final Object[][]... input) {
-		return callToArray3D(input);
+		final String value = Objects.toStringWithNull(input);
+		if (value == null) {
+			return null;
+		}
+		try {
+			return Integer.valueOf(value);
+		} catch (final NumberFormatException ignored) {
+			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+		}
+		return null;
 	}
 
 
@@ -90,6 +131,13 @@ public class IntegerParser
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
 	@Override
 	public IntegerParser clone() {
 		return new IntegerParser();

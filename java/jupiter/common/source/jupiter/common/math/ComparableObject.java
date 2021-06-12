@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,13 +23,36 @@
  */
 package jupiter.common.math;
 
-public abstract class ComparableObject<T extends Comparable<T>>
-		implements IComparable<T> {
+import java.io.Serializable;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
+
+/**
+ * {@link ComparableObject} is an {@link IComparable} of {@code T} type.
+ * <p>
+ * @param <T> the self {@link Comparable} type of the {@link ComparableObject}
+ */
+public abstract class ComparableObject<T extends Comparable<? super T>>
+		implements ICloneable<ComparableObject<T>>, IComparable<T>, Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link ComparableObject}.
+	 */
 	protected ComparableObject() {
 	}
 
@@ -39,123 +62,109 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Compares {@code this} with {@code comparableObject} for order. Returns a negative integer,
-	 * zero or a positive integer as {@code this} is less than, equal to or greater than
-	 * {@code comparableObject}.
+	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
+	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param other the other {@code T} object to compare against for order (may be {@code null})
 	 * <p>
-	 * @return a negative integer, zero or a positive integer as {@code this} is less than, equal to
-	 *         or greater than {@code comparableObject}
+	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
+	 *         equal to or greater than {@code other}
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
-	public abstract int compareTo(final T comparableObject);
+	public abstract int compareTo(final T other);
+
+	//////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
-	 * otherwise.
+	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
+	 * minimum value).
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
+	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
+	 */
+	public boolean isLessThan(final T other) {
+		return compareTo(other) < 0;
+	}
+
+	/**
+	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
+	 * the minimum value).
+	 * <p>
+	 * @param other the other {@code T} object to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
-	public boolean isLessThan(final T comparableObject) {
-		return compareTo(comparableObject) < 0;
+	public boolean isLessOrEqualTo(final T other) {
+		return compareTo(other) <= 0;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
+	 * minimum value).
+	 * <p>
+	 * @param other the other {@code T} object to compare against (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
+	 * <p>
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
+	 */
+	public boolean isGreaterThan(final T other) {
+		return compareTo(other) > 0;
 	}
 
 	/**
-	 * Returns {@code true} if {@code this} is less or equal to {@code comparableObject},
-	 * {@code false} otherwise.
+	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
+	 * as the minimum value).
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code this} is less or equal to {@code comparableObject},
-	 *         {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
-	 */
-	public boolean isLessOrEqualTo(final T comparableObject) {
-		return compareTo(comparableObject) <= 0;
-	}
-
-	/**
-	 * Returns {@code true} if {@code this} is greater than {@code comparableObject}, {@code false}
-	 * otherwise.
-	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
-	 * <p>
-	 * @return {@code true} if {@code this} is greater than {@code comparableObject}, {@code false}
+	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
-	public boolean isGreaterThan(final T comparableObject) {
-		return compareTo(comparableObject) > 0;
-	}
-
-	/**
-	 * Returns {@code true} if {@code this} is greater or equal to {@code comparableObject},
-	 * {@code false} otherwise.
-	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
-	 * <p>
-	 * @return {@code true} if {@code this} is greater or equal to {@code comparableObject},
-	 *         {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
-	 */
-	public boolean isGreaterOrEqualTo(final T comparableObject) {
-		return compareTo(comparableObject) >= 0;
+	public boolean isGreaterOrEqualTo(final T other) {
+		return compareTo(other) >= 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the smaller of {@code this} and {@code comparableObject}, or {@code this} if they are
-	 * equal.
+	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
+	 * (with {@code null} considered as the minimum value).
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
-	 * @return the smaller of {@code this} and {@code comparableObject}, or {@code this} if they are
-	 *         equal
+	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
-	public Comparable<T> getMin(final T comparableObject) {
-		return isLessOrEqualTo(comparableObject) ? this : comparableObject;
+	public Comparable<? super T> getMin(final T other) {
+		return isLessOrEqualTo(other) ? this : other;
 	}
 
 	/**
-	 * Returns the larger of {@code this} and {@code comparableObject}, or {@code this} if they are
-	 * equal.
+	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
+	 * {@code null} considered as the minimum value).
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with
+	 * @param other the other {@code T} object to compare against (may be {@code null})
 	 * <p>
-	 * @return the larger of {@code this} and {@code comparableObject}, or {@code this} if they are
-	 *         equal
+	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
-	public Comparable<T> getMax(final T comparableObject) {
-		return isGreaterOrEqualTo(comparableObject) ? this : comparableObject;
+	public Comparable<? super T> getMax(final T other) {
+		return isGreaterOrEqualTo(other) ? this : other;
 	}
 
 
@@ -164,43 +173,70 @@ public abstract class ComparableObject<T extends Comparable<T>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise.
+	 * Clones {@code this}.
 	 * <p>
-	 * @param other the {@link Object} to compare with for equality
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	@SuppressWarnings({"cast", "unchecked"})
+	public ComparableObject<T> clone() {
+		try {
+			return (ComparableObject<T>) super.clone();
+		} catch (final CloneNotSupportedException ex) {
+			throw new IllegalStateException(Objects.toString(ex), ex);
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code other} prevents it from being compared to
-	 *                              {@code this}
-	 * @throws NullPointerException if {@code other} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
+	 *
+	 * @see #hashCode()
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({"cast", "unchecked"})
 	public boolean equals(final Object other) {
 		if (this == other) {
 			return true;
 		}
-		if (other == null) {
+		if (other == null || !(other instanceof Comparable)) {
 			return false;
 		}
 		return equals((T) other);
 	}
 
 	/**
-	 * Compares {@code this} with {@code comparableObject} for equivalence.
+	 * Tests whether {@code this} is equal to {@code other}.
 	 * <p>
-	 * @param comparableObject the {@code T} object to compare with for equality
+	 * @param other the other {@code T} object to compare against for equality (may be {@code null})
 	 * <p>
-	 * @return {@code true} if {@code this} is less than {@code comparableObject}, {@code false}
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * <p>
-	 * @throws ClassCastException   if the class of {@code comparableObject} prevents it from being
-	 *                              compared to {@code this}
-	 * @throws NullPointerException if {@code comparableObject} is {@code null}
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
+	 *
+	 * @see #hashCode()
 	 */
-	public boolean equals(final T comparableObject) {
-		return compareTo(comparableObject) == 0;
+	public boolean equals(final T other) {
+		return compareTo(other) == 0;
 	}
 
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
 	@Override
 	public abstract int hashCode();
 }

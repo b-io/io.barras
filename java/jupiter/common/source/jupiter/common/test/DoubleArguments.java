@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,8 +32,13 @@ public class DoubleArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link DoubleArguments}.
+	 */
 	protected DoubleArguments() {
+		super();
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
@@ -141,6 +146,8 @@ public class DoubleArguments
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static double[] requireLength(final double[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
 			requireLength(requireNonNull(array).length, expectedLength);
@@ -180,6 +187,14 @@ public class DoubleArguments
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
 			throw new IllegalArgumentException("The specified double array has a length " +
 					foundLength + " superior to " + maxExpectedLength);
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final double[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,24 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/SortedList.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 SortedList* SortedList_new(void)
 {
 	SortedList* sl = _NEW(SortedList);
 
-	_PRINT_TEST(_S("<newSortedList>"));
+	_PRINT_DEBUG(_S("<newSortedList>"));
 	if (sl != NULL)
 	{
 		sl->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -52,18 +50,18 @@ SortedList* SortedList_new(void)
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_SORTED_LIST_NAME);
 	}
-	_PRINT_TEST(_S("</newSortedList>"));
+	_PRINT_DEBUG(_S("</newSortedList>"));
 	return sl;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void SortedList_reset(void* sortedList)
 {
-	_PRINT_TEST(_S("<resetSortedList>"));
+	_PRINT_DEBUG(_S("<resetSortedList>"));
 	_IF (_CHECK(sortedList, _SORTED_LIST_NAME))
 	{
 		/* Get the Sorted List */
@@ -78,13 +76,13 @@ void SortedList_reset(void* sortedList)
 		sl->addValue = SortedList_add_value;
 		sl->addStructure = SortedList_add_Structure;
 	}
-	_PRINT_TEST(_S("</resetSortedList>"));
+	_PRINT_DEBUG(_S("</resetSortedList>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * SORTED LIST
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean SortedList_insert(SortedList* sortedList, SortedNode* node)
 {
@@ -93,13 +91,13 @@ boolean SortedList_insert(SortedList* sortedList, SortedNode* node)
 	{
 		if (sortedList->first == NULL)
 		{
-			_PRINT_TEST(_S("first and last"));
+			_PRINT_DEBUG(_S("first and last"));
 			sortedList->first = node;
 			sortedList->last = node;
 		}
 		else if (node->compareTo(node, _OBJECT_TYPE, sortedList->last) >= 0)
 		{
-			_PRINT_TEST(_S("last"));
+			_PRINT_DEBUG(_S("last"));
 			/* ... o->o NULL */
 			sortedList->last->next = node;
 			/* ... o<-o NULL */
@@ -121,7 +119,7 @@ boolean SortedList_insert(SortedList* sortedList, SortedNode* node)
 					previous = current->previous;
 					if (previous == NULL)
 					{
-						_PRINT_TEST(_S("first"));
+						_PRINT_DEBUG(_S("first"));
 						/* NULL o->o ... */
 						node->next = current;
 						/* NULL o<-o ... */
@@ -131,7 +129,7 @@ boolean SortedList_insert(SortedList* sortedList, SortedNode* node)
 					}
 					else
 					{
-						_PRINT_TEST(_S("inside"));
+						_PRINT_DEBUG(_S("inside"));
 						/* ... o->o o ... */
 						previous->next = node;
 						/* ... o<-o o ... */
@@ -155,9 +153,9 @@ boolean SortedList_insert(SortedList* sortedList, SortedNode* node)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean SortedList_add(void* collection, const type type, void* value)
 {

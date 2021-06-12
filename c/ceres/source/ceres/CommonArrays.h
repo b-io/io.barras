@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_ARRAYS_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -46,9 +45,9 @@ extern "C"
 #include <stdio.h>
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONSTRUCT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns an array with the specified size, or {@code NULL} if the memory
@@ -63,9 +62,9 @@ extern "C"
 	void* array_new(const natural size, const natural elementSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ELEMENT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs an Element statically.
@@ -78,9 +77,9 @@ extern "C"
 	Element Element_create(const natural index, void* pointer);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ARRAY
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Replaces the specified element with the specified value.
@@ -109,12 +108,12 @@ extern "C"
 	 */
 	boolean array_copy(const void* source, const natural sourceSize, const natural elementSize, void* target, const natural targetSize);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the first element with the specified value and its index in the
-	 * specified array if it is present, {@code NULL} and the length of the
-	 * array otherwise.
+	 * specified array if it exists, {@code NULL} and the length of the array
+	 * otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -123,14 +122,14 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the first element with the specified value and its index in the
-	 *         specified array if it is present, {@code NULL} and the length of
-	 *         the array otherwise
+	 *         specified array if it exists, {@code NULL} and the length of the
+	 *         array otherwise
 	 */
 	Element array_find(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
 	/**
 	 * Returns the first element with the specified value in the specified array
-	 * if it is present, {@code NULL} otherwise.
+	 * if it exists, {@code NULL} otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -139,13 +138,13 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the first element with the specified value in the specified array
-	 *         if it is present, {@code NULL} otherwise
+	 *         if it exists, {@code NULL} otherwise
 	 */
 	void* array_find_element(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
 	/**
 	 * Returns the index of the first element with the specified value in the
-	 * specified array if it is present, the length of the array otherwise.
+	 * specified array if it exists, the length of the array otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -154,16 +153,16 @@ extern "C"
 	 * @param value       the value to be found
 	 * <p>
 	 * @return the index of the first element with the specified value in the
-	 *         specified array, the length of the array otherwise
+	 *         specified array if it exists, the length of the array otherwise
 	 */
 	natural array_find_index(const void* array, const natural length, const type elementType, const natural elementSize, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the first element with the specified value and its index in the
-	 * specified array if it is present, {@code NULL} and the length of the
-	 * array otherwise.
+	 * specified array if it exists, {@code NULL} and the length of the array
+	 * otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -173,14 +172,14 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the first element with the specified value and its index in the
-	 *         specified array if it is present, {@code NULL} and the length of
-	 *         the array otherwise
+	 *         specified array if it exists, {@code NULL} and the length of the
+	 *         array otherwise
 	 */
 	Element array_find_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 
 	/**
 	 * Returns the first element with the specified value in the specified array
-	 * if it is present, {@code NULL} otherwise.
+	 * if it exists, {@code NULL} otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -190,13 +189,13 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the first element with the specified value in the specified array
-	 *         if it is present, {@code NULL} otherwise
+	 *         if it exists, {@code NULL} otherwise
 	 */
 	void* array_find_element_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 
 	/**
 	 * Returns the index of the first element with the specified value in the
-	 * specified array if it is present, the length of the array otherwise.
+	 * specified array if it exists, the length of the array otherwise.
 	 * <p>
 	 * @param array       the array
 	 * @param length      the length of the array
@@ -206,11 +205,11 @@ extern "C"
 	 * @param comparator  the comparator for element equality of the array
 	 * <p>
 	 * @return the index of the first element with the specified value in the
-	 *         specified array, the length of the array otherwise
+	 *         specified array if it exists, the length of the array otherwise
 	 */
 	natural array_find_index_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the element at the specified position in the specified array.
@@ -268,9 +267,9 @@ extern "C"
 	boolean array_set(void* array, const type elementType, const natural elementSize, const natural index, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns an Iterator over the elements of the specified array.
@@ -285,9 +284,9 @@ extern "C"
 	Iterator array_iterator(void* array, const natural length, const type elementType, const natural elementSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

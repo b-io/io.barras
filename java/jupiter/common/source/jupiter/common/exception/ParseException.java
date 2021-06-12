@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ public class ParseException
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = 3641868469811302919L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,19 +41,34 @@ public class ParseException
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link ParseException} without an error detail message.
+	 * Constructs a {@link ParseException}.
 	 */
 	public ParseException() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link ParseException} with the specified error detail message.
+	 * Constructs a {@link ParseException} with the specified message {@link String} (which is saved
+	 * for later retrieval by the method {@link #getMessage}).
 	 * <p>
-	 * @param message the detail message (which is saved for later retrieval by the
-	 *                {@link #getMessage()} method)
+	 * @param message the message {@link String} (which is saved for later retrieval by the method
+	 *                {@link #getMessage})
 	 */
 	public ParseException(final String message) {
 		super(message);
+	}
+
+	/**
+	 * Constructs a {@link ParseException} with the specified message {@link String} (which is saved
+	 * for later retrieval by the method {@link #getMessage}) and {@link Throwable} cause (which is
+	 * saved for later retrieval by the method {@link #getCause}).
+	 * <p>
+	 * @param message the message {@link String} (which is saved for later retrieval by the method
+	 *                {@link #getMessage})
+	 * @param cause   the {@link Throwable} cause (which is saved for later retrieval by the method
+	 *                {@link #getCause})
+	 */
+	public ParseException(final String message, final Throwable cause) {
+		super(message, cause);
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,45 +23,52 @@
  */
 package jupiter.learning.supervised;
 
-import static jupiter.common.io.IO.IO;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
 public class LogisticRegressionTest
-		extends TestCase {
+		extends Test {
 
-	public LogisticRegressionTest() {
+	public LogisticRegressionTest(final String name) {
+		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Test of classify method, of class LogisticRegression.
+	 * Tests {@link LogisticRegression#classify}.
 	 */
 	public void testClassify() {
-		IO.test("classify");
+		IO.test(BULLET, " classify");
 
 		try {
 			// Initialize
-			final LogisticRegression model = new LogisticRegression("test/resources/X.csv",
-					"test/resources/Y.csv");
+			final LogisticRegression model = new LogisticRegression("test/resources/A/X.csv",
+					"test/resources/A/Y.csv");
 
-			// Train
-			final int nIterations = model.train();
+			// Train the model
+			final int iterationCount = model.train();
 
-			// Test
-			// - The accuracy
+			// Report the statistics
 			final double accuracy = model.computeAccuracy();
-			IO.test(Doubles.toPercentage(accuracy), " accuracy in ", nIterations, " iterations");
-			assertEquals(0.48, accuracy, 0.05);
-			// - The cost
+			final double f1Score = model.computeF1Score();
 			final double cost = model.computeCost();
+			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
+					Doubles.formatPercent(f1Score), " F1 score and ",
+					cost, " cost in ",
+					iterationCount, " iterations");
+
+			// Verify the model
+			assertEquals(0.5, accuracy, 0.05);
+			assertEquals(0.5, f1Score, 0.05);
 			assertEquals(0.67, cost, 0.05);
 		} catch (final IOException ex) {
-			ex.printStackTrace();
+			IO.error(ex);
 		}
 	}
 }

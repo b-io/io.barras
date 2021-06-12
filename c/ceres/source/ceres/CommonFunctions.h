@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_FUNCTIONS_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -45,9 +44,9 @@ extern "C"
 #include <stdio.h>
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * FORMAT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	boolean format_specifier_to_string(const character* source, va_list* args, string target);
 
@@ -55,20 +54,20 @@ extern "C"
 	boolean format_to_file(const character* source, va_list* args, FILE* target, const natural targetSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * POINTER
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	boolean pointer_to_string(const void* source, string target);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * TYPES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	natural type_get_size(const type type);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	boolean type_is_dynamic(const type type);
 
@@ -79,7 +78,7 @@ extern "C"
 	boolean type_is_Comparable(const type type);
 	boolean type_is_Iterable(const type type);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size
@@ -102,9 +101,9 @@ extern "C"
 	boolean type_append_to_string(const void* source, string target);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Comparable.
@@ -128,13 +127,13 @@ extern "C"
 	integer Structures_compare_to(const Structure* first, const Structure* second);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	Basic Basic_create(function_release functionRelease, function_clone functionClone, function_equals functionEquals, function_hash functionHash, function_to_string functionToString);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Releases the specified Structure.
@@ -143,7 +142,7 @@ extern "C"
 	 */
 	void release(Structure* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	boolean equals(const type firstType, const void* firstValue, const type secondType, const void* secondValue);
 	boolean Structure_equals(const void* structure, const type type, const void* value);
@@ -152,14 +151,14 @@ extern "C"
 
 	boolean Structures_equals(const Structure* first, const Structure* second);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	integer hash(const Structure* structure);
 	integer Structure_hash(const void* structure);
 	integer Basic_hash(const void* structure);
 	function_hash get_function_hash(const type type);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	boolean to_string(const void* source, const type type, string target);
 	boolean Structure_to_string(const void* source, string target);
@@ -172,9 +171,9 @@ extern "C"
 	function_append_to_string get_function_append_to_string(const type type);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * STRUCTURE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Structure statically.
@@ -187,9 +186,9 @@ extern "C"
 	Structure Structure_create(const type type, void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CORE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs a Core statically.

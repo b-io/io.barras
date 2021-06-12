@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,6 @@
  */
 package jupiter.common.test;
 
-import jupiter.common.util.Strings;
-
 public class StringArguments
 		extends Arguments {
 
@@ -32,17 +30,22 @@ public class StringArguments
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Prevents the construction of {@link StringArguments}.
+	 */
 	protected StringArguments() {
+		super();
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String requireNonEmpty(final String string) {
-		if (CHECK_ARGS && Strings.isEmpty(requireNonNull(string))) {
-			throw new IllegalArgumentException("The specified string is empty");
+	public static String requireNonEmpty(final String text) {
+		if (CHECK_ARGS && requireNonNull(text).isEmpty()) {
+			throw new IllegalArgumentException("The specified text is empty");
 		}
-		return string;
+		return text;
 	}
 }

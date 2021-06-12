@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,9 +29,9 @@ extern "C"
 #define _COMMON_STRING_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/CommonConstants.h"
 #include "ceres/CommonMacros.h"
@@ -51,9 +50,9 @@ extern "C"
 #include <string.h>
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONSTRUCT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Constructs an array of characters dynamically.
@@ -72,9 +71,9 @@ extern "C"
 	character* string_new(void);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RESET
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Sets the first character of {@code string} to {@code _STRING_END}.
@@ -91,7 +90,7 @@ extern "C"
 	 */
 	void string_reset(string string);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Sets all the characters of {@code string} to {@code _STRING_END}.
@@ -109,9 +108,9 @@ extern "C"
 	void string_reset_all(string string);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMMON
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the length of {@code string}, or {@code 0} if {@code string} is
@@ -136,7 +135,7 @@ extern "C"
 	 */
 	natural string_length(const string string);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if {@code string} is empty or {@code NULL},
@@ -161,7 +160,7 @@ extern "C"
 	 */
 	boolean string_is_empty(const string string);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Sets all the characters of {@code string} of size {@code size} to
@@ -190,7 +189,7 @@ extern "C"
 	 */
 	void string_fill(string string, const character c);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Sets all the characters of {@code string} of size {@code size} to
@@ -214,9 +213,9 @@ extern "C"
 	void string_clear(string string);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COPY
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target}.
@@ -245,7 +244,7 @@ extern "C"
 	 */
 	boolean chars_copy_to_string(const character* source, const natural sourceSize, const natural length, character* target);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target}.
@@ -272,7 +271,7 @@ extern "C"
 	 */
 	boolean string_copy_to_chars(const character* source, const natural length, character* target, const natural targetSize);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns a new array of characters that is a substring of {@code string}.
@@ -296,7 +295,7 @@ extern "C"
 	 */
 	void string_from(const string source, const natural startIndex, string target);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns a new array of characters that is a substring of {@code string}.
@@ -325,9 +324,9 @@ extern "C"
 	void string_sub(const string source, const natural startIndex, const natural endIndex, string target);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * FIND
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if {@code source} contains {@code c}, {@code _FALSE}
@@ -354,7 +353,7 @@ extern "C"
 	 */
 	boolean string_contain(const string source, const character c);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the first character of {@code source} that is in {@code set}, or
@@ -381,7 +380,7 @@ extern "C"
 	 */
 	character* string_find(string source, const string set);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the index of the first character of {@code source} that is in
@@ -408,7 +407,7 @@ extern "C"
 	 */
 	natural string_find_index(string source, const string set);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the last character of {@code source} that is in {@code set}, or
@@ -435,7 +434,7 @@ extern "C"
 	 */
 	character* string_find_last(string source, const string set);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the index of the last character of {@code source} that is in
@@ -463,7 +462,7 @@ extern "C"
 	 */
 	natural string_find_last_index(string source, const string set);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns an Array containing all the characters of {@code source} that are
@@ -490,7 +489,7 @@ extern "C"
 	 */
 	Array* string_find_all(string source, const string set);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the first occurrence of {@code text} within {@code source}, or
@@ -518,22 +517,22 @@ extern "C"
 	 */
 	character* string_find_string(string source, const string text);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	boolean chars_replace(character* source, const natural sourceSize, const character* oldText, const natural oldTextSize, const character* newText, const natural newTextSize);
 
 	boolean string_replace(string source, const string oldText, const string newText);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	boolean chars_replace_all(character* source, const natural sourceSize, const character* oldText, const natural oldTextSize, const character* newText, const natural newTextSize);
 
 	boolean string_replace_all(string source, const string oldText, const string newText);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * SPLIT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns an Array of arrays of characters computed by splitting
@@ -561,9 +560,9 @@ extern "C"
 	Array* string_split(string source, const string delimiters);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * CONCATENATE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Concatenate {@code source} to {@code target}.
@@ -580,9 +579,9 @@ extern "C"
 	boolean chars_cat(const character* source, const natural sourceSize, const natural length, character* target, const natural targetSize);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * FORMAT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Writes the C string pointed by {@code source} to {@code target}. If
@@ -635,9 +634,9 @@ extern "C"
 	character* string_format_new(const character* format, ...);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * ITERABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Returns the next element in the iteration.
@@ -649,9 +648,9 @@ extern "C"
 	void* string_Iterator_next(Iterator* iterator);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * COMPARABLE
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Compares the specified array of characters for order. Returns a negative
@@ -690,9 +689,9 @@ extern "C"
 	integer string_compare_to(const void* structure, const type type, const void* value);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * BASIC
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Releases the specified array of characters.
@@ -708,7 +707,7 @@ extern "C"
 	 */
 	void string_release(string string);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns {@code _TRUE} if the specified arrays of characters are equal,
@@ -737,7 +736,7 @@ extern "C"
 	 */
 	boolean string_equals(const void* structure, const type type, const void* value);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Returns the hash code of the specified array.
@@ -758,7 +757,7 @@ extern "C"
 	 */
 	integer string_hash(const void* structure);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} of size {@code size}.
@@ -783,7 +782,7 @@ extern "C"
 	 */
 	boolean chars_append_to_chars(const character* source, const natural sourceSize, character* target, const natural targetSize);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size
@@ -805,7 +804,7 @@ extern "C"
 	 */
 	boolean chars_append_to_string(const character* source, const natural sourceSize, string target);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size
@@ -827,7 +826,7 @@ extern "C"
 	 */
 	boolean string_append_to_chars(const string source, string target, const natural targetSize);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Copies {@code source} into {@code target} (of size

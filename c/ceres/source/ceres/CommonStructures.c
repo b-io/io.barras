@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,20 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/CommonStructures.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * SIZES
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural CORE_SIZE = sizeof (Core);
-const natural STRUCTURE_SIZE = sizeof (Structure);
-const natural BASIC_SIZE = sizeof (Basic);
-const natural COMPARABLE_SIZE = sizeof (Comparable);
+const size CORE_SIZE = sizeof (Core);
+const size STRUCTURE_SIZE = sizeof (Structure);
+const size BASIC_SIZE = sizeof (Basic);
+const size COMPARABLE_SIZE = sizeof (Comparable);

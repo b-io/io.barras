@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,12 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.Parsers;
+import jupiter.common.map.parser.IParsers;
+import jupiter.common.model.ICloneable;
 import jupiter.common.test.ArrayArguments;
-import jupiter.common.test.IntegerArguments;
 
 /**
- * {@link StringTable} is a {@link Table} of {@link String}.
+ * {@link StringTable} is the {@link Table} of {@link String}.
  */
 public class StringTable
 		extends Table<String> {
@@ -42,7 +42,7 @@ public class StringTable
 	/**
 	 * The generated serial version ID.
 	 */
-	private static final long serialVersionUID = -2081035613974725698L;
+	private static final long serialVersionUID = 1L;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,17 +50,44 @@ public class StringTable
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link StringTable} of the specified numbers of rows and columns.
+	 * Constructs a {@link StringTable} with the specified numbers of rows and columns.
 	 * <p>
-	 * @param m the number of rows
-	 * @param n the number of columns
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
 	 */
-	public StringTable(final int m, final int n) {
-		super(String.class, m, n);
+	public StringTable(final int rowCount, final int columnCount) {
+		super(String.class, rowCount, columnCount);
 	}
 
 	/**
-	 * Constructs a {@link StringTable} from the specified elements.
+	 * Constructs a {@link StringTable} with the specified header and numbers of rows and columns.
+	 * <p>
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public StringTable(final String[] header, final int rowCount, final int columnCount) {
+		super(String.class, header, rowCount, columnCount);
+	}
+
+	/**
+	 * Constructs a {@link StringTable} with the specified index, header and numbers of rows and
+	 * columns.
+	 * <p>
+	 * @param index       an array of {@link Object} (may be {@code null})
+	 * @param header      an array of {@link String} (may be {@code null})
+	 * @param rowCount    the number of rows
+	 * @param columnCount the number of columns
+	 */
+	public StringTable(final Object[] index, final String[] header, final int rowCount,
+			final int columnCount) {
+		super(String.class, index, header, rowCount, columnCount);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link StringTable} with the specified elements.
 	 * <p>
 	 * @param elements a 2D array of {@link String}
 	 */
@@ -69,7 +96,7 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} from the specified header and elements.
+	 * Constructs a {@link StringTable} with the specified header and elements.
 	 * <p>
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link String}
@@ -79,21 +106,34 @@ public class StringTable
 	}
 
 	/**
-	 * Constructs a {@link StringTable} imported from the specified file.
+	 * Constructs a {@link StringTable} with specified index, header and elements.
 	 * <p>
-	 * @param pathname  the pathname of the file to import
-	 * @param hasHeader the option specifying whether the file has a header
-	 * <p>
-	 * @throws IOException if there is a problem with reading the file
+	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param header   an array of {@link String}
+	 * @param elements a 2D array of {@link String}
 	 */
-	public StringTable(final String pathname, final boolean hasHeader)
+	public StringTable(final Object[] index, final String[] header, final String[]... elements) {
+		super(String.class, index, header, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link StringTable} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param hasHeader the flag specifying whether the file has a header
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public StringTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(Parsers.STRING_PARSER, pathname, hasHeader);
+		super(IParsers.STRING_PARSER, path, hasHeader);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -102,15 +142,14 @@ public class StringTable
 	 * @param i      the row index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	@Override
-	public void setRow(final int i, final String[] values) {
+	public void setRow(final int i, final String... values) {
 		// Check the arguments
-		// - i
-		IntegerArguments.requireNonNegative(i);
-		IntegerArguments.requireLessThan(i, m);
-		// - values
+		// • i
+		ArrayArguments.requireIndex(i, m);
+		// • values
 		ArrayArguments.requireMinLength(values, n);
 
 		// Set the corresponding row
@@ -125,20 +164,36 @@ public class StringTable
 	 * @param j      the column index
 	 * @param values an array of {@link String}
 	 * <p>
-	 * @throws ArrayIndexOutOfBoundsException {@inheritDoc}
+	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	@Override
-	public void setColumn(final int j, final String[] values) {
+	public void setColumn(final int j, final String... values) {
 		// Check the arguments
-		// - j
-		IntegerArguments.requireNonNegative(j);
-		IntegerArguments.requireLessThan(j, n);
-		// - values
+		// • j
+		ArrayArguments.requireIndex(j, n);
+		// • values
 		ArrayArguments.requireMinLength(values, m);
 
 		// Set the corresponding column
 		for (int i = 0; i < m; ++i) {
 			elements[i][j] = values[i];
 		}
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public StringTable clone() {
+		return (StringTable) super.clone();
 	}
 }

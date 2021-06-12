@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,34 @@
 package saturn.common.io
 
 object IO {
-	////////////////////////////////////////////////////////////////////////////
-	// PRINTS
-	////////////////////////////////////////////////////////////////////////////
 
-	def print[T](text: T) = System.out.print(String.valueOf(text))
-	def println[T](text: T) = System.out.println(String.valueOf(text))
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PRINTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prints the specified {@link Sequence}.
+	 * <p>
+	 * @param content the {@link Sequence} to print
+	 */
+	def print(content: Object*) = {
+		if (content != null) {
+			System.out.print(content.reduceLeft(String.valueOf(_) + " " + String.valueOf(_)))
+		} else {
+			System.out.print()
+		}
+	}
+
+	/**
+	 * Prints the specified {@link Sequence} and terminates the line.
+	 * <p>
+	 * @param content the {@link Sequence} to print
+	 */
+	def println(content: Object*) = {
+		if (content != null) {
+			System.out.println(content.reduceLeft(String.valueOf(_) + " " + String.valueOf(_)))
+		} else {
+			System.out.println()
+		}
+	}
 }

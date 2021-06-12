@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/CommonArrays.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* array_new(const natural size, const natural elementSize)
 {
@@ -49,9 +47,9 @@ void* array_new(const natural size, const natural elementSize)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ELEMENT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Element Element_create(const natural index, void* pointer)
 {
@@ -63,9 +61,9 @@ Element Element_create(const natural index, void* pointer)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ARRAY
- ******************************************************************************/
+ **************************************************************************************************/
 
 void* array_add(const type elementType, const natural elementSize, void* element, const void* value)
 {
@@ -137,7 +135,7 @@ boolean array_copy(const void* source, const natural sourceSize, const natural e
 	return sourceSize <= targetSize;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Element array_find(const void* array, const natural length, const type elementType, const natural elementSize, const void* value)
 {
@@ -589,7 +587,7 @@ natural array_find_index(const void* array, const natural length, const type ele
 	return length;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 Element array_find_with_comparator(const void* array, const natural length, const type elementType, const natural elementSize, const void* value, const Comparable* comparator)
 {
@@ -639,7 +637,7 @@ natural array_find_index_with_comparator(const void* array, const natural length
 	return length;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* array_get(const void* array, const type elementType, const natural elementSize, const natural index)
 {
@@ -779,9 +777,9 @@ boolean array_set(void* array, const type elementType, const natural elementSize
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Iterator array_iterator(void* array, const natural length, const type elementType, const natural elementSize)
 {
@@ -825,9 +823,9 @@ Iterator array_iterator(void* array, const natural length, const type elementTyp
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean array_to_string(const Structure* source, string target)
 {

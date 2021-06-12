@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,10 +23,7 @@
  */
 package jupiter.learning.supervised.function;
 
-import jupiter.math.analysis.function.Function;
-
-public abstract class ActivationFunctions
-		extends Function {
+public abstract class ActivationFunctions {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -35,4 +32,16 @@ public abstract class ActivationFunctions
 	public static final ActivationHyperbolicTangent TANH = new ActivationHyperbolicTangent();
 	public static final ActivationReLU RELU = new ActivationReLU();
 	public static final ActivationSigmoid SIGMOID = new ActivationSigmoid();
+	public static final ActivationSoftmax SOFTMAX = new ActivationSoftmax();
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Prevents the construction of {@link ActivationFunctions}.
+	 */
+	protected ActivationFunctions() {
+	}
 }

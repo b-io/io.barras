@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,22 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/CommonCollection.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Collection_reset(void* collection, const natural length, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetCollection>"));
+	_PRINT_DEBUG(_S("<resetCollection>"));
 	_IF (_CHECK(collection, _COLLECTION_NAME))
 	{
 		/* Get the Collection */
@@ -76,13 +74,13 @@ void Collection_reset(void* collection, const natural length, const type element
 		/* - Collection */
 		c->size = initialSize;
 	}
-	_PRINT_TEST(_S("</resetCollection>"));
+	_PRINT_DEBUG(_S("</resetCollection>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean Collection_add_value(void* collection, void* value)
 {
@@ -156,7 +154,7 @@ boolean Collection_add_all_and_resize(void* collection, const void* values)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Collection_contains_value(const void* collection, const void* value)
 {
@@ -210,7 +208,7 @@ boolean Collection_contains_all(const void* collection, const void* values)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural Collection_count_value(const void* collection, const void* value)
 {
@@ -263,7 +261,7 @@ natural Collection_count_all(const void* collection, const void* values)
 	return 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Collection_remove_value(void* collection, const void* value)
 {
@@ -318,9 +316,9 @@ boolean Collection_remove_all(void* collection, const void* values)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Collection_create_Comparable(void)
 {
@@ -367,16 +365,16 @@ integer Collection_compare_to(const void* structure, const type type, const void
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean Collection_equals(const void* structure, const type type, const void* value)
 {
 	return Collection_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Collection_hash(const void* structure)
 {
@@ -413,7 +411,7 @@ integer Collection_hash(const void* structure)
 	return code;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Collection_to_string(const void* source, string target)
 {

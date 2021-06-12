@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,31 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-
-/*******************************************************************************
+/***************************************************************************************************
  * INCLUDES
- ******************************************************************************/
+ **************************************************************************************************/
 
 #include "ceres/iterable/CommonArray.h"
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTANTS
- ******************************************************************************/
+ **************************************************************************************************/
 
-const natural ARRAY_SIZE = sizeof (Array);
+const size ARRAY_SIZE = sizeof (Array);
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * CONSTRUCT
- ******************************************************************************/
+ **************************************************************************************************/
 
 Array* Array_new(const type elementType, const natural elementSize, const natural initialSize)
 {
 	Array* a = _NEW(Array);
 
-	_PRINT_TEST(_S("<newArray>"));
+	_PRINT_DEBUG(_S("<newArray>"));
 	if (a != NULL)
 	{
 		a->core = Core_create(_TRUE, _FALSE, _TRUE, _TRUE);
@@ -60,18 +58,18 @@ Array* Array_new(const type elementType, const natural elementSize, const natura
 	{
 		_PRINT_ERROR_MEMORY_ALLOCATION(_ARRAY_NAME);
 	}
-	_PRINT_TEST(_S("</newArray>"));
+	_PRINT_DEBUG(_S("</newArray>"));
 	return a;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * RESET
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Array_reset(void* array, const type elementType, const natural elementSize, const natural initialSize)
 {
-	_PRINT_TEST(_S("<resetArray>"));
+	_PRINT_DEBUG(_S("<resetArray>"));
 	_IF (_CHECK(array, _ARRAY_NAME))
 	{
 		/* Get the Array */
@@ -128,13 +126,13 @@ void Array_reset(void* array, const type elementType, const natural elementSize,
 			_PRINT_ERROR_ARRAY_ALLOCATION(elementType);
 		}
 	}
-	_PRINT_TEST(_S("</resetArray>"));
+	_PRINT_DEBUG(_S("</resetArray>"));
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * LIST
- ******************************************************************************/
+ **************************************************************************************************/
 
 Structure Array_get(const void* list, const natural index)
 {
@@ -160,9 +158,9 @@ Structure Array_get(const void* list, const natural index)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COLLECTION
- ******************************************************************************/
+ **************************************************************************************************/
 
 boolean Array_add(void* collection, const type type, void* value)
 {
@@ -300,11 +298,11 @@ boolean Array_add_Array(void* collection, const void* values)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void Array_clear(void* collection)
 {
-	_PRINT_TEST(_S("<clearArray>"));
+	_PRINT_DEBUG(_S("<clearArray>"));
 	_IF (_CHECK(collection, _ARRAY_NAME))
 	{
 		/* Get the Array */
@@ -325,10 +323,10 @@ void Array_clear(void* collection)
 		a->length = 0;
 		a->element.value = a->elements;
 	}
-	_PRINT_TEST(_S("</clearArray>"));
+	_PRINT_DEBUG(_S("</clearArray>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Array_contains(const void* collection, const type type, const void* value)
 {
@@ -499,7 +497,7 @@ boolean Array_contains_all(const void* collection, const void* values)
 	return _FALSE;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 natural Array_count(const void* collection, const type type, const void* value)
 {
@@ -681,7 +679,7 @@ natural Array_count_all(const void* collection, const void* values)
 	return 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Array_remove(void* collection, const type type, const void* value)
 {
@@ -769,11 +767,11 @@ boolean Array_remove_all(void* collection, const void* values)
 	return isModified;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Array_resize(void* collection, const natural size)
 {
-	_PRINT_TEST(_S("<resizeArray>"));
+	_PRINT_DEBUG(_S("<resizeArray>"));
 	_IF (_CHECK(collection, _ARRAY_NAME))
 	{
 		/* Get the Array */
@@ -810,7 +808,7 @@ boolean Array_resize(void* collection, const natural size)
 			a->size = size;
 			a->elements = es;
 			a->element.value = array_get(es, a->element.type, a->element.size, a->length);
-			_PRINT_TEST(_S("</resizeArray>"));
+			_PRINT_DEBUG(_S("</resizeArray>"));
 			return _TRUE;
 		}
 		else if (size == 0)
@@ -818,7 +816,7 @@ boolean Array_resize(void* collection, const natural size)
 			a->size = size;
 			a->elements = es;
 			a->element.value = es;
-			_PRINT_TEST(_S("</resizeArray>"));
+			_PRINT_DEBUG(_S("</resizeArray>"));
 			return _TRUE;
 		}
 		else
@@ -826,14 +824,14 @@ boolean Array_resize(void* collection, const natural size)
 			_PRINT_ERROR_ARRAY_REALLOCATION(a->element.type);
 		}
 	}
-	_PRINT_TEST(_S("</resizeArray>"));
+	_PRINT_DEBUG(_S("</resizeArray>"));
 	return _FALSE;
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * ITERABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Iterator Array_iterator(const void* iterable)
 {
@@ -847,7 +845,7 @@ Iterator Array_iterator(const void* iterable)
 	return _ITERATOR_DEFAULT;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Array_Iterator_next(Iterator* iterator)
 {
@@ -865,9 +863,9 @@ void* Array_Iterator_next(Iterator* iterator)
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * COMPARABLE
- ******************************************************************************/
+ **************************************************************************************************/
 
 Comparable Array_create_Comparable(void)
 {
@@ -913,13 +911,13 @@ integer Array_compare_to(const void* structure, const type type, const void* val
 }
 
 
-/*******************************************************************************
+/***************************************************************************************************
  * BASIC
- ******************************************************************************/
+ **************************************************************************************************/
 
 void Array_release(void* structure)
 {
-	_PRINT_TEST(_S("<releaseArray>"));
+	_PRINT_DEBUG(_S("<releaseArray>"));
 	if (structure != NULL)
 	{
 		/* Get the Array */
@@ -939,10 +937,10 @@ void Array_release(void* structure)
 	{
 		_PRINT_WARNING_NULL(_ARRAY_NAME);
 	}
-	_PRINT_TEST(_S("</releaseArray>"));
+	_PRINT_DEBUG(_S("</releaseArray>"));
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 void* Array_clone(const void* structure)
 {
@@ -959,14 +957,14 @@ void* Array_clone(const void* structure)
 	return NULL;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Array_equals(const void* structure, const type type, const void* value)
 {
 	return Array_compare_to(structure, type, value) == 0;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 integer Array_hash(const void* structure)
 {
@@ -1002,7 +1000,7 @@ integer Array_hash(const void* structure)
 	return code;
 }
 
-/******************************************************************************/
+/**************************************************************************************************/
 
 boolean Array_to_string(const void* source, string target)
 {

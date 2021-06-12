@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,14 +23,38 @@
  */
 package jupiter.math.statistics;
 
-public class OnlineStatistic {
+import java.io.Serializable;
+
+import jupiter.common.math.Maths;
+
+public class OnlineStatistic
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected int size;
-	protected double mean, variance;
+	/**
+	 * The sample size.
+	 */
+	protected int sampleSize;
+	/**
+	 * The sample mean and variance.
+	 */
+	protected double sampleMean, sampleVariance;
+	/**
+	 * The sum.
+	 */
 	protected double sum;
 
 
@@ -38,53 +62,81 @@ public class OnlineStatistic {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs an {@link OnlineStatistic}.
+	 */
 	public OnlineStatistic() {
-		reset();
+		clear();
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns the sample size.
+	 * <p>
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
-		return size;
+		return sampleSize;
 	}
 
 	/**
+	 * Returns the sample mean.
+	 * <p>
 	 * @return the sample mean
 	 */
 	public double getSampleMean() {
-		return mean;
+		return sampleMean;
 	}
 
 	/**
+	 * Returns the sample variance.
+	 * <p>
 	 * @return the sample variance
 	 */
 	public double getSampleVariance() {
-		return variance;
+		return sampleVariance;
 	}
 
 	/**
+	 * Returns the sample standard deviation.
+	 * <p>
 	 * @return the sample standard deviation
 	 */
 	public double getSampleStandardDeviation() {
-		return Math.sqrt(variance);
+		return Maths.sqrt(sampleVariance);
 	}
 
 	/**
+	 * Returns the confidence interval of the sample mean.
+	 * <p>
 	 * @return the confidence interval of the sample mean
 	 */
 	public double getSampleMeanConfidenceInterval() {
-		return getSampleStandardDeviation() / Math.sqrt(size);
+		return getSampleStandardDeviation() / Maths.sqrt(sampleSize);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clears {@code this}.
+	 */
+	public void clear() {
+		sampleSize = 0;
+		sampleMean = 0.;
+		sampleVariance = 0.;
+		sum = 0.;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -93,20 +145,10 @@ public class OnlineStatistic {
 	 * @param x a {@code double} value
 	 */
 	public void update(final double x) {
-		++size;
-		final double delta = x - mean;
-		mean += delta / size;
-		sum += delta * (x - mean);
-		variance = sum / (size - 1);
-	}
-
-	/**
-	 * Resets {@code this}.
-	 */
-	public void reset() {
-		size = 0;
-		mean = 0.;
-		variance = 0.;
-		sum = 0.;
+		++sampleSize;
+		final double delta = x - sampleMean;
+		sampleMean += delta / sampleSize;
+		sum += delta * (x - sampleMean);
+		sampleVariance = sum / (sampleSize - 1);
 	}
 }

@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,17 +23,39 @@
  */
 package jupiter.math.calculator.model;
 
-import jupiter.common.util.Strings;
+import java.io.Serializable;
+
+import jupiter.common.util.Objects;
 import jupiter.math.linear.entity.Entity;
 
-public abstract class Element {
+public abstract class Element
+		implements Serializable {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The parent {@link Element}.
+	 */
 	protected Element parent;
+	/**
+	 * The expression {@link String}.
+	 */
 	protected String expression;
+	/**
+	 * The {@link Entity}.
+	 */
 	protected Entity entity;
 
 
@@ -41,12 +63,27 @@ public abstract class Element {
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public Element(final Element parent, final String expression) {
+	/**
+	 * Constructs an {@link Element} with the specified parent {@link Element} and expression
+	 * {@link String}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 */
+	protected Element(final Element parent, final String expression) {
 		this.parent = parent;
 		this.expression = expression;
 	}
 
-	public Element(final Element parent, final String expression, final Entity entity) {
+	/**
+	 * Constructs an {@link Element} with the specified parent {@link Element}, expression
+	 * {@link String} and {@link Entity}.
+	 * <p>
+	 * @param parent     the parent {@link Element}
+	 * @param expression the expression {@link String}
+	 * @param entity     the {@link Entity}
+	 */
+	protected Element(final Element parent, final String expression, final Entity entity) {
 		this.parent = parent;
 		this.expression = expression;
 		this.entity = entity;
@@ -54,31 +91,31 @@ public abstract class Element {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// GETTERS & SETTERS
+	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the parent.
+	 * Returns the parent {@link Element}.
 	 * <p>
-	 * @return the parent
+	 * @return the parent {@link Element}
 	 */
 	public Element getParent() {
 		return parent;
 	}
 
 	/**
-	 * Returns the expression.
+	 * Returns the expression {@link String}.
 	 * <p>
-	 * @return the expression
+	 * @return the expression {@link String}
 	 */
 	public String getExpression() {
 		return expression;
 	}
 
 	/**
-	 * Returns the entity.
+	 * Returns the {@link Entity}.
 	 * <p>
-	 * @return the entity
+	 * @return the {@link Entity}
 	 */
 	public Entity getEntity() {
 		return entity;
@@ -87,7 +124,7 @@ public abstract class Element {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Sets the parent.
+	 * Sets the parent {@link Element}.
 	 * <p>
 	 * @param parent an {@link Element}
 	 */
@@ -96,7 +133,7 @@ public abstract class Element {
 	}
 
 	/**
-	 * Sets the expression.
+	 * Sets the expression {@link String}.
 	 * <p>
 	 * @param expression a {@link String}
 	 */
@@ -105,7 +142,7 @@ public abstract class Element {
 	}
 
 	/**
-	 * Sets the entity.
+	 * Sets the {@link Entity}.
 	 * <p>
 	 * @param entity an {@link Entity}
 	 */
@@ -118,9 +155,14 @@ public abstract class Element {
 	// OBJECT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 * <p>
+	 * @return a representative {@link String} of {@code this}
+	 */
 	@Override
 	public String toString() {
-		return Strings.toString(entity);
+		return Objects.toString(entity);
 	}
 
 
@@ -129,22 +171,52 @@ public abstract class Element {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum Type {
-		ENTITY,
+		// • Unary operators
+		FACTORIAL,
+		TRANSPOSE,
 
+		// • Binary operators
 		ADDITION,
 		SUBTRACTION,
 		MULTIPLICATION,
 		DIVISION,
+		MODULO,
 		POWER,
 		SOLUTION,
 
-		FACTORIAL,
-		INVERSE,
-		TRANSPOSE,
+		// • Univariate functions
+		MAGIC,
+		RANDOM,
 
+		ABS,
+		EXP,
+		INV,
+		LOG,
+		ROOT,
+
+		FLOOR,
+		CEIL,
+		ROUND,
+
+		COS,
+		COSH,
+		SIN,
+		SINH,
+		TAN,
+		TANH,
+		HAV,
+
+		// • Bivariate functions
+		MIN,
+		MAX,
+
+		// • Nested expressions
 		LEFT_PARENTHESIS,
 		RIGHT_PARENTHESIS,
 		LEFT_BRACKET,
-		RIGHT_BRACKET
+		RIGHT_BRACKET,
+
+		// • Entities
+		ENTITY
 	}
 }

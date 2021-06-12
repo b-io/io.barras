@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 #ifdef __cplusplus
 extern "C"
 {
@@ -30,16 +29,16 @@ extern "C"
 #define _SORTING_FUNCTIONS_H
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * INCLUDES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 #include "ceres/Common.h"
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * STRUCTURES
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Defines the partition of integers for Quicksort.
@@ -60,9 +59,9 @@ extern "C"
 	} OPartition;
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * QUICKSORT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Sorts an array in O(n * log(n)) time in average (worst case is n^2).
@@ -81,7 +80,7 @@ extern "C"
 	 */
 	IPartition integers_quicksort_partition(integer* from, integer* to, const integer* pivot);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Sorts an array in O(n * log(n)) time in average (worst case is n^2).
@@ -93,7 +92,7 @@ extern "C"
 	 */
 	void integers_dual_pivot_quicksort_step(integer* from, integer* to);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Sorts an array in O(n * log(n)) time in average (worst case is n^2).
@@ -113,9 +112,9 @@ extern "C"
 	OPartition Objects_quicksort_partition(Object* from, Object* to, const Object* pivot);
 
 
-	/***************************************************************************
+	/***********************************************************************************************
 	 * RANDOMIZED QUICKSORT
-	 **************************************************************************/
+	 **********************************************************************************************/
 
 	/**
 	 * Randomized Quicksort is similar to Quicksort except that the algorithm
@@ -129,7 +128,7 @@ extern "C"
 	 */
 	void integers_random_quicksort_step(integer* from, integer* to);
 
-	/**************************************************************************/
+	/**********************************************************************************************/
 
 	/**
 	 * Randomized Quicksort is similar to Quicksort except that the algorithm

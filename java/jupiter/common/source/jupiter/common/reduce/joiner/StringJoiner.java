@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,19 +23,35 @@
  */
 package jupiter.common.reduce.joiner;
 
+import jupiter.common.model.ICloneable;
 import jupiter.common.reduce.ObjectReducer;
+import jupiter.common.test.Arguments;
 import jupiter.common.util.Strings;
 
 /**
- * {@link StringJoiner} is a reduce operator joining an array of {@link Object} to a {@link String}.
+ * {@link StringJoiner} is the {@link ObjectReducer} joining an input array to an output
+ * {@link String}.
  */
-public abstract class StringJoiner
+public class StringJoiner
 		extends ObjectReducer<String> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * The delimiting {@link String}.
+	 */
 	protected final String delimiter;
 
 
@@ -43,18 +59,45 @@ public abstract class StringJoiner
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Constructs a {@link StringJoiner} with the specified delimiting {@link String}.
+	 * <p>
+	 * @param delimiter the delimiting {@link String}
+	 */
 	protected StringJoiner(final String delimiter) {
 		super(String.class);
+
+		// Check the arguments
+		Arguments.requireNonNull(delimiter, "delimiter");
+
+		// Set the attributes
 		this.delimiter = delimiter;
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OPERATORS
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
 	public String call(final Object... input) {
 		return Strings.joinWith(input, delimiter);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 * <p>
+	 * @return a clone of {@code this}
+	 *
+	 * @see ICloneable
+	 */
+	@Override
+	public StringJoiner clone() {
+		return new StringJoiner(delimiter);
 	}
 }

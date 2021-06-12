@@ -1,7 +1,7 @@
 /*
- * The MIT License
+ * The MIT License (MIT)
  *
- * Copyright © 2013-2018 Florian Barras <https://barras.io>
+ * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,37 +23,42 @@
  */
 package jupiter.common.io.console;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 
 public interface IConsole {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// INPUT
+	// READERS / WRITERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link InputStream}.
+	 * <p>
+	 * @return the {@link InputStream}
+	 */
+	public InputStream getIn();
 
 	/**
 	 * Returns the input line.
 	 * <p>
 	 * @return the input line
 	 */
-	public String input();
+	public String getInputLine();
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// OUTPUT
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the output stream.
+	 * Returns the {@link PrintStream}.
 	 * <p>
-	 * @return the output stream
+	 * @return the {@link PrintStream}
 	 */
 	public PrintStream getOut();
 
 	/**
-	 * Returns the error output stream.
+	 * Returns the error {@link PrintStream}.
 	 * <p>
-	 * @return the error output stream
+	 * @return the error {@link PrintStream}
 	 */
 	public PrintStream getErr();
 }
