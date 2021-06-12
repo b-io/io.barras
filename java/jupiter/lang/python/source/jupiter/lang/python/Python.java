@@ -79,6 +79,8 @@ public class Python {
 
 		// • Data Science
 		"numpy", // provide powerful capabilities to create arrays of structured datatype
+		"scikit-learn", // provide simple and efficient tools for predictive data analysis
+		"scikit-lego", // provide extensions to the scikit-learn module
 		"scipy", // provide special functions, integration, ordinary differential equation (ODE) solvers, gradient optimization, parallel programming tools, an expression-to-C++ compiler for fast execution and others
 		"statsmodels", // provide a complement to SciPy for statistical computations including descriptive statistics and estimation and inference for statistical models
 
@@ -95,6 +97,12 @@ public class Python {
 
 		// • GUI
 		"matplotlib", // create static, animated and interactive visualizations
+		"plotly", // build front end for ML and data science models
+		"seaborn", // provide a high-level interface for drawing attractive and informative statistical graphics (based on the matplotlib module)
+
+		// • Media
+		"opencv-python", // provide computer vision, ML and image processing capabilities
+		"xhtml2pdf", // convert XHTML to PDF
 
 		// • Time Series
 		"pandas", // provide a rich set of methods, containers and data types
@@ -104,7 +112,7 @@ public class Python {
 		"javaproperties", // provide support for reading and writing Java properties files (both the simple line-oriented format and XML)
 		"nutil", // provide utility functions
 		"psutil", // provide information on running processes and system utilization
-		"python-dateutil", // provide powerful extensions to the standard datetime module
+		"python-dateutil", // provide extensions to the standard datetime module
 		"validators", // provide data validation for humans
 
 		// • Web
@@ -116,25 +124,21 @@ public class Python {
 		"pycountry", // provides the ISO standards for languages, countries, currencies and scripts
 
 		// • Data Science
-		"fbprophet", // forecast time series data based on an additive model where non-linear trends are fit with yearly, weekly and daily seasonality, plus holiday effects
 		"keras", // build and deploy ML models easily (built on top of TensorFlow with GPU capability)
 		"nltk", // provide a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing and semantic reasoning
-		"scikit-learn", // provide simple and efficient tools for predictive data analysis
 		"tensorflow", // build and deploy ML models (with GPU capability)
 		"torch", // provide tensor computation (like NumPy but with GPU capability) and automatic differentiation for building and training neural networks
 
 		// • GUI
 		"colormap", // provide simple utilities to convert colors between RGB, HEX, HLS, HUV and build colormaps for Matplotlib
 		"dash", // build ML and data science web apps
-		"plotly", // build front end for ML and data science models
 
 		// • Media
 		"fpdf", // generate PDF documents
 		"imutils", // provide basic image processing functions such as translation, rotation, resizing and skeletonization
-		"opencv-python", // provide computer vision, ML and image processing capabilities
+		"kaleido", // generate static images for web-based visualization libraries
 		"pillow", // provide image processing capabilities
 		"reportlab", // generate PDF documents and graphics
-		"xhtml2pdf", // convert XHTML to PDF
 
 		// • Util
 		"easydev" // provide miscellaneous functions that are repeatidly used during the development of Python packages
@@ -149,6 +153,20 @@ public class Python {
 	 * Prevents the construction of {@link Python}.
 	 */
 	protected Python() {
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// MAIN
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Installs the {@code PACKAGES}.
+	 * <p>
+	 * @param args ignored
+	 */
+	public static void main(final String[] args) {
+		installPackages(PACKAGES);
 	}
 
 
