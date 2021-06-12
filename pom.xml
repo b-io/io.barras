@@ -41,9 +41,9 @@
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
 		<maven.artifact.version>3.6.3</maven.artifact.version>
-		<maven.info.version>2.9</maven.info.version>
+		<maven.info.version>3.0.0</maven.info.version>
 		<maven.install.version>2.5.2</maven.install.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.javadoc.version>3.2.0</maven.javadoc.version>
 		<maven.nar.version>3.5.1</maven.nar.version>
 		<maven.project.version>2.2.1</maven.project.version>
 		<maven.site.version>3.9.1</maven.site.version>
@@ -220,6 +220,13 @@
 					<artifactId>nar-maven-plugin</artifactId>
 					<version>${maven.nar.version}</version>
 					<extensions>true</extensions>
+
+					<executions>
+						<execution>
+							<id>default-nar-javah</id>
+							<phase>none</phase>
+						</execution>
+					</executions>
 				</plugin>
 
 				<!-- Attach the sources -->
