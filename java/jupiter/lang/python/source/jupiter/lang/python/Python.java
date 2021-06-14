@@ -80,7 +80,7 @@ public class Python {
 		// • Data Science
 		"numpy", // provide powerful capabilities to create arrays of structured datatype
 		"scikit-learn", // provide simple and efficient tools for predictive data analysis
-		"scikit-lego", // provide extensions to the scikit-learn module
+		"scikit-lego", // provide extensions to Scikit-Learn
 		"scipy", // provide special functions, integration, ordinary differential equation (ODE) solvers, gradient optimization, parallel programming tools, an expression-to-C++ compiler for fast execution and others
 		"statsmodels", // provide a complement to SciPy for statistical computations including descriptive statistics and estimation and inference for statistical models
 
@@ -98,7 +98,7 @@ public class Python {
 		// • GUI
 		"matplotlib", // create static, animated and interactive visualizations
 		"plotly", // build front end for ML and data science models
-		"seaborn", // provide a high-level interface for drawing attractive and informative statistical graphics (based on the matplotlib module)
+		"seaborn", // provide a high-level interface for drawing attractive and informative statistical graphics (based on Matplotlib)
 
 		// • Media
 		"opencv-python", // provide computer vision, ML and image processing capabilities
@@ -127,16 +127,20 @@ public class Python {
 		"keras", // build and deploy ML models easily (built on top of TensorFlow with GPU capability)
 		"nltk", // provide a suite of text processing libraries for classification, tokenization, stemming, tagging, parsing and semantic reasoning
 		"tensorflow", // build and deploy ML models (with GPU capability)
+		"theano", // define, optimize and efficiently evaluate mathematical expressions involving multi-dimensional arrays (built on top of NumPy with GPU capability)
 		"torch", // provide tensor computation (like NumPy but with GPU capability) and automatic differentiation for building and training neural networks
 
 		// • GUI
 		"colormap", // provide simple utilities to convert colors between RGB, HEX, HLS, HUV and build colormaps for Matplotlib
 		"dash", // build ML and data science web apps
+		"tkinter", // provide a wrapper for the cross-platform wxWidgets GUI toolkit (which is written in C)
+		"wxpython", // provide a wrapper for the cross-platform Tk GUI toolkit (which is written in C++)
 
 		// • Media
 		"fpdf", // generate PDF documents
 		"imutils", // provide basic image processing functions such as translation, rotation, resizing and skeletonization
 		"kaleido", // generate static images for web-based visualization libraries
+		"openpyxl", // read/write Excel 2010 xlsx/xlsm/xltx/xltm files
 		"pillow", // provide image processing capabilities
 		"reportlab", // generate PDF documents and graphics
 
