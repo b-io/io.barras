@@ -451,7 +451,9 @@ def is_any_not_null(*args):
 #########################
 
 def is_empty(x):
-	return is_null(x) or (is_collection(x) and len(x) == 0) or str(x) == ''
+	return is_null(x) or \
+	       (is_collection(x) and len(x) == 0 or is_frame(x) and count_cols(x) == 0) or \
+	       str(x) == ''
 
 
 def is_all_empty(*args):
@@ -697,10 +699,16 @@ def get_names(c, inclusion=None, exclusion=None):
 	"""Returns the names of the specified collection."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_table(inclusion):
+		inclusion = get_names(inclusion)
+	if is_table(exclusion):
+		exclusion = get_names(exclusion)
 	if is_series(c):
-		return to_list(c.name)
+		c = c.name
 	elif not is_frame(c) and not is_dict(c):
 		c = range(len(c))
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
@@ -711,8 +719,14 @@ def get_keys(c, inclusion=None, exclusion=None):
 	inclusive list and are not in the specified exclusive list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_table(inclusion):
+		inclusion = get_keys(inclusion)
+	if is_table(exclusion):
+		exclusion = get_keys(exclusion)
 	if is_series(c):
 		c = c.index
 	elif not is_frame(c) and not is_dict(c):
@@ -728,17 +742,22 @@ def get_all_common_keys(*args, inclusion=None, exclusion=None):
 def get_common_keys(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common keys (indices/keys/names) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_keys(c1, inclusion=filter_list(get_keys(c2), inclusion=inclusion),
-	                exclusion=exclusion)
+	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
 def get_index(c, inclusion=None, exclusion=None):
-	"""Returns the index (indices/keys/indices) of the specified collection that are in the
+	"""Returns the index (indices/keys/index) of the specified collection that are in the
 	specified inclusive list and are not in the specified exclusive list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
+	if is_table(inclusion):
+		inclusion = get_index(inclusion)
+	if is_table(exclusion):
+		exclusion = get_index(exclusion)
 	if is_table(c):
 		return filter_list(c.index, inclusion=inclusion, exclusion=exclusion)
 	return get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -750,10 +769,9 @@ def get_all_common_index(*args, inclusion=None, exclusion=None):
 
 
 def get_common_index(c1, c2, inclusion=None, exclusion=None):
-	"""Returns the common index (indices/keys/indices) of the specified collections that are in the
+	"""Returns the common index (indices/keys/index) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_index(c1, inclusion=filter_list(get_keys(c2), inclusion=inclusion),
-	                 exclusion=exclusion)
+	return get_index(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
 def get_items(c, inclusion=None, exclusion=None):
@@ -762,6 +780,8 @@ def get_items(c, inclusion=None, exclusion=None):
 	list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
@@ -776,6 +796,8 @@ def get_values(c, inclusion=None, exclusion=None):
 	list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	elif is_number(c):
 		return to_array(c)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -796,6 +818,8 @@ def set_names(c, new_names):
 	"""Sets the names of the specified collection."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(new_names):
@@ -816,6 +840,8 @@ def set_keys(c, new_keys, inclusion=None, exclusion=None):
 	inclusive list and are not in the specified exclusive list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(new_keys):
@@ -841,10 +867,12 @@ def set_keys(c, new_keys, inclusion=None, exclusion=None):
 
 
 def set_index(c, new_index, inclusion=None, exclusion=None):
-	"""Sets the index (indices/keys/indices) of the specified collection that are in the specified
+	"""Sets the index (indices/keys/index) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_table(new_index):
@@ -920,6 +948,8 @@ def filter(c, inclusion=None, exclusion=None):
 	inclusive collection and are in the specified exclusive collection."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
@@ -947,32 +977,32 @@ def exclude(c, exclusion):
 
 #########################
 
-def filter_index(c, indices):
-	"""Filters the specified collection whose indices are in the specified indices."""
+def filter_index(c, inclusion=None, exclusion=None):
+	"""Filters the specified collection by excluding the index that are not in the specified
+	inclusive collection and are in the specified exclusive collection."""
 	if is_null(c):
 		return None
-	if is_table(indices):
-		indices = get_index(indices)
-	indices = to_list(indices)
+	elif is_empty(c):
+		return c
+	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		return c.filter(lambda x: x.name in indices)
+		index = index if c.axis == 0 else get_keys(c, inclusion=inclusion, exclusion=exclusion)
+		return c.filter(lambda x: x.name in index)
 	elif is_table(c):
-		return c[c.index.isin(indices)]
-	return filter(c, inclusion=indices)
+		return c[c.index.isin(index)]
+	return filter(c, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_index_not(c, indices):
-	"""Filters the specified collection whose indices are not in the specified indices."""
-	if is_null(c):
-		return None
-	if is_table(indices):
-		indices = get_index(indices)
-	indices = to_list(indices)
-	if is_group(c):
-		return c.filter(lambda x: x.name not in indices)
-	elif is_table(c):
-		return c[invert(c.index.isin(indices))]
-	return filter(c, exclusion=indices)
+def include_index(c, inclusion):
+	"""Filters the specified collection by excluding the index that are not in the specified
+	inclusive collection."""
+	return filter_index(c, inclusion=inclusion)
+
+
+def exclude_index(c, exclusion):
+	"""Filters the specified collection by excluding the index that are in the specified exclusive
+	collection."""
+	return filter_index(c, exclusion=exclusion)
 
 
 #########################
@@ -982,6 +1012,8 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	function for all the specified keys."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
@@ -1001,6 +1033,8 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	function for all the specified keys."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
@@ -1020,6 +1054,8 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	function for at least one specified key."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
@@ -1039,6 +1075,8 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	function for at least one specified key."""
 	if is_null(c):
 		return None
+	elif is_empty(c):
+		return c
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
@@ -1399,10 +1437,16 @@ def remove(c, value, conservative=True, inclusion=None, exclusion=None):
 	return filter_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
 
 
-def remove_null(c, conservative=True, inclusion=None, exclusion=None):
-	if conservative:
-		return filter_any_not_null(c, inclusion=inclusion, exclusion=exclusion)
-	return filter_not_null(c, inclusion=inclusion, exclusion=exclusion)
+def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
+	if axis == 0:
+		if conservative:
+			return filter_any_not_null(c, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_null(c, inclusion=inclusion, exclusion=exclusion)
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	for key in keys:
+		if is_all_null(c[key]) if conservative else is_any_null(c[key]):
+			c = remove_col(c, columns=key)
+	return c
 
 
 def remove_empty(c, conservative=True, inclusion=None, exclusion=None):
@@ -1709,6 +1753,28 @@ def count_cols(df):
 
 #########################
 
+def fill_all(df, model, fill_value=None):
+	if is_series(df):
+		return fill_rows(df, get_index(model), fill_value=fill_value)
+	return df.reindex(columns=unique(get_names(df) + get_names(model)),
+	                  index=unique(get_index(df) + get_index(model)),
+	                  fill_value=fill_value)
+
+
+def fill_rows(df, index, fill_value=None):
+	if is_table(index):
+		index = get_index(index)
+	return df.reindex(index=unique(get_index(df) + index), fill_value=fill_value)
+
+
+def fill_cols(df, names, fill_value=None):
+	if is_table(names):
+		names = get_names(names)
+	return df.reindex(columns=unique(get_names(df) + names), fill_value=fill_value)
+
+
+#########################
+
 def filter_rows(df, row):
 	"""Returns the rows of the specified dataframe that match the specified row for all the common
 	columns."""
@@ -1811,16 +1877,26 @@ def unpivot(df):
 
 #########################
 
-def remove_row(df, index):
-	if index < 0:
-		index = count_rows(df) + index
-	return df.iloc[to_list(range(0, index)) + to_list(range(index + 1, count_rows(df))), :]
+def remove_row(df, columns=None, index=None, labels=None, level=None, inplace=False):
+	return df.drop(axis=0, columns=columns, index=index, labels=labels, level=level,
+	               inplace=inplace)
 
 
-def remove_col(df, index):
-	if index < 0:
-		index = count_cols(df) + index
-	return df.iloc[:, to_list(range(0, index)) + to_list(range(index + 1, count_cols(df)))]
+def remove_row_at(df, i):
+	if i < 0:
+		i = count_rows(df) + i
+	return df.iloc[to_list(range(0, i)) + to_list(range(i + 1, count_rows(df))), :]
+
+
+def remove_col(df, columns=None, index=None, labels=None, level=None, inplace=False):
+	return df.drop(axis=1, columns=columns, index=index, labels=labels, level=level,
+	               inplace=inplace)
+
+
+def remove_col_at(df, j):
+	if j < 0:
+		j = count_cols(df) + j
+	return df.iloc[:, to_list(range(0, j)) + to_list(range(j + 1, count_cols(df)))]
 
 
 #########################
@@ -1832,11 +1908,11 @@ def rotate_rows(df, drop=True, prepend=False):
 	if prepend:
 		df = concat_rows(get_last_row(df), df)
 		if drop:
-			df = remove_row(df, -1)
+			df = remove_row_at(df, -1)
 	else:
 		df = concat_rows(df, get_first_row(df))
 		if drop:
-			df = remove_row(df, 0)
+			df = remove_row_at(df, 0)
 	return df
 
 
@@ -1847,11 +1923,11 @@ def rotate_cols(df, drop=True, prepend=False):
 	if prepend:
 		df = concat_cols(get_last_col(df), df)
 		if drop:
-			df = remove_col(df, -1)
+			df = remove_col_at(df, -1)
 	else:
 		df = concat_cols(df, get_first_col(df))
 		if drop:
-			df = remove_col(df, 0)
+			df = remove_col_at(df, 0)
 	return df
 
 
@@ -2915,6 +2991,16 @@ def filter_list(l, inclusion=None, exclusion=None):
 	elif is_empty(exclusion):
 		return [v for v in l if v in to_list(inclusion)]
 	return [v for v in l if v in to_list(inclusion) and v not in to_list(exclusion)]
+
+
+def include_list(l, inclusion):
+	"""Returns the values of the specified list that are in the specified inclusive list."""
+	return filter_list(l, inclusion=inclusion)
+
+
+def exclude_list(l, exclusion):
+	"""Returns the values of the specified list that are not in the specified exclusive list."""
+	return filter_list(l, exclusion=exclusion)
 
 
 def mask_list(l, mask):
