@@ -140,7 +140,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_D
 	"""Creates the WHERE clause with the specified filtering columns and row."""
 	if is_null(filtering_row):
 		return ''
-	cols = filter_list(get_keys(filtering_row), filtering_cols)
+	cols = include_list(get_keys(filtering_row), filtering_cols)
 	if is_empty(cols):
 		return ''
 	return paste('WHERE',
