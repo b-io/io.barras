@@ -81,7 +81,7 @@ def add(c1, c2):
 			return concat_cols([add(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([add(c1, c2[k]) for k in get_keys(c2)])
-		return set_names(sum_cols(join(c1, c2)), c1)
+		return fill_all(c1, c2, fill_value=0) + fill_all(c2, c1, fill_value=0)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
@@ -111,7 +111,7 @@ def subtract(c1, c2):
 			return concat_cols([subtract(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([subtract(c1, c2[k]) for k in get_keys(c2)])
-		return set_names(sum_cols(join(c1, -c2)), c1)
+		return fill_all(c1, c2, fill_value=0) - fill_all(c2, c1, fill_value=0)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
@@ -141,7 +141,7 @@ def multiply(c1, c2):
 			return concat_cols([multiply(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([multiply(c1, c2[k]) for k in get_keys(c2)])
-		return set_names(product_cols(join(c1, c2)), c1)
+		return fill_all(c1, c2, fill_value=1) * fill_all(c2, c1, fill_value=1)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
@@ -171,7 +171,7 @@ def divide(c1, c2):
 			return concat_cols([divide(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([divide(c1, c2[k]) for k in get_keys(c2)])
-		return set_names(product_cols(join(c1, 1 / c2)), c1)
+		return fill_all(c1, c2, fill_value=1) / fill_all(c2, c1, fill_value=1)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
