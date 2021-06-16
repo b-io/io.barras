@@ -524,10 +524,10 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 			if axis == 0:
 				names = get_names(x, inclusion=keys)
 				return concat_rows([to_frame([f(get_values(v, inclusion=keys), *args, **kwargs)],
-				                             index=i, names=names) for i, v in x])
+				                             names=names, index=i) for i, v in x])
 			index = get_index(x)
 			return concat_cols([to_series(f(get_values(v, inclusion=keys), *args, **kwargs),
-			                              index=index, name=k) for k, v in x if k in keys])
+			                              name=k, index=index) for k, v in x if k in keys])
 		elif is_frame(x):
 			if is_null(axis):
 				return concat_cols([x[k].apply(f, args=args, **kwargs) for k in keys])
@@ -535,8 +535,8 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 			data = f(get_values(x, inclusion=keys), *args, **kwargs)
 			if count_cols(data) > 1:
 				names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
-				return to_frame(data, index=index, names=names)
-			return to_series(data, index=index, name=f.__name__)
+				return to_frame(data, names=names, index=index)
+			return to_series(data, name=f.__name__, index=index)
 		elif is_series(x):
 			return filter(x, inclusion=keys).apply(f, args=args, **kwargs)
 		elif is_dict(x):
@@ -607,15 +607,15 @@ def reduce_or(x, axis=0):
 
 #########################
 
-def reduce(f, *args, initial=None):
+def reduce(f, *args, initial=None, **kwargs):
 	"""Reduces the specified arguments to a single one by applying the specified function
 	cumulatively (from left to right)."""
 	args = remove_empty(to_list(*args))
 	if is_empty(args):
 		return initial
 	if not is_null(initial):
-		return functools.reduce(f, args, initial)
-	return functools.reduce(f, args)
+		return functools.reduce(lambda x, y: f(x, y, **kwargs), args, initial=initial)
+	return functools.reduce(lambda x, y: f(x, y, **kwargs), args)
 
 
 # • ARRAY ##########################################################################################
@@ -652,9 +652,9 @@ def unarray(a):
 def array_to_type(a, x):
 	"""Converts the specified array to the type of the specified variable."""
 	if is_frame(x):
-		return to_frame(a, index=get_index(x), names=get_names(x))
+		return to_frame(a, names=get_names(x), index=get_index(x))
 	elif is_series(x):
-		return to_series(a, index=get_index(x), name=get_names(x))
+		return to_series(a, name=get_names(x), index=get_index(x))
 	elif is_dict(x):
 		return dict(zip(get_keys(x), a))
 	elif is_array(x):
@@ -884,7 +884,7 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 			c.index = pd.MultiIndex.from_tuples(new_index)
 		else:
 			index = get_index(c, inclusion=inclusion, exclusion=exclusion)
-			c.rename(index=dict(zip(index, new_index)), inplace=True)
+			rename(c, index=dict(zip(index, new_index)))
 	else:
 		set_keys(c, new_index, inclusion=inclusion, exclusion=exclusion)
 	return c
@@ -916,10 +916,10 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		if axis == 0:
 			names = get_names(c)
 			return concat_rows([to_frame([f(v.values, *args, axis=axis, **kwargs)],
-			                             index=i, names=names) for i, v in c])
+			                             names=names, index=i) for i, v in c])
 		index = get_index(c)
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
-		                              index=index, name=k) for k, v in c])
+		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
 		index = get_names(c) if axis == 0 else get_index(c)
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
@@ -1445,7 +1445,7 @@ def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	for key in keys:
 		if is_all_null(c[key]) if conservative else is_any_null(c[key]):
-			c = remove_col(c, columns=key)
+			c = remove_col(c, names=key)
 	return c
 
 
@@ -1867,8 +1867,8 @@ def merge(left, right, how='inner', on=None):
 
 #########################
 
-def pivot(df, index, names, values):
-	return df.pivot(index=index, columns=names, values=values)
+def pivot(df, names, index, values):
+	return df.pivot(columns=names, index=index, values=values)
 
 
 def unpivot(df):
@@ -1877,9 +1877,8 @@ def unpivot(df):
 
 #########################
 
-def remove_row(df, columns=None, index=None, labels=None, level=None, inplace=False):
-	return df.drop(axis=0, columns=columns, index=index, labels=labels, level=level,
-	               inplace=inplace)
+def remove_row(df, index=None, level=None, inplace=False):
+	return df.drop(index=index, level=level, inplace=inplace)
 
 
 def remove_row_at(df, i):
@@ -1888,15 +1887,30 @@ def remove_row_at(df, i):
 	return df.iloc[to_list(range(0, i)) + to_list(range(i + 1, count_rows(df))), :]
 
 
-def remove_col(df, columns=None, index=None, labels=None, level=None, inplace=False):
-	return df.drop(axis=1, columns=columns, index=index, labels=labels, level=level,
-	               inplace=inplace)
+def remove_col(df, names=None, level=None, inplace=False):
+	return df.drop(columns=names, level=level, inplace=inplace)
 
 
 def remove_col_at(df, j):
 	if j < 0:
 		j = count_cols(df) + j
 	return df.iloc[:, to_list(range(0, j)) + to_list(range(j + 1, count_cols(df)))]
+
+
+#########################
+
+def rename(df, names=None, index=None, level=None):
+	if is_all_null(names, index):
+		set_names(df, range(count_cols(df)))
+	elif is_frame(df):
+		df.rename(columns=names, index=index, level=level, copy=False, inplace=True)
+	elif is_series(df):
+		df.rename(index=index, level=level, copy=False, inplace=True)
+
+
+def rename_all(*args, names=None, index=None, level=None):
+	for arg in args:
+		rename(arg, names=names, index=index, level=level)
 
 
 #########################
@@ -1955,7 +1969,7 @@ def product_cols(df):
 
 ##################################################
 
-def to_series(data, index=None, name=None):
+def to_series(data, name=None, index=None):
 	"""Converts the specified collection to a series."""
 	if is_null(data):
 		data = []
@@ -1963,7 +1977,7 @@ def to_series(data, index=None, name=None):
 		data = data.obj
 	if is_frame(data):
 		if count_cols(data) > 1:
-			return [to_series(data[k], index=index, name=name) for k in get_keys(data)]
+			return [to_series(data[k], name=name, index=index) for k in get_keys(data)]
 		series = get_col(data) if not is_empty(data) else pd.Series()
 	elif is_series(data):
 		series = data
@@ -1976,14 +1990,14 @@ def to_series(data, index=None, name=None):
 	return series
 
 
-def to_time_series(data, index=None, name=None):
+def to_time_series(data, name=None, index=None):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
 		index = to_timestamp(index)
-	return to_series(data, index=index, name=name)
+	return to_series(data, name=name, index=index)
 
 
-def to_frame(data, index=None, names=None):
+def to_frame(data, names=None, index=None):
 	"""Converts the specified collection to a dataframe."""
 	if is_null(data):
 		data = []
@@ -3143,9 +3157,9 @@ def unlist(l):
 
 def list_to_type(l, x):
 	if is_frame(x):
-		return to_frame(l, index=get_index(x), names=get_names(x))
+		return to_frame(l, names=get_names(x), index=get_index(x))
 	elif is_series(x):
-		return to_series(l, index=get_index(x), name=get_names(x))
+		return to_series(l, name=get_names(x), index=get_index(x))
 	elif is_dict(x):
 		return dict(zip(get_keys(x), l))
 	elif is_array(x):
