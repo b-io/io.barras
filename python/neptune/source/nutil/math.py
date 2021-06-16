@@ -66,11 +66,11 @@ def scale(x, base=10):
 __MATH_ARITHMETIC_________________________________ = ''
 
 
-def add_all(*args):
-	return reduce(add, *args)
+def add_all(*args, fill_value=0, rename=False):
+	return reduce(add, *args, fill_value=fill_value, rename=rename)
 
 
-def add(c1, c2):
+def add(c1, c2, fill_value=0, rename=False):
 	"""Returns the addition of the specified collections."""
 	if is_list(c1):
 		return [add(c, c2) for c in c1]
@@ -81,7 +81,9 @@ def add(c1, c2):
 			return concat_cols([add(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([add(c1, c2[k]) for k in get_keys(c2)])
-		return fill_all(c1, c2, fill_value=0) + fill_all(c2, c1, fill_value=0)
+		if rename:
+			rename_all(c1, c2)
+		return fill_all(c1, c2, fill_value=fill_value) + fill_all(c2, c1, fill_value=fill_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
@@ -96,11 +98,11 @@ def add(c1, c2):
 	return array_to_type(np.add(get_values(c1), get_values(c2)), c1)
 
 
-def subtract_all(*args):
-	return reduce(subtract, *args)
+def subtract_all(*args, fill_value=0, rename=False):
+	return reduce(subtract, *args, fill_value=fill_value, rename=rename)
 
 
-def subtract(c1, c2):
+def subtract(c1, c2, fill_value=0, rename=False):
 	"""Returns the subtraction of the specified collections."""
 	if is_list(c1):
 		return [subtract(c, c2) for c in c1]
@@ -111,7 +113,9 @@ def subtract(c1, c2):
 			return concat_cols([subtract(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([subtract(c1, c2[k]) for k in get_keys(c2)])
-		return fill_all(c1, c2, fill_value=0) - fill_all(c2, c1, fill_value=0)
+		if rename:
+			rename_all(c1, c2)
+		return fill_all(c1, c2, fill_value=fill_value) - fill_all(c2, c1, fill_value=fill_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
@@ -126,11 +130,11 @@ def subtract(c1, c2):
 	return array_to_type(np.subtract(get_values(c1), get_values(c2)), c1)
 
 
-def multiply_all(*args):
-	return reduce(multiply, *args)
+def multiply_all(*args, fill_value=1, rename=False):
+	return reduce(multiply, *args, fill_value=fill_value, rename=rename)
 
 
-def multiply(c1, c2):
+def multiply(c1, c2, fill_value=1, rename=False):
 	"""Returns the multiplication of the specified collections."""
 	if is_list(c1):
 		return [multiply(c, c2) for c in c1]
@@ -141,7 +145,9 @@ def multiply(c1, c2):
 			return concat_cols([multiply(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([multiply(c1, c2[k]) for k in get_keys(c2)])
-		return fill_all(c1, c2, fill_value=1) * fill_all(c2, c1, fill_value=1)
+		if rename:
+			rename_all(c1, c2)
+		return fill_all(c1, c2, fill_value=fill_value) * fill_all(c2, c1, fill_value=fill_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
@@ -156,11 +162,11 @@ def multiply(c1, c2):
 	return array_to_type(np.multiply(get_values(c1), get_values(c2)), c1)
 
 
-def divide_all(*args):
-	return reduce(divide, *args)
+def divide_all(*args, fill_value=1, rename=False):
+	return reduce(divide, *args, fill_value=fill_value, rename=rename)
 
 
-def divide(c1, c2):
+def divide(c1, c2, fill_value=1, rename=False):
 	"""Returns the division of the specified collections."""
 	if is_list(c1):
 		return [divide(c, c2) for c in c1]
@@ -171,7 +177,9 @@ def divide(c1, c2):
 			return concat_cols([divide(c1[k], c2) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols([divide(c1, c2[k]) for k in get_keys(c2)])
-		return fill_all(c1, c2, fill_value=1) / fill_all(c2, c1, fill_value=1)
+		if rename:
+			rename_all(c1, c2)
+		return fill_all(c1, c2, fill_value=fill_value) / fill_all(c2, c1, fill_value=fill_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
