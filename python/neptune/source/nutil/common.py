@@ -547,12 +547,12 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 	return f(x, *args, **kwargs)
 
 
-def fill(x, value, *args, f=lambda x: True, inplace=False, **kwargs):
-	return apply(lambda x: value if f(x, *args, **kwargs) else x, x, inplace=inplace)
+def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
+	return apply(lambda x: value if condition(x, *args, **kwargs) else x, x, inplace=inplace)
 
 
-def fill_null(x, value, inplace=False):
-	return fill(x, value, f=is_null, inplace=inplace)
+def fill_null_with(x, value, inplace=False):
+	return fill_with(x, value, condition=is_null, inplace=inplace)
 
 
 #########################
@@ -1753,27 +1753,27 @@ def count_cols(df):
 
 #########################
 
-def fill_all(df, model, fill_value=None):
+def fill_null(df, model, value=None):
 	if is_series(df):
-		return fill_rows(df, get_index(model), fill_value=fill_value)
-	return df.fillna(fill_value) \
+		return fill_null_rows(df, get_index(model), value=value)
+	return df.fillna(value) \
 		.reindex(columns=unique(get_names(df) + get_names(model)),
 	             index=unique(get_index(df) + get_index(model)),
-	             fill_value=fill_value)
+	             fill_value=value)
 
 
-def fill_rows(df, index, fill_value=None):
+def fill_null_rows(df, index, value=None):
 	if is_table(index):
 		index = get_index(index)
-	return df.fillna(fill_value) \
-		.reindex(index=unique(get_index(df) + index), fill_value=fill_value)
+	return df.fillna(value) \
+		.reindex(index=unique(get_index(df) + index), fill_value=value)
 
 
-def fill_cols(df, names, fill_value=None):
+def fill_null_cols(df, names, value=None):
 	if is_table(names):
 		names = get_names(names)
-	return df.fillna(fill_value) \
-		.reindex(columns=unique(get_names(df) + names), fill_value=fill_value)
+	return df.fillna(value) \
+		.reindex(columns=unique(get_names(df) + names), fill_value=value)
 
 
 #########################
@@ -3128,10 +3128,10 @@ def tally(l, boundaries):
 	lower = min(l)
 	for boundary in boundaries:
 		upper = boundary
-		l = fill(l, index, f=lambda v: lower <= v < upper)
+		l = fill_with(l, index, condition=lambda v: lower <= v < upper)
 		index += 1
 		lower = upper
-	l = fill(l, index, f=lambda v: v >= upper)
+	l = fill_with(l, index, condition=lambda v: v >= upper)
 	return l
 
 
