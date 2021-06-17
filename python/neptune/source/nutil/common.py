@@ -700,7 +700,7 @@ def get_names(c, inclusion=None, exclusion=None):
 	if is_null(c):
 		return None
 	elif is_empty(c):
-		return c
+		return []
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(inclusion):
@@ -720,7 +720,7 @@ def get_keys(c, inclusion=None, exclusion=None):
 	if is_null(c):
 		return None
 	elif is_empty(c):
-		return c
+		return []
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(inclusion):
@@ -751,7 +751,7 @@ def get_index(c, inclusion=None, exclusion=None):
 	if is_null(c):
 		return None
 	elif is_empty(c):
-		return c
+		return []
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_table(inclusion):
@@ -781,7 +781,7 @@ def get_items(c, inclusion=None, exclusion=None):
 	if is_null(c):
 		return None
 	elif is_empty(c):
-		return c
+		return []
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
@@ -797,7 +797,7 @@ def get_values(c, inclusion=None, exclusion=None):
 	if is_null(c):
 		return None
 	elif is_empty(c):
-		return c
+		return to_array()
 	elif is_number(c):
 		return to_array(c)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -1756,21 +1756,24 @@ def count_cols(df):
 def fill_all(df, model, fill_value=None):
 	if is_series(df):
 		return fill_rows(df, get_index(model), fill_value=fill_value)
-	return df.reindex(columns=unique(get_names(df) + get_names(model)),
-	                  index=unique(get_index(df) + get_index(model)),
-	                  fill_value=fill_value)
+	return df.fillna(fill_value) \
+		.reindex(columns=unique(get_names(df) + get_names(model)),
+	             index=unique(get_index(df) + get_index(model)),
+	             fill_value=fill_value)
 
 
 def fill_rows(df, index, fill_value=None):
 	if is_table(index):
 		index = get_index(index)
-	return df.reindex(index=unique(get_index(df) + index), fill_value=fill_value)
+	return df.fillna(fill_value) \
+		.reindex(index=unique(get_index(df) + index), fill_value=fill_value)
 
 
 def fill_cols(df, names, fill_value=None):
 	if is_table(names):
 		names = get_names(names)
-	return df.reindex(columns=unique(get_names(df) + names), fill_value=fill_value)
+	return df.fillna(fill_value) \
+		.reindex(columns=unique(get_names(df) + names), fill_value=fill_value)
 
 
 #########################
@@ -3024,80 +3027,80 @@ def mask_list(l, mask):
 
 #########################
 
-def find_all(l, f, *args, **kwargs):
-	return [i for i in range(len(l)) if f(l[i], *args, **kwargs)]
+def find_all(l, value):
+	return find_all_with(l, lambda v: v == value)
 
 
-def find_all_not(l, f, *args, **kwargs):
-	return [i for i in range(len(l)) if not f(l[i], *args, **kwargs)]
-
-
-def find_all_value(l, value):
-	return find_all(l, lambda v: v == value)
-
-
-def find_all_not_value(l, value):
-	return find_all_not(l, lambda v: v == value)
+def find_all_not(l, value):
+	return find_all_not_with(l, lambda v: v == value)
 
 
 def find_all_in(l, values):
-	return find_all(l, lambda v: v in to_list(values))
+	return find_all_with(l, lambda v: v in to_list(values))
 
 
 def find_all_not_in(l, values):
-	return find_all_not(l, lambda v: v in to_list(values))
+	return find_all_not_with(l, lambda v: v in to_list(values))
+
+
+def find_all_with(l, f, *args, **kwargs):
+	return [i for i in range(len(l)) if f(l[i], *args, **kwargs)]
+
+
+def find_all_not_with(l, f, *args, **kwargs):
+	return [i for i in range(len(l)) if not f(l[i], *args, **kwargs)]
 
 
 #########################
 
-def find(l, f, *args, **kwargs):
-	return next((i for i in range(len(l)) if f(l[i], *args, **kwargs)), None)
+def find(l, value):
+	return find_with(l, lambda v: v == value)
 
 
-def find_not(l, f, *args, **kwargs):
-	return next((i for i in range(len(l)) if not f(l[i], *args, **kwargs)), None)
-
-
-def find_value(l, value):
-	return find(l, lambda v: v == value)
-
-
-def find_not_value(l, value):
-	return find_not(l, lambda v: v == value)
+def find_not(l, value):
+	return find_not_with(l, lambda v: v == value)
 
 
 def find_in(l, values):
-	return find(l, lambda v: v in to_list(values))
+	return find_with(l, lambda v: v in to_list(values))
 
 
 def find_not_in(l, values):
-	return find_not(l, lambda v: v in to_list(values))
+	return find_not_with(l, lambda v: v in to_list(values))
+
+
+def find_with(l, f, *args, **kwargs):
+	return next((i for i in range(len(l)) if f(l[i], *args, **kwargs)), None)
+
+
+def find_not_with(l, f, *args, **kwargs):
+	return next((i for i in range(len(l)) if not f(l[i], *args, **kwargs)), None)
 
 
 #########################
 
-def find_last(l, f, *args, **kwargs):
-	return len(l) - find(l[::-1], f, *args, **kwargs) - 1
+def find_last(l, value):
+	return find_last_with(l, lambda v: v == value)
 
 
-def find_last_not(l, f, *args, **kwargs):
-	return len(l) - find_not(l[::-1], f, *args, **kwargs) - 1
-
-
-def find_last_value(l, value):
-	return find_last(l, lambda v: v == value)
-
-
-def find_last_not_value(l, value):
-	return find_last_not(l, lambda v: v == value)
+def find_last_not(l, value):
+	return find_last_not_with(l, lambda v: v == value)
 
 
 def find_last_in(l, values):
-	return find_last(l, lambda v: v in to_list(values))
+	return find_last_with(l, lambda v: v in to_list(values))
 
 
 def find_last_not_in(l, values):
-	return find_last_not(l, lambda v: v in to_list(values))
+	return find_last_not_with(l, lambda v: v in to_list(values))
+
+
+def find_last_with(l, f, *args, **kwargs):
+	return len(l) - find_with(l[::-1], f, *args, **kwargs) - 1
+
+
+def find_last_not_with(l, f, *args, **kwargs):
+	return len(l) - find_not_with(l[::-1], f, *args, **kwargs) - 1
 
 
 #########################
