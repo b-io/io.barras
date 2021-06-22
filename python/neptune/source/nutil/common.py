@@ -2012,7 +2012,7 @@ def to_series(data, name=None, index=None):
 	elif is_series(data):
 		series = data
 	else:
-		series = pd.Series(data=data, dtype=object)
+		series = pd.Series(data=data, dtype=float)
 	if not is_null(index):
 		set_index(series, index)
 	if not is_null(name):
