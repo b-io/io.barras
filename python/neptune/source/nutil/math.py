@@ -83,8 +83,9 @@ def add(c1, c2, fill=False, rename=False):
 			return concat_cols([add(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		value = 0 if fill else NAN
-		return fill_null(c1, c2, value=value) + fill_null(c2, c1, value=value)
+		numeric_value = 0 if fill else NAN
+		return fill_null_all(c1, c2, numeric_value=numeric_value) + \
+		       fill_null_all(c2, c1, numeric_value=numeric_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
@@ -116,8 +117,9 @@ def subtract(c1, c2, fill=False, rename=False):
 			return concat_cols([subtract(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		value = 0 if fill else NAN
-		return fill_null(c1, c2, value=value) - fill_null(c2, c1, value=value)
+		numeric_value = 0 if fill else NAN
+		return fill_null_all(c1, c2, numeric_value=numeric_value) - \
+		       fill_null_all(c2, c1, numeric_value=numeric_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
@@ -149,8 +151,9 @@ def multiply(c1, c2, fill=False, rename=False):
 			return concat_cols([multiply(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		value = 1 if fill else NAN
-		return fill_null(c1, c2, value=value) * fill_null(c2, c1, value=value)
+		numeric_value = 1 if fill else NAN
+		return fill_null_all(c1, c2, numeric_value=numeric_value) * \
+		       fill_null_all(c2, c1, numeric_value=numeric_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
@@ -182,8 +185,9 @@ def divide(c1, c2, fill=False, rename=False):
 			return concat_cols([divide(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		value = 1 if fill else NAN
-		return fill_null(c1, c2, value=value) / fill_null(c2, c1, value=value)
+		numeric_value = 1 if fill else NAN
+		return fill_null_all(c1, c2, numeric_value=numeric_value) / \
+		       fill_null_all(c2, c1, numeric_value=numeric_value)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
