@@ -14,10 +14,6 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from calendar import monthrange
-from collections import Iterable, Sequence
-from datetime import *
-from enum import Enum
 import functools
 import json
 import numbers
@@ -27,14 +23,19 @@ import random
 import re
 import string
 import sys
+from calendar import monthrange
+from collections import Iterable, Sequence
+from datetime import *
+from enum import Enum
 from urllib.request import urlopen
 
-from dateutil import parser
-from dateutil.relativedelta import relativedelta
 import javaproperties as prop
 import numpy as np
 import pandas as pd
 import validators
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
+from pandas.api.types import is_numeric_dtype
 
 ####################################################################################################
 # COMMON ENUMS
@@ -512,8 +513,12 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 				chained_assignment = pd.options.mode.chained_assignment
 				pd.options.mode.chained_assignment = None
 				for k in keys:
-					apply(f, x[k], *args, axis=axis, inplace=inplace, inclusion=inclusion,
-					      exclusion=exclusion, **kwargs)
+					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
+				pd.options.mode.chained_assignment = chained_assignment
+			elif is_series(x):
+				chained_assignment = pd.options.mode.chained_assignment
+				pd.options.mode.chained_assignment = None
+				x.loc[keys] = x.loc[keys].apply(f, args=args, **kwargs)
 				pd.options.mode.chained_assignment = chained_assignment
 			else:
 				for k in keys:
@@ -538,7 +543,7 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 				return to_frame(data, names=names, index=index)
 			return to_series(data, name=f.__name__, index=index)
 		elif is_series(x):
-			return filter(x, inclusion=keys).apply(f, args=args, **kwargs)
+			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
 		return list_to_type([f(x[k], *args, **kwargs) for k in keys], x)
@@ -850,7 +855,7 @@ def set_keys(c, new_keys, inclusion=None, exclusion=None):
 		new_keys = to_list(new_keys)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_frame(c):
-		c[keys].columns = new_keys
+		c.loc[:, keys].columns = new_keys
 	elif is_series(c):
 		set_index(c, new_keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_dict(c):
@@ -943,6 +948,26 @@ def concat(c1, c2):
 
 #########################
 
+def fill_null(c, numeric_value=None, object_value=None, inclusion=None, exclusion=None):
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	for k in keys:
+		if is_frame(c):
+			col = c.loc[:, k]
+			if is_numeric_dtype(col.dtypes):
+				fill_null_with(col, numeric_value, inplace=True)
+			else:
+				fill_null_with(col, object_value, inplace=True)
+		else:
+			if is_null(c[k]):
+				if is_number(c[k]):
+					c[k] = numeric_value
+				else:
+					c[k] = object_value
+	return c
+
+
+#########################
+
 def filter(c, inclusion=None, exclusion=None):
 	"""Filters the specified collection by excluding the keys that are not in the specified
 	inclusive collection and are in the specified exclusive collection."""
@@ -955,7 +980,7 @@ def filter(c, inclusion=None, exclusion=None):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys)
 	elif is_frame(c):
-		return c[keys]
+		return c.loc[:, keys]
 	elif is_series(c):
 		return c[c.index.isin(keys)]
 	elif is_dict(c):
@@ -1443,9 +1468,9 @@ def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
 			return filter_any_not_null(c, inclusion=inclusion, exclusion=exclusion)
 		return filter_not_null(c, inclusion=inclusion, exclusion=exclusion)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
-	for key in keys:
-		if is_all_null(c[key]) if conservative else is_any_null(c[key]):
-			c = remove_col(c, names=key)
+	for k in keys:
+		if is_all_null(c[k]) if conservative else is_any_null(c[k]):
+			c = remove_col(c, names=k)
 	return c
 
 
@@ -1576,6 +1601,7 @@ def update(left, right, inclusion=None, exclusion=None):
 	else:
 		for k in keys:
 			left[k] = right[k]
+	return left
 
 
 # • CONSOLE ########################################################################################
@@ -1753,27 +1779,27 @@ def count_cols(df):
 
 #########################
 
-def fill_null(df, model, value=None):
+def fill_null_all(df, model, numeric_value=None, object_value=None):
 	if is_series(df):
-		return fill_null_rows(df, get_index(model), value=value)
-	return df.fillna(value) \
-		.reindex(columns=unique(get_names(df) + get_names(model)),
-	             index=unique(get_index(df) + get_index(model)),
-	             fill_value=value)
+		return fill_null_rows(df, get_index(model), numeric_value=numeric_value,
+		                      object_value=object_value)
+	return fill_null(df.reindex(columns=unique(get_names(df) + get_names(model)),
+	                            index=unique(get_index(df) + get_index(model))),
+	                 numeric_value=numeric_value, object_value=object_value)
 
 
-def fill_null_rows(df, index, value=None):
+def fill_null_rows(df, index, numeric_value=None, object_value=None):
 	if is_table(index):
 		index = get_index(index)
-	return df.fillna(value) \
-		.reindex(index=unique(get_index(df) + index), fill_value=value)
+	return fill_null(df.reindex(index=unique(get_index(df) + to_list(index))),
+	                 numeric_value=numeric_value, object_value=object_value)
 
 
-def fill_null_cols(df, names, value=None):
+def fill_null_cols(df, names, numeric_value=None, object_value=None):
 	if is_table(names):
 		names = get_names(names)
-	return df.fillna(value) \
-		.reindex(columns=unique(get_names(df) + names), fill_value=value)
+	return fill_null(df.reindex(columns=unique(get_names(df) + to_list(names))),
+	                 numeric_value=numeric_value, object_value=object_value)
 
 
 #########################
@@ -1909,6 +1935,7 @@ def rename(df, names=None, index=None, level=None):
 		df.rename(columns=names, index=index, level=level, copy=False, inplace=True)
 	elif is_series(df):
 		df.rename(index=index, level=level, copy=False, inplace=True)
+	return df
 
 
 def rename_all(*args, names=None, index=None, level=None):
@@ -1985,7 +2012,7 @@ def to_series(data, name=None, index=None):
 	elif is_series(data):
 		series = data
 	else:
-		series = pd.Series(data=data)
+		series = pd.Series(data=data, dtype=object)
 	if not is_null(index):
 		set_index(series, index)
 	if not is_null(name):
