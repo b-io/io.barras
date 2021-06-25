@@ -66,11 +66,12 @@ def scale(x, base=10):
 __MATH_ARITHMETIC_________________________________ = ''
 
 
-def add_all(*args, fill=False, rename=False):
-	return reduce(add, *args, fill=fill, rename=rename)
+def add_all(*args, numeric_default=None, object_default=None, rename=False):
+	return reduce(add, *args, numeric_default=numeric_default, object_default=object_default,
+	              rename=rename)
 
 
-def add(c1, c2, fill=False, rename=False):
+def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the addition of the specified collections."""
 	if is_list(c1):
 		return [add(c, c2) for c in c1]
@@ -83,9 +84,8 @@ def add(c1, c2, fill=False, rename=False):
 			return concat_cols([add(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		numeric_value = 0 if fill else NAN
-		return fill_null_all(c1, c2, numeric_value=numeric_value) + \
-		       fill_null_all(c2, c1, numeric_value=numeric_value)
+		return fill_null_all(c1, c2, numeric_value=numeric_default, object_value=object_default) + \
+		       fill_null_all(c2, c1, numeric_value=numeric_default, object_value=object_default)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
@@ -100,11 +100,12 @@ def add(c1, c2, fill=False, rename=False):
 	return array_to_type(np.add(get_values(c1), get_values(c2)), c1)
 
 
-def subtract_all(*args, fill=False, rename=False):
-	return reduce(subtract, *args, fill=fill, rename=rename)
+def subtract_all(*args, numeric_default=None, object_default=None, rename=False):
+	return reduce(subtract, *args, numeric_default=numeric_default, object_default=object_default,
+	              rename=rename)
 
 
-def subtract(c1, c2, fill=False, rename=False):
+def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the subtraction of the specified collections."""
 	if is_list(c1):
 		return [subtract(c, c2) for c in c1]
@@ -117,9 +118,8 @@ def subtract(c1, c2, fill=False, rename=False):
 			return concat_cols([subtract(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		numeric_value = 0 if fill else NAN
-		return fill_null_all(c1, c2, numeric_value=numeric_value) - \
-		       fill_null_all(c2, c1, numeric_value=numeric_value)
+		return fill_null_all(c1, c2, numeric_value=numeric_default, object_value=object_default) - \
+		       fill_null_all(c2, c1, numeric_value=numeric_default, object_value=object_default)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
@@ -134,11 +134,12 @@ def subtract(c1, c2, fill=False, rename=False):
 	return array_to_type(np.subtract(get_values(c1), get_values(c2)), c1)
 
 
-def multiply_all(*args, fill=False, rename=False):
-	return reduce(multiply, *args, fill=fill, rename=rename)
+def multiply_all(*args, numeric_default=None, object_default=None, rename=False):
+	return reduce(multiply, *args, numeric_default=numeric_default, object_default=object_default,
+	              rename=rename)
 
 
-def multiply(c1, c2, fill=False, rename=False):
+def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the multiplication of the specified collections."""
 	if is_list(c1):
 		return [multiply(c, c2) for c in c1]
@@ -151,9 +152,8 @@ def multiply(c1, c2, fill=False, rename=False):
 			return concat_cols([multiply(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		numeric_value = 1 if fill else NAN
-		return fill_null_all(c1, c2, numeric_value=numeric_value) * \
-		       fill_null_all(c2, c1, numeric_value=numeric_value)
+		return fill_null_all(c1, c2, numeric_value=numeric_default, object_value=object_default) * \
+		       fill_null_all(c2, c1, numeric_value=numeric_default, object_value=object_default)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
@@ -168,11 +168,12 @@ def multiply(c1, c2, fill=False, rename=False):
 	return array_to_type(np.multiply(get_values(c1), get_values(c2)), c1)
 
 
-def divide_all(*args, fill=False, rename=False):
-	return reduce(divide, *args, fill=fill, rename=rename)
+def divide_all(*args, numeric_default=None, object_default=None, rename=False):
+	return reduce(divide, *args, numeric_default=numeric_default, object_default=object_default,
+	              rename=rename)
 
 
-def divide(c1, c2, fill=False, rename=False):
+def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the division of the specified collections."""
 	if is_list(c1):
 		return [divide(c, c2) for c in c1]
@@ -185,9 +186,8 @@ def divide(c1, c2, fill=False, rename=False):
 			return concat_cols([divide(c1, c2[k]) for k in get_keys(c2)])
 		if rename:
 			rename_all(c1, c2)
-		numeric_value = 1 if fill else NAN
-		return fill_null_all(c1, c2, numeric_value=numeric_value) / \
-		       fill_null_all(c2, c1, numeric_value=numeric_value)
+		return fill_null_all(c1, c2, numeric_value=numeric_default, object_value=object_default) / \
+		       fill_null_all(c2, c1, numeric_value=numeric_default, object_value=object_default)
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
