@@ -948,21 +948,21 @@ def concat(c1, c2):
 
 #########################
 
-def fill_null(c, numeric_value=None, object_value=None, inclusion=None, exclusion=None):
+def fill_null(c, numeric_default=None, object_default=None, inclusion=None, exclusion=None):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	for k in keys:
 		if is_frame(c):
 			col = c.loc[:, k]
 			if is_numeric_dtype(col.dtypes):
-				fill_null_with(col, numeric_value, inplace=True)
+				fill_null_with(col, numeric_default, inplace=True)
 			else:
-				fill_null_with(col, object_value, inplace=True)
+				fill_null_with(col, object_default, inplace=True)
 		else:
 			if is_null(c[k]):
 				if is_number(c[k]):
-					c[k] = numeric_value
+					c[k] = numeric_default
 				else:
-					c[k] = object_value
+					c[k] = object_default
 	return c
 
 
@@ -1779,27 +1779,27 @@ def count_cols(df):
 
 #########################
 
-def fill_null_all(df, model, numeric_value=None, object_value=None):
+def fill_null_all(df, model, numeric_default=None, object_default=None):
 	if is_series(df):
-		return fill_null_rows(df, get_index(model), numeric_value=numeric_value,
-		                      object_value=object_value)
+		return fill_null_rows(df, get_index(model), numeric_default=numeric_default,
+		                      object_default=object_default)
 	return fill_null(df.reindex(columns=unique(get_names(df) + get_names(model)),
 	                            index=unique(get_index(df) + get_index(model))),
-	                 numeric_value=numeric_value, object_value=object_value)
+	                 numeric_default=numeric_default, object_default=object_default)
 
 
-def fill_null_rows(df, index, numeric_value=None, object_value=None):
+def fill_null_rows(df, index, numeric_default=None, object_default=None):
 	if is_table(index):
 		index = get_index(index)
 	return fill_null(df.reindex(index=unique(get_index(df) + to_list(index))),
-	                 numeric_value=numeric_value, object_value=object_value)
+	                 numeric_default=numeric_default, object_default=object_default)
 
 
-def fill_null_cols(df, names, numeric_value=None, object_value=None):
+def fill_null_cols(df, names, numeric_default=None, object_default=None):
 	if is_table(names):
 		names = get_names(names)
 	return fill_null(df.reindex(columns=unique(get_names(df) + to_list(names))),
-	                 numeric_value=numeric_value, object_value=object_value)
+	                 numeric_default=numeric_default, object_default=object_default)
 
 
 #########################
