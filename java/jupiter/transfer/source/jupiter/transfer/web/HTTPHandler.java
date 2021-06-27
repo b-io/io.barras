@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
@@ -182,9 +181,8 @@ public class HTTPHandler
 
 		// Add the headers to the HTTP GET request
 		if (headers != null) {
-			final Set<Entry<String, String>> hs = headers.entrySet();
-			for (final Entry<String, String> h : hs) {
-				request.addHeader(h.getKey(), h.getValue());
+			for (final Entry<String, String> header : headers.entrySet()) {
+				request.addHeader(header.getKey(), header.getValue());
 			}
 		}
 
@@ -224,9 +222,8 @@ public class HTTPHandler
 
 		// Add the headers to the HTTP POST request
 		if (headers != null) {
-			final Set<Entry<String, String>> hs = headers.entrySet();
-			for (final Map.Entry<String, String> h : hs) {
-				request.addHeader(h.getKey(), h.getValue());
+			for (final Entry<String, String> header : headers.entrySet()) {
+				request.addHeader(header.getKey(), header.getValue());
 			}
 		}
 
