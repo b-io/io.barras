@@ -161,11 +161,12 @@ public class ExtendedHashSet<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Appends the specified element to the end of {@code this}.
+	 * Adds the specified element to {@code this}.
 	 * <p>
-	 * @param element the {@code E} element to append
+	 * @param element the {@code E} element to add
 	 * <p>
-	 * @return {@code true} (as specified by {@link Collection#add})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	@Override
 	public synchronized boolean add(final E element) {
@@ -173,10 +174,10 @@ public class ExtendedHashSet<E>
 	}
 
 	/**
-	 * Appends all the specified elements to the end of {@code this}.
+	 * Adds all the specified elements to {@code this}.
 	 * <p>
-	 * @param <T>      the type of the elements to append ({@code E} subtype)
-	 * @param elements the {@code T} elements to append
+	 * @param <T>      the type of the elements to add ({@code E} subtype)
+	 * @param elements the {@code T} elements to add
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
@@ -186,9 +187,9 @@ public class ExtendedHashSet<E>
 	}
 
 	/**
-	 * Appends all the elements of the specified {@link Collection} to the end of {@code this}.
+	 * Adds all the elements of the specified {@link Collection} to {@code this}.
 	 * <p>
-	 * @param elements the {@link Collection} containing the {@code E} elements to append
+	 * @param elements the {@link Collection} containing the {@code E} elements to add
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
@@ -200,11 +201,28 @@ public class ExtendedHashSet<E>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the specified {@link Object} from {@code this}.
+	 * <p>
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean remove(final Object object) {
 		return super.remove(object);
 	}
 
+	/**
+	 * Removes all the elements that are contained in the specified {@link Collection} from
+	 * {@code this}.
+	 * <p>
+	 * @param collection the {@link Collection} of {@link Object} to remove (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
@@ -236,6 +254,15 @@ public class ExtendedHashSet<E>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes all the elements that are not contained in the specified {@link Collection} from
+	 * {@code this}.
+	 * <p>
+	 * @param collection the {@link Collection} of {@link Object} to retain (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
