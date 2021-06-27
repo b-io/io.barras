@@ -26,6 +26,7 @@ package jupiter.common.struct.map.hash;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
+import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
@@ -78,7 +79,15 @@ public class CollectionExtendedHashMapTest
 	public void testRemoveAt() {
 		IO.test(BULLET, " removeAt");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final ExtendedHashSet<Double> model = new ExtendedHashSet<Double>();
+		CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>(
+				model);
+		fill(map);
+		for (int i = 0; i < 100; i += 2) {
+			map.removeAt(i, Double.valueOf(i));
+			assertEquals(null, map.get(i));
+		}
+		map = new CollectionExtendedHashMap<Integer, Double>(model, false);
 		fill(map);
 		for (int i = 0; i < 100; i += 2) {
 			map.removeAt(i, Double.valueOf(i));
