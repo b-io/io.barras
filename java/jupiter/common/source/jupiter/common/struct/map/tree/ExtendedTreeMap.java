@@ -21,12 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.hash;
+package jupiter.common.struct.map.tree;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
@@ -36,15 +36,15 @@ import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedHashMap} is the extended synchronized {@link HashMap} of {@code K} and {@code V}
+ * {@link ExtendedTreeMap} is the extended synchronized {@link TreeMap} of {@code K} and {@code V}
  * types.
  * <p>
- * @param <K> the key type of the {@link ExtendedHashMap}
- * @param <V> the value type of the {@link ExtendedHashMap}
+ * @param <K> the key type of the {@link ExtendedTreeMap}
+ * @param <V> the value type of the {@link ExtendedTreeMap}
  */
-public class ExtendedHashMap<K, V>
-		extends HashMap<K, V>
-		implements ICloneable<ExtendedHashMap<K, V>> {
+public class ExtendedTreeMap<K, V>
+		extends TreeMap<K, V>
+		implements ICloneable<ExtendedTreeMap<K, V>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -61,28 +61,16 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types by default.
+	 * Constructs an empty {@link ExtendedTreeMap} of {@code K} and {@code V} types by default.
 	 */
-	public ExtendedHashMap() {
-		super(Maps.DEFAULT_CAPACITY);
-	}
-
-	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types with the
-	 * specified initial capacity.
-	 * <p>
-	 * @param initialCapacity the initial capacity
-	 * <p>
-	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
-	 */
-	public ExtendedHashMap(final int initialCapacity) {
-		super(initialCapacity);
+	public ExtendedTreeMap() {
+		super();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs an {@link ExtendedTreeMap} of {@code K} and {@code V} types loaded from the
 	 * specified key and value arrays containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
@@ -90,8 +78,8 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public ExtendedHashMap(final K[] keys, final V[] values) {
-		super(keys.length);
+	public ExtendedTreeMap(final K[] keys, final V[] values) {
+		super();
 
 		// Check the arguments
 		ArrayArguments.requireSameLength(keys, values);
@@ -101,7 +89,7 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs an {@link ExtendedTreeMap} of {@code K} and {@code V} types loaded from the
 	 * specified key array and value {@link Collection} containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
@@ -110,8 +98,8 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public ExtendedHashMap(final K[] keys, final Collection<? extends V> values) {
-		super(keys.length);
+	public ExtendedTreeMap(final K[] keys, final Collection<? extends V> values) {
+		super();
 
 		// Check the arguments
 		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
@@ -121,13 +109,13 @@ public class ExtendedHashMap<K, V>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs an {@link ExtendedTreeMap} of {@code K} and {@code V} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
 	 */
-	public ExtendedHashMap(final Map<? extends K, ? extends V> map) {
+	public ExtendedTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
 	}
 
@@ -322,8 +310,8 @@ public class ExtendedHashMap<K, V>
 	 * @see ICloneable
 	 */
 	@Override
-	public ExtendedHashMap<K, V> clone() {
-		final ExtendedHashMap<K, V> clone = new ExtendedHashMap<K, V>(size());
+	public ExtendedTreeMap<K, V> clone() {
+		final ExtendedTreeMap<K, V> clone = new ExtendedTreeMap<K, V>();
 		for (final Entry<K, V> entry : entrySet()) {
 			clone.put(Objects.clone(entry.getKey()), Objects.clone(entry.getValue()));
 		}
