@@ -291,7 +291,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public boolean addAt(final K key, final E element) {
+	public synchronized boolean addAt(final K key, final E element) {
 		return getOrCreate(key).add(element);
 	}
 
