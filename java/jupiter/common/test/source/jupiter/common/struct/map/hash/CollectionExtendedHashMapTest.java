@@ -26,9 +26,6 @@ package jupiter.common.struct.map.hash;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
-import java.util.List;
-import java.util.Map;
-import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
