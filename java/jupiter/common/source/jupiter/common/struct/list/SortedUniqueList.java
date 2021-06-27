@@ -91,7 +91,8 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 	 * <p>
 	 * @param element the {@code E} element to add
 	 * <p>
-	 * @return {@code true} (as specified by {@link Collection#add})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	@Override
 	public synchronized boolean add(final E element) {

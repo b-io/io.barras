@@ -911,19 +911,19 @@ public class Files {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns all the {@link File} contained in the specified directory or subdirectories in an
-	 * {@link ExtendedLinkedList}.
+	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
+	 * in an {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir the directory {@link File} of the {@link File} to list
 	 * <p>
-	 * @return all the {@link File} contained in the specified directory or subdirectories in an
-	 *         {@link ExtendedLinkedList}
+	 * @return all the {@link File} that are contained in the specified directory or subdirectories
+	 *         in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir) {
 		// Check the arguments
 		FileArguments.requireDir(dir);
 
-		// List all the files contained in the directory or subdirectories
+		// List all the files that are contained in the directory or subdirectories
 		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
 		final File[] files = dir.listFiles();
 		for (final File file : files) {
@@ -936,44 +936,45 @@ public class Files {
 	}
 
 	/**
-	 * Returns all the {@link File} contained in the specified directory or subdirectories and
-	 * matching the specified name filter {@link String} in an {@link ExtendedLinkedList}.
+	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
+	 * and matching the specified name filter {@link String} in an {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir        the directory {@link File} of the {@link File} to list
 	 * @param nameFilter the name filter {@link String} of the {@link File} to list
 	 * <p>
-	 * @return all the {@link File} contained in the specified directory or subdirectories and
-	 *         matching the specified name filter {@link String} in an {@link ExtendedLinkedList}
+	 * @return all the {@link File} that are contained in the specified directory or subdirectories
+	 *         and matching the specified name filter {@link String} in an
+	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final String nameFilter) {
 		return listAll(dir, Pattern.compile(nameFilter), Integer.MAX_VALUE);
 	}
 
 	/**
-	 * Returns all the {@link File} contained in the specified directory or subdirectories and
-	 * matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}.
+	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
+	 * and matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * <p>
-	 * @return all the {@link File} contained in the specified directory or subdirectories and
-	 *         matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
+	 * @return all the {@link File} that are contained in the specified directory or subdirectories
+	 *         and matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern) {
 		return listAll(dir, namePattern, Integer.MAX_VALUE);
 	}
 
 	/**
-	 * Returns all the {@link File} contained in the specified directory or subdirectories and
-	 * matching the specified name {@link Pattern} until the specified depth in an
+	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
+	 * and matching the specified name {@link Pattern} until the specified depth in an
 	 * {@link ExtendedLinkedList}.
 	 * <p>
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * @param depth       the number of subdirectories under the specified directory to search in
 	 * <p>
-	 * @return all the {@link File} contained in the specified directory or subdirectories and
-	 *         matching the specified name {@link Pattern} until the specified depth in an
+	 * @return all the {@link File} that are contained in the specified directory or subdirectories
+	 *         and matching the specified name {@link Pattern} until the specified depth in an
 	 *         {@link ExtendedLinkedList}
 	 */
 	public static ExtendedLinkedList<File> listAll(final File dir, final Pattern namePattern,
@@ -981,8 +982,8 @@ public class Files {
 		// Check the arguments
 		FileArguments.requireDir(dir);
 
-		// List all the files contained in the directory or subdirectories and matching the pattern
-		// until the depth
+		// List all the files that are contained in the directory or subdirectories and matching the
+		// pattern until the depth
 		final ExtendedLinkedList<File> allFiles = new ExtendedLinkedList<File>();
 		final File[] files = dir.listFiles();
 		for (final File file : files) {

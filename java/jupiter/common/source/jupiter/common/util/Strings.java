@@ -1591,7 +1591,7 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by removing the first occurrence of any of the
-	 * {@code char} tokens contained in the specified {@link String} from the specified
+	 * {@code char} tokens that are contained in the specified {@link String} from the specified
 	 * {@link String}.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
@@ -1599,8 +1599,8 @@ public class Strings {
 	 *               {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by removing the first occurrence of any of the
-	 *         {@code char} tokens contained in the specified {@link String} from the specified
-	 *         {@link String}
+	 *         {@code char} tokens that are contained in the specified {@link String} from the
+	 *         specified {@link String}
 	 */
 	public static String removeFirst(final String text, final String tokens) {
 		// Check the arguments
@@ -1614,7 +1614,7 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by removing the last occurrence of any of the
-	 * {@code char} tokens contained in the specified {@link String} from the specified
+	 * {@code char} tokens that are contained in the specified {@link String} from the specified
 	 * {@link String}.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
@@ -1622,8 +1622,8 @@ public class Strings {
 	 *               {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by removing the last occurrence of any of the
-	 *         {@code char} tokens contained in the specified {@link String} from the specified
-	 *         {@link String}
+	 *         {@code char} tokens that are contained in the specified {@link String} from the
+	 *         specified {@link String}
 	 */
 	public static String removeLast(final String text, final String tokens) {
 		// Check the arguments
@@ -1637,14 +1637,15 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by removing all the occurrences of the {@code char}
-	 * tokens contained in the specified {@link String} from the specified {@link String}.
+	 * tokens that are contained in the specified {@link String} from the specified {@link String}.
 	 * <p>
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link String} containing the {@code char} tokens to remove (may be
 	 *               {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by removing all the occurrences of the {@code char}
-	 *         tokens contained in the specified {@link String} from the specified {@link String}
+	 *         tokens that are contained in the specified {@link String} from the specified
+	 *         {@link String}
 	 */
 	public static String removeAll(final String text, final String tokens) {
 		// Check the arguments
