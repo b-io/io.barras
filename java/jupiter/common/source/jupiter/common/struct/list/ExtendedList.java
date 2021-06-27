@@ -225,7 +225,8 @@ public class ExtendedList<E>
 	 * <p>
 	 * @param element the {@code E} element to append
 	 * <p>
-	 * @return {@code true} (as specified by {@link Collection#add})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
 	 */
 	@Override
 	public synchronized boolean add(final E element) {
@@ -289,16 +290,42 @@ public class ExtendedList<E>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from {@code this}.
+	 * <p>
+	 * @param index the index of the element to remove (may be {@code null})
+	 * <p>
+	 * @return the removed element
+	 * <p>
+	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
+	 */
 	@Override
 	public synchronized E remove(final int index) {
 		return super.remove(index);
 	}
 
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
+	 * <p>
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean remove(final Object object) {
 		return super.remove(object);
 	}
 
+	/**
+	 * Removes all the elements that are contained in the specified {@link Collection} from
+	 * {@code this}.
+	 * <p>
+	 * @param collection the {@link Collection} of {@link Object} to remove (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
@@ -341,6 +368,15 @@ public class ExtendedList<E>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes all the elements that are not contained in the specified {@link Collection} from
+	 * {@code this}.
+	 * <p>
+	 * @param collection the {@link Collection} of {@link Object} to retain (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
 	@Override
 	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
