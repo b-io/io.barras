@@ -48,7 +48,7 @@ public class Lists
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// PROCESSORS
+	// COMPARATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -62,7 +62,7 @@ public class Lists
 	 * @return the minimum element for each index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
-	public static <E extends Number> ExtendedList<E> getMinElements(final List<? extends E> a,
+	public static <E extends Number> ExtendedList<E> getMin(final List<? extends E> a,
 			final List<? extends E> b) {
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
@@ -88,7 +88,7 @@ public class Lists
 	 * @return the maximum element for each index of the specified {@link List} in an
 	 *         {@link ExtendedList}
 	 */
-	public static <E extends Number> ExtendedList<E> getMaxElements(final List<? extends E> a,
+	public static <E extends Number> ExtendedList<E> getMax(final List<? extends E> a,
 			final List<? extends E> b) {
 		// Check the arguments
 		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
@@ -103,6 +103,9 @@ public class Lists
 		return maxElements;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
