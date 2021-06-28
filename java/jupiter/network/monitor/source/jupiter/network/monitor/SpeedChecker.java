@@ -407,7 +407,7 @@ public class SpeedChecker {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Shows the downloading speeds (in Mbits/s) contained in the data files in the
+	 * Shows the downloading speeds (in Mbits/s) that are contained in the data files in the
 	 * {@link TimeSeriesGraphic}.
 	 */
 	public static void show() {
