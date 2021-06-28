@@ -26,6 +26,7 @@ package jupiter.common.struct.map.hash;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -409,19 +410,77 @@ public class CollectionExtendedHashMap<K, E>
 		return collection;
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the element at the specified index in the {@link Collection} at the specified key
+	 * {@link Object}.
+	 * <p>
+	 * @param key   the key {@link Object} of the {@link Collection} to get
+	 * @param index the index of the element to return
+	 * <p>
+	 * @return the element at the specified index in the {@link Collection} at the specified key
+	 *         {@link Object}
+	 * <p>
+	 * @throws NoSuchElementException if the iteration has no more elements
+	 */
+	public E getAt(final Object key, final int index)
+			throws NoSuchElementException {
+		return Collections.get(get(key), index);
+	}
+
+	/**
+	 * Returns the first occurrence of the specified {@link Object} in the {@link Collection} at the
+	 * specified key {@link Object}, {@code null} otherwise.
+	 * <p>
+	 * @param key    the key {@link Object} of the {@link Collection} to get
+	 * @param object the {@link Object} to get (may be {@code null})
+	 * <p>
+	 * @return the first occurrence of the specified {@link Object} in the {@link Collection} at the
+	 *         specified key {@link Object}, {@code null} otherwise
+	 */
+	public E getFirstAt(final Object key, final Object object)
+			throws NoSuchElementException {
+		final Collection<E> collection = get(key);
+		if (collection == null) {
+			return null;
+		}
+		return Collections.getFirst(collection, object);
+
+	}
+
+	/**
+	 * Returns all the occurrences of the specified {@link Object} in the {@link Collection} at the
+	 * specified key {@link Object} in an {@link ExtendedLinkedList}.
+	 * <p>
+	 * @param key    the key {@link Object} of the {@link Collection} to get
+	 * @param object the {@link Object} to get (may be {@code null})
+	 * <p>
+	 * @return all the occurrences of the specified {@link Object} in the {@link Collection} at the
+	 *         specified key {@link Object} in an {@link ExtendedLinkedList}
+	 */
+	public ExtendedLinkedList<E> getAllAt(final Object key, final Object object)
+			throws NoSuchElementException {
+		final Collection<E> collection = get(key);
+		if (collection == null) {
+			return new ExtendedLinkedList<E>();
+		}
+		return Collections.getAll(collection, object);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Adds the specified element to the {@link Collection} at the specified key {@link Object}.
+	 * Adds the specified element to the {@link Collection} at the specified key.
 	 * <p>
-	 * @param key     the key {@link Object} of the {@link Collection} to add to
+	 * @param key     the {@code K} key of the {@link Collection} to add to
 	 * @param element the {@code T} element to add (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the {@link Collection} at the specified key {@link Object} has
-	 *         changed as a result of the call, {@code false} otherwise
+	 * @return {@code true} if the {@link Collection} at the specified key has changed as a result
+	 *         of the call, {@code false} otherwise
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
@@ -430,15 +489,14 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Adds all the specified elements to the {@link Collection} at the specified key
-	 * {@link Object}.
+	 * Adds all the specified elements to the {@link Collection} at the specified key.
 	 * <p>
 	 * @param <T>      the type of the elements to add
-	 * @param key      the key {@link Object} of the {@link Collection} to add to
+	 * @param key      the {@code K} key of the {@link Collection} to add to
 	 * @param elements the {@code T} elements to add (may be {@code null})
 	 * <p>
-	 * @return {@code true} if the {@link Collection} at the specified key {@link Object} has
-	 *         changed as a result of the call, {@code false} otherwise
+	 * @return {@code true} if the {@link Collection} at the specified key has changed as a result
+	 *         of the call, {@code false} otherwise
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
@@ -497,6 +555,30 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	//////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the {@link Collection} at the specified key
+	 * {@link Object}.
+	 * <p>
+	 * @param key   the key {@link Object} of the {@link Collection} to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 * <p>
+	 * @throws NoSuchElementException if the iteration has no more elements
+	 */
+	public synchronized int removeAt(final Object key, final int index)
+			throws NoSuchElementException {
+		if (containsKey(key)) {
+			final Collection<E> value = get(key);
+			Collections.remove(value, index);
+			if (removeEmpty && value.isEmpty()) {
+				remove(key);
+			}
+			return index;
+		}
+		return -1;
+	}
 
 	/**
 	 * Removes the first occurrence of the specified {@link Object} from the {@link Collection} at

@@ -33,6 +33,7 @@ import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
@@ -88,6 +89,91 @@ public class Collections {
 			c = Classes.getCommonAncestor(c, Classes.get(iterator.next()));
 		}
 		return c != null ? c : OBJECT_CLASS;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the element at the specified index in the specified {@link Collection}.
+	 * <p>
+	 * @param <E>        the type of the element to return
+	 * @param collection a {@link Collection} of {@code E} element subtype
+	 * @param index      the index of the element to return
+	 * <p>
+	 * @return the element at the specified index in the specified {@link Collection}
+	 * <p>
+	 * @throws NoSuchElementException if the iteration has no more elements
+	 */
+	public static <E> E get(final Collection<? extends E> collection, final int index)
+			throws NoSuchElementException {
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Return the element at the index in the collection
+		if (Lists.is(collection)) {
+			return ((List<? extends E>) collection).get(index);
+		}
+		final Iterator<? extends E> iterator = collection.iterator();
+		for (int i = 0; i < index; ++i) {
+			iterator.next();
+		}
+		return iterator.next();
+	}
+
+	/**
+	 * Returns the first occurrence of the specified {@link Object} in the specified
+	 * {@link Collection}, {@code null} otherwise.
+	 * <p>
+	 * @param <E>        the type of the element to return
+	 * @param collection a {@link Collection} of {@code E} element subtype
+	 * @param object     the {@link Object} to get (may be {@code null})
+	 * <p>
+	 * @return the first occurrence of the specified {@link Object} in the specified
+	 *         {@link Collection}, {@code null} otherwise
+	 */
+	public static <E> E getFirst(final Collection<? extends E> collection, final Object object)
+			throws NoSuchElementException {
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Return the first occurrence of the object in the collection
+		final Iterator<? extends E> iterator = collection.iterator();
+		while (iterator.hasNext()) {
+			final E element = iterator.next();
+			if (Objects.equals(element, object)) {
+				return element;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns all the occurrences of the specified {@link Object} in the specified
+	 * {@link Collection} in an {@link ExtendedLinkedList}.
+	 * <p>
+	 * @param <E>        the element type of the {@link ExtendedLinkedList} to return
+	 * @param collection a {@link Collection} of {@code E} element subtype
+	 * @param object     the {@link Object} to get (may be {@code null})
+	 * <p>
+	 * @return all the occurrences of the specified {@link Object} in the specified
+	 *         {@link Collection} in an {@link ExtendedLinkedList}
+	 */
+	public static <E> ExtendedLinkedList<E> getAll(final Collection<? extends E> collection,
+			final Object object)
+			throws NoSuchElementException {
+		// Check the arguments
+		Arguments.requireNonNull(collection, "collection");
+
+		// Return all the occurrences of the object in the collection
+		final ExtendedLinkedList<E> elements = new ExtendedLinkedList<E>();
+		final Iterator<? extends E> iterator = collection.iterator();
+		while (iterator.hasNext()) {
+			final E element = iterator.next();
+			if (Objects.equals(element, object)) {
+				elements.add(element);
+			}
+		}
+		return elements;
 	}
 
 
@@ -196,7 +282,7 @@ public class Collections {
 	 * Adds all the specified elements to the specified {@link Collection}.
 	 * <p>
 	 * @param <T>        the type of the elements to add
-	 * @param collection a {@link Collection} of {@code T} supertype
+	 * @param collection a {@link Collection} of {@code T} element supertype
 	 * @param elements   the {@code T} elements to add
 	 * <p>
 	 * @return {@code true} if the specified {@link Collection} has changed as a result of the call,
@@ -218,32 +304,28 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the element at the specified index in the elements returned by the iterator of the
-	 * specified {@link Collection}.
+	 * Removes the element at the specified index from the specified {@link Collection}.
 	 * <p>
-	 * @param <E>        the type of the element to return
-	 * @param collection a {@link Collection} of {@code E} element subtype
-	 * @param index      the index of the element to return
-	 * <p>
-	 * @return the element at the specified index in the elements returned by the iterator of the
-	 *         specified {@link Collection}
+	 * @param collection a {@link Collection}
+	 * @param index      the index of the element to remove
 	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
-	public static <E> E get(final Collection<? extends E> collection, final int index)
-			throws NoSuchElementException {
+	public static void remove(final Collection<?> collection, final int index) {
 		// Check the arguments
 		Arguments.requireNonNull(collection, "collection");
 
-		// Return the element at the index of the elements returned by the iterator of the collection
-		final Iterator<? extends E> iterator = collection.iterator();
-		for (int i = 0; i < index; ++i) {
-			iterator.next();
+		// Remove the element at the index from the collection
+		if (Lists.is(collection)) {
+			((List<?>) collection).remove(index);
+		} else {
+			final Iterator<?> iterator = collection.iterator();
+			for (int i = 0; i < index; ++i) {
+				iterator.next();
+			}
+			iterator.remove();
 		}
-		return iterator.next();
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Removes the first occurrence of the specified {@link Object} from the specified
