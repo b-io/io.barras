@@ -1935,6 +1935,7 @@ def rename(df, names=None, index=None, level=None):
 		df.rename(columns=names, index=index, level=level, copy=False, inplace=True)
 	elif is_series(df):
 		df.rename(index=index, level=level, copy=False, inplace=True)
+		set_names(df, names)
 	return df
 
 
