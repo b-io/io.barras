@@ -1931,11 +1931,11 @@ def remove_col_at(df, j):
 def rename(df, names=None, index=None, level=None):
 	if is_all_null(names, index):
 		set_names(df, range(count_cols(df)))
-	elif is_frame(df):
-		df.rename(columns=names, index=index, level=level, copy=False, inplace=True)
-	elif is_series(df):
-		df.rename(index=index, level=level, copy=False, inplace=True)
-		set_names(df, names)
+	else:
+		if not is_null(index):
+			df.rename(index=index, level=level, copy=False, inplace=True)
+		if not is_null(names):
+			set_names(df, names)
 	return df
 
 
