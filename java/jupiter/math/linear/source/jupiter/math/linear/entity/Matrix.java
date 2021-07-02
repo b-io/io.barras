@@ -2332,19 +2332,20 @@ public class Matrix
 				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
 						expression.charAt(toIndex) == delimiters[1]) {
 					// Get the rows
-					final String content = expression.substring(fromIndex + 1, toIndex).trim();
+					final String content = Strings.trimAll(
+							expression.substring(fromIndex + 1, toIndex));
 					final ExtendedLinkedList<String> rows = Strings.removeEmpty(
 							Strings.split(content, ROW_DELIMITER));
 					// Count the numbers of rows and columns
 					final int m = rows.size();
 					final int n = Strings.removeEmpty(
-							Strings.split(rows.getFirst().trim(), COLUMN_DELIMITERS)).size();
+							Strings.split(Strings.trim(rows.getFirst()), COLUMN_DELIMITERS)).size();
 					// Fill the matrix row by row
 					final double[] elements = new double[m * n];
 					final Iterator<String> rowIterator = rows.iterator();
 					for (int i = 0; i < m; ++i) {
 						final Iterator<String> elementIterator = Strings.removeEmpty(
-								Strings.split(rowIterator.next().trim(), COLUMN_DELIMITERS))
+								Strings.split(Strings.trim(rowIterator.next()), COLUMN_DELIMITERS))
 								.iterator();
 						for (int j = 0; j < n; ++j) {
 							elements[i * n + j] = Doubles.convert(elementIterator.next());
@@ -2410,7 +2411,7 @@ public class Matrix
 	 */
 	public static boolean isParsableFrom(final String text) {
 		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-		final List<Integer> indices = Strings.getIndices(text.trim(), delimiters);
+		final List<Integer> indices = Strings.getIndices(Strings.trimAll(text), delimiters);
 		if (indices.size() == 2) {
 			final int fromIndex = indices.get(0);
 			final int toIndex = indices.get(1);

@@ -635,7 +635,7 @@ public class Strings {
 	 * Returns the {@link String} constructed by capitalizing the first character of the specified
 	 * {@link String}.
 	 * <p>
-	 * @param text the @link String} to capitalize (may be {@code null})
+	 * @param text the {@link String} to capitalize (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing the first character of the specified
 	 *         {@link String}
@@ -661,7 +661,7 @@ public class Strings {
 	 * {@link #capitalizeStrictly(String)}.</dd>
 	 * </dl>
 	 * <p>
-	 * @param text the @link String} to capitalize (may be {@code null})
+	 * @param text the {@link String} to capitalize (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 *         the specified {@link String}
@@ -682,7 +682,7 @@ public class Strings {
 	 * {@link #capitalizeStrictly(String, char...)}.</dd>
 	 * </dl>
 	 * <p>
-	 * @param text       the @link String} to capitalize (may be {@code null})
+	 * @param text       the {@link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
@@ -718,7 +718,7 @@ public class Strings {
 	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 * the specified {@link String} and converting the remaining characters to lower case.
 	 * <p>
-	 * @param text the @link String} to capitalize (may be {@code null})
+	 * @param text the {@link String} to capitalize (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 *         the specified {@link String} and converting the remaining characters to lower case
@@ -734,7 +734,7 @@ public class Strings {
 	 * {@link String} separated by the specified {@code char} delimiters and converting the
 	 * remaining characters to lower case.
 	 * <p>
-	 * @param text       the @link String} to capitalize (may be {@code null})
+	 * @param text       the {@link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
@@ -760,7 +760,7 @@ public class Strings {
 	 * Returns the {@link String} constructed by uncapitalizing all the whitespace-separated words
 	 * of the specified {@link String}.
 	 * <p>
-	 * @param text the @link String} to uncapitalize (may be {@code null})
+	 * @param text the {@link String} to uncapitalize (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the whitespace-separated words
 	 *         of the specified {@link String}
@@ -775,7 +775,7 @@ public class Strings {
 	 * Returns the {@link String} constructed by uncapitalizing all the words of the specified
 	 * {@link String} separated by the specified {@code char} delimiters.
 	 * <p>
-	 * @param text       the @link String} to uncapitalize (may be {@code null})
+	 * @param text       the {@link String} to uncapitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the words of the specified
@@ -1997,6 +1997,44 @@ public class Strings {
 	 */
 	public static void sortStringIndices(final List<Index<String>> indices) {
 		Lists.<Index<String>>sort(indices, Index.COMPARATOR);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the {@link String} constructed by trimming the specified {@link String}.
+	 * <p>
+	 * @param text the {@link String} to trim (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by trimming the specified {@link String}
+	 */
+	public static String trim(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return text;
+		}
+
+		// Trim the text
+		return text.trim();
+	}
+
+	/**
+	 * Returns the {@link String} constructed by trimming all the spaces of the specified
+	 * {@link String}.
+	 * <p>
+	 * @param text the {@link String} to trim (may be {@code null})
+	 * <p>
+	 * @return the {@link String} constructed by trimming all the spaces of the specified
+	 *         {@link String}
+	 */
+	public static String trimAll(final String text) {
+		// Check the arguments
+		if (isNullOrEmpty(text)) {
+			return text;
+		}
+
+		// Trim all the spaces of the text
+		return text.trim().replaceAll(" +", " ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

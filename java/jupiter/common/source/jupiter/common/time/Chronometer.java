@@ -50,15 +50,15 @@ public class Chronometer
 	/**
 	 * The number of time units.
 	 */
-	public static final int TIME_UNITS_COUNT = TimeUnit.values().length;
+	public static final int TIME_UNIT_COUNT = TimeUnit.values().length;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected final long[] time = new long[TIME_UNITS_COUNT];
-	protected final double[] timeByUnit = new double[TIME_UNITS_COUNT];
+	protected final long[] time = new long[TIME_UNIT_COUNT];
+	protected final double[] timeByUnit = new double[TIME_UNIT_COUNT];
 	protected long begin = 0L, end = 0L;
 	protected long difference = 0L;
 	protected String representation = EMPTY;
@@ -142,7 +142,7 @@ public class Chronometer
 			timeByUnit[ti] = difference / Maths.pow(1E3, ti);
 			time[ti] = Maths.round(timeByUnit[ti]) % 1000L;
 		}
-		for (int ti = 3; ti < TIME_UNITS_COUNT; ++ti) {
+		for (int ti = 3; ti < TIME_UNIT_COUNT; ++ti) {
 			timeByUnit[ti] = difference / (1E9 * Maths.pow(60., ti - 3));
 			time[ti] = Longs.convert(timeByUnit[ti]) % 60L;
 		}

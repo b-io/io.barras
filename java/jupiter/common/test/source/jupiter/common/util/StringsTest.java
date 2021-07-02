@@ -112,6 +112,17 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
+	 * Tests {@link Strings#trimAll}.
+	 */
+	public void testTrimAll() {
+		IO.test(BULLET, " trimAll");
+
+		assertEquals("A B C D E", Strings.trimAll(" A B  C   D    E     "));
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Tests {@link Strings#split}.
 	 */
 	public void testSplit() {

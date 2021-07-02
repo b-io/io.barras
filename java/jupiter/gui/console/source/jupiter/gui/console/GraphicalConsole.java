@@ -181,7 +181,7 @@ public abstract class GraphicalConsole
 		do {
 			// Process the input expression
 			IO.print(Color.BLUE.getStyledText(getPrefix()), false);
-			final String inputExpression = IO.getInputLine().trim();
+			final String inputExpression = Strings.trimAll(IO.getInputLine());
 			if (Strings.toLowerCase(inputExpression).contains("clear")) {
 				clear();
 			} else if (Strings.toLowerCase(inputExpression).contains("exit")) {

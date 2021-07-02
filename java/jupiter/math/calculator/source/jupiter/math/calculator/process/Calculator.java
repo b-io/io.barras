@@ -163,7 +163,7 @@ public class Calculator
 	public Result<Entity> process(final String expression) {
 		try {
 			// Trim the expression
-			String trimmedExpression = expression.trim();
+			String trimmedExpression = Strings.trim(expression);
 
 			// Test whether the epression is an assignment
 			final ExtendedLinkedList<String> expressions = Strings.removeEmpty(
@@ -172,7 +172,7 @@ public class Calculator
 			if (expressionCount > 1) {
 				// • Assignment
 				// Extract the right-hand side of the expression
-				trimmedExpression = expressions.getLast().trim();
+				trimmedExpression = Strings.trim(expressions.getLast());
 			}
 
 			// Parse and evaluate the (right-hand side) expression
@@ -200,7 +200,7 @@ public class Calculator
 				while (expressionIterator.hasNext()) {
 					final String e = expressionIterator.next();
 					if (expressionIterator.hasNext()) {
-						context.put(e.trim(), element);
+						context.put(Strings.trim(e), element);
 					}
 				}
 			}
