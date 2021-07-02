@@ -29,10 +29,10 @@ public class Bits {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static final int INTEGER_BITS_COUNT = 32;
-	public static final int HALF_INTEGER_BITS_COUNT = INTEGER_BITS_COUNT / 2;
-	public static final long LONG_BITS_COUNT = 64L;
-	public static final long HALF_LONG_BITS_COUNT = LONG_BITS_COUNT / 2L;
+	public static final int INTEGER_BIT_COUNT = 32;
+	public static final int HALF_INTEGER_BIT_COUNT = INTEGER_BIT_COUNT / 2;
+	public static final long LONG_BIT_COUNT = 64L;
+	public static final long HALF_LONG_BIT_COUNT = LONG_BIT_COUNT / 2L;
 
 	//////////////////////////////////////////////
 
@@ -55,34 +55,34 @@ public class Bits {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static long rotateLeft(final long bits) {
-		return rotateLeft(bits, HALF_LONG_BITS_COUNT);
+		return rotateLeft(bits, HALF_LONG_BIT_COUNT);
 	}
 
 	public static long rotateLeft(final long bits, final long k) {
-		return bits >>> k | bits << LONG_BITS_COUNT - k;
+		return bits >>> k | bits << LONG_BIT_COUNT - k;
 	}
 
 	public static int rotateLeft(final int bits) {
-		return rotateLeft(bits, HALF_INTEGER_BITS_COUNT);
+		return rotateLeft(bits, HALF_INTEGER_BIT_COUNT);
 	}
 
 	public static int rotateLeft(final int bits, final int k) {
-		return bits >>> k | bits << INTEGER_BITS_COUNT - k;
+		return bits >>> k | bits << INTEGER_BIT_COUNT - k;
 	}
 
 	public static long rotateRight(final long bits) {
-		return rotateRight(bits, HALF_LONG_BITS_COUNT);
+		return rotateRight(bits, HALF_LONG_BIT_COUNT);
 	}
 
 	public static long rotateRight(final long bits, final long k) {
-		return bits << k | bits >>> LONG_BITS_COUNT - k;
+		return bits << k | bits >>> LONG_BIT_COUNT - k;
 	}
 
 	public static int rotateRight(final int bits) {
-		return rotateRight(bits, HALF_INTEGER_BITS_COUNT);
+		return rotateRight(bits, HALF_INTEGER_BIT_COUNT);
 	}
 
 	public static int rotateRight(final int bits, final int k) {
-		return bits << k | bits >>> INTEGER_BITS_COUNT - k;
+		return bits << k | bits >>> INTEGER_BIT_COUNT - k;
 	}
 }

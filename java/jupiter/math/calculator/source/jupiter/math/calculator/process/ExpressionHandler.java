@@ -227,7 +227,7 @@ public class ExpressionHandler
 	public static Result<Element> parseExpression(final Element parent, final String expression,
 			final Map<String, Element> context) {
 		// Trim the expression
-		final String trimmedExpression = expression.trim();
+		final String trimmedExpression = Strings.trim(expression);
 		IO.debug(trimmedExpression);
 
 		// Find the delimiting intervals
@@ -330,7 +330,8 @@ public class ExpressionHandler
 		final Element.Type type = getType(function);
 		IO.debug("Type: ", type);
 		// Parse the unary operation
-		final String nestedExpression = expression.substring(index + function.length()).trim();
+		final String nestedExpression = Strings.trim(
+				expression.substring(index + function.length()));
 		IO.debug("Nested expression: ", nestedExpression);
 		return parseUnaryOperation(type, parent, nestedExpression, context);
 	}
