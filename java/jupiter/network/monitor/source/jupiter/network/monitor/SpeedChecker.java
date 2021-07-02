@@ -66,7 +66,7 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int RUNS_COUNT = 2880;
+	public static volatile int RUN_COUNT = 2880;
 	public static volatile int TIME_INTERVAL = 30000; // [ms]
 	public static volatile int TIME_OUT = 15000; // [ms]
 
@@ -114,7 +114,7 @@ public class SpeedChecker {
 			start();
 			clear();
 			show();
-			for (int ri = 0; ri < RUNS_COUNT; ++ri) {
+			for (int ri = 0; ri < RUN_COUNT; ++ri) {
 				SpeedChecker.downloadAll();
 				Threads.sleep(TIME_INTERVAL);
 			}

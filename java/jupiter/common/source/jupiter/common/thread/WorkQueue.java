@@ -24,6 +24,7 @@
 package jupiter.common.thread;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.thread.Threads.CORE_COUNT;
 
 import java.io.Serializable;
 import java.util.Stack;
@@ -53,7 +54,7 @@ public class WorkQueue<I, O>
 	/**
 	 * The default minimum number of {@link Worker} to handle.
 	 */
-	public static final int DEFAULT_MIN_THREADS = Runtime.getRuntime().availableProcessors();
+	public static final int DEFAULT_MIN_THREADS = CORE_COUNT;
 	/**
 	 * The default maximum number of {@link Worker} to handle.
 	 */

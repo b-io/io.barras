@@ -23,6 +23,8 @@
  */
 package jupiter.common.thread;
 
+import static jupiter.common.thread.Threads.CORE_COUNT;
+
 import java.io.Serializable;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
@@ -73,7 +75,7 @@ public class ReservedThreadPoolExecutor
 	 * Constructs a {@link ReservedThreadPoolExecutor} by default.
 	 */
 	public ReservedThreadPoolExecutor() {
-		this(Runtime.getRuntime().availableProcessors());
+		this(CORE_COUNT);
 	}
 
 	/**

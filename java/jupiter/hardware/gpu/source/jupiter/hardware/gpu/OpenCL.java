@@ -185,7 +185,7 @@ public abstract class OpenCL
 		while ((index = sourceCode.indexOf(KERNEL_PREFIX, index + 1)) >= 0) {
 			final int fromIndex = index + KERNEL_PREFIX.length() + 1;
 			final int toIndex = sourceCode.indexOf(LEFT_PARENTHESIS, index);
-			kernelNames.add(sourceCode.substring(fromIndex, toIndex).trim());
+			kernelNames.add(Strings.trimAll(sourceCode.substring(fromIndex, toIndex)));
 		}
 	}
 
