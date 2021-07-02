@@ -1430,7 +1430,7 @@ public class Matrix
 		int n = 0;
 		// Parse the file
 		String line;
-		if ((line = reader.readLine()) != null) {
+		if ((line = InputOutput.getNextLine(reader, true)) != null) {
 			// Find the delimiter (take the first one in the list in case of different delimiters)
 			Character delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
@@ -1466,7 +1466,7 @@ public class Matrix
 			} else {
 				matrix.setRow(i++, Doubles.toPrimitiveArray(values));
 			}
-			while ((line = reader.readLine()) != null) {
+			while ((line = InputOutput.getNextLine(reader, true)) != null) {
 				values = Strings.split(line, delimiter).toArray();
 				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
 					IO.warn("There is no element at line ", i, SPACE,
@@ -2323,6 +2323,19 @@ public class Matrix
 	 *         {@code null} if there is a problem with parsing
 	 */
 	public static Matrix parse(final String expression) {
+		return parse(expression, false);
+	}
+
+	/**
+	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
+	 * <p>
+	 * @param expression       the expression {@link String} to parse
+	 * @param useMultipleLines the flag specifying whether to use multiple lines
+	 * <p>
+	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
+	 *         {@code null} if there is a problem with parsing
+	 */
+	public static Matrix parse(final String expression, final boolean useMultipleLines) {
 		try {
 			final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
 			final List<Integer> indices = Strings.getIndices(expression, delimiters);
@@ -2332,10 +2345,14 @@ public class Matrix
 				if (fromIndex < toIndex && expression.charAt(fromIndex) == delimiters[0] &&
 						expression.charAt(toIndex) == delimiters[1]) {
 					// Get the rows
-					final String content = Strings.trimAll(
-							expression.substring(fromIndex + 1, toIndex));
-					final ExtendedLinkedList<String> rows = Strings.removeEmpty(
-							Strings.split(content, ROW_DELIMITER));
+					final String content = Strings.trim(
+							expression.substring(fromIndex + 1, toIndex), true);
+					final ExtendedLinkedList<String> rows;
+					if (useMultipleLines) {
+						rows = Strings.removeEmpty(Strings.splitString(content, NEWLINE));
+					} else {
+						rows = Strings.removeEmpty(Strings.split(content, ROW_DELIMITER));
+					}
 					// Count the numbers of rows and columns
 					final int m = rows.size();
 					final int n = Strings.removeEmpty(
@@ -2411,7 +2428,7 @@ public class Matrix
 	 */
 	public static boolean isParsableFrom(final String text) {
 		final char[] delimiters = new char[] {LEFT_BRACKET, RIGHT_BRACKET};
-		final List<Integer> indices = Strings.getIndices(Strings.trimAll(text), delimiters);
+		final List<Integer> indices = Strings.getIndices(Strings.trim(text, true), delimiters);
 		if (indices.size() == 2) {
 			final int fromIndex = indices.get(0);
 			final int toIndex = indices.get(1);
