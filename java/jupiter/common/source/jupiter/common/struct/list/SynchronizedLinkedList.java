@@ -23,24 +23,19 @@
  */
 package jupiter.common.struct.list;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.Arguments;
-import jupiter.common.test.CollectionArguments;
-import jupiter.common.util.Integers;
-import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedList} is the extended {@link ArrayList} of {@code E} element type.
+ * {@link SynchronizedLinkedList} is the synchronized {@link ExtendedLinkedList} of {@code E}
+ * element type.
  * <p>
- * @param <E> the element type of the {@link ExtendedList}
+ * @param <E> the element type of the {@link SynchronizedLinkedList}
  */
-public class ExtendedList<E>
-		extends ArrayList<E>
-		implements ICloneable<ExtendedList<E>> {
+public class SynchronizedLinkedList<E>
+		extends ExtendedLinkedList<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -57,102 +52,38 @@ public class ExtendedList<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedList} of {@code E} element type by default.
+	 * Constructs an empty {@link SynchronizedLinkedList} of {@code E} element type.
 	 */
-	public ExtendedList() {
-		super(Lists.DEFAULT_CAPACITY);
-	}
-
-	/**
-	 * Constructs an empty {@link ExtendedList} of {@code E} element type with the specified initial
-	 * capacity.
-	 * <p>
-	 * @param initialCapacity the initial capacity
-	 * <p>
-	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
-	 */
-	public ExtendedList(final int initialCapacity) {
-		super(initialCapacity);
+	public SynchronizedLinkedList() {
+		super();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedList} of {@code E} element type with the specified elements.
+	 * Constructs a {@link SynchronizedLinkedList} of {@code E} element type with the specified
+	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public ExtendedList(final E... elements) {
-		super(Arguments.requireNonNull(elements, "elements").length);
-		addAll(elements);
+	public SynchronizedLinkedList(final E... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Constructs an {@link ExtendedList} of {@code E} element type with the elements of the
-	 * specified {@link Collection}.
+	 * Constructs a {@link SynchronizedLinkedList} of {@code E} element type with the elements of
+	 * the specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 */
-	public ExtendedList(final Collection<? extends E> elements) {
+	public SynchronizedLinkedList(final Collection<? extends E> elements) {
 		super(elements);
 	}
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ACCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the element {@link Class}.
-	 * <p>
-	 * @return the element {@link Class}
-	 */
-	public Class<?> getElementClass() {
-		return Lists.getElementClass(this);
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the first element.
-	 * <p>
-	 * @return the first element
-	 */
-	public E getFirst() {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(this);
-
-		// Return the first element
-		return get(0);
-	}
-
-	/**
-	 * Returns the middle element.
-	 * <p>
-	 * @return the middle element
-	 */
-	public E getMiddle() {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(this);
-
-		// Return the middle element
-		return get(Integers.middle(size()));
-	}
-
-	/**
-	 * Returns the last element.
-	 * <p>
-	 * @return the last element
-	 */
-	public E getLast() {
-		// Check the arguments
-		CollectionArguments.requireNonEmpty(this);
-
-		// Return the last element
-		return get(size() - 1);
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -166,7 +97,7 @@ public class ExtendedList<E>
 	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
-	public E set(final int index, final E element) {
+	public synchronized E set(final int index, final E element) {
 		return super.set(index, element);
 	}
 
@@ -179,40 +110,8 @@ public class ExtendedList<E>
 	 * Removes all the elements from {@code this}.
 	 */
 	@Override
-	public void clear() {
+	public synchronized void clear() {
 		super.clear();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
-	 * an empty array if {@code this} is empty.
-	 * <p>
-	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
-	 *         an empty array if {@code this} is empty
-	 *
-	 * @see Lists#toArray(Collection)
-	 */
-	@Override
-	public E[] toArray() {
-		return Lists.<E>toArray(this);
-	}
-
-	/**
-	 * Returns a primitive array containing all the elements of {@code this} in the same order, or
-	 * {@code null} if {@code this} is empty.
-	 * <p>
-	 * @return a primitive array containing all the elements of {@code this} in the same order, or
-	 *         {@code null} if {@code this} is empty
-	 *
-	 * @see Lists#toPrimitiveArray(Collection)
-	 */
-	public Object toPrimitiveArray() {
-		return Lists.toPrimitiveArray(this);
 	}
 
 
@@ -229,7 +128,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean add(final E element) {
+	public synchronized boolean add(final E element) {
 		return super.add(element);
 	}
 
@@ -242,7 +141,7 @@ public class ExtendedList<E>
 	 * @param element the {@code E} element to insert
 	 */
 	@Override
-	public void add(final int index, final E element) {
+	public synchronized void add(final int index, final E element) {
 		super.add(index, element);
 	}
 
@@ -255,8 +154,9 @@ public class ExtendedList<E>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
 	 */
-	public <T extends E> boolean addAll(final T[] elements) {
-		return Lists.<T>addAll(this, elements);
+	@Override
+	public synchronized <T extends E> boolean addAll(final T[] elements) {
+		return super.<T>addAll(elements);
 	}
 
 	/**
@@ -268,7 +168,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean addAll(final Collection<? extends E> elements) {
+	public synchronized boolean addAll(final Collection<? extends E> elements) {
 		return super.addAll(elements);
 	}
 
@@ -284,7 +184,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean addAll(final int index, final Collection<? extends E> elements) {
+	public synchronized boolean addAll(final int index, final Collection<? extends E> elements) {
 		return super.addAll(index, elements);
 	}
 
@@ -300,7 +200,7 @@ public class ExtendedList<E>
 	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
-	public E remove(final int index) {
+	public synchronized E remove(final int index) {
 		return super.remove(index);
 	}
 
@@ -313,7 +213,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean remove(final Object object) {
+	public synchronized boolean remove(final Object object) {
 		return super.remove(object);
 	}
 
@@ -327,7 +227,7 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean removeAll(final Collection<?> collection) {
+	public synchronized boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
 	}
 
@@ -340,8 +240,9 @@ public class ExtendedList<E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public int removeFirst(final Object object) {
-		return Lists.removeFirst(this, object);
+	@Override
+	public synchronized int removeFirst(final Object object) {
+		return super.removeFirst(object);
 	}
 
 	/**
@@ -351,8 +252,9 @@ public class ExtendedList<E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public int removeLast(final Object object) {
-		return Lists.removeLast(this, object);
+	@Override
+	public synchronized int removeLast(final Object object) {
+		return super.removeLast(object);
 	}
 
 	/**
@@ -362,8 +264,9 @@ public class ExtendedList<E>
 	 * <p>
 	 * @return the indices of the removed elements
 	 */
-	public int[] removeAll(final Object object) {
-		return Lists.removeAll(this, object);
+	@Override
+	public synchronized int[] removeAll(final Object object) {
+		return super.removeAll(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -378,22 +281,8 @@ public class ExtendedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean retainAll(final Collection<?> collection) {
+	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is non-empty.
-	 * <p>
-	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
-	 */
-	public boolean isNonEmpty() {
-		return !isEmpty();
 	}
 
 
@@ -409,23 +298,11 @@ public class ExtendedList<E>
 	 * @see ICloneable
 	 */
 	@Override
-	public ExtendedList<E> clone() {
-		final ExtendedList<E> clone = new ExtendedList<E>(size());
+	public SynchronizedLinkedList<E> clone() {
+		final SynchronizedLinkedList<E> clone = new SynchronizedLinkedList<E>();
 		for (final E element : this) {
 			clone.add(Objects.clone(element));
 		}
 		return clone;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Lists.toString(this);
 	}
 }

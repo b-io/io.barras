@@ -36,8 +36,7 @@ import jupiter.common.struct.map.hash.ExtendedHashMap;
  * {@link JSONObject} is the {@link ExtendedHashMap} containing the JSON key-value mappings.
  */
 public class JSONObject
-		extends ExtendedHashMap<String, Object>
-		implements Serializable {
+		extends ExtendedHashMap<String, Object> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS

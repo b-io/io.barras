@@ -30,22 +30,22 @@ import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 
-public class CollectionExtendedHashMapTest
+public class CollectionHashMapTest
 		extends Test {
 
-	public CollectionExtendedHashMapTest(final String name) {
+	public CollectionHashMapTest(final String name) {
 		super(name);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#getOrCreate}.
+	 * Tests {@link CollectionHashMap#getOrCreate}.
 	 */
 	public void testGetOrCreate() {
 		IO.test(BULLET, " getOrCreate");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		for (int i = 0; i < 100; ++i) {
 			map.getOrCreate(i);
 		}
@@ -54,40 +54,40 @@ public class CollectionExtendedHashMapTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#addAt}.
+	 * Tests {@link CollectionHashMap#addAt}.
 	 */
 	public void testAddAt() {
 		IO.test(BULLET, " addAt");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		fill(map);
 	}
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#addAllAt}.
+	 * Tests {@link CollectionHashMap#addAllAt}.
 	 */
 	public void testAddAllAt() {
 		IO.test(BULLET, " addAllAt");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));
 	}
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#removeAt}.
+	 * Tests {@link CollectionHashMap#removeAt}.
 	 */
 	public void testRemoveAt() {
 		IO.test(BULLET, " removeAt");
 
 		final ExtendedHashSet<Double> model = new ExtendedHashSet<Double>();
-		CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>(
+		CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>(
 				model);
 		fill(map);
 		for (int i = 0; i < 100; i += 2) {
 			map.removeAt(i, Double.valueOf(i));
 			assertEquals(null, map.get(i));
 		}
-		map = new CollectionExtendedHashMap<Integer, Double>(model, false);
+		map = new CollectionHashMap<Integer, Double>(model, false);
 		fill(map);
 		for (int i = 0; i < 100; i += 2) {
 			map.removeAt(i, Double.valueOf(i));
@@ -96,24 +96,24 @@ public class CollectionExtendedHashMapTest
 	}
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#removeAllAt}.
+	 * Tests {@link CollectionHashMap#removeAllAt}.
 	 */
 	public void testRemoveAllAt() {
 		IO.test(BULLET, " removeAllAt");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));
 		map.removeAllAt(42, Doubles.toLinkedList(Doubles.createSequence(30, 0., 1.)));
 		assertEquals(70, map.get(42).size());
 	}
 
 	/**
-	 * Tests {@link ExtendedHashMapCollection#retainAllAt}.
+	 * Tests {@link CollectionHashMap#retainAllAt}.
 	 */
 	public void testRetainAllAt() {
 		IO.test(BULLET, " retainAllAt");
 
-		final CollectionExtendedHashMap<Integer, Double> map = new CollectionExtendedHashMap<Integer, Double>();
+		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));
 		map.retainAllAt(42, Doubles.toLinkedList(Doubles.createSequence(30, 0., 1.)));
 		assertEquals(30, map.get(42).size());
@@ -121,11 +121,11 @@ public class CollectionExtendedHashMapTest
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	protected void fill(final CollectionExtendedHashMap<Integer, Double> map) {
+	protected void fill(final CollectionHashMap<Integer, Double> map) {
 		fill(map, 100);
 	}
 
-	protected void fill(final CollectionExtendedHashMap<Integer, Double> map, final int n) {
+	protected void fill(final CollectionHashMap<Integer, Double> map, final int n) {
 		for (int i = 0; i < n; ++i) {
 			map.addAt(i, Double.valueOf(i));
 		}

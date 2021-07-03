@@ -24,26 +24,22 @@
 package jupiter.common.struct.map.hash;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.test.Arguments;
-import jupiter.common.test.ArrayArguments;
-import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedHashMap} is the extended {@link HashMap} of {@code K} and {@code V} types.
+ * {@link SynchronizedHashMap} is the synchronized {@link ExtendedHashMap} of {@code K} and
+ * {@code V} types.
  * <p>
- * @param <K> the key type of the {@link ExtendedHashMap}
- * @param <V> the value type of the {@link ExtendedHashMap}
+ * @param <K> the key type of the {@link SynchronizedHashMap}
+ * @param <V> the value type of the {@link SynchronizedHashMap}
  */
-public class ExtendedHashMap<K, V>
-		extends HashMap<K, V>
-		implements ICloneable<ExtendedHashMap<K, V>> {
+public class SynchronizedHashMap<K, V>
+		extends ExtendedHashMap<K, V> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -60,28 +56,28 @@ public class ExtendedHashMap<K, V>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types by default.
+	 * Constructs an empty {@link SynchronizedHashMap} of {@code K} and {@code V} types by default.
 	 */
-	public ExtendedHashMap() {
-		super(Maps.DEFAULT_CAPACITY);
+	public SynchronizedHashMap() {
+		super();
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} and {@code V} types with the
+	 * Constructs an empty {@link SynchronizedHashMap} of {@code K} and {@code V} types with the
 	 * specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public ExtendedHashMap(final int initialCapacity) {
+	public SynchronizedHashMap(final int initialCapacity) {
 		super(initialCapacity);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs a {@link SynchronizedHashMap} of {@code K} and {@code V} types loaded from the
 	 * specified key and value arrays containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
@@ -89,18 +85,12 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public ExtendedHashMap(final K[] keys, final V[] values) {
-		super(keys.length);
-
-		// Check the arguments
-		ArrayArguments.requireSameLength(keys, values);
-
-		// Put all the key-value mappings
-		putAll(keys, values);
+	public SynchronizedHashMap(final K[] keys, final V[] values) {
+		super(keys, values);
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs a {@link SynchronizedHashMap} of {@code K} and {@code V} types loaded from the
 	 * specified key array and value {@link Collection} containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
@@ -109,100 +99,19 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public ExtendedHashMap(final K[] keys, final Collection<? extends V> values) {
-		super(keys.length);
-
-		// Check the arguments
-		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
-
-		// Put all the key-value mappings
-		putAll(keys, values);
+	public SynchronizedHashMap(final K[] keys, final Collection<? extends V> values) {
+		super(keys, values);
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} and {@code V} types loaded from the
+	 * Constructs a {@link SynchronizedHashMap} of {@code K} and {@code V} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
 	 */
-	public ExtendedHashMap(final Map<? extends K, ? extends V> map) {
+	public SynchronizedHashMap(final Map<? extends K, ? extends V> map) {
 		super(map);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ACCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the key {@link Class}.
-	 * <p>
-	 * @return the key {@link Class}
-	 */
-	public Class<?> getKeyClass() {
-		return Maps.getElementClass(keySet());
-	}
-
-	//////////////////////////////////////////////
-
-	/**
-	 * Returns the {@code V} value associated to the specified key, or the specified default
-	 * {@code V} value if it is not present.
-	 * <p>
-	 * @param key          the key {@link Object} of the {@code V} value to get
-	 * @param defaultValue the default {@code V} value (may be {@code null})
-	 * <p>
-	 * @return the {@code V} value associated to the specified key, or the specified default
-	 *         {@code V} value if it is not present
-	 * <p>
-	 * @throws NullPointerException if {@code key} is {@code null}
-	 */
-	public V getOrDefault(final Object key, final V defaultValue) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "key");
-
-		// Return the value associated to the key, or the default value if it is not present
-		return Maps.<V>getOrDefault(this, key, defaultValue);
-	}
-
-	/**
-	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
-	 * that are not present in an {@link ExtendedList}.
-	 * <p>
-	 * @param keys the array of key {@link Object} of the {@code V} values to get
-	 * <p>
-	 * @return all the {@code V} values associated to the specified keys or {@code null} for those
-	 *         that are not present in an {@link ExtendedList}
-	 * <p>
-	 * @throws NullPointerException if any {@code keys} is {@code null}
-	 */
-	public ExtendedList<V> getAll(final Object[] keys) {
-		// Check the arguments
-		Arguments.requireNonNull(keys, "keys");
-
-		// Return the values associated to the keys
-		return Maps.<V>getAll(this, keys);
-	}
-
-	/**
-	 * Returns all the {@code V} values associated to the specified keys or the specified default
-	 * {@code V} value for those that are not present in an {@link ExtendedList}.
-	 * <p>
-	 * @param keys         the array of key {@link Object} of the {@code V} values to get
-	 * @param defaultValue the default {@code V} value (may be {@code null})
-	 * <p>
-	 * @return all the {@code V} values associated to the specified keys or the specified default
-	 *         {@code V} value for those that are not present in an {@link ExtendedList}
-	 * <p>
-	 * @throws NullPointerException if any {@code keys} is {@code null}
-	 */
-	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
-		// Check the arguments
-		Arguments.requireNonNull(keys, "keys");
-
-		// Return the values associated to the keys or the default value for those that are not present
-		return Maps.<V>getAll(this, keys, defaultValue);
 	}
 
 
@@ -214,7 +123,7 @@ public class ExtendedHashMap<K, V>
 	 * Removes all the key-value mappings from {@code this}.
 	 */
 	@Override
-	public void clear() {
+	public synchronized void clear() {
 		super.clear();
 	}
 
@@ -235,7 +144,7 @@ public class ExtendedHashMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public V put(final K key, final V value) {
+	public synchronized V put(final K key, final V value) {
 		return super.put(key, value);
 	}
 
@@ -248,8 +157,9 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public void putAll(final K[] keys, final V[] values) {
-		Maps.<K, V>putAll(this, keys, values);
+	@Override
+	public synchronized void putAll(final K[] keys, final V[] values) {
+		super.<K, V>putAll(keys, values);
 	}
 
 	/**
@@ -262,8 +172,9 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public void putAll(final K[] keys, final Collection<? extends V> values) {
-		Maps.<K, V>putAll(this, keys, values);
+	@Override
+	public synchronized void putAll(final K[] keys, final Collection<? extends V> values) {
+		super.<K, V>putAll(keys, values);
 	}
 
 	/**
@@ -274,7 +185,7 @@ public class ExtendedHashMap<K, V>
 	 *            subtypes to put
 	 */
 	@Override
-	public void putAll(final Map<? extends K, ? extends V> map) {
+	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
 	}
 
@@ -290,7 +201,7 @@ public class ExtendedHashMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public V remove(final Object key) {
+	public synchronized V remove(final Object key) {
 		return super.remove(key);
 	}
 
@@ -304,8 +215,9 @@ public class ExtendedHashMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public ExtendedList<V> removeAll(final Object... keys) {
-		return Maps.<V>removeAll(this, keys);
+	@Override
+	public synchronized ExtendedList<V> removeAll(final Object... keys) {
+		return super.<V>removeAll(keys);
 	}
 
 
@@ -321,23 +233,11 @@ public class ExtendedHashMap<K, V>
 	 * @see ICloneable
 	 */
 	@Override
-	public ExtendedHashMap<K, V> clone() {
-		final ExtendedHashMap<K, V> clone = new ExtendedHashMap<K, V>(size());
+	public SynchronizedHashMap<K, V> clone() {
+		final SynchronizedHashMap<K, V> clone = new SynchronizedHashMap<K, V>(size());
 		for (final Entry<K, V> entry : entrySet()) {
 			clone.put(Objects.clone(entry.getKey()), Objects.clone(entry.getValue()));
 		}
 		return clone;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Maps.toString(this);
 	}
 }

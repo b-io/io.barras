@@ -49,7 +49,7 @@ public abstract class DefaultMapper
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link DefaultMapper}.
+	 * Constructs a {@link DefaultMapper}.
 	 */
 	protected DefaultMapper() {
 		super(OBJECT_CLASS);

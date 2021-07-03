@@ -37,8 +37,7 @@ import jupiter.common.util.Objects;
  * {@link JSONList} is the {@link ExtendedList} of {@link JSONObject}.
  */
 public class JSONList
-		extends ExtendedList<JSONObject>
-		implements Serializable {
+		extends ExtendedList<JSONObject> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS

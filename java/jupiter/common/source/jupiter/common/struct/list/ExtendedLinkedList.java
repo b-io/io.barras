@@ -33,8 +33,7 @@ import jupiter.common.util.Lists;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedLinkedList} is the extended synchronized {@link LinkedList} of {@code E} element
- * type.
+ * {@link ExtendedLinkedList} is the extended {@link LinkedList} of {@code E} element type.
  * <p>
  * @param <E> the element type of the {@link ExtendedLinkedList}
  */
@@ -126,7 +125,7 @@ public class ExtendedLinkedList<E>
 	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
-	public synchronized E set(final int index, final E element) {
+	public E set(final int index, final E element) {
 		return super.set(index, element);
 	}
 
@@ -139,7 +138,7 @@ public class ExtendedLinkedList<E>
 	 * Removes all the elements from {@code this}.
 	 */
 	@Override
-	public synchronized void clear() {
+	public void clear() {
 		super.clear();
 	}
 
@@ -189,7 +188,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean add(final E element) {
+	public boolean add(final E element) {
 		return super.add(element);
 	}
 
@@ -202,7 +201,7 @@ public class ExtendedLinkedList<E>
 	 * @param element the {@code E} element to insert
 	 */
 	@Override
-	public synchronized void add(final int index, final E element) {
+	public void add(final int index, final E element) {
 		super.add(index, element);
 	}
 
@@ -215,7 +214,7 @@ public class ExtendedLinkedList<E>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
 	 */
-	public synchronized <T extends E> boolean addAll(final T[] elements) {
+	public <T extends E> boolean addAll(final T[] elements) {
 		return Lists.<T>addAll(this, elements);
 	}
 
@@ -228,7 +227,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean addAll(final Collection<? extends E> elements) {
+	public boolean addAll(final Collection<? extends E> elements) {
 		return super.addAll(elements);
 	}
 
@@ -244,7 +243,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean addAll(final int index, final Collection<? extends E> elements) {
+	public boolean addAll(final int index, final Collection<? extends E> elements) {
 		return super.addAll(index, elements);
 	}
 
@@ -260,7 +259,7 @@ public class ExtendedLinkedList<E>
 	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
 	 */
 	@Override
-	public synchronized E remove(final int index) {
+	public E remove(final int index) {
 		return super.remove(index);
 	}
 
@@ -273,7 +272,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean remove(final Object object) {
+	public boolean remove(final Object object) {
 		return super.remove(object);
 	}
 
@@ -287,7 +286,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean removeAll(final Collection<?> collection) {
+	public boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
 	}
 
@@ -300,7 +299,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public synchronized int removeFirst(final Object object) {
+	public int removeFirst(final Object object) {
 		return Lists.removeFirst(this, object);
 	}
 
@@ -311,7 +310,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public synchronized int removeLast(final Object object) {
+	public int removeLast(final Object object) {
 		return Lists.removeLast(this, object);
 	}
 
@@ -322,7 +321,7 @@ public class ExtendedLinkedList<E>
 	 * <p>
 	 * @return the indices of the removed elements
 	 */
-	public synchronized int[] removeAll(final Object object) {
+	public int[] removeAll(final Object object) {
 		return Lists.removeAll(this, object);
 	}
 
@@ -338,7 +337,7 @@ public class ExtendedLinkedList<E>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean retainAll(final Collection<?> collection) {
+	public boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
 	}
 
