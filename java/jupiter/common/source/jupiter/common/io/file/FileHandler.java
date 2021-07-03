@@ -723,8 +723,7 @@ public class FileHandler
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
 	public int countLines(final boolean skipEmptyLines) {
-		lineCount = Files.countLines(file, charset, skipEmptyLines);
-		return lineCount;
+		return Files.countLines(file, charset, skipEmptyLines);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

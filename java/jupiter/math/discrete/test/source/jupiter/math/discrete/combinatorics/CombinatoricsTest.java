@@ -32,7 +32,6 @@ import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
-import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class CombinatoricsTest

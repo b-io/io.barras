@@ -38,14 +38,14 @@ import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 /**
- * {@link CollectionExtendedHashMap} is the {@link ExtendedHashMap} of {@code K} type and value type
+ * {@link CollectionHashMap} is the {@link ExtendedHashMap} of {@code K} type and value type
  * {@link Collection} of {@code E} element type.
  * <p>
- * @param <K> the key type of the {@link ExtendedHashMap}
+ * @param <K> the key type of the {@link CollectionHashMap}
  * @param <E> the element type of the {@link Collection} which is the value type of the
- *            {@link ExtendedHashMap}
+ *            {@link CollectionHashMap}
  */
-public class CollectionExtendedHashMap<K, E>
+public class CollectionHashMap<K, E>
 		extends ExtendedHashMap<K, Collection<E>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,57 +91,57 @@ public class CollectionExtendedHashMap<K, E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 */
-	public CollectionExtendedHashMap() {
+	public CollectionHashMap() {
 		super(Maps.DEFAULT_CAPACITY);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 * <p>
 	 * @param model the model {@link Collection} of {@code E} element type
 	 */
-	public CollectionExtendedHashMap(final Collection<E> model) {
+	public CollectionHashMap(final Collection<E> model) {
 		super(Maps.DEFAULT_CAPACITY);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 * <p>
 	 * @param model       the model {@link Collection} of {@code E} element type
 	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
 	 *                    {@code E} element type
 	 */
-	public CollectionExtendedHashMap(final Collection<E> model, final boolean removeEmpty) {
+	public CollectionHashMap(final Collection<E> model, final boolean removeEmpty) {
 		super(Maps.DEFAULT_CAPACITY);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type with the specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public CollectionExtendedHashMap(final int initialCapacity) {
+	public CollectionHashMap(final int initialCapacity) {
 		super(initialCapacity);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type with the specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
@@ -149,14 +149,14 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public CollectionExtendedHashMap(final int initialCapacity, final Collection<E> model) {
+	public CollectionHashMap(final int initialCapacity, final Collection<E> model) {
 		super(initialCapacity);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedHashMap} of {@code K} type and value type
+	 * Constructs an empty {@link CollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type with the specified initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
@@ -166,7 +166,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public CollectionExtendedHashMap(final int initialCapacity, final Collection<E> model,
+	public CollectionHashMap(final int initialCapacity, final Collection<E> model,
 			final boolean removeEmpty) {
 		super(initialCapacity);
 		this.model = model;
@@ -176,7 +176,7 @@ public class CollectionExtendedHashMap<K, E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key and value arrays containing the
 	 * key-value mappings.
 	 * <p>
@@ -185,7 +185,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys, final Collection<E>[] values) {
+	public CollectionHashMap(final K[] keys, final Collection<E>[] values) {
 		super(keys.length);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
@@ -198,7 +198,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key and value arrays containing the
 	 * key-value mappings.
 	 * <p>
@@ -208,7 +208,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys, final Collection<E>[] values,
+	public CollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model) {
 		super(keys.length);
 		this.model = model;
@@ -222,7 +222,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key and value arrays containing the
 	 * key-value mappings.
 	 * <p>
@@ -235,7 +235,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys, final Collection<E>[] values,
+	public CollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model, final boolean removeEmpty) {
 		super(keys.length);
 		this.model = model;
@@ -249,7 +249,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key array and value {@link Collection}
 	 * containing the key-value mappings.
 	 * <p>
@@ -259,7 +259,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys,
+	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values) {
 		super(keys.length);
 		this.model = DEFAULT_MODEL;
@@ -273,7 +273,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key array and value {@link Collection}
 	 * containing the key-value mappings.
 	 * <p>
@@ -284,7 +284,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys,
+	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model) {
 		super(keys.length);
 		this.model = model;
@@ -298,7 +298,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key array and value {@link Collection}
 	 * containing the key-value mappings.
 	 * <p>
@@ -311,7 +311,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedHashMap(final K[] keys,
+	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model,
 			final boolean removeEmpty) {
 		super(keys.length);
@@ -326,14 +326,14 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
 	 * mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code E} types
 	 *            to load
 	 */
-	public CollectionExtendedHashMap(
+	public CollectionHashMap(
 			final Map<? extends K, ? extends Collection<E>> map) {
 		super(map.size());
 		this.model = DEFAULT_MODEL;
@@ -344,7 +344,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
 	 * mappings.
 	 * <p>
@@ -352,7 +352,7 @@ public class CollectionExtendedHashMap<K, E>
 	 *              types to load
 	 * @param model the model {@link Collection} of {@code E} element type
 	 */
-	public CollectionExtendedHashMap(final Map<? extends K, ? extends Collection<E>> map,
+	public CollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model) {
 		super(map.size());
 		this.model = model;
@@ -363,7 +363,7 @@ public class CollectionExtendedHashMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashMap} of {@code K} type and value type {@link Collection} of
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
 	 * mappings.
 	 * <p>
@@ -373,7 +373,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
 	 *                    {@code E} element type
 	 */
-	public CollectionExtendedHashMap(final Map<? extends K, ? extends Collection<E>> map,
+	public CollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model, final boolean removeEmpty) {
 		super(map.size());
 		this.model = model;
@@ -484,7 +484,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized boolean addAt(final K key, final E element) {
+	public boolean addAt(final K key, final E element) {
 		return getOrCreate(key).add(element);
 	}
 
@@ -500,7 +500,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized <T extends E> boolean addAllAt(final K key, final T[] elements) {
+	public <T extends E> boolean addAllAt(final K key, final T[] elements) {
 		return Collections.<T>addAll(getOrCreate(key), elements);
 	}
 
@@ -518,7 +518,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized boolean removeAt(final Object key, final Object object) {
+	public boolean removeAt(final Object key, final Object object) {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
 			final boolean hasChanged = value.remove(object);
@@ -542,7 +542,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized boolean removeAllAt(final Object key, final Collection<?> collection) {
+	public boolean removeAllAt(final Object key, final Collection<?> collection) {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
 			final boolean hasChanged = value.removeAll(collection);
@@ -567,7 +567,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
-	public synchronized int removeAt(final Object key, final int index)
+	public int removeAt(final Object key, final int index)
 			throws NoSuchElementException {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
@@ -589,7 +589,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public synchronized int removeFirstAt(final Object key, final Object object) {
+	public int removeFirstAt(final Object key, final Object object) {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
 			final int index = Collections.removeFirst(value, object);
@@ -612,7 +612,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized int[] removeAllAt(final Object key, final Object object) {
+	public int[] removeAllAt(final Object key, final Object object) {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
 			final int[] indices = Collections.removeAll(value, object);
@@ -638,7 +638,7 @@ public class CollectionExtendedHashMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
-	public synchronized boolean retainAllAt(final Object key, final Collection<?> collection) {
+	public boolean retainAllAt(final Object key, final Collection<?> collection) {
 		if (containsKey(key)) {
 			final Collection<E> value = get(key);
 			final boolean hasChanged = value.retainAll(collection);
@@ -663,9 +663,9 @@ public class CollectionExtendedHashMap<K, E>
 	 * @see ICloneable
 	 */
 	@Override
-	public CollectionExtendedHashMap<K, E> clone() {
-		final CollectionExtendedHashMap<K, E> clone = new CollectionExtendedHashMap<K, E>(size(),
-				model, removeEmpty);
+	public CollectionHashMap<K, E> clone() {
+		final CollectionHashMap<K, E> clone = new CollectionHashMap<K, E>(size(), model,
+				removeEmpty);
 		for (final Entry<K, Collection<E>> entry : entrySet()) {
 			clone.put(Objects.clone(entry.getKey()), Objects.clone(entry.getValue()));
 		}

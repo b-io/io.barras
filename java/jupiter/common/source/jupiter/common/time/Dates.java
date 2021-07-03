@@ -127,6 +127,11 @@ public class Dates {
 	 */
 	public static Date getDate() {
 		return new Date() {
+			/**
+			 * The generated serial version ID.
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public String toString() {
 				return format(this);
@@ -141,6 +146,11 @@ public class Dates {
 	 */
 	public static Date getDateTime() {
 		return new Date() {
+			/**
+			 * The generated serial version ID.
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public String toString() {
 				return formatWithTime(this);

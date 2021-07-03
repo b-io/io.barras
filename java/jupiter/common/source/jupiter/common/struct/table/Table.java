@@ -41,6 +41,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalOperationException;
+import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.map.parser.IParser;
@@ -1155,7 +1156,7 @@ public class Table<E>
 		n = 0;
 		// Parse the file
 		String line;
-		if ((line = reader.readLine()) != null) {
+		if ((line = InputOutput.getNextLine(reader, true)) != null) {
 			// Find the delimiter (take the first one in the array in case of different delimiters)
 			Character delimiter = null;
 			for (final char d : COLUMN_DELIMITERS) {
@@ -1191,7 +1192,7 @@ public class Table<E>
 				header = createHeader(n);
 				setRow(i++, parser.parseToArray(values));
 			}
-			while ((line = reader.readLine()) != null) {
+			while ((line = InputOutput.getNextLine(reader, true)) != null) {
 				values = loadLine(line, delimiter, replacer);
 				if (Arrays.isNullOrEmpty(values)) {
 					IO.warn("There is no element at line ", i, SPACE,

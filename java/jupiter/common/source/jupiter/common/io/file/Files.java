@@ -1520,7 +1520,7 @@ public class Files {
 	public static int countLines(final File file, final Charset charset,
 			final boolean skipEmptyLines) {
 		try {
-			return InputOutput.countLines(createInputStream(file), charset);
+			return InputOutput.countLines(createInputStream(file), charset, skipEmptyLines);
 		} catch (final FileNotFoundException ex) {
 			IO.error(ex, "Cannot open the file ", Strings.quote(file));
 		} catch (final IOException ex) {

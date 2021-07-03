@@ -30,12 +30,13 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.util.Objects;
 
 /**
- * {@link SortedList} is the sorted {@link ExtendedLinkedList} of {@code E} element type.
+ * {@link SynchronizedSortedList} is the sorted {@link SynchronizedLinkedList} of {@code E} element
+ * type.
  * <p>
- * @param <E> the self element {@link Comparable} type of the {@link SortedList}
+ * @param <E> the self element {@link Comparable} type of the {@link SynchronizedSortedList}
  */
-public class SortedList<E extends Comparable<? super E>>
-		extends ExtendedLinkedList<E> {
+public class SynchronizedSortedList<E extends Comparable<? super E>>
+		extends SynchronizedLinkedList<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -52,31 +53,32 @@ public class SortedList<E extends Comparable<? super E>>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link SortedList} of {@code E} element type.
+	 * Constructs an empty {@link SynchronizedSortedList} of {@code E} element type.
 	 */
-	public SortedList() {
+	public SynchronizedSortedList() {
 		super();
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SortedList} of {@code E} element type with the specified elements.
+	 * Constructs a {@link SynchronizedSortedList} of {@code E} element type with the specified
+	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public SortedList(final E... elements) {
+	public SynchronizedSortedList(final E... elements) {
 		super(elements);
 	}
 
 	/**
-	 * Constructs a {@link SortedList} of {@code E} element type with the elements of the specified
-	 * {@link Collection}.
+	 * Constructs a {@link SynchronizedSortedList} of {@code E} element type with the elements of
+	 * the specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 */
-	public SortedList(final Collection<? extends E> elements) {
+	public SynchronizedSortedList(final Collection<? extends E> elements) {
 		super(elements);
 	}
 
@@ -94,7 +96,7 @@ public class SortedList<E extends Comparable<? super E>>
 	 *         otherwise
 	 */
 	@Override
-	public boolean add(final E element) {
+	public synchronized boolean add(final E element) {
 		int index = 0;
 		for (final E e : this) {
 			if (Comparables.isGreaterThan(e, element)) {
@@ -120,8 +122,8 @@ public class SortedList<E extends Comparable<? super E>>
 	 * @see ICloneable
 	 */
 	@Override
-	public SortedList<E> clone() {
-		final SortedList<E> clone = new SortedList<E>();
+	public SynchronizedSortedList<E> clone() {
+		final SynchronizedSortedList<E> clone = new SynchronizedSortedList<E>();
 		for (final E element : this) {
 			clone.add(Objects.clone(element));
 		}

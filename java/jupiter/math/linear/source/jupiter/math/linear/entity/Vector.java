@@ -23,6 +23,7 @@
  */
 package jupiter.math.linear.entity;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 import jupiter.common.exception.IllegalOperationException;
@@ -331,6 +332,57 @@ public class Vector
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// IMPORTERS / EXPORTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a {@link Vector} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path the path to the file to load
+	 * <p>
+	 * @return a {@link Vector} loaded from the file denoted by the specified path
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public static Vector load(final String path)
+			throws IOException {
+		return Matrix.load(path).toVector();
+	}
+
+	/**
+	 * Creates a {@link Vector} loaded from the file denoted by the specified path.
+	 * <p>
+	 * @param path      the path to the file to load
+	 * @param transpose the flag specifying whether to transpose
+	 * <p>
+	 * @return a {@link Vector} loaded from the file denoted by the specified path
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
+	 */
+	public static Vector load(final String path, final boolean transpose)
+			throws IOException {
+		return Matrix.load(path, transpose).toVector();
+	}
+
+	/**
+	 * Creates a {@link Vector} loaded from the specified reader.
+	 * <p>
+	 * @param reader    the {@link BufferedReader} of the lines to load
+	 * @param lineCount the number of lines to load
+	 * @param transpose the flag specifying whether to transpose
+	 * <p>
+	 * @return a {@link Vector} loaded from the specified reader
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public static Vector load(final BufferedReader reader, final int lineCount,
+			final boolean transpose)
+			throws IOException {
+		return Matrix.load(reader, lineCount, transpose).toVector();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// UNARY OPERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -385,6 +437,23 @@ public class Vector
 	@Override
 	public void fill(final double constant) {
 		Doubles.fill(elements, constant);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PARSERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Parses the {@link Vector} encoded in the specified expression {@link String}.
+	 * <p>
+	 * @param expression the expression {@link String} to parse
+	 * <p>
+	 * @return the {@link Vector} encoded in the specified expression {@link String}, or
+	 *         {@code null} if there is a problem with parsing
+	 */
+	public static Vector parse(final String expression) {
+		return Matrix.parse(expression).toVector();
 	}
 
 

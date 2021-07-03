@@ -95,7 +95,7 @@ public class SortedUniqueList<E extends Comparable<? super E>>
 	 *         otherwise
 	 */
 	@Override
-	public synchronized boolean add(final E element) {
+	public boolean add(final E element) {
 		int index = 0;
 		for (final E e : this) {
 			final int comparison = Comparables.compare(e, element);

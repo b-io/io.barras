@@ -112,12 +112,13 @@ public class StringsTest
 	//////////////////////////////////////////////
 
 	/**
-	 * Tests {@link Strings#trimAll}.
+	 * Tests {@link Strings#trim}.
 	 */
-	public void testTrimAll() {
-		IO.test(BULLET, " trimAll");
+	public void testTrim() {
+		IO.test(BULLET, " trim");
 
-		assertEquals("A B C D E", Strings.trimAll(" A B  C   D    E     "));
+		assertEquals("A B C D", Strings.trim("    A    B    C    D    ", true));
+		assertEquals("A B C D", Strings.trim(" \b A \f B \r C \n D \t ", true, true));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

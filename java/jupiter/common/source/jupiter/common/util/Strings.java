@@ -2002,39 +2002,62 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns the {@link String} constructed by trimming the specified {@link String}.
+	 * Returns the {@link String} constructed by stripping the specified {@link String}.
 	 * <p>
 	 * @param text the {@link String} to trim (may be {@code null})
 	 * <p>
-	 * @return the {@link String} constructed by trimming the specified {@link String}
+	 * @return the {@link String} constructed by stripping the specified {@link String}
 	 */
 	public static String trim(final String text) {
+		return trim(text, false, false);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by stripping the specified {@link String} (and
+	 * replacing recursively the adjacent spaces if {@code replaceSpace} to a single space).
+	 * <p>
+	 * @param text         the {@link String} to trim (may be {@code null})
+	 * @param replaceSpace the flag specifying whether to replace recursively the adjacent spaces to
+	 *                     a single space
+	 * <p>
+	 * @return the {@link String} constructed by stripping the specified {@link String} (and
+	 *         replacing recursively the adjacent spaces if {@code replaceSpace} to a single space)
+	 */
+	public static String trim(final String text, final boolean replaceSpace) {
+		return trim(text, replaceSpace, false);
+	}
+
+	/**
+	 * Returns the {@link String} constructed by stripping the specified {@link String} (and
+	 * replacing recursively the adjacent spaces if {@code replaceSpace} and/or special characters
+	 * if {@code replaceSpecial} to a single space).
+	 * <p>
+	 * @param text           the {@link String} to trim (may be {@code null})
+	 * @param replaceSpace   the flag specifying whether to replace recursively the adjacent spaces
+	 *                       to a single space
+	 * @param replaceSpecial the flag specifying whether to replace recursively the adjacent special
+	 *                       characters to a single space
+	 * <p>
+	 * @return the {@link String} constructed by stripping the specified {@link String} (and
+	 *         replacing recursively the adjacent spaces if {@code replaceSpace} and/or special
+	 *         characters if {@code replaceSpecial} to a single space)
+	 */
+	public static String trim(final String text, final boolean replaceSpace,
+			final boolean replaceSpecial) {
 		// Check the arguments
 		if (isNullOrEmpty(text)) {
 			return text;
 		}
 
 		// Trim the text
-		return text.trim();
-	}
-
-	/**
-	 * Returns the {@link String} constructed by trimming all the spaces of the specified
-	 * {@link String}.
-	 * <p>
-	 * @param text the {@link String} to trim (may be {@code null})
-	 * <p>
-	 * @return the {@link String} constructed by trimming all the spaces of the specified
-	 *         {@link String}
-	 */
-	public static String trimAll(final String text) {
-		// Check the arguments
-		if (isNullOrEmpty(text)) {
-			return text;
+		String t = text;
+		if (replaceSpecial) {
+			t = replaceAll(t, "\b|\f|\r\n|\r|\n|\t", " ");
 		}
-
-		// Trim all the spaces of the text
-		return text.trim().replaceAll(" +", " ");
+		if (replaceSpace) {
+			t = replaceAll(t, " +", " ");
+		}
+		return t.trim();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

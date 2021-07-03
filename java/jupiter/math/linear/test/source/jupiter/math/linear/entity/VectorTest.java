@@ -51,9 +51,25 @@ public class VectorTest
 		IO.test(BULLET, " load");
 
 		// Initialize
-		final Vector vector = new Vector("test/resources/Y.csv", false);
+		final Vector Y = new Vector("test/resources/Y.csv", false);
 
 		// Verify the method
-		assertEquals(400, vector.getColumnDimension());
+		assertEquals(400, Y.getColumnDimension());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Vector#parse}.
+	 */
+	public void testParse() {
+		IO.test(BULLET, " parse");
+
+		// Initialize
+		final Vector V = Vector.parse("[1 2 3 4 5 6 7 8]");
+
+		// Verify the method
+		assertEquals(8, V.getColumnDimension());
+		assertEquals(1, V.getRowDimension());
 	}
 }
