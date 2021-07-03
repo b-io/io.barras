@@ -439,7 +439,8 @@ public class InputOutput
 				handlerClassNames.length);
 		for (final String handlerClassName : handlerClassNames) {
 			try {
-				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>) Class.forName(handlerClassName);
+				final Class<? extends IOHandler> handlerClass = (Class<? extends IOHandler>)
+						Class.forName(handlerClassName);
 				if (handlerClass == consoleHandler.getClass()) {
 					handlers.add(consoleHandler);
 				} else if (handlerClass == logHandler.getClass()) {
@@ -1131,7 +1132,7 @@ public class InputOutput
 			// Create the input reader with the charset
 			reader = createReader(input, charset);
 			// Iterate over the lines
-			while ((getNextLine(reader, skipEmptyLines)) != null) {
+			while (getNextLine(reader, skipEmptyLines) != null) {
 				++lineCount;
 			}
 		} finally {

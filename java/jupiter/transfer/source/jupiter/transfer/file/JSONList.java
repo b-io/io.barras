@@ -25,7 +25,6 @@ package jupiter.transfer.file;
 
 import static jupiter.common.io.string.Stringifiers.JSON;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
