@@ -159,7 +159,7 @@ public class SynchronizedHashMap<K, V>
 	 */
 	@Override
 	public synchronized void putAll(final K[] keys, final V[] values) {
-		super.<K, V>putAll(keys, values);
+		super.putAll(keys, values);
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class SynchronizedHashMap<K, V>
 	 */
 	@Override
 	public synchronized void putAll(final K[] keys, final Collection<? extends V> values) {
-		super.<K, V>putAll(keys, values);
+		super.putAll(keys, values);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class SynchronizedHashMap<K, V>
 	 */
 	@Override
 	public synchronized ExtendedList<V> removeAll(final Object... keys) {
-		return super.<V>removeAll(keys);
+		return super.removeAll(keys);
 	}
 
 
