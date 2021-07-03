@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.struct.map.tree;
+package jupiter.common.struct.map.hash;
 
 import java.util.Collection;
 import java.util.Map;
@@ -34,18 +34,19 @@ import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 /**
- * {@link CollectionExtendedTreeMap} is the {@link ExtendedTreeMap} of {@code K} type and value type
- * {@link Collection} of {@code E} element type.
+ * {@link SynchronizedCollectionHashMap} is the {@link SynchronizedHashMap} of {@code K} type and
+ * value type {@link Collection} of {@code E} element type.
  * <p>
- * @param <K> the key type of the {@link ExtendedTreeMap}
+ * @param <K> the key type of the {@link SynchronizedCollectionHashMap}
  * @param <E> the element type of the {@link Collection} which is the value type of the
- *            {@link ExtendedTreeMap}
+ *            {@link SynchronizedCollectionHashMap}
  */
-public class CollectionExtendedTreeMap<K, E>
-		extends ExtendedTreeMap<K, Collection<E>> {
+public class SynchronizedCollectionHashMap<K, E>
+		extends SynchronizedHashMap<K, Collection<E>> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -90,37 +91,84 @@ public class CollectionExtendedTreeMap<K, E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedTreeMap} of {@code K} type and value type
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 */
-	public CollectionExtendedTreeMap() {
-		super();
+	public SynchronizedCollectionHashMap() {
+		super(Maps.DEFAULT_CAPACITY);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedTreeMap} of {@code K} type and value type
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 * <p>
 	 * @param model the model {@link Collection} of {@code E} element type
 	 */
-	public CollectionExtendedTreeMap(final Collection<E> model) {
-		super();
+	public SynchronizedCollectionHashMap(final Collection<E> model) {
+		super(Maps.DEFAULT_CAPACITY);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 	}
 
 	/**
-	 * Constructs an empty {@link CollectionExtendedTreeMap} of {@code K} type and value type
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
 	 * {@link Collection} of {@code E} element type by default.
 	 * <p>
 	 * @param model       the model {@link Collection} of {@code E} element type
 	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
 	 *                    {@code E} element type
 	 */
-	public CollectionExtendedTreeMap(final Collection<E> model, final boolean removeEmpty) {
-		super();
+	public SynchronizedCollectionHashMap(final Collection<E> model, final boolean removeEmpty) {
+		super(Maps.DEFAULT_CAPACITY);
+		this.model = model;
+		this.removeEmpty = removeEmpty;
+	}
+
+	/**
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type with the specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public SynchronizedCollectionHashMap(final int initialCapacity) {
+		super(initialCapacity);
+		this.model = DEFAULT_MODEL;
+		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
+	}
+
+	/**
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type with the specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * @param model           the model {@link Collection} of {@code E} element type
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public SynchronizedCollectionHashMap(final int initialCapacity, final Collection<E> model) {
+		super(initialCapacity);
+		this.model = model;
+		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
+	}
+
+	/**
+	 * Constructs an empty {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type with the specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * @param model           the model {@link Collection} of {@code E} element type
+	 * @param removeEmpty     the flag specifying whether to remove empty {@link Collection} of
+	 *                        {@code E} element type
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public SynchronizedCollectionHashMap(final int initialCapacity, final Collection<E> model,
+			final boolean removeEmpty) {
+		super(initialCapacity);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 	}
@@ -128,17 +176,17 @@ public class CollectionExtendedTreeMap<K, E>
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key and value arrays containing the
-	 * key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key and value arrays
+	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@code E} array containing the values of the key-value mappings to load
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys, final Collection<E>[] values) {
-		super();
+	public SynchronizedCollectionHashMap(final K[] keys, final Collection<E>[] values) {
+		super(keys.length);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -150,9 +198,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key and value arrays containing the
-	 * key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key and value arrays
+	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@code E} array containing the values of the key-value mappings to load
@@ -160,9 +208,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys, final Collection<E>[] values,
+	public SynchronizedCollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model) {
-		super();
+		super(keys.length);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -174,9 +222,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key and value arrays containing the
-	 * key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key and value arrays
+	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys        the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values      the {@code E} array containing the values of the key-value mappings to
@@ -187,9 +235,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys, final Collection<E>[] values,
+	public SynchronizedCollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model, final boolean removeEmpty) {
-		super();
+		super(keys.length);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -201,9 +249,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key array and value {@link Collection}
-	 * containing the key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@link Collection} of {@code E} element type containing the values of the
@@ -211,9 +259,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys,
+	public SynchronizedCollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values) {
-		super();
+		super(keys.length);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -225,9 +273,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key array and value {@link Collection}
-	 * containing the key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values the {@link Collection} of {@code E} element type containing the values of the
@@ -236,9 +284,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys,
+	public SynchronizedCollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model) {
-		super();
+		super(keys.length);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -250,9 +298,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified key array and value {@link Collection}
-	 * containing the key-value mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings.
 	 * <p>
 	 * @param keys        the {@code K} array containing the keys of the key-value mappings to load
 	 * @param values      the {@link Collection} of {@code E} element type containing the values of
@@ -263,10 +311,10 @@ public class CollectionExtendedTreeMap<K, E>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public CollectionExtendedTreeMap(final K[] keys,
+	public SynchronizedCollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model,
 			final boolean removeEmpty) {
-		super();
+		super(keys.length);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -278,16 +326,16 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified {@link Map} containing
+	 * the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code E} types
 	 *            to load
 	 */
-	public CollectionExtendedTreeMap(
+	public SynchronizedCollectionHashMap(
 			final Map<? extends K, ? extends Collection<E>> map) {
-		super();
+		super(map.size());
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -296,17 +344,17 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified {@link Map} containing
+	 * the key-value mappings.
 	 * <p>
 	 * @param map   the {@link Map} containing the key-value mappings of {@code K} and {@code E}
 	 *              types to load
 	 * @param model the model {@link Collection} of {@code E} element type
 	 */
-	public CollectionExtendedTreeMap(final Map<? extends K, ? extends Collection<E>> map,
+	public SynchronizedCollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model) {
-		super();
+		super(map.size());
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -315,9 +363,9 @@ public class CollectionExtendedTreeMap<K, E>
 	}
 
 	/**
-	 * Constructs an {@link ExtendedTreeMap} of {@code K} type and value type {@link Collection} of
-	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
-	 * mappings.
+	 * Constructs a {@link SynchronizedCollectionHashMap} of {@code K} type and value type
+	 * {@link Collection} of {@code E} element type loaded from the specified {@link Map} containing
+	 * the key-value mappings.
 	 * <p>
 	 * @param map         the {@link Map} containing the key-value mappings of {@code K} and
 	 *                    {@code E} types to load
@@ -325,9 +373,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
 	 *                    {@code E} element type
 	 */
-	public CollectionExtendedTreeMap(final Map<? extends K, ? extends Collection<E>> map,
+	public SynchronizedCollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model, final boolean removeEmpty) {
-		super();
+		super(map.size());
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -615,9 +663,9 @@ public class CollectionExtendedTreeMap<K, E>
 	 * @see ICloneable
 	 */
 	@Override
-	public CollectionExtendedTreeMap<K, E> clone() {
-		final CollectionExtendedTreeMap<K, E> clone = new CollectionExtendedTreeMap<K, E>(model,
-				removeEmpty);
+	public SynchronizedCollectionHashMap<K, E> clone() {
+		final SynchronizedCollectionHashMap<K, E> clone = new SynchronizedCollectionHashMap<K, E>(
+				size(), model, removeEmpty);
 		for (final Entry<K, Collection<E>> entry : entrySet()) {
 			clone.put(Objects.clone(entry.getKey()), Objects.clone(entry.getValue()));
 		}

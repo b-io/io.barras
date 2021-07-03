@@ -966,6 +966,25 @@ public class InputOutput
 		return message.getContent();
 	}
 
+	/**
+	 * Returns the next line (or non-empty line if {@code skipEmptyLines}) of the specified
+	 * {@link BufferedReader}.
+	 * <p>
+	 * @param reader         the {@link BufferedReader} to read with
+	 * @param skipEmptyLines the flag specifying whether to skip empty lines
+	 * <p>
+	 * @return the next line (or non-empty line if {@code skipEmptyLines}) of the specified
+	 *         {@link BufferedReader}
+	 * <p>
+	 * @throws IOException if there is a problem with reading with {@code reader}
+	 */
+	public static String getNextLine(final BufferedReader reader, final boolean skipEmptyLines)
+			throws IOException {
+		String line;
+		while ((line = reader.readLine()) != null && skipEmptyLines && Strings.isEmpty(line));
+		return line;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
@@ -1113,7 +1132,7 @@ public class InputOutput
 			// Create the input reader with the charset
 			reader = createReader(input, charset);
 			// Iterate over the lines
-			while (reader.readLine() != null) {
+			while (getNextLine(reader, skipEmptyLines) != null) {
 				++lineCount;
 			}
 		} finally {

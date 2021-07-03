@@ -68,7 +68,7 @@ public abstract class Integrator
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction}.
+	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction}.
 	 * <p>
 	 * @param f the {@link UnivariateFunction} to integrate
 	 */
@@ -77,8 +77,8 @@ public abstract class Integrator
 	}
 
 	/**
-	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction} and integration
-	 * {@link DoubleInterval}.
+	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction} and
+	 * integration {@link DoubleInterval}.
 	 * <p>
 	 * @param f        the {@link UnivariateFunction} to integrate
 	 * @param interval the integration {@link DoubleInterval}
@@ -90,8 +90,8 @@ public abstract class Integrator
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction} and integration
-	 * order.
+	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction} and
+	 * integration order.
 	 * <p>
 	 * @param f     the {@link UnivariateFunction} to integrate
 	 * @param order the integration order
@@ -102,7 +102,7 @@ public abstract class Integrator
 	}
 
 	/**
-	 * Constructs a {@link Integrator} with the specified {@link UnivariateFunction}, integration
+	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction}, integration
 	 * {@link DoubleInterval} and integration order.
 	 * <p>
 	 * @param f        the {@link UnivariateFunction} to integrate

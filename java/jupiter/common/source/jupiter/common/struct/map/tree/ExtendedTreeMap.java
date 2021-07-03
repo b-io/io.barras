@@ -36,8 +36,7 @@ import jupiter.common.util.Maps;
 import jupiter.common.util.Objects;
 
 /**
- * {@link ExtendedTreeMap} is the extended synchronized {@link TreeMap} of {@code K} and {@code V}
- * types.
+ * {@link ExtendedTreeMap} is the extended {@link TreeMap} of {@code K} and {@code V} types.
  * <p>
  * @param <K> the key type of the {@link ExtendedTreeMap}
  * @param <V> the value type of the {@link ExtendedTreeMap}
@@ -203,7 +202,7 @@ public class ExtendedTreeMap<K, V>
 	 * Removes all the key-value mappings from {@code this}.
 	 */
 	@Override
-	public synchronized void clear() {
+	public void clear() {
 		super.clear();
 	}
 
@@ -224,7 +223,7 @@ public class ExtendedTreeMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V put(final K key, final V value) {
+	public V put(final K key, final V value) {
 		return super.put(key, value);
 	}
 
@@ -237,7 +236,7 @@ public class ExtendedTreeMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public synchronized void putAll(final K[] keys, final V[] values) {
+	public void putAll(final K[] keys, final V[] values) {
 		Maps.<K, V>putAll(this, keys, values);
 	}
 
@@ -251,7 +250,7 @@ public class ExtendedTreeMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public synchronized void putAll(final K[] keys, final Collection<? extends V> values) {
+	public void putAll(final K[] keys, final Collection<? extends V> values) {
 		Maps.<K, V>putAll(this, keys, values);
 	}
 
@@ -263,7 +262,7 @@ public class ExtendedTreeMap<K, V>
 	 *            subtypes to put
 	 */
 	@Override
-	public synchronized void putAll(final Map<? extends K, ? extends V> map) {
+	public void putAll(final Map<? extends K, ? extends V> map) {
 		super.putAll(map);
 	}
 
@@ -279,7 +278,7 @@ public class ExtendedTreeMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V remove(final Object key) {
+	public V remove(final Object key) {
 		return super.remove(key);
 	}
 
@@ -293,7 +292,7 @@ public class ExtendedTreeMap<K, V>
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public synchronized ExtendedList<V> removeAll(final Object... keys) {
+	public ExtendedList<V> removeAll(final Object... keys) {
 		return Maps.<V>removeAll(this, keys);
 	}
 

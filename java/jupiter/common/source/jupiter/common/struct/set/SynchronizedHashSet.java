@@ -24,21 +24,18 @@
 package jupiter.common.struct.set;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
-import jupiter.common.util.Sets;
 
 /**
- * {@link ExtendedHashSet} is the extended {@link HashSet} of {@code E} element type.
+ * {@link SynchronizedHashSet} is the synchronized {@link ExtendedHashSet} of {@code E} element
+ * type.
  * <p>
- * @param <E> the element type of the {@link ExtendedHashSet}
+ * @param <E> the element type of the {@link SynchronizedHashSet}
  */
-public class ExtendedHashSet<E>
-		extends HashSet<E>
-		implements ICloneable<ExtendedHashSet<E>> {
+public class SynchronizedHashSet<E>
+		extends ExtendedHashSet<E> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
@@ -55,59 +52,45 @@ public class ExtendedHashSet<E>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs an empty {@link ExtendedHashSet} of {@code E} element type by default.
+	 * Constructs an empty {@link SynchronizedHashSet} of {@code E} element type by default.
 	 */
-	public ExtendedHashSet() {
-		super(Sets.DEFAULT_CAPACITY);
+	public SynchronizedHashSet() {
+		super();
 	}
 
 	/**
-	 * Constructs an empty {@link ExtendedHashSet} of {@code E} element type with the specified
+	 * Constructs an empty {@link SynchronizedHashSet} of {@code E} element type with the specified
 	 * initial capacity.
 	 * <p>
 	 * @param initialCapacity the initial capacity
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public ExtendedHashSet(final int initialCapacity) {
+	public SynchronizedHashSet(final int initialCapacity) {
 		super(initialCapacity);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
-	 * Constructs an {@link ExtendedHashSet} of {@code E} element type with the specified elements.
+	 * Constructs a {@link SynchronizedHashSet} of {@code E} element type with the specified
+	 * elements.
 	 * <p>
 	 * @param elements an {@code E} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
-	public ExtendedHashSet(final E... elements) {
-		super(Arguments.requireNonNull(elements, "elements").length);
-		addAll(elements);
+	public SynchronizedHashSet(final E... elements) {
+		super(elements);
 	}
 
 	/**
-	 * Constructs an {@link ExtendedHashSet} of {@code E} element type with the elements of the
+	 * Constructs a {@link SynchronizedHashSet} of {@code E} element type with the elements of the
 	 * specified {@link Collection}.
 	 * <p>
 	 * @param elements a {@link Collection} of {@code E} element subtype
 	 */
-	public ExtendedHashSet(final Collection<? extends E> elements) {
+	public SynchronizedHashSet(final Collection<? extends E> elements) {
 		super(elements);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ACCESSORS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns the element {@link Class}.
-	 * <p>
-	 * @return the element {@link Class}
-	 */
-	public Class<?> getElementClass() {
-		return Sets.getElementClass(this);
 	}
 
 
@@ -119,40 +102,8 @@ public class ExtendedHashSet<E>
 	 * Removes all the elements from {@code this}.
 	 */
 	@Override
-	public void clear() {
+	public synchronized void clear() {
 		super.clear();
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONVERTERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
-	 * an empty array if {@code this} is empty.
-	 * <p>
-	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
-	 *         an empty array if {@code this} is empty
-	 *
-	 * @see Sets#toArray(Collection)
-	 */
-	@Override
-	public E[] toArray() {
-		return Sets.<E>toArray(this);
-	}
-
-	/**
-	 * Returns a primitive array containing all the elements of {@code this} in the same order, or
-	 * {@code null} if {@code this} is empty.
-	 * <p>
-	 * @return a primitive array containing all the elements of {@code this} in the same order, or
-	 *         {@code null} if {@code this} is empty
-	 *
-	 * @see Sets#toPrimitiveArray(Collection)
-	 */
-	public Object toPrimitiveArray() {
-		return Sets.toPrimitiveArray(this);
 	}
 
 
@@ -169,7 +120,7 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean add(final E element) {
+	public synchronized boolean add(final E element) {
 		return super.add(element);
 	}
 
@@ -182,8 +133,9 @@ public class ExtendedHashSet<E>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
 	 */
-	public <T extends E> boolean addAll(final T[] elements) {
-		return Sets.<T>addAll(this, elements);
+	@Override
+	public synchronized <T extends E> boolean addAll(final T[] elements) {
+		return super.<T>addAll(elements);
 	}
 
 	/**
@@ -195,7 +147,7 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean addAll(final Collection<? extends E> elements) {
+	public synchronized boolean addAll(final Collection<? extends E> elements) {
 		return super.addAll(elements);
 	}
 
@@ -210,7 +162,7 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean remove(final Object object) {
+	public synchronized boolean remove(final Object object) {
 		return super.remove(object);
 	}
 
@@ -224,7 +176,7 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean removeAll(final Collection<?> collection) {
+	public synchronized boolean removeAll(final Collection<?> collection) {
 		return super.removeAll(collection);
 	}
 
@@ -237,8 +189,9 @@ public class ExtendedHashSet<E>
 	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
-	public int removeFirst(final Object object) {
-		return Sets.removeFirst(this, object);
+	@Override
+	public synchronized int removeFirst(final Object object) {
+		return super.removeFirst(object);
 	}
 
 	/**
@@ -248,8 +201,9 @@ public class ExtendedHashSet<E>
 	 * <p>
 	 * @return the indices of the removed elements
 	 */
-	public int[] removeAll(final Object object) {
-		return Sets.removeAll(this, object);
+	@Override
+	public synchronized int[] removeAll(final Object object) {
+		return super.removeAll(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,22 +218,8 @@ public class ExtendedHashSet<E>
 	 *         otherwise
 	 */
 	@Override
-	public boolean retainAll(final Collection<?> collection) {
+	public synchronized boolean retainAll(final Collection<?> collection) {
 		return super.retainAll(collection);
-	}
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code this} is non-empty.
-	 * <p>
-	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
-	 */
-	public boolean isNonEmpty() {
-		return !isEmpty();
 	}
 
 
@@ -295,23 +235,11 @@ public class ExtendedHashSet<E>
 	 * @see ICloneable
 	 */
 	@Override
-	public ExtendedHashSet<E> clone() {
-		final ExtendedHashSet<E> clone = new ExtendedHashSet<E>(size());
+	public SynchronizedHashSet<E> clone() {
+		final SynchronizedHashSet<E> clone = new SynchronizedHashSet<E>(size());
 		for (final E element : this) {
 			clone.add(Objects.clone(element));
 		}
 		return clone;
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
-	 * @return a representative {@link String} of {@code this}
-	 */
-	@Override
-	public String toString() {
-		return Sets.toString(this);
 	}
 }

@@ -16,6 +16,7 @@
 
 import functools
 import json
+import multiprocessing as mp
 import numbers
 import os
 import pdb
@@ -115,6 +116,8 @@ class Environment(Enum):
 ####################################################################################################
 
 __COMMON_CONSTANTS________________________________ = ''
+
+CORE_COUNT = mp.cpu_count()
 
 NA_NAME = 'NA'
 
@@ -3363,10 +3366,15 @@ def split(s, delimiter=',', empty_filter=True):
 
 #########################
 
-def trim(s):
-	"""Returns the string constructed by replacing recursively the space, tab and newline to a
-	single space and stripping the specified string."""
-	return replace(replace(s, '\b|\f|\r\n|\r|\n|\t', ' '), ' +', ' ').strip()
+def trim(s, replace_space=True, replace_special=True):
+	"""Returns the string constructed by stripping the specified string (and replacing recursively
+	the adjacent spaces if replace_space is True and/or special characters if replace_special is
+	True to a single space)."""
+	if replace_special:
+		s = replace(s, '\b|\f|\r\n|\r|\n|\t', ' ')
+	if replace_space:
+		s = replace(s, ' +', ' ')
+	return s.strip()
 
 
 #########################

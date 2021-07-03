@@ -25,7 +25,6 @@ package jupiter.transfer.file;
 
 import static jupiter.common.io.string.Stringifiers.JSON;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -36,8 +35,7 @@ import jupiter.common.struct.map.hash.ExtendedHashMap;
  * {@link JSONObject} is the {@link ExtendedHashMap} containing the JSON key-value mappings.
  */
 public class JSONObject
-		extends ExtendedHashMap<String, Object>
-		implements Serializable {
+		extends ExtendedHashMap<String, Object> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS

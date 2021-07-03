@@ -356,4 +356,42 @@ public class MatrixTest
 			}
 		}
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Matrix#load} from a file.
+	 * <p>
+	 * @throws IOException if there is a problem with reading the file
+	 */
+	public void testLoad()
+			throws IOException {
+		IO.test(BULLET, " load");
+
+		// Initialize
+		final Matrix X = new Matrix("test/resources/X.csv", false);
+
+		// Verify the method
+		assertEquals(400, X.getColumnDimension());
+		assertEquals(2, X.getRowDimension());
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests {@link Matrix#parse}.
+	 */
+	public void testParse() {
+		IO.test(BULLET, " parse");
+
+		// Initialize
+		final Matrix M1 = Matrix.parse("[1 2 3 4; 5 6 7 8]");
+		final Matrix M2 = Matrix.parse("[1 2 3 4\n5 6 7 8]", true);
+
+		// Verify the method
+		assertEquals(4, M1.getColumnDimension());
+		assertEquals(4, M2.getColumnDimension());
+		assertEquals(2, M1.getRowDimension());
+		assertEquals(2, M2.getRowDimension());
+	}
 }

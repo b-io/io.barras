@@ -25,7 +25,6 @@ package jupiter.transfer.file;
 
 import static jupiter.common.io.string.Stringifiers.JSON;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
@@ -37,8 +36,7 @@ import jupiter.common.util.Objects;
  * {@link JSONList} is the {@link ExtendedList} of {@link JSONObject}.
  */
 public class JSONList
-		extends ExtendedList<JSONObject>
-		implements Serializable {
+		extends ExtendedList<JSONObject> {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
