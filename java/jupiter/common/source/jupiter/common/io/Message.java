@@ -370,6 +370,6 @@ public class Message
 	 */
 	@Override
 	public String toString() {
-		return (Strings.isNonEmpty(prefix) ? prefix + SPACE : EMPTY).concat(content);
+		return Strings.paste(prefix, content);
 	}
 }

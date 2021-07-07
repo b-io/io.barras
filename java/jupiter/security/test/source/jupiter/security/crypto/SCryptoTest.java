@@ -44,7 +44,7 @@ public class SCryptoTest
 	 * Tests {@link SCrypto#encrypt}.
 	 */
 	public void testEncrypt() {
-		IO.test(BULLET, " encrypt");
+		IO.test(BULLET, "encrypt");
 
 		try {
 			final String text = "Hello world!";
@@ -64,7 +64,7 @@ public class SCryptoTest
 	 * Tests {@link SCrypto#decrypt}.
 	 */
 	public void testDecrypt() {
-		IO.test(BULLET, " decrypt");
+		IO.test(BULLET, "decrypt");
 
 		try {
 			final String text = "Hello world!";

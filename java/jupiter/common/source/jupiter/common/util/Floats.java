@@ -568,11 +568,11 @@ public class Floats {
 	 * @return an array of {@link Float} converted from the specified {@code float} array
 	 */
 	public static Float[] toArray(final float[] array) {
-		final Float[] convertedArray = new Float[array.length];
+		final Float[] newArray = new Float[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -596,11 +596,11 @@ public class Floats {
 	 * @return a 2D array of {@link Float} converted from the specified 2D {@code float} array
 	 */
 	public static Float[][] toArray2D(final float[][] array2D) {
-		final Float[][] convertedArray2D = new Float[array2D.length][];
+		final Float[][] newArray2D = new Float[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -624,11 +624,11 @@ public class Floats {
 	 * @return a 3D array of {@link Float} converted from the specified 3D {@code float} array
 	 */
 	public static Float[][][] toArray3D(final float[][][] array3D) {
-		final Float[][][] convertedArray3D = new Float[array3D.length][][];
+		final Float[][][] newArray3D = new Float[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1068,10 +1068,10 @@ public class Floats {
 		}
 
 		// Concatenate the arrays
-		final float[] concatArray = new float[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final float[] newArray = new float[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1271,11 +1271,11 @@ public class Floats {
 	 *         array at the specified indices
 	 */
 	public static float[] filter(final float[] array, final int... indices) {
-		final float[] filteredArray = new float[indices.length];
+		final float[] newArray = new float[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1289,11 +1289,11 @@ public class Floats {
 	 *         array at all the specified indices
 	 */
 	public static float[][] filterAll(final float[] array, final int[]... indices) {
-		final float[][] filteredArrays = new float[indices.length][];
+		final float[][] newArray2D = new float[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1319,6 +1319,43 @@ public class Floats {
 	 */
 	public static float middle(final float from, final float to) {
 		return from + (to - from) / 2f;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the specified {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code float} array without the element at the specified index
+	 */
+	public static float[] remove(final float[] array, final int index) {
+		final float[] newArray = new float[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code float} value from the specified
+	 * {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to remove from
+	 * @param value the {@code float} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code float} array without the specified {@code float} value
+	 */
+	public static float[] removeAll(final float[] array, final float value) {
+		final float[] newArray = new float[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

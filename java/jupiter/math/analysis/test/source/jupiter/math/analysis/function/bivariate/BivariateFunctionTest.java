@@ -44,7 +44,7 @@ public class BivariateFunctionTest
 	 * Tests {@link BivariateFunction#slideToPrimitiveIntArray}.
 	 */
 	public void testSlideToPrimitiveIntArray() {
-		IO.test(BULLET, " slideToPrimitiveIntArray");
+		IO.test(BULLET, "slideToPrimitiveIntArray");
 
 		// Initialize
 		final int size = 10;

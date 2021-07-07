@@ -24,6 +24,7 @@
 package jupiter.common.test;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.SEMICOLON;
 
 import java.util.Collection;
 
@@ -69,9 +70,10 @@ public class Tests {
 
 	public static String getStackTraceMessage(final int stackIndex) {
 		final StackTraceElement stackTraceElement = getStackTraceElement(stackIndex + 1);
-		return Strings.join("in class ", Objects.getSimpleName(stackTraceElement.getClassName()),
-				" and method ", stackTraceElement.getMethodName(),
-				" at line ", stackTraceElement.getLineNumber());
+		return Strings.paste(
+				"in class", Objects.getSimpleName(stackTraceElement.getClassName()),
+				"and method", stackTraceElement.getMethodName(),
+				"at line", stackTraceElement.getLineNumber());
 	}
 
 
@@ -122,13 +124,13 @@ public class Tests {
 
 	protected static void printAverageValue(final String label, final double mean,
 			final DoubleInterval confidenceInterval) {
-		IO.test("Average ", label, ": ", Doubles.format(mean),
-				" ± ", Doubles.format(confidenceInterval.getUpperBoundValue() - mean),
-				" (", Doubles.formatPercent(Maths.DEFAULT_CONFIDENCE), ")");
+		IO.test("Average", label + SEMICOLON, Doubles.format(mean),
+				"±", Doubles.format(confidenceInterval.getUpperBoundValue() - mean),
+				Strings.parenthesize((Doubles.formatPercent(Maths.DEFAULT_CONFIDENCE))));
 	}
 
 	protected static void printMinMaxInterval(final double min, final double max) {
-		IO.test("Min/max interval: ", new DoubleInterval(min, max));
+		IO.test("Min/max interval:", new DoubleInterval(min, max));
 	}
 
 
@@ -164,19 +166,19 @@ public class Tests {
 
 	public static void check(final boolean isPassed) {
 		if (!isPassed) {
-			IO.error("The test ", getStackTraceMessage(), " has failed");
+			IO.error("The test", getStackTraceMessage(), "has failed");
 		}
 	}
 
 	public static void equals(final Number a, final Number b) {
 		if (!Numbers.equals(a, b)) {
-			IO.error("The number equality test has failed: ", a, " is not equal to ", b);
+			IO.error("The number equality test has failed:", a, "is not equal to", b);
 		}
 	}
 
 	public static void equals(final Object[] a, final Object[] b) {
 		if (!Arrays.equals(a, b)) {
-			IO.error("The array equality test has failed: ", a, " is not equal to ", b);
+			IO.error("The array equality test has failed:", a, "is not equal to", b);
 		}
 	}
 }

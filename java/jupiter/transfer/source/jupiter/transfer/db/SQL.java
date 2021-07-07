@@ -1129,8 +1129,8 @@ public class SQL {
 		} catch (final InvocationTargetException ex) {
 			IO.error(ex);
 		} catch (final NoSuchMethodException ex) {
-			IO.error(ex, "No constructor with ", Objects.getName(ResultSet.class),
-					" in ", Objects.getName(c), " found");
+			IO.error(ex, "No constructor with", Objects.getName(ResultSet.class),
+					"in", Objects.getName(c), "found");
 		} catch (final SecurityException ex) {
 			IO.error(ex);
 		}
@@ -1472,8 +1472,7 @@ public class SQL {
 			final String[] conditionalColumns, final Object... conditionalValues)
 			throws SQLException {
 		return updateWith(connection, table, columns, values, conditionalColumns,
-				getColumnTypes(connection, table,
-						Arrays.<String>concat(columns, conditionalColumns)),
+				getColumnTypes(connection, table, Arrays.concat(columns, conditionalColumns)),
 				conditionalValues);
 	}
 

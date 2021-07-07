@@ -322,7 +322,7 @@ public class Files {
 			COPIER_QUEUE = new SynchronizedWorkQueue<Triple<File, File, Boolean>, Boolean>(
 					new Copier());
 		} else {
-			IO.trace("The copier queue ", COPIER_QUEUE, " has already started");
+			IO.trace("The copier queue", COPIER_QUEUE, "has already started");
 		}
 	}
 
@@ -528,8 +528,8 @@ public class Files {
 			if (force) {
 				delete(target, true);
 			} else {
-				throw new CopyFileException(
-						Strings.join("Target file ", Strings.quote(target), " already exists"));
+				throw new CopyFileException(Strings.paste("Target file", Strings.quote(target),
+						"already exists"));
 			}
 		}
 		if (source.isDirectory()) {
@@ -588,10 +588,10 @@ public class Files {
 					position += byteCount;
 				}
 				if (source.length() != target.length()) {
-					throw new CopyFileException(
-							Strings.join("Failed to copy the full content from ",
-									Strings.quote(source), " to ", Strings.quote(target), " ",
-									Arguments.expectedButFound(target.length(), source.length())));
+					throw new CopyFileException(Strings.paste(
+							"Failed to copy the full content from", Strings.quote(source),
+							"to", Strings.quote(target),
+							Arguments.expectedButFound(target.length(), source.length())));
 				}
 				return true;
 			} catch (final IOException ex) {
@@ -654,8 +654,8 @@ public class Files {
 			if (force) {
 				delete(targetFile, true);
 			} else {
-				throw new CopyFileException(
-						Strings.join("Target file ", Strings.quote(targetFile), " already exists"));
+				throw new CopyFileException(Strings.paste("Target file", Strings.quote(targetFile),
+						"already exists"));
 			}
 		}
 		BufferedReader reader = null;
@@ -853,20 +853,20 @@ public class Files {
 								delete(f, true);
 							}
 						} else {
-							IO.warn("The directory ", Strings.quote(file), " is not empty");
+							IO.warn("The directory", Strings.quote(file), "is not empty");
 						}
 					}
 				}
 				// Attempt to delete the file (or directory)
 				isDeleted = file.delete();
 				if (!isDeleted) {
-					IO.error("Cannot delete the file ", Strings.quote(file));
+					IO.error("Cannot delete the file", Strings.quote(file));
 				}
 			} else {
-				IO.warn("The file ", Strings.quote(file), " is write protected");
+				IO.warn("The file", Strings.quote(file), "is write protected");
 			}
 		} else if (!force) {
-			IO.warn("The file ", Strings.quote(file), " does not exist");
+			IO.warn("The file", Strings.quote(file), "does not exist");
 		}
 		return isDeleted;
 	}
@@ -1191,8 +1191,8 @@ public class Files {
 					final ZipEntry entry = new ZipEntry(getRelativePath(sourceDir, source));
 					entry.setTime(source.lastModified());
 					output.putNextEntry(entry);
-					IO.debug("Zip ", Strings.quote(entry.getName()),
-							" to ", Strings.quote(targetFile));
+					IO.debug("Zip", Strings.quote(entry.getName()),
+							"to", Strings.quote(targetFile));
 					if (source.isDirectory()) {
 						++entryCount;
 					} else {
@@ -1200,16 +1200,16 @@ public class Files {
 							copy(source, output, buffer);
 							++entryCount;
 						} catch (final FileNotFoundException ex) {
-							IO.error(ex, "Cannot open the source file ", Strings.quote(source));
+							IO.error(ex, "Cannot open the source file", Strings.quote(source));
 						} catch (final IOException ex) {
-							IO.error(ex, "Cannot read the source file ", Strings.quote(source),
-									" or write to the ZIP file ", Strings.quote(targetFile));
+							IO.error(ex, "Cannot read the source file", Strings.quote(source),
+									"or write to the ZIP file", Strings.quote(targetFile));
 						}
 					}
 					output.closeEntry();
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open or create the ZIP file ", Strings.quote(targetFile));
+				IO.error(ex, "Cannot open or create the ZIP file", Strings.quote(targetFile));
 			} finally {
 				Resources.close(output);
 			}
@@ -1257,8 +1257,8 @@ public class Files {
 					// Unzip the file
 					final File target = new File(targetDirPath.concat(SEPARATOR)
 							.concat(entry.getName()));
-					IO.debug("Unzip ", Strings.quote(entry.getName()),
-							" to ", Strings.quote(target));
+					IO.debug("Unzip", Strings.quote(entry.getName()),
+							"to", Strings.quote(target));
 					if (entry.isDirectory()) {
 						try {
 							createDirs(target);
@@ -1273,11 +1273,11 @@ public class Files {
 							copy(input, target, buffer);
 							++entryCount;
 						} catch (final FileNotFoundException ex) {
-							IO.error(ex, "Cannot open or create the target file ",
+							IO.error(ex, "Cannot open or create the target file",
 									Strings.quote(target));
 						} catch (final IOException ex) {
-							IO.error(ex, "Cannot read the ZIP file ", Strings.quote(sourceFile),
-									" or write to the target file ", Strings.quote(target));
+							IO.error(ex, "Cannot read the ZIP file", Strings.quote(sourceFile),
+									"or write to the target file", Strings.quote(target));
 						} finally {
 							setLastModified(parentDir, lastModified);
 						}
@@ -1286,7 +1286,7 @@ public class Files {
 					input.closeEntry();
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the ZIP file ", Strings.quote(sourceFile));
+				IO.error(ex, "Cannot open the ZIP file", Strings.quote(sourceFile));
 			} finally {
 				Resources.close(input);
 			}
@@ -1392,9 +1392,9 @@ public class Files {
 		try {
 			return InputOutput.read(createInputStream(file), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot read the file ", Strings.quote(file));
+			IO.error(ex, "Cannot read the file", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1426,9 +1426,9 @@ public class Files {
 		try {
 			return InputOutput.read(new ZipInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the ZIP file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the ZIP file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot read the ZIP file ", Strings.quote(file));
+			IO.error(ex, "Cannot read the ZIP file", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1460,9 +1460,9 @@ public class Files {
 		try {
 			return InputOutput.read(new GZIPInputStream(createInputStream(file)), charset);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the GZIP file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the GZIP file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot read the GZIP file ", Strings.quote(file));
+			IO.error(ex, "Cannot read the GZIP file", Strings.quote(file));
 		}
 		return null;
 	}
@@ -1522,9 +1522,9 @@ public class Files {
 		try {
 			return InputOutput.countLines(createInputStream(file), charset, skipEmptyLines);
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open the file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot read the file ", Strings.quote(file));
+			IO.error(ex, "Cannot read the file", Strings.quote(file));
 		}
 		return -1;
 	}
@@ -1624,9 +1624,9 @@ public class Files {
 			writer.write(content);
 			isWritten = true;
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open or create the file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot write to the file ", Strings.quote(file));
+			IO.error(ex, "Cannot write to the file", Strings.quote(file));
 		} finally {
 			Resources.close(writer);
 		}

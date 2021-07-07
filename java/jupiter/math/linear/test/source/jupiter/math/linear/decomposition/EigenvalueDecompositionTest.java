@@ -43,7 +43,7 @@ public class EigenvalueDecompositionTest
 	 * Tests {@link EigenvalueDecomposition}.
 	 */
 	public void test() {
-		IO.test(BULLET, " EigenvalueDecomposition");
+		IO.test(BULLET, "EigenvalueDecomposition");
 
 		// Initialize
 		final double[] expectedValues = new double[] {

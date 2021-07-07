@@ -42,7 +42,7 @@ public class StatisticsTest
 	 * Tests {@link Statistics#conditionalProbability}.
 	 */
 	public void testConditionalProbability() {
-		IO.test(BULLET, " conditionalProbability");
+		IO.test(BULLET, "conditionalProbability");
 
 		// Compute the conditional probability of cheating given 3 consecutive victories (12.5%)
 		final double peh = 0.5; // probability of winning if cheating

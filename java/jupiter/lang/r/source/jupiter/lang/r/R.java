@@ -24,7 +24,6 @@
 package jupiter.lang.r;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Characters.SPACE;
 
 import java.io.IOException;
 
@@ -132,7 +131,7 @@ public class R {
 		"httr" // send HTTP requests
 	};
 
-	public static volatile String[] PACKAGES = Arrays.<String>concat(LIGHT_PACKAGES, new String[] {
+	public static volatile String[] PACKAGES = Arrays.concat(LIGHT_PACKAGES, new String[] {
 		// • API
 		// - System
 		"rJava", // access the Java VM to create objects, call methods and access fields
@@ -215,7 +214,7 @@ public class R {
 		if (execute(Strings.join(
 				"library(Rserve);",
 				"Rserve(", debug ? "T" : "F",
-				", args = ", Strings.singleQuote(Strings.joinWith(ARGS, SPACE)),
+				", args = ", Strings.singleQuote(Strings.paste(ARGS)),
 				")")) != InputOutput.EXIT_SUCCESS) {
 			return false;
 		}
@@ -287,8 +286,8 @@ public class R {
 	 */
 	public static int executeScript(final IOHandler printer, final String... script) {
 		try {
-			return Systems.execute(printer, Arrays.<String>concat(
-					new String[] {R_SCRIPT_PATH}, script, ARGS));
+			return Systems.execute(printer,
+					Arrays.concat(new String[] {R_SCRIPT_PATH}, script, ARGS));
 		} catch (final InterruptedException ex) {
 			IO.error(ex);
 		} catch (final IOException ex) {
@@ -327,8 +326,8 @@ public class R {
 
 		// Execute the R command, print the output with the printer and return the exit value
 		try {
-			return Systems.execute(printer, Arrays.<String>concat(
-					new String[] {R_PATH, "--slave", "-e"}, command));
+			return Systems.execute(printer,
+					Arrays.concat(new String[] {R_PATH, "--slave", "-e"}, command));
 		} catch (final InterruptedException ex) {
 			IO.error(ex);
 		} catch (final IOException ex) {

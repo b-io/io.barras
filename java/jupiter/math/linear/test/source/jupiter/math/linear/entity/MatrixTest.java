@@ -56,7 +56,7 @@ public class MatrixTest
 	 * Tests {@link Matrix#setColumn}.
 	 */
 	public void testSetColumn() {
-		IO.test(BULLET, " setColumn");
+		IO.test(BULLET, "setColumn");
 
 		// Initialize
 		final Matrix matrix = Matrix.magic(5);
@@ -71,7 +71,7 @@ public class MatrixTest
 	 * Tests {@link Matrix#multiply}.
 	 */
 	public void testMultiply() {
-		IO.test(BULLET, " multiply");
+		IO.test(BULLET, "multiply");
 
 		// Initialize
 		final int testCount = 10;
@@ -91,7 +91,7 @@ public class MatrixTest
 		for (final int m : rowCounts) {
 			int columnIndex = 0;
 			for (final int n : columnCounts) {
-				IO.test(m, " rows and ", n, " columns");
+				IO.test(m, "rows and", n, "columns");
 
 				final Matrix A = new Matrix(m, Doubles.createSequence(m * n));
 				final Matrix B = A.transpose();
@@ -215,7 +215,7 @@ public class MatrixTest
 	 * Tests {@link Matrix#division}.
 	 */
 	public void testDivision() {
-		IO.test(BULLET, " division");
+		IO.test(BULLET, "division");
 
 		// Initialize
 		final Matrix A = Matrix.random(10);
@@ -228,7 +228,7 @@ public class MatrixTest
 	 * Tests {@link Matrix#forward}.
 	 */
 	public void testForward() {
-		IO.test(BULLET, " forward");
+		IO.test(BULLET, "forward");
 
 		// Initialize
 		final int testCount = 10;
@@ -248,7 +248,7 @@ public class MatrixTest
 		for (final int m : rowCounts) {
 			int columnIndex = 0;
 			for (final int n : columnCounts) {
-				IO.test(m, " rows and ", n, " columns");
+				IO.test(m, "rows and", n, "columns");
 
 				final Matrix A = new Matrix(m, Doubles.createSequence(m * n));
 				final Matrix B = A.transpose();
@@ -366,7 +366,7 @@ public class MatrixTest
 	 */
 	public void testLoad()
 			throws IOException {
-		IO.test(BULLET, " load");
+		IO.test(BULLET, "load");
 
 		// Initialize
 		final Matrix X = new Matrix("test/resources/X.csv", false);
@@ -382,7 +382,7 @@ public class MatrixTest
 	 * Tests {@link Matrix#parse}.
 	 */
 	public void testParse() {
-		IO.test(BULLET, " parse");
+		IO.test(BULLET, "parse");
 
 		// Initialize
 		final Matrix M1 = Matrix.parse("[1 2 3 4; 5 6 7 8]");

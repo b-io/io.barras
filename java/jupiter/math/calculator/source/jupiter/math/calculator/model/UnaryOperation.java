@@ -130,6 +130,6 @@ public class UnaryOperation
 	 */
 	@Override
 	public String toString() {
-		return Strings.join(type, SPACE, element);
+		return Strings.paste(type, element);
 	}
 }

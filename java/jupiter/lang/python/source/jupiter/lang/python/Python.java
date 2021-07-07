@@ -119,7 +119,7 @@ public class Python {
 		"requests" // send HTTP requests
 	};
 
-	public static volatile String[] PACKAGES = Arrays.<String>concat(LIGHT_PACKAGES, new String[] {
+	public static volatile String[] PACKAGES = Arrays.concat(LIGHT_PACKAGES, new String[] {
 		// • API
 		"pycountry", // provides the ISO standards for languages, countries, currencies and scripts
 
@@ -221,8 +221,8 @@ public class Python {
 	 */
 	public static int executeScript(final IOHandler printer, final String... script) {
 		try {
-			return Systems.execute(printer, Arrays.<String>concat(
-					new String[] {PYTHON_SCRIPT_PATH}, script, ARGS));
+			return Systems.execute(printer,
+					Arrays.concat(new String[] {PYTHON_SCRIPT_PATH}, script, ARGS));
 		} catch (final InterruptedException ex) {
 			IO.error(ex);
 		} catch (final IOException ex) {

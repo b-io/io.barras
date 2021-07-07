@@ -36,11 +36,10 @@ public class ArraysTest
 	protected static final String[] ARRAY = new String[] {"a", "b", "c", "d", "e", "f"};
 	// • 2D
 	protected static final String[][] ARRAY_2D = new String[][] {ARRAY, ARRAY};
-	protected static final String[] FLAT_ARRAY_2D = Arrays.<String>concat(ARRAY, ARRAY);
+	protected static final String[] FLAT_ARRAY_2D = Arrays.concat(ARRAY, ARRAY);
 	// • 3D
 	protected static final String[][][] ARRAY_3D = new String[][][] {ARRAY_2D, ARRAY_2D};
-	protected static final String[] FLAT_ARRAY_3D = Arrays.<String>concat(FLAT_ARRAY_2D,
-			FLAT_ARRAY_2D);
+	protected static final String[] FLAT_ARRAY_3D = Arrays.concat(FLAT_ARRAY_2D, FLAT_ARRAY_2D);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,7 +53,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#getElementClass}.
 	 */
 	public void testGetElementClass() {
-		IO.test(BULLET, " getElementClass");
+		IO.test(BULLET, "getElementClass");
 
 		assertEquals(OBJECT_CLASS, Arrays.getElementClass());
 		assertEquals(OBJECT_CLASS, Arrays.getElementClass(Objects.EMPTY_ARRAY));
@@ -69,7 +68,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#toArray}.
 	 */
 	public void testToArray() {
-		IO.test(BULLET, " toArray");
+		IO.test(BULLET, "toArray");
 
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY,
 				Arrays.toArray(Strings.EMPTY_ARRAY)));
@@ -90,7 +89,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#toArray2D}.
 	 */
 	public void testToArray2D() {
-		IO.test(BULLET, " toArray2D");
+		IO.test(BULLET, "toArray2D");
 
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY_2D,
 				Arrays.toArray2D(Strings.EMPTY_ARRAY, 0)));
@@ -111,7 +110,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#toArray3D}.
 	 */
 	public void testToArray3D() {
-		IO.test(BULLET, " toArray3D");
+		IO.test(BULLET, "toArray3D");
 
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY_3D,
 				Arrays.toArray3D(Strings.EMPTY_ARRAY, 0, 0)));
@@ -134,21 +133,21 @@ public class ArraysTest
 	 * Tests {@link Arrays#concat}.
 	 */
 	public void testConcat() {
-		IO.test(BULLET, " concat");
+		IO.test(BULLET, "concat");
 
 		assertTrue(Arrays.equals(new String[] {"a", "a", "b", "c", "d", "e", "f"},
-				Arrays.<String>concat(new String[] {"a"}, ARRAY)));
+				Arrays.concat(new String[] {"a"}, ARRAY)));
 		assertTrue(Arrays.equals(FLAT_ARRAY_2D,
-				Arrays.<String>concat(ARRAY, ARRAY)));
+				Arrays.concat(ARRAY, ARRAY)));
 		assertTrue(Arrays.equals(FLAT_ARRAY_2D,
-				Arrays.<String>concat(ARRAY_2D)));
+				Arrays.concat(ARRAY_2D)));
 	}
 
 	/**
 	 * Tests {@link Arrays#count}.
 	 */
 	public void testCount() {
-		IO.test(BULLET, " count");
+		IO.test(BULLET, "count");
 
 		assertEquals(FLAT_ARRAY_2D.length, Arrays.count(ARRAY_2D));
 		assertEquals(FLAT_ARRAY_3D.length, Arrays.count(ARRAY_3D));
@@ -158,70 +157,70 @@ public class ArraysTest
 	 * Tests {@link Arrays#filterAll}.
 	 */
 	public void testFilterAll() {
-		IO.test(BULLET, " filterAll");
+		IO.test(BULLET, "filterAll");
 
 		assertTrue(Arrays.equals(new String[][] {new String[] {"a", "a", "c", "d", "d", "f"}},
-				Arrays.<String>filterAll(ARRAY, new int[][] {new int[] {0, 0, 2, 3, 3, 5}})));
+				Arrays.filterAll(ARRAY, new int[][] {new int[] {0, 0, 2, 3, 3, 5}})));
 	}
 
 	/**
 	 * Tests {@link Arrays#take}.
 	 */
 	public void testTake() {
-		IO.test(BULLET, " take");
+		IO.test(BULLET, "take");
 
 		// • 1D
 		assertTrue(Arrays.equals(new String[] {"e", "f"},
-				Arrays.<String>take(ARRAY, 4, 2)));
+				Arrays.take(ARRAY, 4, 2)));
 		assertTrue(Arrays.equals(new String[] {"e", "f"},
-				Arrays.<String>take(ARRAY, 4, 10)));
+				Arrays.take(ARRAY, 4, 10)));
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY,
-				Arrays.<String>take(ARRAY, 4, 0)));
+				Arrays.take(ARRAY, 4, 0)));
 
 		// • 2D
 		assertTrue(Arrays.equals(FLAT_ARRAY_2D,
-				Arrays.<String>take(ARRAY_2D)));
+				Arrays.take(ARRAY_2D)));
 		assertTrue(Arrays.equals(ARRAY,
-				Arrays.<String>take(ARRAY_2D, 1, 1)));
+				Arrays.take(ARRAY_2D, 1, 1)));
 		assertTrue(Arrays.equals(ARRAY,
-				Arrays.<String>take(ARRAY_2D, 1, 10)));
+				Arrays.take(ARRAY_2D, 1, 10)));
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY,
-				Arrays.<String>take(ARRAY_2D, 1, 0)));
+				Arrays.take(ARRAY_2D, 1, 0)));
 
 		// • 3D
 		assertTrue(Arrays.equals(FLAT_ARRAY_3D,
-				Arrays.<String>take(ARRAY_3D)));
+				Arrays.take(ARRAY_3D)));
 		assertTrue(Arrays.equals(FLAT_ARRAY_2D,
-				Arrays.<String>take(ARRAY_3D, 1, 1)));
+				Arrays.take(ARRAY_3D, 1, 1)));
 		assertTrue(Arrays.equals(FLAT_ARRAY_2D,
-				Arrays.<String>take(ARRAY_3D, 1, 10)));
+				Arrays.take(ARRAY_3D, 1, 10)));
 		assertTrue(Arrays.equals(Strings.EMPTY_ARRAY,
-				Arrays.<String>take(ARRAY_3D, 1, 0)));
+				Arrays.take(ARRAY_3D, 1, 0)));
 	}
 
 	/**
 	 * Tests {@link Arrays#tally}.
 	 */
 	public void testTally() {
-		IO.test(BULLET, " tally");
+		IO.test(BULLET, "tally");
 
 		assertTrue(Integers.equals(new int[] {1, 1, 2, 2, 3, 3},
-				Arrays.<String>tally(ARRAY, new String[] {"a", "c", "e"})));
+				Arrays.tally(ARRAY, new String[] {"a", "c", "e"})));
 		assertTrue(Integers.equals(new int[] {0, 1, 1, 2, 2, 3},
-				Arrays.<String>tally(ARRAY, new String[] {"b", "d", "f"})));
+				Arrays.tally(ARRAY, new String[] {"b", "d", "f"})));
 		assertTrue(Integers.equals(new int[] {0, 0, 0, 0, 0, 0},
-				Arrays.<String>tally(ARRAY, Strings.EMPTY_ARRAY)));
+				Arrays.tally(ARRAY, Strings.EMPTY_ARRAY)));
 		assertTrue(Integers.equals(Integers.EMPTY_PRIMITIVE_ARRAY,
-				Arrays.<String>tally(Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY)));
+				Arrays.tally(Strings.EMPTY_ARRAY, Strings.EMPTY_ARRAY)));
 	}
 
 	/**
 	 * Tests {@link Arrays#unique}.
 	 */
 	public void testUnique() {
-		IO.test(BULLET, " unique");
+		IO.test(BULLET, "unique");
 
-		assertTrue(Arrays.equals(ARRAY, Arrays.<String>unique(FLAT_ARRAY_2D)));
+		assertTrue(Arrays.equals(ARRAY, Arrays.unique(FLAT_ARRAY_2D)));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +229,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#isBetween}.
 	 */
 	public void testIsBetween() {
-		IO.test(BULLET, " isBetween");
+		IO.test(BULLET, "isBetween");
 
 		assertTrue(Arrays.isBetween(ARRAY, ARRAY, ARRAY, true, true));
 
@@ -251,7 +250,7 @@ public class ArraysTest
 	 * Tests {@link Arrays#clone}.
 	 */
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		// • 1D
 		assertTrue(Arrays.equals(ARRAY, Arrays.clone(ARRAY)));

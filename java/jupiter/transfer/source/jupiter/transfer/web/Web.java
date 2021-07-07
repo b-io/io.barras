@@ -91,7 +91,7 @@ public class Web {
 	 */
 	public static void download(final URL source, final File target, final String cookie)
 			throws IOException, KeyManagementException, NoSuchAlgorithmException {
-		IO.info("Download the file ", Strings.quote(source), " to ", Strings.quote(target));
+		IO.info("Download the file", Strings.quote(source), "to", Strings.quote(target));
 
 		// Set the connection context
 		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");

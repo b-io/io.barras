@@ -40,7 +40,7 @@ public class SQLTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void testCreateSelectQuery() {
-		IO.test(BULLET, " createSelectQuery");
+		IO.test(BULLET, "createSelectQuery");
 
 		// • Select query
 		SQL.DB = DB.StandardSQL;

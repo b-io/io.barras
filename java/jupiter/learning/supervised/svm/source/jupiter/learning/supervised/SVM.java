@@ -26,7 +26,6 @@ package jupiter.learning.supervised;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.LEFT_PARENTHESIS;
 import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
-import static jupiter.common.util.Characters.SPACE;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import jupiter.common.math.Maths;
@@ -38,6 +37,7 @@ import jupiter.common.test.DoubleArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
+import jupiter.common.util.Strings;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -320,8 +320,9 @@ public class SVM {
 			for (int tei = 0; tei < trainingExampleCount; ++tei) {
 				final int n = featureVectors[tei].length;
 				if (n < featureCount) {
-					throw new IllegalArgumentException("The feature vector size is wrong at row " +
-							tei + SPACE + Arguments.atLeastExpectedButFound(n, featureCount));
+					throw new IllegalArgumentException(Strings.paste(
+							"The feature vector size is wrong at row", tei,
+							Arguments.atLeastExpectedButFound(n, featureCount)));
 				}
 				updateClassification(tei, classes[tei]);
 				updateFeatureVector(tei, featureVectors[tei]);
@@ -418,13 +419,13 @@ public class SVM {
 	protected void updateValue(final int trainingExampleIndex, final int featureIndex,
 			final double value) {
 		if (featureIndex == 0) {
-			IO.debug(LEFT_PARENTHESIS, SPACE);
+			IO.debug(LEFT_PARENTHESIS);
 		}
 		final svm_node node = new svm_node();
 		node.index = featureIndex;
 		node.value = value;
 		problem.x[trainingExampleIndex][featureIndex] = node;
-		IO.debug(node.value, SPACE);
+		IO.debug(node.value);
 		if (featureIndex == featureCount - 1) {
 			IO.debug(RIGHT_PARENTHESIS);
 		}

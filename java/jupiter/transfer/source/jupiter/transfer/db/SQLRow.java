@@ -78,8 +78,8 @@ public abstract class SQLRow {
 		try {
 			constructor = getClass().getConstructor(ResultSet.class);
 		} catch (final NoSuchMethodException ex) {
-			IO.error(ex, "No constructor with ", Objects.getName(ResultSet.class),
-					" in ", Objects.getName(this), " found");
+			IO.error(ex, "No constructor with", Objects.getName(ResultSet.class),
+					"in", Objects.getName(this), "found");
 		}
 		load(resultSet);
 	}

@@ -643,11 +643,11 @@ public class Integers {
 	 * @return an array of {@link Integer} converted from the specified {@code int} array
 	 */
 	public static Integer[] toArray(final int[] array) {
-		final Integer[] convertedArray = new Integer[array.length];
+		final Integer[] newArray = new Integer[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -671,11 +671,11 @@ public class Integers {
 	 * @return a 2D array of {@link Integer} converted from the specified 2D {@code int} array
 	 */
 	public static Integer[][] toArray2D(final int[][] array2D) {
-		final Integer[][] convertedArray2D = new Integer[array2D.length][];
+		final Integer[][] newArray2D = new Integer[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -699,11 +699,11 @@ public class Integers {
 	 * @return a 3D array of {@link Integer} converted from the specified 3D {@code int} array
 	 */
 	public static Integer[][][] toArray3D(final int[][][] array3D) {
-		final Integer[][][] convertedArray3D = new Integer[array3D.length][][];
+		final Integer[][][] newArray3D = new Integer[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1091,8 +1091,8 @@ public class Integers {
 			throws NumberFormatException {
 		// Check the arguments
 		if (Strings.isNullOrEmpty(text) || text.charAt(0) == '-') {
-			throw new NumberFormatException("Cannot parse " + Strings.quote(text) +
-					" to an unsigned int value");
+			throw new NumberFormatException(Strings.paste("Cannot parse", Strings.quote(text),
+					"to an unsigned int value"));
 		}
 
 		// Parse the text
@@ -1105,8 +1105,8 @@ public class Integers {
 			if ((value & 0xffffffff00000000L) == 0) {
 				return (int) value;
 			} else {
-				throw new NumberFormatException("Cannot parse " + Strings.quote(text) +
-						" to an unsigned int value (range exceeded)");
+				throw new NumberFormatException(Strings.paste("Cannot parse", Strings.quote(text),
+						"to an unsigned int value (range exceeded)"));
 			}
 		}
 	}
@@ -1147,10 +1147,10 @@ public class Integers {
 		}
 
 		// Concatenate the arrays
-		final int[] concatArray = new int[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final int[] newArray = new int[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1350,11 +1350,11 @@ public class Integers {
 	 *         at the specified indices
 	 */
 	public static int[] filter(final int[] array, final int... indices) {
-		final int[] filteredArray = new int[indices.length];
+		final int[] newArray = new int[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1368,11 +1368,11 @@ public class Integers {
 	 *         at all the specified indices
 	 */
 	public static int[][] filterAll(final int[] array, final int[]... indices) {
-		final int[][] filteredArrays = new int[indices.length][];
+		final int[][] newArray2D = new int[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1423,6 +1423,43 @@ public class Integers {
 	 */
 	public static int middleUp(final int from, final int to) {
 		return from + (to - from + 1) / 2;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the specified {@code int} array.
+	 * <p>
+	 * @param array the {@code int} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code int} array without the element at the specified index
+	 */
+	public static int[] remove(final int[] array, final int index) {
+		final int[] newArray = new int[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code int} value from the specified {@code int}
+	 * array.
+	 * <p>
+	 * @param array the {@code int} array to remove from
+	 * @param value the {@code int} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code int} array without the specified {@code int} value
+	 */
+	public static int[] removeAll(final int[] array, final int value) {
+		final int[] newArray = new int[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

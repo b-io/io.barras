@@ -41,7 +41,7 @@ public class LockedWorkQueueTest
 	 * Tests {@link LockedWorkQueue#addTask}.
 	 */
 	public void testAddTask() {
-		IO.test(BULLET, " addTask");
+		IO.test(BULLET, "addTask");
 
 		// Initialize
 		final int testCount = 100;

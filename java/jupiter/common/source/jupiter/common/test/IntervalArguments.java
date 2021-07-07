@@ -81,8 +81,9 @@ public class IntervalArguments
 			final GenericIntervalList<I, T> intervalList, final String intervalListName) {
 		if (CHECK_ARGS && !requireNonNull(intervalList, intervalListName).isInside(
 				requireNonNull(interval, intervalName))) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(intervalName) +
-					" is not inside the " + Strings.quote(intervalListName));
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified", Strings.quote(intervalName),
+					"is not inside the", Strings.quote(intervalListName)));
 		}
 		return interval;
 	}
@@ -100,8 +101,9 @@ public class IntervalArguments
 			final String intervalName, final Domain domain, final String domainName) {
 		if (CHECK_ARGS && !requireNonNull(domain, domainName).isInside(
 				requireNonNull(interval, intervalName))) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(intervalName) +
-					" is not inside the " + Strings.quote(domainName));
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified", Strings.quote(intervalName),
+					"is not inside the", Strings.quote(domainName)));
 		}
 		return interval;
 	}
@@ -127,8 +129,8 @@ public class IntervalArguments
 	public static <L extends IntervalList<?>> L requireValid(final L intervalList,
 			final String name) {
 		if (CHECK_ARGS && !requireNonNull(intervalList, name).isValid()) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is invalid");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is invalid"));
 		}
 		return intervalList;
 	}

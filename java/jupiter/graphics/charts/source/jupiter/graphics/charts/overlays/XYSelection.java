@@ -340,8 +340,8 @@ public class XYSelection
 	 */
 	protected String[] formatCoordinates(final XY<Double> coordinates) {
 		final String[] formattedCoordinates = new String[2];
-		formattedCoordinates[0] = "X:" + formats.getX().format(coordinates.getX());
-		formattedCoordinates[1] = "Y:" + formats.getY().format(coordinates.getY());
+		formattedCoordinates[0] = "X: " + formats.getX().format(coordinates.getX());
+		formattedCoordinates[1] = "Y: " + formats.getY().format(coordinates.getY());
 		return formattedCoordinates;
 	}
 

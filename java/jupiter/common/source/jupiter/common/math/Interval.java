@@ -239,7 +239,7 @@ public class Interval<T extends Comparable<? super T>>
 			return null;
 		}
 		if (!isInside(value)) {
-			IO.warn("The specified value ", value, " is not inside the interval ", this);
+			IO.warn("The specified value", value, "is not inside the interval", this);
 			return null;
 		}
 		return value;

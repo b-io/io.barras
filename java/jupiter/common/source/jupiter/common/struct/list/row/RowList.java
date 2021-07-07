@@ -280,8 +280,7 @@ public class RowList
 		// Return the row index
 		final int i = Arrays.findFirstIndex(index, name);
 		if (i < 0) {
-			throw new IllegalArgumentException(
-					Strings.join("There is no row ", Strings.quote(name)));
+			throw new IllegalArgumentException("There is no row " + Strings.quote(name));
 		}
 		return i;
 	}
@@ -338,8 +337,7 @@ public class RowList
 		// Return the column index
 		final int j = Strings.findFirstIndexIgnoreCase(header, name);
 		if (j < 0) {
-			throw new IllegalArgumentException(
-					Strings.join("There is no column ", Strings.quote(name)));
+			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
 		return j;
 	}

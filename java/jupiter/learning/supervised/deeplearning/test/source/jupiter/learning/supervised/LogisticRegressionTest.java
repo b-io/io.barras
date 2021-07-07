@@ -44,7 +44,7 @@ public class LogisticRegressionTest
 	 * Tests {@link LogisticRegression#classify}.
 	 */
 	public void testClassify() {
-		IO.test(BULLET, " classify");
+		IO.test(BULLET, "classify");
 
 		try {
 			// Initialize
@@ -58,10 +58,10 @@ public class LogisticRegressionTest
 			final double accuracy = model.computeAccuracy();
 			final double f1Score = model.computeF1Score();
 			final double cost = model.computeCost();
-			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
-					Doubles.formatPercent(f1Score), " F1 score and ",
-					cost, " cost in ",
-					iterationCount, " iterations");
+			IO.test(Doubles.formatPercent(accuracy), "accuracy,",
+					Doubles.formatPercent(f1Score), "F1 score and",
+					cost, "cost in",
+					iterationCount, "iterations");
 
 			// Verify the model
 			assertEquals(0.5, accuracy, 0.05);

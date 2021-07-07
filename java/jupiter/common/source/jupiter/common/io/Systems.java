@@ -24,7 +24,6 @@
 package jupiter.common.io;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Strings.SINGLE_QUOTER;
 
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class Systems {
 	 */
 	public static int execute(final IOHandler printer, final String... command)
 			throws InterruptedException, IOException {
-		IO.debug(Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+		IO.debug(Strings.pasteWith(command, SINGLE_QUOTER));
 		Process process = null;
 		try {
 			process = Runtime.getRuntime().exec(command);
@@ -132,8 +131,8 @@ public class Systems {
 			return process.exitValue();
 		} finally {
 			if (process != null) {
-				IO.trace("Destroy the process executing the command ",
-						Strings.joinWith(command, SPACE, SINGLE_QUOTER));
+				IO.trace("Destroy the process executing the command",
+						Strings.pasteWith(command, SINGLE_QUOTER));
 				process.destroy();
 			}
 		}
@@ -167,8 +166,8 @@ public class Systems {
 
 	public static void requireOS() {
 		if (!isUnix() && !isWindows()) {
-			throw new IllegalStateException(
-					Strings.join("The OS ", Strings.quote(OS), " is not yet supported"));
+			throw new IllegalStateException(Strings.paste("The OS", Strings.quote(OS),
+					"is not yet supported"));
 		}
 	}
 

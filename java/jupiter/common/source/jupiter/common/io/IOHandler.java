@@ -210,7 +210,7 @@ public abstract class IOHandler
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.trace(this, " is finalized");
+		IO.trace(this, "is finalized");
 		try {
 			close();
 		} finally {
