@@ -200,7 +200,7 @@ public class SpeedChecker {
 				// Create the handler of the data file storing the downloading speeds of the URL
 				DATA_FILES.put(urlName, new FileHandler(getDataFilePath(url)));
 			} catch (final MalformedURLException ex) {
-				IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
+				IO.error(ex, "The URL", Strings.quote(urlName), "is malformed");
 			}
 		}
 	}
@@ -241,7 +241,7 @@ public class SpeedChecker {
 		if (WORK_QUEUE == null) {
 			WORK_QUEUE = new SynchronizedWorkQueue<String, Result<Double>>(new Checker());
 		} else {
-			IO.trace("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue", WORK_QUEUE, "has already started");
 		}
 	}
 
@@ -289,16 +289,16 @@ public class SpeedChecker {
 			for (final long id : ids) {
 				final Result<Double> result = WORK_QUEUE.get(id);
 				final double downloadingSpeed = result.getOutput();
-				IO.info(downloadingSpeed, " [Mbits/s]");
+				IO.info(downloadingSpeed, "[Mbits/s]");
 				final FileHandler dataFileHandler = DATA_FILES.get(URL_NAMES.get(i));
 				try {
 					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
 							downloadingSpeed));
 				} catch (final FileNotFoundException ex) {
-					IO.error(ex, "Cannot open or create the data file ",
+					IO.error(ex, "Cannot open or create the data file",
 							Strings.quote(dataFileHandler));
 				} catch (final IOException ex) {
-					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+					IO.error(ex, "Cannot write to the data file", Strings.quote(dataFileHandler));
 				}
 				GRAPH.addPoint(0, i, downloadingSpeed);
 				++i;
@@ -309,16 +309,16 @@ public class SpeedChecker {
 			for (final String urlName : URL_NAMES) {
 				final Result<Double> result = download(urlName);
 				final double downloadingSpeed = result.getOutput();
-				IO.info(downloadingSpeed, " [Mbits/s]");
+				IO.info(downloadingSpeed, "[Mbits/s]");
 				final FileHandler dataFileHandler = DATA_FILES.get(urlName);
 				try {
 					dataFileHandler.writeLine(Strings.join(Dates.getDateTime(), Arrays.DELIMITER,
 							downloadingSpeed));
 				} catch (final FileNotFoundException ex) {
-					IO.error(ex, "Cannot open or create the data file ",
+					IO.error(ex, "Cannot open or create the data file",
 							Strings.quote(dataFileHandler));
 				} catch (final IOException ex) {
-					IO.error(ex, "Cannot write to the data file ", Strings.quote(dataFileHandler));
+					IO.error(ex, "Cannot write to the data file", Strings.quote(dataFileHandler));
 				}
 				GRAPH.addPoint(0, i, downloadingSpeed);
 				++i;
@@ -334,7 +334,7 @@ public class SpeedChecker {
 	 * @return the downloading speed (in Mbits/s)
 	 */
 	protected static Result<Double> download(final String urlName) {
-		IO.debug("Download the file pointed by the URL ", Strings.quote(urlName));
+		IO.debug("Download the file pointed by the URL", Strings.quote(urlName));
 
 		// Initialize
 		final Chronometer chrono = new Chronometer();
@@ -347,12 +347,12 @@ public class SpeedChecker {
 			try {
 				final String hostName = url.getHost();
 				NetworkMonitors.ping(hostName);
-				IO.debug("The host ", Strings.quote(hostName), " is reachable");
+				IO.debug("The host", Strings.quote(hostName), "is reachable");
 
 				// Download the file pointed by the URL
 				final String urlFileName = getURLFileName(url);
 				final File urlFile = new File(TEMP_DIR_PATH.concat(SEPARATOR).concat(urlFileName));
-				IO.debug("Download the file ", Strings.quote(urlFileName));
+				IO.debug("Download the file", Strings.quote(urlFileName));
 				ReadableByteChannel inputChannel = null;
 				try {
 					inputChannel = Channels.newChannel(url.openStream());
@@ -363,24 +363,24 @@ public class SpeedChecker {
 					final double time = chrono.getSeconds();
 					final double speed = length / time;
 					return new Result<Double>(speed,
-							IO.info("Downloaded ", length, " [Mbits] in ", time, " [s] => ",
-									speed, " [Mbits/s]"));
+							IO.info("Downloaded", length, "[Mbits] in", time, "[s] =>",
+									speed, "[Mbits/s]"));
 				} catch (final FileNotFoundException ex) {
-					IO.error(ex, "Cannot open or create the URL file ", Strings.quote(urlFile));
+					IO.error(ex, "Cannot open or create the URL file", Strings.quote(urlFile));
 					return new Result<Double>(0., IO.error(ex));
 				} catch (final IOException ex) {
 					return new Result<Double>(0., IO.error(ex,
-							"Cannot download the URL file ", Strings.quote(urlName),
-							" to ", Strings.quote(urlFile)));
+							"Cannot download the URL file", Strings.quote(urlName),
+							"to", Strings.quote(urlFile)));
 				} finally {
 					Resources.close(inputChannel);
 				}
 			} catch (final IOException ex) {
-				IO.error(ex, "The URL ", Strings.quote(urlName), " is not reachable");
+				IO.error(ex, "The URL", Strings.quote(urlName), "is not reachable");
 				return new Result<Double>(0., IO.error(ex));
 			}
 		} catch (final MalformedURLException ex) {
-			IO.error(ex, "The URL ", Strings.quote(urlName), " is malformed");
+			IO.error(ex, "The URL", Strings.quote(urlName), "is malformed");
 			return new Result<Double>(0., IO.error(ex));
 		}
 	}

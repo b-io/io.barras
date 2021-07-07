@@ -83,7 +83,7 @@ public class SeriesGraphicDemo {
 
 		// • Insertion tests
 		if (TEST_INSERTION) {
-			IO.test(BULLET, " Insertion tests");
+			IO.test(BULLET, "Insertion tests");
 			final SeriesGraphic graph = new SeriesGraphic("Insertion", "Step", "Y");
 
 			int m = 0;
@@ -93,7 +93,7 @@ public class SeriesGraphicDemo {
 				graph.addSeries(0, Objects.getName(map));
 
 				// Test insertion
-				IO.test("Test insertion for ", Objects.getName(map));
+				IO.test("Test insertion for", Objects.getName(map));
 				for (int ti = 0; ti < TEST_COUNT; ++ti) {
 					times[ti] = testInsertion(map, ELEMENT_COUNT);
 					graph.addPoint(0, m, ti, times[ti]);
@@ -110,7 +110,7 @@ public class SeriesGraphicDemo {
 
 		// • Search tests
 		if (TEST_SEARCH) {
-			IO.test(BULLET, " Search tests");
+			IO.test(BULLET, "Search tests");
 			final SeriesGraphic graph = new SeriesGraphic("Search", "Step", "Y");
 
 			int m = 0;
@@ -121,7 +121,7 @@ public class SeriesGraphicDemo {
 				testInsertion(map, ELEMENT_COUNT);
 
 				// Test search
-				IO.test("Test search for ", Objects.getName(map));
+				IO.test("Test search for", Objects.getName(map));
 				for (int ti = 0; ti < TEST_COUNT; ++ti) {
 					times[ti] = testSearch(map, ELEMENT_COUNT);
 					graph.addPoint(0, m, ti, times[ti]);
@@ -137,7 +137,7 @@ public class SeriesGraphicDemo {
 
 		// • Deletion tests
 		if (TEST_DELETION) {
-			IO.test(BULLET, " Deletion tests");
+			IO.test(BULLET, "Deletion tests");
 			final SeriesGraphic graph = new SeriesGraphic("Deletion", "Step", "Y");
 
 			int m = 0;
@@ -148,7 +148,7 @@ public class SeriesGraphicDemo {
 				testInsertion(map, ELEMENT_COUNT);
 
 				// Test deletion
-				IO.test("Test deletion for ", Objects.getName(map));
+				IO.test("Test deletion for", Objects.getName(map));
 				for (int ti = 0; ti < TEST_COUNT; ++ti) {
 					times[ti] = testDeletion(map, ELEMENT_COUNT);
 					graph.addPoint(0, m, ti, times[ti]);

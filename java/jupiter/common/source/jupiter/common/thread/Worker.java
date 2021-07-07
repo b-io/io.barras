@@ -170,7 +170,7 @@ public abstract class Worker<I, O>
 	 */
 	@Override
 	public void run() {
-		IO.trace("The worker ", this, " has started");
+		IO.trace("The worker", this, "has started");
 		while (workQueue.isRunning()) {
 			final Task<I> task = workQueue.getNextTask();
 			if (task == null) {
@@ -217,7 +217,7 @@ public abstract class Worker<I, O>
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.trace(this, " is finalized");
+		IO.trace(this, "is finalized");
 		try {
 			super.finalize();
 		} catch (final Throwable ignored) {

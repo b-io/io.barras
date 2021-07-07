@@ -41,7 +41,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateLeft(long)}.
 	 */
 	public void testRotateLeft_long() {
-		IO.test(BULLET, " rotateLeft_long");
+		IO.test(BULLET, "rotateLeft_long");
 
 		assertEquals(0L, Bits.rotateLeft(0L));
 	}
@@ -50,7 +50,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateLeft(long, long)}.
 	 */
 	public void testRotateLeft_long_long() {
-		IO.test(BULLET, " rotateLeft_long_long");
+		IO.test(BULLET, "rotateLeft_long_long");
 
 		assertEquals(0L, Bits.rotateLeft(0L, 0L));
 	}
@@ -59,7 +59,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateLeft(int)}.
 	 */
 	public void testRotateLeft_int() {
-		IO.test(BULLET, " rotateLeft_int");
+		IO.test(BULLET, "rotateLeft_int");
 
 		assertEquals(0, Bits.rotateLeft(0));
 	}
@@ -68,7 +68,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateLeft(int, int)}.
 	 */
 	public void testRotateLeft_int_int() {
-		IO.test(BULLET, " rotateLeft_int_int");
+		IO.test(BULLET, "rotateLeft_int_int");
 
 		assertEquals(0, Bits.rotateLeft(0, 0));
 	}
@@ -77,7 +77,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateRight(long)}.
 	 */
 	public void testRotateRight_long() {
-		IO.test(BULLET, " rotateRight_long");
+		IO.test(BULLET, "rotateRight_long");
 
 		assertEquals(0L, Bits.rotateRight(0L));
 	}
@@ -86,7 +86,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateRight(long, long)}.
 	 */
 	public void testRotateRight_long_long() {
-		IO.test(BULLET, " rotateRight_long_long");
+		IO.test(BULLET, "rotateRight_long_long");
 
 		assertEquals(0L, Bits.rotateRight(0L, 0L));
 	}
@@ -95,7 +95,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateRight(int)}.
 	 */
 	public void testRotateRight_int() {
-		IO.test(BULLET, " rotateRight_int");
+		IO.test(BULLET, "rotateRight_int");
 
 		assertEquals(0, Bits.rotateRight(0));
 	}
@@ -104,7 +104,7 @@ public class BitsTest
 	 * Tests {@link Bits#rotateRight(int, int)}.
 	 */
 	public void testRotateRight_int_int() {
-		IO.test(BULLET, " rotateRight_int_int");
+		IO.test(BULLET, "rotateRight_int_int");
 
 		assertEquals(0, Bits.rotateRight(0, 0));
 	}

@@ -785,8 +785,9 @@ public class Scalar
 			throw new ArithmeticException(
 					"Cannot find a unique solution if A and B are equal to zero");
 		}
-		throw new IllegalOperationException("Cannot find a solution if A is a " + getName() +
-				" and B is a " + entity.getName());
+		throw new IllegalOperationException(Strings.paste(
+				"Cannot find a solution if A is a", getName(),
+				"and B is a", entity.getName()));
 	}
 
 	/**

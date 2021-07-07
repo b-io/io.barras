@@ -24,7 +24,6 @@
 package jupiter.media.audio;
 
 import static jupiter.common.util.Characters.COLON;
-import static jupiter.common.util.Characters.SPACE;
 
 import java.io.Serializable;
 
@@ -156,6 +155,6 @@ public abstract class AudioInterface
 	 */
 	@Override
 	public String toString() {
-		return Strings.join(mixerName, COLON, SPACE, lineName);
+		return Strings.paste(mixerName + COLON, lineName);
 	}
 }

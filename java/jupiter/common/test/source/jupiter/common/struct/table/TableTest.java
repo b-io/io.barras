@@ -43,7 +43,7 @@ public class TableTest
 	 * Tests {@link Table#shift}.
 	 */
 	public void testShift() {
-		IO.test(BULLET, " shift");
+		IO.test(BULLET, "shift");
 
 		final Table<Object> table = new Table<Object>();
 		final Table<Object> shiftedTable = table.clone();
@@ -58,7 +58,7 @@ public class TableTest
 	 * Tests {@link Table#transpose}.
 	 */
 	public void testTranspose() {
-		IO.test(BULLET, " transpose");
+		IO.test(BULLET, "transpose");
 
 		final DoubleTable table = new DoubleTable(1, 2);
 		table.fill(5.);
@@ -76,7 +76,7 @@ public class TableTest
 	 * Tests {@link Table#load}.
 	 */
 	public void testLoad() {
-		IO.test(BULLET, " load");
+		IO.test(BULLET, "load");
 
 		try {
 			new StringTable("test/resources/example.csv", true);
@@ -91,7 +91,7 @@ public class TableTest
 	 * Tests {@link Table#equals}.
 	 */
 	public void testEquals() {
-		IO.test(BULLET, " equals");
+		IO.test(BULLET, "equals");
 
 		final DoubleTable table = new DoubleTable(1, 2);
 		table.fill(5.);
@@ -102,7 +102,7 @@ public class TableTest
 	 * Tests {@link Table#hashCode}.
 	 */
 	public void testHashCode() {
-		IO.test(BULLET, " hashCode");
+		IO.test(BULLET, "hashCode");
 
 		final DoubleTable table = new DoubleTable(1, 2);
 		table.fill(5.);

@@ -23,6 +23,8 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Strings;
+
 public class ByteArguments
 		extends Arguments {
 
@@ -44,86 +46,91 @@ public class ByteArguments
 
 	public static byte require(final byte found, final byte expected) {
 		if (CHECK_ARGS && found != expected) {
-			throw new IllegalArgumentException(
-					"The specified byte number is wrong " + expectedButFound(found, expected));
+			throw new IllegalArgumentException("The specified byte number is wrong " +
+					expectedButFound(found, expected));
 		}
 		return found;
 	}
 
 	public static void requireEquals(final byte a, final byte b) {
 		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified byte numbers are not equal " + isNotEqualTo(a, b));
+			throw new IllegalArgumentException("The specified byte numbers are not equal " +
+					isNotEqualTo(a, b));
 		}
 	}
 
 	public static byte requireGreaterThan(final byte found, final byte expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException("The specified byte number " + found +
-					" is lower or equal to " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte number", found,
+					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
 	}
 
 	public static byte requireGreaterOrEqualTo(final byte found, final byte expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(
-					"The specified byte number " + found + " is lower than " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte number", found,
+					"is lower than", expectedLowerBound));
 		}
 		return found;
 	}
 
 	public static byte requireLessThan(final byte found, final byte expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException("The specified byte number " + found +
-					" is greater or equal to " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte number", found,
+					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static byte requireLessOrEqualTo(final byte found, final byte expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException("The specified byte number " + found +
-					" is greater than " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte number", found,
+					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static byte requireNegative(final byte found) {
 		if (CHECK_ARGS && found >= 0L) {
-			throw new IllegalArgumentException(
-					"The specified byte number " + found + " is zero or positive");
+			throw new IllegalArgumentException(Strings.paste("The specified byte number", found,
+					"is zero or positive"));
 		}
 		return found;
 	}
 
 	public static byte requireNonNegative(final byte found) {
 		if (CHECK_ARGS && found < 0L) {
-			throw new IllegalArgumentException(
-					"The specified byte number " + found + " is negative");
+			throw new IllegalArgumentException(Strings.paste("The specified byte number", found,
+					"is negative"));
 		}
 		return found;
 	}
 
 	public static byte requireNonZero(final byte found) {
 		if (CHECK_ARGS && found == 0L) {
-			throw new IllegalArgumentException("The specified byte number " + found + " is zero");
+			throw new IllegalArgumentException(Strings.paste("The specified byte number", found,
+					"is zero"));
 		}
 		return found;
 	}
 
 	public static byte requirePositive(final byte found) {
 		if (CHECK_ARGS && found <= 0L) {
-			throw new IllegalArgumentException(
-					"The specified byte number " + found + " is zero or negative");
+			throw new IllegalArgumentException(Strings.paste("The specified byte number", found,
+					"is zero or negative"));
 		}
 		return found;
 	}
 
 	public static byte requireNonPositive(final byte found) {
 		if (CHECK_ARGS && found > 0L) {
-			throw new IllegalArgumentException(
-					"The specified byte number " + found + " is positive");
+			throw new IllegalArgumentException(Strings.paste("The specified byte number", found,
+					"is positive"));
 		}
 		return found;
 	}
@@ -168,8 +175,9 @@ public class ByteArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException("The specified byte array has a length " +
-					foundLength + " inferior to " + minExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte array has a length", foundLength,
+					"inferior to", minExpectedLength));
 		}
 	}
 
@@ -182,8 +190,9 @@ public class ByteArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException("The specified byte array has a length " +
-					foundLength + " superior to " + maxExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified byte array has a length", foundLength,
+					"superior to", maxExpectedLength));
 		}
 	}
 

@@ -50,13 +50,13 @@ public class ReservedThreadPoolExecutorTest
 	 * Tests {@link ReservedThreadPoolExecutor#addTask}.
 	 */
 	public void testSubmit() {
-		IO.test(BULLET, " submit");
+		IO.test(BULLET, "submit");
 
 		// Initialize
 		final int taskCount = 100000;
 		final Chronometer chrono = new Chronometer();
 		final ReservedThreadPoolExecutor queue = new ReservedThreadPoolExecutor();
-		IO.test("There are ", queue.getMaxPoolSize(), " workers");
+		IO.test("There are", queue.getMaxPoolSize(), "workers");
 
 		// Submit the tasks
 		chrono.start();
@@ -86,8 +86,8 @@ public class ReservedThreadPoolExecutorTest
 			}
 		}
 		chrono.stop();
-		IO.test(chrono.getMilliseconds(), " [ms]");
-		IO.test(skippedTaskCount, " skipped tasks");
+		IO.test(chrono.getMilliseconds(), "[ms]");
+		IO.test(skippedTaskCount, "skipped tasks");
 
 		// Report the number of completed tasks
 		int completedTaskCount = 0;
@@ -96,6 +96,6 @@ public class ReservedThreadPoolExecutorTest
 				++completedTaskCount;
 			}
 		}
-		IO.test(completedTaskCount, "/", taskCount, " completed");
+		IO.test(completedTaskCount, "/", taskCount, "completed");
 	}
 }

@@ -41,7 +41,7 @@ public class StatisticsTest
 	 * Tests {@link Statistics#normalCDF}.
 	 */
 	public void testNormalCDF() {
-		IO.test(BULLET, " normalCDF");
+		IO.test(BULLET, "normalCDF");
 
 		final double normalCDF = Statistics.normalCDF(0.);
 		assertEquals(0.5, normalCDF, Maths.TOLERANCE);
@@ -51,10 +51,10 @@ public class StatisticsTest
 	 * Tests {@link Statistics#normalCDFInverse}.
 	 */
 	public void testNormalCDFInverse() {
-		IO.test(BULLET, " normalCDFInverse");
+		IO.test(BULLET, "normalCDFInverse");
 
 		final double normalCDFInverse = Statistics.normalCDFInverse(Maths.DEFAULT_CONFIDENCE);
-		IO.test("Accuracy: ", Maths.distance(normalCDFInverse, Maths.DEFAULT_Z));
+		IO.test("Accuracy:", Maths.distance(normalCDFInverse, Maths.DEFAULT_Z));
 		assertEquals(Maths.DEFAULT_Z, normalCDFInverse, Maths.TOLERANCE);
 	}
 }

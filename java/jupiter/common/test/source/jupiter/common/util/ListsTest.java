@@ -43,7 +43,7 @@ public class ListsTest
 	 * Tests {@link Lists#sort}.
 	 */
 	public void testSort() {
-		IO.test(BULLET, " sort");
+		IO.test(BULLET, "sort");
 		final List<Integer> integers = Integers.asList(Integers.createRandomSequence(100));
 		IO.test(integers);
 		Lists.<Integer>sort(integers);

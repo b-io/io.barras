@@ -457,11 +457,11 @@ public class Booleans {
 	 * @return an array of {@link Boolean} converted from the specified {@code boolean} array
 	 */
 	public static Boolean[] toArray(final boolean[] array) {
-		final Boolean[] convertedArray = new Boolean[array.length];
+		final Boolean[] newArray = new Boolean[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -485,11 +485,11 @@ public class Booleans {
 	 * @return a 2D array of {@link Boolean} converted from the specified 2D {@code boolean} array
 	 */
 	public static Boolean[][] toArray2D(final boolean[][] array2D) {
-		final Boolean[][] convertedArray2D = new Boolean[array2D.length][];
+		final Boolean[][] newArray2D = new Boolean[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -513,11 +513,11 @@ public class Booleans {
 	 * @return a 3D array of {@link Boolean} converted from the specified 3D {@code boolean} array
 	 */
 	public static Boolean[][][] toArray3D(final boolean[][][] array3D) {
-		final Boolean[][][] convertedArray3D = new Boolean[array3D.length][][];
+		final Boolean[][][] newArray3D = new Boolean[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -846,10 +846,10 @@ public class Booleans {
 		}
 
 		// Concatenate the arrays
-		final boolean[] concatArray = new boolean[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final boolean[] newArray = new boolean[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1049,11 +1049,11 @@ public class Booleans {
 	 *         array at the specified indices
 	 */
 	public static boolean[] filter(final boolean[] array, final int... indices) {
-		final boolean[] filteredArray = new boolean[indices.length];
+		final boolean[] newArray = new boolean[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1067,11 +1067,48 @@ public class Booleans {
 	 *         {@code boolean} array at all the specified indices
 	 */
 	public static boolean[][] filterAll(final boolean[] array, final int[]... indices) {
-		final boolean[][] filteredArrays = new boolean[indices.length][];
+		final boolean[][] newArray2D = new boolean[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the specified {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code boolean} array without the element at the specified index
+	 */
+	public static boolean[] remove(final boolean[] array, final int index) {
+		final boolean[] newArray = new boolean[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code boolean} value from the specified
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to remove from
+	 * @param value the {@code boolean} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code boolean} array without the specified {@code boolean} value
+	 */
+	public static boolean[] removeAll(final boolean[] array, final boolean value) {
+		final boolean[] newArray = new boolean[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

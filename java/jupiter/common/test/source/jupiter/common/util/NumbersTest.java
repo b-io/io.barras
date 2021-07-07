@@ -41,7 +41,7 @@ public class NumbersTest
 	 * Tests {@link Numbers#toString}.
 	 */
 	public void testToString() {
-		IO.test(BULLET, " toString");
+		IO.test(BULLET, "toString");
 
 		IO.test(Numbers.toString(0.0000001));
 		assertEquals("1E-9", Numbers.toString(0.000000001));

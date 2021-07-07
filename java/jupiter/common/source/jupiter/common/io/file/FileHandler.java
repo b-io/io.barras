@@ -297,9 +297,9 @@ public class FileHandler
 			write(EMPTY, false);
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open or create the file", Strings.quote(file));
 		} catch (final IOException ex) {
-			IO.error(ex, "Cannot empty the file ", Strings.quote(file));
+			IO.error(ex, "Cannot empty the file", Strings.quote(file));
 		}
 		return false;
 	}
@@ -545,7 +545,7 @@ public class FileHandler
 			file.setLastModified(Dates.getTimestamp());
 			return true;
 		} catch (final FileNotFoundException ex) {
-			IO.error(ex, "Cannot open or create the file ", Strings.quote(file));
+			IO.error(ex, "Cannot open or create the file", Strings.quote(file));
 		}
 		return false;
 	}
@@ -633,8 +633,8 @@ public class FileHandler
 	 * @param reader the {@link Closeable} reader to close
 	 */
 	public void closeReader(final Closeable reader) {
-		closeReader(reader, Strings.join("The reader of ", Strings.quote(file),
-				" has already been closed"));
+		closeReader(reader, Strings.paste("The reader of", Strings.quote(file),
+				"has already been closed"));
 	}
 
 	/**
@@ -658,8 +658,8 @@ public class FileHandler
 	 * Closes all the {@link Closeable} readers.
 	 */
 	public void closeAllReaders() {
-		closeAllReaders(Strings.join("A reader of ", Strings.quote(file),
-				" has already been closed"));
+		closeAllReaders(Strings.paste("A reader of", Strings.quote(file),
+				"has already been closed"));
 	}
 
 	/**
@@ -755,8 +755,8 @@ public class FileHandler
 	 * Closes the {@link BufferedWriter}.
 	 */
 	public synchronized void closeWriter() {
-		closeWriter(Strings.join("The writer of ", Strings.quote(file),
-				" has not been created or has already been closed"));
+		closeWriter(Strings.paste("The writer of", Strings.quote(file),
+				"has not been created or has already been closed"));
 	}
 
 	/**
@@ -999,9 +999,9 @@ public class FileHandler
 					++li;
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+				IO.error(ex, "Cannot open the file", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex, "Cannot read the file ", Strings.quote(file));
+				IO.error(ex, "Cannot read the file", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1073,9 +1073,9 @@ public class FileHandler
 					++li;
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+				IO.error(ex, "Cannot open the file", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex, "Cannot read the file ", Strings.quote(file));
+				IO.error(ex, "Cannot read the file", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1146,9 +1146,9 @@ public class FileHandler
 					++li;
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+				IO.error(ex, "Cannot open the file", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex, "Cannot read the file ", Strings.quote(file));
+				IO.error(ex, "Cannot read the file", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1220,9 +1220,9 @@ public class FileHandler
 					++li;
 				}
 			} catch (final FileNotFoundException ex) {
-				IO.error(ex, "Cannot open the file ", Strings.quote(file));
+				IO.error(ex, "Cannot open the file", Strings.quote(file));
 			} catch (final IOException ex) {
-				IO.error(ex, "Cannot read the file ", Strings.quote(file));
+				IO.error(ex, "Cannot read the file", Strings.quote(file));
 			} finally {
 				closeReader(reader, null);
 			}
@@ -1295,7 +1295,7 @@ public class FileHandler
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.trace(this, " is finalized");
+		IO.trace(this, "is finalized");
 		try {
 			close();
 		} finally {

@@ -83,7 +83,7 @@ public class IntervalTest
 	 * Tests {@link Interval#merge}.
 	 */
 	public void testMerge() {
-		IO.test(BULLET, " merge");
+		IO.test(BULLET, "merge");
 
 		// Initialize
 		final Interval<Double> n1 = N1.clone();
@@ -145,7 +145,7 @@ public class IntervalTest
 	 * Tests {@link Interval#isInside}.
 	 */
 	public void testIsInside() {
-		IO.test(BULLET, " isInside");
+		IO.test(BULLET, "isInside");
 
 		assertTrue(!A1.isInside(ALPHA));
 		assertTrue(!A1.isInside(BETA));
@@ -166,7 +166,7 @@ public class IntervalTest
 	 * Tests {@link Interval#compareTo}.
 	 */
 	public void testCompareTo() {
-		IO.test(BULLET, " compareTo");
+		IO.test(BULLET, "compareTo");
 
 		assertTrue(Comparables.isLessThan(N2, N4));
 		assertTrue(Comparables.isLessThan(N4, N3));

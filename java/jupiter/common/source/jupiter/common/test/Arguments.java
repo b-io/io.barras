@@ -53,18 +53,18 @@ public class Arguments {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String expectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize(Strings.join(Strings.quote(expected), " expected but ",
-				Strings.quote(found), " found"));
+		return Strings.parenthesize(Strings.paste(Strings.quote(expected), "expected but",
+				Strings.quote(found), "found"));
 	}
 
 	public static String atLeastExpectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize(Strings.join("at least ", Strings.quote(expected),
-				" expected but ", Strings.quote(found), " found"));
+		return Strings.parenthesize(Strings.paste("at least", Strings.quote(expected),
+				"expected but", Strings.quote(found), "found"));
 	}
 
 	public static String atMostExpectedButFound(final Object found, final Object expected) {
-		return Strings.parenthesize(Strings.join("at most ", Strings.quote(expected),
-				" expected but ", Strings.quote(found), " found"));
+		return Strings.parenthesize(Strings.paste("at most", Strings.quote(expected),
+				"expected but", Strings.quote(found), "found"));
 	}
 
 	//////////////////////////////////////////////
@@ -82,17 +82,18 @@ public class Arguments {
 	public static String betweenExpectedButFound(final Object found, final Object expectedFrom,
 			final Object expectedTo, final boolean isLowerInclusive,
 			final boolean isUpperInclusive) {
-		return Strings.parenthesize(Strings.join("between ", Strings.quote(expectedFrom),
-				isLowerInclusive ? " (inclusive)" : " (exclusive)", " and ",
-				Strings.quote(expectedTo), isUpperInclusive ? " (inclusive)" : " (exclusive)",
-				" expected but ", Strings.quote(found), " found"));
+		return Strings.parenthesize(Strings.paste(
+				"between", Strings.quote(expectedFrom),
+				isLowerInclusive ? "(inclusive)" : "(exclusive)", "and",
+				Strings.quote(expectedTo), isUpperInclusive ? "(inclusive)" : "(exclusive)",
+				"expected but", Strings.quote(found), "found"));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String isNotEqualTo(final Object a, final Object b) {
-		return Strings.parenthesize(
-				Strings.join(Strings.quote(a), " is not equal to ", Strings.quote(b)));
+		return Strings.parenthesize(Strings.paste(Strings.quote(a), "is not equal to",
+				Strings.quote(b)));
 	}
 
 
@@ -116,9 +117,10 @@ public class Arguments {
 
 	public static <T> T requireNonNull(final T object, final String name, final int stackIndex) {
 		if (CHECK_ARGS && object == null) {
-			throw new NullPointerException(Strings.join("The specified argument ",
-					Strings.quote(name), " is null", IO.getSeverityLevel().isDebug() ?
-							" ".concat(Tests.getStackTraceMessage(stackIndex + 1)) : EMPTY));
+			throw new NullPointerException(Strings.paste(
+					"The specified argument", Strings.quote(name), "is null",
+					IO.getSeverityLevel().isDebug() ?
+							Tests.getStackTraceMessage(stackIndex + 1) : EMPTY));
 		}
 		return object;
 	}

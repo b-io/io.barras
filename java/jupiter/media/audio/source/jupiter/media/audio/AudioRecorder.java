@@ -24,6 +24,7 @@
 package jupiter.media.audio;
 
 import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.SEMICOLON;
 import static jupiter.media.audio.Audio.AUDIO_FORMAT;
 
 import java.awt.HeadlessException;
@@ -131,13 +132,13 @@ public class AudioRecorder
 		final int targetInterfaceCount = targetInterfaces.size();
 		if (targetInterfaceCount > 0) {
 			if (targetInterfaceCount > 1) {
-				IO.warn("Multiple microphones with the mixer name ", Strings.quote(mixerName), ": ",
-						targetInterfaces);
+				IO.warn("Multiple microphones with the mixer name",
+						Strings.quote(mixerName) + SEMICOLON, targetInterfaces);
 			}
 			targetInterface = targetInterfaces.getFirst();
-			IO.info("Select the microphone: ", targetInterface);
+			IO.info("Select the microphone:", targetInterface);
 		} else {
-			IO.warn("No microphone with the mixer name ", Strings.quote(mixerName));
+			IO.warn("No microphone with the mixer name", Strings.quote(mixerName));
 		}
 	}
 
@@ -301,12 +302,12 @@ public class AudioRecorder
 	public static void record(final AudioTargetInterface targetInterface, final File targetFile,
 			final AudioFormat format) {
 		try {
-			IO.info("Start recording to ", Strings.quote(targetFile));
+			IO.info("Start recording to", Strings.quote(targetFile));
 			targetInterface.line.open(format);
 			targetInterface.line.start();
 			final AudioInputStream input = new AudioInputStream(targetInterface.line);
 			AudioSystem.write(input, Type.WAVE, targetFile);
-			IO.info("Finish recording to ", Strings.quote(targetFile));
+			IO.info("Finish recording to", Strings.quote(targetFile));
 		} catch (final LineUnavailableException ex) {
 			IO.error(ex, "Cannot open the microphone due to resource restrictions");
 		} catch (final IOException ex) {

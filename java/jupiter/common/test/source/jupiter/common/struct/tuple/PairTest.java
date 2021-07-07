@@ -42,7 +42,7 @@ public class PairTest
 	 */
 	@SuppressWarnings("deprecation")
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		final String[] header = new String[] {"a"};
 		final Integer[] values = new Integer[] {42};

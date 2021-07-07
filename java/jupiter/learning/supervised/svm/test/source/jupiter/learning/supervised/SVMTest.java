@@ -44,7 +44,7 @@ public class SVMTest
 	 * Tests {@link SVM#classify}.
 	 */
 	public void testClassify() {
-		IO.test(BULLET, " classify");
+		IO.test(BULLET, "classify");
 
 		try {
 			// Initialize

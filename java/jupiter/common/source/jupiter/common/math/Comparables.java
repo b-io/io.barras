@@ -70,8 +70,7 @@ public class Comparables {
 		} else if (Doubles.isPrimitiveArrayFrom(c)) {
 			return (Comparator<? super T>) Doubles.ARRAY_COMPARATOR;
 		}
-		throw new IllegalArgumentException(
-				Strings.join("The specified ", c, " cannot be compared"));
+		throw new IllegalArgumentException(Strings.paste("The specified", c, "cannot be compared"));
 	}
 
 

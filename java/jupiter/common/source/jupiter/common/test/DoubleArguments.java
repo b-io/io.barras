@@ -24,6 +24,7 @@
 package jupiter.common.test;
 
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Strings;
 
 public class DoubleArguments
 		extends Arguments {
@@ -46,23 +47,24 @@ public class DoubleArguments
 
 	public static double require(final double found, final double expected) {
 		if (CHECK_ARGS && !Doubles.equals(found, expected)) {
-			throw new IllegalArgumentException(
-					"The specified double number is wrong " + expectedButFound(found, expected));
+			throw new IllegalArgumentException("The specified double number is wrong " +
+					expectedButFound(found, expected));
 		}
 		return found;
 	}
 
 	public static void requireEquals(final double a, final double b) {
 		if (CHECK_ARGS && !Doubles.equals(a, b)) {
-			throw new IllegalArgumentException(
-					"The specified double numbers are not equal " + isNotEqualTo(a, b));
+			throw new IllegalArgumentException("The specified double numbers are not equal " +
+					isNotEqualTo(a, b));
 		}
 	}
 
 	public static double requireGreaterThan(final double found, final double expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException("The specified double number " + found +
-					" is lower or equal to " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double number", found,
+					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
 	}
@@ -70,63 +72,67 @@ public class DoubleArguments
 	public static double requireGreaterOrEqualTo(final double found,
 			final double expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException("The specified double number " + found +
-					" is lower than " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double number", found,
+					"is lower than", expectedLowerBound));
 		}
 		return found;
 	}
 
 	public static double requireLessThan(final double found, final double expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException("The specified double number " + found +
-					" is greater or equal to " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double number", found,
+					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static double requireLessOrEqualTo(final double found, final double expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException("The specified double number " + found +
-					" is greater than " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double number", found,
+					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static double requireNegative(final double found) {
 		if (CHECK_ARGS && found >= 0.) {
-			throw new IllegalArgumentException(
-					"The specified double number " + found + " is zero or positive");
+			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+					"is zero or positive"));
 		}
 		return found;
 	}
 
 	public static double requireNonNegative(final double found) {
 		if (CHECK_ARGS && found < 0.) {
-			throw new IllegalArgumentException(
-					"The specified double number " + found + " is negative");
+			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+					"is negative"));
 		}
 		return found;
 	}
 
 	public static double requireNonZero(final double found) {
 		if (CHECK_ARGS && found == 0.) {
-			throw new IllegalArgumentException("The specified double number " + found + " is zero");
+			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+					"is zero"));
 		}
 		return found;
 	}
 
 	public static double requirePositive(final double found) {
 		if (CHECK_ARGS && found <= 0.) {
-			throw new IllegalArgumentException(
-					"The specified double number " + found + " is zero or negative");
+			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+					"is zero or negative"));
 		}
 		return found;
 	}
 
 	public static double requireNonPositive(final double found) {
 		if (CHECK_ARGS && found > 0.) {
-			throw new IllegalArgumentException(
-					"The specified double number " + found + " is positive");
+			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+					"is positive"));
 		}
 		return found;
 	}
@@ -171,8 +177,9 @@ public class DoubleArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException("The specified double array has a length " +
-					foundLength + " inferior to " + minExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double array has a length", foundLength,
+					"inferior to", minExpectedLength));
 		}
 	}
 
@@ -185,8 +192,9 @@ public class DoubleArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException("The specified double array has a length " +
-					foundLength + " superior to " + maxExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified double array has a length", foundLength,
+					"superior to", maxExpectedLength));
 		}
 	}
 

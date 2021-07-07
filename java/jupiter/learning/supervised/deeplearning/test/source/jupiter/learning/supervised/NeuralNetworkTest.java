@@ -55,7 +55,7 @@ public class NeuralNetworkTest
 	 * Tests {@link NeuralNetwork#train}.
 	 */
 	public void testTrain() {
-		IO.test(BULLET, " train");
+		IO.test(BULLET, "train");
 
 		// Initialize
 		final int testCount = 2;
@@ -100,11 +100,11 @@ public class NeuralNetworkTest
 			final double accuracy = model.computeAccuracy();
 			final double f1Score = model.computeF1Score();
 			final double cost = model.computeCost();
-			IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
-					Doubles.formatPercent(f1Score), " F1 score and ",
-					cost, " cost in ",
-					iterationCount, " iterations in ",
-					chrono.getMilliseconds(), " [ms]");
+			IO.test(Doubles.formatPercent(accuracy), "accuracy,",
+					Doubles.formatPercent(f1Score), "F1 score and",
+					cost, "cost in",
+					iterationCount, "iterations in",
+					chrono.getMilliseconds(), "[ms]");
 
 			// Verify the model
 			assertEquals(1., accuracy, Classifier.DEFAULT_TOLERANCE);
@@ -121,7 +121,7 @@ public class NeuralNetworkTest
 	 */
 	public void testTrainFromFiles()
 			throws IOException {
-		IO.test(BULLET, " train from files");
+		IO.test(BULLET, "train from files");
 
 		// Initialize
 		Doubles.RANDOM = new Random(1L);
@@ -201,7 +201,7 @@ public class NeuralNetworkTest
 			for (int li = 0; li < layerCount; ++li) {
 				weights[li] = Matrix.load(
 						Strings.join("test/resources/", example, "/W", li + 1, ".csv"));
-				IO.test("W", li + 1, " loaded");
+				IO.test("W", li + 1, "loaded");
 			}
 			model.setWeights(weights);
 		} catch (final IOException ignored) {
@@ -220,11 +220,11 @@ public class NeuralNetworkTest
 		final double accuracy = model.computeAccuracy();
 		final double f1Score = model.computeF1Score();
 		final double cost = model.computeCost();
-		IO.test(Doubles.formatPercent(accuracy), " accuracy, ",
-				Doubles.formatPercent(f1Score), " F1 score and ",
-				cost, " cost in ",
-				iterationCount, " iterations in ",
-				chrono.getMilliseconds(), " [ms]");
+		IO.test(Doubles.formatPercent(accuracy), "accuracy,",
+				Doubles.formatPercent(f1Score), "F1 score and",
+				cost, "cost in",
+				iterationCount, "iterations in",
+				chrono.getMilliseconds(), "[ms]");
 
 		// Verify the model
 		assertEquals(expectedAccuracy, accuracy, tolerance);

@@ -46,7 +46,7 @@ public class ClassifierTest
 	 */
 	public void test()
 			throws IOException {
-		IO.test(BULLET, " Classifier");
+		IO.test(BULLET, "Classifier");
 
 		// Initialize
 		final Classifier model = new LogisticRegression(

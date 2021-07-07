@@ -42,7 +42,7 @@ public class CharactersTest
 	 * Tests {@link Characters#toArray}.
 	 */
 	public void testToArray() {
-		IO.test(BULLET, " toArray");
+		IO.test(BULLET, "toArray");
 
 		assertTrue(Arrays.equals(new Character[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'},
 				Characters.toArray(NUMERICAL_DIGITS)));
@@ -54,7 +54,7 @@ public class CharactersTest
 	 * Tests {@link Characters#clone}.
 	 */
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		final String text = "Hello world!";
 		final char[] array = text.toCharArray();

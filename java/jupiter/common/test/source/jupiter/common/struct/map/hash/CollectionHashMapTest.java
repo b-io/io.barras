@@ -43,7 +43,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#getOrCreate}.
 	 */
 	public void testGetOrCreate() {
-		IO.test(BULLET, " getOrCreate");
+		IO.test(BULLET, "getOrCreate");
 
 		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		for (int i = 0; i < 100; ++i) {
@@ -57,7 +57,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#addAt}.
 	 */
 	public void testAddAt() {
-		IO.test(BULLET, " addAt");
+		IO.test(BULLET, "addAt");
 
 		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		fill(map);
@@ -67,7 +67,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#addAllAt}.
 	 */
 	public void testAddAllAt() {
-		IO.test(BULLET, " addAllAt");
+		IO.test(BULLET, "addAllAt");
 
 		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));
@@ -77,7 +77,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#removeAt}.
 	 */
 	public void testRemoveAt() {
-		IO.test(BULLET, " removeAt");
+		IO.test(BULLET, "removeAt");
 
 		final ExtendedHashSet<Double> model = new ExtendedHashSet<Double>();
 		CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>(
@@ -99,7 +99,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#removeAllAt}.
 	 */
 	public void testRemoveAllAt() {
-		IO.test(BULLET, " removeAllAt");
+		IO.test(BULLET, "removeAllAt");
 
 		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));
@@ -111,7 +111,7 @@ public class CollectionHashMapTest
 	 * Tests {@link CollectionHashMap#retainAllAt}.
 	 */
 	public void testRetainAllAt() {
-		IO.test(BULLET, " retainAllAt");
+		IO.test(BULLET, "retainAllAt");
 
 		final CollectionHashMap<Integer, Double> map = new CollectionHashMap<Integer, Double>();
 		map.addAllAt(42, Doubles.toArray(Doubles.createSequence(100, 0., 1.)));

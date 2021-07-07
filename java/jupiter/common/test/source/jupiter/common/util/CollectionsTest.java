@@ -53,7 +53,7 @@ public class CollectionsTest
 	 * Tests {@link Arrays#getElementClass}.
 	 */
 	public void testGetElementClass() {
-		IO.test(BULLET, " getElementClass");
+		IO.test(BULLET, "getElementClass");
 
 		assertEquals(OBJECT_CLASS, Collections.getElementClass(EMPTY_COLLECTION));
 		assertEquals(Number.class, Collections.getElementClass(NUMBER_COLLECTION));

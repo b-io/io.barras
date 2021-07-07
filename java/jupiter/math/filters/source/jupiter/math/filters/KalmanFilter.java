@@ -24,7 +24,6 @@
 package jupiter.math.filters;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Characters.SPACE;
 
 import java.io.Serializable;
 
@@ -119,13 +118,13 @@ public class KalmanFilter
 		x = F.times(x);
 		if (!(x instanceof Matrix && B instanceof Scalar)) {
 			x = x.plus(B.times(u));
-			IO.debug("x = F x + B u = ", F, " ", x, " + ", B, " ", u, " = ", x);
+			IO.debug("x = F x + B u =", F, x, "+", B, u, "=", x);
 		} else {
-			IO.debug("x = F x = ", F, " ", x, " = ", x);
+			IO.debug("x = F x =", F, x, "=", x);
 		}
 		// Compute P = F P F' + Q
 		P = F.times(P).times(F.transpose()).plus(Q);
-		IO.debug("P = F P F' + Q = ", F, " ", P, " ", F, "' + ", Q, " = ", P);
+		IO.debug("P = F P F' + Q =", F, P, F, "' +", Q, "=", P);
 	}
 
 	/**
@@ -138,17 +137,15 @@ public class KalmanFilter
 		// Compute K = P H' inv(H P H' + R),
 		// where (H P H' + R) is the innovation covariance
 		K = P.times(H.transpose()).times(H.times(P).times(H.transpose()).plus(R).inverse());
-		IO.debug("K = P H' inv(H P H' + R) = ",
-				P, SPACE, H, "' inv(", H, SPACE, P, SPACE, H, "' + ", R, ") = ",
-				K);
+		IO.debug("K = P H' inv(H P H' + R) =", P, H, "' inv(", H, P, H, "' +", R, ") =", K);
 		// Compute x = x + K (y - H x),
 		// where (y - H x) is the innovation
 		x = x.plus(K.times(y.minus(H.times(x))));
-		IO.debug("x = x + K (y - H x) = ", x, " + ", K, " (", y, " - ", H, SPACE, x, ") = ", x);
+		IO.debug("x = x + K (y - H x) =", x, "+", K, "(", y, "-", H, x, ") =", x);
 		// Compute P = (I - K H) P
 		final Entity KH = K.times(H);
 		final Entity I = KH.identity();
-		IO.debug("P = (I - K H) P = (", I, " - ", K, SPACE, H, ") ", P, " = ", P);
+		IO.debug("P = (I - K H) P = (", I, "-", K, H, ")", P, "=", P);
 		P = I.minus(KH).times(P);
 	}
 }

@@ -60,7 +60,7 @@ public class FormatsTest
 	 * Tests {@link Formats}.
 	 */
 	public void test() {
-		IO.test(BULLET, " Formats");
+		IO.test(BULLET, "Formats");
 
 		assertEquals(UTF_8, CHARSET);
 		assertEquals(new Locale("en", "US"), LOCALE);

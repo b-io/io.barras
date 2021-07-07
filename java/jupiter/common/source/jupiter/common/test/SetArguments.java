@@ -54,8 +54,8 @@ public class SetArguments
 
 	public static <S extends ISet<?>> S requireNonEmpty(final S set, final String name) {
 		if (CHECK_ARGS && requireNonNull(set, name).isEmpty()) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is empty"));
 		}
 		return set;
 	}
@@ -74,8 +74,9 @@ public class SetArguments
 			final String objectName, final ISet<? super T> set, final String setName) {
 		if (CHECK_ARGS &&
 				!requireNonNull(set, setName).isInside(requireNonNull(object, objectName))) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(objectName) +
-					" is not inside the " + Strings.quote(setName));
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified", Strings.quote(objectName),
+					"is not inside the", Strings.quote(setName)));
 		}
 		return object;
 	}
@@ -91,8 +92,8 @@ public class SetArguments
 
 	public static <S extends ISet<?>> S requireValid(final S set, final String name) {
 		if (CHECK_ARGS && !requireNonNull(set, name).isValid()) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is invalid");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is invalid"));
 		}
 		return set;
 	}

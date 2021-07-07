@@ -25,6 +25,7 @@ package jupiter.transfer.ftp;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.file.Files.SEPARATOR;
+import static jupiter.common.util.Characters.SEMICOLON;
 import static jupiter.common.util.Strings.STAR;
 
 import com.jcraft.jsch.Channel;
@@ -416,7 +417,7 @@ public class FTPHandler
 				throw new IllegalTypeException(protocol);
 		}
 		if (downloadedFileCount > 0) {
-			IO.debug(downloadedFileCount, " files downloaded");
+			IO.debug(downloadedFileCount, "files downloaded");
 		} else {
 			IO.warn("No files downloaded");
 		}
@@ -435,21 +436,21 @@ public class FTPHandler
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()));
 			ftp.connect(hostName, protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.debug("Login with ", Strings.quote(userName));
+				IO.debug("Login with", Strings.quote(userName));
 				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Download the files ", Strings.quote(fileNameFilter),
-							" in ", Strings.quote(remoteDirPath));
+					IO.debug("Download the files", Strings.quote(fileNameFilter),
+							"in", Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftp.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
@@ -460,19 +461,19 @@ public class FTPHandler
 							final String localPath = localDirPath.concat(SEPARATOR)
 									.concat(fileName);
 
-							IO.debug("Download the file ", Strings.quote(remotePath),
-									" to ", Strings.quote(localPath));
+							IO.debug("Download the file", Strings.quote(remotePath),
+									"to", Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = Files.createOutputStream(localPath);
 								if (ftp.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Cannot download the file ", Strings.quote(remotePath),
-											" to ", Strings.quote(localPath));
+									IO.error("Cannot download the file", Strings.quote(remotePath),
+											"to", Strings.quote(localPath));
 								}
 							} catch (final FileNotFoundException ex) {
-								IO.error(ex, "Cannot open or create the local file ",
+								IO.error(ex, "Cannot open or create the local file",
 										Strings.quote(localPath));
 							} finally {
 								Resources.close(output);
@@ -480,12 +481,12 @@ public class FTPHandler
 						}
 					}
 				} else {
-					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
-							" with ", Strings.quote(userName));
+					IO.error("Fail to login to the", protocol, "server", Strings.quote(hostName),
+							"with", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
-						"; reply code: ", replyCode);
+				IO.error("Fail to connect to the", protocol, "server", Strings.quote(hostName),
+						"; reply code:", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -511,14 +512,14 @@ public class FTPHandler
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()));
 			ftps.connect(hostName, protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.debug("Login with ", Strings.quote(userName));
+				IO.debug("Login with", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0L);
 					ftps.execPROT("P");
@@ -526,8 +527,8 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Download the files ", Strings.quote(fileNameFilter),
-							" in ", Strings.quote(remoteDirPath));
+					IO.debug("Download the files", Strings.quote(fileNameFilter),
+							"in", Strings.quote(remoteDirPath));
 					final FTPFile[] files = ftps.listFiles(remoteDirPath);
 					for (final FTPFile file : files) {
 						final String fileName = file.getName();
@@ -538,19 +539,19 @@ public class FTPHandler
 							final String localPath = localDirPath.concat(SEPARATOR)
 									.concat(fileName);
 
-							IO.debug("Download the file ", Strings.quote(remotePath),
-									" to ", Strings.quote(localPath));
+							IO.debug("Download the file", Strings.quote(remotePath),
+									"to", Strings.quote(localPath));
 							OutputStream output = null;
 							try {
 								output = Files.createOutputStream(localPath);
 								if (ftps.retrieveFile(remotePath, output)) {
 									++downloadedFileCount;
 								} else {
-									IO.error("Cannot download the file ", Strings.quote(remotePath),
-											" to ", Strings.quote(localPath));
+									IO.error("Cannot download the file", Strings.quote(remotePath),
+											"to", Strings.quote(localPath));
 								}
 							} catch (final FileNotFoundException ex) {
-								IO.error(ex, "Cannot open or create the local file ",
+								IO.error(ex, "Cannot open or create the local file",
 										Strings.quote(localPath));
 							} finally {
 								Resources.close(output);
@@ -558,12 +559,12 @@ public class FTPHandler
 						}
 					}
 				} else {
-					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
-							" with ", Strings.quote(userName));
+					IO.error("Fail to login to the", protocol, "server", Strings.quote(hostName),
+							"with", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
-						"; reply code: ", replyCode);
+				IO.error("Fail to connect to the", protocol, "server", Strings.quote(hostName),
+						"; reply code:", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -590,16 +591,16 @@ public class FTPHandler
 		final JSch jsch = new JSch();
 		Session session;
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()),
-					" with ", Strings.quote(userName));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()),
+					"with", Strings.quote(userName));
 			session = jsch.getSession(userName, hostName, protocol.getPort());
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.setPassword(password);
 			session.connect();
 
-			IO.debug("Download the files ", Strings.quote(fileNameFilter),
-					" in ", Strings.quote(remoteDirPath));
+			IO.debug("Download the files", Strings.quote(fileNameFilter),
+					"in", Strings.quote(remoteDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
@@ -615,14 +616,14 @@ public class FTPHandler
 					final String localPath = localDirPath.concat(SEPARATOR)
 							.concat(fileName);
 
-					IO.debug("Download the file ", Strings.quote(remotePath),
-							" to ", Strings.quote(localPath));
+					IO.debug("Download the file", Strings.quote(remotePath),
+							"to", Strings.quote(localPath));
 					try {
 						sftp.get(fileName, localPath);
 						++downloadedFileCount;
 					} catch (final SftpException ex) {
-						IO.error(ex, "Cannot download the file ", Strings.quote(remotePath),
-								" to ", Strings.quote(localPath));
+						IO.error(ex, "Cannot download the file", Strings.quote(remotePath),
+								"to", Strings.quote(localPath));
 					}
 				}
 			}
@@ -672,7 +673,7 @@ public class FTPHandler
 				throw new IllegalTypeException(protocol);
 		}
 		if (uploadedFileCount > 0) {
-			IO.debug(uploadedFileCount, " files uploaded");
+			IO.debug(uploadedFileCount, "files uploaded");
 		} else {
 			IO.warn("No files uploaded");
 		}
@@ -691,52 +692,52 @@ public class FTPHandler
 		final FTPClient ftp = new FTPClient();
 		ftp.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()));
 			ftp.connect(hostName, protocol.getPort());
 			final int replyCode = ftp.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftp.enterLocalPassiveMode();
 
-				IO.debug("Login with ", Strings.quote(userName));
+				IO.debug("Login with", Strings.quote(userName));
 				if (ftp.login(userName, password)) {
 					ftp.pwd();
 					ftp.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftp.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Upload the files ", Strings.quote(fileNameFilter),
-							" in ", Strings.quote(localDirPath));
+					IO.debug("Upload the files", Strings.quote(fileNameFilter),
+							"in", Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileNameFilter);
 					for (final File file : files) {
 						final String fileName = file.getName();
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.debug("Upload the file ", Strings.quote(file),
-									" to ", Strings.quote(remotePath));
+							IO.debug("Upload the file", Strings.quote(file),
+									"to", Strings.quote(remotePath));
 							InputStream input = null;
 							try {
 								input = Files.createInputStream(file);
 								if (ftp.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
-									IO.error("Cannot upload the file ", Strings.quote(file),
-											" to ", Strings.quote(remotePath));
+									IO.error("Cannot upload the file", Strings.quote(file),
+											"to", Strings.quote(remotePath));
 								}
 							} catch (final FileNotFoundException ex) {
-								IO.error(ex, "Cannot open the local file ", Strings.quote(file));
+								IO.error(ex, "Cannot open the local file", Strings.quote(file));
 							} finally {
 								Resources.close(input);
 							}
 						}
 					}
 				} else {
-					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
-							" with ", Strings.quote(userName));
+					IO.error("Fail to login to the", protocol, "server", Strings.quote(hostName),
+							"with", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
-						"; reply code: ", replyCode);
+				IO.error("Fail to connect to the", protocol, "server", Strings.quote(hostName),
+						"; reply code:", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -762,14 +763,14 @@ public class FTPHandler
 		final FTPSClient ftps = new FTPSClient(); // SSL/TLS
 		ftps.addProtocolCommandListener(new PrintCommandListener(new PrintWriter(System.out)));
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()));
 			ftps.connect(hostName, protocol.getPort());
 			final int replyCode = ftps.getReplyCode();
 			if (FTPReply.isPositiveCompletion(replyCode)) {
 				ftps.enterLocalPassiveMode();
 
-				IO.debug("Login with ", Strings.quote(userName));
+				IO.debug("Login with", Strings.quote(userName));
 				if (ftps.login(userName, password)) {
 					ftps.execPBSZ(0L);
 					ftps.execPROT("P");
@@ -777,39 +778,39 @@ public class FTPHandler
 					ftps.setFileTransferMode(FTPClient.PASSIVE_REMOTE_DATA_CONNECTION_MODE);
 					ftps.setFileType(FTP.BINARY_FILE_TYPE);
 
-					IO.debug("Upload the files ", Strings.quote(fileNameFilter),
-							" in ", Strings.quote(localDirPath));
+					IO.debug("Upload the files", Strings.quote(fileNameFilter),
+							"in", Strings.quote(localDirPath));
 					final List<File> files = Files.listAll(new File(localDirPath), fileNameFilter);
 					for (final File file : files) {
 						final String fileName = file.getName();
 						if (Strings.matches(fileName, fileNames)) {
 							final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-							IO.debug("Upload the file ", Strings.quote(file),
-									" to ", Strings.quote(remotePath));
+							IO.debug("Upload the file", Strings.quote(file),
+									"to", Strings.quote(remotePath));
 							InputStream input = null;
 							try {
 								input = Files.createInputStream(file);
 								if (ftps.storeFile(remotePath, input)) {
 									++uploadedFileCount;
 								} else {
-									IO.error("Cannot upload the file ", Strings.quote(file),
-											" to ", Strings.quote(remotePath));
+									IO.error("Cannot upload the file", Strings.quote(file),
+											"to", Strings.quote(remotePath));
 								}
 							} catch (final FileNotFoundException ex) {
-								IO.error(ex, "Cannot open the local file ", Strings.quote(file));
+								IO.error(ex, "Cannot open the local file", Strings.quote(file));
 							} finally {
 								Resources.close(input);
 							}
 						}
 					}
 				} else {
-					IO.error("Fail to login to the ", protocol, " server ", Strings.quote(hostName),
-							" with ", Strings.quote(userName));
+					IO.error("Fail to login to the", protocol, "server", Strings.quote(hostName),
+							"with", Strings.quote(userName));
 				}
 			} else {
-				IO.error("Fail to connect to the ", protocol, " server ", Strings.quote(hostName),
-						"; reply code: ", replyCode);
+				IO.error("Fail to connect to the", protocol, "server", Strings.quote(hostName),
+						"; reply code:", replyCode);
 			}
 		} catch (final IOException ex) {
 			IO.error(ex);
@@ -835,16 +836,16 @@ public class FTPHandler
 		final JSch jsch = new JSch();
 		Session session;
 		try {
-			IO.debug("Connect to the ", protocol, " server ",
-					Strings.quote(hostName + ":" + protocol.getPort()),
-					" with ", Strings.quote(userName));
+			IO.debug("Connect to the", protocol, "server",
+					Strings.quote(hostName + SEMICOLON + protocol.getPort()),
+					"with", Strings.quote(userName));
 			session = jsch.getSession(userName, hostName, protocol.getPort());
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.setPassword(password);
 			session.connect();
 
-			IO.debug("Upload the files ", Strings.quote(fileNameFilter),
-					" in ", Strings.quote(localDirPath));
+			IO.debug("Upload the files", Strings.quote(fileNameFilter),
+					"in", Strings.quote(localDirPath));
 			final Channel channel = session.openChannel("sftp");
 			channel.connect();
 			final ChannelSftp sftp = (ChannelSftp) channel;
@@ -857,18 +858,18 @@ public class FTPHandler
 				if (Strings.matches(fileName, fileNames)) {
 					final String remotePath = remoteDirPath + REMOTE_SEPARATOR + fileName;
 
-					IO.debug("Upload the file ", Strings.quote(file),
-							" to ", Strings.quote(remotePath));
+					IO.debug("Upload the file", Strings.quote(file),
+							"to", Strings.quote(remotePath));
 					InputStream input = null;
 					try {
 						input = Files.createInputStream(file);
 						sftp.put(input, fileName);
 						++uploadedFileCount;
 					} catch (final FileNotFoundException ex) {
-						IO.error(ex, "Cannot open the local file ", Strings.quote(file));
+						IO.error(ex, "Cannot open the local file", Strings.quote(file));
 					} catch (final SftpException ex) {
-						IO.error(ex, "Cannot upload the file ", Strings.quote(file),
-								" to ", Strings.quote(remotePath));
+						IO.error(ex, "Cannot upload the file", Strings.quote(file),
+								"to", Strings.quote(remotePath));
 					} finally {
 						Resources.close(input);
 					}

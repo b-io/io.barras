@@ -142,8 +142,7 @@ public class Intervals {
 
 		// Constrain the value
 		if (!interval.isInside(value)) {
-			IO.warn("The specified double number ", value, " is not inside the interval ",
-					interval);
+			IO.warn("The specified double number", value, "is not inside the interval", interval);
 			return Double.NaN;
 		}
 		return value;

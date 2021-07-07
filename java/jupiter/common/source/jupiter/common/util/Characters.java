@@ -603,11 +603,11 @@ public class Characters {
 	 * @return an array of {@link Character} converted from the specified {@code char} array
 	 */
 	public static Character[] toArray(final char[] array) {
-		final Character[] convertedArray = new Character[array.length];
+		final Character[] newArray = new Character[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -631,11 +631,11 @@ public class Characters {
 	 * @return a 2D array of {@link Character} converted from the specified 2D {@code char} array
 	 */
 	public static Character[][] toArray2D(final char[][] array2D) {
-		final Character[][] convertedArray2D = new Character[array2D.length][];
+		final Character[][] newArray2D = new Character[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -659,11 +659,11 @@ public class Characters {
 	 * @return a 3D array of {@link Character} converted from the specified 3D {@code char} array
 	 */
 	public static Character[][][] toArray3D(final char[][][] array3D) {
-		final Character[][][] convertedArray3D = new Character[array3D.length][][];
+		final Character[][][] newArray3D = new Character[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1070,10 +1070,10 @@ public class Characters {
 		}
 
 		// Concatenate the arrays
-		final char[] concatArray = new char[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final char[] newArray = new char[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1326,11 +1326,11 @@ public class Characters {
 	 *         at the specified indices
 	 */
 	public static char[] filter(final char[] array, final int... indices) {
-		final char[] filteredArray = new char[indices.length];
+		final char[] newArray = new char[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1344,11 +1344,48 @@ public class Characters {
 	 *         array at all the specified indices
 	 */
 	public static char[][] filterAll(final char[] array, final int[]... indices) {
-		final char[][] filteredArrays = new char[indices.length][];
+		final char[][] newArray2D = new char[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the specified {@code char} array.
+	 * <p>
+	 * @param array the {@code char} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code char} array without the element at the specified index
+	 */
+	public static char[] remove(final char[] array, final int index) {
+		final char[] newArray = new char[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code char} value from the specified
+	 * {@code char} array.
+	 * <p>
+	 * @param array the {@code char} array to remove from
+	 * @param value the {@code char} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code char} array without the specified {@code char} value
+	 */
+	public static char[] removeAll(final char[] array, final char value) {
+		final char[] newArray = new char[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

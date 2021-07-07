@@ -1315,8 +1315,8 @@ public class Maths {
 
 	public static int factorial(final int n) {
 		if (!isFactorialInt(n)) {
-			throw new ArithmeticException(
-					Strings.join("The factorial of ", n, " cannot be represented as an int value"));
+			throw new ArithmeticException(Strings.paste("The factorial of", n,
+					"cannot be represented as an int value"));
 		}
 		return INT_FACTORIALS[n];
 	}
@@ -1327,8 +1327,8 @@ public class Maths {
 
 	public static long factorial(final long n) {
 		if (!isFactorialLong(n)) {
-			throw new ArithmeticException(
-					Strings.join("The factorial of ", n, " cannot be represented as a long value"));
+			throw new ArithmeticException(Strings.paste("The factorial of", n,
+					"cannot be represented as a long value"));
 		}
 		return LONG_FACTORIALS[Integers.convert(n)];
 	}
@@ -2400,13 +2400,13 @@ public class Maths {
 			return Float.NaN;
 		}
 		if (x < from) {
-			IO.warn("The specified float number ", x,
-					" is less than the lower bound of the domain ", from);
+			IO.warn("The specified float number", x,
+					"is less than the lower bound of the domain", from);
 			return Float.NaN;
 		}
 		if (x > to) {
-			IO.warn("The specified float number ", x,
-					" is greater than the upper bound of the domain ", to);
+			IO.warn("The specified float number", x,
+					"is greater than the upper bound of the domain", to);
 			return Float.NaN;
 		}
 		return x;
@@ -2432,13 +2432,13 @@ public class Maths {
 			return Double.NaN;
 		}
 		if (x < from) {
-			IO.warn("The specified double number ", x,
-					" is less than the lower bound of the domain ", from);
+			IO.warn("The specified double number", x,
+					"is less than the lower bound of the domain", from);
 			return Double.NaN;
 		}
 		if (x > to) {
-			IO.warn("The specified double number ", x,
-					" is greater than the upper bound of the domain ", to);
+			IO.warn("The specified double number", x,
+					"is greater than the upper bound of the domain", to);
 			return Double.NaN;
 		}
 		return x;

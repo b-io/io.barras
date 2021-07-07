@@ -23,6 +23,8 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Strings;
+
 public class LongArguments
 		extends Arguments {
 
@@ -44,62 +46,67 @@ public class LongArguments
 
 	public static long require(final long found, final long expected) {
 		if (CHECK_ARGS && found != expected) {
-			throw new IllegalArgumentException(
-					"The specified long number is wrong " + expectedButFound(found, expected));
+			throw new IllegalArgumentException("The specified long number is wrong " +
+					expectedButFound(found, expected));
 		}
 		return found;
 	}
 
 	public static void requireEquals(final long a, final long b) {
 		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified long numbers are not equal " + isNotEqualTo(a, b));
+			throw new IllegalArgumentException("The specified long numbers are not equal " +
+					isNotEqualTo(a, b));
 		}
 	}
 
 	public static long requireGreaterThan(final long found, final long expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException("The specified long number " + found +
-					" is lower or equal to " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long number", found,
+					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
 	}
 
 	public static long requireGreaterOrEqualTo(final long found, final long expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(
-					"The specified long number " + found + " is lower than " + expectedLowerBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long number", found,
+					"is lower than", expectedLowerBound));
 		}
 		return found;
 	}
 
 	public static long requireLessThan(final long found, final long expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException("The specified long number " + found +
-					" is greater or equal to " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long number", found,
+					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static long requireLessOrEqualTo(final long found, final long expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException("The specified long number " + found +
-					" is greater than " + expectedUpperBound);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long number", found,
+					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
 	public static long requireNonZero(final long found) {
 		if (CHECK_ARGS && found == 0L) {
-			throw new IllegalArgumentException("The specified long number " + found + " is zero");
+			throw new IllegalArgumentException(Strings.paste("The specified long number", found,
+					"is zero"));
 		}
 		return found;
 	}
 
 	public static long requireZero(final long found) {
 		if (CHECK_ARGS && found > 0L) {
-			throw new IllegalArgumentException(
-					"The specified long number " + found + " is not zero");
+			throw new IllegalArgumentException(Strings.paste("The specified long number", found,
+					"is not zero"));
 		}
 		return found;
 	}
@@ -144,8 +151,9 @@ public class LongArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException("The specified long array has a length " +
-					foundLength + " inferior to " + minExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long array has a length", foundLength,
+					"inferior to", minExpectedLength));
 		}
 	}
 
@@ -158,8 +166,9 @@ public class LongArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException("The specified long array has a length " +
-					foundLength + " superior to " + maxExpectedLength);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified long array has a length", foundLength,
+					"superior to", maxExpectedLength));
 		}
 	}
 

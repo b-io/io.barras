@@ -128,7 +128,7 @@ public class JOCL
 		final int[] platformCountArray = new int[1];
 		clGetPlatformIDs(0, null, platformCountArray);
 		final int platformCount = platformCountArray[0];
-		IO.debug("#Platforms: ", platformCount);
+		IO.debug("#Platforms:", platformCount);
 		if (platformCount == 0) {
 			IS_ACTIVE = false;
 			throw new IllegalStateException("There is no compatible OpenCL platform");
@@ -147,7 +147,7 @@ public class JOCL
 		final int[] deviceCountArray = new int[1];
 		clGetDeviceIDs(platform, deviceType, 0, null, deviceCountArray);
 		final int deviceCount = deviceCountArray[0];
-		IO.debug("#Devices: ", deviceCount);
+		IO.debug("#Devices:", deviceCount);
 		if (platformCount == 0) {
 			IS_ACTIVE = false;
 			throw new IllegalStateException("There is no compatible OpenCL device");
@@ -181,9 +181,9 @@ public class JOCL
 			clBuildProgram(program, 0, null, null, null, null);
 
 			// Build the kernels
-			IO.debug("#Kernels: ", kernelNames.size());
+			IO.debug("#Kernels:", kernelNames.size());
 			for (final String kernelName : kernelNames) {
-				IO.debug("Build the kernel ", Strings.quote(kernelName));
+				IO.debug("Build the kernel", Strings.quote(kernelName));
 				kernels.put(kernelName, build(kernelName));
 			}
 

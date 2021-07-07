@@ -943,7 +943,7 @@ public class Matrix
 		if (MULTIPLICATION == null) {
 			MULTIPLICATION = new Multiplication();
 		} else {
-			IO.trace("The work queue ", MULTIPLICATION, " has already started");
+			IO.trace("The work queue", MULTIPLICATION, "has already started");
 		}
 	}
 
@@ -1440,8 +1440,8 @@ public class Matrix
 						delimiter = d;
 						n = occurrenceCount;
 					} else {
-						IO.warn("The file contains different delimiters; ",
-								Strings.quote(delimiter), " is selected");
+						IO.warn("The file contains different delimiters;",
+								Strings.quote(delimiter), "is selected");
 						break;
 					}
 				}
@@ -1450,7 +1450,7 @@ public class Matrix
 				delimiter = COLUMN_DELIMITERS[0];
 			}
 			++n;
-			IO.debug("The file contains ", n, " columns separated by ", Strings.quote(delimiter));
+			IO.debug("The file contains", n, "columns separated by", Strings.quote(delimiter));
 			// Create the matrix
 			final Matrix matrix;
 			if (transpose) {
@@ -1469,14 +1469,14 @@ public class Matrix
 			while ((line = InputOutput.getNextLine(reader, true)) != null) {
 				values = Strings.split(line, delimiter).toArray();
 				if (Arrays.isNullOrEmpty(values) || Strings.isNullOrEmpty(values[0])) {
-					IO.warn("There is no element at line ", i, SPACE,
+					IO.warn("There is no element at line", i,
 							Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, SPACE,
+					IO.error("There are not enough elements at line", i,
 							Arguments.expectedButFound(values.length, n));
 				} else {
 					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, SPACE,
+						IO.warn("There are too many elements at line", i,
 								Arguments.expectedButFound(values.length, n));
 					}
 					if (transpose) {
@@ -2546,8 +2546,9 @@ public class Matrix
 		if (entity instanceof Matrix) {
 			return solve((Matrix) entity);
 		}
-		throw new IllegalOperationException("Cannot find a solution if A is a " + getName() +
-				" and B is a " + entity.getName());
+		throw new IllegalOperationException(Strings.paste(
+				"Cannot find a solution if A is a", getName(),
+				"and B is a", entity.getName()));
 	}
 
 	/**

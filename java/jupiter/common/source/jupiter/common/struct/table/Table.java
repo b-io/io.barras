@@ -28,7 +28,6 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BAR;
 import static jupiter.common.util.Characters.DOUBLE_QUOTE;
 import static jupiter.common.util.Characters.SINGLE_QUOTE;
-import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Classes.OBJECT_CLASS;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 
@@ -351,8 +350,7 @@ public class Table<E>
 		// Return the row index
 		final int i = Arrays.findFirstIndex(index, name);
 		if (i < 0) {
-			throw new IllegalArgumentException(
-					Strings.join("There is no row ", Strings.quote(name)));
+			throw new IllegalArgumentException("There is no row " + Strings.quote(name));
 		}
 		return i;
 	}
@@ -409,8 +407,7 @@ public class Table<E>
 		// Return the column index
 		final int j = Strings.findFirstIndexIgnoreCase(header, name);
 		if (j < 0) {
-			throw new IllegalArgumentException(
-					Strings.join("There is no column ", Strings.quote(name)));
+			throw new IllegalArgumentException("There is no column " + Strings.quote(name));
 		}
 		return j;
 	}
@@ -1166,8 +1163,8 @@ public class Table<E>
 						delimiter = d;
 						n = occurrenceCount;
 					} else {
-						IO.warn("The text read from the stream contains different delimiters; ",
-								Strings.quote(delimiter), " is selected");
+						IO.warn("The text read from the stream contains different delimiters;",
+								Strings.quote(delimiter), "is selected");
 						break;
 					}
 				}
@@ -1176,7 +1173,7 @@ public class Table<E>
 				delimiter = COLUMN_DELIMITERS[0];
 			}
 			++n;
-			IO.debug("The text read from the stream contains ", n, " columns separated by ",
+			IO.debug("The text read from the stream contains", n, "columns separated by",
 					Strings.quote(delimiter));
 			// Create the replacer for the delimiter
 			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
@@ -1195,14 +1192,13 @@ public class Table<E>
 			while ((line = InputOutput.getNextLine(reader, true)) != null) {
 				values = loadLine(line, delimiter, replacer);
 				if (Arrays.isNullOrEmpty(values)) {
-					IO.warn("There is no element at line ", i, SPACE,
-							Arguments.expectedButFound(0, n));
+					IO.warn("There is no element at line", i, Arguments.expectedButFound(0, n));
 				} else if (values.length < n) {
-					IO.error("There are not enough elements at line ", i, SPACE,
+					IO.error("There are not enough elements at line", i,
 							Arguments.expectedButFound(values.length, n));
 				} else {
 					if (values.length > n) {
-						IO.warn("There are too many elements at line ", i, SPACE,
+						IO.warn("There are too many elements at line", i,
 								Arguments.expectedButFound(values.length, n));
 					}
 					setRow(i++, parser.parseToArray(values));

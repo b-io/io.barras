@@ -144,7 +144,7 @@ public class DynamicChartPanel
 		rangeAxisCount = chart.getXYPlot().getDatasetCount();
 		this.xFormat = xFormat;
 		if (yFormats.length == 1) {
-			this.yFormats = Arrays.repeat(yFormats[0], rangeAxisCount);
+			this.yFormats = Arrays.<Format>repeat(yFormats[0], rangeAxisCount);
 		} else {
 			this.yFormats = yFormats;
 		}
