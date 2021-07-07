@@ -44,7 +44,7 @@ public class DatesTest
 	 * Tests {@link Dates#getDayStart}.
 	 */
 	public void testGetDayStart() {
-		IO.test(BULLET, " getDayStart");
+		IO.test(BULLET, "getDayStart");
 
 		assertEquals(Dates.createDateTime(2020, 2, 20, 0, 0, 0),
 				Dates.getDayStart(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -54,7 +54,7 @@ public class DatesTest
 	 * Tests {@link Dates#getDayEnd}.
 	 */
 	public void testGetDayEnd() {
-		IO.test(BULLET, " getDayEnd");
+		IO.test(BULLET, "getDayEnd");
 
 		assertEquals(Dates.createDateTime(2020, 2, 20, 23, 59, 59, 999),
 				Dates.getDayEnd(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -66,7 +66,7 @@ public class DatesTest
 	 * Tests {@link Dates#getMonthStart}.
 	 */
 	public void testGetMonthStart() {
-		IO.test(BULLET, " getMonthStart");
+		IO.test(BULLET, "getMonthStart");
 
 		assertEquals(Dates.createDateTime(2020, 2, 1, 1, 2, 3),
 				Dates.getMonthStart(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -76,7 +76,7 @@ public class DatesTest
 	 * Tests {@link Dates#getMonthEnd}.
 	 */
 	public void testGetMonthEnd() {
-		IO.test(BULLET, " getMonthEnd");
+		IO.test(BULLET, "getMonthEnd");
 
 		assertEquals(Dates.createDateTime(2020, 2, 29, 1, 2, 3),
 				Dates.getMonthEnd(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -88,7 +88,7 @@ public class DatesTest
 	 * Tests {@link Dates#getYearStart}.
 	 */
 	public void testGetYearStart() {
-		IO.test(BULLET, " getYearStart");
+		IO.test(BULLET, "getYearStart");
 
 		assertEquals(Dates.createDateTime(2020, 01, 01, 1, 2, 3),
 				Dates.getYearStart(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -98,7 +98,7 @@ public class DatesTest
 	 * Tests {@link Dates#getYearEnd}.
 	 */
 	public void testGetYearEnd() {
-		IO.test(BULLET, " getYearEnd");
+		IO.test(BULLET, "getYearEnd");
 
 		assertEquals(Dates.createDateTime(2020, 12, 31, 1, 2, 3),
 				Dates.getYearEnd(Dates.createDateTime(2020, 2, 20, 1, 2, 3)));
@@ -110,7 +110,7 @@ public class DatesTest
 	 * Tests {@link Dates#getPreviousBusinessDay}.
 	 */
 	public void testGetPreviousBusinessDay() {
-		IO.test(BULLET, " getPreviousBusinessDay");
+		IO.test(BULLET, "getPreviousBusinessDay");
 
 		assertEquals(Dates.createDateTime(2020, 12, 24, 1, 2, 3),
 				Dates.getPreviousBusinessDay(Dates.createDateTime(2020, 12, 27, 1, 2, 3),
@@ -121,7 +121,7 @@ public class DatesTest
 	 * Tests {@link Dates#getNextBusinessDay}.
 	 */
 	public void testGetNextBusinessDay() {
-		IO.test(BULLET, " getNextBusinessDay");
+		IO.test(BULLET, "getNextBusinessDay");
 
 		assertEquals(Dates.createDateTime(2020, 12, 28, 1, 2, 3),
 				Dates.getNextBusinessDay(Dates.createDateTime(2020, 12, 24, 1, 2, 3),
@@ -134,7 +134,7 @@ public class DatesTest
 	 * Tests {@link Dates#createBusinessDaySequence}.
 	 */
 	public void testCreateBusinessDaySequence() {
-		IO.test(BULLET, " createBusinessDaySequence");
+		IO.test(BULLET, "createBusinessDaySequence");
 
 		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
 		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
@@ -146,7 +146,7 @@ public class DatesTest
 	 * Tests {@link Dates#createBusinessMonthEndSequence}.
 	 */
 	public void testCreateBusinessMonthEndSequence() {
-		IO.test(BULLET, " createBusinessMonthEndSequence");
+		IO.test(BULLET, "createBusinessMonthEndSequence");
 
 		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
 		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
@@ -161,7 +161,7 @@ public class DatesTest
 	 * Tests {@link Dates#createBusinessYearEndSequence}.
 	 */
 	public void testCreateBusinessYearEndSequence() {
-		IO.test(BULLET, " createBusinessYearEndSequence");
+		IO.test(BULLET, "createBusinessYearEndSequence");
 
 		final Date from = Dates.createDateTime(2010, 1, 1, 1, 2, 3);
 		final Date to = Dates.createDateTime(2019, 12, 31, 1, 2, 3);
@@ -178,7 +178,7 @@ public class DatesTest
 	 * Tests {@link Dates#toString}.
 	 */
 	public void testToString() {
-		IO.test(BULLET, " toString");
+		IO.test(BULLET, "toString");
 
 		assertEquals("1234-05-06", Dates.toString(Dates.createDate(1234, 5, 6)));
 		assertEquals("1234-05-06 01:02:03",

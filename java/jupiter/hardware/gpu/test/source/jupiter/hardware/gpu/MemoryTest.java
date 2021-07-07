@@ -146,11 +146,11 @@ public class MemoryTest
 		}
 		progressBar.end();
 
-		IO.test("Bandwidths for ", memoryMode, " and ", accessMode);
+		IO.test("Bandwidths for", memoryMode, "and", accessMode);
 		for (int msi = 0; msi < memorySizeCount; ++msi) {
 			final String memorySize = String.format("%10d", memorySizes[msi]);
 			final String bandwidth = String.format(Locale.ENGLISH, "%5.3f", bandwidths[msi]);
-			IO.test(memorySize, " bytes : ", bandwidth, " [MB/s]");
+			IO.test(memorySize, "bytes :", bandwidth, "[MB/s]");
 		}
 	}
 
@@ -268,12 +268,12 @@ public class MemoryTest
 		CL.setExceptionsEnabled(true);
 
 		// Obtain the number of platforms
-		final int[] numPlatformsArray = new int[1];
-		clGetPlatformIDs(0, null, numPlatformsArray);
-		final int numPlatforms = numPlatformsArray[0];
+		final int[] platformCountArray = new int[1];
+		clGetPlatformIDs(0, null, platformCountArray);
+		final int platformCount = platformCountArray[0];
 
 		// Obtain the platform identifier
-		final cl_platform_id[] platforms = new cl_platform_id[numPlatforms];
+		final cl_platform_id[] platforms = new cl_platform_id[platformCount];
 		clGetPlatformIDs(platforms.length, platforms, null);
 		final cl_platform_id platform = platforms[PLATFORM_INDEX];
 
@@ -282,13 +282,13 @@ public class MemoryTest
 		contextProperties.addProperty(CL_CONTEXT_PLATFORM, platform);
 
 		// Obtain the number of devices for the platform
-		final int[] numDevicesArray = new int[1];
-		clGetDeviceIDs(platform, DEVICE_TYPE, 0, null, numDevicesArray);
-		final int numDevices = numDevicesArray[0];
+		final int[] deviceCountArray = new int[1];
+		clGetDeviceIDs(platform, DEVICE_TYPE, 0, null, deviceCountArray);
+		final int deviceCount = deviceCountArray[0];
 
 		// Obtain the device identifier
-		final cl_device_id[] devices = new cl_device_id[numDevices];
-		clGetDeviceIDs(platform, DEVICE_TYPE, numDevices, devices, null);
+		final cl_device_id[] devices = new cl_device_id[deviceCount];
+		clGetDeviceIDs(platform, DEVICE_TYPE, deviceCount, devices, null);
 		final cl_device_id device = devices[DEVICE_INDEX];
 
 		// Create the context for the selected device

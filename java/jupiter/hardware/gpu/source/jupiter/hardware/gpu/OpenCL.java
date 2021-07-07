@@ -247,12 +247,12 @@ public abstract class OpenCL
 	}
 
 	public void setDeviceInfo() {
-		IO.debug("Device name: ", getDeviceName());
-		IO.debug("Max compute units: ", getMaxComputeUnits());
-		IO.debug("Max work item dimensions: ", getMaxWorkItemDimensions());
-		IO.debug("Max work group size: ", getMaxWorkGroupSize());
-		IO.debug("Local memory size: ", getLocalMemorySize());
-		IO.debug("Global memory size: ", getGlobalMemorySize());
+		IO.debug("Device name:", getDeviceName());
+		IO.debug("Max compute units:", getMaxComputeUnits());
+		IO.debug("Max work item dimensions:", getMaxWorkItemDimensions());
+		IO.debug("Max work group size:", getMaxWorkGroupSize());
+		IO.debug("Local memory size:", getLocalMemorySize());
+		IO.debug("Global memory size:", getGlobalMemorySize());
 
 		localWorkGroupSize = Math.min(getMaxWorkGroupSize(), 256L);
 	}
@@ -366,7 +366,7 @@ public abstract class OpenCL
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.trace(this, " is finalized");
+		IO.trace(this, "is finalized");
 		try {
 			release();
 		} finally {

@@ -53,8 +53,8 @@ public class NumberArguments
 
 	public static void requireNumber(final Object number, final String name) {
 		if (CHECK_ARGS && !Numbers.is(requireNonNull(number, name))) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is not a number");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a number"));
 		}
 	}
 }

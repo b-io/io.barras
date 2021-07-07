@@ -62,8 +62,8 @@ public class MapArguments
 
 	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is empty"));
 		}
 	}
 
@@ -71,16 +71,18 @@ public class MapArguments
 
 	public static <M extends Map<?, ?>> M requireMinSize(final M map, final int minExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(map).size() < minExpectedSize) {
-			throw new IllegalArgumentException("The specified map has a size " + map.size() +
-					" inferior to " + minExpectedSize);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified map has a size", map.size(),
+					"inferior to", minExpectedSize));
 		}
 		return map;
 	}
 
 	public static <M extends Map<?, ?>> M requireMaxSize(final M map, final int maxExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(map).size() > maxExpectedSize) {
-			throw new IllegalArgumentException("The specified map has a size " + map.size() +
-					" superior to " + maxExpectedSize);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified map has a size", map.size(),
+					"superior to", maxExpectedSize));
 		}
 		return map;
 	}

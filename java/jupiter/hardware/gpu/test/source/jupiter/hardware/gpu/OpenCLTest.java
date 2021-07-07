@@ -44,7 +44,7 @@ public class OpenCLTest
 	 */
 	public void testArrayTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test(BULLET, " arrayTimes");
+			IO.test(BULLET, "arrayTimes");
 
 			// Create the input and output data
 			final int dimension = 1000;
@@ -79,7 +79,7 @@ public class OpenCLTest
 	 */
 	public void testTimes() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test(BULLET, " times");
+			IO.test(BULLET, "times");
 
 			// Create the input and output data
 			final int n = 100;
@@ -125,7 +125,7 @@ public class OpenCLTest
 	 */
 	public void testForward() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test(BULLET, " forward");
+			IO.test(BULLET, "forward");
 
 			// Create the input and output data
 			final int n = 100;
@@ -178,7 +178,7 @@ public class OpenCLTest
 	 */
 	public void testArraySum() {
 		if (OpenCL.IS_ACTIVE) {
-			IO.test(BULLET, " arraySum");
+			IO.test(BULLET, "arraySum");
 
 			// Create the input and output data
 			final int dimension = 1000;

@@ -1395,7 +1395,7 @@ public class Strings {
 	 *         a space, or {@code "null"} if it is {@code null}
 	 */
 	public static String paste(final String... array) {
-		return joinWith(array, SPACE);
+		return joinWith(removeEmpty(array), SPACE);
 	}
 
 	/**
@@ -1408,7 +1408,7 @@ public class Strings {
 	 *         {@code "null"} if it is {@code null}
 	 */
 	public static String paste(final Object... array) {
-		return joinWith(array, SPACE);
+		return paste(toArray(array));
 	}
 
 	/**
@@ -1421,7 +1421,52 @@ public class Strings {
 	 *         space, or {@code "null"} if it is {@code null}
 	 */
 	public static String paste(final Collection<?> collection) {
-		return joinWith(collection, SPACE);
+		return joinWith(removeEmpty(collection), SPACE);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of the specified array of {@link String} joined with
+	 * a space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param array   an array of {@link String} (may be {@code null})
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified array of {@link String} joined with
+	 *         a space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
+	 */
+	public static String pasteWith(final String[] array, final ObjectToStringMapper wrapper) {
+		return joinWith(removeEmpty(array), SPACE, wrapper);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified array joined with a space and
+	 * wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param array   an array of {@link Object} (may be {@code null})
+	 * @param wrapper an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified array joined with a space and
+	 *         wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
+	 */
+	public static String pasteWith(final Object[] array, final ObjectToStringMapper wrapper) {
+		return pasteWith(toArray(array), wrapper);
+	}
+
+	/**
+	 * Returns a representative {@link String} of the specified {@link Collection} joined with a
+	 * space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
+	 * <p>
+	 * @param collection a {@link Collection} (may be {@code null})
+	 * @param wrapper    an {@link ObjectToStringMapper}
+	 * <p>
+	 * @return a representative {@link String} of the specified {@link Collection} joined with a
+	 *         space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
+	 */
+	public static String pasteWith(final Collection<?> collection,
+			final ObjectToStringMapper wrapper) {
+		return joinWith(removeEmpty(collection), SPACE, wrapper);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1660,14 +1705,25 @@ public class Strings {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the specified {@link Collection} of {@link String} without the empty {@link String}.
+	 * Returns the specified array of {@link String} without the empty {@link String}.
+	 * <p>
+	 * @param array an array of {@link String} (may be {@code null})
+	 * <p>
+	 * @return the specified array of {@link String} without the empty {@link String}
+	 */
+	public static String[] removeEmpty(final String... array) {
+		return Arrays.removeAll(array, EMPTY);
+	}
+
+	/**
+	 * Returns the specified {@link Collection} without the empty {@link String}.
 	 * <p>
 	 * @param <C>        the {@link Collection} type
-	 * @param collection a {@link Collection} of {@link String}
+	 * @param collection a {@link Collection}
 	 * <p>
-	 * @return the specified {@link Collection} of {@link String} without the empty {@link String}
+	 * @return the specified {@link Collection} without the empty {@link String}
 	 */
-	public static <C extends Collection<String>> C removeEmpty(final C collection) {
+	public static <C extends Collection<?>> C removeEmpty(final C collection) {
 		Collections.removeAll(collection, EMPTY);
 		return collection;
 	}

@@ -48,7 +48,7 @@ public class VectorTest
 	 */
 	public void testLoad()
 			throws IOException {
-		IO.test(BULLET, " load");
+		IO.test(BULLET, "load");
 
 		// Initialize
 		final Vector Y = new Vector("test/resources/Y.csv", false);
@@ -63,7 +63,7 @@ public class VectorTest
 	 * Tests {@link Vector#parse}.
 	 */
 	public void testParse() {
-		IO.test(BULLET, " parse");
+		IO.test(BULLET, "parse");
 
 		// Initialize
 		final Vector V = Vector.parse("[1 2 3 4 5 6 7 8]");

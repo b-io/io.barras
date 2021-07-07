@@ -35,6 +35,7 @@ import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 import jupiter.learning.supervised.function.ActivationFunctions;
 import jupiter.learning.supervised.function.OutputActivationFunction;
 import jupiter.math.linear.entity.Entity;
@@ -406,14 +407,14 @@ public abstract class Classifier
 	public synchronized boolean testConvergence(final double tolerance) {
 		// Compute the current cost
 		final double currentCost = computeCost();
-		IO.debug("Cost: ", currentCost);
+		IO.debug("Cost:", currentCost);
 		// Compute the cost difference
 		final double delta = Maths.distance(currentCost, cost);
-		IO.debug("Delta: ", delta);
+		IO.debug("Delta:", delta);
 		// Test the convergence
 		if (delta > cost) {
-			IO.warn("The cost is increasing by ", delta,
-					" (", Doubles.formatPercent(delta / cost), ")");
+			IO.warn("The cost is increasing by", delta,
+					Strings.parenthesize(Doubles.formatPercent(delta / cost)));
 		}
 		cost = currentCost;
 		if (delta <= tolerance) {

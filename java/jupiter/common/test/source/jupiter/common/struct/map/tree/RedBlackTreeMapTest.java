@@ -44,7 +44,7 @@ public class RedBlackTreeMapTest
 	 * Tests {@link RedBlackTreeMap#getHeight}.
 	 */
 	public void testGetHeight() {
-		IO.test(BULLET, " getHeight");
+		IO.test(BULLET, "getHeight");
 
 		// • Fill with 7 elements
 		RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
@@ -67,7 +67,7 @@ public class RedBlackTreeMapTest
 	 * Tests {@link RedBlackTreeMap#put}.
 	 */
 	public void testPut() {
-		IO.test(BULLET, " put");
+		IO.test(BULLET, "put");
 
 		final int n = 100;
 
@@ -84,7 +84,7 @@ public class RedBlackTreeMapTest
 	 * Tests {@link RedBlackTreeMap#remove}.
 	 */
 	public void testRemove() {
-		IO.test(BULLET, " remove");
+		IO.test(BULLET, "remove");
 
 		final int n = 100;
 
@@ -100,7 +100,7 @@ public class RedBlackTreeMapTest
 	 * Tests {@link RedBlackTreeMap#clone}.
 	 */
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		final RedBlackTreeMap<Integer, Integer> instance = new RedBlackTreeMap<Integer, Integer>(
 				Integer.class);

@@ -777,11 +777,11 @@ public class Bytes {
 	 * @return an array of {@link Byte} converted from the specified {@code byte} array
 	 */
 	public static Byte[] toArray(final byte[] array) {
-		final Byte[] convertedArray = new Byte[array.length];
+		final Byte[] newArray = new Byte[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -805,11 +805,11 @@ public class Bytes {
 	 * @return a 2D array of {@link Byte} converted from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] toArray2D(final byte[][] array2D) {
-		final Byte[][] convertedArray2D = new Byte[array2D.length][];
+		final Byte[][] newArray2D = new Byte[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -833,11 +833,11 @@ public class Bytes {
 	 * @return a 3D array of {@link Byte} converted from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] toArray3D(final byte[][][] array3D) {
-		final Byte[][][] convertedArray3D = new Byte[array3D.length][][];
+		final Byte[][][] newArray3D = new Byte[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1295,10 +1295,10 @@ public class Bytes {
 		}
 
 		// Concatenate the arrays
-		final byte[] concatArray = new byte[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final byte[] newArray = new byte[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1498,11 +1498,11 @@ public class Bytes {
 	 *         at the specified indices
 	 */
 	public static byte[] filter(final byte[] array, final int... indices) {
-		final byte[] filteredArray = new byte[indices.length];
+		final byte[] newArray = new byte[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1516,11 +1516,11 @@ public class Bytes {
 	 *         array at all the specified indices
 	 */
 	public static byte[][] filterAll(final byte[] array, final int[]... indices) {
-		final byte[][] filteredArrays = new byte[indices.length][];
+		final byte[][] newArray2D = new byte[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -63,8 +63,8 @@ public class CollectionArguments
 
 	public static void requireNonEmpty(final int length, final String name) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified " + Strings.quote(name) +
-					" is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is empty"));
 		}
 	}
 
@@ -73,8 +73,9 @@ public class CollectionArguments
 	public static <C extends Collection<?>> C requireMinSize(final C collection,
 			final int minExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() < minExpectedSize) {
-			throw new IllegalArgumentException("The specified collection has a size " +
-					collection.size() + " inferior to " + minExpectedSize);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified collection has a size", collection.size(),
+					"inferior to", minExpectedSize));
 		}
 		return collection;
 	}
@@ -82,8 +83,9 @@ public class CollectionArguments
 	public static <C extends Collection<?>> C requireMaxSize(final C collection,
 			final int maxExpectedSize) {
 		if (CHECK_ARGS && requireNonNull(collection).size() > maxExpectedSize) {
-			throw new IllegalArgumentException("The specified collection has a size " +
-					collection.size() + " superior to " + maxExpectedSize);
+			throw new IllegalArgumentException(Strings.paste(
+					"The specified collection has a size", collection.size(),
+					"superior to", maxExpectedSize));
 		}
 		return collection;
 	}

@@ -82,9 +82,10 @@ public class MSSQL
 		Arguments.requireNonNull(table, "table");
 
 		// Create the SQL query
-		final String query = Strings.join("SELECT TOP 1 ",
-				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
-				" FROM ", Strings.bracketize(table));
+		final String query = Strings.paste(
+				"SELECT TOP 1", Arrays.isNonEmpty(columns) ?
+						Strings.joinWith(columns, ",", BRACKETER) : "*",
+				"FROM", Strings.bracketize(table));
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
 		try {
@@ -155,17 +156,17 @@ public class MSSQL
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for selecting the table ", Strings.quote(table));
+			IO.warn("No conditional columns for selecting the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for selecting the table with the columns and conditional columns
-		return Strings.join("SELECT ",
-				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", BRACKETER) : "*",
-				" FROM ", Strings.bracketize(table),
+		return Strings.paste(
+				"SELECT", Arrays.isNonEmpty(columns) ?
+						Strings.joinWith(columns, ",", BRACKETER) : "*",
+				"FROM", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-								.concat("=?")) :
+				Strings.paste("WHERE",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
 				EMPTY);
 	}
 
@@ -177,9 +178,10 @@ public class MSSQL
 		ArrayArguments.requireNonEmpty(columns, "columns");
 
 		// Create the SQL query for inserting into the table with the columns
-		return Strings.join("INSERT INTO ", Strings.bracketize(table),
-				" ", Arrays.toStringWith(columns, BRACKETER),
-				" VALUES ", Arrays.toString(Arrays.repeat('?', columns.length)));
+		return Strings.paste(
+				"INSERT INTO", Strings.bracketize(table),
+				Arrays.toStringWith(columns, BRACKETER),
+				"VALUES", Arrays.toString(Arrays.repeat('?', columns.length)));
 	}
 
 	//////////////////////////////////////////////
@@ -190,16 +192,16 @@ public class MSSQL
 		Arguments.requireNonNull(table, "table");
 		ArrayArguments.requireNonEmpty(columns, "columns");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for updating the table ", Strings.quote(table));
+			IO.warn("No conditional columns for updating the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for updating the table with the columns and conditional columns
-		return Strings.join("UPDATE ", Strings.bracketize(table),
-				" SET ", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
+		return Strings.paste(
+				"UPDATE", Strings.bracketize(table),
+				"SET", Strings.joinWith(columns, "=?,", BRACKETER).concat("=?"),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-								.concat("=?")) :
+				Strings.paste("WHERE",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
 				EMPTY);
 	}
 
@@ -209,15 +211,15 @@ public class MSSQL
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for deleting the table ", Strings.quote(table));
+			IO.warn("No conditional columns for deleting the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for deleting the table with the conditional columns
-		return Strings.join("DELETE FROM ", Strings.bracketize(table),
+		return Strings.paste(
+				"DELETE FROM", Strings.bracketize(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
-						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER)
-								.concat("=?")) :
+				Strings.paste("WHERE",
+						Strings.joinWith(conditionalColumns, "=? AND ", BRACKETER).concat("=?")) :
 				EMPTY);
 	}
 

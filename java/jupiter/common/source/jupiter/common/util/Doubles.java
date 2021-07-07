@@ -552,11 +552,11 @@ public class Doubles {
 	 * @return an array of {@link Double} converted from the specified {@code double} array
 	 */
 	public static Double[] toArray(final double[] array) {
-		final Double[] convertedArray = new Double[array.length];
+		final Double[] newArray = new Double[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -580,11 +580,11 @@ public class Doubles {
 	 * @return a 2D array of {@link Double} converted from the specified 2D {@code double} array
 	 */
 	public static Double[][] toArray2D(final double[][] array2D) {
-		final Double[][] convertedArray2D = new Double[array2D.length][];
+		final Double[][] newArray2D = new Double[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -608,11 +608,11 @@ public class Doubles {
 	 * @return a 3D array of {@link Double} converted from the specified 3D {@code double} array
 	 */
 	public static Double[][][] toArray3D(final double[][][] array3D) {
-		final Double[][][] convertedArray3D = new Double[array3D.length][][];
+		final Double[][][] newArray3D = new Double[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1055,10 +1055,10 @@ public class Doubles {
 		}
 
 		// Concatenate the arrays
-		final double[] concatArray = new double[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final double[] newArray = new double[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1258,11 +1258,11 @@ public class Doubles {
 	 *         array at the specified indices
 	 */
 	public static double[] filter(final double[] array, final int... indices) {
-		final double[] filteredArray = new double[indices.length];
+		final double[] newArray = new double[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1276,11 +1276,11 @@ public class Doubles {
 	 *         array at all the specified indices
 	 */
 	public static double[][] filterAll(final double[] array, final int[]... indices) {
-		final double[][] filteredArrays = new double[indices.length][];
+		final double[][] newArray2D = new double[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

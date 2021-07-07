@@ -173,7 +173,7 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 			return null;
 		}
 		if (!isInside(value)) {
-			IO.warn("The specified value ", value, " is not inside the interval list ", this);
+			IO.warn("The specified value", value, "is not inside the interval list", this);
 			return null;
 		}
 		return value;

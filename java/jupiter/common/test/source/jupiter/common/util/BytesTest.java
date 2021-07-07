@@ -41,7 +41,7 @@ public class BytesTest
 	 * Tests {@link Bytes#toBinary}.
 	 */
 	public void testToBinary() {
-		IO.test(BULLET, " toBinary");
+		IO.test(BULLET, "toBinary");
 
 		final String text = "Hello world!";
 		assertEquals(
@@ -53,7 +53,7 @@ public class BytesTest
 	 * Tests {@link Bytes#toOctal}.
 	 */
 	public void testToOctal() {
-		IO.test(BULLET, " toOctal");
+		IO.test(BULLET, "toOctal");
 
 		final String text = "Hello world!";
 		assertEquals("011001450154015401570040016701570162015401440041",
@@ -64,7 +64,7 @@ public class BytesTest
 	 * Tests {@link Bytes#toHex}.
 	 */
 	public void testToHex() {
-		IO.test(BULLET, " toHex");
+		IO.test(BULLET, "toHex");
 
 		final String text = "Hello world!";
 		assertEquals("48656C6C6F20776F726C6421", Bytes.toHexString(text.getBytes()));
@@ -76,7 +76,7 @@ public class BytesTest
 	 * Tests {@link Bytes#parseBinaryString}.
 	 */
 	public void testParseBinaryString() {
-		IO.test(BULLET, " parseBinaryString");
+		IO.test(BULLET, "parseBinaryString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -87,7 +87,7 @@ public class BytesTest
 	 * Tests {@link Bytes#parseOctalString}.
 	 */
 	public void testParseOctalString() {
-		IO.test(BULLET, " parseOctalString");
+		IO.test(BULLET, "parseOctalString");
 
 		final String text = "Hello world!";
 		assertEquals(text,
@@ -98,7 +98,7 @@ public class BytesTest
 	 * Tests {@link Bytes#parseHexString}.
 	 */
 	public void testParseHexString() {
-		IO.test(BULLET, " parseHexString");
+		IO.test(BULLET, "parseHexString");
 
 		final String text = "Hello world!";
 		assertEquals(text, new String(Bytes.parseHexString(Bytes.toHexString(text.getBytes()))));
@@ -110,7 +110,7 @@ public class BytesTest
 	 * Tests {@link Bytes#clone}.
 	 */
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		final String text = "Hello world!";
 		final byte[] array = text.getBytes();

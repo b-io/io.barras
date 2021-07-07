@@ -44,7 +44,7 @@ public class AvlTreeMapTest
 	 * Tests {@link AvlTreeMap#getHeight}.
 	 */
 	public void testGetHeight() {
-		IO.test(BULLET, " getHeight");
+		IO.test(BULLET, "getHeight");
 
 		// • Fill with 7 elements
 		AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(Integer.class);
@@ -66,7 +66,7 @@ public class AvlTreeMapTest
 	 * Tests {@link AvlTreeMap#put}.
 	 */
 	public void testPut() {
-		IO.test(BULLET, " put");
+		IO.test(BULLET, "put");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);
@@ -79,7 +79,7 @@ public class AvlTreeMapTest
 	 * Tests {@link AvlTreeMap#remove}.
 	 */
 	public void testRemove() {
-		IO.test(BULLET, " removeNode");
+		IO.test(BULLET, "removeNode");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);
@@ -93,7 +93,7 @@ public class AvlTreeMapTest
 	 * Tests {@link AvlTreeMap#clone}.
 	 */
 	public void testClone() {
-		IO.test(BULLET, " clone");
+		IO.test(BULLET, "clone");
 
 		final AvlTreeMap<Integer, Integer> instance = new AvlTreeMap<Integer, Integer>(
 				Integer.class);

@@ -162,7 +162,7 @@ public class ExpressionHandler
 			WORK_QUEUE = new SynchronizedWorkQueue<Triple<Element, String, Map<String, Element>>, Result<Element>>(
 					new Parser());
 		} else {
-			IO.trace("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue", WORK_QUEUE, "has already started");
 		}
 	}
 
@@ -292,11 +292,11 @@ public class ExpressionHandler
 		// Get the type of the last unary operator
 		final char unaryOperator = expression.charAt(unaryOperatorIndex);
 		final Element.Type type = getType(unaryOperator);
-		IO.debug("Type: ", type);
+		IO.debug("Type:", type);
 		// Parse the unary operation
 		final String nestedExpression = Strings.removeEmpty(
 				Strings.split(expression, unaryOperator)).get(0);
-		IO.debug("Nested expression: ", nestedExpression);
+		IO.debug("Nested expression:", nestedExpression);
 		return parseUnaryOperation(type, parent, nestedExpression, context);
 	}
 
@@ -328,11 +328,11 @@ public class ExpressionHandler
 		final int index = univariateFunctionIndex.getIndex();
 		final String function = univariateFunctionIndex.getToken();
 		final Element.Type type = getType(function);
-		IO.debug("Type: ", type);
+		IO.debug("Type:", type);
 		// Parse the unary operation
 		final String nestedExpression = Strings.trim(
 				expression.substring(index + function.length()));
-		IO.debug("Nested expression: ", nestedExpression);
+		IO.debug("Nested expression:", nestedExpression);
 		return parseUnaryOperation(type, parent, nestedExpression, context);
 	}
 
@@ -346,7 +346,7 @@ public class ExpressionHandler
 		}
 
 		// Return the unary operation
-		IO.debug("Create new ", type, " Node: <", node.getExpression(), ">");
+		IO.debug("Create new", type, "Node: <", node.getExpression(), ">");
 		return new Result<Element>(new UnaryOperation(parent, expression, type, node));
 	}
 
@@ -378,7 +378,7 @@ public class ExpressionHandler
 		}
 		// Get the type of the middle binary operator
 		final Element.Type type = getType(expression.charAt(binaryOperatorIndex));
-		IO.debug("Type: ", type);
+		IO.debug("Type:", type);
 		// Parse the binary operation
 		return parseBinaryOperation(type, parent, expression, binaryOperatorIndex, context);
 	}
@@ -410,11 +410,11 @@ public class ExpressionHandler
 		// Get the type of the last bivariate function
 		final String function = bivariateFunctionIndex.getToken();
 		final Element.Type type = getType(function);
-		IO.debug("Type: ", type);
+		IO.debug("Type:", type);
 		// Parse the binary operation
 		final String nestedExpression = getNestedExpression(expression,
 				delimitingIntervals.getLast()).trim();
-		IO.debug("Nested expression: ", nestedExpression);
+		IO.debug("Nested expression:", nestedExpression);
 		final int argumentDelimiterIndex = getArgumentDelimiterIndex(nestedExpression,
 				getDelimitingIntervals(nestedExpression));
 		if (argumentDelimiterIndex < 0) {
@@ -465,8 +465,8 @@ public class ExpressionHandler
 		}
 
 		// Return the binary operation
-		IO.debug("Create new ", type, " Node: <", leftNode.getExpression(), "> ", type, " <",
-				rightNode.getExpression(), ">");
+		IO.debug("Create new", type, "Node: <", leftNode.getExpression(), ">", type,
+				"<", rightNode.getExpression(), ">");
 		return new Result<Element>(
 				new BinaryOperation(parent, expression, type, leftNode, rightNode));
 	}
@@ -496,7 +496,7 @@ public class ExpressionHandler
 			final String nestedExpression = getNestedExpression(expression,
 					delimitingIntervals.get(0));
 			if (nestedExpression != null) {
-				IO.debug("Nested expression: ", nestedExpression);
+				IO.debug("Nested expression:", nestedExpression);
 				return parseExpression(parent, nestedExpression, context);
 			}
 		}
@@ -546,7 +546,7 @@ public class ExpressionHandler
 				entity = new ScalarElement(parent, expression);
 			} catch (final NumberFormatException ex) {
 				return new Result<Element>(
-						new ParseException("Unparsable element: <" + expression + ">", ex));
+						new ParseException("Unparsable element: < " + expression + " >", ex));
 			}
 		}
 		entity.setParent(parent);
@@ -587,7 +587,7 @@ public class ExpressionHandler
 			final IntervalList<Integer> delimitingIntervals) {
 		final ExtendedLinkedList<Integer> indices = getBinaryOperatorIndices(expression,
 				delimitingIntervals);
-		IO.debug("Indices: ", indices);
+		IO.debug("Indices:", indices);
 		if (indices.isNonEmpty()) {
 			return indices.getMiddle();
 		}

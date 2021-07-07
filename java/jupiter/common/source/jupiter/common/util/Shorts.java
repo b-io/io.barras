@@ -588,11 +588,11 @@ public class Shorts {
 	 * @return an array of {@link Short} converted from the specified {@code short} array
 	 */
 	public static Short[] toArray(final short[] array) {
-		final Short[] convertedArray = new Short[array.length];
+		final Short[] newArray = new Short[array.length];
 		for (int i = 0; i < array.length; ++i) {
-			convertedArray[i] = array[i];
+			newArray[i] = array[i];
 		}
-		return convertedArray;
+		return newArray;
 	}
 
 	/**
@@ -616,11 +616,11 @@ public class Shorts {
 	 * @return a 2D array of {@link Short} converted from the specified 2D {@code short} array
 	 */
 	public static Short[][] toArray2D(final short[][] array2D) {
-		final Short[][] convertedArray2D = new Short[array2D.length][];
+		final Short[][] newArray2D = new Short[array2D.length][];
 		for (int i = 0; i < array2D.length; ++i) {
-			convertedArray2D[i] = toArray(array2D[i]);
+			newArray2D[i] = toArray(array2D[i]);
 		}
-		return convertedArray2D;
+		return newArray2D;
 	}
 
 	/**
@@ -644,11 +644,11 @@ public class Shorts {
 	 * @return a 3D array of {@link Short} converted from the specified 3D {@code short} array
 	 */
 	public static Short[][][] toArray3D(final short[][][] array3D) {
-		final Short[][][] convertedArray3D = new Short[array3D.length][][];
+		final Short[][][] newArray3D = new Short[array3D.length][][];
 		for (int i = 0; i < array3D.length; ++i) {
-			convertedArray3D[i] = toArray2D(array3D[i]);
+			newArray3D[i] = toArray2D(array3D[i]);
 		}
-		return convertedArray3D;
+		return newArray3D;
 	}
 
 	/**
@@ -1057,10 +1057,10 @@ public class Shorts {
 		}
 
 		// Concatenate the arrays
-		final short[] concatArray = new short[a.length + b.length];
-		System.arraycopy(a, 0, concatArray, 0, a.length);
-		System.arraycopy(b, 0, concatArray, a.length, b.length);
-		return concatArray;
+		final short[] newArray = new short[a.length + b.length];
+		System.arraycopy(a, 0, newArray, 0, a.length);
+		System.arraycopy(b, 0, newArray, a.length, b.length);
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1260,11 +1260,11 @@ public class Shorts {
 	 *         array at the specified indices
 	 */
 	public static short[] filter(final short[] array, final int... indices) {
-		final short[] filteredArray = new short[indices.length];
+		final short[] newArray = new short[indices.length];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1278,11 +1278,11 @@ public class Shorts {
 	 *         array at all the specified indices
 	 */
 	public static short[][] filterAll(final short[] array, final int[]... indices) {
-		final short[][] filteredArrays = new short[indices.length][];
+		final short[][] newArray2D = new short[indices.length][];
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

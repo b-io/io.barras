@@ -44,7 +44,7 @@ public class ChronometerTest
 	 * Tests {@link Chronometer#getMilliseconds}.
 	 */
 	public void testGetMilliseconds() {
-		IO.test(BULLET, " getMilliseconds");
+		IO.test(BULLET, "getMilliseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
@@ -59,7 +59,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getMilliseconds());
-		IO.test(time, " [ms]");
+		IO.test(time, "[ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMilliseconds()), tolerance);
 	}
 
@@ -67,7 +67,7 @@ public class ChronometerTest
 	 * Tests {@link Chronometer#getMicroseconds}.
 	 */
 	public void testGetMicroseconds() {
-		IO.test(BULLET, " getMicroseconds");
+		IO.test(BULLET, "getMicroseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
@@ -82,7 +82,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getMicroseconds());
-		IO.test(time, " [µs] = ", Maths.round((double) time / unit), " [ms]");
+		IO.test(time, "[µs] =", Maths.round((double) time / unit), "[ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getMicroseconds()), tolerance);
 	}
 
@@ -90,7 +90,7 @@ public class ChronometerTest
 	 * Tests {@link Chronometer#getNanoseconds}.
 	 */
 	public void testGetNanoseconds() {
-		IO.test(BULLET, " getNanoseconds");
+		IO.test(BULLET, "getNanoseconds");
 
 		// Initialize
 		final long sleepingTime = 600L; // [ms]
@@ -105,7 +105,7 @@ public class ChronometerTest
 
 		// Verify the measured time
 		final long time = Longs.convert(chrono.getNanoseconds());
-		IO.test(time, " [ns] = ", Maths.round((double) time / unit), " [ms]");
+		IO.test(time, "[ns] =", Maths.round((double) time / unit), "[ms]");
 		assertEquals(sleepingTime * unit, Longs.convert(chrono.getNanoseconds()), tolerance);
 	}
 }

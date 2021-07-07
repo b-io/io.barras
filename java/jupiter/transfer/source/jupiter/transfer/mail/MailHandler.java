@@ -25,6 +25,7 @@ package jupiter.transfer.mail;
 
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.file.Files.SEPARATOR;
+import static jupiter.common.util.Characters.SEMICOLON;
 import static jupiter.common.util.Strings.STAR;
 
 import java.io.Serializable;
@@ -335,16 +336,16 @@ public class MailHandler
 			final SearchTerm mailFilter) {
 		final ExtendedLinkedList<MimeMessage> messages = new ExtendedLinkedList<MimeMessage>();
 		try {
-			IO.debug("Connect to the mail server ",
-					Strings.quote(hostName + ":" + inProtocol.getPort()),
-					" with ", Strings.quote(userName));
+			IO.debug("Connect to the mail server",
+					Strings.quote(hostName + SEMICOLON + inProtocol.getPort()),
+					"with", Strings.quote(userName));
 			final Session session = createSession(inProtocol);
 			Store store = null;
 			try {
 				store = session.getStore(inProtocol.value);
 				store.connect(hostName, inProtocol.getPort(), userName, password);
 
-				IO.debug("Download the filtered mails in ", Strings.quote(remoteDirPath));
+				IO.debug("Download the filtered mails in", Strings.quote(remoteDirPath));
 				Folder folder = null;
 				try {
 					folder = store.getFolder(remoteDirPath);
@@ -352,7 +353,7 @@ public class MailHandler
 					final Message[] ms = folder.getMessages();
 					for (final Message m : ms) {
 						if (m.match(mailFilter)) {
-							IO.debug("Download the mail ", Strings.quote(m.getSubject()));
+							IO.debug("Download the mail", Strings.quote(m.getSubject()));
 							messages.add(new MimeMessage((MimeMessage) m));
 						}
 					}
@@ -429,17 +430,17 @@ public class MailHandler
 	public void send(final String sender, final String recipients, final String subject,
 			final Multipart content)
 			throws MessagingException {
-		IO.debug("Connect to the mail server ",
-				Strings.quote(hostName + ":" + outProtocol.getPort()),
-				" with ", Strings.quote(sender));
+		IO.debug("Connect to the mail server",
+				Strings.quote(hostName + SEMICOLON + outProtocol.getPort()),
+				"with", Strings.quote(sender));
 		final Session session = createSession(outProtocol);
 
 		// Create and send the mail
 		final MimeMessage mail = Mails.create(session, sender, recipients, subject, content);
-		IO.debug("Send the mail ", Strings.quote(subject),
-				" from ", Strings.quote(sender),
-				" to ", Strings.quote(recipients),
-				" at ", Dates.formatWithTime(mail.getSentDate()));
+		IO.debug("Send the mail", Strings.quote(subject),
+				"from", Strings.quote(sender),
+				"to", Strings.quote(recipients),
+				"at", Dates.formatWithTime(mail.getSentDate()));
 		Transport.send(mail);
 	}
 

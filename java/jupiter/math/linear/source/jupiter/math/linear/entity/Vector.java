@@ -31,6 +31,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Doubles;
+import jupiter.common.util.Strings;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
 
 public class Vector
@@ -142,9 +143,8 @@ public class Vector
 		} else if (values[0].length == 1) {
 			isTransposed = false;
 		} else {
-			throw new IllegalArgumentException("The specified 2D array of dimensions " +
-					new Dimensions(values.length, values[0].length) +
-					" is not one-dimensional");
+			throw new IllegalArgumentException(Strings.paste("The specified 2D array of dimensions",
+					new Dimensions(values.length, values[0].length), "is not one-dimensional"));
 		}
 	}
 
@@ -173,8 +173,8 @@ public class Vector
 
 		// Check the arguments
 		if (m != 1 && n != 1) {
-			throw new IllegalArgumentException("The specified table of dimensions " + dimensions +
-					" is not one-dimensional");
+			throw new IllegalArgumentException(Strings.paste("The specified table of dimensions",
+					dimensions, "is not one-dimensional"));
 		}
 	}
 
@@ -296,8 +296,9 @@ public class Vector
 				}
 				return result;
 			}
-			throw new IllegalOperationException("Cannot broadcast " + getName() +
-					" to " + getDimensions() + " (wrong number of columns)");
+			throw new IllegalOperationException(Strings.paste(
+					"Cannot broadcast", getName(),
+					"to", getDimensions(), "(wrong number of columns)"));
 		}
 		if (m == rowCount) {
 			final Matrix result = new Matrix(rowCount, columnCount);
@@ -306,8 +307,9 @@ public class Vector
 			}
 			return result;
 		}
-		throw new IllegalOperationException("Cannot broadcast " + getName() +
-				" to " + getDimensions() + " (wrong number of rows)");
+		throw new IllegalOperationException(Strings.paste(
+				"Cannot broadcast", getName(),
+				"to", getDimensions(), "(wrong number of rows)"));
 	}
 
 

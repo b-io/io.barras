@@ -45,7 +45,7 @@ public class ReversedFileReaderTest
 	 * Tests {@link ReversedFileReader#readLine}.
 	 */
 	public void testReadLine() {
-		IO.test(BULLET, " readLine");
+		IO.test(BULLET, "readLine");
 
 		ReversedFileReader reader = null;
 		try {

@@ -47,7 +47,7 @@ public class WorkQueueTest
 	 * Tests the constants of {@link WorkQueue}.
 	 */
 	public void testConstants() {
-		IO.test(BULLET, " constants");
+		IO.test(BULLET, "constants");
 
 		// Initialize
 		final WorkQueue<Integer, Integer> workQueue = new WorkQueue<Integer, Integer>(

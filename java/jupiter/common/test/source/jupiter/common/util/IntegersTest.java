@@ -41,7 +41,7 @@ public class IntegersTest
 	 * Tests {@link Integers#reverse}.
 	 */
 	public void testReverse() {
-		IO.test(BULLET, " reverse");
+		IO.test(BULLET, "reverse");
 
 		int[] array = Integers.EMPTY_PRIMITIVE_ARRAY;
 		Integers.reverse(array);

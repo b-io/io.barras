@@ -82,10 +82,11 @@ public class StandardSQL
 		Arguments.requireNonNull(table, "table");
 
 		// Create the SQL query
-		final String query = Strings.join("SELECT ",
-				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", DOUBLE_QUOTER) : "*",
-				" FROM ", Strings.doubleQuote(table),
-				" LIMIT 1");
+		final String query = Strings.paste(
+				"SELECT", Arrays.isNonEmpty(columns) ?
+						Strings.joinWith(columns, ",", DOUBLE_QUOTER) : "*",
+				"FROM", Strings.doubleQuote(table),
+				"LIMIT 1");
 		// Create the SQL statement for executing the SQL query
 		PreparedStatement statement = null;
 		try {
@@ -156,15 +157,16 @@ public class StandardSQL
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for selecting the table ", Strings.quote(table));
+			IO.warn("No conditional columns for selecting the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for selecting the table with the columns and conditional columns
-		return Strings.join("SELECT ",
-				Arrays.isNonEmpty(columns) ? Strings.joinWith(columns, ",", DOUBLE_QUOTER) : "*",
-				" FROM ", Strings.doubleQuote(table),
+		return Strings.paste(
+				"SELECT", Arrays.isNonEmpty(columns) ?
+						Strings.joinWith(columns, ",", DOUBLE_QUOTER) : "*",
+				"FROM", Strings.doubleQuote(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
+				Strings.paste("WHERE",
 						Strings.joinWith(conditionalColumns, "=? AND ", DOUBLE_QUOTER)
 								.concat("=?")) :
 				EMPTY);
@@ -178,9 +180,10 @@ public class StandardSQL
 		ArrayArguments.requireNonEmpty(columns, "columns");
 
 		// Create the SQL query for inserting into the table with the columns
-		return Strings.join("INSERT INTO ", Strings.doubleQuote(table),
-				" ", Arrays.toStringWith(columns, DOUBLE_QUOTER),
-				" VALUES ", Arrays.toString(Arrays.repeat('?', columns.length)));
+		return Strings.paste(
+				"INSERT INTO", Strings.doubleQuote(table),
+				Arrays.toStringWith(columns, DOUBLE_QUOTER),
+				"VALUES", Arrays.toString(Arrays.repeat('?', columns.length)));
 	}
 
 	//////////////////////////////////////////////
@@ -191,14 +194,15 @@ public class StandardSQL
 		Arguments.requireNonNull(table, "table");
 		ArrayArguments.requireNonEmpty(columns, "columns");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for updating the table ", Strings.quote(table));
+			IO.warn("No conditional columns for updating the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for updating the table with the columns and conditional columns
-		return Strings.join("UPDATE ", Strings.doubleQuote(table),
-				" SET ", Strings.joinWith(columns, "=?,", DOUBLE_QUOTER).concat("=?"),
+		return Strings.paste(
+				"UPDATE", Strings.doubleQuote(table),
+				"SET", Strings.joinWith(columns, "=?,", DOUBLE_QUOTER).concat("=?"),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
+				Strings.paste("WHERE",
 						Strings.joinWith(conditionalColumns, "=? AND ", DOUBLE_QUOTER)
 								.concat("=?")) :
 				EMPTY);
@@ -210,13 +214,14 @@ public class StandardSQL
 		// Check the arguments
 		Arguments.requireNonNull(table, "table");
 		if (Arrays.isNullOrEmpty(conditionalColumns)) {
-			IO.warn("No conditional columns for deleting the table ", Strings.quote(table));
+			IO.warn("No conditional columns for deleting the table", Strings.quote(table));
 		}
 
 		// Create the SQL query for deleting the table with the conditional columns
-		return Strings.join("DELETE FROM ", Strings.doubleQuote(table),
+		return Strings.paste(
+				"DELETE FROM", Strings.doubleQuote(table),
 				Arrays.isNonEmpty(conditionalColumns) ?
-				Strings.join(" WHERE ",
+				Strings.paste("WHERE",
 						Strings.joinWith(conditionalColumns, "=? AND ", DOUBLE_QUOTER)
 								.concat("=?")) :
 				EMPTY);

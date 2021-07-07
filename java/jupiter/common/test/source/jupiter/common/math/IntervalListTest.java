@@ -65,7 +65,7 @@ public class IntervalListTest
 	 * Tests {@link IntervalList#isInside}.
 	 */
 	public void testIsInside() {
-		IO.test(BULLET, " isInside");
+		IO.test(BULLET, "isInside");
 
 		assertTrue(A.isInside(ALPHA));
 		assertTrue(A.isInside(BETA));
@@ -84,7 +84,7 @@ public class IntervalListTest
 	 * Tests {@link IntervalList#merge}.
 	 */
 	public void testMerge() {
-		IO.test(BULLET, " merge");
+		IO.test(BULLET, "merge");
 
 		// Initialize
 		final IntervalList<Double> a = A.clone();

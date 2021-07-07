@@ -42,7 +42,7 @@ public class MathsTest
 	 * Tests the trigonometric functions of {@link Maths}.
 	 */
 	public void testTrigonometricFunctions() {
-		IO.test(BULLET, " trigonometric functions");
+		IO.test(BULLET, "trigonometric functions");
 
 		// Initialize
 		final double alpha = 0.4; // [rad]
@@ -96,7 +96,7 @@ public class MathsTest
 	 * Tests {@link Maths#greatCircleDistance}.
 	 */
 	public void testGreatCircleDistance() {
-		IO.test(BULLET, " greatCircleDistance");
+		IO.test(BULLET, "greatCircleDistance");
 
 		// Initialize
 		final double earthRadius = 6371.; // [km]

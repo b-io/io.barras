@@ -45,7 +45,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#setConsole}.
 	 */
 	public void testSetConsole() {
-		IO.test(BULLET, " setConsole");
+		IO.test(BULLET, "setConsole");
 
 		final IConsole console = new SystemConsole();
 		IO.setConsole(console);
@@ -57,7 +57,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#print}.
 	 */
 	public void testPrint() {
-		IO.test(BULLET, " print");
+		IO.test(BULLET, "print");
 
 		final String content = "This is a message";
 		IO.print(content, false);
@@ -72,7 +72,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#println(Object, boolean)}.
 	 */
 	public void testPrintln_Object_boolean() {
-		IO.test(BULLET, " println_Object_boolean");
+		IO.test(BULLET, "println_Object_boolean");
 
 		final String content = "This is a message";
 		IO.println(content, false);
@@ -84,7 +84,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#println(Message)}.
 	 */
 	public void testPrintln_Message() {
-		IO.test(BULLET, " println_Message");
+		IO.test(BULLET, "println_Message");
 
 		IO.println(IO.test("This is a test message"));
 		IO.println(IO.warn("This is a warning message"));
@@ -97,7 +97,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#bar}.
 	 */
 	public void testBar() {
-		IO.test(BULLET, " bar");
+		IO.test(BULLET, "bar");
 
 		IO.bar();
 	}
@@ -108,7 +108,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#input}.
 	 */
 	public void testInput() {
-		IO.test(BULLET, " input");
+		IO.test(BULLET, "input");
 
 		IO.input();
 		IO.println();
@@ -120,7 +120,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#trace}.
 	 */
 	public void testTrace() {
-		IO.test(BULLET, " trace");
+		IO.test(BULLET, "trace");
 		IO.setSeverityLevel(SeverityLevel.TRACE);
 
 		final String content = "This is a trace message";
@@ -134,7 +134,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#debug}.
 	 */
 	public void testDebug() {
-		IO.test(BULLET, " debug");
+		IO.test(BULLET, "debug");
 		IO.setSeverityLevel(SeverityLevel.DEBUG);
 
 		final String content = "This is a debug message";
@@ -147,7 +147,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#test}.
 	 */
 	public void testTest() {
-		IO.test(BULLET, " test");
+		IO.test(BULLET, "test");
 
 		final String content = "This is a test message";
 		assertEquals(content, IO.test(content).getContent());
@@ -157,7 +157,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#info}.
 	 */
 	public void testInfo() {
-		IO.test(BULLET, " info");
+		IO.test(BULLET, "info");
 
 		final String content = "This is an info message";
 		assertEquals(content, IO.info(content).getContent());
@@ -167,7 +167,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#result}.
 	 */
 	public void testResult() {
-		IO.test(BULLET, " result");
+		IO.test(BULLET, "result");
 
 		final String content = "This is a result message";
 		assertEquals(content, IO.result(content).getContent());
@@ -179,7 +179,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#warn(Object...)}.
 	 */
 	public void testWarn_Object() {
-		IO.test(BULLET, " warn_Object");
+		IO.test(BULLET, "warn_Object");
 
 		final String content = "This is a warning message";
 		assertEquals(content, IO.warn(content).getContent());
@@ -189,7 +189,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#warn(Exception)}.
 	 */
 	public void testWarn_Exception() {
-		IO.test(BULLET, " warn_Exception");
+		IO.test(BULLET, "warn_Exception");
 
 		IO.warn(new Exception("This is a warning exception"));
 	}
@@ -198,7 +198,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#warn(Exception, Object...)}.
 	 */
 	public void testWarn_Exception_Object() {
-		IO.test(BULLET, " warn_Exception_Object");
+		IO.test(BULLET, "warn_Exception_Object");
 
 		final String content = "This is a warning message";
 		IO.warn(new Exception("This is a warning exception"), content);
@@ -210,7 +210,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#error(Object...)}.
 	 */
 	public void testError_Object() {
-		IO.test(BULLET, " error_Object");
+		IO.test(BULLET, "error_Object");
 
 		final String content = "This is an error message";
 		assertEquals(content, IO.error(content).getContent());
@@ -220,7 +220,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#error(Exception)}.
 	 */
 	public void testError_Exception() {
-		IO.test(BULLET, " error_Exception");
+		IO.test(BULLET, "error_Exception");
 
 		IO.error(new Exception("This is an error exception"));
 	}
@@ -229,7 +229,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#error(Exception, Object...)}.
 	 */
 	public void testError_Exception_Object() {
-		IO.test(BULLET, " error_Exception_Object");
+		IO.test(BULLET, "error_Exception_Object");
 
 		final String content = "This is an error message";
 		IO.error(new Exception("This is an error exception"), content);
@@ -241,7 +241,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#fail(Object...)}.
 	 */
 	public void testFail_Object() {
-		IO.test(BULLET, " fail_Object");
+		IO.test(BULLET, "fail_Object");
 
 		final String content = "This is a failure message";
 		assertEquals(content, IO.fail(content).getContent());
@@ -251,7 +251,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#fail(Exception)}.
 	 */
 	public void testFail_Exception() {
-		IO.test(BULLET, " fail_Exception");
+		IO.test(BULLET, "fail_Exception");
 
 		IO.fail(new Exception("This is a failure exception"));
 	}
@@ -260,7 +260,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#fail(Exception, Object...)}.
 	 */
 	public void testFail_Exception_Object() {
-		IO.test(BULLET, " fail_Exception_Object");
+		IO.test(BULLET, "fail_Exception_Object");
 
 		final String content = "This is a failure message";
 		IO.fail(new Exception("This is a failure exception"), content);
@@ -272,7 +272,7 @@ public class InputOutputTest
 	 * Tests {@link InputOutput#close}.
 	 */
 	public void testClose() {
-		IO.test(BULLET, " close");
+		IO.test(BULLET, "close");
 
 		IO.close();
 	}

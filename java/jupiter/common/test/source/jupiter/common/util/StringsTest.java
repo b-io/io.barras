@@ -49,7 +49,7 @@ public class StringsTest
 	 * Tests {@link Strings#toUnicode}.
 	 */
 	public void testToUnicode() {
-		IO.test(BULLET, " toUnicode");
+		IO.test(BULLET, "toUnicode");
 
 		assertEquals("\\u0030", Strings.toUnicode("0"));
 		assertEquals("\\u0061", Strings.toUnicode("a"));
@@ -62,7 +62,7 @@ public class StringsTest
 	 * Tests {@link Strings#toCase}.
 	 */
 	public void testToCase() {
-		IO.test(BULLET, " toCase");
+		IO.test(BULLET, "toCase");
 
 		assertEquals("hello world!", Strings.toCase("helloWorld!"));
 	}
@@ -71,7 +71,7 @@ public class StringsTest
 	 * Tests {@link Strings#toCamelCase}.
 	 */
 	public void testToCamelCase() {
-		IO.test(BULLET, " toCamelCase");
+		IO.test(BULLET, "toCamelCase");
 
 		assertEquals("helloWorld!", Strings.toCamelCase("Hello world!"));
 	}
@@ -82,7 +82,7 @@ public class StringsTest
 	 * Tests {@link Strings#capitalizeFirst}.
 	 */
 	public void testCapitalizeFirst() {
-		IO.test(BULLET, " capitalizeFirst");
+		IO.test(BULLET, "capitalizeFirst");
 
 		assertEquals("A", Strings.capitalizeFirst("a"));
 		assertEquals("Hello", Strings.capitalizeFirst("hello"));
@@ -92,7 +92,7 @@ public class StringsTest
 	 * Tests {@link Strings#capitalizeStrictly}.
 	 */
 	public void testCapitalizeFully() {
-		IO.test(BULLET, " capitalizeStrictly");
+		IO.test(BULLET, "capitalizeStrictly");
 
 		assertEquals("Hello World!", Strings.capitalizeStrictly("hELLO wORLD!"));
 	}
@@ -103,7 +103,7 @@ public class StringsTest
 	 * Tests {@link Strings#replaceAll}.
 	 */
 	public void testReplaceAll() {
-		IO.test(BULLET, " replaceAll");
+		IO.test(BULLET, "replaceAll");
 
 		assertEquals(EMPTY, Strings.replaceAll(EMPTY, DELIMITERS, String.valueOf(BAR)));
 		assertEquals("|A|B|C|D|E|", Strings.replaceAll(STRING, DELIMITERS, String.valueOf(BAR)));
@@ -115,7 +115,7 @@ public class StringsTest
 	 * Tests {@link Strings#trim}.
 	 */
 	public void testTrim() {
-		IO.test(BULLET, " trim");
+		IO.test(BULLET, "trim");
 
 		assertEquals("A B C D", Strings.trim("    A    B    C    D    ", true));
 		assertEquals("A B C D", Strings.trim(" \b A \f B \r C \n D \t ", true, true));
@@ -127,7 +127,7 @@ public class StringsTest
 	 * Tests {@link Strings#split}.
 	 */
 	public void testSplit() {
-		IO.test(BULLET, " split");
+		IO.test(BULLET, "split");
 
 		assertTrue(Arrays.equals(new String[] {EMPTY},
 				Strings.split(EMPTY, DELIMITERS).toArray()));
@@ -141,7 +141,7 @@ public class StringsTest
 	 * Tests {@link Strings#splitString}.
 	 */
 	public void testSplitString() {
-		IO.test(BULLET, " splitString");
+		IO.test(BULLET, "splitString");
 
 		assertTrue(Arrays.equals(new String[] {EMPTY},
 				Strings.splitString(EMPTY, STRING_DELIMITERS).toArray()));

@@ -43,7 +43,7 @@ public class LUDecompositionTest
 	 * Tests {@link LUDecomposition#LUDecomposition}.
 	 */
 	public void testLUDecomposition() {
-		IO.test(BULLET, " LUDecomposition");
+		IO.test(BULLET, "LUDecomposition");
 
 		// Test the LU decomposition
 		for (int size = 3; size <= 32; ++size) {

@@ -41,7 +41,7 @@ public class ObjectsTest
 	 * Tests {@link Objects#hashCode}.
 	 */
 	public void testHashCode() {
-		IO.test(BULLET, " hashCode");
+		IO.test(BULLET, "hashCode");
 
 		assertEquals(Objects.hashCode(Integers.EMPTY_ARRAY),
 				Objects.hashCode(Integers.EMPTY_ARRAY));

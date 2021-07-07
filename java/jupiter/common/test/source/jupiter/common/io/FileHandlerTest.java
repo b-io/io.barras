@@ -47,7 +47,7 @@ public class FileHandlerTest
 	 * Tests {@link FileHandler#replaceAll}.
 	 */
 	public void testReplaceAll() {
-		IO.test(BULLET, " replaceAll");
+		IO.test(BULLET, "replaceAll");
 
 		final FileHandler fileHandler = new FileHandler("replaceAll.".concat(TEMP_FILE_EXTENSION));
 		try {
@@ -76,7 +76,7 @@ public class FileHandlerTest
 	 * Tests {@link FileHandler#truncate}.
 	 */
 	public void testTruncate() {
-		IO.test(BULLET, " truncate");
+		IO.test(BULLET, "truncate");
 
 		final FileHandler fileHandler = new FileHandler("truncate.".concat(TEMP_FILE_EXTENSION));
 		try {
@@ -106,7 +106,7 @@ public class FileHandlerTest
 	 * Tests {@link FileHandler#findFirstLine}.
 	 */
 	public void testFindFirstLine() {
-		IO.test(BULLET, " findFirstLine");
+		IO.test(BULLET, "findFirstLine");
 
 		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
 		try {
@@ -124,7 +124,7 @@ public class FileHandlerTest
 	 * Tests {@link FileHandler#findLastLine}.
 	 */
 	public void testFindLastLine() {
-		IO.test(BULLET, " findLastLine");
+		IO.test(BULLET, "findLastLine");
 
 		final FileHandler fileHandler = new FileHandler("test/resources/order.csv");
 		try {

@@ -117,7 +117,7 @@ public class Calculator
 			WORK_QUEUE = new SynchronizedWorkQueue<Pair<Element, Map<String, Element>>, Result<Entity>>(
 					new Evaluator());
 		} else {
-			IO.trace("The work queue ", WORK_QUEUE, " has already started");
+			IO.trace("The work queue", WORK_QUEUE, "has already started");
 		}
 	}
 
@@ -276,7 +276,7 @@ public class Calculator
 
 		// Get the type of the unary operation (unary operator or univariate function)
 		final Type type = unaryOperation.getType();
-		IO.debug(type, SPACE, entity);
+		IO.debug(type, entity);
 
 		// Evaluate the unary operation (unary operator or univariate function)
 		final Entity output;
@@ -350,7 +350,7 @@ public class Calculator
 
 		// Get the type of the binary operation (binary operator or bivariate function)
 		final Type type = binaryOperation.getType();
-		IO.debug(leftEntity, SPACE, type, SPACE, rightEntity);
+		IO.debug(leftEntity, type, rightEntity);
 
 		// Evaluate the binary operation (binary operator or bivariate function)
 		final Entity output;

@@ -25,6 +25,7 @@ package jupiter.common.io;
 
 import static jupiter.common.Formats.CHARSET;
 import static jupiter.common.Formats.NEWLINE;
+import static jupiter.common.util.Characters.SEMICOLON;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.BufferedReader;
@@ -459,7 +460,7 @@ public class InputOutput
 			} catch (final InvocationTargetException ex) {
 				IO.error(ex);
 			} catch (final NoSuchMethodException ex) {
-				IO.error(ex, "No default constructor in ", handlerClassName, " found");
+				IO.error(ex, "No default constructor in", handlerClassName, "found");
 			} catch (final SecurityException ex) {
 				IO.error(ex);
 			}
@@ -604,7 +605,7 @@ public class InputOutput
 	public Message trace(final Object... content) {
 		if (severityLevel.isTrace()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TRACE, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -622,7 +623,7 @@ public class InputOutput
 	public Message debug(final Object... content) {
 		if (severityLevel.isDebug()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.DEBUG, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -640,7 +641,7 @@ public class InputOutput
 	public Message test(final Object... content) {
 		if (severityLevel.isTest()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.TEST, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -658,7 +659,7 @@ public class InputOutput
 	public Message info(final Object... content) {
 		if (severityLevel.isInfo()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.INFO, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -676,7 +677,7 @@ public class InputOutput
 	public Message result(final Object... content) {
 		if (severityLevel.isResult()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.RESULT, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -696,7 +697,7 @@ public class InputOutput
 	public Message warn(final Object... content) {
 		if (severityLevel.isWarning()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -733,7 +734,7 @@ public class InputOutput
 	 */
 	public Message warn(final Exception exception, final Object... content) {
 		if (severityLevel.isWarning()) {
-			final String text = Strings.join(Strings.join(content), ": ", exception);
+			final String text = Strings.paste(Strings.paste(content) + SEMICOLON, exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.WARNING, stackIndex + 1,
 					text);
 			println(message);
@@ -753,7 +754,7 @@ public class InputOutput
 	public Message error(final Object... content) {
 		if (severityLevel.isError()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -790,7 +791,7 @@ public class InputOutput
 	 */
 	public Message error(final Exception exception, final Object... content) {
 		if (severityLevel.isError()) {
-			final String text = Strings.join(Strings.join(content), ": ", exception);
+			final String text = Strings.paste(Strings.paste(content) + SEMICOLON, exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.ERROR, stackIndex + 1,
 					text);
 			println(message);
@@ -810,7 +811,7 @@ public class InputOutput
 	public Message fail(final Object... content) {
 		if (severityLevel.isFailure()) {
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, stackIndex + 1,
-					Strings.join(content));
+					Strings.paste(content));
 			println(message);
 			return message;
 		}
@@ -849,7 +850,7 @@ public class InputOutput
 	 */
 	public Message fail(final Exception exception, final Object... content) {
 		if (severityLevel.isFailure()) {
-			final String text = Strings.join(Strings.join(content), ": ", exception);
+			final String text = Strings.paste(Strings.paste(content) + SEMICOLON, exception);
 			final Message message = new Message(Type.OUTPUT, SeverityLevel.FAILURE, stackIndex + 1,
 					text);
 			println(message);
@@ -1242,7 +1243,7 @@ public class InputOutput
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void finalize() {
-		IO.trace(this, " is finalized");
+		IO.trace(this, "is finalized");
 		try {
 			close();
 		} finally {

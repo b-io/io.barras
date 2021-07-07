@@ -44,7 +44,7 @@ public class SplineInterpolatorTest
 	 * Tests {@link SplineInterpolator#interpolate}.
 	 */
 	public void testInterpolate() {
-		IO.test(BULLET, " interpolate");
+		IO.test(BULLET, "interpolate");
 
 		final UnivariateFunction f = SIN;
 		final double[] x = new double[] {0., 1., 2., 3., 4., 5., 6., 7., 8., 9.};
@@ -52,7 +52,7 @@ public class SplineInterpolatorTest
 		final SplineInterpolator interpolator = SplineInterpolator.create(x, y);
 		for (int i = 0; i < x.length - 1; ++i) {
 			final double result = interpolator.apply(x[i] + 0.5);
-			IO.test(result, " ~ ", f.apply(x[i] + 0.5), " ?");
+			IO.test(result, "~", f.apply(x[i] + 0.5), "?");
 			assertEquals(f.apply(x[i] + 0.5), result, 0.05);
 		}
 	}

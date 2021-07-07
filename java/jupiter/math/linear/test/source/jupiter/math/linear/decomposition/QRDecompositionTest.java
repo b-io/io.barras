@@ -43,7 +43,7 @@ public class QRDecompositionTest
 	 * Tests {@link QRDecomposition#QRDecomposition}.
 	 */
 	public void testQRDecomposition() {
-		IO.test(BULLET, " QRDecomposition");
+		IO.test(BULLET, "QRDecomposition");
 
 		// Test the QR decomposition
 		for (int size = 3; size <= 32; ++size) {

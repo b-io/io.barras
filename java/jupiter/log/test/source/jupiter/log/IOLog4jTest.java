@@ -49,7 +49,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testTrace() {
-		IO.test(BULLET, " trace");
+		IO.test(BULLET, "trace");
 		IO.setSeverityLevel(SeverityLevel.TRACE);
 
 		final String content = "This is a trace message";
@@ -60,7 +60,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testDebug() {
-		IO.test(BULLET, " debug");
+		IO.test(BULLET, "debug");
 		IO.setSeverityLevel(SeverityLevel.DEBUG);
 
 		final String content = "This is a debug message";
@@ -71,7 +71,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testInfo() {
-		IO.test(BULLET, " info");
+		IO.test(BULLET, "info");
 
 		final String content = "This is an info message";
 		LOG.info(content);
@@ -83,7 +83,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testWarn() {
-		IO.test(BULLET, " warn");
+		IO.test(BULLET, "warn");
 
 		final String content = "This is a warning message";
 		LOG.warn(content);
@@ -93,7 +93,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testError() {
-		IO.test(BULLET, " error");
+		IO.test(BULLET, "error");
 
 		final String content = "This is an error message";
 		LOG.error(content);
@@ -103,7 +103,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#append}.
 	 */
 	public void testFatal() {
-		IO.test(BULLET, " fatal");
+		IO.test(BULLET, "fatal");
 
 		final String content = "This is a fatal message";
 		LOG.fatal(content);
@@ -115,7 +115,7 @@ public class IOLog4jTest
 	 * Tests {@link IOLog4j#close}.
 	 */
 	public void testClose() {
-		IO.test(BULLET, " close");
+		IO.test(BULLET, "close");
 
 		final Enumeration<?> appenders = LOG.getAllAppenders();
 		while (appenders.hasMoreElements()) {

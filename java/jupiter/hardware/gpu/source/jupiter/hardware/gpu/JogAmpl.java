@@ -99,9 +99,9 @@ public class JogAmpl
 			program = context.createProgram(OpenCL.PROGRAM).build();
 
 			// Build the kernels
-			IO.debug("#Kernels: ", kernelNames.size());
+			IO.debug("#Kernels:", kernelNames.size());
 			for (final String kernelName : kernelNames) {
-				IO.debug("Build the kernel ", Strings.quote(kernelName));
+				IO.debug("Build the kernel", Strings.quote(kernelName));
 				kernels.put(kernelName, program.createCLKernel(kernelName));
 			}
 

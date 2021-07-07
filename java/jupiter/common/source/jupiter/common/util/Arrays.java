@@ -28,8 +28,11 @@ import static jupiter.common.util.Collections.DEFAULT_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import jupiter.common.exception.IllegalClassException;
@@ -42,6 +45,7 @@ import jupiter.common.struct.list.Sort;
 import jupiter.common.struct.set.ExtendedHashSet;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
+import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 
 public class Arrays {
@@ -305,9 +309,9 @@ public class Arrays {
 		}
 
 		// Copy the array to an array
-		final T[] output = (T[]) create(c, array.length);
-		System.arraycopy(array, 0, output, 0, array.length);
-		return output;
+		final T[] newArray = (T[]) create(c, array.length);
+		System.arraycopy(array, 0, newArray, 0, array.length);
+		return newArray;
 	}
 
 	public static <T> T[] toArray(final T[][] array2D) {
@@ -330,11 +334,11 @@ public class Arrays {
 		// Copy the 2D array to an array
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
-		final T[] output = (T[]) create(c, rowCount * columnCount);
+		final T[] newArray = (T[]) create(c, rowCount * columnCount);
 		for (int i = 0; i < rowCount; ++i) {
-			System.arraycopy(array2D[i], 0, output, i * columnCount, columnCount);
+			System.arraycopy(array2D[i], 0, newArray, i * columnCount, columnCount);
 		}
-		return output;
+		return newArray;
 	}
 
 	public static <T> T[] toArray(final T[][][] array3D) {
@@ -358,14 +362,14 @@ public class Arrays {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
-		final T[] output = (T[]) create(c, rowCount * columnCount * depthCount);
+		final T[] newArray = (T[]) create(c, rowCount * columnCount * depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < columnCount; ++j) {
-				System.arraycopy(array3D[i][j], 0, output, (i * columnCount + j) * depthCount,
+				System.arraycopy(array3D[i][j], 0, newArray, (i * columnCount + j) * depthCount,
 						depthCount);
 			}
 		}
-		return output;
+		return newArray;
 	}
 
 	//////////////////////////////////////////////
@@ -389,11 +393,11 @@ public class Arrays {
 
 		// Copy the array to a 2D array
 		final int columnCount = array.length / rowCount;
-		final T[][] output2D = (T[][]) create(c, rowCount, columnCount);
+		final T[][] newArray2D = (T[][]) create(c, rowCount, columnCount);
 		for (int i = 0; i < rowCount; ++i) {
-			System.arraycopy(array, i * columnCount, output2D[i], 0, columnCount);
+			System.arraycopy(array, i * columnCount, newArray2D[i], 0, columnCount);
 		}
-		return output2D;
+		return newArray2D;
 	}
 
 	public static <T> T[][] toArray2D(final T[][] array2D) {
@@ -416,11 +420,11 @@ public class Arrays {
 		// Copy the 2D array to a 2D array
 		final int rowCount = array2D.length;
 		final int columnCount = array2D[0].length;
-		final T[][] output2D = (T[][]) create(c, rowCount, columnCount);
+		final T[][] newArray2D = (T[][]) create(c, rowCount, columnCount);
 		for (int i = 0; i < rowCount; ++i) {
-			System.arraycopy(array2D[i], 0, output2D[i], 0, columnCount);
+			System.arraycopy(array2D[i], 0, newArray2D[i], 0, columnCount);
 		}
-		return output2D;
+		return newArray2D;
 	}
 
 	public static <T> T[][] toArray2D(final T[][][] array3D) {
@@ -444,13 +448,13 @@ public class Arrays {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
-		final T[][] output2D = (T[][]) create(c, rowCount, columnCount * depthCount);
+		final T[][] newArray2D = (T[][]) create(c, rowCount, columnCount * depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < columnCount; ++j) {
-				System.arraycopy(array3D[i][j], 0, output2D[i], j * depthCount, depthCount);
+				System.arraycopy(array3D[i][j], 0, newArray2D[i], j * depthCount, depthCount);
 			}
 		}
-		return output2D;
+		return newArray2D;
 	}
 
 	//////////////////////////////////////////////
@@ -476,14 +480,14 @@ public class Arrays {
 
 		// Copy the array to a 3D array
 		final int depthCount = array.length / (rowCount * columnCount);
-		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		final T[][][] newArray3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < columnCount; ++j) {
-				System.arraycopy(array, (i * columnCount + j) * depthCount, output3D[i][j], 0,
+				System.arraycopy(array, (i * columnCount + j) * depthCount, newArray3D[i][j], 0,
 						depthCount);
 			}
 		}
-		return output3D;
+		return newArray3D;
 	}
 
 	public static <T> T[][][] toArray3D(final T[][] array2D, final int columnCount) {
@@ -507,13 +511,13 @@ public class Arrays {
 		// Copy the 2D array to a 3D array
 		final int rowCount = array2D.length;
 		final int depthCount = array2D[0].length / columnCount;
-		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		final T[][][] newArray3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < columnCount; ++j) {
-				System.arraycopy(array2D[i], j * depthCount, output3D[i][j], 0, depthCount);
+				System.arraycopy(array2D[i], j * depthCount, newArray3D[i][j], 0, depthCount);
 			}
 		}
-		return output3D;
+		return newArray3D;
 	}
 
 	public static <T> T[][][] toArray3D(final T[][][] array3D) {
@@ -537,13 +541,13 @@ public class Arrays {
 		final int rowCount = array3D.length;
 		final int columnCount = array3D[0].length;
 		final int depthCount = array3D[0][0].length;
-		final T[][][] output3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
+		final T[][][] newArray3D = (T[][][]) create(c, rowCount, columnCount, depthCount);
 		for (int i = 0; i < rowCount; ++i) {
 			for (int j = 0; j < columnCount; ++j) {
-				System.arraycopy(array3D[i][j], 0, output3D[i][j], 0, depthCount);
+				System.arraycopy(array3D[i][j], 0, newArray3D[i][j], 0, depthCount);
 			}
 		}
-		return output3D;
+		return newArray3D;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -677,15 +681,15 @@ public class Arrays {
 
 		// Concatenate the arrays
 		final Class<?> c = getComponentClass(a);
-		final T[] concatArray = (T[]) create(c, a.length + b.length);
-		System.arraycopy(a, 0, concatArray, 0, a.length);
+		final T[] newArray = (T[]) create(c, a.length + b.length);
+		System.arraycopy(a, 0, newArray, 0, a.length);
 		try {
-			System.arraycopy(b, 0, concatArray, a.length, b.length);
+			System.arraycopy(b, 0, newArray, a.length, b.length);
 		} catch (final ArrayStoreException ex) {
 			ArrayArguments.requireAssignableFrom(c, getComponentClass(b));
 			throw ex;
 		}
-		return concatArray;
+		return newArray;
 	}
 
 	/**
@@ -711,18 +715,18 @@ public class Arrays {
 
 		// Concatenate the arrays
 		final Class<?> c = getComponentClass(arrays);
-		final T[] concatArray = (T[]) create(c, count(arrays));
+		final T[] newArray = (T[]) create(c, count(arrays));
 		int offset = 0;
 		for (final T[] array : arrays) {
 			try {
-				System.arraycopy(array, 0, concatArray, offset, array.length);
+				System.arraycopy(array, 0, newArray, offset, array.length);
 			} catch (final ArrayStoreException ex) {
 				ArrayArguments.requireAssignableFrom(c, getComponentClass(array));
 				throw ex;
 			}
 			offset += array.length;
 		}
-		return concatArray;
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1008,11 +1012,11 @@ public class Arrays {
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[] filter(final T[] array, final int... indices) {
-		final T[] filteredArray = (T[]) create(getComponentClass(array), indices.length);
+		final T[] newArray = (T[]) create(getComponentClass(array), indices.length);
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArray[i] = array[indices[i]];
+			newArray[i] = array[indices[i]];
 		}
-		return filteredArray;
+		return newArray;
 	}
 
 	/**
@@ -1028,11 +1032,63 @@ public class Arrays {
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
 	public static <T> T[][] filterAll(final T[] array, final int[]... indices) {
-		final T[][] filteredArrays = (T[][]) create(Classes.get(array), indices.length);
+		final T[][] newArray2D = (T[][]) create(Classes.get(array), indices.length);
 		for (int i = 0; i < indices.length; ++i) {
-			filteredArrays[i] = filter(array, indices[i]);
+			newArray2D[i] = filter(array, indices[i]);
 		}
-		return filteredArrays;
+		return newArray2D;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from the specified array.
+	 * <p>
+	 * @param <T>   the component type of the array to remove from
+	 * @param array the {@code T} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified array without the element at the specified index
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[] remove(final T[] array, final int index) {
+		// Check the arguments
+		Arguments.requireNonNull(array, "array");
+
+		// Remove the element at the index from the array
+		final T[] newArray = (T[]) create(getComponentClass(array), array.length - 1);
+		for (int i = 0; i < index; ++i) {
+			newArray[i] = array[i];
+		}
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index, newArray, index + 1, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from the specified array.
+	 * <p>
+	 * @param <T>    the component type of the array to remove from
+	 * @param array  the {@code T} array to remove from
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * <p>
+	 * @return the specified array without the specified {@link Object}
+	 */
+	@SuppressWarnings({"cast", "unchecked"})
+	public static <T> T[] removeAll(final T[] array, final Object object) {
+		// Check the arguments
+		Arguments.requireNonNull(array, "array");
+
+		// Remove all the occurrences of the object from the array
+		final T[] newArray = (T[]) create(getComponentClass(array),
+				array.length - count(array, object));
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (!Objects.equals(array[i], object)) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

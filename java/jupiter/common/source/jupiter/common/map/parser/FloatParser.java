@@ -121,7 +121,7 @@ public class FloatParser
 		try {
 			return Float.valueOf(value);
 		} catch (final NumberFormatException ignored) {
-			IO.error("Cannot convert ", Strings.quote(input), " to a ", Objects.getName(c));
+			IO.error("Cannot convert", Strings.quote(input), "to a", Objects.getName(c));
 		}
 		return null;
 	}
