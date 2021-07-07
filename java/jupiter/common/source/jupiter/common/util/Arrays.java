@@ -1057,11 +1057,8 @@ public class Arrays {
 
 		// Remove the element at the index from the array
 		final T[] newArray = (T[]) create(getComponentClass(array), array.length - 1);
-		for (int i = 0; i < index; ++i) {
-			newArray[i] = array[i];
-		}
 		System.arraycopy(array, 0, newArray, 0, index);
-		System.arraycopy(array, index, newArray, index + 1, array.length - index - 1);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
 		return newArray;
 	}
 
@@ -1089,6 +1086,19 @@ public class Arrays {
 			}
 		}
 		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> void reverse(final T[] array) {
+		reverse(array, 0, array.length);
+	}
+
+	public static <T> void reverse(final T[] array, final int fromIndex, final int toIndex) {
+		final int limit = Integers.middle(toIndex - fromIndex);
+		for (int i = 0; i < limit; ++i) {
+			swap(array, fromIndex + i, toIndex - 1 - i);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1313,19 +1323,6 @@ public class Arrays {
 			sort(array, fromIndex, toIndex);
 		} else {
 			Sort.<T>sort(array, fromIndex, toIndex, comparator, null, 0, 0);
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static <T> void reverse(final T[] array) {
-		reverse(array, 0, array.length);
-	}
-
-	public static <T> void reverse(final T[] array, final int fromIndex, final int toIndex) {
-		final int limit = Integers.middle(toIndex - fromIndex);
-		for (int i = 0; i < limit; ++i) {
-			swap(array, fromIndex + i, toIndex - 1 - i);
 		}
 	}
 

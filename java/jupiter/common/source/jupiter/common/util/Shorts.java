@@ -1337,6 +1337,43 @@ public class Shorts {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code short} array.
+	 * <p>
+	 * @param array the {@code short} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code short} array without the element at the specified index
+	 */
+	public static short[] remove(final short[] array, final int index) {
+		final short[] newArray = new short[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code short} value from the specified
+	 * {@code short} array.
+	 * <p>
+	 * @param array the {@code short} array to remove from
+	 * @param value the {@code short} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code short} array without the specified {@code short} value
+	 */
+	public static short[] removeAll(final short[] array, final short value) {
+		final short[] newArray = new short[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final short... array) {
 		reverse(array, 0, array.length);
 	}

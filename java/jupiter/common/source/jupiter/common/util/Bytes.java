@@ -1575,6 +1575,43 @@ public class Bytes {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code byte} array.
+	 * <p>
+	 * @param array the {@code byte} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code byte} array without the element at the specified index
+	 */
+	public static byte[] remove(final byte[] array, final int index) {
+		final byte[] newArray = new byte[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code byte} value from the specified
+	 * {@code byte} array.
+	 * <p>
+	 * @param array the {@code byte} array to remove from
+	 * @param value the {@code byte} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code byte} array without the specified {@code byte} value
+	 */
+	public static byte[] removeAll(final byte[] array, final byte value) {
+		final byte[] newArray = new byte[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final byte... array) {
 		reverse(array, 0, array.length);
 	}

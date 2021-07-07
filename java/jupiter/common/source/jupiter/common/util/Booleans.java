@@ -1076,6 +1076,43 @@ public class Booleans {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code boolean} array without the element at the specified index
+	 */
+	public static boolean[] remove(final boolean[] array, final int index) {
+		final boolean[] newArray = new boolean[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code boolean} value from the specified
+	 * {@code boolean} array.
+	 * <p>
+	 * @param array the {@code boolean} array to remove from
+	 * @param value the {@code boolean} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code boolean} array without the specified {@code boolean} value
+	 */
+	public static boolean[] removeAll(final boolean[] array, final boolean value) {
+		final boolean[] newArray = new boolean[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final boolean... array) {
 		reverse(array, 0, array.length);
 	}

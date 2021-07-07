@@ -38,6 +38,40 @@ public class IntegersTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests {@link Integers#remove}.
+	 */
+	public void testRemove() {
+		IO.test(BULLET, "remove");
+
+		final int[] array = Integers.createSequence(4);
+		assertTrue(Integers.equals(new int[] {1, 2, 3},
+				Integers.remove(array, 0)));
+		assertTrue(Integers.equals(new int[] {0, 2, 3},
+				Integers.remove(array, 1)));
+		assertTrue(Integers.equals(new int[] {0, 1, 3},
+				Integers.remove(array, 2)));
+		assertTrue(Integers.equals(new int[] {0, 1, 2},
+				Integers.remove(array, 3)));
+	}
+
+	/**
+	 * Tests {@link Integers#removeAll}.
+	 */
+	public void testRemoveAll() {
+		IO.test(BULLET, "removeAll");
+
+		final int[] array = new int[] {1, 2, 2, 3, 3, 3};
+		assertTrue(Integers.equals(new int[] {2, 2, 3, 3, 3},
+				Integers.removeAll(array, 1)));
+		assertTrue(Integers.equals(new int[] {1, 3, 3, 3},
+				Integers.removeAll(array, 2)));
+		assertTrue(Integers.equals(new int[] {1, 2, 2},
+				Integers.removeAll(array, 3)));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Tests {@link Integers#reverse}.
 	 */
 	public void testReverse() {

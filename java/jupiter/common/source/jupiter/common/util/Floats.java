@@ -1323,6 +1323,43 @@ public class Floats {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code float} array without the element at the specified index
+	 */
+	public static float[] remove(final float[] array, final int index) {
+		final float[] newArray = new float[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code float} value from the specified
+	 * {@code float} array.
+	 * <p>
+	 * @param array the {@code float} array to remove from
+	 * @param value the {@code float} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code float} array without the specified {@code float} value
+	 */
+	public static float[] removeAll(final float[] array, final float value) {
+		final float[] newArray = new float[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final float... array) {
 		reverse(array, 0, array.length);
 	}

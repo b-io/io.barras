@@ -1427,6 +1427,43 @@ public class Integers {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code int} array.
+	 * <p>
+	 * @param array the {@code int} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code int} array without the element at the specified index
+	 */
+	public static int[] remove(final int[] array, final int index) {
+		final int[] newArray = new int[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code int} value from the specified {@code int}
+	 * array.
+	 * <p>
+	 * @param array the {@code int} array to remove from
+	 * @param value the {@code int} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code int} array without the specified {@code int} value
+	 */
+	public static int[] removeAll(final int[] array, final int value) {
+		final int[] newArray = new int[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final int... array) {
 		reverse(array, 0, array.length);
 	}

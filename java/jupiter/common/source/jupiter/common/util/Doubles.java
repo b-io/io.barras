@@ -1310,6 +1310,43 @@ public class Doubles {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Removes the element at the specified index from the specified {@code double} array.
+	 * <p>
+	 * @param array the {@code double} array to remove from
+	 * @param index the index of the element to remove
+	 * <p>
+	 * @return the specified {@code double} array without the element at the specified index
+	 */
+	public static double[] remove(final double[] array, final int index) {
+		final double[] newArray = new double[array.length - 1];
+		System.arraycopy(array, 0, newArray, 0, index);
+		System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+		return newArray;
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@code double} value from the specified
+	 * {@code double} array.
+	 * <p>
+	 * @param array the {@code double} array to remove from
+	 * @param value the {@code double} value to remove (may be {@code null})
+	 * <p>
+	 * @return the specified {@code double} array without the specified {@code double} value
+	 */
+	public static double[] removeAll(final double[] array, final double value) {
+		final double[] newArray = new double[array.length - count(array, value)];
+		int index = 0;
+		for (int i = 0; i < array.length; ++i) {
+			if (array[i] != value) {
+				newArray[index++] = array[i];
+			}
+		}
+		return newArray;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void reverse(final double... array) {
 		reverse(array, 0, array.length);
 	}
