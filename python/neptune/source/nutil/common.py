@@ -27,6 +27,7 @@ import sys
 from calendar import monthrange
 from collections import Iterable, Sequence
 from datetime import *
+from distutils.util import *
 from enum import Enum
 from urllib.request import urlopen
 
@@ -49,6 +50,15 @@ class Enum(Enum):
 
 	def __str__(self):
 		return str(self.value)
+
+
+##################################################
+
+class Environment(Enum):
+	DEV = 'dev'
+	TEST = 'test'
+	MODEL = 'model'
+	PROD = 'prod'
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -97,18 +107,6 @@ class Frequency(Enum):
 	QUARTERS = 'Q'
 	SEMESTERS = 'S'
 	YEARS = 'Y'
-
-
-# • ENVIRONMENT ####################################################################################
-
-__ENVIRONMENT_ENUMS_______________________________ = ''
-
-
-class Environment(Enum):
-	DEV = 'dev'
-	TEST = 'test'
-	MODEL = 'model'
-	PROD = 'prod'
 
 
 ####################################################################################################
@@ -222,6 +220,8 @@ MO, TU, WE, TH, FR, SA, SU = WEEKDAYS = tuple(i for i in range(7))
 
 # • FILE ###########################################################################################
 
+__FILE_CONSTANTS__________________________________ = ''
+
 # The default root
 if 'DEFAULT_ROOT' not in globals():
 	DEFAULT_ROOT = None
@@ -239,12 +239,157 @@ INF = np.inf
 NAN = np.nan
 
 ####################################################################################################
-# COMMON REQUIREMENTS
+# COMMON VERIFIERS
 ####################################################################################################
+
+__COMMON_VERIFIERS________________________________ = ''
+
+
+def is_iterable(x):
+	return isinstance(x, Iterable)
+
+
+def is_sequence(x):
+	return isinstance(x, Sequence)
+
+
+def is_tuple(x):
+	return isinstance(x, tuple)
+
+
+#########################
+
+def is_null(x):
+	return x is None or is_nan(x)
+
+
+def is_all_null(*args):
+	return all([is_null(arg) for arg in to_list(*args)])
+
+
+def is_all_not_null(*args):
+	return not is_any_null(*args)
+
+
+def is_any_null(*args):
+	return any([is_null(arg) for arg in to_list(*args)])
+
+
+def is_any_not_null(*args):
+	return not is_all_null(*args)
+
+
+#########################
+
+def is_empty(x):
+	return is_null(x) or \
+	       (is_collection(x) and len(x) == 0 or is_frame(x) and count_cols(x) == 0) or \
+	       str(x) == ''
+
+
+def is_all_empty(*args):
+	return all([is_empty(arg) for arg in to_list(*args)])
+
+
+def is_all_not_empty(*args):
+	return not is_any_empty(*args)
+
+
+def is_any_empty(*args):
+	return any([is_empty(arg) for arg in to_list(*args)])
+
+
+def is_any_not_empty(*args):
+	return not is_all_empty(*args)
+
+
+##################################################
+
+def exists(x):
+	return x in globals() or x in locals() or x in dir(__builtins__)
+
+
+# • ARRAY ##########################################################################################
+
+__ARRAY_VERIFIERS_________________________________ = ''
+
+
+def is_array(x):
+	return isinstance(x, np.ndarray)
+
+
+# • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
+
+__COLLECTION_VERIFIERS____________________________ = ''
+
+
+def is_collection(x):
+	return is_iterable(x) and not is_string(x) and not is_tuple(x)
+
+
+# • DATAFRAME ######################################################################################
+
+__DATAFRAME_VERIFIERS_____________________________ = ''
+
+
+def is_table(x):
+	return is_series(x) or is_frame(x)
+
+
+def is_series(x):
+	return isinstance(x, pd.Series) or isinstance(x, pd.core.groupby.generic.SeriesGroupBy)
+
+
+def is_frame(x):
+	return isinstance(x, pd.DataFrame) or isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+
+
+def is_group(x):
+	return isinstance(x, pd.core.groupby.generic.SeriesGroupBy) or \
+	       isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+
+
+# • DATE ###########################################################################################
+
+__DATE_VERIFIERS__________________________________ = ''
+
+
+def is_date(x):
+	return isinstance(x, date)
+
+
+def is_datetime(x):
+	return isinstance(x, datetime)
+
+
+def is_timestamp(x):
+	return isinstance(x, pd.Timestamp)
+
+
+def is_stamp(x):
+	return is_float(x)
+
+
+#########################
+
+def is_business_day(d):
+	if is_string(d):
+		d = parse_datetime(d)
+	return date.weekday(d) < 5
+
+
+# • DICT ###########################################################################################
+
+__DICT_VERIFIERS__________________________________ = ''
+
+
+def is_dict(x):
+	return isinstance(x, dict)
+
 
 # • FILE ###########################################################################################
 
-__FILE____________________________________________ = ''
+__FILE_VERIFIERS__________________________________ = ''
 
 
 def is_dir(path):
@@ -261,10 +406,60 @@ def is_root(path):
 	return os.path.dirname(path) == path
 
 
-##################################################
+# • LIST ###########################################################################################
+
+__LIST_VERIFIERS__________________________________ = ''
+
+
+def is_list(x):
+	return isinstance(x, list)
+
+
+# • NUMBER #########################################################################################
+
+__NUMBER_VERIFIERS________________________________ = ''
+
+
+def is_nan(x):
+	return x is pd.NA or x is pd.NaT or (is_number(x) and str(x) == 'nan')
+
+
+#########################
+
+def is_number(x):
+	return isinstance(x, numbers.Number)
+
+
+def is_bool(x):
+	return isinstance(x, bool)
+
+
+def is_int(x):
+	return isinstance(x, int)
+
+
+def is_float(x):
+	return isinstance(x, float)
+
+
+# • STRING #########################################################################################
+
+__STRING_VERIFIERS________________________________ = ''
+
+
+def is_string(x):
+	return isinstance(x, str)
+
+
+####################################################################################################
+# FILE FUNCTIONS
+####################################################################################################
+
+__FILE____________________________________________ = ''
+
 
 def get_path(path=None):
-	if path is None:
+	if is_null(path):
 		path = '.'
 	return os.path.abspath(path)
 
@@ -273,7 +468,7 @@ def get_path(path=None):
 
 def get_dir(path=None, parent=None):
 	path = get_path(path)
-	if parent is None:
+	if is_null(parent):
 		parent = not is_dir(path)
 	return os.path.dirname(get_path(path) + ('/' if not parent else ''))
 
@@ -291,11 +486,11 @@ def get_extension(path=None):
 ##################################################
 
 def find_path(filename, dir=None, subdir=None):
-	if dir is None:
+	if is_null(dir):
 		dir = get_dir(get_path())
 		while not is_file(format_dir(dir) + format_dir(subdir) + filename) and not is_root(dir):
 			dir = get_dir(dir, parent=True)
-	elif os.path.isfile(dir):
+	elif is_file(dir):
 		dir = get_dir(dir)
 	return format_dir(dir) + format_dir(subdir) + filename
 
@@ -303,7 +498,7 @@ def find_path(filename, dir=None, subdir=None):
 #########################
 
 def format_dir(dir):
-	if dir is None:
+	if is_null(dir):
 		return ''
 	if dir[-1] == '/' or dir[-1] == '\\':
 		dir = dir[:-1]
@@ -384,12 +579,50 @@ def get_prop(name, default=None):
 		return default
 
 
+def get_bool_prop(name, default=None):
+	prop = get_prop(name, default=default)
+	if is_null(prop):
+		return prop
+	elif is_bool(prop):
+		return prop
+	return strtobool(str(prop))
+
+
+def get_float_prop(name, default=None):
+	prop = get_prop(name, default=default)
+	if is_null(prop):
+		return prop
+	elif is_float(prop):
+		return prop
+	return float(prop)
+
+
+def get_int_prop(name, default=None):
+	prop = get_prop(name, default=default)
+	if is_null(prop):
+		return prop
+	elif is_int(prop):
+		return prop
+	return int(prop)
+
+
+##################################################
+
+# The environment
+ENV = Environment(get_prop('env', 'prod'))
+
+# The flag specifying whether to test
+TEST = get_bool_prop('test', True)
+
 # • CONSOLE ########################################################################################
 
 __CONSOLE_PROPERTIES______________________________ = ''
 
 # The severity level
-SEVERITY_LEVEL = SeverityLevel(int(get_prop('severity', 4)))
+SEVERITY_LEVEL = SeverityLevel(get_int_prop('severity', 4))
+
+# The flag specifying whether to enable the verbose mode
+VERBOSE = get_bool_prop('verbose', True)
 
 # • DATE ###########################################################################################
 
@@ -404,79 +637,12 @@ GROUP = Group(get_prop('group', DEFAULT_GROUP.value))
 # The period
 PERIOD = get_prop('period', DEFAULT_PERIOD)
 
-# • ENVIRONMENT ####################################################################################
-
-__ENVIRONMENT_PROPERTIES__________________________ = ''
-
-# The environment
-ENV = Environment(get_prop('env', 'prod'))
-
 ####################################################################################################
-# COMMON FUNCTIONS
+# COMMON ACCESSORS
 ####################################################################################################
 
-__COMMON__________________________________________ = ''
+__COMMON_ACCESSORS________________________________ = ''
 
-
-def is_iterable(x):
-	return isinstance(x, Iterable)
-
-
-def is_sequence(x):
-	return isinstance(x, Sequence)
-
-
-def is_tuple(x):
-	return isinstance(x, tuple)
-
-
-#########################
-
-def is_null(x):
-	return x is None or is_nan(x)
-
-
-def is_all_null(*args):
-	return all([is_null(arg) for arg in to_list(*args)])
-
-
-def is_all_not_null(*args):
-	return not is_any_null(*args)
-
-
-def is_any_null(*args):
-	return any([is_null(arg) for arg in to_list(*args)])
-
-
-def is_any_not_null(*args):
-	return not is_all_null(*args)
-
-
-#########################
-
-def is_empty(x):
-	return is_null(x) or \
-	       (is_collection(x) and len(x) == 0 or is_frame(x) and count_cols(x) == 0) or \
-	       str(x) == ''
-
-
-def is_all_empty(*args):
-	return all([is_empty(arg) for arg in to_list(*args)])
-
-
-def is_all_not_empty(*args):
-	return not is_any_empty(*args)
-
-
-def is_any_empty(*args):
-	return any([is_empty(arg) for arg in to_list(*args)])
-
-
-def is_any_not_empty(*args):
-	return not is_all_empty(*args)
-
-
-##################################################
 
 def get_exec_info():
 	return sys.exc_info()[0]
@@ -503,183 +669,10 @@ def get_full_class_name(obj):
 	return collapse(module_name, '.', get_class_name(obj))
 
 
-##################################################
-
-def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None, **kwargs):
-	"""Applies the specified function iteratively over the specified value along the specified axis
-	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
-	with the specified arguments."""
-	if is_collection(x):
-		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
-		if inplace:
-			if is_frame(x):
-				chained_assignment = pd.options.mode.chained_assignment
-				pd.options.mode.chained_assignment = None
-				for k in keys:
-					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
-				pd.options.mode.chained_assignment = chained_assignment
-			elif is_series(x):
-				chained_assignment = pd.options.mode.chained_assignment
-				pd.options.mode.chained_assignment = None
-				x.loc[keys] = x.loc[keys].apply(f, args=args, **kwargs)
-				pd.options.mode.chained_assignment = chained_assignment
-			else:
-				for k in keys:
-					x[k] = f(x[k], *args, **kwargs)
-			return x
-		if is_group(x):
-			axis = x.axis
-			if axis == 0:
-				names = get_names(x, inclusion=keys)
-				return concat_rows([to_frame([f(get_values(v, inclusion=keys), *args, **kwargs)],
-				                             names=names, index=i) for i, v in x])
-			index = get_index(x)
-			return concat_cols([to_series(f(get_values(v, inclusion=keys), *args, **kwargs),
-			                              name=k, index=index) for k, v in x if k in keys])
-		elif is_frame(x):
-			if is_null(axis):
-				return concat_cols([x[k].apply(f, args=args, **kwargs) for k in keys])
-			index = get_names(x, inclusion=keys) if axis == 0 else get_index(x)
-			data = f(get_values(x, inclusion=keys), *args, **kwargs)
-			if count_cols(data) > 1:
-				names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
-				return to_frame(data, names=names, index=index)
-			return to_series(data, name=f.__name__, index=index)
-		elif is_series(x):
-			return x.loc[keys].apply(f, args=args, **kwargs)
-		elif is_dict(x):
-			return {k: f(x[k], *args, **kwargs) for k in keys}
-		return list_to_type([f(x[k], *args, **kwargs) for k in keys], x)
-	elif is_string(x):
-		return collapse([f(c, *args, **kwargs) for c in x])
-	return f(x, *args, **kwargs)
-
-
-def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
-	return apply(lambda x: value if condition(x, *args, **kwargs) else x, x, inplace=inplace)
-
-
-def fill_null_with(x, value, inplace=False):
-	return fill_with(x, value, condition=is_null, inplace=inplace)
-
-
-#########################
-
-def browser():
-	pdb.set_trace()
-
-
-#########################
-
-def clear():
-	sys.modules[__name__].__dict__.clear()
-
-
-#########################
-
-def exists(x):
-	return x in globals() or x in locals() or x in dir(__builtins__)
-
-
-#########################
-
-def forward(*args):
-	if len(args) == 1:
-		return args[0]
-	return list(args)
-
-
-#########################
-
-def invert(x):
-	return np.logical_not(x)
-
-
-def reduce_and(x, axis=0):
-	"""Reduces the dimension of the specified arguments by applying the logical AND function
-	cumulatively along the specified axis (over the rows or columns if the specified axis is
-	respectively zero or one)."""
-	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
-	return np.logical_and.reduce(x, axis=axis)
-
-
-def reduce_or(x, axis=0):
-	"""Reduces the dimension of the specified arguments by applying the logical OR function
-	cumulatively along the specified axis (over the rows or columns if the specified axis is
-	respectively zero or one)."""
-	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
-	return np.logical_or.reduce(x, axis=axis)
-
-
-#########################
-
-def reduce(f, *args, initial=None, **kwargs):
-	"""Reduces the specified arguments to a single one by applying the specified function
-	cumulatively (from left to right)."""
-	args = remove_empty(to_list(*args))
-	if is_empty(args):
-		return initial
-	if not is_null(initial):
-		return functools.reduce(lambda x, y: f(x, y, **kwargs), args, initial=initial)
-	return functools.reduce(lambda x, y: f(x, y, **kwargs), args)
-
-
-# • ARRAY ##########################################################################################
-
-__ARRAY___________________________________________ = ''
-
-
-def is_array(x):
-	return isinstance(x, np.ndarray)
-
-
-##################################################
-
-def to_array(*args):
-	if len(args) == 1:
-		arg = args[0]
-		if is_array(arg):
-			return arg
-		elif is_collection(arg):
-			return np.array(arg)
-	return np.array(to_list(*args))
-
-
-def unarray(a):
-	if is_array(a):
-		if len(a) == 1:
-			return a[0]
-		return tuple(a)
-	return a
-
-
-#########################
-
-def array_to_type(a, x):
-	"""Converts the specified array to the type of the specified variable."""
-	if is_frame(x):
-		return to_frame(a, names=get_names(x), index=get_index(x))
-	elif is_series(x):
-		return to_series(a, name=get_names(x), index=get_index(x))
-	elif is_dict(x):
-		return dict(zip(get_keys(x), a))
-	elif is_array(x):
-		return a
-	return to_list(a)
-
-
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
 
-__COLLECTION______________________________________ = ''
+__COLLECTION_ACCESSORS____________________________ = ''
 
-
-def is_collection(x):
-	return is_iterable(x) and not is_string(x) and not is_tuple(x)
-
-
-##################################################
 
 def get(c, index=0, axis=0):
 	if is_null(axis):
@@ -703,6 +696,10 @@ def get_last(c, axis=0):
 
 #########################
 
+def get_name(c, inclusion=None, exclusion=None):
+	return simplify(get_names(c, inclusion=inclusion, exclusion=exclusion))
+
+
 def get_names(c, inclusion=None, exclusion=None):
 	"""Returns the names of the specified collection."""
 	if is_null(c):
@@ -720,6 +717,10 @@ def get_names(c, inclusion=None, exclusion=None):
 	elif not is_frame(c) and not is_dict(c):
 		c = range(len(c))
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
+
+
+def get_key(c, inclusion=None, exclusion=None):
+	return simplify(get_keys(c, inclusion=inclusion, exclusion=exclusion))
 
 
 def get_keys(c, inclusion=None, exclusion=None):
@@ -782,6 +783,10 @@ def get_common_index(c1, c2, inclusion=None, exclusion=None):
 	return get_index(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
+def get_item(c, inclusion=None, exclusion=None):
+	return simplify(get_items(c, inclusion=inclusion, exclusion=exclusion))
+
+
 def get_items(c, inclusion=None, exclusion=None):
 	"""Returns the items (values/entries/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
@@ -796,6 +801,10 @@ def get_items(c, inclusion=None, exclusion=None):
 			return [(k, filter(v, inclusion=keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
 	return [(k, c[k]) for k in keys]
+
+
+def get_value(c, inclusion=None, exclusion=None):
+	return simplify(get_values(c, inclusion=inclusion, exclusion=exclusion))
 
 
 def get_values(c, inclusion=None, exclusion=None):
@@ -898,7 +907,1191 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 	return c
 
 
-##################################################
+# • DATAFRAME ######################################################################################
+
+__DATAFRAME_ACCESSORS_____________________________ = ''
+
+
+def get_row(df, i=0):
+	"""Returns the row of the specified dataframe at the specified index."""
+	if is_group(df):
+		df = get_values(df)
+	elif is_table(df):
+		return df.iloc[i:i + 1] if i != -1 else df.iloc[i:]
+	return df[i]
+
+
+def get_first_row(df):
+	"""Returns the first row of the specified dataframe."""
+	return get_row(df, 0)
+
+
+def get_last_row(df):
+	"""Returns the last row of the specified dataframe."""
+	return get_row(df, -1)
+
+
+#########################
+
+def get_col(df, j=0):
+	"""Returns the column of the specified dataframe at the specified index."""
+	if is_group(df):
+		df = get_values(df)
+	elif is_frame(df):
+		return df.iloc[:, j]
+	elif is_series(df):
+		return df.iloc[:]
+	return df[:, j]
+
+
+def get_first_col(df):
+	"""Returns the first column of the specified dataframe."""
+	return get_col(df, 0)
+
+
+def get_last_col(df):
+	"""Returns the last column of the specified dataframe."""
+	return get_col(df, -1)
+
+
+# • DATE ###########################################################################################
+
+__DATE_ACCESSORS__________________________________ = ''
+
+
+def get_date():
+	return date.today()
+
+
+def get_date_string():
+	return format_date(get_date())
+
+
+def get_datetime():
+	return datetime.now()
+
+
+def get_datetime_string(fmt=DEFAULT_DATE_TIME_FORMAT):
+	return format_datetime(get_datetime(), fmt=fmt)
+
+
+def get_time_string():
+	return format_time(get_datetime())
+
+
+def get_datestamp():
+	return to_datestamp(get_date())
+
+
+def get_timestamp():
+	return to_timestamp(get_datetime())
+
+
+def get_stamp():
+	return to_stamp(get_datetime())
+
+
+#########################
+
+def get_day(d=get_datetime(), week=False, year=False):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.weekday() if week else d.timetuple().tm_yday if year else d.day
+	return d
+
+
+def get_days(c, week=False, year=False):
+	if is_table(c):
+		index = to_timestamp(get_index(c))
+		return index.weekday if week else index.dayofyear if year else index.day
+	elif is_dict(c):
+		return get_days(get_index(c), week=week, year=year)
+	return list_to_type([get_day(d, week=week, year=year) for d in c], c)
+
+
+def get_week(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.isocalendar()[1]
+	return d
+
+
+def get_weeks(c):
+	if is_table(c):
+		return pd.Int64Index(to_timestamp(get_index(c)).isocalendar().week)
+	elif is_dict(c):
+		return get_weeks(get_index(c))
+	return list_to_type([get_week(d) for d in c], c)
+
+
+def get_year_week(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		iso_cal = d.isocalendar()
+		return iso_cal[0], iso_cal[1]
+	return d
+
+
+def get_year_weeks(c):
+	if is_table(c):
+		year_week = ['year', 'week']
+		iso_cal = to_timestamp(get_index(c)).isocalendar()
+		return pd.MultiIndex.from_frame(filter(iso_cal, inclusion=year_week), names=year_week)
+	elif is_dict(c):
+		return get_year_weeks(get_index(c))
+	return list_to_type([get_year_week(d) for d in c], c)
+
+
+def get_month(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.month
+	return d
+
+
+def get_months(c):
+	if is_table(c):
+		return to_timestamp(get_index(c)).month
+	elif is_dict(c):
+		return get_months(get_index(c))
+	return list_to_type([get_month(d) for d in c], c)
+
+
+def get_quarter(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return ceil(d.month / 3)
+	return d
+
+
+def get_quarters(c):
+	if is_table(c):
+		return to_timestamp(get_index(c)).quarter
+	elif is_dict(c):
+		return get_quarters(get_index(c))
+	return list_to_type([get_quarter(d) for d in c], c)
+
+
+def get_semester(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return ceil(d.month / 6)
+	return d
+
+
+def get_semesters(c):
+	if is_table(c):
+		return ceil(get_months(c) / 6)
+	elif is_dict(c):
+		return get_semesters(get_index(c))
+	return list_to_type([get_semester(d) for d in c], c)
+
+
+def get_year(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.year
+	return d
+
+
+def get_years(c):
+	if is_table(c):
+		return to_timestamp(get_index(c)).year
+	elif is_dict(c):
+		return get_years(get_index(c))
+	return list_to_type([get_year(d) for d in c], c)
+
+
+#########################
+
+def get_business_day(d=get_datetime(), prev=True):
+	if is_string(d):
+		d = parse_datetime(d)
+	if not is_business_day(d):
+		return get_prev_business_day(d) if prev else get_next_business_day(d)
+	return d
+
+
+def get_prev_business_day(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	day = date.weekday(d)
+	if day is MO:  # Monday
+		return d - 3 * DAY
+	elif day is SU:  # Sunday
+		return d - 2 * DAY
+	return d - DAY
+
+
+def get_next_business_day(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	day = date.weekday(d)
+	if day is FR:  # Friday
+		return d + 3 * DAY
+	elif day is SA:  # Saturday
+		return d + 2 * DAY
+	return d + DAY
+
+
+#########################
+
+def get_month_range(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	return monthrange(d.year, d.month)
+
+
+def get_month_weekday(year, month):
+	return monthrange(year, month)[0]
+
+
+def get_month_days(year, month):
+	return monthrange(year, month)[1]
+
+
+#########################
+
+def get_month_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_month_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(day=1))
+
+
+def get_month_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_month_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(day=get_month_days(d.year, d.month)))
+
+
+def get_prev_month_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_month_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if d.month == 1:
+		year = d.year - 1
+		month = 12
+	else:
+		year = d.year
+		month = d.month - 1
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_prev_month_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_month_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if d.month == 1:
+		year = d.year - 1
+		month = 12
+	else:
+		year = d.year
+		month = d.month - 1
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+def get_next_month_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_month_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if d.month == 12:
+		year = d.year + 1
+		month = 1
+	else:
+		year = d.year
+		month = d.month + 1
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_next_month_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_month_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if d.month == 12:
+		year = d.year + 1
+		month = 1
+	else:
+		year = d.year
+		month = d.month + 1
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+#########################
+
+def get_quarter_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_quarter_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		month = 1
+	elif 4 <= d.month <= 6:
+		month = 4
+	elif 7 <= d.month <= 9:
+		month = 7
+	else:
+		month = 10
+	return reset_time(d.replace(month=month, day=1))
+
+
+def get_quarter_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_quarter_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		month = 3
+	elif 4 <= d.month <= 6:
+		month = 6
+	elif 7 <= d.month <= 9:
+		month = 9
+	else:
+		month = 12
+	return reset_time(d.replace(month=month, day=get_month_days(d.year, month)))
+
+
+def get_prev_quarter_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_quarter_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		year = d.year - 1
+		month = 10
+	elif 4 <= d.month <= 6:
+		year = d.year
+		month = 1
+	elif 7 <= d.month <= 9:
+		year = d.year
+		month = 4
+	else:
+		year = d.year
+		month = 7
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_prev_quarter_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_quarter_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		year = d.year - 1
+		month = 10
+	elif 4 <= d.month <= 6:
+		year = d.year
+		month = 1
+	elif 7 <= d.month <= 9:
+		year = d.year
+		month = 4
+	else:
+		year = d.year
+		month = 7
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+def get_next_quarter_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_quarter_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		year = d.year
+		month = 4
+	elif 4 <= d.month <= 6:
+		year = d.year
+		month = 7
+	elif 7 <= d.month <= 9:
+		year = d.year
+		month = 10
+	else:
+		year = d.year + 1
+		month = 1
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_next_quarter_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_quarter_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 3:
+		year = d.year
+		month = 4
+	elif 4 <= d.month <= 6:
+		year = d.year
+		month = 7
+	elif 7 <= d.month <= 9:
+		year = d.year
+		month = 10
+	else:
+		year = d.year + 1
+		month = 1
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+#########################
+
+def get_semester_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_semester_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		month = 1
+	else:
+		month = 7
+	return reset_time(d.replace(month=month, day=1))
+
+
+def get_semester_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_semester_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		month = 6
+	else:
+		month = 12
+	return reset_time(d.replace(month=month, day=get_month_days(d.year, month)))
+
+
+def get_prev_semester_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_semester_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		year = d.year - 1
+		month = 7
+	else:
+		year = d.year
+		month = 1
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_prev_semester_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_semester_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		year = d.year - 1
+		month = 12
+	else:
+		year = d.year
+		month = 6
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+def get_next_semester_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_semester_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		year = d.year
+		month = 7
+	else:
+		year = d.year + 1
+		month = 1
+	return reset_time(d.replace(year=year, month=month, day=1))
+
+
+def get_next_semester_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_semester_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	if 1 <= d.month <= 6:
+		year = d.year
+		month = 12
+	else:
+		year = d.year + 1
+		month = 6
+	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
+
+
+#########################
+
+def get_year_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_year_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(month=1, day=1))
+
+
+def get_year_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_year_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(month=12, day=31))
+
+
+def get_prev_year_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_year_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(year=d.year - 1, month=1, day=1))
+
+
+def get_prev_year_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_prev_year_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(year=d.year - 1, month=12, day=31))
+
+
+def get_next_year_start(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_year_start, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(year=d.year + 1, month=1, day=1))
+
+
+def get_next_year_end(d=get_datetime()):
+	if is_collection(d):
+		return apply(get_next_year_end, d)
+	elif is_string(d):
+		d = parse_datetime(d)
+	return reset_time(d.replace(year=d.year + 1, month=12, day=31))
+
+
+#########################
+
+def get_start_period(y, s=None, q=None, m=None, w=None, d=None):
+	if is_all_not_null(y, m, d):
+		return create_datetime(y, m, d)
+	elif is_all_not_null(y, w):
+		return datetime.fromisocalendar(y, w, 1)
+	elif is_all_not_null(y, m):
+		return create_datetime(y, m, 1)
+	elif is_all_not_null(y, q):
+		return create_datetime(y, 1 + 3 * (q - 1), 1)
+	elif is_all_not_null(y, s):
+		return create_datetime(y, 1 + 6 * (s - 1), 1)
+	return create_datetime(y, 1, 1)
+
+
+def get_end_period(y, s=None, q=None, m=None, w=None, d=None):
+	if is_all_not_null(y, m, d):
+		return create_datetime(y, m, d)
+	elif is_all_not_null(y, w):
+		return datetime.fromisocalendar(y, w, 7)
+	elif is_all_not_null(y, m):
+		return create_datetime(y, m, monthrange(y, m)[1])
+	elif is_all_not_null(y, q):
+		return create_datetime(y, 3 + 3 * (q - 1), monthrange(y, 3 + 3 * (q - 1))[1])
+	elif is_all_not_null(y, s):
+		return create_datetime(y, 6 + 6 * (s - 1), monthrange(y, 6 + 6 * (s - 1))[1])
+	return create_datetime(y, 12, 31)
+
+
+#########################
+
+def get_start_date(d, freq=FREQUENCY):
+	if freq is Frequency.WEEKS:
+		y, w = get_year_week(d)
+		return get_start_period(y=y, w=w)
+	elif freq is Frequency.MONTHS:
+		return get_start_period(y=get_year(d), m=get_month(d))
+	elif freq is Frequency.QUARTERS:
+		return get_start_period(y=get_year(d), q=get_quarter(d))
+	elif freq is Frequency.SEMESTERS:
+		return get_start_period(y=get_year(d), s=get_semester(d))
+	elif freq is Frequency.YEARS:
+		return get_start_period(y=get_year(d))
+	return to_datetime(d)
+
+
+def get_end_date(d, freq=FREQUENCY):
+	if freq is Frequency.WEEKS:
+		y, w = get_year_week(d)
+		return get_end_period(y=y, w=w)
+	elif freq is Frequency.MONTHS:
+		return get_end_period(y=get_year(d), m=get_month(d))
+	elif freq is Frequency.QUARTERS:
+		return get_end_period(y=get_year(d), q=get_quarter(d))
+	elif freq is Frequency.SEMESTERS:
+		return get_end_period(y=get_year(d), s=get_semester(d))
+	elif freq is Frequency.YEARS:
+		return get_end_period(y=get_year(d))
+	return to_datetime(d)
+
+
+def get_start_datetime(d, freq=FREQUENCY):
+	return to_datetime(get_start_date(d, freq=freq))
+
+
+def get_end_datetime(d, freq=FREQUENCY):
+	return to_datetime(get_end_date(d, freq=freq))
+
+
+def get_start_timestamp(d, freq=Frequency.DAYS):
+	return to_timestamp(get_start_date(d, freq=freq))
+
+
+def get_end_timestamp(d, freq=Frequency.DAYS):
+	return to_timestamp(get_end_date(d, freq=freq))
+
+
+#########################
+
+def get_period_index(period=PERIOD):
+	period_length = int(period[0:-1])
+	period_freq = Frequency(period[-1].upper())
+	if period_freq is Frequency.DAYS:
+		return period_length
+	elif period_freq is Frequency.WEEKS:
+		return period_length * DAYS_PER_WEEK
+	elif period_freq is Frequency.MONTHS:
+		return period_length * DAYS_PER_MONTH
+	elif period_freq is Frequency.QUARTERS:
+		return period_length * DAYS_PER_QUARTER
+	elif period_freq is Frequency.SEMESTERS:
+		return period_length * DAYS_PER_SEMESTER
+	elif period_freq is Frequency.YEARS:
+		return period_length * DAYS_PER_YEAR
+
+
+def get_period_length(d, period=PERIOD, freq=FREQUENCY):
+	return diff_date(subtract_period(d, period), d, freq=freq)
+
+
+def get_period_days(d, period=PERIOD):
+	return diff_days(subtract_period(d, period), d)
+
+
+def get_period_weeks(d, period=PERIOD):
+	return diff_weeks(subtract_period(d, period), d)
+
+
+def get_period_months(d, period=PERIOD):
+	return diff_months(subtract_period(d, period), d)
+
+
+def get_period_quarters(d, period=PERIOD):
+	return diff_quarters(subtract_period(d, period), d)
+
+
+def get_period_semesters(d, period=PERIOD):
+	return diff_semesters(subtract_period(d, period), d)
+
+
+def get_period_years(d, period=PERIOD):
+	return diff_years(subtract_period(d, period), d)
+
+
+####################################################################################################
+# COMMON CONVERTERS
+####################################################################################################
+
+__COMMON_CONVERTERS_______________________________ = ''
+
+# • ARRAY ##########################################################################################
+
+__ARRAY_CONVERTERS________________________________ = ''
+
+
+def to_array(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_array(arg):
+			return arg
+		elif is_collection(arg):
+			return np.array(arg)
+	return np.array(to_list(*args))
+
+
+def unarray(a):
+	if is_array(a):
+		if len(a) == 1:
+			return a[0]
+		return tuple(a)
+	return a
+
+
+#########################
+
+def array_to_type(a, x):
+	"""Converts the specified array to the type of the specified variable."""
+	if is_frame(x):
+		return to_frame(a, names=get_names(x), index=get_index(x))
+	elif is_series(x):
+		return to_series(a, name=get_names(x), index=get_index(x))
+	elif is_dict(x):
+		return dict(zip(get_keys(x), a))
+	elif is_array(x):
+		return a
+	return to_list(a)
+
+
+# • DATAFRAME ######################################################################################
+
+__DATAFRAME_CONVERTERS____________________________ = ''
+
+
+def to_series(data, name=None, index=None):
+	"""Converts the specified collection to a series."""
+	if is_null(data):
+		data = []
+	elif is_group(data):
+		data = data.obj
+	if is_frame(data):
+		if count_cols(data) > 1:
+			return [to_series(data[k], name=name, index=index) for k in get_keys(data)]
+		series = get_col(data) if not is_empty(data) else pd.Series()
+	elif is_series(data):
+		series = data
+	else:
+		series = pd.Series(data=data, dtype=float)
+	if not is_null(index):
+		set_index(series, index)
+	if not is_null(name):
+		set_names(series, name)
+	return series
+
+
+def to_time_series(data, name=None, index=None):
+	"""Converts the specified collection to a time series."""
+	if not is_null(index):
+		index = to_timestamp(index)
+	return to_series(data, name=name, index=index)
+
+
+def to_frame(data, names=None, index=None):
+	"""Converts the specified collection to a dataframe."""
+	if is_null(data):
+		data = []
+	elif is_group(data):
+		data = data.obj
+	if is_frame(data):
+		frame = data
+	elif is_series(data):
+		frame = data.to_frame()
+	elif is_dict(data):
+		frame = pd.DataFrame.from_dict(data)
+	else:
+		frame = pd.DataFrame(data=data)
+	if not is_null(index):
+		set_index(frame, index)
+	if not is_null(names):
+		set_names(frame, names)
+	return frame
+
+
+# • DATE ###########################################################################################
+
+__DATE_CONVERTERS_________________________________ = ''
+
+
+def to_date(x, fmt=DEFAULT_DATE_FORMAT):
+	if is_null(x):
+		return None
+	elif is_collection(x):
+		return apply(to_date, x, fmt=fmt)
+	elif is_stamp(x):
+		x = parse_stamp(x)
+		return create_date(x.year, x.month, x.day)
+	elif is_timestamp(x):
+		x = x.to_pydatetime()
+		return create_date(x.year, x.month, x.day)
+	elif is_datetime(x):
+		return create_date(x.year, x.month, x.day)
+	elif is_date(x):
+		return x
+	return datetime.strptime(x, fmt)
+
+
+def to_datetime(x, fmt=DEFAULT_DATE_TIME_FORMAT):
+	if is_null(x):
+		return None
+	elif is_collection(x):
+		return apply(to_datetime, x, fmt=fmt)
+	elif is_stamp(x):
+		return parse_stamp(x)
+	elif is_timestamp(x):
+		return x.to_pydatetime()
+	elif is_datetime(x):
+		return x
+	elif is_date(x):
+		return create_datetime(x.year, x.month, x.day)
+	return datetime.strptime(x, fmt)
+
+
+def to_time(x, fmt=DEFAULT_TIME_FORMAT):
+	if is_null(x):
+		return None
+	return to_datetime(x, fmt=fmt)
+
+
+def to_datestamp(d):
+	if is_null(d):
+		return None
+	elif is_stamp(d):
+		d = parse_stamp(d)
+	return pd.to_datetime(d).floor('D')
+
+
+def to_timestamp(d):
+	if is_null(d):
+		return None
+	elif is_stamp(d):
+		d = parse_stamp(d)
+	return pd.to_datetime(d)
+
+
+def to_stamp(x):
+	if is_null(x):
+		return None
+	elif is_collection(x):
+		return apply(to_stamp, x)
+	elif is_stamp(x):
+		return x
+	return to_datetime(x).timestamp()
+
+
+#########################
+
+def timestamp_to_type(t, x):
+	"""Converts the specified timestamp to the type of the specified variable."""
+	if is_collection(t):
+		return apply(timestamp_to_type, t, x)
+	elif is_stamp(x):
+		return to_stamp(t)
+	elif is_timestamp(x):
+		return t
+	elif is_datetime(x):
+		return to_datetime(t)
+	elif is_date(x):
+		return to_date(t)
+	return t
+
+
+# • DICT ###########################################################################################
+
+__DICT_CONVERTERS_________________________________ = ''
+
+
+def to_dict(c):
+	"""Converts the specified collection to a dictionary."""
+	if is_null(c):
+		return {}
+	elif is_table(c):
+		return c.to_dict()
+	elif is_dict(c):
+		return c
+	return {k: v for k, v in enumerate(c)}
+
+
+# • LIST ###########################################################################################
+
+__LIST_CONVERTERS_________________________________ = ''
+
+
+def to_list(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_list(arg):
+			return arg
+		elif is_collection(arg):
+			return list(arg)
+		return [arg]
+	return list(args)
+
+
+def unlist(l):
+	if is_list(l):
+		if len(l) == 1:
+			return l[0]
+		return tuple(l)
+	return l
+
+
+#########################
+
+def list_to_type(l, x):
+	if is_frame(x):
+		return to_frame(l, names=get_names(x), index=get_index(x))
+	elif is_series(x):
+		return to_series(l, name=get_names(x), index=get_index(x))
+	elif is_dict(x):
+		return dict(zip(get_keys(x), l))
+	elif is_array(x):
+		return to_array(l)
+	return l
+
+
+# • NUMBER #########################################################################################
+
+__NUMBER_CONVERTERS_______________________________ = ''
+
+
+def to_bool(x):
+	if is_null(x):
+		return NAN
+	elif is_collection(x):
+		return apply(to_bool, x)
+	return strtobool(str(x))
+
+
+def to_int(x):
+	if is_null(x):
+		return NAN
+	elif is_collection(x):
+		return apply(to_int, x)
+	return int(x)
+
+
+def to_float(x):
+	if is_null(x):
+		return NAN
+	elif is_collection(x):
+		return apply(to_float, x)
+	return float(x)
+
+
+# • STRING #########################################################################################
+
+__STRING_CONVERTERS_______________________________ = ''
+
+
+def to_string(x, delimiter=','):
+	if is_null(x):
+		return None
+	elif is_collection(x):
+		return collapse(x, delimiter=delimiter)
+	return str(x)
+
+
+####################################################################################################
+# COMMON GENERATORS
+####################################################################################################
+
+__COMMON_GENERATORS_______________________________ = ''
+
+# • DATE ###########################################################################################
+
+__DATE_GENERATORS_________________________________ = ''
+
+
+def create_date(y, m, d):
+	return date(int(y), int(m), int(d))
+
+
+def create_datetime(y, m, d):
+	return datetime(int(y), int(m), int(d))
+
+
+def create_timestamp(y, m, d):
+	return pd.Timestamp(int(y), int(m), int(d))
+
+
+def create_stamp(y, m, d):
+	return to_stamp(create_datetime(y, m, d))
+
+
+#########################
+
+def create_date_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
+	return to_date(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+
+
+def create_datetime_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
+	return to_datetime(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+
+
+def create_timestamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
+	return to_timestamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+
+
+def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
+	return to_stamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+
+
+# • NUMBER #########################################################################################
+
+__NUMBER_GENERATORS_______________________________ = ''
+
+
+def create_sequence(start=0, stop=0, step=1, include=False, n=None):
+	if start == stop:
+		if include:
+			return start
+		return to_array()
+	elif start > stop:
+		start, stop = stop, start
+	if not is_null(n):
+		if n <= 1:
+			return start
+		step = (stop - start) / (n if not include else n - 1)
+	sequence = np.arange(start, stop, step)
+	if include:
+		sequence = np.append(sequence, stop)
+	return sequence
+
+
+# • STRING #########################################################################################
+
+__STRING_GENERATORS_______________________________ = ''
+
+
+def generate_string(length, case_sensitive=False, digits=True):
+	"""Generates a pseudorandom, uniformly distributed string of the specified length."""
+	choices = string.ascii_uppercase
+	if case_sensitive:
+		choices += string.ascii_lowercase
+	if digits:
+		choices += string.digits
+	return collapse(random.choices(choices, k=length))
+
+
+####################################################################################################
+# COMMON PROCESSORS
+####################################################################################################
+
+__COMMON_PROCESSORS_______________________________ = ''
+
+
+def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None, **kwargs):
+	"""Applies the specified function iteratively over the specified value along the specified axis
+	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
+	with the specified arguments."""
+	if is_collection(x):
+		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
+		if inplace:
+			if is_frame(x):
+				chained_assignment = pd.options.mode.chained_assignment
+				pd.options.mode.chained_assignment = None
+				for k in keys:
+					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
+				pd.options.mode.chained_assignment = chained_assignment
+			elif is_series(x):
+				chained_assignment = pd.options.mode.chained_assignment
+				pd.options.mode.chained_assignment = None
+				x.loc[keys] = x.loc[keys].apply(f, args=args, **kwargs)
+				pd.options.mode.chained_assignment = chained_assignment
+			else:
+				for k in keys:
+					x[k] = f(x[k], *args, **kwargs)
+			return x
+		if is_group(x):
+			axis = x.axis
+			if axis == 0:
+				names = get_names(x, inclusion=keys)
+				return concat_rows([to_frame([f(get_values(v, inclusion=keys), *args, **kwargs)],
+				                             names=names, index=i) for i, v in x])
+			index = get_index(x)
+			return concat_cols([to_series(f(get_values(v, inclusion=keys), *args, **kwargs),
+			                              name=k, index=index) for k, v in x if k in keys])
+		elif is_frame(x):
+			if is_null(axis):
+				return concat_cols([x[k].apply(f, args=args, **kwargs) for k in keys])
+			index = get_names(x, inclusion=keys) if axis == 0 else get_index(x)
+			data = f(get_values(x, inclusion=keys), *args, **kwargs)
+			if count_cols(data) > 1:
+				names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
+				return to_frame(data, names=names, index=index)
+			return to_series(data, name=f.__name__, index=index)
+		elif is_series(x):
+			return x.loc[keys].apply(f, args=args, **kwargs)
+		elif is_dict(x):
+			return {k: f(x[k], *args, **kwargs) for k in keys}
+		return list_to_type([f(x[k], *args, **kwargs) for k in keys], x)
+	elif is_string(x):
+		return collapse([f(c, *args, **kwargs) for c in x])
+	return f(x, *args, **kwargs)
+
+
+def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
+	return apply(lambda x: value if condition(x, *args, **kwargs) else x, x, inplace=inplace)
+
+
+def fill_null_with(x, value, inplace=False):
+	return fill_with(x, value, condition=is_null, inplace=inplace)
+
+
+#########################
+
+def browser():
+	pdb.set_trace()
+
+
+#########################
+
+def clear():
+	sys.modules[__name__].__dict__.clear()
+
+
+#########################
+
+def forward(*args):
+	if len(args) == 1:
+		return args[0]
+	return list(args)
+
+
+#########################
+
+def invert(x):
+	return np.logical_not(x)
+
+
+def reduce_and(x, axis=0):
+	"""Reduces the dimension of the specified arguments by applying the logical AND function
+	cumulatively along the specified axis (over the rows or columns if the specified axis is
+	respectively zero or one)."""
+	if axis == 1 and count_cols(x) == 0:
+		return to_array(x)
+	return np.logical_and.reduce(x, axis=axis)
+
+
+def reduce_or(x, axis=0):
+	"""Reduces the dimension of the specified arguments by applying the logical OR function
+	cumulatively along the specified axis (over the rows or columns if the specified axis is
+	respectively zero or one)."""
+	if axis == 1 and count_cols(x) == 0:
+		return to_array(x)
+	return np.logical_or.reduce(x, axis=axis)
+
+
+#########################
+
+def reduce(f, *args, initial=None, **kwargs):
+	"""Reduces the specified arguments to a single one by applying the specified function
+	cumulatively (from left to right)."""
+	args = remove_empty(to_list(*args))
+	if is_empty(args):
+		return initial
+	if not is_null(initial):
+		return functools.reduce(lambda x, y: f(x, y, **kwargs), args, initial=initial)
+	return functools.reduce(lambda x, y: f(x, y, **kwargs), args)
+
+
+# • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
+
+__COLLECTION_PROCESSORS___________________________ = ''
+
 
 def all_values(c):
 	return np.all(get_values(c))
@@ -1609,7 +2802,7 @@ def update(left, right, inclusion=None, exclusion=None):
 
 # • CONSOLE ########################################################################################
 
-__CONSOLE_________________________________________ = ''
+__CONSOLE_PROCESSORS______________________________ = ''
 
 
 def trace(*args):
@@ -1654,71 +2847,8 @@ def fail(*args):
 
 # • DATAFRAME ######################################################################################
 
-__DATAFRAME_______________________________________ = ''
+__DATAFRAME_PROCESSORS____________________________ = ''
 
-
-def is_table(x):
-	return is_series(x) or is_frame(x)
-
-
-def is_series(x):
-	return isinstance(x, pd.Series) or isinstance(x, pd.core.groupby.generic.SeriesGroupBy)
-
-
-def is_frame(x):
-	return isinstance(x, pd.DataFrame) or isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
-
-
-def is_group(x):
-	return isinstance(x, pd.core.groupby.generic.SeriesGroupBy) or \
-	       isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
-
-
-##################################################
-
-def get_row(df, i=0):
-	"""Returns the row of the specified dataframe at the specified index."""
-	if is_group(df):
-		df = get_values(df)
-	elif is_table(df):
-		return df.iloc[i:i + 1] if i != -1 else df.iloc[i:]
-	return df[i]
-
-
-def get_first_row(df):
-	"""Returns the first row of the specified dataframe."""
-	return get_row(df, 0)
-
-
-def get_last_row(df):
-	"""Returns the last row of the specified dataframe."""
-	return get_row(df, -1)
-
-
-#########################
-
-def get_col(df, j=0):
-	"""Returns the column of the specified dataframe at the specified index."""
-	if is_group(df):
-		df = get_values(df)
-	elif is_frame(df):
-		return df.iloc[:, j]
-	elif is_series(df):
-		return df.iloc[:]
-	return df[:, j]
-
-
-def get_first_col(df):
-	"""Returns the first column of the specified dataframe."""
-	return get_col(df, 0)
-
-
-def get_last_col(df):
-	"""Returns the last column of the specified dataframe."""
-	return get_col(df, -1)
-
-
-##################################################
 
 def combine_all(*args, f):
 	return reduce(lambda left, right: combine(left, right, f), *args)
@@ -2001,768 +3131,10 @@ def product_cols(df):
 	return df.product(axis=1)
 
 
-##################################################
-
-def to_series(data, name=None, index=None):
-	"""Converts the specified collection to a series."""
-	if is_null(data):
-		data = []
-	elif is_group(data):
-		data = data.obj
-	if is_frame(data):
-		if count_cols(data) > 1:
-			return [to_series(data[k], name=name, index=index) for k in get_keys(data)]
-		series = get_col(data) if not is_empty(data) else pd.Series()
-	elif is_series(data):
-		series = data
-	else:
-		series = pd.Series(data=data, dtype=float)
-	if not is_null(index):
-		set_index(series, index)
-	if not is_null(name):
-		set_names(series, name)
-	return series
-
-
-def to_time_series(data, name=None, index=None):
-	"""Converts the specified collection to a time series."""
-	if not is_null(index):
-		index = to_timestamp(index)
-	return to_series(data, name=name, index=index)
-
-
-def to_frame(data, names=None, index=None):
-	"""Converts the specified collection to a dataframe."""
-	if is_null(data):
-		data = []
-	elif is_group(data):
-		data = data.obj
-	if is_frame(data):
-		frame = data
-	elif is_series(data):
-		frame = data.to_frame()
-	elif is_dict(data):
-		frame = pd.DataFrame.from_dict(data)
-	else:
-		frame = pd.DataFrame(data=data)
-	if not is_null(index):
-		set_index(frame, index)
-	if not is_null(names):
-		set_names(frame, names)
-	return frame
-
-
 # • DATE ###########################################################################################
 
-__DATE____________________________________________ = ''
+__DATE_PROCESSORS_________________________________ = ''
 
-
-def is_date(x):
-	return isinstance(x, date)
-
-
-def is_datetime(x):
-	return isinstance(x, datetime)
-
-
-def is_timestamp(x):
-	return isinstance(x, pd.Timestamp)
-
-
-def is_stamp(x):
-	return is_float(x)
-
-
-#########################
-
-def is_business_day(d):
-	if is_string(d):
-		d = parse_datetime(d)
-	return date.weekday(d) < 5
-
-
-##################################################
-
-def get_date():
-	return date.today()
-
-
-def get_date_string():
-	return format_date(get_date())
-
-
-def get_datetime():
-	return datetime.now()
-
-
-def get_datetime_string(fmt=DEFAULT_DATE_TIME_FORMAT):
-	return format_datetime(get_datetime(), fmt=fmt)
-
-
-def get_time_string():
-	return format_time(get_datetime())
-
-
-def get_datestamp():
-	return to_datestamp(get_date())
-
-
-def get_timestamp():
-	return to_timestamp(get_datetime())
-
-
-def get_stamp():
-	return to_stamp(get_datetime())
-
-
-#########################
-
-def get_day(d=get_datetime(), week=False, year=False):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return d.weekday() if week else d.timetuple().tm_yday if year else d.day
-	return d
-
-
-def get_days(c, week=False, year=False):
-	if is_table(c):
-		index = to_timestamp(get_index(c))
-		return index.weekday if week else index.dayofyear if year else index.day
-	elif is_dict(c):
-		return get_days(get_index(c), week=week, year=year)
-	return list_to_type([get_day(d, week=week, year=year) for d in c], c)
-
-
-def get_week(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return d.isocalendar()[1]
-	return d
-
-
-def get_weeks(c):
-	if is_table(c):
-		return pd.Int64Index(to_timestamp(get_index(c)).isocalendar().week)
-	elif is_dict(c):
-		return get_weeks(get_index(c))
-	return list_to_type([get_week(d) for d in c], c)
-
-
-def get_year_week(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		iso_cal = d.isocalendar()
-		return iso_cal[0], iso_cal[1]
-	return d
-
-
-def get_year_weeks(c):
-	if is_table(c):
-		year_week = ['year', 'week']
-		iso_cal = to_timestamp(get_index(c)).isocalendar()
-		return pd.MultiIndex.from_frame(filter(iso_cal, inclusion=year_week), names=year_week)
-	elif is_dict(c):
-		return get_year_weeks(get_index(c))
-	return list_to_type([get_year_week(d) for d in c], c)
-
-
-def get_month(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return d.month
-	return d
-
-
-def get_months(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).month
-	elif is_dict(c):
-		return get_months(get_index(c))
-	return list_to_type([get_month(d) for d in c], c)
-
-
-def get_quarter(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return ceil(d.month / 3)
-	return d
-
-
-def get_quarters(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).quarter
-	elif is_dict(c):
-		return get_quarters(get_index(c))
-	return list_to_type([get_quarter(d) for d in c], c)
-
-
-def get_semester(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return ceil(d.month / 6)
-	return d
-
-
-def get_semesters(c):
-	if is_table(c):
-		return ceil(get_months(c) / 6)
-	elif is_dict(c):
-		return get_semesters(get_index(c))
-	return list_to_type([get_semester(d) for d in c], c)
-
-
-def get_year(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	if is_date(d):
-		return d.year
-	return d
-
-
-def get_years(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).year
-	elif is_dict(c):
-		return get_years(get_index(c))
-	return list_to_type([get_year(d) for d in c], c)
-
-
-#########################
-
-def get_business_day(d=get_datetime(), prev=True):
-	if is_string(d):
-		d = parse_datetime(d)
-	if not is_business_day(d):
-		return get_prev_business_day(d) if prev else get_next_business_day(d)
-	return d
-
-
-def get_prev_business_day(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	day = date.weekday(d)
-	if day is MO:  # Monday
-		return d - 3 * DAY
-	elif day is SU:  # Sunday
-		return d - 2 * DAY
-	return d - DAY
-
-
-def get_next_business_day(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	day = date.weekday(d)
-	if day is FR:  # Friday
-		return d + 3 * DAY
-	elif day is SA:  # Saturday
-		return d + 2 * DAY
-	return d + DAY
-
-
-#########################
-
-def get_month_range(d=get_datetime()):
-	if is_string(d):
-		d = parse_datetime(d)
-	return monthrange(d.year, d.month)
-
-
-def get_month_weekday(year, month):
-	return monthrange(year, month)[0]
-
-
-def get_month_days(year, month):
-	return monthrange(year, month)[1]
-
-
-#########################
-
-def get_month_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_month_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(day=1))
-
-
-def get_month_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_month_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(day=get_month_days(d.year, d.month)))
-
-
-def get_prev_month_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_month_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if d.month == 1:
-		year = d.year - 1
-		month = 12
-	else:
-		year = d.year
-		month = d.month - 1
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_prev_month_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_month_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if d.month == 1:
-		year = d.year - 1
-		month = 12
-	else:
-		year = d.year
-		month = d.month - 1
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-def get_next_month_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_month_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if d.month == 12:
-		year = d.year + 1
-		month = 1
-	else:
-		year = d.year
-		month = d.month + 1
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_next_month_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_month_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if d.month == 12:
-		year = d.year + 1
-		month = 1
-	else:
-		year = d.year
-		month = d.month + 1
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-#########################
-
-def get_quarter_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_quarter_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		month = 1
-	elif 4 <= d.month <= 6:
-		month = 4
-	elif 7 <= d.month <= 9:
-		month = 7
-	else:
-		month = 10
-	return reset_time(d.replace(month=month, day=1))
-
-
-def get_quarter_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_quarter_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		month = 3
-	elif 4 <= d.month <= 6:
-		month = 6
-	elif 7 <= d.month <= 9:
-		month = 9
-	else:
-		month = 12
-	return reset_time(d.replace(month=month, day=get_month_days(d.year, month)))
-
-
-def get_prev_quarter_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_quarter_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		year = d.year - 1
-		month = 10
-	elif 4 <= d.month <= 6:
-		year = d.year
-		month = 1
-	elif 7 <= d.month <= 9:
-		year = d.year
-		month = 4
-	else:
-		year = d.year
-		month = 7
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_prev_quarter_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_quarter_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		year = d.year - 1
-		month = 10
-	elif 4 <= d.month <= 6:
-		year = d.year
-		month = 1
-	elif 7 <= d.month <= 9:
-		year = d.year
-		month = 4
-	else:
-		year = d.year
-		month = 7
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-def get_next_quarter_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_quarter_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		year = d.year
-		month = 4
-	elif 4 <= d.month <= 6:
-		year = d.year
-		month = 7
-	elif 7 <= d.month <= 9:
-		year = d.year
-		month = 10
-	else:
-		year = d.year + 1
-		month = 1
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_next_quarter_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_quarter_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 3:
-		year = d.year
-		month = 4
-	elif 4 <= d.month <= 6:
-		year = d.year
-		month = 7
-	elif 7 <= d.month <= 9:
-		year = d.year
-		month = 10
-	else:
-		year = d.year + 1
-		month = 1
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-#########################
-
-def get_semester_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_semester_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		month = 1
-	else:
-		month = 7
-	return reset_time(d.replace(month=month, day=1))
-
-
-def get_semester_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_semester_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		month = 6
-	else:
-		month = 12
-	return reset_time(d.replace(month=month, day=get_month_days(d.year, month)))
-
-
-def get_prev_semester_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_semester_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		year = d.year - 1
-		month = 7
-	else:
-		year = d.year
-		month = 1
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_prev_semester_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_semester_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		year = d.year - 1
-		month = 12
-	else:
-		year = d.year
-		month = 6
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-def get_next_semester_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_semester_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		year = d.year
-		month = 7
-	else:
-		year = d.year + 1
-		month = 1
-	return reset_time(d.replace(year=year, month=month, day=1))
-
-
-def get_next_semester_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_semester_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	if 1 <= d.month <= 6:
-		year = d.year
-		month = 12
-	else:
-		year = d.year + 1
-		month = 6
-	return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
-
-
-#########################
-
-def get_year_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_year_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(month=1, day=1))
-
-
-def get_year_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_year_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(month=12, day=31))
-
-
-def get_prev_year_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_year_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(year=d.year - 1, month=1, day=1))
-
-
-def get_prev_year_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_prev_year_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(year=d.year - 1, month=12, day=31))
-
-
-def get_next_year_start(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_year_start, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(year=d.year + 1, month=1, day=1))
-
-
-def get_next_year_end(d=get_datetime()):
-	if is_collection(d):
-		return apply(get_next_year_end, d)
-	elif is_string(d):
-		d = parse_datetime(d)
-	return reset_time(d.replace(year=d.year + 1, month=12, day=31))
-
-
-#########################
-
-def get_start_period(y, s=None, q=None, m=None, w=None, d=None):
-	if is_all_not_null(y, m, d):
-		return create_datetime(y, m, d)
-	elif is_all_not_null(y, w):
-		return datetime.fromisocalendar(y, w, 1)
-	elif is_all_not_null(y, m):
-		return create_datetime(y, m, 1)
-	elif is_all_not_null(y, q):
-		return create_datetime(y, 1 + 3 * (q - 1), 1)
-	elif is_all_not_null(y, s):
-		return create_datetime(y, 1 + 6 * (s - 1), 1)
-	return create_datetime(y, 1, 1)
-
-
-def get_end_period(y, s=None, q=None, m=None, w=None, d=None):
-	if is_all_not_null(y, m, d):
-		return create_datetime(y, m, d)
-	elif is_all_not_null(y, w):
-		return datetime.fromisocalendar(y, w, 7)
-	elif is_all_not_null(y, m):
-		return create_datetime(y, m, monthrange(y, m)[1])
-	elif is_all_not_null(y, q):
-		return create_datetime(y, 3 + 3 * (q - 1), monthrange(y, 3 + 3 * (q - 1))[1])
-	elif is_all_not_null(y, s):
-		return create_datetime(y, 6 + 6 * (s - 1), monthrange(y, 6 + 6 * (s - 1))[1])
-	return create_datetime(y, 12, 31)
-
-
-#########################
-
-def get_start_date(d, freq=FREQUENCY):
-	if freq is Frequency.WEEKS:
-		y, w = get_year_week(d)
-		return get_start_period(y=y, w=w)
-	elif freq is Frequency.MONTHS:
-		return get_start_period(y=get_year(d), m=get_month(d))
-	elif freq is Frequency.QUARTERS:
-		return get_start_period(y=get_year(d), q=get_quarter(d))
-	elif freq is Frequency.SEMESTERS:
-		return get_start_period(y=get_year(d), s=get_semester(d))
-	elif freq is Frequency.YEARS:
-		return get_start_period(y=get_year(d))
-	return to_datetime(d)
-
-
-def get_end_date(d, freq=FREQUENCY):
-	if freq is Frequency.WEEKS:
-		y, w = get_year_week(d)
-		return get_end_period(y=y, w=w)
-	elif freq is Frequency.MONTHS:
-		return get_end_period(y=get_year(d), m=get_month(d))
-	elif freq is Frequency.QUARTERS:
-		return get_end_period(y=get_year(d), q=get_quarter(d))
-	elif freq is Frequency.SEMESTERS:
-		return get_end_period(y=get_year(d), s=get_semester(d))
-	elif freq is Frequency.YEARS:
-		return get_end_period(y=get_year(d))
-	return to_datetime(d)
-
-
-def get_start_datetime(d, freq=FREQUENCY):
-	return to_datetime(get_start_date(d, freq=freq))
-
-
-def get_end_datetime(d, freq=FREQUENCY):
-	return to_datetime(get_end_date(d, freq=freq))
-
-
-def get_start_timestamp(d, freq=Frequency.DAYS):
-	return to_timestamp(get_start_date(d, freq=freq))
-
-
-def get_end_timestamp(d, freq=Frequency.DAYS):
-	return to_timestamp(get_end_date(d, freq=freq))
-
-
-#########################
-
-def get_period_index(period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
-	if period_freq is Frequency.DAYS:
-		return period_length
-	elif period_freq is Frequency.WEEKS:
-		return period_length * DAYS_PER_WEEK
-	elif period_freq is Frequency.MONTHS:
-		return period_length * DAYS_PER_MONTH
-	elif period_freq is Frequency.QUARTERS:
-		return period_length * DAYS_PER_QUARTER
-	elif period_freq is Frequency.SEMESTERS:
-		return period_length * DAYS_PER_SEMESTER
-	elif period_freq is Frequency.YEARS:
-		return period_length * DAYS_PER_YEAR
-
-
-def get_period_length(d, period=PERIOD, freq=FREQUENCY):
-	return diff_date(subtract_period(d, period), d, freq=freq)
-
-
-def get_period_days(d, period=PERIOD):
-	return diff_days(subtract_period(d, period), d)
-
-
-def get_period_weeks(d, period=PERIOD):
-	return diff_weeks(subtract_period(d, period), d)
-
-
-def get_period_months(d, period=PERIOD):
-	return diff_months(subtract_period(d, period), d)
-
-
-def get_period_quarters(d, period=PERIOD):
-	return diff_quarters(subtract_period(d, period), d)
-
-
-def get_period_semesters(d, period=PERIOD):
-	return diff_semesters(subtract_period(d, period), d)
-
-
-def get_period_years(d, period=PERIOD):
-	return diff_years(subtract_period(d, period), d)
-
-
-##################################################
-
-def create_date(y, m, d):
-	return date(int(y), int(m), int(d))
-
-
-def create_datetime(y, m, d):
-	return datetime(int(y), int(m), int(d))
-
-
-def create_timestamp(y, m, d):
-	return pd.Timestamp(int(y), int(m), int(d))
-
-
-def create_stamp(y, m, d):
-	return to_stamp(create_datetime(y, m, d))
-
-
-#########################
-
-def create_date_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_date(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
-
-
-def create_datetime_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_datetime(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
-
-
-def create_timestamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_timestamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
-
-
-def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_stamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
-
-
-##################################################
 
 def add_period(d, period=PERIOD):
 	period_length = int(period[0:-1])
@@ -2911,123 +3283,10 @@ def shift_date(d, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, second
 	                                           microseconds=microseconds), d)
 
 
-##################################################
-
-def to_date(x, fmt=DEFAULT_DATE_FORMAT):
-	if is_null(x):
-		return None
-	elif is_collection(x):
-		return apply(to_date, x, fmt=fmt)
-	elif is_stamp(x):
-		x = parse_stamp(x)
-		return create_date(x.year, x.month, x.day)
-	elif is_timestamp(x):
-		x = x.to_pydatetime()
-		return create_date(x.year, x.month, x.day)
-	elif is_datetime(x):
-		return create_date(x.year, x.month, x.day)
-	elif is_date(x):
-		return x
-	return datetime.strptime(x, fmt)
-
-
-def to_datetime(x, fmt=DEFAULT_DATE_TIME_FORMAT):
-	if is_null(x):
-		return None
-	elif is_collection(x):
-		return apply(to_datetime, x, fmt=fmt)
-	elif is_stamp(x):
-		return parse_stamp(x)
-	elif is_timestamp(x):
-		return x.to_pydatetime()
-	elif is_datetime(x):
-		return x
-	elif is_date(x):
-		return create_datetime(x.year, x.month, x.day)
-	return datetime.strptime(x, fmt)
-
-
-def to_time(x, fmt=DEFAULT_TIME_FORMAT):
-	if is_null(x):
-		return None
-	return to_datetime(x, fmt=fmt)
-
-
-def to_datestamp(d):
-	if is_null(d):
-		return None
-	elif is_stamp(d):
-		d = parse_stamp(d)
-	return pd.to_datetime(d).floor('D')
-
-
-def to_timestamp(d):
-	if is_null(d):
-		return None
-	elif is_stamp(d):
-		d = parse_stamp(d)
-	return pd.to_datetime(d)
-
-
-def to_stamp(x):
-	if is_null(x):
-		return None
-	elif is_collection(x):
-		return apply(to_stamp, x)
-	elif is_stamp(x):
-		return x
-	return to_datetime(x).timestamp()
-
-
-#########################
-
-def timestamp_to_type(t, x):
-	"""Converts the specified timestamp to the type of the specified variable."""
-	if is_collection(t):
-		return apply(timestamp_to_type, t, x)
-	elif is_stamp(x):
-		return to_stamp(t)
-	elif is_timestamp(x):
-		return t
-	elif is_datetime(x):
-		return to_datetime(t)
-	elif is_date(x):
-		return to_date(t)
-	return t
-
-
-# • DICT ###########################################################################################
-
-__DICT____________________________________________ = ''
-
-
-def is_dict(x):
-	return isinstance(x, dict)
-
-
-##################################################
-
-def to_dict(c):
-	"""Converts the specified collection to a dictionary."""
-	if is_null(c):
-		return {}
-	elif is_table(c):
-		return c.to_dict()
-	elif is_dict(c):
-		return c
-	return {k: v for k, v in enumerate(c)}
-
-
 # • LIST ###########################################################################################
 
-__LIST____________________________________________ = ''
+__LIST_PROCESSORS_________________________________ = ''
 
-
-def is_list(x):
-	return isinstance(x, list)
-
-
-##################################################
 
 def filter_list(l, inclusion=None, exclusion=None):
 	"""Returns the values of the specified list that are in the specified inclusive list and are not
@@ -3166,88 +3425,10 @@ def tally(l, boundaries):
 	return l
 
 
-##################################################
-
-def to_list(*args):
-	if len(args) == 1:
-		arg = args[0]
-		if is_list(arg):
-			return arg
-		elif is_collection(arg):
-			return list(arg)
-		return [arg]
-	return list(args)
-
-
-def unlist(l):
-	if is_list(l):
-		if len(l) == 1:
-			return l[0]
-		return tuple(l)
-	return l
-
-
-#########################
-
-def list_to_type(l, x):
-	if is_frame(x):
-		return to_frame(l, names=get_names(x), index=get_index(x))
-	elif is_series(x):
-		return to_series(l, name=get_names(x), index=get_index(x))
-	elif is_dict(x):
-		return dict(zip(get_keys(x), l))
-	elif is_array(x):
-		return to_array(l)
-	return l
-
-
 # • NUMBER #########################################################################################
 
-__NUMBER__________________________________________ = ''
+__NUMBER_PROCESSORS_______________________________ = ''
 
-
-def is_nan(x):
-	return x is pd.NA or x is pd.NaT or (is_number(x) and str(x) == 'nan')
-
-
-#########################
-
-def is_number(x):
-	return isinstance(x, numbers.Number)
-
-
-def is_bool(x):
-	return isinstance(x, bool)
-
-
-def is_int(x):
-	return isinstance(x, int)
-
-
-def is_float(x):
-	return isinstance(x, float)
-
-
-##################################################
-
-def create_sequence(start=0, stop=0, step=1, include=False, n=None):
-	if start == stop:
-		if include:
-			return start
-		return to_array()
-	elif start > stop:
-		start, stop = stop, start
-	if not is_null(n):
-		if n <= 1:
-			return start
-		step = (stop - start) / (n if not include else n - 1)
-	sequence = np.arange(start, stop, step)
-	if include:
-		sequence = np.append(sequence, stop)
-	return sequence
-
-
-##################################################
 
 def ceil(x):
 	return to_int(np.ceil(x))
@@ -3270,54 +3451,10 @@ def mod(x, y):
 	return m if m != 0 else y
 
 
-##################################################
-
-def to_bool(x):
-	if is_null(x):
-		return NAN
-	elif is_collection(x):
-		return apply(to_bool, x)
-	return str(x).lower() not in ['0', 'f', 'false']
-
-
-def to_int(x):
-	if is_null(x):
-		return NAN
-	elif is_collection(x):
-		return apply(to_int, x)
-	return int(x)
-
-
-def to_float(x):
-	if is_null(x):
-		return NAN
-	elif is_collection(x):
-		return apply(to_float, x)
-	return float(x)
-
-
 # • STRING #########################################################################################
 
-__STRING__________________________________________ = ''
+__STRING_PROCESSORS_______________________________ = ''
 
-
-def is_string(x):
-	return isinstance(x, str)
-
-
-##################################################
-
-def generate_string(length, case_sensitive=False, digits=True):
-	"""Generates a pseudorandom, uniformly distributed string of the specified length."""
-	choices = string.ascii_uppercase
-	if case_sensitive:
-		choices += string.ascii_lowercase
-	if digits:
-		choices += string.digits
-	return collapse(random.choices(choices, k=length))
-
-
-##################################################
 
 def collapse(*args, delimiter='', append=False):
 	"""Returns the string computed by joining the specified arguments with the specified
@@ -3408,13 +3545,3 @@ def par(content):
 def bra(content):
 	"""Returns the bracketized representative string of the specified content."""
 	return wrap(content, '[', ']')
-
-
-##################################################
-
-def to_string(x, delimiter=','):
-	if is_null(x):
-		return None
-	elif is_collection(x):
-		return collapse(x, delimiter=delimiter)
-	return str(x)
