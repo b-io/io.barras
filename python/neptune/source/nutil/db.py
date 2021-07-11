@@ -51,14 +51,6 @@ if not exists('DEFAULT_CHUNK_SIZE'):
 if not exists('DEFAULT_DEBUG_FREQUENCY'):
 	DEFAULT_DEBUG_FREQUENCY = 1000
 
-# The default flag specifying whether to test
-if not exists('DEFAULT_TEST'):
-	DEFAULT_TEST = True
-
-# The default flag specifying whether to enable the verbose mode
-if not exists('DEFAULT_VERBOSE'):
-	DEFAULT_VERBOSE = True
-
 ####################################################################################################
 # DB FUNCTIONS
 ####################################################################################################
@@ -84,7 +76,7 @@ def get_query_message(verb, count, table):
 
 #########################
 
-def debug_query(verb, count, table, index_from=None, index_to=None, verbose=DEFAULT_VERBOSE):
+def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERBOSE):
 	if verbose:
 		prefix = ''
 		if not is_null(index_from):
@@ -94,7 +86,7 @@ def debug_query(verb, count, table, index_from=None, index_to=None, verbose=DEFA
 		debug((prefix + get_query_message(verb, count, table)).capitalize())
 
 
-def error_query(verb, table, ex=None, verbose=DEFAULT_VERBOSE):
+def error_query(verb, table, ex=None, verbose=VERBOSE):
 	if not isinstance(ex, IntegrityError):
 		error(paste('No row has been', verb, 'in the table', quote(table)),
 		      par(ex) if not is_null(ex) else '')
@@ -115,12 +107,12 @@ def get_row_message(verb, index, table, cols=None, row=None):
 
 #########################
 
-def trace_row(verb, index, table, cols=None, row=None, verbose=DEFAULT_VERBOSE):
+def trace_row(verb, index, table, cols=None, row=None, verbose=VERBOSE):
 	if verbose:
 		trace('-', get_row_message(verb, index, table, cols=cols, row=row).capitalize())
 
 
-def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=DEFAULT_VERBOSE):
+def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
 	if not is_null(ex) and not isinstance(ex, IntegrityError):
 		error(paste('- Fail to', get_row_message(verb, index, table, cols=cols, row=row)),
 		      par(ex) if not is_null(ex) else '')
@@ -166,8 +158,9 @@ def format_name(name):
 	return dquote(name)
 
 
-def format_cols(cols):
+def format_cols(*cols):
 	"""Formats the specified column names (for either MSSQL or PostgreSQL)."""
+	cols = remove_empty(to_list(*cols))
 	return collist([format_name(col) for col in cols])
 
 
@@ -205,7 +198,7 @@ def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
 	engine."""
 	if is_null(metadata):
 		metadata = create_metadata(engine, schema=schema)
-	metadata.reflect(extend_existing=True, only=[table], schema=schema)
+	metadata.reflect(extend_existing=True, only=[table], schema=schema, views=True)
 	return metadata.tables[collapse(schema, '.', table)]
 
 
@@ -217,7 +210,7 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
 
 #########################
 
-def get_common_cols(df, table, table_cols, filtering_cols=None, test=DEFAULT_TEST):
+def get_common_cols(df, table, table_cols, filtering_cols=None, test=TEST):
 	"""Returns the columns of the specified dataframe that exist in the specified table and that are
 	not the specified filtering columns."""
 	if test:
@@ -233,7 +226,7 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=DEFAULT_TES
 	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
-def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=DEFAULT_VERBOSE):
+def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=VERBOSE):
 	"""Returns the identity columns of the specified table."""
 	if mssql:
 		return select_table_where(engine, 'identity_columns', cols=['name'],
@@ -241,6 +234,15 @@ def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=DEFAULT_VER
 		                          filtering_row={'OBJECT_NAME(object_id)': table}, schema='sys',
 		                          verbose=verbose)['name']
 	return []
+
+
+def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCHEMA):
+	"""Returns the primary columns of the specified table."""
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	primary_cols = [col.name for col in table_metadata.primary_key.columns]
+	if not is_null(cols):
+		primary_cols = include(cols, primary_cols)
+	return primary_cols
 
 
 ##################################################
@@ -299,27 +301,28 @@ def select_query(engine, query):
 	return pd.read_sql(query, con=engine)
 
 
-def select_table(engine, table, schema=DEFAULT_SCHEMA):
+def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEMA):
 	"""Returns the dataframe read from the specified table (in the specified schema)."""
 	debug('Select the table', quote(table))
-	return pd.read_sql_table(table, con=engine, schema=schema)
+	return pd.read_sql_table(table, con=engine, columns=cols, index_col=index_cols, schema=schema)
 
 
 def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_row=None,
-                       mssql=DEFAULT_DB_MSSQL, n=None, order='ASC', schema=DEFAULT_SCHEMA,
-                       verbose=DEFAULT_VERBOSE):
+                       index_cols=None, mssql=DEFAULT_DB_MSSQL, n=None, order='ASC',
+                       schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	"""Selects the specified columns of the rows matching the specified filtering row at the
 	specified filtering columns from the specified table (in the specified schema) and returns them
 	in a dataframe."""
 	if verbose:
-		debug('Select the columns', format_cols(cols), 'from the table', quote(table),
-		      collapse('filtering on',
-		               format_cols(filtering_cols)) if not is_empty(filtering_cols) else '')
+		debug('Select the columns', '*' if is_empty(cols) else format_cols(cols),
+		      'from the table', quote(table),
+		      paste('filtering on',
+		            format_cols(filtering_cols)) if not is_empty(filtering_cols) else '')
 	return pd.read_sql(create_select_table_where_query(table, cols=cols,
 	                                                   filtering_cols=filtering_cols,
 	                                                   filtering_row=filtering_row, mssql=mssql,
 	                                                   n=n, order=order, schema=schema),
-	                   con=engine)
+	                   con=engine, columns=cols, index_col=index_cols)
 
 
 # • DB DELETE ######################################################################################
@@ -339,7 +342,7 @@ def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
 ##################################################
 
 def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=DEFAULT_TEST, verbose=DEFAULT_VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
 	"""Deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of deleted
 	rows."""
@@ -381,8 +384,8 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=DEFAULT_TEST,
-                      verbose=DEFAULT_VERBOSE):
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      verbose=VERBOSE):
 	"""Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of
 	bulk-deleted rows."""
@@ -460,14 +463,14 @@ def create_insert_table_query(table, cols, row, mssql=DEFAULT_DB_MSSQL, schema=D
 ##################################################
 
 def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
-                 test=DEFAULT_TEST, verbose=DEFAULT_VERBOSE):
+                 test=TEST, verbose=VERBOSE):
 	"""Inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of inserted rows."""
 	insert_count = 0
 
 	# Get the metadata of the table
 	table_metadata = get_table_metadata(engine, table, schema=schema)
-	primary_cols = [col.name for col in table_metadata.primary_key.columns]
+	primary_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
 	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to insert
@@ -503,8 +506,8 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 
 
 def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_id=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=DEFAULT_TEST,
-                      verbose=DEFAULT_VERBOSE):
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      verbose=VERBOSE):
 	"""Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of bulk-inserted rows."""
 	insert_count = 0
@@ -578,7 +581,7 @@ def create_update_table_query(table, cols, row, filtering_cols=None, mssql=DEFAU
 ##################################################
 
 def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=DEFAULT_TEST, verbose=DEFAULT_VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
 	"""Updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of updated
 	rows."""
@@ -587,7 +590,7 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	# Get the metadata of the table
 	table_metadata = get_table_metadata(engine, table, schema=schema)
 	if is_null(filtering_cols):
-		filtering_cols = [col.name for col in table_metadata.primary_key.columns]
+		filtering_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
 	else:
 		filtering_cols = include(df, filtering_cols)
 	table_cols = [col.name for col in table_metadata.columns]
@@ -624,8 +627,8 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=DEFAULT_TEST,
-                      verbose=DEFAULT_VERBOSE):
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      verbose=VERBOSE):
 	"""Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of bulk-updated
 	rows."""
@@ -634,7 +637,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	# Get the metadata of the table
 	table_metadata = get_table_metadata(engine, table, schema=schema)
 	if is_null(filtering_cols):
-		filtering_cols = [col.name for col in table_metadata.primary_key.columns]
+		filtering_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
 	else:
 		filtering_cols = include(df, filtering_cols)
 	table_cols = [col.name for col in table_metadata.columns]
@@ -683,7 +686,7 @@ __DB_UPSERT_______________________________________ = ''
 
 
 def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=DEFAULT_TEST, verbose=DEFAULT_VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
 	"""Updates/inserts the rows matching the rows of the specified dataframe at the specified
 	filtering columns of/into the specified table (in the specified schema) and returns the number
 	of updated/inserted rows."""
@@ -736,7 +739,7 @@ __DB_MIGRATE______________________________________ = ''
 def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, collation=None,
             create=True, drop=False, fill=True, filtering_cols=None, filtering_row=None,
             mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
-            test=DEFAULT_TEST, upsert=False, verbose=DEFAULT_VERBOSE):
+            test=TEST, upsert=False, verbose=VERBOSE):
 	"""Migrates the specified tables (in the specified schema) from the specified engine to the
 	specified engine using the specified collation and returns the number of migrated rows."""
 	count = 0
