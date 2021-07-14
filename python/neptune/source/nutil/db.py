@@ -226,7 +226,7 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=TEST):
 	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
-def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=VERBOSE):
+def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=False):
 	"""Returns the identity columns of the specified table."""
 	if mssql:
 		return select_table_where(engine, 'identity_columns', cols=['name'],
@@ -301,9 +301,10 @@ def select_query(engine, query):
 	return pd.read_sql(query, con=engine)
 
 
-def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEMA):
+def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	"""Returns the dataframe read from the specified table (in the specified schema)."""
-	debug('Select the table', quote(table))
+	if verbose:
+		debug('Select the table', quote(table))
 	return pd.read_sql_table(table, con=engine, columns=cols, index_col=index_cols, schema=schema)
 
 
@@ -469,8 +470,9 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 	insert_count = 0
 
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
-	primary_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
+	metadata = create_metadata(engine, schema=schema)
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	primary_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
 	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to insert
@@ -588,9 +590,10 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	update_count = 0
 
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
+	metadata = create_metadata(engine, schema=schema)
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
 	if is_null(filtering_cols):
-		filtering_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
+		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
 	else:
 		filtering_cols = include(df, filtering_cols)
 	table_cols = [col.name for col in table_metadata.columns]
@@ -635,9 +638,10 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	update_count = 0
 
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
+	metadata = create_metadata(engine, schema=schema)
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
 	if is_null(filtering_cols):
-		filtering_cols = get_primary_cols(engine, table, metadata=table_metadata, schema=schema)
+		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
 	else:
 		filtering_cols = include(df, filtering_cols)
 	table_cols = [col.name for col in table_metadata.columns]
