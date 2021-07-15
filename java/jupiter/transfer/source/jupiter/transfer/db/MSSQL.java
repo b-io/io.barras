@@ -108,31 +108,30 @@ public class MSSQL
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the SQL types of all the parameters of the specified SQL stored procedure using the
+	 * Returns the SQL types of all the parameters of the specified SQL procedure using the
 	 * specified {@link Connection}.
 	 * <p>
-	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the SQL stored procedure containing the parameters to get the SQL
-	 *                        types from
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param procedure  the SQL procedure containing the parameters to get the SQL types from
 	 * <p>
-	 * @return the SQL types of all the parameters of the specified SQL stored procedure using the
+	 * @return the SQL types of all the parameters of the specified SQL procedure using the
 	 *         specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
-	public static int[] getStoredProcedureParameterTypes(final Connection connection,
-			final String storedProcedure)
+	public static int[] getProcedureParameterTypes(final Connection connection,
+			final String procedure)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(procedure, "procedure");
 
 		// Get the database metadata
 		final DatabaseMetaData metadata = connection.getMetaData();
 		final ResultSet resultSet = metadata.getProcedureColumns(connection.getCatalog(), null,
-				storedProcedure, null);
-		// Return the SQL types of all the parameters of the stored procedure
+				procedure, null);
+		// Return the SQL types of all the parameters of the procedure
 		final ExtendedLinkedList<Integer> types = new ExtendedLinkedList<Integer>();
 		resultSet.next();
 		while (resultSet.next()) {
@@ -220,13 +219,12 @@ public class MSSQL
 
 	//////////////////////////////////////////////
 
-	public static String createStoredProcedureQuery(final String storedProcedure,
-			final int parameterCount) {
+	public static String createProcedureQuery(final String procedure, final int parameterCount) {
 		// Check the arguments
-		Arguments.requireNonNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(procedure, "procedure");
 
-		// Create the SQL query for executing the SQL stored procedure
-		return Strings.join(LEFT_BRACE, "call ", storedProcedure,
+		// Create the SQL query for executing the SQL procedure
+		return Strings.join(LEFT_BRACE, "call ", procedure,
 				Arrays.toString(Arrays.repeat('?', parameterCount)), RIGHT_BRACE);
 	}
 }

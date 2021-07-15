@@ -650,16 +650,12 @@ def get_exec_info():
 
 #########################
 
-def get_attributes(obj):
-	return [a for a in vars(obj) if not a.startswith('_')]
+def get_module_name(obj):
+	return obj.__class__.__module__
 
 
 def get_class_name(obj):
 	return obj.__class__.__name__
-
-
-def get_module_name(obj):
-	return obj.__class__.__module__
 
 
 def get_full_class_name(obj):
@@ -667,6 +663,14 @@ def get_full_class_name(obj):
 	if is_null(module_name) or module_name == get_module_name(str):
 		return get_class_name(obj)
 	return collapse(module_name, '.', get_class_name(obj))
+
+
+def get_attributes(obj):
+	return [a for a in vars(obj) if not a.startswith('_')]
+
+
+def get_all_attributes(obj):
+	return [a for a in dir(obj) if not a.startswith('_')]
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -931,6 +935,11 @@ def get_last_row(df):
 	return get_row(df, -1)
 
 
+def get_rows(df):
+	"""Returns the rows of the specified dataframe."""
+	return [row for _, row in df.iterrows()]
+
+
 #########################
 
 def get_col(df, j=0):
@@ -952,6 +961,16 @@ def get_first_col(df):
 def get_last_col(df):
 	"""Returns the last column of the specified dataframe."""
 	return get_col(df, -1)
+
+
+def get_cols(df):
+	"""Returns the columns of the specified dataframe."""
+	return to_series(df)
+
+
+def get_cols(df):
+	"""Returns the columns of the specified dataframe."""
+	return to_series(df)
 
 
 # • DATE ###########################################################################################
@@ -1558,8 +1577,8 @@ def get_end_timestamp(d, freq=Frequency.DAYS):
 #########################
 
 def get_period_index(period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return period_length
 	elif period_freq is Frequency.WEEKS:
@@ -1786,6 +1805,20 @@ def timestamp_to_type(t, x):
 	elif is_date(x):
 		return to_date(t)
 	return t
+
+
+#########################
+
+def to_period(n, freq=FREQUENCY):
+	return str(n) + freq.value
+
+
+def to_period_length(period):
+	return int(period[0:-1])
+
+
+def to_period_freq(period):
+	return Frequency(period[-1].upper())
 
 
 # • DICT ###########################################################################################
@@ -3137,8 +3170,8 @@ __DATE_PROCESSORS_________________________________ = ''
 
 
 def add_period(d, period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return d + period_length * DAY
 	elif period_freq is Frequency.WEEKS:
@@ -3154,8 +3187,8 @@ def add_period(d, period=PERIOD):
 
 
 def subtract_period(d, period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return d - period_length * DAY
 	elif period_freq is Frequency.WEEKS:

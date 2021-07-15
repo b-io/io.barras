@@ -89,9 +89,13 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 				[add(c1, set_names(c2[k], k), numeric_default=numeric_default,
 				     object_default=object_default, rename=rename) for k in get_keys(c2)])
 		if rename:
+			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		return fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) + \
-		       fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) + \
+		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		if rename:
+			set_names(c2, names)
+		return result
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
@@ -131,9 +135,13 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 				[subtract(c1, set_names(c2[k], k), numeric_default=numeric_default,
 				          object_default=object_default, rename=rename) for k in get_keys(c2)])
 		if rename:
+			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		return fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) - \
-		       fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) - \
+		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		if rename:
+			set_names(c2, names)
+		return result
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
@@ -173,9 +181,13 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 				[multiply(c1, set_names(c2[k], k), numeric_default=numeric_default,
 				          object_default=object_default, rename=rename) for k in get_keys(c2)])
 		if rename:
+			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		return fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) * \
-		       fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) * \
+		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		if rename:
+			set_names(c2, names)
+		return result
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
@@ -215,9 +227,13 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 				[divide(c1, set_names(c2[k], k), numeric_default=numeric_default,
 				        object_default=object_default, rename=rename) for k in get_keys(c2)])
 		if rename:
+			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		return fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) / \
-		       fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) / \
+		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		if rename:
+			set_names(c2, names)
+		return result
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
