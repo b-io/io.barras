@@ -968,6 +968,11 @@ def get_cols(df):
 	return to_series(df)
 
 
+def get_cols(df):
+	"""Returns the columns of the specified dataframe."""
+	return to_series(df)
+
+
 # • DATE ###########################################################################################
 
 __DATE_ACCESSORS__________________________________ = ''
@@ -1572,8 +1577,8 @@ def get_end_timestamp(d, freq=Frequency.DAYS):
 #########################
 
 def get_period_index(period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return period_length
 	elif period_freq is Frequency.WEEKS:
@@ -1800,6 +1805,20 @@ def timestamp_to_type(t, x):
 	elif is_date(x):
 		return to_date(t)
 	return t
+
+
+#########################
+
+def to_period(n, freq=FREQUENCY):
+	return str(n) + freq.value
+
+
+def to_period_length(period):
+	return int(period[0:-1])
+
+
+def to_period_freq(period):
+	return Frequency(period[-1].upper())
 
 
 # • DICT ###########################################################################################
@@ -3151,8 +3170,8 @@ __DATE_PROCESSORS_________________________________ = ''
 
 
 def add_period(d, period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return d + period_length * DAY
 	elif period_freq is Frequency.WEEKS:
@@ -3168,8 +3187,8 @@ def add_period(d, period=PERIOD):
 
 
 def subtract_period(d, period=PERIOD):
-	period_length = int(period[0:-1])
-	period_freq = Frequency(period[-1].upper())
+	period_length = to_period_length(period)
+	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
 		return d - period_length * DAY
 	elif period_freq is Frequency.WEEKS:

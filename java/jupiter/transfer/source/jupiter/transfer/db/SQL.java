@@ -148,26 +148,25 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns the SQL types of all the parameters of the specified SQL stored procedure using the
+	 * Returns the SQL types of all the parameters of the specified SQL procedure using the
 	 * specified {@link Connection}.
 	 * <p>
-	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the SQL stored procedure containing the parameters to get the SQL
-	 *                        types from
+	 * @param connection a {@link Connection} (session) to a database
+	 * @param procedure  the SQL procedure containing the parameters to get the SQL types from
 	 * <p>
-	 * @return the SQL types of all the parameters of the specified SQL stored procedure using the
+	 * @return the SQL types of all the parameters of the specified SQL procedure using the
 	 *         specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
-	public static int[] getStoredProcedureParameterTypes(final Connection connection,
-			final String storedProcedure)
+	public static int[] getProcedureParameterTypes(final Connection connection,
+			final String procedure)
 			throws SQLException {
 		if (DB == DB.MSSQL) {
-			return MSSQL.getStoredProcedureParameterTypes(connection, storedProcedure);
+			return MSSQL.getProcedureParameterTypes(connection, procedure);
 		}
-		return StandardSQL.getStoredProcedureParameterTypes(connection, storedProcedure);
+		return StandardSQL.getProcedureParameterTypes(connection, procedure);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -506,33 +505,32 @@ public class SQL {
 
 	//////////////////////////////////////////////
 
-	public static String createStoredProcedureQuery(final String storedProcedure,
-			final int parameterCount) {
+	public static String createProcedureQuery(final String procedure, final int parameterCount) {
 		if (DB == DB.MSSQL) {
-			return MSSQL.createStoredProcedureQuery(storedProcedure, parameterCount);
+			return MSSQL.createProcedureQuery(procedure, parameterCount);
 		}
-		return StandardSQL.createStoredProcedureQuery(storedProcedure, parameterCount);
+		return StandardSQL.createProcedureQuery(procedure, parameterCount);
 	}
 
-	public static CallableStatement createStoredProcedureStatement(final Connection connection,
-			final String storedProcedure, final Object... parameterValues)
+	public static CallableStatement createProcedureStatement(final Connection connection,
+			final String procedure, final Object... parameterValues)
 			throws SQLException {
-		return createStoredProcedureStatement(connection, storedProcedure,
+		return createProcedureStatement(connection, procedure,
 				Integers.EMPTY_PRIMITIVE_ARRAY, parameterValues);
 	}
 
-	public static CallableStatement createStoredProcedureStatement(final Connection connection,
-			final String storedProcedure, final int[] parameterTypes,
+	public static CallableStatement createProcedureStatement(final Connection connection,
+			final String procedure, final int[] parameterTypes,
 			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(connection, "connection");
-		Arguments.requireNonNull(storedProcedure, "stored procedure");
+		Arguments.requireNonNull(procedure, "procedure");
 		Arguments.requireNonNull(parameterValues, "parameter values");
 
-		// Create the SQL statement for executing the SQL stored procedure
+		// Create the SQL statement for executing the SQL procedure
 		final CallableStatement statement = connection.prepareCall(
-				createStoredProcedureQuery(storedProcedure, parameterValues.length));
+				createProcedureQuery(procedure, parameterValues.length));
 		// Set the parameters of the SQL statement
 		setParameters(statement, parameterTypes, parameterValues);
 		// Return the SQL statement
@@ -1152,56 +1150,53 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 * procedure with the specified parameter values using the specified {@link Connection}.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} procedure
+	 * with the specified parameter values using the specified {@link Connection}.
 	 * <p>
 	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the {@code SELECT} stored procedure to execute
-	 * @param parameterValues the array of values of the parameters of the {@code SELECT} stored
-	 *                        procedure to execute (may be {@code null})
+	 * @param procedure       the {@code SELECT} procedure to execute
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} procedure
+	 *                        to execute (may be {@code null})
 	 * <p>
-	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 *         procedure with the specified parameter values using the specified {@link Connection}
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} procedure
+	 *         with the specified parameter values using the specified {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
-	public static RowList selectWithStoredProcedure(final Connection connection,
-			final String storedProcedure, final Object... parameterValues)
+	public static RowList selectWithProcedure(final Connection connection, final String procedure,
+			final Object... parameterValues)
 			throws SQLException {
-		return selectWithStoredProcedure(connection, storedProcedure,
-				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
+		return selectWithProcedure(connection, procedure,
+				getProcedureParameterTypes(connection, procedure), parameterValues);
 	}
 
 	/**
-	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 * procedure with the specified parameter SQL types and values using the specified
-	 * {@link Connection}.
+	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} procedure
+	 * with the specified parameter SQL types and values using the specified {@link Connection}.
 	 * <p>
 	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the {@code SELECT} stored procedure to execute
+	 * @param procedure       the {@code SELECT} procedure to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
-	 *                        the {@code SELECT} stored procedure to execute (may be {@code null})
-	 * @param parameterValues the array of values of the parameters of the {@code SELECT} stored
-	 *                        procedure to execute (may be {@code null})
+	 *                        the {@code SELECT} procedure to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code SELECT} procedure
+	 *                        to execute (may be {@code null})
 	 * <p>
-	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} stored
-	 *         procedure with the specified parameter SQL types and values using the specified
+	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} procedure
+	 *         with the specified parameter SQL types and values using the specified
 	 *         {@link Connection}
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
-	public static RowList selectWithStoredProcedure(final Connection connection,
-			final String storedProcedure, final int[] parameterTypes,
-			final Object... parameterValues)
+	public static RowList selectWithProcedure(final Connection connection, final String procedure,
+			final int[] parameterTypes, final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(parameterValues, "parameter values");
 
-		// Execute the SQL stored procedure and return the selected rows
-		return selectWith(connection,
-				createStoredProcedureQuery(storedProcedure, parameterValues.length),
+		// Execute the SQL procedure and return the selected rows
+		return selectWith(connection, createProcedureQuery(procedure, parameterValues.length),
 				Integers.take(parameterTypes, 0, parameterValues.length), parameterValues);
 	}
 
@@ -1689,69 +1684,66 @@ public class SQL {
 
 	/**
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
-	 * {@code DELETE} or {@code DDL} stored procedure with the specified parameter values using the
+	 * {@code DELETE} or {@code DDL} procedure with the specified parameter values using the
 	 * specified {@link Connection}, or {@code 0} if nothing is returned.
 	 * <p>
 	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the SQL stored procedure to execute, such as {@code INSERT},
-	 *                        {@code UPDATE} or {@code DELETE}; or a SQL statement that returns
-	 *                        nothing, such as a {@code DDL} statement
+	 * @param procedure       the SQL procedure to execute, such as {@code INSERT}, {@code UPDATE}
+	 *                        or {@code DELETE}; or a SQL statement that returns nothing, such as a
+	 *                        {@code DDL} statement
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
-	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} stored procedure to
-	 *                        execute (may be {@code null})
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} procedure to execute
+	 *                        (may be {@code null})
 	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
-	 *         {@code DELETE} or {@code DDL} stored procedure with the specified parameter values
-	 *         using the specified {@link Connection}, or {@code 0} if nothing is returned
+	 *         {@code DELETE} or {@code DDL} procedure with the specified parameter values using the
+	 *         specified {@link Connection}, or {@code 0} if nothing is returned
 	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
-	public static int updateWithStoredProcedure(final Connection connection,
-			final String storedProcedure, final Object... parameterValues)
-			throws SQLException {
-		// Check the arguments
-		Arguments.requireNonNull(parameterValues, "parameter values");
-
-		// Execute the SQL stored procedure and return the number of updated rows
-		return updateWithStoredProcedure(connection, storedProcedure,
-				getStoredProcedureParameterTypes(connection, storedProcedure), parameterValues);
-	}
-
-	/**
-	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
-	 * {@code DELETE} or {@code DDL} stored procedure with the specified parameter SQL types and
-	 * values using the specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
-	 * @param connection      a {@link Connection} (session) to a database
-	 * @param storedProcedure the SQL stored procedure to execute, such as {@code INSERT},
-	 *                        {@code UPDATE} or {@code DELETE}; or a SQL statement that returns
-	 *                        nothing, such as a {@code DDL} statement
-	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
-	 *                        the {@code INSERT}, {@code UPDATE}, {@code DELETE} or {@code DDL}
-	 *                        stored procedure to execute (may be {@code null})
-	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
-	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} stored procedure to
-	 *                        execute (may be {@code null})
-	 * <p>
-	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
-	 *         {@code DELETE} or {@code DDL} stored procedure with the specified parameter SQL types
-	 *         and values using the specified {@link Connection}, or {@code 0} if nothing is
-	 *         returned
-	 * <p>
-	 * @throws SQLException if a database access error occurs or if this method is called on a
-	 *                      closed {@link Connection}
-	 */
-	public static int updateWithStoredProcedure(final Connection connection,
-			final String storedProcedure, final int[] parameterTypes,
+	public static int updateWithProcedure(final Connection connection, final String procedure,
 			final Object... parameterValues)
 			throws SQLException {
 		// Check the arguments
 		Arguments.requireNonNull(parameterValues, "parameter values");
 
-		// Execute the SQL stored procedure and return the number of updated rows
-		return updateWith(connection,
-				createStoredProcedureQuery(storedProcedure, parameterValues.length),
+		// Execute the SQL procedure and return the number of updated rows
+		return updateWithProcedure(connection, procedure,
+				getProcedureParameterTypes(connection, procedure), parameterValues);
+	}
+
+	/**
+	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 * {@code DELETE} or {@code DDL} procedure with the specified parameter SQL types and values
+	 * using the specified {@link Connection}, or {@code 0} if nothing is returned.
+	 * <p>
+	 * @param connection      a {@link Connection} (session) to a database
+	 * @param procedure       the SQL procedure to execute, such as {@code INSERT}, {@code UPDATE}
+	 *                        or {@code DELETE}; or a SQL statement that returns nothing, such as a
+	 *                        {@code DDL} statement
+	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
+	 *                        the {@code INSERT}, {@code UPDATE}, {@code DELETE} or {@code DDL}
+	 *                        procedure to execute (may be {@code null})
+	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
+	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} procedure to execute
+	 *                        (may be {@code null})
+	 * <p>
+	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
+	 *         {@code DELETE} or {@code DDL} procedure with the specified parameter SQL types and
+	 *         values using the specified {@link Connection}, or {@code 0} if nothing is returned
+	 * <p>
+	 * @throws SQLException if a database access error occurs or if this method is called on a
+	 *                      closed {@link Connection}
+	 */
+	public static int updateWithProcedure(final Connection connection, final String procedure,
+			final int[] parameterTypes, final Object... parameterValues)
+			throws SQLException {
+		// Check the arguments
+		Arguments.requireNonNull(parameterValues, "parameter values");
+
+		// Execute the SQL procedure and return the number of updated rows
+		return updateWith(connection, createProcedureQuery(procedure, parameterValues.length),
 				Integers.take(parameterTypes, 0, parameterValues.length), parameterValues);
 	}
 

@@ -274,6 +274,27 @@ def execute(engine, query, *args, **kwargs):
 		return result.fetchall() if not is_null(result.cursor) else result.rowcount
 
 
+def execute_procedure(engine, procedure, *args):
+	"""Returns the result of the execution of the specified procedure using the specified engine."""
+	connection = engine.raw_connection()
+	try:
+		with connection.cursor() as cursor:
+			cursor.callproc(procedure, args)
+			cursor.nextset()
+			result = cursor.fetchall() if not is_null(cursor.description) else []
+			connection.commit()
+			return result
+	finally:
+		connection.close()
+
+
+def transact(engine, query, *args, **kwargs):
+	"""Returns the result of the transaction of the specified query using the specified engine."""
+	with engine.begin() as connection:
+		result = connection.execute(query, *args, **kwargs)
+		return result.fetchall() if not is_null(result.cursor) else result.rowcount
+
+
 # • DB SELECT ######################################################################################
 
 __DB_SELECT_______________________________________ = ''
