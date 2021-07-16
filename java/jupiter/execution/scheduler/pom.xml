@@ -19,7 +19,7 @@
 
 	<properties>
 		<!-- Quartz Enterprise Job Scheduler -->
-		<quartz.version>2.1.7</quartz.version>
+		<quartz.version>2.3.2</quartz.version>
 	</properties>
 
 	<!-- Project Settings -->
