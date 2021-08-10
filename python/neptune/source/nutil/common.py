@@ -442,6 +442,12 @@ def is_float(x):
 	return isinstance(x, float)
 
 
+#########################
+
+def equals(x, y):
+	return is_null(x) and is_null(y) or x == y
+
+
 # • STRING #########################################################################################
 
 __STRING_VERIFIERS________________________________ = ''
@@ -2374,25 +2380,25 @@ def filter_any_not_empty(c, inclusion=None, exclusion=None):
 def filter_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	 for all the specified keys."""
-	return filter_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for all the specified keys."""
-	return filter_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	for at least one specified key."""
-	return filter_any_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for at least one specified key."""
-	return filter_any_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
@@ -2947,7 +2953,7 @@ def filter_rows(df, row):
 	columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_and([df[k] == v for k, v in get_items(row) if k in df])]
+	return df[reduce_and([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_rows_not(df, row):
@@ -2955,7 +2961,7 @@ def filter_rows_not(df, row):
 	common columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_and([df[k] != v for k, v in get_items(row) if k in df])]
+	return df[reduce_and([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_any_rows(df, row):
@@ -2963,7 +2969,7 @@ def filter_any_rows(df, row):
 	common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_or([df[k] == v for k, v in get_items(row) if k in df])]
+	return df[reduce_or([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_any_rows_not(df, row):
@@ -2971,7 +2977,7 @@ def filter_any_rows_not(df, row):
 	one common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_or([df[k] != v for k, v in get_items(row) if k in df])]
+	return df[reduce_or([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 #########################
@@ -3327,11 +3333,11 @@ def mask_list(l, mask):
 #########################
 
 def find_all(l, value):
-	return find_all_with(l, lambda v: v == value)
+	return find_all_with(l, lambda v: equals(v, value))
 
 
 def find_all_not(l, value):
-	return find_all_not_with(l, lambda v: v == value)
+	return find_all_not_with(l, lambda v: equals(v, value))
 
 
 def find_all_in(l, values):
@@ -3353,11 +3359,11 @@ def find_all_not_with(l, f, *args, **kwargs):
 #########################
 
 def find(l, value):
-	return find_with(l, lambda v: v == value)
+	return find_with(l, lambda v: equals(v, value))
 
 
 def find_not(l, value):
-	return find_not_with(l, lambda v: v == value)
+	return find_not_with(l, lambda v: equals(v, value))
 
 
 def find_in(l, values):
@@ -3379,11 +3385,11 @@ def find_not_with(l, f, *args, **kwargs):
 #########################
 
 def find_last(l, value):
-	return find_last_with(l, lambda v: v == value)
+	return find_last_with(l, lambda v: equals(v, value))
 
 
 def find_last_not(l, value):
-	return find_last_not_with(l, lambda v: v == value)
+	return find_last_not_with(l, lambda v: equals(v, value))
 
 
 def find_last_in(l, values):
