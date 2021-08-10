@@ -130,8 +130,6 @@ __DB_FORMAT_______________________________________ = ''
 
 def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_DB_MSSQL):
 	"""Creates the WHERE clause with the specified filtering columns and row."""
-	if is_null(filtering_row):
-		return ''
 	cols = include_list(get_keys(filtering_row), filtering_cols)
 	if is_empty(cols):
 		return ''
@@ -336,6 +334,7 @@ def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_
 	specified filtering columns from the specified table (in the specified schema) and returns them
 	in a dataframe."""
 	if verbose:
+		filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
 		debug('Select the columns', '*' if is_empty(cols) else format_cols(cols),
 		      'from the table', quote(table),
 		      paste('filtering on',
