@@ -124,50 +124,39 @@ NA_NAME = 'NA'
 __DATE_CONSTANTS__________________________________ = ''
 
 # The default date format
-if 'DEFAULT_DATE_FORMAT' not in globals():
-	DEFAULT_DATE_FORMAT = '%Y-%m-%d'
-
-# The default full date format
-if 'DEFAULT_FULL_DATE_FORMAT' not in globals():
-	DEFAULT_FULL_DATE_FORMAT = '%B %e, %Y'
-
-# The default month-year date format
-if 'DEFAULT_MONTH_YEAR_FORMAT' not in globals():
-	DEFAULT_MONTH_YEAR_FORMAT = '%Y-%m'
-
-# The default full month-year date format
-if 'DEFAULT_FULL_MONTH_YEAR_FORMAT' not in globals():
-	DEFAULT_FULL_MONTH_YEAR_FORMAT = '%B %Y'
-
-# The default month date format
-if 'DEFAULT_MONTH_FORMAT' not in globals():
-	DEFAULT_MONTH_FORMAT = '%b'
-
-# The default full month date format
-if 'DEFAULT_FULL_MONTH_FORMAT' not in globals():
-	DEFAULT_FULL_MONTH_FORMAT = '%B'
+DEFAULT_DATE_FORMAT = '%Y-%m-%d'
 
 # The default time format
-if 'DEFAULT_TIME_FORMAT' not in globals():
-	DEFAULT_TIME_FORMAT = '%H:%M:%S'
+DEFAULT_TIME_FORMAT = '%H:%M:%S'
 
 # The default date-time format
-if 'DEFAULT_DATE_TIME_FORMAT' not in globals():
-	DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + ' ' + DEFAULT_TIME_FORMAT
+DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + ' ' + DEFAULT_TIME_FORMAT
+
+# The default full date format
+DEFAULT_FULL_DATE_FORMAT = '%B %e, %Y'
+
+# The default month-year date format
+DEFAULT_MONTH_YEAR_FORMAT = '%Y-%m'
+
+# The default full month-year date format
+DEFAULT_FULL_MONTH_YEAR_FORMAT = '%B %Y'
+
+# The default month date format
+DEFAULT_MONTH_FORMAT = '%b'
+
+# The default full month date format
+DEFAULT_FULL_MONTH_FORMAT = '%B'
 
 #########################
 
 # The default frequency
-if 'DEFAULT_FREQUENCY' not in globals():
-	DEFAULT_FREQUENCY = Frequency.MONTHS
+DEFAULT_FREQUENCY = Frequency.MONTHS
 
 # The default group
-if 'DEFAULT_GROUP' not in globals():
-	DEFAULT_GROUP = Group.LAST
+DEFAULT_GROUP = Group.LAST
 
 # The default period
-if 'DEFAULT_PERIOD' not in globals():
-	DEFAULT_PERIOD = '1' + Frequency.YEARS.value
+DEFAULT_PERIOD = '1' + Frequency.YEARS.value
 
 ##################################################
 
@@ -223,12 +212,10 @@ MO, TU, WE, TH, FR, SA, SU = WEEKDAYS = tuple(i for i in range(7))
 __FILE_CONSTANTS__________________________________ = ''
 
 # The default root
-if 'DEFAULT_ROOT' not in globals():
-	DEFAULT_ROOT = None
+DEFAULT_ROOT = None
 
 # The default resources directory
-if 'DEFAULT_RES_DIR' not in globals():
-	DEFAULT_RES_DIR = 'resources'
+DEFAULT_RES_DIR = 'resources'
 
 # • NUMBER #########################################################################################
 
@@ -625,7 +612,7 @@ TEST = get_bool_prop('test', True)
 __CONSOLE_PROPERTIES______________________________ = ''
 
 # The severity level
-SEVERITY_LEVEL = SeverityLevel(get_int_prop('severity', 4))
+SEVERITY_LEVEL = SeverityLevel(get_int_prop('severityLevel', 4))
 
 # The flag specifying whether to enable the verbose mode
 VERBOSE = get_bool_prop('verbose', True)
@@ -633,6 +620,17 @@ VERBOSE = get_bool_prop('verbose', True)
 # • DATE ###########################################################################################
 
 __DATE_PROPERTIES_________________________________ = ''
+
+# The date format
+DATE_FORMAT = get_prop('dateFormat', DEFAULT_DATE_FORMAT)
+
+# The time format
+TIME_FORMAT = get_prop('timeFormat', DEFAULT_TIME_FORMAT)
+
+# The date-time format
+DATE_TIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
+
+#########################
 
 # The frequency
 FREQUENCY = Frequency(get_prop('frequency', DEFAULT_FREQUENCY.value))
@@ -800,13 +798,20 @@ def get_items(c, inclusion=None, exclusion=None):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
-			return [(k, filter(v, inclusion=keys)) for k, v in c]
+			return [(k, include(v, keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
+	elif is_frame(c):
+		return [(k, c.loc[:, k]) for k in keys]
+	elif is_series(c):
+		return [(k, c.loc[k]) for k in keys]
 	return [(k, c[k]) for k in keys]
 
 
 def get_value(c, inclusion=None, exclusion=None):
-	return simplify(get_values(c, inclusion=inclusion, exclusion=exclusion))
+	values = get_values(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(values):
+		return None
+	return simplify(values)
 
 
 def get_values(c, inclusion=None, exclusion=None):
@@ -820,12 +825,12 @@ def get_values(c, inclusion=None, exclusion=None):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
-			return to_array([filter(v, inclusion=keys).values for k, v in c])
+			return to_array([include(v, keys).values for k, v in c])
 		return to_array([v.values for k, v in c if k in keys])
 	elif is_table(c):
-		return filter(c, inclusion=keys).values
+		return include(c, keys).values
 	elif is_array(c):
-		return c
+		return c[keys]
 	return to_array([c[k] for k in keys])
 
 
@@ -901,6 +906,36 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 	return c
 
 
+def set_values(c, new_values, inclusion=None, exclusion=None):
+	"""Sets the values (values/values/columns) of the specified collection whose keys
+	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
+	list."""
+	if is_empty(c):
+		return c
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_table(new_values):
+		new_values = get_values(new_values)
+	else:
+		new_values = to_list(new_values)
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_frame(c):
+		chained_assignment = pd.options.mode.chained_assignment
+		pd.options.mode.chained_assignment = None
+		c.loc[:, keys] = new_values
+		pd.options.mode.chained_assignment = chained_assignment
+	elif is_series(c):
+		chained_assignment = pd.options.mode.chained_assignment
+		pd.options.mode.chained_assignment = None
+		c.loc[keys] = new_values
+		pd.options.mode.chained_assignment = chained_assignment
+	elif is_array(c):
+		c[keys] = new_values
+	else:
+		for i in range(len(keys)):
+			c[keys[i]] = new_values[i]
+
+
 # • DATAFRAME ######################################################################################
 
 __DATAFRAME_ACCESSORS_____________________________ = ''
@@ -927,7 +962,7 @@ def get_last_row(df):
 
 def get_rows(df):
 	"""Returns the rows of the specified dataframe."""
-	return [row for _, row in df.iterrows()]
+	return [get_row(df, i) for i in range(count_rows(df))]
 
 
 #########################
@@ -955,12 +990,7 @@ def get_last_col(df):
 
 def get_cols(df):
 	"""Returns the columns of the specified dataframe."""
-	return to_series(df)
-
-
-def get_cols(df):
-	"""Returns the columns of the specified dataframe."""
-	return to_series(df)
+	return [get_col(df, j) for j in range(count_cols(df))]
 
 
 # • DATE ###########################################################################################
@@ -980,7 +1010,7 @@ def get_datetime():
 	return datetime.now()
 
 
-def get_datetime_string(fmt=DEFAULT_DATE_TIME_FORMAT):
+def get_datetime_string(fmt=DATE_TIME_FORMAT):
 	return format_datetime(get_datetime(), fmt=fmt)
 
 
@@ -1048,7 +1078,7 @@ def get_year_weeks(c):
 	if is_table(c):
 		year_week = ['year', 'week']
 		iso_cal = to_timestamp(get_index(c)).isocalendar()
-		return pd.MultiIndex.from_frame(filter(iso_cal, inclusion=year_week), names=year_week)
+		return pd.MultiIndex.from_frame(include(iso_cal, year_week), names=year_week)
 	elif is_dict(c):
 		return get_year_weeks(get_index(c))
 	return list_to_type([get_year_week(d) for d in c], c)
@@ -1660,10 +1690,11 @@ def array_to_type(a, x):
 __DATAFRAME_CONVERTERS____________________________ = ''
 
 
-def to_series(data, name=None, index=None):
+def to_series(data, name=None, index=None, type=None):
 	"""Converts the specified collection to a series."""
-	if is_null(data):
+	if is_empty(data):
 		data = []
+		type = object
 	elif is_group(data):
 		data = data.obj
 	if is_frame(data):
@@ -1673,25 +1704,26 @@ def to_series(data, name=None, index=None):
 	elif is_series(data):
 		series = data
 	else:
-		series = pd.Series(data=data, dtype=float)
-	if not is_null(index):
-		set_index(series, index)
+		series = pd.Series(data=data, dtype=type)
 	if not is_null(name):
 		set_names(series, name)
+	if not is_null(index):
+		set_index(series, index)
 	return series
 
 
-def to_time_series(data, name=None, index=None):
+def to_time_series(data, name=None, index=None, type=float):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
 		index = to_timestamp(index)
-	return to_series(data, name=name, index=index)
+	return to_series(data, name=name, index=index, type=type)
 
 
-def to_frame(data, names=None, index=None):
+def to_frame(data, names=None, index=None, type=None):
 	"""Converts the specified collection to a dataframe."""
-	if is_null(data):
+	if is_empty(data):
 		data = []
+		type = object
 	elif is_group(data):
 		data = data.obj
 	if is_frame(data):
@@ -1699,13 +1731,13 @@ def to_frame(data, names=None, index=None):
 	elif is_series(data):
 		frame = data.to_frame()
 	elif is_dict(data):
-		frame = pd.DataFrame.from_dict(data)
+		frame = pd.DataFrame.from_dict(data, orient='index', dtype=type)
 	else:
-		frame = pd.DataFrame(data=data)
-	if not is_null(index):
-		set_index(frame, index)
+		frame = pd.DataFrame(data=data, dtype=type)
 	if not is_null(names):
 		set_names(frame, names)
+	if not is_null(index):
+		set_index(frame, index)
 	return frame
 
 
@@ -1714,7 +1746,7 @@ def to_frame(data, names=None, index=None):
 __DATE_CONVERTERS_________________________________ = ''
 
 
-def to_date(x, fmt=DEFAULT_DATE_FORMAT):
+def to_date(x, fmt=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
@@ -1732,7 +1764,7 @@ def to_date(x, fmt=DEFAULT_DATE_FORMAT):
 	return datetime.strptime(x, fmt)
 
 
-def to_datetime(x, fmt=DEFAULT_DATE_TIME_FORMAT):
+def to_datetime(x, fmt=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
@@ -1748,7 +1780,7 @@ def to_datetime(x, fmt=DEFAULT_DATE_TIME_FORMAT):
 	return datetime.strptime(x, fmt)
 
 
-def to_time(x, fmt=DEFAULT_TIME_FORMAT):
+def to_time(x, fmt=TIME_FORMAT):
 	if is_null(x):
 		return None
 	return to_datetime(x, fmt=fmt)
@@ -2010,10 +2042,7 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
 				pd.options.mode.chained_assignment = chained_assignment
 			elif is_series(x):
-				chained_assignment = pd.options.mode.chained_assignment
-				pd.options.mode.chained_assignment = None
-				x.loc[keys] = x.loc[keys].apply(f, args=args, **kwargs)
-				pd.options.mode.chained_assignment = chained_assignment
+				set_values(x, x.loc[keys].apply(f, args=args, **kwargs), inclusion=keys)
 			else:
 				for k in keys:
 					x[k] = f(x[k], *args, **kwargs)
@@ -2029,13 +2058,14 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 			                              name=k, index=index) for k, v in x if k in keys])
 		elif is_frame(x):
 			if is_null(axis):
-				return concat_cols([x[k].apply(f, args=args, **kwargs) for k in keys])
+				return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
+			values = get_values(x, inclusion=keys).T if axis == 0 else get_values(x, inclusion=keys)
+			data = f(values, *args, **kwargs)
 			index = get_names(x, inclusion=keys) if axis == 0 else get_index(x)
-			data = f(get_values(x, inclusion=keys), *args, **kwargs)
-			if count_cols(data) > 1:
-				names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
-				return to_frame(data, names=names, index=index)
-			return to_series(data, name=f.__name__, index=index)
+			if count_cols(data) <= 1:
+				return to_series(data, name=f.__name__, index=index)
+			names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
+			return to_frame(data, names=names, index=index)
 		elif is_series(x):
 			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
@@ -2176,6 +2206,12 @@ def fill_null(c, numeric_default=None, object_default=None, inclusion=None, excl
 				fill_null_with(col, numeric_default, inplace=True)
 			else:
 				fill_null_with(col, object_default, inplace=True)
+		elif is_series(c):
+			if is_null(c.loc[k]):
+				if is_number(c.loc[k]):
+					c.loc[k] = numeric_default
+				else:
+					c.loc[k] = object_default
 		else:
 			if is_null(c[k]):
 				if is_number(c[k]):
@@ -2199,9 +2235,11 @@ def filter(c, inclusion=None, exclusion=None):
 	elif is_frame(c):
 		return c.loc[:, keys]
 	elif is_series(c):
-		return c[c.index.isin(keys)]
+		return c.loc[keys]
 	elif is_dict(c):
 		return {k: c[k] for k in keys}
+	elif is_array(c):
+		return c[keys]
 	return list_to_type([c[k] for k in keys], c)
 
 
@@ -2229,7 +2267,7 @@ def filter_index(c, inclusion=None, exclusion=None):
 		index = index if c.axis == 0 else get_keys(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in index)
 	elif is_table(c):
-		return c[c.index.isin(index)]
+		return c.loc[c.index.isin(index)]
 	return filter(c, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2259,8 +2297,8 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	elif is_table(c):
 		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
 		if is_series(c):
-			return c[mask_list(keys, mask)]
-		return c[reduce_and(mask, axis=1)]
+			return c.loc[mask_list(keys, mask)]
+		return c.loc[reduce_and(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return list_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
@@ -2278,8 +2316,8 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	elif is_table(c):
 		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
 		if is_series(c):
-			return c[mask_list(keys, mask)]
-		return c[reduce_and(mask, axis=1)]
+			return c.loc[mask_list(keys, mask)]
+		return c.loc[reduce_and(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return list_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
@@ -2297,8 +2335,8 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	elif is_table(c):
 		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
 		if is_series(c):
-			return c[mask_list(keys, mask)]
-		return c[reduce_or(mask, axis=1)]
+			return c.loc[mask_list(keys, mask)]
+		return c.loc[reduce_or(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return list_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
@@ -2316,8 +2354,8 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	elif is_table(c):
 		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
 		if is_series(c):
-			return c[mask_list(keys, mask)]
-		return c[reduce_or(mask, axis=1)]
+			return c.loc[mask_list(keys, mask)]
+		return c.loc[reduce_or(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return list_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
@@ -2632,12 +2670,10 @@ def sum(*args, axis=0):
 #########################
 
 def reverse(c, axis=0):
-	if is_frame(c):
+	if is_table(c):
 		if axis == 0:
-			return c.loc[:, ::-1]
-		return c.loc[::-1]
-	elif is_series(c):
-		return c.loc[::-1]
+			return c.loc[::-1]
+		return c.loc[:, ::-1]
 	elif is_dict(c):
 		return {v: k for k, v in get_items(c)}
 	return c[::-1]
@@ -2748,9 +2784,7 @@ def take(c, keys, axis=0):
 		if axis == 0:
 			return c.loc[keys]
 		return c.loc[:, keys]
-	elif is_dict(c):
-		return {k: c[k] for k in keys}
-	return list_to_type([c[k] for k in keys], c)
+	return include(c, keys)
 
 
 def take_not(c, keys, axis=0):
@@ -2781,7 +2815,7 @@ def take_not_at(c, indices, axis=0):
 
 def unique(c, keep='first'):
 	if is_table(c):
-		return c[invert(c.index.duplicated(keep=keep))]
+		return c.loc[invert(c.index.duplicated(keep=keep))]
 	elif is_dict(c):
 		return c
 	return to_list(dict.fromkeys(c))
@@ -2953,7 +2987,7 @@ def filter_rows(df, row):
 	columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_and([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_and([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_rows_not(df, row):
@@ -2961,7 +2995,7 @@ def filter_rows_not(df, row):
 	common columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_and([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_and([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_any_rows(df, row):
@@ -2969,7 +3003,7 @@ def filter_any_rows(df, row):
 	common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_or([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_or([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 def filter_any_rows_not(df, row):
@@ -2977,7 +3011,7 @@ def filter_any_rows_not(df, row):
 	one common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df[reduce_or([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_or([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
 
 
 #########################
@@ -2987,8 +3021,8 @@ def filter_rows_in(df, rows):
 	columns."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df[reduce_and([df[k].isin(to_list(values))
-	                      for k, values in get_items(rows) if k in df])]
+	return df.loc[reduce_and([df[k].isin(to_list(values))
+	                          for k, values in get_items(rows) if k in df])]
 
 
 def filter_rows_not_in(df, rows):
@@ -2996,8 +3030,8 @@ def filter_rows_not_in(df, rows):
 	common columns."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df[reduce_and([invert(df[k].isin(to_list(values)))
-	                      for k, values in get_items(rows) if k in df])]
+	return df.loc[reduce_and([invert(df[k].isin(to_list(values)))
+	                          for k, values in get_items(rows) if k in df])]
 
 
 def filter_any_rows_in(df, rows):
@@ -3005,8 +3039,8 @@ def filter_any_rows_in(df, rows):
 	common column."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df[reduce_or([df[k].isin(to_list(values))
-	                     for k, values in get_items(rows) if k in df])]
+	return df.loc[reduce_or([df[k].isin(to_list(values))
+	                         for k, values in get_items(rows) if k in df])]
 
 
 def filter_any_rows_not_in(df, rows):
@@ -3014,8 +3048,8 @@ def filter_any_rows_not_in(df, rows):
 	one common column."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df[reduce_or([invert(df[k].isin(to_list(values)))
-	                     for k, values in get_items(rows) if k in df])]
+	return df.loc[reduce_or([invert(df[k].isin(to_list(values)))
+	                         for k, values in get_items(rows) if k in df])]
 
 
 #########################
@@ -3080,10 +3114,10 @@ def rename(df, names=None, index=None, level=None):
 	if is_all_null(names, index):
 		set_names(df, range(count_cols(df)))
 	else:
-		if not is_null(index):
-			df.rename(index=index, level=level, copy=False, inplace=True)
 		if not is_null(names):
 			set_names(df, names)
+		if not is_null(index):
+			df.rename(index=index, level=level, copy=False, inplace=True)
 	return df
 
 
@@ -3228,7 +3262,7 @@ def diff_years(date_from, date_to):
 #########################
 
 def format_date(d):
-	return trim(format_datetime(d, fmt=DEFAULT_DATE_FORMAT))
+	return trim(format_datetime(d, fmt=DATE_FORMAT))
 
 
 def format_full_date(d):
@@ -3251,14 +3285,14 @@ def format_full_month(d):
 	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_FORMAT))
 
 
-def format_datetime(d, fmt=DEFAULT_DATE_TIME_FORMAT):
+def format_datetime(d, fmt=DATE_TIME_FORMAT):
 	if is_string(d):
 		d = parse_datetime(d)
 	return trim(d.strftime(fmt)) if not is_null(d) else None
 
 
 def format_time(d):
-	return trim(format_datetime(d, fmt=DEFAULT_TIME_FORMAT))
+	return trim(format_datetime(d, fmt=TIME_FORMAT))
 
 
 #########################
@@ -3306,7 +3340,7 @@ __LIST_PROCESSORS_________________________________ = ''
 def filter_list(l, inclusion=None, exclusion=None):
 	"""Returns the values of the specified list that are in the specified inclusive list and are not
 	in the specified exclusive list."""
-	if is_null(inclusion) and is_empty(exclusion):
+	if is_empty(l) or is_null(inclusion) and is_empty(exclusion):
 		return to_list(l)
 	elif is_null(inclusion):
 		return [v for v in l if v not in to_list(exclusion)]
