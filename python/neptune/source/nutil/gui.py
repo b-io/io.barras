@@ -40,20 +40,16 @@ from nutil.ts import *
 __GUI_CONSTANTS___________________________________ = ''
 
 # The default scale
-if not exists('DEFAULT_SCALE'):
-	DEFAULT_SCALE = 1  # the higher, the better quality
+DEFAULT_SCALE = 1  # the higher, the better quality
 
 # The default width
-if not exists('DEFAULT_WIDTH'):
-	DEFAULT_WIDTH = 660
+DEFAULT_WIDTH = 660
 
 # The default height
-if not exists('DEFAULT_HEIGHT'):
-	DEFAULT_HEIGHT = 933
+DEFAULT_HEIGHT = 933
 
 # The default margin (left, right, bottom and top)
-if not exists('DEFAULT_MARGIN'):
-	DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)  # the ratio of the margin to the width or height
+DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)  # the ratio of the margin to the width or height
 
 # • GUI COLOR ######################################################################################
 
@@ -64,26 +60,24 @@ TRANSPARENT = (0, 0, 0, 0)
 ##################################################
 
 # The default colors
-if not exists('DEFAULT_COLORS'):
-	DEFAULT_COLORS = [
-		'#1F77B4',  # muted blue
-		'#FF7F0E',  # safety orange
-		'#2CA02C',  # cooked asparagus green
-		'#D62728',  # brick red
-		'#9467BD',  # muted purple
-		'#8C564B',  # chestnut brown
-		'#E377C2',  # raspberry yogurt pink
-		'#7F7F7F',  # middle gray
-		'#BCBD22',  # curry yellow-green
-		'#17BECF'  # blue-teal
-	]
+DEFAULT_COLORS = [
+	'#1F77B4',  # muted blue
+	'#FF7F0E',  # safety orange
+	'#2CA02C',  # cooked asparagus green
+	'#D62728',  # brick red
+	'#9467BD',  # muted purple
+	'#8C564B',  # chestnut brown
+	'#E377C2',  # raspberry yogurt pink
+	'#7F7F7F',  # middle gray
+	'#BCBD22',  # curry yellow-green
+	'#17BECF'  # blue-teal
+]
 
 # The default colors iterator
 DEFAULT_COLORS_ITERATOR = itertools.cycle(DEFAULT_COLORS)
 
 # The default background color
-if not exists('DEFAULT_BG_COLOR'):
-	DEFAULT_BG_COLOR = TRANSPARENT
+DEFAULT_BG_COLOR = TRANSPARENT
 
 ##################################################
 
@@ -95,20 +89,19 @@ RYG_SCALE = mcm.get_cmap(name='RdYlGn')
 __GUI_FIGURE_CONSTANTS____________________________ = ''
 
 # The default tick length
-if not exists('DEFAULT_TICK_LENGTH'):
-	DEFAULT_TICK_LENGTH = 4
+DEFAULT_TICK_LENGTH = 4
 
 # The default tick direction
-if not exists('DEFAULT_TICK_DIRECTION'):
-	DEFAULT_TICK_DIRECTION = 'outside'
+DEFAULT_TICK_DIRECTION = 'outside'
 
 ##################################################
 
-MAP_PROJECTIONS = ['equirectangular', 'mercator', 'orthographic', 'natural earth', 'kavrayskiy7',
-                   'miller', 'robinson', 'eckert4', 'azimuthal equal area', 'azimuthal equidistant',
-                   'conic equal area', 'conic conformal', 'conic equidistant', 'gnomonic',
-                   'stereographic', 'mollweide', 'hammer', 'transverse mercator', 'albers usa',
-                   'winkel tripel', 'aitoff', 'sinusoidal']
+MAP_PROJECTIONS = [
+	'equirectangular', 'mercator', 'orthographic', 'natural earth', 'kavrayskiy7', 'miller',
+	'robinson', 'eckert4', 'azimuthal equal area', 'azimuthal equidistant', 'conic equal area',
+	'conic conformal', 'conic equidistant', 'gnomonic', 'stereographic', 'mollweide', 'hammer',
+	'transverse mercator', 'albers usa', 'winkel tripel', 'aitoff', 'sinusoidal'
+]
 
 ####################################################################################################
 # GUI FUNCTIONS

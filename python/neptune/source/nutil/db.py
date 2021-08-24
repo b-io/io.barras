@@ -238,9 +238,7 @@ def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCH
 	"""Returns the primary columns of the specified table."""
 	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
 	primary_cols = [col.name for col in table_metadata.primary_key.columns]
-	if not is_null(cols):
-		primary_cols = include(cols, primary_cols)
-	return primary_cols
+	return include_list(primary_cols, cols)
 
 
 ##################################################
@@ -394,8 +392,9 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 		# Execute the query
 		try:
 			result = execute(engine, query)
-			if result > 0:
-				delete_count += result
+			result_count = len(result) if is_collection(result) else result
+			if result_count > 0:
+				delete_count += result_count
 				trace_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
 			else:
 				error_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -449,7 +448,8 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	# Execute the bulk query
 	try:
 		result = execute(engine, query, multi=True)
-		if result > 0:
+		result_count = len(result) if is_collection(result) else result
+		if result_count > 0:
 			delete_count = len(df)
 		else:
 			error_query('bulk-deleted', table, verbose=verbose)
@@ -498,7 +498,7 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
 	if is_null(insert_id):
-		insert_id = not is_empty(include(cols, get_identity_cols(engine, table, mssql=mssql)))
+		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, mssql=mssql)))
 
 	debug_query('insert', len(df), table, verbose=verbose)
 
@@ -515,8 +515,9 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 		# Execute the query
 		try:
 			result = execute(engine, query)
-			if result > 0:
-				insert_count += result
+			result_count = len(result) if is_collection(result) else result
+			if result_count > 0:
+				insert_count += result_count
 				trace_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
 			else:
 				error_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
@@ -541,7 +542,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
 	if is_null(insert_id):
-		insert_id = not is_empty(include(cols, get_identity_cols(engine, table, mssql=mssql)))
+		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, mssql=mssql)))
 
 	# Chunk the bulk query
 	if len(df) > chunk_size:
@@ -573,7 +574,8 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 		set_id_insert(engine, table, 'ON', mssql=mssql, schema=schema)
 	try:
 		result = execute(engine, query, multi=True)
-		if result > 0:
+		result_count = len(result) if is_collection(result) else result
+		if result_count > 0:
 			insert_count = len(df)
 		else:
 			error_query('bulk-inserted', table, verbose=verbose)
@@ -639,8 +641,9 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 		# Execute the query
 		try:
 			result = execute(engine, query)
-			if result > 0:
-				update_count += result
+			result_count = len(result) if is_collection(result) else result
+			if result_count > 0:
+				update_count += result_count
 				trace_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
 			else:
 				error_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -695,7 +698,8 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	# Execute the bulk query
 	try:
 		result = execute(engine, query, multi=True)
-		if result > 0:
+		result_count = len(result) if is_collection(result) else result
+		if result_count > 0:
 			update_count = len(df)
 		else:
 			error_query('bulk-updated', table, verbose=verbose)
