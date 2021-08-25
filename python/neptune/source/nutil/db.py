@@ -208,7 +208,7 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
 
 #########################
 
-def get_common_cols(df, table, table_cols, filtering_cols=None, test=TEST):
+def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 	"""Returns the columns of the specified dataframe that exist in the specified table and that are
 	not the specified filtering columns."""
 	if test:
@@ -361,7 +361,7 @@ def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
 ##################################################
 
 def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	"""Deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of deleted
 	rows."""
@@ -404,7 +404,7 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	"""Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of
@@ -484,7 +484,7 @@ def create_insert_table_query(table, cols, row, mssql=DEFAULT_DB_MSSQL, schema=D
 ##################################################
 
 def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
-                 test=TEST, verbose=VERBOSE):
+                 test=ASSERT, verbose=VERBOSE):
 	"""Inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of inserted rows."""
 	insert_count = 0
@@ -529,7 +529,7 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 
 
 def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_id=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	"""Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of bulk-inserted rows."""
@@ -605,7 +605,7 @@ def create_update_table_query(table, cols, row, filtering_cols=None, mssql=DEFAU
 ##################################################
 
 def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	"""Updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of updated
 	rows."""
@@ -653,7 +653,7 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=TEST,
+                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	"""Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of bulk-updated
@@ -714,7 +714,7 @@ __DB_UPSERT_______________________________________ = ''
 
 
 def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
-                 schema=DEFAULT_SCHEMA, test=TEST, verbose=VERBOSE):
+                 schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	"""Updates/inserts the rows matching the rows of the specified dataframe at the specified
 	filtering columns of/into the specified table (in the specified schema) and returns the number
 	of updated/inserted rows."""
@@ -767,7 +767,7 @@ __DB_MIGRATE______________________________________ = ''
 def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, collation=None,
             create=True, drop=False, fill=True, filtering_cols=None, filtering_row=None,
             mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
-            test=TEST, upsert=False, verbose=VERBOSE):
+            test=ASSERT, upsert=False, verbose=VERBOSE):
 	"""Migrates the specified tables (in the specified schema) from the specified engine to the
 	specified engine using the specified collation and returns the number of migrated rows."""
 	count = 0

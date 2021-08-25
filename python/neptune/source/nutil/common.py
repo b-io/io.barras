@@ -601,11 +601,11 @@ def get_int_prop(name, default=None):
 
 ##################################################
 
+# The flag specifying whether to assert
+ASSERT = get_bool_prop('assert', True)
+
 # The environment
 ENV = Environment(get_prop('env', 'prod'))
-
-# The flag specifying whether to test
-TEST = get_bool_prop('test', True)
 
 # • CONSOLE ########################################################################################
 
@@ -808,10 +808,7 @@ def get_items(c, inclusion=None, exclusion=None):
 
 
 def get_value(c, inclusion=None, exclusion=None):
-	values = get_values(c, inclusion=inclusion, exclusion=exclusion)
-	if is_empty(values):
-		return None
-	return simplify(values)
+	return simplify(get_values(c, inclusion=inclusion, exclusion=exclusion))
 
 
 def get_values(c, inclusion=None, exclusion=None):
@@ -820,7 +817,7 @@ def get_values(c, inclusion=None, exclusion=None):
 	list."""
 	if is_empty(c):
 		return to_array()
-	elif is_number(c):
+	elif not is_collection(c):
 		return to_array(c)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
@@ -946,7 +943,7 @@ def get_row(df, i=0):
 	if is_group(df):
 		df = get_values(df)
 	elif is_table(df):
-		return df.iloc[i:i + 1] if i != -1 else df.iloc[i:]
+		return df.iloc[i:] if i == -1 else df.iloc[i:i + 1]
 	return df[i]
 
 
@@ -3496,7 +3493,7 @@ def round(x, decimals=0):
 
 def mod(x, y):
 	m = x % y
-	return m if m != 0 else y
+	return y if m == 0 else m
 
 
 # • STRING #########################################################################################
