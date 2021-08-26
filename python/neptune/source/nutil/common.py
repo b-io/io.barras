@@ -720,7 +720,7 @@ def get_names(c, inclusion=None, exclusion=None):
 		exclusion = get_names(exclusion)
 	if is_series(c):
 		c = c.name
-	elif not is_frame(c) and not is_dict(c):
+	elif not is_table(c) and not is_dict(c):
 		c = range(len(c))
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
 
@@ -742,7 +742,7 @@ def get_keys(c, inclusion=None, exclusion=None):
 		exclusion = get_keys(exclusion)
 	if is_series(c):
 		c = c.index
-	elif not is_frame(c) and not is_dict(c):
+	elif not is_table(c) and not is_dict(c):
 		c = range(len(c))
 	return unique(filter_list(c, inclusion=inclusion, exclusion=exclusion))
 
@@ -800,10 +800,8 @@ def get_items(c, inclusion=None, exclusion=None):
 		if c.axis == 0:
 			return [(k, include(v, keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
-	elif is_frame(c):
-		return [(k, c.loc[:, k]) for k in keys]
-	elif is_series(c):
-		return [(k, c.loc[k]) for k in keys]
+	elif is_table(c):
+		return [(k, v) for k, v in c.iteritems() if k in keys]
 	return [(k, c[k]) for k in keys]
 
 
@@ -959,6 +957,10 @@ def get_last_row(df):
 
 def get_rows(df):
 	"""Returns the rows of the specified dataframe."""
+	if is_frame(df):
+		return [row for _, row in df.iterrows()]
+	elif is_series(df):
+		return [row for _, row in df.iteritems()]
 	return [get_row(df, i) for i in range(count_rows(df))]
 
 
@@ -987,6 +989,10 @@ def get_last_col(df):
 
 def get_cols(df):
 	"""Returns the columns of the specified dataframe."""
+	if is_frame(df):
+		return [col for _, col in df.iteritems()]
+	elif is_series(df):
+		return [df]
 	return [get_col(df, j) for j in range(count_cols(df))]
 
 
@@ -1696,8 +1702,8 @@ def to_series(data, name=None, index=None, type=None):
 		data = data.obj
 	if is_frame(data):
 		if count_cols(data) > 1:
-			return [to_series(data[k], name=name, index=index) for k in get_keys(data)]
-		series = get_col(data) if not is_empty(data) else pd.Series()
+			return get_cols(data)
+		series = get_col(data) if not is_empty(data) else pd.Series(data=data, dtype=type)
 	elif is_series(data):
 		series = data
 	else:
