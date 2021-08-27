@@ -800,7 +800,7 @@ def get_items(c, inclusion=None, exclusion=None):
 		if c.axis == 0:
 			return [(k, include(v, keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
-	elif is_table(c):
+	elif is_table(c) or is_dict(c):
 		return [(k, v) for k, v in c.iteritems() if k in keys]
 	return [(k, c[k]) for k in keys]
 
@@ -1853,7 +1853,7 @@ __DICT_CONVERTERS_________________________________ = ''
 
 def to_dict(c):
 	"""Converts the specified collection to a dictionary."""
-	if is_null(c):
+	if is_empty(c):
 		return {}
 	elif is_table(c):
 		return c.to_dict()
@@ -2421,25 +2421,25 @@ def filter_any_not_empty(c, inclusion=None, exclusion=None):
 def filter_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	 for all the specified keys."""
-	return filter_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for all the specified keys."""
-	return filter_not_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	for at least one specified key."""
-	return filter_any_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_value(c, value, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for at least one specified key."""
-	return filter_any_not_with(c, lambda v: equals(v, value), inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
@@ -2678,7 +2678,7 @@ def reverse(c, axis=0):
 			return c.loc[::-1]
 		return c.loc[:, ::-1]
 	elif is_dict(c):
-		return {v: k for k, v in get_items(c)}
+		return {v: k for k, v in c.iteritems()}
 	return c[::-1]
 
 
@@ -2696,7 +2696,8 @@ def keep_max(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)))[-n:]]
+	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)),
+	                             reverse=True)[:n]]
 	return take(c, keys, axis=1 if axis == 0 else 0)
 
 
@@ -2732,16 +2733,16 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
                 microseconds=0):
 	"""Shifts the date-time index of the specified collection."""
 	if is_table(c):
-		c = c.copy()
-		c.index += pd.DateOffset(years=years, months=months, weeks=weeks, days=days, hours=hours,
+		t = c.copy()
+		t.index += pd.DateOffset(years=years, months=months, weeks=weeks, days=days, hours=hours,
 		                         minutes=minutes, seconds=seconds, microseconds=microseconds)
-		return c
+		return t
 	elif is_dict(c):
-		c = {}
-		for k, v in get_items(c):
-			c[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
+		d = {}
+		for k, v in c.iteritems():
+			d[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
 			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = v
-		return c
+		return d
 	return list_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
 	                                hours=hours, minutes=minutes, seconds=seconds,
 	                                microseconds=microseconds) for d in c], c)
@@ -2990,7 +2991,7 @@ def filter_rows(df, row):
 	columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_and([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_and([df[k] == v for k, v in row.iteritems() if k in df])]
 
 
 def filter_rows_not(df, row):
@@ -2998,7 +2999,7 @@ def filter_rows_not(df, row):
 	common columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_and([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_and([df[k] != v for k, v in row.iteritems() if k in df])]
 
 
 def filter_any_rows(df, row):
@@ -3006,7 +3007,7 @@ def filter_any_rows(df, row):
 	common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_or([apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_or([df[k] == v for k, v in row.iteritems() if k in df])]
 
 
 def filter_any_rows_not(df, row):
@@ -3014,7 +3015,7 @@ def filter_any_rows_not(df, row):
 	one common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_or([not apply(equals, df[k], v) for k, v in get_items(row) if k in df])]
+	return df.loc[reduce_or([df[k] != v for k, v in row.iteritems() if k in df])]
 
 
 #########################
@@ -3025,7 +3026,7 @@ def filter_rows_in(df, rows):
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_and([df[k].isin(to_list(values))
-	                          for k, values in get_items(rows) if k in df])]
+	                          for k, values in rows.iteritems() if k in df])]
 
 
 def filter_rows_not_in(df, rows):
@@ -3034,7 +3035,7 @@ def filter_rows_not_in(df, rows):
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_and([invert(df[k].isin(to_list(values)))
-	                          for k, values in get_items(rows) if k in df])]
+	                          for k, values in rows.iteritems() if k in df])]
 
 
 def filter_any_rows_in(df, rows):
@@ -3043,7 +3044,7 @@ def filter_any_rows_in(df, rows):
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_or([df[k].isin(to_list(values))
-	                         for k, values in get_items(rows) if k in df])]
+	                         for k, values in rows.iteritems() if k in df])]
 
 
 def filter_any_rows_not_in(df, rows):
@@ -3052,7 +3053,7 @@ def filter_any_rows_not_in(df, rows):
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_or([invert(df[k].isin(to_list(values)))
-	                         for k, values in get_items(rows) if k in df])]
+	                         for k, values in rows.iteritems() if k in df])]
 
 
 #########################
@@ -3370,11 +3371,11 @@ def mask_list(l, mask):
 #########################
 
 def find_all(l, value):
-	return find_all_with(l, lambda v: equals(v, value))
+	return find_all_with(l, lambda v: v == value)
 
 
 def find_all_not(l, value):
-	return find_all_not_with(l, lambda v: equals(v, value))
+	return find_all_not_with(l, lambda v: v == value)
 
 
 def find_all_in(l, values):
@@ -3396,11 +3397,11 @@ def find_all_not_with(l, f, *args, **kwargs):
 #########################
 
 def find(l, value):
-	return find_with(l, lambda v: equals(v, value))
+	return find_with(l, lambda v: v == value)
 
 
 def find_not(l, value):
-	return find_not_with(l, lambda v: equals(v, value))
+	return find_not_with(l, lambda v: v == value)
 
 
 def find_in(l, values):
@@ -3422,11 +3423,11 @@ def find_not_with(l, f, *args, **kwargs):
 #########################
 
 def find_last(l, value):
-	return find_last_with(l, lambda v: equals(v, value))
+	return find_last_with(l, lambda v: v == value)
 
 
 def find_last_not(l, value):
-	return find_last_not_with(l, lambda v: equals(v, value))
+	return find_last_not_with(l, lambda v: v == value)
 
 
 def find_last_in(l, values):
