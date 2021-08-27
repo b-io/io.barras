@@ -29,7 +29,7 @@ def tag(name, value=None, attributes=None):
 	if is_null(attributes):
 		attributes = {}
 	return collapse('<', name,
-	                collapse([collapse(' ', k, '=', dquote(v)) for k, v in get_items(attributes)]),
+	                collapse([collapse(' ', k, '=', dquote(v)) for k, v in attributes.iteritems()]),
 	                collapse('>', value, '</', name, '>') if not is_empty(value) else ' />')
 
 
