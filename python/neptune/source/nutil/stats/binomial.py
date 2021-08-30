@@ -48,8 +48,16 @@ class Binomial(Distribution):
 			self.n = round(x ** 2 * v / (m * (x - m)))
 			self.p = m / self.n
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name + par(collist(self.n, self.p))
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	def mean(self):
 		return self.n * self.p

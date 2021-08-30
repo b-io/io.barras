@@ -47,8 +47,16 @@ class Normal(Distribution):
 			self.mu = mean(series)
 			self.sigma = std(series, dof=dof)
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name + par(collist(self.mu, self.sigma))
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	def mean(self):
 		return self.mu
@@ -117,8 +125,16 @@ class NormalKDE(Distribution):
 		# Estimate the density of the distribution
 		self.kernel = stats.gaussian_kde(series)
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name + par(collist(self.mu, self.sigma))
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	def mean(self):
 		return self.mu

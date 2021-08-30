@@ -526,9 +526,9 @@ def update_layout_axes(fig,
 				# Set the range
 				rangemode='tozero' if range_to_zero_x else None,
 				# Set the ticks
-				tickmode='array' if not is_null(tick_values_x) else
-				'linear' if not is_null(tick_start_x) or not is_null(tick_step_x) else
-				'auto', nticks=tick_number_x, tick0=tick_start_x, dtick=tick_step_x,
+				tickmode='array' if not is_null(tick_values_x)
+				else 'linear' if not is_null(tick_start_x) or not is_null(tick_step_x)
+				else 'auto', nticks=tick_number_x, tick0=tick_start_x, dtick=tick_step_x,
 				tickvals=tick_values_x,
 				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
 				tickwidth=grid_width,
@@ -544,9 +544,9 @@ def update_layout_axes(fig,
 				# Set the range
 				rangemode='tozero' if range_to_zero_y else None,
 				# Set the ticks
-				tickmode='array' if not is_null(tick_values_y) else
-				'linear' if not is_null(tick_start_y) or not is_null(tick_step_y) else
-				'auto', nticks=tick_number_y, tick0=tick_start_y, dtick=tick_step_y,
+				tickmode='array' if not is_null(tick_values_y)
+				else 'linear' if not is_null(tick_start_y) or not is_null(tick_step_y)
+				else 'auto', nticks=tick_number_y, tick0=tick_start_y, dtick=tick_step_y,
 				tickvals=tick_values_y,
 				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
 				tickwidth=grid_width,
@@ -562,9 +562,9 @@ def update_layout_axes(fig,
 				# Set the range
 				rangemode='tozero' if range_to_zero_y2 else None,
 				# Set the ticks
-				tickmode='array' if not is_null(tick_values_y2) else
-				'linear' if not is_null(tick_start_y2) or not is_null(tick_step_y2) else
-				'auto', nticks=tick_number_y2, tick0=tick_start_y2, dtick=tick_step_y2,
+				tickmode='array' if not is_null(tick_values_y2)
+				else 'linear' if not is_null(tick_start_y2) or not is_null(tick_step_y2)
+				else 'auto', nticks=tick_number_y2, tick0=tick_start_y2, dtick=tick_step_y2,
 				tickvals=tick_values_y2,
 				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
 				tickwidth=grid_width,
