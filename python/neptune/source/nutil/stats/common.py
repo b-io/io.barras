@@ -45,8 +45,16 @@ class Distribution(ABC):
 		self.dof = dof
 		self.size = len(series) if not is_null(series) else NAN
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	@abstractmethod
 	def mean(self):

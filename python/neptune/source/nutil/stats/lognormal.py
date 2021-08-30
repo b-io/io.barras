@@ -45,8 +45,16 @@ class LogNormal(Distribution):
 			self.mu = normal.mean(log(series))
 			self.sigma = normal.std(log(series), dof=dof)
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name + par(collist(self.mu, self.sigma))
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	def mean(self):
 		sigma2 = self.sigma ** 2

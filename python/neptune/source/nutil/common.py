@@ -14,21 +14,25 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+import cProfile
 import functools
 import json
 import multiprocessing as mp
 import numbers
 import os
 import pdb
+import pstats
 import random
 import re
 import string
 import sys
 from calendar import monthrange
-from collections import Iterable, Sequence
+from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
 from datetime import *
 from distutils.util import *
 from enum import Enum
+from io import StringIO
+from pstats import SortKey
 from urllib.request import urlopen
 
 import javaproperties as prop
@@ -107,6 +111,79 @@ class Frequency(Enum):
 	QUARTERS = 'Q'
 	SEMESTERS = 'S'
 	YEARS = 'Y'
+
+
+####################################################################################################
+# COMMON CLASSES
+####################################################################################################
+
+__COMMON_CLASSES__________________________________ = ''
+
+
+class OrderedSet(MutableSet, OrderedDict, Sequence):
+
+	def __init__(self, *args):
+		elements = tuple(args[0] if len(args) == 1 else args)
+		super().__init__(zip(elements, repeat(None, len(elements))))
+
+	##############################################
+	# OPERATORS
+	##############################################
+
+	difference = property(lambda self: self.__sub__)
+	difference_update = property(lambda self: self.__isub__)
+	intersection = property(lambda self: self.__and__)
+	intersection_update = property(lambda self: self.__iand__)
+	issubset = property(lambda self: self.__le__)
+	issuperset = property(lambda self: self.__ge__)
+	symmetric_difference = property(lambda self: self.__xor__)
+	symmetric_difference_update = property(lambda self: self.__ixor__)
+	union = property(lambda self: self.__or__)
+
+	def __le__(self, other):
+		return all(e in other for e in self)
+
+	def __lt__(self, other):
+		return self <= other and self != other
+
+	def __ge__(self, other):
+		return all(e in self for e in other)
+
+	def __gt__(self, other):
+		return self >= other and self != other
+
+	##############################################
+
+	def __iter__(self):
+		return super(OrderedDict, self).__iter__()
+
+	def __len__(self):
+		return super(OrderedDict, self).__len__()
+
+	##############################################
+
+	def __repr__(self):
+		return 'OrderedSet([%s])' % (', '.join(map(repr, self.keys())))
+
+	def __str__(self):
+		return '{%s}' % (', '.join(map(repr, self.keys())))
+
+	##############################################
+	# PROCESSORS
+	##############################################
+
+	def add(self, element):
+		self[element] = None
+
+	def discard(self, element):
+		self.pop(element, None)
+
+	def update(self, *args, **kwargs):
+		if kwargs:
+			raise TypeError('update() takes no keyword arguments')
+		for arg in args:
+			for element in arg:
+				self.add(element)
 
 
 ####################################################################################################
@@ -435,6 +512,19 @@ def equals(x, y):
 	return is_null(x) and is_null(y) or x == y
 
 
+# • SET ############################################################################################
+
+__SET_VERIFIERS___________________________________ = ''
+
+
+def is_set(x):
+	return isinstance(x, Set)
+
+
+def is_ordered_set(x):
+	return isinstance(x, OrderedSet)
+
+
 # • STRING #########################################################################################
 
 __STRING_VERIFIERS________________________________ = ''
@@ -451,27 +541,25 @@ def is_string(x):
 __FILE____________________________________________ = ''
 
 
-def get_path(path=None):
-	if is_null(path):
-		path = '.'
+def get_path(path='.'):
 	return os.path.abspath(path)
 
 
 #########################
 
-def get_dir(path=None, parent=None):
+def get_dir(path='.', parent=None):
 	path = get_path(path)
 	if is_null(parent):
 		parent = not is_dir(path)
 	return os.path.dirname(get_path(path) + ('/' if not parent else ''))
 
 
-def get_filename(path=None):
+def get_filename(path='.'):
 	path = get_path(path)
 	return os.path.basename(path)
 
 
-def get_extension(path=None):
+def get_extension(path='.'):
 	path = get_path(path)
 	return os.path.splitext(path)[1][1:]
 
@@ -702,6 +790,10 @@ def get_last(c, axis=0):
 	return get(c, index=-1, axis=axis)
 
 
+def get_next(c):
+	return next(iter(c))
+
+
 #########################
 
 def get_name(c, inclusion=None, exclusion=None):
@@ -733,7 +825,7 @@ def get_keys(c, inclusion=None, exclusion=None):
 	"""Returns the keys (indices/keys/names) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
 	if is_empty(c):
-		return []
+		return OrderedSet()
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(inclusion):
@@ -744,7 +836,7 @@ def get_keys(c, inclusion=None, exclusion=None):
 		c = c.index
 	elif not is_table(c) and not is_dict(c):
 		c = range(len(c))
-	return unique(filter_list(c, inclusion=inclusion, exclusion=exclusion))
+	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
 
 def get_all_common_keys(*args, inclusion=None, exclusion=None):
@@ -795,13 +887,14 @@ def get_items(c, inclusion=None, exclusion=None):
 	list."""
 	if is_empty(c):
 		return []
+	if is_null(inclusion) and is_empty(exclusion):
+		if is_table(c) or is_dict(c):
+			return c.items()
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
 			return [(k, include(v, keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
-	elif is_table(c) or is_dict(c):
-		return [(k, v) for k, v in c.iteritems() if k in keys]
 	return [(k, c[k]) for k in keys]
 
 
@@ -814,7 +907,7 @@ def get_values(c, inclusion=None, exclusion=None):
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
 	if is_empty(c):
-		return to_array()
+		return np.array([])
 	elif not is_collection(c):
 		return to_array(c)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -860,7 +953,7 @@ def set_keys(c, new_keys, inclusion=None, exclusion=None):
 	if is_table(new_keys):
 		new_keys = get_keys(new_keys)
 	else:
-		new_keys = to_list(new_keys)
+		new_keys = to_ordered_set(new_keys)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_frame(c):
 		c.loc[:, keys].columns = new_keys
@@ -960,7 +1053,7 @@ def get_rows(df):
 	if is_frame(df):
 		return [row for _, row in df.iterrows()]
 	elif is_series(df):
-		return [row for _, row in df.iteritems()]
+		return [row for _, row in df.items()]
 	return [get_row(df, i) for i in range(count_rows(df))]
 
 
@@ -990,7 +1083,7 @@ def get_last_col(df):
 def get_cols(df):
 	"""Returns the columns of the specified dataframe."""
 	if is_frame(df):
-		return [col for _, col in df.iteritems()]
+		return [col for _, col in df.items()]
 	elif is_series(df):
 		return [df]
 	return [get_col(df, j) for j in range(count_cols(df))]
@@ -1929,6 +2022,40 @@ def to_float(x):
 	return float(x)
 
 
+# • SET ############################################################################################
+
+__SET_CONVERTERS__________________________________ = ''
+
+
+def to_set(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_set(arg):
+			return arg
+		elif is_collection(arg):
+			return set(arg)
+		return {arg}
+	return set(args)
+
+
+def unset(s):
+	if is_set(s):
+		if len(s) == 1:
+			return get_next(s)
+		return tuple(s)
+	return s
+
+
+##################################################
+
+def to_ordered_set(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_ordered_set(arg):
+			return arg
+	return OrderedSet(*args)
+
+
 # • STRING #########################################################################################
 
 __STRING_CONVERTERS_______________________________ = ''
@@ -1996,7 +2123,7 @@ def create_sequence(start=0, stop=0, step=1, include=False, n=None):
 	if start == stop:
 		if include:
 			return start
-		return to_array()
+		return np.array([])
 	elif start > stop:
 		start, stop = stop, start
 	if not is_null(n):
@@ -2195,6 +2322,12 @@ def concat(c1, c2):
 		return concat_rows(c1, c2)
 	elif is_dict(c1) or is_dict(c2):
 		return dict(get_items(c1) + get_items(c2))
+	elif is_ordered_set(c1) or is_ordered_set(c2):
+		return to_ordered_set(c1).union(to_ordered_set(c2))
+	elif is_set(c1) or is_set(c2):
+		return to_set(c1).union(to_set(c2))
+	elif is_array(c1) or is_array(c2):
+		return np.append(to_array(c1), to_array(c2))
 	return to_list(c1) + to_list(c2)
 
 
@@ -2447,25 +2580,29 @@ def filter_any_not_value(c, value, inclusion=None, exclusion=None):
 def filter_in(c, values, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	all the specified keys."""
-	return filter_with(c, lambda v: v in to_list(values), inclusion=inclusion, exclusion=exclusion)
+	values = to_set(values)
+	return filter_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_in(c, values, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for all the specified keys."""
-	return filter_not_with(c, lambda v: v in to_list(values), inclusion=inclusion, exclusion=exclusion)
+	values = to_set(values)
+	return filter_not_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_in(c, values, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	at least one specified key."""
-	return filter_any_with(c, lambda v: v in to_list(values), inclusion=inclusion, exclusion=exclusion)
+	values = to_set(values)
+	return filter_any_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_in(c, values, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for at least one specified key."""
-	return filter_any_not_with(c, lambda v: v in to_list(values), inclusion=inclusion, exclusion=exclusion)
+	values = to_set(values)
+	return filter_any_not_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
@@ -2678,7 +2815,7 @@ def reverse(c, axis=0):
 			return c.loc[::-1]
 		return c.loc[:, ::-1]
 	elif is_dict(c):
-		return {v: k for k, v in c.iteritems()}
+		return {c[k]: k for k in c}
 	return c[::-1]
 
 
@@ -2739,9 +2876,9 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 		return t
 	elif is_dict(c):
 		d = {}
-		for k, v in c.iteritems():
+		for k in c:
 			d[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
-			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = v
+			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = c[k]
 		return d
 	return list_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
 	                                hours=hours, minutes=minutes, seconds=seconds,
@@ -2752,9 +2889,8 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 
 def simplify(c):
 	if is_collection(c):
-		keys = get_keys(c)
-		if len(keys) == 1:
-			return simplify(c[keys[0]])
+		if len(c) == 1:
+			return get_next(c)
 	return c
 
 
@@ -2783,7 +2919,7 @@ def sort_index(c):
 
 def take(c, keys, axis=0):
 	"""Returns the entries of the specified collection for all the specified keys."""
-	keys = to_list(keys)
+	keys = to_ordered_set(keys)
 	if is_table(c):
 		if axis == 0:
 			return c.loc[keys]
@@ -2822,7 +2958,7 @@ def unique(c, keep='first'):
 		return c.loc[invert(c.index.duplicated(keep=keep))]
 	elif is_dict(c):
 		return c
-	return to_list(dict.fromkeys(c))
+	return dict.fromkeys(c)
 
 
 #########################
@@ -2986,12 +3122,50 @@ def fill_null_cols(df, names, numeric_default=None, object_default=None):
 
 #########################
 
+def filter_rows_with(df, row, f, *args, **kwargs):
+	"""Returns the rows of the specified dataframe whose values return True with the specified
+	row and function for all the specified keys."""
+	if is_empty(df):
+		return df
+	return df.loc[reduce_and([apply(f, df[k], v, *args, **kwargs)
+	                          for k, v in row.items() if k in df])]
+
+
+def filter_rows_not_with(df, row, f, *args, **kwargs):
+	"""Returns the rows of the specified dataframe whose values return False with the specified
+	row and function for all the specified keys."""
+	if is_empty(df):
+		return df
+	return df.loc[reduce_and([invert(apply(f, df[k], v, *args, **kwargs))
+	                          for k, v in row.items() if k in df])]
+
+
+def filter_any_rows_with(df, row, f, *args, **kwargs):
+	"""Returns the rows of the specified dataframe whose values return True with the specified
+	row and function for at least one specified key."""
+	if is_empty(df):
+		return df
+	return df.loc[reduce_or([apply(f, df[k], v, *args, **kwargs)
+	                         for k, v in row.items() if k in df])]
+
+
+def filter_any_rows_not_with(df, row, f, *args, **kwargs):
+	"""Returns the rows of the specified dataframe whose values return False with the specified
+	row and function for at least one specified key."""
+	if is_empty(df):
+		return df
+	return df.loc[reduce_or([invert(apply(f, df[k], v, *args, **kwargs))
+	                         for k, v in row.items() if k in df])]
+
+
+#########################
+
 def filter_rows(df, row):
 	"""Returns the rows of the specified dataframe that match the specified row for all the common
 	columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_and([df[k] == v for k, v in row.iteritems() if k in df])]
+	return df.loc[reduce_and([df[k] == v for k, v in row.items() if k in df])]
 
 
 def filter_rows_not(df, row):
@@ -2999,7 +3173,7 @@ def filter_rows_not(df, row):
 	common columns."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_and([df[k] != v for k, v in row.iteritems() if k in df])]
+	return df.loc[reduce_and([df[k] != v for k, v in row.items() if k in df])]
 
 
 def filter_any_rows(df, row):
@@ -3007,7 +3181,7 @@ def filter_any_rows(df, row):
 	common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_or([df[k] == v for k, v in row.iteritems() if k in df])]
+	return df.loc[reduce_or([df[k] == v for k, v in row.items() if k in df])]
 
 
 def filter_any_rows_not(df, row):
@@ -3015,7 +3189,7 @@ def filter_any_rows_not(df, row):
 	one common column."""
 	if is_empty(df) or is_null(row):
 		return df
-	return df.loc[reduce_or([df[k] != v for k, v in row.iteritems() if k in df])]
+	return df.loc[reduce_or([df[k] != v for k, v in row.items() if k in df])]
 
 
 #########################
@@ -3025,8 +3199,8 @@ def filter_rows_in(df, rows):
 	columns."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df.loc[reduce_and([df[k].isin(to_list(values))
-	                          for k, values in rows.iteritems() if k in df])]
+	return df.loc[reduce_and([df[k].isin(to_set(values))
+	                          for k, values in rows.items() if k in df])]
 
 
 def filter_rows_not_in(df, rows):
@@ -3034,8 +3208,8 @@ def filter_rows_not_in(df, rows):
 	common columns."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df.loc[reduce_and([invert(df[k].isin(to_list(values)))
-	                          for k, values in rows.iteritems() if k in df])]
+	return df.loc[reduce_and([invert(df[k].isin(to_set(values)))
+	                          for k, values in rows.items() if k in df])]
 
 
 def filter_any_rows_in(df, rows):
@@ -3043,8 +3217,8 @@ def filter_any_rows_in(df, rows):
 	common column."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df.loc[reduce_or([df[k].isin(to_list(values))
-	                         for k, values in rows.iteritems() if k in df])]
+	return df.loc[reduce_or([df[k].isin(to_set(values))
+	                         for k, values in rows.items() if k in df])]
 
 
 def filter_any_rows_not_in(df, rows):
@@ -3052,8 +3226,8 @@ def filter_any_rows_not_in(df, rows):
 	one common column."""
 	if is_empty(df) or is_null(rows):
 		return df
-	return df.loc[reduce_or([invert(df[k].isin(to_list(values)))
-	                         for k, values in rows.iteritems() if k in df])]
+	return df.loc[reduce_or([invert(df[k].isin(to_set(values)))
+	                         for k, values in rows.items() if k in df])]
 
 
 #########################
@@ -3363,11 +3537,6 @@ def exclude_list(l, exclusion):
 	return filter_list(l, exclusion=exclusion)
 
 
-def mask_list(l, mask):
-	"""Returns the values of the specified list that are True in the specified mask."""
-	return [v for i, v in enumerate(l) if mask[i]]
-
-
 #########################
 
 def find_all(l, value):
@@ -3379,11 +3548,13 @@ def find_all_not(l, value):
 
 
 def find_all_in(l, values):
-	return find_all_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_all_with(l, lambda v: v in values)
 
 
 def find_all_not_in(l, values):
-	return find_all_not_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_all_not_with(l, lambda v: v in values)
 
 
 def find_all_with(l, f, *args, **kwargs):
@@ -3405,11 +3576,13 @@ def find_not(l, value):
 
 
 def find_in(l, values):
-	return find_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_with(l, lambda v: v in values)
 
 
 def find_not_in(l, values):
-	return find_not_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_not_with(l, lambda v: v in values)
 
 
 def find_with(l, f, *args, **kwargs):
@@ -3431,11 +3604,13 @@ def find_last_not(l, value):
 
 
 def find_last_in(l, values):
-	return find_last_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_last_with(l, lambda v: v in values)
 
 
 def find_last_not_in(l, values):
-	return find_last_not_with(l, lambda v: v in to_list(values))
+	values = to_set(values)
+	return find_last_not_with(l, lambda v: v in values)
 
 
 def find_last_with(l, f, *args, **kwargs):
@@ -3444,6 +3619,13 @@ def find_last_with(l, f, *args, **kwargs):
 
 def find_last_not_with(l, f, *args, **kwargs):
 	return len(l) - find_not_with(l[::-1], f, *args, **kwargs) - 1
+
+
+#########################
+
+def mask_list(l, mask):
+	"""Returns the values of the specified list that are True in the specified mask."""
+	return [v for i, v in enumerate(l) if mask[i]]
 
 
 #########################
@@ -3501,6 +3683,78 @@ def round(x, decimals=0):
 def mod(x, y):
 	m = x % y
 	return y if m == 0 else m
+
+
+# • PROFILE ########################################################################################
+
+__PROFILE_PROCESSORS______________________________ = ''
+
+
+def start_profile():
+	"""Starts profiling."""
+	profile = cProfile.Profile()
+	profile.enable()
+	return profile
+
+
+def end_profile(profile, stream=StringIO()):
+	"""Ends profiling and returns the stream."""
+	profile.disable()
+	pstats.Stats(profile, stream=stream).sort_stats(SortKey.CUMULATIVE).print_stats()
+	return stream
+
+
+# • SET ############################################################################################
+
+__SET_PROCESSORS__________________________________ = ''
+
+
+def filter_set(s, inclusion=None, exclusion=None):
+	"""Returns the values of the specified set that are in the specified inclusive set and are not
+	in the specified exclusive set."""
+	if is_empty(s) or is_null(inclusion) and is_empty(exclusion):
+		return to_set(s)
+	elif is_null(inclusion):
+		return to_set(s) - to_set(exclusion)
+	elif is_empty(exclusion):
+		return to_set(s) & to_set(inclusion)
+	return to_set(s) & to_set(inclusion) - to_set(exclusion)
+
+
+def include_set(s, inclusion):
+	"""Returns the values of the specified set that are in the specified inclusive set."""
+	return filter_set(s, inclusion=inclusion)
+
+
+def exclude_set(s, exclusion):
+	"""Returns the values of the specified set that are not in the specified exclusive set."""
+	return filter_set(s, exclusion=exclusion)
+
+
+##################################################
+
+
+def filter_ordered_set(s, inclusion=None, exclusion=None):
+	"""Returns the values of the specified ordered set that are in the specified inclusive set and
+	are not in the specified exclusive set."""
+	if is_empty(s) or is_null(inclusion) and is_empty(exclusion):
+		return to_ordered_set(s)
+	elif is_null(inclusion):
+		return to_ordered_set(s) - to_set(exclusion)
+	elif is_empty(exclusion):
+		return to_ordered_set(s) & to_set(inclusion)
+	return to_ordered_set(s) & to_set(inclusion) - to_set(exclusion)
+
+
+def include_ordered_set(s, inclusion):
+	"""Returns the values of the specified ordered set that are in the specified inclusive set."""
+	return filter_ordered_set(s, inclusion=inclusion)
+
+
+def exclude_ordered_set(s, exclusion):
+	"""Returns the values of the specified ordered set that are not in the specified exclusive
+	set."""
+	return filter_ordered_set(s, exclusion=exclusion)
 
 
 # • STRING #########################################################################################

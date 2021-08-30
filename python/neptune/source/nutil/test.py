@@ -14,6 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+import timeit
 import unittest
 
 from nutil.ts import *
@@ -25,6 +26,8 @@ from nutil.ts import *
 _TEST_CONSTANTS___________________________________ = ''
 
 PRECISION = 14  # decimals
+
+TEST_COUNT = 10
 
 ####################################################################################################
 # TEST CLASSES
@@ -41,6 +44,37 @@ class Test(unittest.TestCase):
 				self.assert_equals(first[i], second[i], precision=precision)
 		else:
 			self.assertAlmostEqual(first, second, places=precision)
+
+
+class TestCommon(Test):
+
+	def test(self):
+		# Initialize the collections
+		d = to_dict(reverse(range(10000)))
+		s = to_series(d)
+		df = concat_cols(s, s)
+
+		# Test the dictionary functions
+		test('Get the items of the dictionary')
+		self.get_items(d)
+
+		# Test the series functions
+		test('Get the items of the series')
+		self.get_items(s)
+
+		# Test the dataframe functions
+		test('Get the rows of the dataframe')
+		self.get_rows(df)
+
+	def get_items(self, c):
+		t = timeit.timeit(stmt=lambda: get_items(c, inclusion=range(len(c)),
+		                                         exclusion=range(int(len(c) / 2))),
+		                  number=TEST_COUNT)
+		test(len(c), 'items retrieved', TEST_COUNT, 'times in', t, '[s]')
+
+	def get_rows(self, c):
+		t = timeit.timeit(stmt=lambda: get_rows(c), number=TEST_COUNT)
+		test(count_rows(c), 'rows retrieved', TEST_COUNT, 'times in', t, '[s]')
 
 
 class TestTimeSeries(Test):

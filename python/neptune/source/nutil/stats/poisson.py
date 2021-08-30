@@ -43,8 +43,16 @@ class Poisson(Distribution):
 			# Estimate the parameter λ of the distribution
 			self.lam = mean(series)
 
+	##############################################
+	# OPERATORS
+	##############################################
+
 	def __str__(self):
 		return self.name + par(collist(self.lam))
+
+	##############################################
+	# PROCESSORS
+	##############################################
 
 	def mean(self):
 		return self.lam
