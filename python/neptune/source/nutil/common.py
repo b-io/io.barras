@@ -27,7 +27,7 @@ import re
 import string
 import sys
 from calendar import monthrange
-from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
+from collections import Collection, Iterable, MutableSet, OrderedDict, Sequence, Set
 from datetime import *
 from distutils.util import *
 from enum import Enum
@@ -120,11 +120,11 @@ class Frequency(Enum):
 __COMMON_CLASSES__________________________________ = ''
 
 
-class OrderedSet(MutableSet, OrderedDict, Sequence):
+class OrderedSet(MutableSet, Collection):
 
 	def __init__(self, *args):
-		elements = tuple(args[0] if len(args) == 1 else args)
-		super().__init__(zip(elements, repeat(None, len(elements))))
+		super().__init__()
+		self.elements = OrderedDict.fromkeys(*args)
 
 	##############################################
 	# OPERATORS
@@ -139,6 +139,9 @@ class OrderedSet(MutableSet, OrderedDict, Sequence):
 	symmetric_difference = property(lambda self: self.__xor__)
 	symmetric_difference_update = property(lambda self: self.__ixor__)
 	union = property(lambda self: self.__or__)
+
+	def __contains__(self, x):
+		return self.elements.__contains__(x)
 
 	def __le__(self, other):
 		return all(e in other for e in self)
@@ -155,35 +158,28 @@ class OrderedSet(MutableSet, OrderedDict, Sequence):
 	##############################################
 
 	def __iter__(self):
-		return super(OrderedDict, self).__iter__()
+		return self.elements.__iter__()
 
 	def __len__(self):
-		return super(OrderedDict, self).__len__()
+		return self.elements.__len__()
 
 	##############################################
 
 	def __repr__(self):
-		return 'OrderedSet([%s])' % (', '.join(map(repr, self.keys())))
+		return 'OrderedSet([%s])' % (', '.join(map(repr, self.elements.keys())))
 
 	def __str__(self):
-		return '{%s}' % (', '.join(map(repr, self.keys())))
+		return '{%s}' % (', '.join(map(repr, self.elements.keys())))
 
 	##############################################
 	# PROCESSORS
 	##############################################
 
 	def add(self, element):
-		self[element] = None
+		self.elements[element] = None
 
 	def discard(self, element):
-		self.pop(element, None)
-
-	def update(self, *args, **kwargs):
-		if kwargs:
-			raise TypeError('update() takes no keyword arguments')
-		for arg in args:
-			for element in arg:
-				self.add(element)
+		self.elements.pop(element, None)
 
 
 ####################################################################################################
@@ -431,7 +427,7 @@ def is_timestamp(x):
 
 
 def is_stamp(x):
-	return is_float(x)
+	return is_number(x)
 
 
 #########################
@@ -2958,7 +2954,7 @@ def unique(c, keep='first'):
 		return c.loc[invert(c.index.duplicated(keep=keep))]
 	elif is_dict(c):
 		return c
-	return dict.fromkeys(c)
+	return to_list(dict.fromkeys(c))
 
 
 #########################
