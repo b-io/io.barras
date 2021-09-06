@@ -124,7 +124,7 @@ class OrderedSet(MutableSet, Collection):
 
 	def __init__(self, *args):
 		super().__init__()
-		self.elements = OrderedDict.fromkeys(*args)
+		self.elements = OrderedDict.fromkeys(to_collection(*args))
 
 	##############################################
 	# OPERATORS
@@ -324,7 +324,7 @@ def is_null(x):
 
 
 def is_all_null(*args):
-	return all([is_null(arg) for arg in to_list(*args)])
+	return all([is_null(arg) for arg in to_collection(*args)])
 
 
 def is_all_not_null(*args):
@@ -332,7 +332,7 @@ def is_all_not_null(*args):
 
 
 def is_any_null(*args):
-	return any([is_null(arg) for arg in to_list(*args)])
+	return any([is_null(arg) for arg in to_collection(*args)])
 
 
 def is_any_not_null(*args):
@@ -348,7 +348,7 @@ def is_empty(x):
 
 
 def is_all_empty(*args):
-	return all([is_empty(arg) for arg in to_list(*args)])
+	return all([is_empty(arg) for arg in to_collection(*args)])
 
 
 def is_all_not_empty(*args):
@@ -356,7 +356,7 @@ def is_all_not_empty(*args):
 
 
 def is_any_empty(*args):
-	return any([is_empty(arg) for arg in to_list(*args)])
+	return any([is_empty(arg) for arg in to_collection(*args)])
 
 
 def is_any_not_empty(*args):
@@ -914,7 +914,7 @@ def get_values(c, inclusion=None, exclusion=None):
 	elif is_table(c):
 		return include(c, keys).values
 	elif is_array(c):
-		return c[keys]
+		return c[to_list(keys)]
 	return to_array([c[k] for k in keys])
 
 
@@ -1014,7 +1014,7 @@ def set_values(c, new_values, inclusion=None, exclusion=None):
 		c.loc[keys] = new_values
 		pd.options.mode.chained_assignment = chained_assignment
 	elif is_array(c):
-		c[keys] = new_values
+		c[to_list(keys)] = new_values
 	else:
 		for i in range(len(keys)):
 			c[keys[i]] = new_values[i]
@@ -1138,7 +1138,7 @@ def get_days(c, week=False, year=False):
 		return index.weekday if week else index.dayofyear if year else index.day
 	elif is_dict(c):
 		return get_days(get_index(c), week=week, year=year)
-	return list_to_type([get_day(d, week=week, year=year) for d in c], c)
+	return collection_to_type([get_day(d, week=week, year=year) for d in c], c)
 
 
 def get_week(d=get_datetime()):
@@ -1154,7 +1154,7 @@ def get_weeks(c):
 		return pd.Int64Index(to_timestamp(get_index(c)).isocalendar().week)
 	elif is_dict(c):
 		return get_weeks(get_index(c))
-	return list_to_type([get_week(d) for d in c], c)
+	return collection_to_type([get_week(d) for d in c], c)
 
 
 def get_year_week(d=get_datetime()):
@@ -1173,7 +1173,7 @@ def get_year_weeks(c):
 		return pd.MultiIndex.from_frame(include(iso_cal, year_week), names=year_week)
 	elif is_dict(c):
 		return get_year_weeks(get_index(c))
-	return list_to_type([get_year_week(d) for d in c], c)
+	return collection_to_type([get_year_week(d) for d in c], c)
 
 
 def get_month(d=get_datetime()):
@@ -1189,7 +1189,7 @@ def get_months(c):
 		return to_timestamp(get_index(c)).month
 	elif is_dict(c):
 		return get_months(get_index(c))
-	return list_to_type([get_month(d) for d in c], c)
+	return collection_to_type([get_month(d) for d in c], c)
 
 
 def get_quarter(d=get_datetime()):
@@ -1205,7 +1205,7 @@ def get_quarters(c):
 		return to_timestamp(get_index(c)).quarter
 	elif is_dict(c):
 		return get_quarters(get_index(c))
-	return list_to_type([get_quarter(d) for d in c], c)
+	return collection_to_type([get_quarter(d) for d in c], c)
 
 
 def get_semester(d=get_datetime()):
@@ -1221,7 +1221,7 @@ def get_semesters(c):
 		return ceil(get_months(c) / 6)
 	elif is_dict(c):
 		return get_semesters(get_index(c))
-	return list_to_type([get_semester(d) for d in c], c)
+	return collection_to_type([get_semester(d) for d in c], c)
 
 
 def get_year(d=get_datetime()):
@@ -1237,7 +1237,7 @@ def get_years(c):
 		return to_timestamp(get_index(c)).year
 	elif is_dict(c):
 		return get_years(get_index(c))
-	return list_to_type([get_year(d) for d in c], c)
+	return collection_to_type([get_year(d) for d in c], c)
 
 
 #########################
@@ -1762,19 +1762,44 @@ def unarray(a):
 	return a
 
 
+# • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
+
+__COLLECTION_CONVERTERS___________________________ = ''
+
+
+def to_collection(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_collection(arg):
+			return arg
+		return [arg]
+	return args
+
+
+def uncollect(c):
+	if is_collection(c):
+		if len(c) == 1:
+			return c[0]
+		return tuple(c)
+	return c
+
+
 #########################
 
-def array_to_type(a, x):
-	"""Converts the specified array to the type of the specified variable."""
+def collection_to_type(c, x):
 	if is_frame(x):
-		return to_frame(a, names=get_names(x), index=get_index(x))
+		return to_frame(c, names=get_names(x), index=get_index(x))
 	elif is_series(x):
-		return to_series(a, name=get_names(x), index=get_index(x))
+		return to_series(c, name=get_names(x), index=get_index(x))
 	elif is_dict(x):
-		return dict(zip(get_keys(x), a))
+		return dict(zip(get_keys(x), c))
+	elif is_ordered_set(x):
+		return to_ordered_set(c)
+	elif is_set(x):
+		return to_set(c)
 	elif is_array(x):
-		return a
-	return to_list(a)
+		return to_array(c)
+	return c
 
 
 # • DATAFRAME ######################################################################################
@@ -1972,20 +1997,6 @@ def unlist(l):
 		if len(l) == 1:
 			return l[0]
 		return tuple(l)
-	return l
-
-
-#########################
-
-def list_to_type(l, x):
-	if is_frame(x):
-		return to_frame(l, names=get_names(x), index=get_index(x))
-	elif is_series(x):
-		return to_series(l, name=get_names(x), index=get_index(x))
-	elif is_dict(x):
-		return dict(zip(get_keys(x), l))
-	elif is_array(x):
-		return to_array(l)
 	return l
 
 
@@ -2196,7 +2207,7 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
-		return list_to_type([f(x[k], *args, **kwargs) for k in keys], x)
+		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
 		return collapse([f(c, *args, **kwargs) for c in x])
 	return f(x, *args, **kwargs)
@@ -2259,7 +2270,7 @@ def reduce_or(x, axis=0):
 def reduce(f, *args, initial=None, **kwargs):
 	"""Reduces the specified arguments to a single one by applying the specified function
 	cumulatively (from left to right)."""
-	args = remove_empty(to_list(*args))
+	args = remove_empty(to_collection(*args))
 	if is_empty(args):
 		return initial
 	if not is_null(initial):
@@ -2371,8 +2382,8 @@ def filter(c, inclusion=None, exclusion=None):
 	elif is_dict(c):
 		return {k: c[k] for k in keys}
 	elif is_array(c):
-		return c[keys]
-	return list_to_type([c[k] for k in keys], c)
+		return c[to_list(keys)]
+	return collection_to_type([c[k] for k in keys], c)
 
 
 def include(c, inclusion):
@@ -2433,7 +2444,7 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		return c.loc[reduce_and(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
-	return list_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
+	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
 def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
@@ -2452,7 +2463,7 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		return c.loc[reduce_and(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
-	return list_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
+	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
 
 
 def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
@@ -2471,7 +2482,7 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		return c.loc[reduce_or(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
-	return list_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
+	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
 def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
@@ -2490,7 +2501,7 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		return c.loc[reduce_or(mask, axis=1)]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
-	return list_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
+	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
 
 
 #########################
@@ -2876,9 +2887,9 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 			d[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
 			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = c[k]
 		return d
-	return list_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
-	                                hours=hours, minutes=minutes, seconds=seconds,
-	                                microseconds=microseconds) for d in c], c)
+	return collection_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
+	                                      hours=hours, minutes=minutes, seconds=seconds,
+	                                      microseconds=microseconds) for d in c], c)
 
 
 #########################
@@ -2938,7 +2949,7 @@ def take_at(c, indices, axis=0):
 		return c.iloc[:, indices]
 	elif is_dict(c):
 		return {k: c[k] for i, k in enumerate(c) if i in indices or i - len(c) in indices}
-	return list_to_type([c[i] for i in indices], c)
+	return collection_to_type([c[i] for i in indices], c)
 
 
 def take_not_at(c, indices, axis=0):
@@ -3045,7 +3056,7 @@ def combine(left, right, f):
 
 def concat_rows(*rows):
 	"""Concatenates the specified rows to a dataframe."""
-	rows = remove_empty(to_list(*rows))
+	rows = remove_empty(to_collection(*rows))
 	if is_empty(rows):
 		return to_series(rows)
 	df = pd.concat([to_frame(row) for row in rows], axis=0)
@@ -3056,7 +3067,7 @@ def concat_rows(*rows):
 
 def concat_cols(*cols):
 	"""Concatenates the specified columns to a dataframe."""
-	cols = remove_empty(to_list(*cols))
+	cols = remove_empty(to_collection(*cols))
 	if is_empty(cols):
 		return to_series(cols)
 	df = pd.concat(cols, axis=1)
@@ -3761,17 +3772,17 @@ __STRING_PROCESSORS_______________________________ = ''
 def collapse(*args, delimiter='', append=False):
 	"""Returns the string computed by joining the specified arguments with the specified
 	delimiter."""
-	return delimiter.join([str(v) for v in to_list(*args)]) + (delimiter if append else '')
+	return delimiter.join([str(v) for v in to_collection(*args)]) + (delimiter if append else '')
 
 
 def collist(*args):
 	"""Returns the string computed by joining the specified arguments with a comma."""
-	return collapse(to_list(*args), delimiter=',')
+	return collapse(*args, delimiter=',')
 
 
 def paste(*args):
 	"""Returns the string computed by joining the specified arguments with a space."""
-	return collapse(remove_empty(args), delimiter=' ')
+	return collapse(remove_empty(to_collection(*args)), delimiter=' ')
 
 
 #########################
