@@ -133,7 +133,7 @@ public class LogisticRegression
 	 * <p>
 	 * @return the {@link Vector} {@code W} containing the weights
 	 */
-	public synchronized Vector getWeights() {
+	public Vector getWeights() {
 		return W;
 	}
 
@@ -142,13 +142,13 @@ public class LogisticRegression
 	 * <p>
 	 * @return the {@link Scalar} {@code b} containing the bias
 	 */
-	public synchronized Scalar getBias() {
+	public Scalar getBias() {
 		return b;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public synchronized void setWeights(final Vector weights) {
+	public void setWeights(final Vector weights) {
 		// Check the arguments
 		Arguments.require(weights.getColumnDimension(), featureCount);
 
@@ -156,7 +156,7 @@ public class LogisticRegression
 		W = weights;
 	}
 
-	public synchronized void setBias(final Scalar bias) {
+	public void setBias(final Scalar bias) {
 		// Check the arguments
 		Arguments.requireNonNull(bias, "bias");
 
@@ -181,7 +181,7 @@ public class LogisticRegression
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate,
+	public int train(final double learningRate,
 			final double firstMomentExponentialDecayRate,
 			final double secondMomentExponentialDecayRate,
 			final double tolerance,
@@ -242,7 +242,7 @@ public class LogisticRegression
 	 * @return the cost
 	 */
 	@Override
-	public synchronized double computeCost() {
+	public double computeCost() {
 		return computeCost(A);
 	}
 
@@ -260,7 +260,7 @@ public class LogisticRegression
 	 * @return the estimated probability of the binary response for all feature vector in {@code X}
 	 */
 	@Override
-	public synchronized Entity estimate(final Entity X) {
+	public Entity estimate(final Entity X) {
 		return W.times(X).add(b).apply(SIGMOID); // (1 x m)
 	}
 

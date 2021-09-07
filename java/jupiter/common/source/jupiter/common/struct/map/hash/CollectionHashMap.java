@@ -32,6 +32,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Maps;
@@ -186,7 +187,7 @@ public class CollectionHashMap<K, E>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public CollectionHashMap(final K[] keys, final Collection<E>[] values) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -210,7 +211,7 @@ public class CollectionHashMap<K, E>
 	 */
 	public CollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -237,7 +238,7 @@ public class CollectionHashMap<K, E>
 	 */
 	public CollectionHashMap(final K[] keys, final Collection<E>[] values,
 			final Collection<E> model, final boolean removeEmpty) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -248,20 +249,22 @@ public class CollectionHashMap<K, E>
 		putAll(keys, values);
 	}
 
+	/////////////////////
+
 	/**
 	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified key array and value {@link Collection}
 	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
-	 * @param values the {@link Collection} of {@code E} element type containing the values of the
-	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@link Collection} of {@code E} element type
+	 *               containing the values of the key-value mappings to load
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -278,15 +281,15 @@ public class CollectionHashMap<K, E>
 	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
-	 * @param values the {@link Collection} of {@code E} element type containing the values of the
-	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@link Collection} of {@code E} element type
+	 *               containing the values of the key-value mappings to load
 	 * @param model  the model {@link Collection} of {@code E} element type
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -303,8 +306,8 @@ public class CollectionHashMap<K, E>
 	 * containing the key-value mappings.
 	 * <p>
 	 * @param keys        the {@code K} array containing the keys of the key-value mappings to load
-	 * @param values      the {@link Collection} of {@code E} element type containing the values of
-	 *                    the key-value mappings to load
+	 * @param values      the {@link Collection} of {@link Collection} of {@code E} element type
+	 *                    containing the values of the key-value mappings to load
 	 * @param model       the model {@link Collection} of {@code E} element type
 	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
 	 *                    {@code E} element type
@@ -314,7 +317,7 @@ public class CollectionHashMap<K, E>
 	public CollectionHashMap(final K[] keys,
 			final Collection<? extends Collection<E>> values, final Collection<E> model,
 			final boolean removeEmpty) {
-		super(keys.length);
+		super(Arguments.requireNonNull(keys, "keys").length);
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -325,6 +328,90 @@ public class CollectionHashMap<K, E>
 		putAll(keys, values);
 	}
 
+	/////////////////////
+
+	/**
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
+	 * {@code E} element type loaded from the specified key and value {@link Collection} containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@link Collection} of {@code E} element type
+	 *               containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public CollectionHashMap(final Collection<? extends K> keys,
+			final Collection<? extends Collection<E>> values) {
+		super(Arguments.requireNonNull(keys, "keys").size());
+		this.model = DEFAULT_MODEL;
+		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
+
+		// Check the arguments
+		CollectionArguments.requireSameSize(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
+	 * {@code E} element type loaded from the specified key and value {@link Collection} containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@link Collection} of {@code E} element type
+	 *               containing the values of the key-value mappings to load
+	 * @param model  the model {@link Collection} of {@code E} element type
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public CollectionHashMap(final Collection<? extends K> keys,
+			final Collection<? extends Collection<E>> values, final Collection<E> model) {
+		super(Arguments.requireNonNull(keys, "keys").size());
+		this.model = model;
+		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
+
+		// Check the arguments
+		CollectionArguments.requireSameSize(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
+	 * {@code E} element type loaded from the specified key and value {@link Collection} containing
+	 * the key-value mappings.
+	 * <p>
+	 * @param keys        the {@link Collection} of {@code K} element subtype containing the keys of
+	 *                    the key-value mappings to load
+	 * @param values      the {@link Collection} of {@link Collection} of {@code E} element type
+	 *                    containing the values of the key-value mappings to load
+	 * @param model       the model {@link Collection} of {@code E} element type
+	 * @param removeEmpty the flag specifying whether to remove empty {@link Collection} of
+	 *                    {@code E} element type
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public CollectionHashMap(final Collection<? extends K> keys,
+			final Collection<? extends Collection<E>> values, final Collection<E> model,
+			final boolean removeEmpty) {
+		super(Arguments.requireNonNull(keys, "keys").size());
+		this.model = model;
+		this.removeEmpty = removeEmpty;
+
+		// Check the arguments
+		CollectionArguments.requireSameSize(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	//////////////////////////////////////////////
+
 	/**
 	 * Constructs a {@link CollectionHashMap} of {@code K} type and value type {@link Collection} of
 	 * {@code E} element type loaded from the specified {@link Map} containing the key-value
@@ -333,9 +420,8 @@ public class CollectionHashMap<K, E>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code E} types
 	 *            to load
 	 */
-	public CollectionHashMap(
-			final Map<? extends K, ? extends Collection<E>> map) {
-		super(map.size());
+	public CollectionHashMap(final Map<? extends K, ? extends Collection<E>> map) {
+		super(Arguments.requireNonNull(map, "map").size());
 		this.model = DEFAULT_MODEL;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -354,7 +440,7 @@ public class CollectionHashMap<K, E>
 	 */
 	public CollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model) {
-		super(map.size());
+		super(Arguments.requireNonNull(map, "map").size());
 		this.model = model;
 		this.removeEmpty = DEFAULT_REMOVE_EMPTY;
 
@@ -375,7 +461,7 @@ public class CollectionHashMap<K, E>
 	 */
 	public CollectionHashMap(final Map<? extends K, ? extends Collection<E>> map,
 			final Collection<E> model, final boolean removeEmpty) {
-		super(map.size());
+		super(Arguments.requireNonNull(map, "map").size());
 		this.model = model;
 		this.removeEmpty = removeEmpty;
 
@@ -397,6 +483,7 @@ public class CollectionHashMap<K, E>
 	 * @return the {@link Collection} associated to the specified key, or creates and returns a
 	 *         {@link Collection} associated to it if it is not present
 	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public Collection<E> getOrCreate(final K key) {
@@ -482,6 +569,7 @@ public class CollectionHashMap<K, E>
 	 * @return {@code true} if the {@link Collection} at the specified key has changed as a result
 	 *         of the call, {@code false} otherwise
 	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public boolean addAt(final K key, final E element) {
@@ -498,6 +586,7 @@ public class CollectionHashMap<K, E>
 	 * @return {@code true} if the {@link Collection} at the specified key has changed as a result
 	 *         of the call, {@code false} otherwise
 	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public <T extends E> boolean addAllAt(final K key, final T[] elements) {

@@ -28,11 +28,13 @@ import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.map.hash.ExtendedHashMap;
 
 public class Maps
 		extends Collections {
@@ -126,6 +128,27 @@ public class Maps
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// GENERATORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Creates a reverse {@link ExtendedHashMap} of {@code V} and {@code K} types of the specified
+	 * {@link Map}.
+	 * <p>
+	 * @param <K> the key type of the {@link Map}
+	 * @param <V> the value type of the {@link Map}
+	 * @param map a {@link Map} of {@code K} and {@code V} types
+	 * <p>
+	 * @return a reverse {@link ExtendedHashMap} of {@code V} and {@code K} types of the specified
+	 *         {@link Map}
+	 */
+	public static <K, V> ExtendedHashMap<V, K> createReverse(
+			final Map<? extends K, ? extends V> map) {
+		return new ExtendedHashMap<V, K>(map.values(), map.keySet());
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// PROCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -168,6 +191,30 @@ public class Maps
 		int i = 0;
 		for (final V value : values) {
 			map.put(keys[i++], value);
+		}
+	}
+
+	/**
+	 * Puts all the key-value mappings of the specified key and value {@link Collection} into the
+	 * specified {@link Map} replacing any entries with identical keys.
+	 * <p>
+	 * @param <K>    the key type of the key-value mappings to put
+	 * @param <V>    the value type of the key-value mappings to put
+	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to put
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public static <K, V> void putAll(final Map<? super K, ? super V> map,
+			final Collection<? extends K> keys, final Collection<? extends V> values) {
+		final Iterator<? extends K> keyIterator = keys.iterator();
+		final Iterator<? extends V> valueIterator = values.iterator();
+		while (keyIterator.hasNext() && valueIterator.hasNext()) {
+			map.put(keyIterator.next(), valueIterator.next());
 		}
 	}
 

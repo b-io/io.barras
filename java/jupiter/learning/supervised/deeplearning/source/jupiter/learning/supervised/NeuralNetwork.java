@@ -150,7 +150,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the array of {@link Matrix} {@code W} containing the weights
 	 */
-	public synchronized Matrix[] getWeights() {
+	public Matrix[] getWeights() {
 		return W;
 	}
 
@@ -159,7 +159,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the array of {@link Vector} {@code b} containing the bias
 	 */
-	public synchronized Vector[] getBias() {
+	public Vector[] getBias() {
 		return b;
 	}
 
@@ -170,7 +170,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the {@link ActivationFunction} {@code g} for all the hidden layers
 	 */
-	public synchronized ActivationFunction getActivationFunction() {
+	public ActivationFunction getActivationFunction() {
 		return activationFunction;
 	}
 
@@ -179,7 +179,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the {@link RegularizationFunction} {@code r}
 	 */
-	public synchronized RegularizationFunction getRegularizationFunction() {
+	public RegularizationFunction getRegularizationFunction() {
 		return regularizationFunction;
 	}
 
@@ -190,7 +190,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param weights an array of {@link Matrix}
 	 */
-	public synchronized void setWeights(final Matrix... weights) {
+	public void setWeights(final Matrix... weights) {
 		// Check the arguments
 		if (weights != null) {
 			Arguments.require(weights[0].getColumnDimension(), featureCount);
@@ -205,7 +205,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param bias an array of {@link Vector}
 	 */
-	public synchronized void setBias(final Vector... bias) {
+	public void setBias(final Vector... bias) {
 		// Check the arguments
 		if (bias != null) {
 			Arguments.require(bias[0].getColumnDimension(), 1);
@@ -222,7 +222,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param activationFunction an {@link ActivationFunction}
 	 */
-	public synchronized void setActivationFunction(final ActivationFunction activationFunction) {
+	public void setActivationFunction(final ActivationFunction activationFunction) {
 		this.activationFunction = activationFunction;
 	}
 
@@ -231,7 +231,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @param regularizationFunction a {@link RegularizationFunction}
 	 */
-	public synchronized void setRegularizationFunction(
+	public void setRegularizationFunction(
 			final RegularizationFunction regularizationFunction) {
 		this.regularizationFunction = regularizationFunction;
 	}
@@ -262,7 +262,7 @@ public class NeuralNetwork
 	 * @return the number of iterations
 	 */
 	@Override
-	public synchronized int train(final double learningRate,
+	public int train(final double learningRate,
 			final double firstMomentExponentialDecayRate,
 			final double secondMomentExponentialDecayRate,
 			final double tolerance,
@@ -292,7 +292,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate,
+	public int train(final double learningRate,
 			final double tolerance,
 			final int maxIterationCount,
 			final int hiddenLayerCount,
@@ -315,7 +315,7 @@ public class NeuralNetwork
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate,
+	public int train(final double learningRate,
 			final double firstMomentExponentialDecayRate,
 			final double secondMomentExponentialDecayRate,
 			final double tolerance,
@@ -464,7 +464,7 @@ public class NeuralNetwork
 	 * @return the cost
 	 */
 	@Override
-	public synchronized double computeCost() {
+	public double computeCost() {
 		return computeCost(A[A.length - 1]) +
 				regularizationFunction.computeCost(trainingExampleCount, W);
 	}
@@ -484,7 +484,7 @@ public class NeuralNetwork
 	 *         for all feature vector in {@code X}
 	 */
 	@Override
-	public synchronized Entity estimate(final Entity X) {
+	public Entity estimate(final Entity X) {
 		// Check the arguments
 		Arguments.requireEquals(W.length, b.length);
 

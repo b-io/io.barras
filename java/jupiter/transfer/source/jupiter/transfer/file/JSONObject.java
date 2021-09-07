@@ -101,6 +101,22 @@ public class JSONObject
 	}
 
 	/**
+	 * Constructs a {@link JSONObject} loaded from the specified key and value {@link Collection}
+	 * containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@link String} containing the keys of the key-value
+	 *               mappings to load
+	 * @param values the {@link Collection} containing the values of the key-value mappings to load
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public JSONObject(final Collection<String> keys, final Collection<?> values) {
+		super(keys, values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Constructs a {@link JSONObject} loaded from the specified {@link Map} containing the
 	 * key-value mappings.
 	 * <p>

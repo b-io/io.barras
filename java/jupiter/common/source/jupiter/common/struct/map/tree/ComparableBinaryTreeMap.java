@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.io.InputOutput.IO;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -40,6 +41,8 @@ import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -94,12 +97,57 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 
 	/**
 	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types
+	 * loaded from the specified key array and value {@link Collection} containing the key-value
+	 * mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected ComparableBinaryTreeMap(final K[] keys, final Collection<? extends V> values) {
+		super();
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types
+	 * loaded from the specified key and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected ComparableBinaryTreeMap(final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super();
+
+		// Check the arguments
+		CollectionArguments.requireSameSize(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link ComparableBinaryTreeMap} of {@code K}, {@code V} and {@code N} types
 	 * loaded from the specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
-	 * <p>
-	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
 	protected ComparableBinaryTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -342,7 +390,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	 * Removes all the key-value mappings from {@code this}.
 	 */
 	@Override
-	public synchronized void clear() {
+	public void clear() {
 		root = null;
 		size = 0;
 	}
@@ -429,7 +477,7 @@ public abstract class ComparableBinaryTreeMap<K extends Comparable<? super K>, V
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V remove(final Object key) {
+	public V remove(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 

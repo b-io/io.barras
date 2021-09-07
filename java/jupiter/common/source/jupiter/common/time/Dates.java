@@ -1148,7 +1148,7 @@ public class Dates {
 	 *         {@link String}
 	 */
 	public static String formatWith(final Date date, final String pattern) {
-		return new SafeDateFormat(pattern).format(date);
+		return new SynchronizedDateFormat(pattern).format(date);
 	}
 
 	/**

@@ -187,7 +187,7 @@ public class GenericIntervalList<E extends Interval<T>, T extends Comparable<? s
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
 	 */
-	public synchronized boolean merge() {
+	public boolean merge() {
 		boolean hasChanged = false;
 		final ListIterator<E> iterator = listIterator();
 		if (iterator.hasNext()) {

@@ -32,7 +32,6 @@ import java.util.List;
 
 import jupiter.common.Formats;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.time.SafeDateFormat;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
 import jupiter.graphics.charts.struct.TimeSeriesList;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -63,9 +62,9 @@ public class Charts {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link SafeDateFormat}.
+	 * The {@link DateFormat}.
 	 */
-	public static volatile SafeDateFormat DATE_FORMAT = Formats.DATE_FORMAT;
+	public static volatile DateFormat DATE_FORMAT = Formats.DATE_FORMAT;
 
 	/**
 	 * The {@link ExtendedList} of {@link Color}.

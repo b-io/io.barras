@@ -296,7 +296,7 @@ public class Properties
 	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code fileName}
 	 */
-	public synchronized void load(final String fileName)
+	public void load(final String fileName)
 			throws IOException {
 		load(Threads.getClassLoader().getResourceAsStream(fileName));
 	}

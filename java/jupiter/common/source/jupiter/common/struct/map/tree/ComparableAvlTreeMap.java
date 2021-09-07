@@ -23,6 +23,7 @@
  */
 package jupiter.common.struct.map.tree;
 
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.math.Comparables;
@@ -83,9 +84,43 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	protected ComparableAvlTreeMap(final K[] keys, final V[] values) {
+	public ComparableAvlTreeMap(final K[] keys, final V[] values) {
 		super(keys, values);
 	}
+
+	/**
+	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
+	 * from the specified key array and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ComparableAvlTreeMap(final K[] keys, final Collection<? extends V> values) {
+		super(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
+	 * from the specified key and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ComparableAvlTreeMap(final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super(keys, values);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link ComparableAvlTreeMap} of {@code K}, {@code V} and {@code N} types loaded
@@ -93,8 +128,6 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
-	 * <p>
-	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
 	public ComparableAvlTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -200,7 +233,7 @@ public class ComparableAvlTreeMap<K extends Comparable<? super K>, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V put(final K key, final V value) {
+	public V put(final K key, final V value) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
