@@ -45,7 +45,7 @@ import static jupiter.common.util.Strings.LF;
 import java.util.Locale;
 
 import jupiter.common.test.Test;
-import jupiter.common.time.SafeDateFormat;
+import jupiter.common.time.SynchronizedDateFormat;
 
 public class FormatsTest
 		extends Test {
@@ -69,8 +69,8 @@ public class FormatsTest
 		assertEquals(72, LINE_LENGTH);
 		assertEquals(LF, NEWLINE);
 
-		assertEquals(new SafeDateFormat(DEFAULT_DATE_PATTERN), DATE_FORMAT);
-		assertEquals(new SafeDateFormat(DEFAULT_DATE_TIME_PATTERN), DATE_TIME_FORMAT);
+		assertEquals(new SynchronizedDateFormat(DEFAULT_DATE_PATTERN), DATE_FORMAT);
+		assertEquals(new SynchronizedDateFormat(DEFAULT_DATE_TIME_PATTERN), DATE_TIME_FORMAT);
 
 		assertEquals(DEFAULT_MIN_SCIENTIFIC_THRESHOLD, MIN_SCIENTIFIC_THRESHOLD);
 		assertEquals(DEFAULT_MAX_SCIENTIFIC_THRESHOLD, MAX_SCIENTIFIC_THRESHOLD);

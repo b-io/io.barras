@@ -108,7 +108,7 @@ public class JSONList
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public synchronized boolean add(final String[] keys, final Object[] values) {
+	public boolean add(final String[] keys, final Object[] values) {
 		return add(new JSONObject(keys, values));
 	}
 
@@ -125,9 +125,28 @@ public class JSONList
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	public synchronized boolean add(final String[] keys, final Collection<?> values) {
+	public boolean add(final String[] keys, final Collection<?> values) {
 		return add(new JSONObject(keys, values));
 	}
+
+	/**
+	 * Appends the {@link JSONObject} loaded from the specified key and value {@link Collection}
+	 * containing the key-value mappings to the end of {@code this}.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@link String} containing the keys of the key-value
+	 *               mappings of the {@link JSONObject} to append
+	 * @param values the {@link Collection} containing the values of the key-value mappings of the
+	 *               {@link JSONObject} to append
+	 * <p>
+	 * @return {@code true} (as specified by {@link Collection#add}
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public boolean add(final Collection<String> keys, final Collection<?> values) {
+		return add(new JSONObject(keys, values));
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Appends the {@link JSONObject} loaded from the specified {@link Map} containing the key-value
@@ -138,7 +157,7 @@ public class JSONList
 	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add})
 	 */
-	public synchronized boolean add(final Map<String, ?> map) {
+	public boolean add(final Map<String, ?> map) {
 		return add(new JSONObject(map));
 	}
 
