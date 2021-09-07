@@ -26,6 +26,7 @@ package jupiter.common.struct.map.tree;
 import static jupiter.common.Formats.NEWLINE;
 import static jupiter.common.io.InputOutput.IO;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +99,45 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 
 	/**
 	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified key array and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Class<K> c, final K[] keys,
+			final Collection<? extends V> values) {
+		super(c, keys, values);
+	}
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
+	 * the specified key and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param c      the key {@link Class} of {@code K} type
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using the
+	 *                              default {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Class<K> c, final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super(c, keys, values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types loaded from
 	 * the specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param c   the key {@link Class} of {@code K} type
@@ -144,6 +184,48 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 			final V[] values) {
 		super(keyComparator, keys, values);
 	}
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified key array and value
+	 * {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@code K} array containing the keys of the key-value mappings to
+	 *                      load
+	 * @param values        the {@link Collection} of {@code V} element subtype containing the
+	 *                      values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator, final K[] keys,
+			final Collection<? extends V> values) {
+		super(keyComparator, keys, values);
+	}
+
+	/**
+	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the
+	 * specified key {@link Comparator} loaded from the specified key and value {@link Collection}
+	 * containing the key-value mappings.
+	 * <p>
+	 * @param keyComparator the key {@link Comparator} of {@code K} supertype to determine the order
+	 * @param keys          the {@link Collection} of {@code K} element subtype containing the keys
+	 *                      of the key-value mappings to load
+	 * @param values        the {@link Collection} of {@code V} element subtype containing the
+	 *                      values of the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared using
+	 *                              {@code keyComparator}
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	protected BinaryTreeMap(final Comparator<? super K> keyComparator,
+			final Collection<? extends K> keys, final Collection<? extends V> values) {
+		super(keyComparator, keys, values);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link BinaryTreeMap} of {@code K}, {@code V} and {@code N} types with the
@@ -400,7 +482,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * Removes all the key-value mappings from {@code this}.
 	 */
 	@Override
-	public synchronized void clear() {
+	public void clear() {
 		root = null;
 		size = 0;
 	}
@@ -488,7 +570,7 @@ public abstract class BinaryTreeMap<K, V, N extends BinaryTreeNode<K, V, N>>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V remove(final Object key) {
+	public V remove(final Object key) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 

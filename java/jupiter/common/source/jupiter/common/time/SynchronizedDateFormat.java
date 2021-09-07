@@ -39,7 +39,7 @@ import java.util.TimeZone;
 
 import jupiter.common.model.ICloneable;
 
-public class SafeDateFormat
+public class SynchronizedDateFormat
 		extends SimpleDateFormat {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,28 +57,28 @@ public class SafeDateFormat
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Constructs a {@link SafeDateFormat} by default.
+	 * Constructs a {@link SynchronizedDateFormat} by default.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
 	 * methods of {@link DateFormat}.</dd>
 	 * </dl>
 	 */
-	public SafeDateFormat() {
+	public SynchronizedDateFormat() {
 		super();
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
-	 * {@link DateFormatSymbols} for the default {@link Locale}.
+	 * Constructs a {@link SynchronizedDateFormat} with the specified pattern {@link String} and the
+	 * default {@link DateFormatSymbols} for the default {@link Locale}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
 	 * methods of {@link DateFormat}.</dd>
 	 * </dl>
 	 * <p>
-	 * This is equivalent to calling the constructor {@link #SafeDateFormat(String, Locale)
-	 * SafeDateFormat(pattern, Locale#getDefault(Category.FORMAT))}.
+	 * This is equivalent to calling the constructor {@link #SynchronizedDateFormat(String, Locale)
+	 * SynchronizedDateFormat(pattern, Locale#getDefault(Category.FORMAT))}.
 	 *
 	 * @see Locale#getDefault(Category)
 	 * <p>
@@ -86,13 +86,13 @@ public class SafeDateFormat
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
 	 */
-	public SafeDateFormat(final String pattern) {
+	public SynchronizedDateFormat(final String pattern) {
 		super(pattern);
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and the default
-	 * {@link DateFormatSymbols} for the specified {@link Locale}.
+	 * Constructs a {@link SynchronizedDateFormat} with the specified pattern {@link String} and the
+	 * default {@link DateFormatSymbols} for the specified {@link Locale}.
 	 * <dl>
 	 * <dt><b>Note:</b></dt>
 	 * <dd>This constructor may not support all {@link Locale}. For full coverage, use the factory
@@ -104,12 +104,12 @@ public class SafeDateFormat
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
 	 */
-	public SafeDateFormat(final String pattern, final Locale locale) {
+	public SynchronizedDateFormat(final String pattern, final Locale locale) {
 		super(pattern, locale);
 	}
 
 	/**
-	 * Constructs a {@link SafeDateFormat} with the specified pattern {@link String} and
+	 * Constructs a {@link SynchronizedDateFormat} with the specified pattern {@link String} and
 	 * {@link DateFormatSymbols}.
 	 * <p>
 	 * @param pattern       the pattern {@link String} describing the date-time format
@@ -117,7 +117,7 @@ public class SafeDateFormat
 	 * <p>
 	 * @throws IllegalArgumentException if {@code pattern} is invalid
 	 */
-	public SafeDateFormat(final String pattern, final DateFormatSymbols formatSymbols) {
+	public SynchronizedDateFormat(final String pattern, final DateFormatSymbols formatSymbols) {
 		super(pattern, formatSymbols);
 	}
 
@@ -333,8 +333,8 @@ public class SafeDateFormat
 	 * @see ICloneable
 	 */
 	@Override
-	public SafeDateFormat clone() {
-		return (SafeDateFormat) super.clone();
+	public SynchronizedDateFormat clone() {
+		return (SynchronizedDateFormat) super.clone();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

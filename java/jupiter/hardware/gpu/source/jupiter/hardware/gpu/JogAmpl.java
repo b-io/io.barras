@@ -255,7 +255,7 @@ public class JogAmpl
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	@Override
-	protected synchronized double[] compute(final String name, final double[] A, final double B[]) {
+	protected double[] compute(final String name, final double[] A, final double B[]) {
 		// Check the arguments
 		DoubleArguments.requireSameLength(A, B);
 
@@ -285,7 +285,7 @@ public class JogAmpl
 	}
 
 	@Override
-	public synchronized double[] times(final double[] A, final double[] B,
+	public double[] times(final double[] A, final double[] B,
 			final int aColumnDimension, final int bColumnDimension) {
 		// Check the arguments
 		Arguments.requireNonNull(A, "array A");
@@ -333,7 +333,7 @@ public class JogAmpl
 	 * @return {@code A . B + C}
 	 */
 	@Override
-	public synchronized double[] forward(final double[] A, final double[] B, final double[] C,
+	public double[] forward(final double[] A, final double[] B, final double[] C,
 			final int aColumnDimension, final int bColumnDimension, final int cColumnDimension) {
 		// Check the arguments
 		Arguments.requireNonNull(A, "array A");
@@ -387,7 +387,7 @@ public class JogAmpl
 	 * @return {@code A += c * B}
 	 */
 	@Override
-	public synchronized double[] arraySum(final double[] A, final double[] B, final double c,
+	public double[] arraySum(final double[] A, final double[] B, final double c,
 			final int aOffset, final int bOffset, final int length) {
 		if (c == 0.) {
 			return A;

@@ -27,6 +27,7 @@ import static jupiter.common.Charsets.UTF_8;
 import static jupiter.common.util.Strings.LF;
 
 import java.nio.charset.Charset;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.FieldPosition;
@@ -37,7 +38,7 @@ import java.util.TimeZone;
 
 import jupiter.common.math.Maths;
 import jupiter.common.properties.Jupiter;
-import jupiter.common.time.SafeDateFormat;
+import jupiter.common.time.SynchronizedDateFormat;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
@@ -157,14 +158,14 @@ public class Formats {
 	//////////////////////////////////////////////
 
 	/**
-	 * The {@link SafeDateFormat}.
+	 * The {@link DateFormat}.
 	 */
-	public static volatile SafeDateFormat DATE_FORMAT = new SafeDateFormat(
+	public static volatile DateFormat DATE_FORMAT = new SynchronizedDateFormat(
 			Jupiter.PROPERTIES.getProperty("datePattern", DEFAULT_DATE_PATTERN));
 	/**
-	 * The {@link SafeDateFormat} with time.
+	 * The {@link DateFormat} with time.
 	 */
-	public static volatile SafeDateFormat DATE_TIME_FORMAT = new SafeDateFormat(
+	public static volatile DateFormat DATE_TIME_FORMAT = new SynchronizedDateFormat(
 			Jupiter.PROPERTIES.getProperty("dateTimePattern", DEFAULT_DATE_TIME_PATTERN));
 
 	//////////////////////////////////////////////

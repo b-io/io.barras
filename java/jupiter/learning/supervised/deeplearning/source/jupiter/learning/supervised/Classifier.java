@@ -208,7 +208,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the number of feature vectors {@code n}
 	 */
-	public synchronized int getFeatureCount() {
+	public int getFeatureCount() {
 		return featureCount;
 	}
 
@@ -217,7 +217,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the number of classes {@code k}
 	 */
-	public synchronized int getClassCount() {
+	public int getClassCount() {
 		return classCount;
 	}
 
@@ -226,7 +226,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the number of training examples {@code m}
 	 */
-	public synchronized int getTrainingExampleCount() {
+	public int getTrainingExampleCount() {
 		return trainingExampleCount;
 	}
 
@@ -237,7 +237,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the {@link Matrix} {@code X} containing the feature vectors
 	 */
-	public synchronized Matrix getFeatureVectors() {
+	public Matrix getFeatureVectors() {
 		return X;
 	}
 
@@ -246,7 +246,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the {@link Matrix} {@code Y} containing the classes
 	 */
-	public synchronized Matrix getClasses() {
+	public Matrix getClasses() {
 		return Y;
 	}
 
@@ -255,20 +255,20 @@ public abstract class Classifier
 	 * <p>
 	 * @return the transposed {@link Matrix} {@code YT} containing the classes
 	 */
-	public synchronized Matrix getTransposedClasses() {
+	public Matrix getTransposedClasses() {
 		return YT;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public synchronized void setFeatureVectors(final Matrix featureVectors) {
+	public void setFeatureVectors(final Matrix featureVectors) {
 		// Set the feature vectors
 		X = featureVectors;
 		featureCount = X.getRowDimension();
 		trainingExampleCount = featureVectors.getColumnDimension();
 	}
 
-	public synchronized void setClasses(final Matrix classes) {
+	public void setClasses(final Matrix classes) {
 		// Check the arguments
 		Arguments.require(classes.getColumnDimension(), trainingExampleCount);
 
@@ -340,7 +340,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train() {
+	public int train() {
 		return train(DEFAULT_LEARNING_RATE, DEFAULT_TOLERANCE, DEFAULT_MAX_ITERATIONS);
 	}
 
@@ -353,7 +353,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the number of iterations
 	 */
-	public synchronized int train(final double learningRate, final double tolerance,
+	public int train(final double learningRate, final double tolerance,
 			final int maxIterationCount) {
 		return train(learningRate, Double.NaN, Double.NaN, tolerance, maxIterationCount);
 	}
@@ -391,7 +391,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the cost of {@code A}
 	 */
-	public synchronized double computeCost(final Entity A) {
+	public double computeCost(final Entity A) {
 		return outputActivationFunction.computeCost(this, A);
 	}
 
@@ -404,7 +404,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return {@code true} if the tolerance level {@code ε} is reached, {@code false} otherwise
 	 */
-	public synchronized boolean testConvergence(final double tolerance) {
+	public boolean testConvergence(final double tolerance) {
 		// Compute the current cost
 		final double currentCost = computeCost();
 		IO.debug("Cost:", currentCost);
@@ -446,7 +446,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return the estimated class
 	 */
-	public synchronized Entity classify(final Entity example) {
+	public Entity classify(final Entity example) {
 		return estimate(example).apply(ROUND); // (k x m)
 	}
 
@@ -457,7 +457,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return {@code (sum(diag(A Y')) + sum(diag((1. - A) (1. - Y')))) / (k * m)}
 	 */
-	public synchronized double computeAccuracy() {
+	public double computeAccuracy() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
 		// Compute (sum(diag(A Y')) + sum(diag((1 - A) (1 - Y')))) / (k * m)
@@ -471,7 +471,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1. - Y'))))}
 	 */
-	public synchronized double computePrecision() {
+	public double computePrecision() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
 		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
@@ -485,7 +485,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return {@code sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1. - A) Y')))}
 	 */
-	public synchronized double computeRecall() {
+	public double computeRecall() {
 		// Classify X
 		final Entity A = classify(X); // (k x m)
 		// Compute sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))
@@ -499,7 +499,7 @@ public abstract class Classifier
 	 * <p>
 	 * @return {@code 2. / ((1. / precision) + (1. / recall))}
 	 */
-	public synchronized double computeF1Score() {
+	public double computeF1Score() {
 		// Compute 2. / ((1. / precision) + (1. / recall))
 		final double precision = computePrecision(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag(A (1 - Y'))))
 		final double recall = computeRecall(); // sum(diag(A Y')) / (sum(diag(A Y')) + sum(diag((1 - A) Y')))

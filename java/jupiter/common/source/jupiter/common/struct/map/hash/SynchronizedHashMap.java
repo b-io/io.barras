@@ -105,6 +105,24 @@ public class SynchronizedHashMap<K, V>
 
 	/**
 	 * Constructs a {@link SynchronizedHashMap} of {@code K} and {@code V} types loaded from the
+	 * specified key and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public SynchronizedHashMap(final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super(keys, values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link SynchronizedHashMap} of {@code K} and {@code V} types loaded from the
 	 * specified {@link Map} containing the key-value mappings.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
@@ -141,6 +159,7 @@ public class SynchronizedHashMap<K, V>
 	 * <p>
 	 * @return the previous associated {@code V} value, or {@code null} if it is not present
 	 * <p>
+	 * @throws ClassCastException   if {@code key} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
@@ -155,6 +174,7 @@ public class SynchronizedHashMap<K, V>
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
 	 * @param values the {@code V} array containing the values of the key-value mappings to put
 	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	@Override
@@ -170,6 +190,7 @@ public class SynchronizedHashMap<K, V>
 	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
 	 *               the key-value mappings to put
 	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	@Override
@@ -178,11 +199,33 @@ public class SynchronizedHashMap<K, V>
 	}
 
 	/**
+	 * Puts all the key-value mappings of the specified key and value {@link Collection} into
+	 * {@code this} replacing any entries with identical keys.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to put
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to put
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to {@code this} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	@Override
+	public synchronized void putAll(final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super.putAll(keys, values);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Puts all the key-value mappings of the specified {@link Map} into {@code this} replacing any
 	 * entries with identical keys.
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to put
+	 * <p>
+	 * @throws ClassCastException if any {@code map} keys cannot be compared to {@code this} keys
 	 */
 	@Override
 	public synchronized void putAll(final Map<? extends K, ? extends V> map) {

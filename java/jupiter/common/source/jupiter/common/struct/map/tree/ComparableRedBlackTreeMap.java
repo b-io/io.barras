@@ -23,6 +23,7 @@
  */
 package jupiter.common.struct.map.tree;
 
+import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.math.Comparables;
@@ -30,6 +31,8 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedLinkedList;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.CollectionArguments;
 
 /**
  * {@link ComparableRedBlackTreeMap} is the red-black {@link ComparableBinaryTreeMap} of {@code K}
@@ -75,9 +78,56 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
-	protected ComparableRedBlackTreeMap(final K[] keys, final V[] values) {
+	public ComparableRedBlackTreeMap(final K[] keys, final V[] values) {
 		super(keys, values);
 	}
+
+	/**
+	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types
+	 * loaded from the specified key array and value {@link Collection} containing the key-value
+	 * mappings.
+	 * <p>
+	 * @param keys   the {@code K} array containing the keys of the key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ComparableRedBlackTreeMap(final K[] keys, final Collection<? extends V> values) {
+		super();
+
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	/**
+	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types
+	 * loaded from the specified key and value {@link Collection} containing the key-value mappings.
+	 * <p>
+	 * @param keys   the {@link Collection} of {@code K} element subtype containing the keys of the
+	 *               key-value mappings to load
+	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
+	 *               the key-value mappings to load
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be mutually compared
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ComparableRedBlackTreeMap(final Collection<? extends K> keys,
+			final Collection<? extends V> values) {
+		super();
+
+		// Check the arguments
+		CollectionArguments.requireSameSize(keys, values);
+
+		// Put all the key-value mappings
+		putAll(keys, values);
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Constructs a {@link ComparableRedBlackTreeMap} of {@code K}, {@code V} and {@code N} types
@@ -85,8 +135,6 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	 * <p>
 	 * @param map the {@link Map} containing the key-value mappings of {@code K} and {@code V}
 	 *            subtypes to load
-	 * <p>
-	 * @throws ClassCastException if any {@code map} keys cannot be mutually compared
 	 */
 	public ComparableRedBlackTreeMap(final Map<? extends K, ? extends V> map) {
 		super(map);
@@ -180,7 +228,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	@Override
-	public synchronized V put(final K key, final V value) {
+	public V put(final K key, final V value) {
 		// Check the arguments
 		Arguments.requireNonNull(key, "key");
 
