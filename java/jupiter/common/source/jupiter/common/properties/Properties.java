@@ -257,17 +257,16 @@ public class Properties
 	}
 
 	/**
-	 * Returns all the property {@link String} (or default property {@link String} if it is not
-	 * present) associated to the specified key {@link String} or the corresponding specified
-	 * default value {@link String} if it is not present in an array of {@link String}.
+	 * Returns all the property {@link String} associated to the specified key {@link String} and
+	 * the specified corresponding default value {@link String} for those that are not present in an
+	 * array of {@link String}.
 	 * <p>
 	 * @param keys          the array of key {@link String}
-	 * @param defaultValues the array of default value {@link String}
+	 * @param defaultValues the array of corresponding default value {@link String}
 	 * <p>
-	 * @return all the property {@link String} (or default property {@link String} if it is not
-	 *         present) associated to the specified key {@link String} or the corresponding
-	 *         specified default value {@link String} if it is not present in an array of
-	 *         {@link String}
+	 * @return all the property {@link String} associated to the specified key {@link String} and
+	 *         the specified corresponding default value {@link String} for those that are not
+	 *         present in an array of {@link String}
 	 *
 	 * @see #defaults
 	 */
