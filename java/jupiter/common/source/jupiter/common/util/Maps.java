@@ -35,6 +35,8 @@ import java.util.Set;
 
 import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 
 public class Maps
 		extends Collections {
@@ -57,19 +59,24 @@ public class Maps
 
 	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
-	 * keys or {@code null} for those that are not present in an {@link ExtendedList}.
+	 * keys and {@code null} for those that are not present in an {@link ExtendedList}.
 	 * <p>
 	 * @param <V>  the type of the {@link ExtendedList} to return
 	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
 	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
-	 *         keys or {@code null} for those that are not present in an {@link ExtendedList}
+	 *         keys and {@code null} for those that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys) {
+		// Check the arguments
+		Arguments.requireNonNull(keys, "keys");
+
+		// Get all the values of the map associated to the keys and null for those that are not
+		// present
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
 			values.add(map.get(key));
@@ -79,7 +86,7 @@ public class Maps
 
 	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
-	 * keys or the specified default {@code V} value for those that are not present in an
+	 * keys and the specified default {@code V} value for those that are not present in an
 	 * {@link ExtendedList}.
 	 * <p>
 	 * @param <V>          the type of the {@link ExtendedList} to return
@@ -88,7 +95,7 @@ public class Maps
 	 * @param defaultValue the default {@code V} value (may be {@code null})
 	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
-	 *         keys or the specified default {@code V} value for those that are not present in an
+	 *         keys and the specified default {@code V} value for those that are not present in an
 	 *         {@link ExtendedList}
 	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
@@ -96,9 +103,45 @@ public class Maps
 	 */
 	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys,
 			final V defaultValue) {
+		// Check the arguments
+		Arguments.requireNonNull(keys, "keys");
+
+		// Get all the values of the map associated to the keys and the default value for those that
+		// are not present
 		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
 		for (final Object key : keys) {
 			values.add(getOrDefault(map, key, defaultValue));
+		}
+		return values;
+	}
+
+	/**
+	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
+	 * keys and the specified corresponding default {@code V} values for those that are not present
+	 * in an {@link ExtendedList}.
+	 * <p>
+	 * @param <V>           the type of the {@link ExtendedList} to return
+	 * @param map           a {@link Map} of {@code V} value subtype
+	 * @param keys          the array of key {@link Object} of the {@code V} values to get
+	 * @param defaultValues the {@code V} array containing the corresponding default values
+	 * <p>
+	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
+	 *         keys and the specified corresponding default {@code V} values for those that are not
+	 *         present in an {@link ExtendedList}
+	 * <p>
+	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys,
+			final V[] defaultValues) {
+		// Check the arguments
+		ArrayArguments.requireSameLength(keys, defaultValues);
+
+		// Get all the values of the map associated to the keys and the corresponding default values
+		// for those that are not present
+		final ExtendedList<V> values = new ExtendedList<V>(keys.length);
+		for (int i = 0; i < keys.length; ++i) {
+			values.add(getOrDefault(map, keys[i], defaultValues[i]));
 		}
 		return values;
 	}

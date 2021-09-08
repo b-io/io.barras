@@ -172,50 +172,56 @@ public class ExtendedTreeMap<K, V>
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
 	public V getOrDefault(final Object key, final V defaultValue) {
-		// Check the arguments
-		Arguments.requireNonNull(key, "key");
-
-		// Return the value associated to the key, or the default value if it is not present
 		return Maps.<V>getOrDefault(this, key, defaultValue);
 	}
 
 	/**
-	 * Returns all the {@code V} values associated to the specified keys or {@code null} for those
+	 * Returns all the {@code V} values associated to the specified keys and {@code null} for those
 	 * that are not present in an {@link ExtendedList}.
 	 * <p>
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
 	 * <p>
-	 * @return all the {@code V} values associated to the specified keys or {@code null} for those
+	 * @return all the {@code V} values associated to the specified keys and {@code null} for those
 	 *         that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys) {
-		// Check the arguments
-		Arguments.requireNonNull(keys, "keys");
-
-		// Return the values associated to the keys
 		return Maps.<V>getAll(this, keys);
 	}
 
 	/**
-	 * Returns all the {@code V} values associated to the specified keys or the specified default
+	 * Returns all the {@code V} values associated to the specified keys and the specified default
 	 * {@code V} value for those that are not present in an {@link ExtendedList}.
 	 * <p>
 	 * @param keys         the array of key {@link Object} of the {@code V} values to get
 	 * @param defaultValue the default {@code V} value (may be {@code null})
 	 * <p>
-	 * @return all the {@code V} values associated to the specified keys or the specified default
+	 * @return all the {@code V} values associated to the specified keys and the specified default
 	 *         {@code V} value for those that are not present in an {@link ExtendedList}
 	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public ExtendedList<V> getAll(final Object[] keys, final V defaultValue) {
-		// Check the arguments
-		Arguments.requireNonNull(keys, "keys");
-
-		// Return the values associated to the keys or the default value for those that are not present
 		return Maps.<V>getAll(this, keys, defaultValue);
+	}
+
+	/**
+	 * Returns all the {@code V} values associated to the specified keys and the specified
+	 * corresponding default {@code V} values for those that are not present in an
+	 * {@link ExtendedList}.
+	 * <p>
+	 * @param keys          the array of key {@link Object} of the {@code V} values to get
+	 * @param defaultValues the {@code V} array containing the corresponding default values
+	 * <p>
+	 * @return all the {@code V} values associated to the specified keys and the specified
+	 *         corresponding default {@code V} values for those that are not present in an
+	 *         {@link ExtendedList}
+	 * <p>
+	 * @throws NullPointerException if any {@code keys} is {@code null}
+	 */
+	public ExtendedList<V> getAll(final Object[] keys, final V[] defaultValues) {
+		return Maps.<V>getAll(this, keys, defaultValues);
 	}
 
 
