@@ -127,6 +127,23 @@ public class Row
 		return elements[index];
 	}
 
+	/**
+	 * Returns all the elements of the specified columns.
+	 * <p>
+	 * @param names the column names
+	 * <p>
+	 * @return all the elements of the specified columns
+	 * <p>
+	 * @throws IllegalArgumentException if any {@code names} is not present
+	 */
+	public Object[] getAll(final String... names) {
+		final Object[] values = new Object[names.length];
+		for (int i = 0; i < names.length; ++i) {
+			values[i] = get(names[i]);
+		}
+		return values;
+	}
+
 	//////////////////////////////////////////////
 
 	/**
