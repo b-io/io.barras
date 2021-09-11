@@ -703,11 +703,10 @@ public class RowList
 	 * @param header an array of {@link String}
 	 */
 	public void setHeader(final String... header) {
-		// Check the arguments
-		ArrayArguments.requireLength(header, getColumnCount());
-
-		// Set the header
 		this.header = header;
+		for (final Row element : this) {
+			element.header = header;
+		}
 	}
 
 	//////////////////////////////////////////////
@@ -949,6 +948,51 @@ public class RowList
 			header[i - 1] = Objects.toString(i);
 		}
 		return header;
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends the specified element {@link Row} to the end of {@code this}.
+	 * <p>
+	 * @param element the element {@link Row} to append
+	 * <p>
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean add(final Row element) {
+		// Check the arguments
+		Arguments.requireNonNull(element, "element");
+
+		// Add the element
+		if (Arrays.isNullOrEmpty(header) && !Arrays.isNullOrEmpty(element.header)) {
+			setHeader(element.header);
+		}
+		return super.add(element);
+	}
+
+	/**
+	 * Inserts the specified element {@link Row} at the specified index into {@code this}. Shifts
+	 * the element currently at that position (if any) and any subsequent elements to the right
+	 * (adds one to their indices).
+	 * <p>
+	 * @param index   the index to insert at
+	 * @param element the element {@link Row} to insert
+	 */
+	@Override
+	public void add(final int index, final Row element) {
+		// Check the arguments
+		Arguments.requireNonNull(element, "element");
+
+		// Add the element
+		if (Arrays.isNullOrEmpty(header) && !Arrays.isNullOrEmpty(element.header)) {
+			setHeader(element.header);
+		}
+		super.add(index, element);
 	}
 
 
