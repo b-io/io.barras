@@ -767,6 +767,8 @@ __COLLECTION_ACCESSORS____________________________ = ''
 
 
 def get(c, index=0, axis=0):
+	if not is_collection(c):
+		return c
 	if is_null(axis):
 		return simplify(flatten(c, axis=axis)[index])
 	if is_table(c) or is_array(c):
@@ -787,6 +789,8 @@ def get_last(c, axis=0):
 
 
 def get_next(c):
+	if not is_collection(c):
+		return c
 	return next(iter(c))
 
 
@@ -1793,6 +1797,23 @@ def collection_to_type(c, x):
 		return to_series(c, name=get_names(x), index=get_index(x))
 	elif is_dict(x):
 		return dict(zip(get_keys(x), c))
+	elif is_ordered_set(x):
+		return to_ordered_set(c)
+	elif is_set(x):
+		return to_set(c)
+	elif is_array(x):
+		return to_array(c)
+	return c
+
+
+def collection_to_common_type(c, x, inclusion=None, exclusion=None):
+	c = include(c, get_common_keys(c, x, inclusion=inclusion, exclusion=exclusion))
+	if is_frame(x):
+		return to_frame(c)
+	elif is_series(x):
+		return to_series(c)
+	elif is_dict(x):
+		return to_dict(c)
 	elif is_ordered_set(x):
 		return to_ordered_set(c)
 	elif is_set(x):
@@ -2897,7 +2918,7 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 def simplify(c):
 	if is_collection(c):
 		if len(c) == 1:
-			return get_next(c)
+			return simplify(get_next(c))
 	return c
 
 
@@ -2977,19 +2998,33 @@ def update_all(*args, inclusion=None, exclusion=None):
 
 def update(left, right, inclusion=None, exclusion=None):
 	"""Updates the specified left collection with the specified right collection by overriding the
-	left values with the right values on the common keys that are in the specified inclusive list
-	and are not in the specified exclusive list."""
-	keys = get_keys(right, inclusion=inclusion, exclusion=exclusion)
-	if is_frame(left):
-		left.update(filter(to_frame(right), keys))
-	elif is_series(left):
-		left.update(filter(to_series(right), keys))
-	elif is_dict(left):
-		left.update(filter(to_dict(right), keys))
+	left values with the right values that have the same indices on the common keys that are in the
+	specified inclusive list and are not in the specified exclusive list."""
+	if is_table(left) or is_dict(left):
+		right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
+		left.update(right)
 	else:
+		keys = get_common_keys(left, right, inclusion=inclusion, exclusion=exclusion)
 		for k in keys:
 			left[k] = right[k]
 	return left
+
+
+#########################
+
+def upsert_all(*args, inclusion=None, exclusion=None):
+	return reduce(lambda left, right: upsert(left, right, inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def upsert(left, right, inclusion=None, exclusion=None):
+	"""Upserts the specified left collection with the specified right collection by overriding the
+	left values with the right values that have the same indices and concatenating the right values
+	to the left values that have different indices on the common keys that are in the specified
+	inclusive list and are not in the specified exclusive list."""
+	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
+	left = update(left, include_index(right, left))
+	return concat(left, exclude_index(right, left))
 
 
 # • CONSOLE ########################################################################################
