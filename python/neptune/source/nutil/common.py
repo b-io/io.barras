@@ -27,7 +27,7 @@ import re
 import string
 import sys
 from calendar import monthrange
-from collections import Collection, Iterable, MutableSet, OrderedDict, Sequence, Set
+from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
 from datetime import *
 from distutils.util import *
 from enum import Enum
@@ -120,7 +120,7 @@ class Frequency(Enum):
 __COMMON_CLASSES__________________________________ = ''
 
 
-class OrderedSet(MutableSet, Collection):
+class OrderedSet(MutableSet, Sequence):
 
 	def __init__(self, *args):
 		super().__init__()
@@ -128,6 +128,17 @@ class OrderedSet(MutableSet, Collection):
 
 	##############################################
 	# OPERATORS
+	##############################################
+
+	def __getitem__(self, index):
+		return self.to_list()[index]
+
+	def __iter__(self):
+		return self.elements.__iter__()
+
+	def __len__(self):
+		return self.elements.__len__()
+
 	##############################################
 
 	difference = property(lambda self: self.__sub__)
@@ -157,19 +168,18 @@ class OrderedSet(MutableSet, Collection):
 
 	##############################################
 
-	def __iter__(self):
-		return self.elements.__iter__()
-
-	def __len__(self):
-		return self.elements.__len__()
-
-	##############################################
-
 	def __repr__(self):
 		return 'OrderedSet([%s])' % (', '.join(map(repr, self.elements.keys())))
 
 	def __str__(self):
 		return '{%s}' % (', '.join(map(repr, self.elements.keys())))
+
+	##############################################
+	# CONVERTERS
+	##############################################
+
+	def to_list(self):
+		return to_list(self.elements.keys())
 
 	##############################################
 	# PROCESSORS
@@ -361,6 +371,24 @@ def is_any_empty(*args):
 
 def is_any_not_empty(*args):
 	return not is_all_empty(*args)
+
+
+#########################
+
+def is_all_value(value, *args):
+	return all([value == arg for arg in to_collection(*args)])
+
+
+def is_all_not_value(value, *args):
+	return not is_any_value(value, *args)
+
+
+def is_any_value(value, *args):
+	return any([value == arg for arg in to_collection(*args)])
+
+
+def is_any_not_value(value, *args):
+	return not is_all_value(value, *args)
 
 
 ##################################################
@@ -810,7 +838,9 @@ def get_names(c, inclusion=None, exclusion=None):
 		inclusion = get_names(inclusion)
 	if is_table(exclusion):
 		exclusion = get_names(exclusion)
-	if is_series(c):
+	if hasattr(c, 'names'):
+		c = c.names
+	elif hasattr(c, 'name'):
 		c = c.name
 	elif not is_table(c) and not is_dict(c):
 		c = range(len(c))
@@ -980,12 +1010,14 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_table(new_index):
+		new_index_names = get_names(new_index.index)
 		new_index = get_index(new_index)
 	else:
+		new_index_names = get_names(new_index)
 		new_index = to_list(new_index)
 	if is_table(c):
 		if not is_empty(new_index) and is_tuple(new_index[0]):
-			c.index = pd.MultiIndex.from_tuples(new_index)
+			c.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
 		else:
 			index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 			rename(c, index=dict(zip(index, new_index)))
@@ -1155,7 +1187,7 @@ def get_week(d=get_datetime()):
 
 def get_weeks(c):
 	if is_table(c):
-		return pd.Int64Index(to_timestamp(get_index(c)).isocalendar().week)
+		return to_timestamp(get_index(c)).week
 	elif is_dict(c):
 		return get_weeks(get_index(c))
 	return collection_to_type([get_week(d) for d in c], c)
@@ -1172,9 +1204,7 @@ def get_year_week(d=get_datetime()):
 
 def get_year_weeks(c):
 	if is_table(c):
-		year_week = ['year', 'week']
-		iso_cal = to_timestamp(get_index(c)).isocalendar()
-		return pd.MultiIndex.from_frame(include(iso_cal, year_week), names=year_week)
+		return pd.MultiIndex.from_tuples(get_year_weeks(get_index(c)), names=['year', 'week'])
 	elif is_dict(c):
 		return get_year_weeks(get_index(c))
 	return collection_to_type([get_year_week(d) for d in c], c)
@@ -2126,20 +2156,24 @@ def create_stamp(y, m, d):
 
 #########################
 
-def create_date_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_date(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+def create_date_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
+	return to_date(pd.date_range(date_from, date_to, periods=periods,
+	                             freq=freq.value + ('S' if group is Group.FIRST else '')))
 
 
-def create_datetime_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_datetime(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+def create_datetime_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
+	return to_datetime(pd.date_range(date_from, date_to, periods=periods,
+	                                 freq=freq.value + ('S' if group is Group.FIRST else '')))
 
 
-def create_timestamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_timestamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+def create_timestamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
+	return to_timestamp(pd.date_range(date_from, date_to, periods=periods,
+	                                  freq=freq.value + ('S' if group is Group.FIRST else '')))
 
 
-def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY):
-	return to_stamp(pd.date_range(date_from, date_to, periods=periods, freq=freq.value))
+def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
+	return to_stamp(pd.date_range(date_from, date_to, periods=periods,
+	                              freq=freq.value + ('S' if group is Group.FIRST else '')))
 
 
 # • NUMBER #########################################################################################
@@ -2868,12 +2902,6 @@ def keep_max(c, n, group=GROUP, axis=0):
 
 #########################
 
-def remove(c, value, conservative=True, inclusion=None, exclusion=None):
-	if conservative:
-		return filter_any_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
-	return filter_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
-
-
 def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
 	if axis == 0:
 		if conservative:
@@ -2886,10 +2914,28 @@ def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
 	return c
 
 
-def remove_empty(c, conservative=True, inclusion=None, exclusion=None):
-	if conservative:
-		return filter_any_not_empty(c, inclusion=inclusion, exclusion=exclusion)
-	return filter_not_empty(c, inclusion=inclusion, exclusion=exclusion)
+def remove_empty(c, axis=0, conservative=True, inclusion=None, exclusion=None):
+	if axis == 0:
+		if conservative:
+			return filter_any_not_empty(c, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_empty(c, inclusion=inclusion, exclusion=exclusion)
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	for k in keys:
+		if is_all_empty(c[k]) if conservative else is_any_empty(c[k]):
+			c = remove_col(c, names=k)
+	return c
+
+
+def remove_value(c, value, axis=0, conservative=True, inclusion=None, exclusion=None):
+	if axis == 0:
+		if conservative:
+			return filter_any_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	for k in keys:
+		if is_all_value(value, c[k]) if conservative else is_any_value(value, c[k]):
+			c = remove_col(c, names=k)
+	return c
 
 
 #########################
@@ -3331,7 +3377,7 @@ def remove_col_at(df, j):
 #########################
 
 def rename(df, names=None, index=None, level=None):
-	if is_all_null(names, index):
+	if is_all_empty(names, index):
 		set_names(df, range(count_cols(df)))
 	else:
 		if not is_null(names):
@@ -3691,14 +3737,11 @@ def tally(l, boundaries):
 		return to_list(l)
 	if is_empty(boundaries):
 		return repeat(0, len(l))
-	index = 0
 	lower = min(l)
-	for boundary in boundaries:
-		upper = boundary
-		l = fill_with(l, index, condition=lambda v: lower <= v < upper)
-		index += 1
+	for i, upper in enumerate(boundaries):
+		l = fill_with(l, i, condition=lambda v: lower <= v < upper)
 		lower = upper
-	return fill_with(l, index, condition=lambda v: v >= upper)
+	return fill_with(l, i, condition=lambda v: v >= upper)
 
 
 # • NUMBER #########################################################################################
