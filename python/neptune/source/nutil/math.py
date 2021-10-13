@@ -66,12 +66,12 @@ def scale(x, base=10):
 __MATH_ARITHMETIC_________________________________ = ''
 
 
-def add_all(*args, numeric_default=0, object_default=None, rename=False):
+def add_all(*args, numeric_default=None, object_default=None, rename=False):
 	return reduce(add, *args, numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def add(c1, c2, numeric_default=0, object_default=None, rename=False):
+def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the addition of the specified collections."""
 	if is_list(c1):
 		return [add(c, c2, numeric_default=numeric_default, object_default=object_default,
@@ -112,12 +112,12 @@ def add(c1, c2, numeric_default=0, object_default=None, rename=False):
 	return collection_to_type(np.add(v1, v2), c1)
 
 
-def subtract_all(*args, numeric_default=0, object_default=None, rename=False):
+def subtract_all(*args, numeric_default=None, object_default=None, rename=False):
 	return reduce(subtract, *args, numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def subtract(c1, c2, numeric_default=0, object_default=None, rename=False):
+def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the subtraction of the specified collections."""
 	if is_list(c1):
 		return [subtract(c, c2, numeric_default=numeric_default, object_default=object_default,
@@ -158,12 +158,12 @@ def subtract(c1, c2, numeric_default=0, object_default=None, rename=False):
 	return collection_to_type(np.subtract(v1, v2), c1)
 
 
-def multiply_all(*args, numeric_default=1, object_default=None, rename=False):
+def multiply_all(*args, numeric_default=None, object_default=None, rename=False):
 	return reduce(multiply, *args, numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def multiply(c1, c2, numeric_default=1, object_default=None, rename=False):
+def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the multiplication of the specified collections."""
 	if is_list(c1):
 		return [multiply(c, c2, numeric_default=numeric_default, object_default=object_default,
@@ -204,12 +204,12 @@ def multiply(c1, c2, numeric_default=1, object_default=None, rename=False):
 	return collection_to_type(np.multiply(v1, v2), c1)
 
 
-def divide_all(*args, numeric_default=1, object_default=None, rename=False):
+def divide_all(*args, numeric_default=None, object_default=None, rename=False):
 	return reduce(divide, *args, numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def divide(c1, c2, numeric_default=1, object_default=None, rename=False):
+def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 	"""Returns the division of the specified collections."""
 	if is_list(c1):
 		return [divide(c, c2, numeric_default=numeric_default, object_default=object_default,
