@@ -432,7 +432,7 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 		index_to = 0
 		for i in range(chunk_count):
 			index_from = index_to
-			index_to = min(index_from + chunk_size, len(df))
+			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-delete query from', index_from + 1, 'to', index_to, 'rows')
 			delete_count += bulk_delete_table(engine, df[index_from:index_to], table,
@@ -556,7 +556,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 		index_to = 0
 		for i in range(chunk_count):
 			index_from = index_to
-			index_to = min(index_from + chunk_size, len(df))
+			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-insert query from', index_from + 1, 'to', index_to, 'rows')
 			insert_count += bulk_insert_table(engine, df[index_from:index_to], table,
@@ -682,7 +682,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 		index_to = 0
 		for i in range(chunk_count):
 			index_from = index_to
-			index_to = min(index_from + chunk_size, len(df))
+			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-update query from', index_from + 1, 'to', index_to, 'rows')
 			update_count += bulk_update_table(engine, df[index_from:index_to], table,

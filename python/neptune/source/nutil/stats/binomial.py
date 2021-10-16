@@ -42,7 +42,7 @@ class Binomial(Distribution):
 			self.p = p
 		else:
 			# Estimate the parameters n and p of the distribution
-			x = max(series)
+			x = maximum(series)
 			m = mean(series)
 			v = var(series, dof=dof)
 			self.n = round(x ** 2 * v / (m * (x - m)))

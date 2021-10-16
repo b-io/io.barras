@@ -16,6 +16,7 @@
 
 import cProfile
 import functools
+import inspect
 import json
 import multiprocessing as mp
 import numbers
@@ -169,17 +170,17 @@ class OrderedSet(MutableSet, Sequence):
 	##############################################
 
 	def __repr__(self):
-		return 'OrderedSet([%s])' % (', '.join(map(repr, self.elements.keys())))
+		return 'OrderedSet([%s])' % (', '.join(map(repr, self.elements)))
 
 	def __str__(self):
-		return '{%s}' % (', '.join(map(repr, self.elements.keys())))
+		return '{%s}' % (', '.join(map(repr, self.elements)))
 
 	##############################################
 	# CONVERTERS
 	##############################################
 
 	def to_list(self):
-		return to_list(self.elements.keys())
+		return to_list(self.elements)
 
 	##############################################
 	# PROCESSORS
@@ -284,6 +285,19 @@ DAYS_PER_QUARTER = DAYS_PER_YEAR / QUARTERS_PER_YEAR  # days
 
 # The average number of days per semester
 DAYS_PER_SEMESTER = DAYS_PER_YEAR / SEMESTERS_PER_YEAR  # days
+
+#########################
+
+FREQUENCY_DAY_COUNT = {
+	Frequency.DAYS: 1,
+	Frequency.WEEKS: DAYS_PER_WEEK,
+	Frequency.MONTHS: DAYS_PER_MONTH,
+	Frequency.QUARTERS: DAYS_PER_QUARTER,
+	Frequency.SEMESTERS: DAYS_PER_SEMESTER,
+	Frequency.YEARS: DAYS_PER_YEAR
+}
+
+DAY_COUNT_FREQUENCY = {FREQUENCY_DAY_COUNT[k]: k for k in FREQUENCY_DAY_COUNT}
 
 #########################
 
@@ -762,6 +776,24 @@ __COMMON_ACCESSORS________________________________ = ''
 
 def get_exec_info():
 	return sys.exc_info()[0]
+
+
+#########################
+
+def get_stack(level):
+	return inspect.stack()[level + 1]
+
+
+def get_script_name(level):
+	return get_filename(get_stack(level + 1)[1])
+
+
+def get_function_name(level):
+	return get_stack(level + 1)[3]
+
+
+def get_line_number(level):
+	return get_stack(level + 1)[2]
 
 
 #########################
@@ -2778,9 +2810,9 @@ def groupby(c, group=GROUP, dof=1, axis=0):
 	elif group is Group.LAST:
 		return get_last(c, axis=axis)
 	elif group is Group.MIN:
-		return min(c, axis=axis)
+		return minimum(c, axis=axis)
 	elif group is Group.MAX:
-		return max(c, axis=axis)
+		return maximum(c, axis=axis)
 	elif group is Group.MEAN:
 		return mean(c, axis=axis)
 	elif group is Group.MEDIAN:
@@ -2806,7 +2838,7 @@ def count(*args, axis=0):
 	return len(c)
 
 
-def min(*args, axis=0):
+def minimum(*args, axis=0):
 	c = forward(*args)
 	if is_group(c):
 		return c.min()
@@ -2815,7 +2847,7 @@ def min(*args, axis=0):
 	return np.min(c, axis=axis)
 
 
-def max(*args, axis=0):
+def maximum(*args, axis=0):
 	c = forward(*args)
 	if is_group(c):
 		return c.max()
@@ -3078,24 +3110,34 @@ def upsert(left, right, inclusion=None, exclusion=None):
 __CONSOLE_PROCESSORS______________________________ = ''
 
 
-def trace(*args):
+def trace(*args, level=0):
 	if SEVERITY_LEVEL.value >= 7:
-		print(collapse('[', get_datetime_string(), '][TRAC] ', paste(*args)))
+		print(collapse('[', get_datetime_string(), '][TRAC]',
+		               '[', get_script_name(level + 1), ']',
+		               '[', get_function_name(level + 1), ']',
+		               '[', get_line_number(level + 1), '] ',
+		               paste(*args)))
 
 
-def debug(*args):
+def debug(*args, level=0):
 	if SEVERITY_LEVEL.value >= 6:
-		print(collapse('[', get_datetime_string(), '][DEBU] ', paste(*args)))
+		print(collapse('[', get_datetime_string(), '][DEBU]',
+		               '[', get_script_name(level + 1), ']',
+		               '[', get_function_name(level + 1), '] ',
+		               paste(*args)))
 
 
-def test(*args):
+def test(*args, level=0):
 	if SEVERITY_LEVEL.value >= 5:
-		print(collapse('[', get_datetime_string(), '][TEST] ', paste(*args)))
+		print(collapse('[', get_datetime_string(), '][TEST]',
+		               '[', get_script_name(level + 1), '] ',
+		               paste(*args)))
 
 
 def info(*args):
 	if SEVERITY_LEVEL.value >= 4:
-		print(collapse('[', get_datetime_string(), '][INFO] ', paste(*args)))
+		print(collapse('[', get_datetime_string(), '][INFO] ',
+		               paste(*args)))
 
 
 def result(*args):
@@ -3103,19 +3145,28 @@ def result(*args):
 		print(paste(*args))
 
 
-def warn(*args):
+def warn(*args, level=0):
 	if SEVERITY_LEVEL.value >= 2:
-		print(collapse('[', get_datetime_string(), '][WARN] ', paste(*args)), file=sys.stderr)
+		print(collapse('[', get_datetime_string(), '][WARN]',
+		               '[', get_script_name(level + 1), '] ',
+		               paste(*args)), file=sys.stderr)
 
 
-def error(*args):
+def error(*args, level=0):
 	if SEVERITY_LEVEL.value >= 1:
-		print(collapse('[', get_datetime_string(), '][ERRO] ', paste(*args)), file=sys.stderr)
+		print(collapse('[', get_datetime_string(), '][ERRO]',
+		               '[', get_script_name(level + 1), ']',
+		               '[', get_function_name(level + 1), '] ',
+		               paste(*args)), file=sys.stderr)
 
 
-def fail(*args):
+def fail(*args, level=0):
 	if SEVERITY_LEVEL.value >= 0:
-		print(collapse('[', get_datetime_string(), '][FAIL] ', paste(*args)), file=sys.stderr)
+		print(collapse('[', get_datetime_string(), '][FAIL]',
+		               '[', get_script_name(level + 1), ']',
+		               '[', get_function_name(level + 1), ']',
+		               '[', get_line_number(level + 1), '] ',
+		               paste(*args)), file=sys.stderr)
 
 
 # • DATAFRAME ######################################################################################
@@ -3737,7 +3788,7 @@ def tally(l, boundaries):
 		return to_list(l)
 	if is_empty(boundaries):
 		return repeat(0, len(l))
-	lower = min(l)
+	lower = minimum(l)
 	for i, upper in enumerate(boundaries):
 		l = fill_with(l, i, condition=lambda v: lower <= v < upper)
 		lower = upper
@@ -3868,6 +3919,20 @@ def paste(*args):
 def extract(s, pattern):
 	"""Returns all the occurrences of the specified pattern from the specified string."""
 	return re.findall(pattern, s)
+
+
+#########################
+
+def nth(n):
+	"""Returns the string representation of the specified nth number."""
+	s = str(n)
+	if s[-1] == '1':
+		return s + 'st'
+	elif s[-1] == '2':
+		return s + 'nd'
+	elif s[-1] == '3':
+		return s + 'rd'
+	return s + 'th'
 
 
 #########################

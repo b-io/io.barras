@@ -81,6 +81,13 @@ def cum_log_returns(series, offset):
 
 ##################################################
 
+def find_freq(series):
+	day_count = np.diff(series.index).mean() / np.timedelta64(1, 'D')
+	return DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, day_count)]
+
+
+#########################
+
 def group_series(series, clean=False, freq=FREQUENCY, sort=True):
 	if clean:
 		series = remove_null(series)
