@@ -55,10 +55,24 @@ def sqrt(x):
 
 #########################
 
+def nearest(c, value):
+	if is_series(c) or is_array(c):
+		return c[abs(c - value).argmin()]
+	return min(c, key=lambda x: abs(x - value))
+
+
+def farthest(c, value):
+	if is_series(c) or is_array(c):
+		return c[abs(c - value).argmax()]
+	return max(c, key=lambda x: abs(x - value))
+
+
+#########################
+
 def scale(x, base=10):
 	if is_collection(x):
 		return apply(scale, x, axis=1, base=base)
-	return x / base ** floor(log(max(abs(x)) + EPS) / log(base))
+	return x / base ** floor(log(maximum(abs(x)) + EPS) / log(base))
 
 
 # • MATH ARITHMETIC ################################################################################

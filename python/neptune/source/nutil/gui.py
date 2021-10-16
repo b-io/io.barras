@@ -118,7 +118,7 @@ def get_alternate_colors(n, row_odd_color='white', row_even_color='lightgray'):
 
 def get_complementary_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
-	return to_rgba_color([min(r, g, b) + max(r, g, b) - c for c in (r, g, b)], alpha=alpha,
+	return to_rgba_color([minimum(r, g, b) + maximum(r, g, b) - c for c in (r, g, b)], alpha=alpha,
 	                     scale=False)
 
 
