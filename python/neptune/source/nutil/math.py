@@ -37,6 +37,24 @@ RAD_TO_DEG = 180 / PI
 __MATH____________________________________________ = ''
 
 
+def is_negative(x):
+	return x < 0
+
+
+def is_non_negative(x):
+	return x >= 0
+
+
+def is_positive(x):
+	return x > 0
+
+
+def is_non_positive(x):
+	return x <= 0
+
+
+##################################################
+
 def abs(x):
 	return np.abs(x)
 
@@ -51,20 +69,6 @@ def log(x):
 
 def sqrt(x):
 	return np.sqrt(x)
-
-
-#########################
-
-def nearest(c, value):
-	if is_series(c) or is_array(c):
-		return c[abs(c - value).argmin()]
-	return min(c, key=lambda x: abs(x - value))
-
-
-def farthest(c, value):
-	if is_series(c) or is_array(c):
-		return c[abs(c - value).argmax()]
-	return max(c, key=lambda x: abs(x - value))
 
 
 #########################
@@ -262,6 +266,32 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 	v1 = fill_null(get_values(c1), numeric_default=numeric_default, object_default=object_default)
 	v2 = fill_null(get_values(c2), numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.divide(v1, v2), c1)
+
+
+#########################
+
+def nearest_inferior(c, value):
+	if not is_series(c) and not is_array(c):
+		c = to_list(c)
+	return nearest(add(filter_with(subtract(c, value), is_non_positive), value), value)
+
+
+def nearest_superior(c, value):
+	if not is_series(c) and not is_array(c):
+		c = to_list(c)
+	return nearest(add(filter_with(subtract(c, value), is_non_negative), value), value)
+
+
+def farthest_inferior(c, value):
+	if not is_series(c) and not is_array(c):
+		c = to_list(c)
+	return farthest(add(filter_with(subtract(c, value), is_non_positive), value), value)
+
+
+def farthest_superior(c, value):
+	if not is_series(c) and not is_array(c):
+		c = to_list(c)
+	return farthest(add(filter_with(subtract(c, value), is_non_negative), value), value)
 
 
 # • MATH GEOMETRY ##################################################################################
