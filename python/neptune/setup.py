@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'nutil'
-VERSION = '1.0.0.post105'
+VERSION = '1.0.0.post106'
 DESCRIPTION = 'Utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
