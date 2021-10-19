@@ -1706,7 +1706,7 @@ def get_end_period(y, s=None, q=None, m=None, w=None, d=None):
 
 #########################
 
-def get_start_date(d, freq=FREQUENCY):
+def get_start_date(d=get_datetime(), freq=FREQUENCY):
 	if freq is Frequency.WEEKS:
 		y, w = get_year_week(d)
 		return get_start_period(y=y, w=w)
@@ -1721,7 +1721,7 @@ def get_start_date(d, freq=FREQUENCY):
 	return to_datetime(d)
 
 
-def get_end_date(d, freq=FREQUENCY):
+def get_end_date(d=get_datetime(), freq=FREQUENCY):
 	if freq is Frequency.WEEKS:
 		y, w = get_year_week(d)
 		return get_end_period(y=y, w=w)
@@ -1736,19 +1736,19 @@ def get_end_date(d, freq=FREQUENCY):
 	return to_datetime(d)
 
 
-def get_start_datetime(d, freq=FREQUENCY):
+def get_start_datetime(d=get_datetime(), freq=FREQUENCY):
 	return to_datetime(get_start_date(d, freq=freq))
 
 
-def get_end_datetime(d, freq=FREQUENCY):
+def get_end_datetime(d=get_datetime(), freq=FREQUENCY):
 	return to_datetime(get_end_date(d, freq=freq))
 
 
-def get_start_timestamp(d, freq=Frequency.DAYS):
+def get_start_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 	return to_timestamp(get_start_date(d, freq=freq))
 
 
-def get_end_timestamp(d, freq=Frequency.DAYS):
+def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 	return to_timestamp(get_end_date(d, freq=freq))
 
 
@@ -1771,31 +1771,45 @@ def get_period_index(period=PERIOD):
 		return period_length * DAYS_PER_YEAR
 
 
-def get_period_length(d, period=PERIOD, freq=FREQUENCY):
+def get_period_length(d=get_datetime(), period=PERIOD, freq=FREQUENCY):
 	return diff_date(subtract_period(d, period), d, freq=freq)
 
 
-def get_period_days(d, period=PERIOD):
+def get_period_days(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		period_length = to_period_length(period)
+		period_freq = to_period_freq(period)
+		return period_length * FREQUENCY_DAY_COUNT[period_freq]
 	return diff_days(subtract_period(d, period), d)
 
 
-def get_period_weeks(d, period=PERIOD):
+def get_period_weeks(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		return get_period_days(d, period=period) / DAYS_PER_WEEK
 	return diff_weeks(subtract_period(d, period), d)
 
 
-def get_period_months(d, period=PERIOD):
+def get_period_months(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		return get_period_days(d, period=period) / DAYS_PER_MONTH
 	return diff_months(subtract_period(d, period), d)
 
 
-def get_period_quarters(d, period=PERIOD):
+def get_period_quarters(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		return get_period_days(d, period=period) / DAYS_PER_QUARTER
 	return diff_quarters(subtract_period(d, period), d)
 
 
-def get_period_semesters(d, period=PERIOD):
+def get_period_semesters(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		return get_period_days(d, period=period) / DAYS_PER_SEMESTER
 	return diff_semesters(subtract_period(d, period), d)
 
 
-def get_period_years(d, period=PERIOD):
+def get_period_years(d=get_datetime(), period=PERIOD):
+	if is_null(d):
+		return get_period_days(d, period=period) / DAYS_PER_YEAR
 	return diff_years(subtract_period(d, period), d)
 
 
@@ -2031,8 +2045,8 @@ def timestamp_to_type(t, x):
 
 #########################
 
-def to_period(n, freq=FREQUENCY):
-	return str(n) + freq.value
+def to_period(length, freq=FREQUENCY):
+	return str(length) + freq.value
 
 
 def to_period_length(period):
@@ -3502,7 +3516,7 @@ def product_cols(df):
 __DATE_PROCESSORS_________________________________ = ''
 
 
-def add_period(d, period=PERIOD):
+def add_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
@@ -3519,7 +3533,7 @@ def add_period(d, period=PERIOD):
 		return d + period_length * YEAR
 
 
-def subtract_period(d, period=PERIOD):
+def subtract_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
 	if period_freq is Frequency.DAYS:
@@ -3578,37 +3592,46 @@ def diff_years(date_from, date_to):
 
 #########################
 
-def format_date(d):
+def find_nearest_period(length, freq=FREQUENCY):
+	day_count = get_period_days(None, period=to_period(length, freq=freq))
+	period_freq = DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, day_count)]
+	period_length = round(day_count / FREQUENCY_DAY_COUNT[period_freq])
+	return to_period(period_length, period_freq)
+
+
+#########################
+
+def format_date(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DATE_FORMAT))
 
 
-def format_full_date(d):
+def format_full_date(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DEFAULT_FULL_DATE_FORMAT))
 
 
-def format_month_year(d):
+def format_month_year(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DEFAULT_MONTH_YEAR_FORMAT))
 
 
-def format_full_month_year(d):
+def format_full_month_year(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_YEAR_FORMAT))
 
 
-def format_month(d):
+def format_month(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DEFAULT_MONTH_FORMAT))
 
 
-def format_full_month(d):
+def format_full_month(d=get_datetime()):
 	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_FORMAT))
 
 
-def format_datetime(d, fmt=DATE_TIME_FORMAT):
+def format_datetime(d=get_datetime(), fmt=DATE_TIME_FORMAT):
 	if is_string(d):
 		d = parse_datetime(d)
 	return trim(d.strftime(fmt)) if not is_null(d) else None
 
 
-def format_time(d):
+def format_time(d=get_datetime()):
 	return trim(format_datetime(d, fmt=TIME_FORMAT))
 
 
@@ -3642,7 +3665,7 @@ def reset_time(d=get_datetime()):
 
 #########################
 
-def shift_date(d, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
+def shift_date(d=get_datetime(), years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
                microseconds=0):
 	return timestamp_to_type(d + pd.DateOffset(years=years, months=months, weeks=weeks, days=days,
 	                                           hours=hours, minutes=minutes, seconds=seconds,
@@ -3819,6 +3842,24 @@ def round(x, decimals=0):
 def mod(x, y):
 	m = x % y
 	return y if m == 0 else m
+
+
+#########################
+
+def nearest(c, value):
+	if is_empty(c):
+		return None
+	elif is_series(c) or is_array(c):
+		return get(c, abs(c - value).argmin())
+	return min(to_list(c), key=lambda x: abs(x - value))
+
+
+def farthest(c, value):
+	if is_empty(c):
+		return None
+	elif is_series(c) or is_array(c):
+		return get(c, abs(c - value).argmax())
+	return max(to_list(c), key=lambda x: abs(x - value))
 
 
 # • PROFILE ########################################################################################
