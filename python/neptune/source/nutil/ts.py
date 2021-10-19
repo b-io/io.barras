@@ -49,23 +49,17 @@ def get_diff(series, periods=1):
 	return to_array(series[periods:]) - to_array(series[:-periods])
 
 
-def get_returns(series, periods=1):
-	if is_table(series):
-		return remove_null(series.pct_change(periods=periods))
-	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
-
-
-def get_log_returns(series, periods=1):
-	return log(get_returns(series, periods=periods) + 1)
-
-
-#########################
-
 def cum_diff(series, offset):
 	series = concat(offset, series)
 	if is_table(series):
 		return series.cumsum()
 	return np.cumsum(series)
+
+
+def get_returns(series, periods=1):
+	if is_table(series):
+		return remove_null(series.pct_change(periods=periods))
+	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
 
 
 def cum_returns(series, offset):
@@ -75,15 +69,38 @@ def cum_returns(series, offset):
 	return np.cumprod(series)
 
 
+def get_log_returns(series, periods=1):
+	return log(get_returns(series, periods=periods) + 1)
+
+
 def cum_log_returns(series, offset):
 	return cum_returns(exp(series) - 1, offset)
 
 
+#########################
+
+def get_moving_average(series, window):
+	return remove_null(series.rolling(window).mean())
+
+
+#########################
+
+def get_average_freq_days(series):
+	return np.diff(series.index).mean() / np.timedelta64(1, 'D')
+
+
 ##################################################
 
-def find_freq(series):
-	day_count = np.diff(series.index).mean() / np.timedelta64(1, 'D')
-	return DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, day_count)]
+def find_nearest_freq(series):
+	return find_nearest_freq_from_days(get_average_freq_days(series))
+
+
+def find_nearest_freq_from_days(n):
+	return DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, n)]
+
+
+def find_nearest_freq_from_period(period=PERIOD):
+	return find_nearest_freq_from_days(get_period_days(None, period=period))
 
 
 #########################
