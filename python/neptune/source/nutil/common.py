@@ -27,6 +27,7 @@ import random
 import re
 import string
 import sys
+import warnings
 from calendar import monthrange
 from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
 from datetime import *
@@ -43,6 +44,12 @@ import validators
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from pandas.api.types import is_numeric_dtype
+
+####################################################################################################
+# COMMON SETTINGS
+####################################################################################################
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 ####################################################################################################
 # COMMON ENUMS
@@ -251,6 +258,15 @@ MONTH = relativedelta(months=1)
 QUARTER = 3 * MONTH
 SEMESTER = 6 * MONTH
 YEAR = relativedelta(years=1)
+
+FREQUENCY_DELTA = {
+	Frequency.DAYS: DAY,
+	Frequency.WEEKS: WEEK,
+	Frequency.MONTHS: MONTH,
+	Frequency.QUARTERS: QUARTER,
+	Frequency.SEMESTERS: SEMESTER,
+	Frequency.YEARS: YEAR
+}
 
 #########################
 
@@ -2202,24 +2218,43 @@ def create_stamp(y, m, d):
 
 #########################
 
+def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
+	if not is_null(periods):
+		return to_date(pd.date_range(date_from, date_to, periods=periods))
+	if freq is Frequency.SEMESTERS:
+		months = [1, 7] if group is Group.FIRST else [6, 12]
+		return filter_with(create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS,
+		                                        group=group),
+		                   f=lambda d: get_month(d) in months)
+	f = freq.value
+	if group is Group.FIRST:
+		if freq is Frequency.DAYS:
+			pass
+		elif freq is Frequency.WEEKS:
+			f += '-MON'
+		else:
+			f += 'S'
+	return pd.date_range(date_from, date_to, freq=f)
+
+
 def create_date_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
-	return to_date(pd.date_range(date_from, date_to, periods=periods,
-	                             freq=freq.value + ('S' if group is Group.FIRST else '')))
+	date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, group=group)
+	return to_date(date_range)
 
 
 def create_datetime_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
-	return to_datetime(pd.date_range(date_from, date_to, periods=periods,
-	                                 freq=freq.value + ('S' if group is Group.FIRST else '')))
+	date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, group=group)
+	return to_datetime(date_range)
 
 
 def create_timestamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
-	return to_timestamp(pd.date_range(date_from, date_to, periods=periods,
-	                                  freq=freq.value + ('S' if group is Group.FIRST else '')))
+	date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, group=group)
+	return to_timestamp(date_range)
 
 
 def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, group=GROUP):
-	return to_stamp(pd.date_range(date_from, date_to, periods=periods,
-	                              freq=freq.value + ('S' if group is Group.FIRST else '')))
+	date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, group=group)
+	return to_stamp(date_range)
 
 
 # • NUMBER #########################################################################################
@@ -3254,22 +3289,22 @@ def fill_null_all(df, model, numeric_default=None, object_default=None):
 	if is_series(df):
 		return fill_null_rows(df, get_index(model), numeric_default=numeric_default,
 		                      object_default=object_default)
-	return fill_null(df.reindex(columns=unique(get_names(df) + get_names(model)),
-	                            index=unique(get_index(df) + get_index(model))),
+	return fill_null(sort_index(df.reindex(columns=unique(get_names(df) + get_names(model)),
+	                                       index=unique(get_index(df) + get_index(model)))),
 	                 numeric_default=numeric_default, object_default=object_default)
 
 
 def fill_null_rows(df, index, numeric_default=None, object_default=None):
 	if is_table(index):
 		index = get_index(index)
-	return fill_null(df.reindex(index=unique(get_index(df) + to_list(index))),
+	return fill_null(sort_index(df.reindex(index=unique(get_index(df) + to_list(index)))),
 	                 numeric_default=numeric_default, object_default=object_default)
 
 
 def fill_null_cols(df, names, numeric_default=None, object_default=None):
 	if is_table(names):
 		names = get_names(names)
-	return fill_null(df.reindex(columns=unique(get_names(df) + to_list(names))),
+	return fill_null(sort_index(df.reindex(columns=unique(get_names(df) + to_list(names)))),
 	                 numeric_default=numeric_default, object_default=object_default)
 
 
