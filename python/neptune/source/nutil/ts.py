@@ -91,6 +91,22 @@ def get_average_freq_days(series):
 
 ##################################################
 
+def prepare_series(series, date_from=None, date_to=None, fill=True, freq=FREQUENCY, group=GROUP):
+	series = transform_series(series, freq=freq, group=group)
+	if is_null(date_from):
+		date_from = get_first(series.index)
+	if is_null(date_to):
+		date_to = get_last(series.index)
+	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
+	                               (series.index <= date_to)],
+	                        create_datetime_sequence(date_from, date_to, freq=freq))
+	if fill:
+		series = series.fillna(method='ffill')
+	return series[series.index >= date_from]
+
+
+#########################
+
 def find_nearest_freq(series):
 	return find_nearest_freq_from_days(get_average_freq_days(series))
 
