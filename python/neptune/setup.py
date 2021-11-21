@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'nutil'
-VERSION = '1.0.0.post107'
+VERSION = '1.0.0.post108'
 DESCRIPTION = 'Utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
@@ -37,9 +37,11 @@ LICENSE = 'MIT'
 LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune'
 
-PACKAGES = ['javaproperties', 'matplotlib', 'numpy', 'opencv-python', 'pandas', 'plotly', 'psutil',
-            'python-dateutil', 'requests', 'scipy', 'scikit-learn', 'scikit-lego', 'sqlalchemy',
-            'validators', 'xhtml2pdf']
+PACKAGES = [
+	'gensim', 'javaproperties', 'matplotlib', 'numpy', 'opencv-python', 'pandas', 'plotly',
+	'psutil', 'python-dateutil', 'requests', 'scipy', 'scikit-learn', 'scikit-lego', 'sqlalchemy',
+	'tensorflow', 'validators', 'xhtml2pdf'
+]
 
 ####################################################################################################
 # SETUP
@@ -118,8 +120,6 @@ setup(
 
 		# The Python versions supported by the project
 		'Programming Language :: Python :: 3',
-		'Programming Language :: Python :: 3.6',
-		'Programming Language :: Python :: 3.7',
 		'Programming Language :: Python :: 3.8',
 		'Programming Language :: Python :: 3.9',
 		'Programming Language :: Python :: Implementation :: CPython',
@@ -143,7 +143,7 @@ setup(
 	packages=find_packages(),  # Required
 
 	# The Python versions supported by the project.
-	python_requires='>=3.6',  # Required
+	python_requires='>=3.8',  # Required
 
 	# The project dependencies.
 	install_requires=PACKAGES,  # Optional
