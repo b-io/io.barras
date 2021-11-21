@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions
+#    <NAME> - contain machine learning utility functions for mixture models
 #
 # SYNOPSIS
 #    <NAME>

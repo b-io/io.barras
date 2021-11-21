@@ -703,7 +703,35 @@ def load_props(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
 #########################
 
 # The properties
-PROPS = load_props('common')
+DEFAULT_PROPS = {
+	# • COMMON
+	# Assert
+	'assert': True,
+	# Environment (dev, test, model, prod)
+	'env': 'prod',
+
+	# • CONSOLE
+	# Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
+	'severityLevel': 4,
+	# Verbose
+	'verbose': True,
+
+	# • DATE
+	# Date format
+	'dateFormat': '%Y-%m-%d',
+	# Time format
+	'timeFormat': '%H:%M:%S',
+	# Frequency (D, W, M, Q, S, Y)
+	'frequency': 'D',
+	# Group (count, first, last, min, max, mean, median, std, var, sum)
+	'group': 'last',
+	# Period
+	'period': '1Y'
+}
+try:
+	PROPS = load_props('common')
+except FileNotFoundError as ex:
+	PROPS = DEFAULT_PROPS
 
 
 def get_prop(name, default=None):
@@ -3051,16 +3079,18 @@ def simplify(c):
 
 #########################
 
-def sort(c, ascending=True, by=None, axis=0):
+def sort(c, ascending=True, by=None, inplace=False, axis=0):
 	"""Sorts the values of the specified collection."""
 	if is_frame(c):
-		return c.sort_values(get_keys(c, inclusion=by), ascending=ascending, axis=axis)
+		return c.sort_values(get_keys(c, inclusion=by), ascending=ascending, inplace=inplace,
+		                     axis=axis)
 	elif is_series(c):
-		return c.sort_values(ascending=ascending)
+		return c.sort_values(ascending=ascending, inplace=inplace)
 	elif is_dict(c):
 		return c
-	c.sort()
-	return c
+	if inplace:
+		return c.sort()
+	return sorted(c)
 
 
 def sort_index(c):
