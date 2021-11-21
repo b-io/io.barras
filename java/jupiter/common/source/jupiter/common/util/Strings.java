@@ -1009,7 +1009,6 @@ public class Strings {
 	public static String escape(final Object content) {
 		return Objects.toString(content)
 				.replaceAll("\\\\", "\\\\\\\\")
-				.replaceAll("\'", "\\\\\'")
 				.replaceAll("\"", "\\\\\"")
 				.replaceAll("\b", "\\\\b")
 				.replaceAll("\f", "\\\\f")
@@ -1035,7 +1034,6 @@ public class Strings {
 				.replaceAll("\\\\f", "\f")
 				.replaceAll("\\\\b", "\b")
 				.replaceAll("\\\\\"", "\"")
-				.replaceAll("\\\\\'", "\'")
 				.replaceAll("\\\\\\\\", "\\\\");
 	}
 
