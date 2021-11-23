@@ -81,7 +81,7 @@ public abstract class Classifier
 	/**
 	 * The default maximum number of iterations.
 	 */
-	public static final int DEFAULT_MAX_ITERATIONS = Integers.convert(1E6);
+	public static final int DEFAULT_MAX_ITERATION_COUNT = Integers.convert(1E6);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -341,7 +341,7 @@ public abstract class Classifier
 	 * @return the number of iterations
 	 */
 	public int train() {
-		return train(DEFAULT_LEARNING_RATE, DEFAULT_TOLERANCE, DEFAULT_MAX_ITERATIONS);
+		return train(DEFAULT_LEARNING_RATE, DEFAULT_TOLERANCE, DEFAULT_MAX_ITERATION_COUNT);
 	}
 
 	/**
