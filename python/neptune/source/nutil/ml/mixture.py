@@ -22,59 +22,78 @@ from nutil.gui import *
 from nutil.stats.common import *
 
 ####################################################################################################
+# MIXTURE CONSTANTS
+####################################################################################################
+
+__MIXTURE_CONSTANTS_______________________________ = ''
+
+DEFAULT_MAX_ITERATION_COUNT = 1000
+
+####################################################################################################
 # MIXTURE FUNCTIONS
 ####################################################################################################
 
 __MIXTURE_________________________________________ = ''
 
 
-def create_gaussian_mixture(data, n=1, covariance_type='full'):
+def create_gaussian_mixture(data, component_count=1, covariance_type='full',
+                            max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
 	"""Creates a Gaussian mixture with the specified number of components and fits the specified
 	data with the expectation-maximization (EM) algorithm. Note that the variational inference model
 	is using all the components."""
-	model = mixture.GaussianMixture(n_components=n, covariance_type=covariance_type)
+	model = mixture.GaussianMixture(n_components=component_count, covariance_type=covariance_type,
+	                                max_iter=max_iteration_count)
 	return model.fit(data)
 
 
-def create_bayesian_gaussian_mixture(data, n=1, covariance_type='full'):
+def create_bayesian_gaussian_mixture(data, component_count=1, covariance_type='full',
+                                     max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
 	"""Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
 	the specified data with the expectation-maximization (EM) algorithm. Note that the Dirichlet
 	process model adapts the number of components automatically."""
-	model = mixture.BayesianGaussianMixture(n_components=n, covariance_type=covariance_type)
+	model = mixture.BayesianGaussianMixture(n_components=component_count,
+	                                        covariance_type=covariance_type,
+	                                        max_iter=max_iteration_count)
 	return model.fit(data)
 
 
 #########################
 
-def create_outlier_detector(data, n=1, covariance_type='full', init_params='kmeans',
-                            method='quantile', threshold=DEFAULT_CONFIDENCE_LEVEL):
+def create_outlier_detector(data, component_count=1, covariance_type='full', init_params='kmeans',
+                            max_iteration_count=DEFAULT_MAX_ITERATION_COUNT, method='quantile',
+                            threshold=DEFAULT_CONFIDENCE_LEVEL):
 	"""Creates a detector based on a Gaussian mixture with the specified number of components and
 	fits the specified data with the expectation-maximization (EM) algorithm. Note that the
 	variational inference model is using all the components."""
-	model = GMMOutlierDetector(n_components=n, covariance_type=covariance_type,
-	                           init_params=init_params, method=method, threshold=threshold)
+	model = GMMOutlierDetector(n_components=component_count, covariance_type=covariance_type,
+	                           init_params=init_params, max_iter=max_iteration_count, method=method,
+	                           threshold=threshold)
 	return model.fit(data)
 
 
-def create_bayesian_outlier_detector(data, n=1, covariance_type='full', init_params='kmeans',
+def create_bayesian_outlier_detector(data, component_count=1, covariance_type='full',
+                                     init_params='kmeans',
+                                     max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
                                      method='quantile', threshold=DEFAULT_CONFIDENCE_LEVEL):
 	"""Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
 	components and fits the specified data with the expectation-maximization (EM) algorithm. Note
 	that the Dirichlet process model adapts the number of components automatically."""
-	model = BayesianGMMOutlierDetector(n_components=n, covariance_type=covariance_type,
-	                                   init_params=init_params, method=method, threshold=threshold)
+	model = BayesianGMMOutlierDetector(n_components=component_count,
+	                                   covariance_type=covariance_type, init_params=init_params,
+	                                   max_iter=max_iteration_count, method=method,
+	                                   threshold=threshold)
 	return model.fit(data)
 
 
-# • MIXTURE PLOTS ##################################################################################
+# • MIXTURE FIGURE #################################################################################
 
-__MIXTURE_PLOTS___________________________________ = ''
+__MIXTURE_FIGURE__________________________________ = ''
 
 
-def plot_clusters(data, labels, means, covariances, fig=None, colors=DEFAULT_COLORS_ITERATOR,
+def plot_clusters(data, classes, means, covariances, fig=None, colors=DEFAULT_COLORS_ITERATOR,
                   dash='dot', index=None, opacity=0.5, precision=100, show_ellipses=True,
                   show_legend=True, show_points=True, size=4, title=None, width=2):
-	"""Plots the clusters of the specified data identified by the specified labels and encircles
+	"""Plots the clusters of the specified data identified by the specified classes and encircles
 	them with ellipses using their specified means and covariances."""
 	if is_null(fig):
 		if is_frame(data):
@@ -86,14 +105,14 @@ def plot_clusters(data, labels, means, covariances, fig=None, colors=DEFAULT_COL
 		index = get_index(data)
 
 	for i, (mean, covariance, color) in enumerate(zip(means, covariances, colors)):
-		# Skip the labels that are not present
-		if not np.any(labels == i):
+		# Skip the classes that are not present
+		if not np.any(classes == i):
 			continue
 
 		# Create the trace of the points
 		if show_points:
 			name = collapse('Cluster ', i + 1)
-			fig.add_trace(draw(x=data[labels == i, 0], y=data[labels == i, 1], color=color,
+			fig.add_trace(draw(x=data[classes == i, 0], y=data[classes == i, 1], color=color,
 			                   index=index, mode='markers', name=name, show_legend=False,
 			                   size=size))
 

@@ -303,7 +303,7 @@ def create_ellipse(center, a, b, angle=0, precision=100):
 	X = []
 	Y = []
 	cx, cy = center
-	for theta in create_sequence(0, 2 * PI, include=True, n=precision):
+	for theta in create_sequence(0, 2 * PI, include=True, size=precision):
 		# Calculate the coordinates of the ellipse point at the angle theta
 		px = a * cos(theta)
 		py = b * sin(theta)

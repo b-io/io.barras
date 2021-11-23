@@ -26,6 +26,7 @@ import pstats
 import random
 import re
 import string
+import struct
 import sys
 import warnings
 from calendar import monthrange
@@ -205,6 +206,13 @@ class OrderedSet(MutableSet, Sequence):
 ####################################################################################################
 
 __COMMON_CONSTANTS________________________________ = ''
+
+BIT_COUNT = 8 * struct.calcsize('P')
+FLOAT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
+INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
+UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
+
+##################################################
 
 CORE_COUNT = mp.cpu_count()
 
@@ -2290,17 +2298,17 @@ def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, grou
 __NUMBER_GENERATORS_______________________________ = ''
 
 
-def create_sequence(start=0, stop=0, step=1, include=False, n=None):
+def create_sequence(start=0, stop=0, step=1, include=False, size=None):
 	if start == stop:
 		if include:
 			return start
 		return np.array([])
 	elif start > stop:
 		start, stop = stop, start
-	if not is_null(n):
-		if n <= 1:
+	if not is_null(size):
+		if size <= 1:
 			return start
-		step = (stop - start) / (n if not include else n - 1)
+		step = (stop - start) / (size if not include else size - 1)
 	sequence = np.arange(start, stop, step)
 	if include:
 		sequence = np.append(sequence, stop)

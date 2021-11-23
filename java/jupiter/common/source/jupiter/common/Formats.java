@@ -104,22 +104,22 @@ public class Formats {
 	/**
 	 * The default maximum number of fraction digits.
 	 */
-	public static final int DEFAULT_MAX_FRACTION_DIGITS = DEFAULT_PATTERN.length() - 2;
+	public static final int DEFAULT_MAX_FRACTION_DIGIT_COUNT = DEFAULT_PATTERN.length() - 2;
 	/**
 	 * The default maximum number of integer digits.
 	 */
-	public static final int DEFAULT_MAX_INTEGER_DIGITS = DEFAULT_PATTERN.length() - 2;
+	public static final int DEFAULT_MAX_INTEGER_DIGIT_COUNT = DEFAULT_PATTERN.length() - 2;
 
 	/**
 	 * The default minimum scientific threshold (inclusive).
 	 */
 	public static final double DEFAULT_MIN_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
-			-DEFAULT_MAX_FRACTION_DIGITS - 1);
+			-DEFAULT_MAX_FRACTION_DIGIT_COUNT - 1);
 	/**
 	 * The default maximum scientific threshold (inclusive).
 	 */
 	public static final double DEFAULT_MAX_SCIENTIFIC_THRESHOLD = Maths.pow(10.,
-			DEFAULT_MAX_INTEGER_DIGITS);
+			DEFAULT_MAX_INTEGER_DIGIT_COUNT);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,19 +182,19 @@ public class Formats {
 	/**
 	 * The minimum number of fraction digits.
 	 */
-	public static volatile int MIN_FRACTION_DIGITS = 0;
+	public static volatile int MIN_FRACTION_DIGIT_COUNT = 0;
 	/**
 	 * The maximum number of fraction digits.
 	 */
-	public static volatile int MAX_FRACTION_DIGITS = DEFAULT_MAX_FRACTION_DIGITS;
+	public static volatile int MAX_FRACTION_DIGIT_COUNT = DEFAULT_MAX_FRACTION_DIGIT_COUNT;
 	/**
 	 * The minimum number of integer digits.
 	 */
-	public static volatile int MIN_INTEGER_DIGITS = 1;
+	public static volatile int MIN_INTEGER_DIGIT_COUNT = 1;
 	/**
 	 * The maximum number of integer digits.
 	 */
-	public static volatile int MAX_INTEGER_DIGITS = DEFAULT_MAX_INTEGER_DIGITS;
+	public static volatile int MAX_INTEGER_DIGIT_COUNT = DEFAULT_MAX_INTEGER_DIGIT_COUNT;
 
 	/**
 	 * The flag specifying whether to use grouping separators.
@@ -300,9 +300,9 @@ public class Formats {
 				new DecimalFormat();
 		format.setDecimalFormatSymbols(new DecimalFormatSymbols(locale));
 		format.setGroupingUsed(USE_GROUPING_SEPARATORS);
-		format.setMinimumIntegerDigits(MIN_INTEGER_DIGITS);
-		format.setMinimumFractionDigits(MIN_FRACTION_DIGITS);
-		format.setMaximumFractionDigits(MAX_FRACTION_DIGITS);
+		format.setMinimumIntegerDigits(MIN_INTEGER_DIGIT_COUNT);
+		format.setMinimumFractionDigits(MIN_FRACTION_DIGIT_COUNT);
+		format.setMaximumFractionDigits(MAX_FRACTION_DIGIT_COUNT);
 		return format;
 	}
 
