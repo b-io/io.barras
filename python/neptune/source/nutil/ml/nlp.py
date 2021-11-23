@@ -14,10 +14,11 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common import *
 from gensim.utils import tokenize
-from tensorflow.keras.models import Model
+from nutil.common import *
+from nutil.ml.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
+from tensorflow.keras.models import Model
 
 ####################################################################################################
 # NLP CONSTANTS
@@ -40,14 +41,30 @@ class GloVe:
 	Christopher D. Manning (2014).
 	"""
 
-	def __init__(self, path=None):
+	def __init__(self, path=None, size=None):
+		"""
+		Constructs a GloVe containing a vocabulary of words and their pre-trained word vectors.
+
+		:param path: the path to the file containing the vocabulary words and their pre-trained word
+		             vectors
+		:param size: the size of the word vectors
+		"""
 		self.vocabulary = list()
 		self.word_to_vector = {}  # the dictionary mapping every vocabulary word to its word vector
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
 		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word
+		self.size = size
 
 		if not is_null(path):
-			self.load(path)
+			self.load(path, size=size)
+
+	##############################################
+
+	def get_size(self):
+		"""Returns the size of the word vectors."""
+		if not is_null(self.size):
+			return self.size
+		return self.word_to_vector[self.vocabulary[0]].shape[0]
 
 	##############################################
 
@@ -59,9 +76,11 @@ class GloVe:
 		:param sentences:      an array of sentences of shape (m)
 		:param max_word_count: the maximum number of words in a sentence
 
-		:return: an array of vocabulary word indices of shape (m x max_word_count)
+		:return: an array of vocabulary word indices of shape (m x max_word_count) and the set of
+		         unknown words
 		"""
-		indices = np.zeros((len(sentences), max_word_count))
+		indices = np.zeros((len(sentences), max_word_count), dtype=INT_TYPE)
+		unknown_words = set()
 		for i, sentence in enumerate(sentences):
 			sentence_words = tokenize(sentence, lowercase=True)
 			# Convert every sentence word to its index in the vocabulary
@@ -69,22 +88,22 @@ class GloVe:
 				if word in self.word_to_index:
 					indices[i, j] = self.word_to_index[word]
 				else:
-					warn('Unknown word:', quote(word))
-		return indices
+					unknown_words.add(word)
+		return indices, unknown_words
 
 	##############################################
 
 	def create_embedding_layer(self):
 		"""
-	    Creates an embedding layer using the pre-trained word vectors.
+		Creates an embedding layer using the pre-trained word vectors.
 
-	    :return: an embedding layer using the pre-trained word vectors
-	    """
+		:return: an embedding layer using the pre-trained word vectors
+		"""
 
 		# Initialize the embedding matrix
 		vocabulary_size = len(self.vocabulary) + 1  # add 1 to fit Keras embedding (requirement)
-		embedding_size = self.word_to_vector[self.vocabulary[0]].shape[0]  # the dimensionality of the word vectors
-		embedding_matrix = np.zeros((vocabulary_size, embedding_size))
+		embedding_size = self.get_size()
+		embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_TYPE)
 
 		# Set every row of the embedding matrix to be the word vector of the ith vocabulary word
 		for i, word in self.index_to_word.items():
@@ -116,7 +135,7 @@ class GloVe:
 		         the input sentence indices to the estimated output classes
 		"""
 		# Create the input (sentence indices)
-		sentence_indices = Input(shape=(max_word_count,), dtype='int32')
+		sentence_indices = Input(shape=(max_word_count,), dtype=INT_TYPE)
 
 		# Propagate the input through an embedding layer created using the pre-trained word vectors
 		embeddings = self.create_embedding_layer()(sentence_indices)
@@ -141,36 +160,30 @@ class GloVe:
 
 	##############################################
 
-	def load(self, path):
-		"""Loads the dictionary mapping the vocabulary words to their pre-trained word vectors."""
+	def load(self, path, size=None, verbose=VERBOSE, verbose_interval=100000):
+		"""
+		Loads the dictionary mapping the vocabulary words to their pre-trained word vectors.
+
+		:param path: the path to the file containing the vocabulary words and their pre-trained word
+		             vectors
+		:param size: the size of the word vectors
+		"""
 		with open(path, mode='r', encoding='utf8', errors='ignore') as f:
 			# Create the dictionary mapping every vocabulary word to its word vector
+			i = 0
 			for line in f:
 				line = line.strip().split()
-				word = line[0]
+				if is_null(size):
+					size = len(line) - 1
+				if verbose and i % verbose_interval == 0:
+					debug('Load the', str(size) + '-dimensional word vectors',
+					      'from', i + 1, 'to', i + verbose_interval, '...')
+				word = paste(line[:-size])
 				self.vocabulary.append(word)
-				self.word_to_vector[word] = np.array(line[1:], dtype=np.float64)
+				self.word_to_vector[word] = np.array(line[-size:], dtype=FLOAT_TYPE)
+				i += 1
 		# Create the dictionary mapping every vocabulary word to its index, and vice versa
 		sort(self.vocabulary, inplace=True)
 		for i, w in enumerate(self.vocabulary):
 			self.word_to_index[w] = i
 			self.index_to_word[i] = w
-
-
-####################################################################################################
-# NLP FUNCTIONS
-####################################################################################################
-
-__NLP_____________________________________________ = ''
-
-
-def to_one_hot(Y, size):
-	"""
-	Converts the specified array of vectors Y to an array of one-hot vectors of the specified size.
-
-	:param Y:    an array of vectors
-	:param size: the size of the one-hot vectors
-
-	:return: an array of one-hot vectors of the specified size
-	"""
-	return np.eye(size)[Y.reshape(-1)]
