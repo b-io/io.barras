@@ -50,7 +50,7 @@ public class SynchronizedWorkQueue<I, O>
 	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
-		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
+		this(model, DEFAULT_MIN_THREAD_COUNT, DEFAULT_MAX_THREAD_COUNT);
 	}
 
 	/**

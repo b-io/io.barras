@@ -481,13 +481,13 @@ public class SVM {
 			nodes[fi] = node;
 		}
 		final int classCount = model.nr_class;
-		final int[] labels = new int[classCount];
-		svm.svm_get_labels(model, labels);
+		final int[] classes = new int[classCount];
+		svm.svm_get_labels(model, classes);
 		final double[] probabilityEstimatesPerClass = new double[classCount];
 		final int estimatedClass = Maths.roundToInt(
 				svm.svm_predict_probability(model, nodes, probabilityEstimatesPerClass));
 		for (int ci = 0; ci < classCount; ++ci) {
-			probabilityEstimates.put(labels[ci], probabilityEstimatesPerClass[ci]);
+			probabilityEstimates.put(classes[ci], probabilityEstimatesPerClass[ci]);
 		}
 		// Return the estimated class
 		return estimatedClass;

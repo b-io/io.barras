@@ -54,11 +54,11 @@ public class WorkQueue<I, O>
 	/**
 	 * The default minimum number of {@link Worker} to handle.
 	 */
-	public static final int DEFAULT_MIN_THREADS = CORE_COUNT;
+	public static final int DEFAULT_MIN_THREAD_COUNT = CORE_COUNT;
 	/**
 	 * The default maximum number of {@link Worker} to handle.
 	 */
-	public static final int DEFAULT_MAX_THREADS = 2 * DEFAULT_MIN_THREADS;
+	public static final int DEFAULT_MAX_THREAD_COUNT = 2 * DEFAULT_MIN_THREAD_COUNT;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -129,7 +129,7 @@ public class WorkQueue<I, O>
 	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
-		this(model, DEFAULT_MIN_THREADS, DEFAULT_MAX_THREADS);
+		this(model, DEFAULT_MIN_THREAD_COUNT, DEFAULT_MAX_THREAD_COUNT);
 	}
 
 	/**
