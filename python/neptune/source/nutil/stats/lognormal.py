@@ -113,7 +113,8 @@ class LogNormal(Distribution):
 					elif tail == 2:
 						p = 0.5 + p / 2
 						q = to_array(t(p=p, tail=-1, dof=self.size - 1),
-						             sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, p=p, tail=-1) - 1)))
+						             sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, p=p, tail=-1) - 1)),
+						             type=FLOAT_TYPE)
 					sigma2 = self.sigma ** 2
 					s = sqrt((sigma2 + sigma2 ** 2 / 2) / self.size)
 				return exp(multiply(q, s))

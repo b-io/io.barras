@@ -163,7 +163,7 @@ def margin(p=DEFAULT_CONFIDENCE_LEVEL, tail=2):
 	elif tail == 2:
 		# Chebyshev's inequality
 		k = sqrt(1 / (1 - p))
-		return to_array(-k, k)
+		return to_array(-k, k, type=FLOAT_TYPE)
 
 
 #########################
@@ -174,7 +174,7 @@ def interval_probability(p=DEFAULT_CONFIDENCE_LEVEL, tail=2):
 	elif tail == 1:
 		return p
 	elif tail == 2:
-		return to_array(0.5 - p / 2, 0.5 + p / 2)
+		return to_array(0.5 - p / 2, 0.5 + p / 2, type=FLOAT_TYPE)
 	return NAN
 
 

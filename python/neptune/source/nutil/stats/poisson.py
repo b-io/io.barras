@@ -148,4 +148,5 @@ def interval(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, lam=1):
 def event_interval(k, p=DEFAULT_CONFIDENCE_LEVEL):
 	p = 0.5 + p / 2
 	return to_array(chi2(2 * k, p=p, tail=-1) / 2,
-	                chi2(2 * k + 2, p=p, tail=1) / 2)
+	                chi2(2 * k + 2, p=p, tail=1) / 2,
+	                type=FLOAT_TYPE)

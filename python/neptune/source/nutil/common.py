@@ -31,6 +31,7 @@ import sys
 import warnings
 from calendar import monthrange
 from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
+from concurrent.futures import ThreadPoolExecutor
 from datetime import *
 from distutils.util import *
 from enum import Enum
@@ -208,9 +209,11 @@ class OrderedSet(MutableSet, Sequence):
 __COMMON_CONSTANTS________________________________ = ''
 
 BIT_COUNT = 8 * struct.calcsize('P')
+BOOL_TYPE = np.bool8
 FLOAT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
 INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
 UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
+OBJECT_TYPE = object
 
 ##################################################
 
@@ -342,7 +345,7 @@ DEFAULT_RES_DIR = 'resources'
 
 __NUMBER_CONSTANTS________________________________ = ''
 
-EPS = np.finfo(float).eps
+EPS = np.finfo(FLOAT_TYPE).eps
 INF = np.inf
 NAN = np.nan
 
@@ -669,14 +672,14 @@ def read_json(path, encoding=None):
 
 
 def read_csv(path, encoding=None,
-             delimiter=',', dtype=None,
+             delimiter=',', type=None,
              na_values=None, keep_default_na=False, na_filter=True,
              parse_dates=True, date_parser=None, infer_datetime_format=True, keep_date_col=True,
              verbose=False):
 	if is_null(na_values):
 		na_values = ['']
 	return pd.read_csv(path, encoding=encoding,
-	                   delimiter=delimiter, dtype=dtype,
+	                   delimiter=delimiter, dtype=type,
 	                   na_values=na_values, keep_default_na=keep_default_na, na_filter=na_filter,
 	                   parse_dates=parse_dates, date_parser=date_parser,
 	                   infer_datetime_format=infer_datetime_format, keep_date_col=keep_date_col,
@@ -1012,28 +1015,28 @@ def get_items(c, inclusion=None, exclusion=None):
 	return [(k, c[k]) for k in keys]
 
 
-def get_value(c, inclusion=None, exclusion=None):
-	return simplify(get_values(c, inclusion=inclusion, exclusion=exclusion))
+def get_value(c, type=None, inclusion=None, exclusion=None):
+	return simplify(get_values(c, type=type, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_values(c, inclusion=None, exclusion=None):
+def get_values(c, type=None, inclusion=None, exclusion=None):
 	"""Returns the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
 	if is_empty(c):
-		return np.array([])
+		return to_array(type=type)
 	elif not is_collection(c):
-		return to_array(c)
+		return to_array(c, type=type)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		if c.axis == 0:
-			return to_array([include(v, keys).values for k, v in c])
-		return to_array([v.values for k, v in c if k in keys])
+			return to_array([include(v, keys).values for k, v in c], type=type)
+		return to_array([v.values for k, v in c if k in keys], type=type)
 	elif is_table(c):
 		return include(c, keys).values
 	elif is_array(c):
-		return c[to_list(keys)]
-	return to_array([c[k] for k in keys])
+		return c[keys]
+	return to_array([c[k] for k in keys], type=type)
 
 
 ##################################################
@@ -1134,7 +1137,7 @@ def set_values(c, new_values, inclusion=None, exclusion=None):
 		c.loc[keys] = new_values
 		pd.options.mode.chained_assignment = chained_assignment
 	elif is_array(c):
-		c[to_list(keys)] = new_values
+		c[keys] = new_values
 	else:
 		for i in range(len(keys)):
 			c[keys[i]] = new_values[i]
@@ -1876,14 +1879,14 @@ __COMMON_CONVERTERS_______________________________ = ''
 __ARRAY_CONVERTERS________________________________ = ''
 
 
-def to_array(*args):
+def to_array(*args, type=None):
 	if len(args) == 1:
 		arg = args[0]
 		if is_array(arg):
 			return arg
 		elif is_collection(arg):
-			return np.array(arg)
-	return np.array(to_list(*args))
+			return np.array(arg, dtype=type)
+	return np.array(to_list(*args), dtype=type)
 
 
 def unarray(a):
@@ -1960,7 +1963,7 @@ def to_series(data, name=None, index=None, type=None):
 	"""Converts the specified collection to a series."""
 	if is_empty(data):
 		data = []
-		type = object
+		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
 	if is_frame(data):
@@ -1978,7 +1981,7 @@ def to_series(data, name=None, index=None, type=None):
 	return series
 
 
-def to_time_series(data, name=None, index=None, type=float):
+def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
 		index = to_timestamp(index)
@@ -1989,7 +1992,7 @@ def to_frame(data, names=None, index=None, type=None):
 	"""Converts the specified collection to a dataframe."""
 	if is_empty(data):
 		data = []
-		type = object
+		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
 	if is_frame(data):
@@ -2302,7 +2305,7 @@ def create_sequence(start=0, stop=0, step=1, include=False, size=None):
 	if start == stop:
 		if include:
 			return start
-		return np.array([])
+		return to_array(type=INT_TYPE)
 	elif start > stop:
 		start, stop = stop, start
 	if not is_null(size):
@@ -2424,7 +2427,7 @@ def reduce_and(x, axis=0):
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
+		return to_array(x, type=BOOL_TYPE)
 	return np.logical_and.reduce(x, axis=axis)
 
 
@@ -2433,7 +2436,7 @@ def reduce_or(x, axis=0):
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
+		return to_array(x, type=BOOL_TYPE)
 	return np.logical_or.reduce(x, axis=axis)
 
 
@@ -2554,7 +2557,7 @@ def filter(c, inclusion=None, exclusion=None):
 	elif is_dict(c):
 		return {k: c[k] for k in keys}
 	elif is_array(c):
-		return c[to_list(keys)]
+		return c[keys]
 	return collection_to_type([c[k] for k in keys], c)
 
 
@@ -2881,8 +2884,12 @@ def filter_years(c, years):
 
 #########################
 
-def flatten(c, axis=0):
-	return get_values(c).flatten(order='C' if axis == 0 else 'F' if axis == 1 else 'A')
+def flatten(c, axis=0, type=None):
+	if is_empty(c):
+		return to_array(type=type)
+	if type == OBJECT_TYPE:
+		return to_array(flatten_list(c), type=type)
+	return get_values(c, type=type).flatten(order='C' if axis == 0 else 'F' if axis == 1 else 'A')
 
 
 #########################
@@ -2988,18 +2995,6 @@ def sum(*args, axis=0):
 
 #########################
 
-def reverse(c, axis=0):
-	if is_table(c):
-		if axis == 0:
-			return c.loc[::-1]
-		return c.loc[:, ::-1]
-	elif is_dict(c):
-		return {c[k]: k for k in c}
-	return c[::-1]
-
-
-#########################
-
 def keep_min(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
@@ -3057,6 +3052,18 @@ def remove_value(c, value, axis=0, conservative=True, inclusion=None, exclusion=
 
 #########################
 
+def reverse(c, axis=0):
+	if is_table(c):
+		if axis == 0:
+			return c.loc[::-1]
+		return c.loc[:, ::-1]
+	elif is_dict(c):
+		return {c[k]: k for k in c}
+	return c[::-1]
+
+
+#########################
+
 def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
                 microseconds=0):
 	"""Shifts the date-time index of the specified collection."""
@@ -3083,6 +3090,18 @@ def simplify(c):
 		if len(c) == 1:
 			return simplify(get_next(c))
 	return c
+
+
+#########################
+
+def slice(c, index_from=None, index_to=None):
+	if is_null(index_from):
+		index_from = 0
+	if is_null(index_to):
+		index_to = len(c)
+	if is_table(c) or is_dict(c) or is_array(c):
+		return c[get_keys(c)[index_from:index_to]]
+	return c[index_from:index_to]
 
 
 #########################
@@ -3774,6 +3793,19 @@ def exclude_list(l, exclusion):
 
 #########################
 
+def flatten_list(l, depth=-1):
+	if is_empty(l) or not is_collection(l) or depth == 0:
+		return to_list(l)
+	elif depth == 1:
+		return [v for sl in l for v in sl]
+	fl = []
+	for sl in l:
+		fl += flatten_list(sl, depth=depth - 1)
+	return fl
+
+
+#########################
+
 def find_all(l, value):
 	return find_all_with(l, lambda v: v == value)
 
@@ -4061,6 +4093,16 @@ def replace(s, pattern, replacement):
 	return s
 
 
+def replace_word(s, word, replacement):
+	"""Returns the string constructed by replacing the specified word by the specified replacement
+	string in the specified string recursively (only if the length is decreasing)."""
+	count = INF
+	while len(s) < count:
+		count = len(s)
+		s = re.sub('\b' + word + '\b', replacement, s)
+	return s
+
+
 #########################
 
 def split(s, delimiter=',', empty_filter=True):
@@ -4115,3 +4157,30 @@ def par(content):
 def bra(content):
 	"""Returns the bracketized representative string of the specified content."""
 	return wrap(content, '[', ']')
+
+
+# • THREAD #########################################################################################
+
+__THREAD_PROCESSORS_______________________________ = ''
+
+
+def parallelize(f, c, *args, timeout=None, **kwargs):
+	results = []
+	if is_empty(c):
+		return results
+	with ThreadPoolExecutor(max_workers=CORE_COUNT) as executor:
+		futures = []
+		# Submit the tasks
+		chunk_size = ceil(len(c) / CORE_COUNT)
+		for index_from in range(0, len(c), chunk_size):
+			index_to = min(index_from + chunk_size, len(c))
+			futures.append(executor.submit(f, slice(c, index_from=index_from, index_to=index_to),
+			                               *args, **kwargs))
+		# Collect the results
+		for future in futures:
+			results.append(future.result(timeout=timeout))
+	return flatten_list(results, depth=1)
+
+
+def parallelize_apply(f, c, *args, timeout=None, **kwargs):
+	return parallelize(lambda x: apply(f, x, *args, **kwargs), c, timeout=timeout)

@@ -152,4 +152,5 @@ def interval(probability=DEFAULT_CONFIDENCE_LEVEL, tail=2, n=1, p=0.5):
 def event_interval(k, probability=DEFAULT_CONFIDENCE_LEVEL, n=1):
 	p = 0.5 + probability / 2
 	return to_array(1 / (1 + (n - k + 1) / (k * f(2 * k, 2 * (n - k + 1), p=p, tail=-1))),
-	                1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), p=p, tail=1))))
+	                1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), p=p, tail=1))),
+	                type=FLOAT_TYPE)
