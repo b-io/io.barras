@@ -316,7 +316,7 @@ def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, 
                 index=None, mode='lines', opacity=1, show_date=False, show_legend=True,
                 show_name=True, size=4, stackgroup=None, width=2, yaxis=0):
 	if is_null(fig):
-		fig = create_figure(title=title)
+		fig = create_figure(title=title, title_x='Time')
 	colors = get_iterator(to_list(colors), cycle=True)
 	for s in to_series(series) if is_frame(series) else [series]:
 		fig.add_trace(draw(x=get_index(s), y=get_col(s),
@@ -324,4 +324,23 @@ def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, 
 		                   name=get_name(s), opacity=opacity, show_date=show_date,
 		                   show_legend=show_legend, show_name=show_name, size=size,
 		                   stackgroup=stackgroup, width=width, yaxis=yaxis))
+	return fig
+
+
+def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Trend Decomposition',
+                       name=None, color='black', trend_color='white', seasonal_color='gray',
+                       residual_color='lightgray', show_legend=False, width=2, yaxis=0):
+	if is_null(fig):
+		fig = create_figure(title=title, title_x='Time')
+	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='tonexty',
+	                   name='Trend', show_legend=False, stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal), color=seasonal_color,
+	                   fill='tonexty', name=paste(name, '(Seasonal Component)'),
+	                   show_legend=show_legend, stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=residual.index, y=get_col(residual), color=residual_color,
+	                   fill='tonexty', name=paste(name, '(Residual Component)'),
+	                   show_legend=show_legend, stackgroup='one', width=width, yaxis=yaxis))
+	series = trend + seasonal + residual
+	fig.add_trace(draw(x=series.index, y=get_col(series), color=color, name=name, width=width,
+	                   yaxis=yaxis))
 	return fig

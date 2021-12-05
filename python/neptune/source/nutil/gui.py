@@ -47,8 +47,9 @@ DEFAULT_WIDTH = 660
 # The default height
 DEFAULT_HEIGHT = 933
 
-# The default margin (left, right, bottom and top)
-DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)  # the ratio of the margin to the width or height
+# The default margin (left, right, bottom and top) defined by the ratio to the width or height
+DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
+DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.1)
 
 # • GUI COLOR ######################################################################################
 
@@ -238,19 +239,19 @@ def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=
 	return paste(yaxis, date_range, name, transformation)
 
 
-##################################################
-
-def create_margin(x):
-	"""Creates a margin with the specified ratio to the width or height."""
+def get_margin(x, has_title=False):
+	"""Returns the margin with the specified ratio to the width or height."""
+	if is_null(x):
+		x = {}
 	if is_dict(x):
 		for k in ('l', 'r', 'b', 't'):
 			if k not in x:
-				x[k] = DEFAULT_MARGIN[k]
+				x[k] = DEFAULT_MARGIN_WITH_TITLE[k] if has_title else DEFAULT_MARGIN[k]
 		return x
 	return dict(l=x, r=x, b=x, t=x)
 
 
-#########################
+##################################################
 
 def create_figure(auto_size=True,
                   axis_color='black', axis_width=2,
@@ -269,7 +270,7 @@ def create_figure(auto_size=True,
                   tick_step_x=None, tick_step_y=None, tick_step_y2=None,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
-                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   zero_line_color='darkgray', zero_line_width=2):
 	fig = go.Figure()
 	update_layout(fig,
@@ -303,7 +304,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
                           # Layout
                           title=None, dragmode=False, showframe=False,
                           colors=get_RYG(), range_color=None,
-                          width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                          width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                           # Geos
                           lat=None, lon=None,
                           projection='miller',
@@ -316,7 +317,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
                           showrivers=False, rivercolor='Blue'):
 	"""Creates a choropleth map with the specified parameters."""
 	fig = px.choropleth(data_frame=df,
-	                    lat=None, lon=None,
+	                    lat=lat, lon=lon,
 	                    locations=loc_col, locationmode=loc_mode, projection=projection,
 	                    labels={label_col: label_name if not is_null(label_name) else label_col},
 	                    color=label_col, range_color=range_color,
@@ -418,7 +419,7 @@ def update_layout(fig,
                   tick_step_x=None, tick_step_y=None, tick_step_y2=None,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
-                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   zero_line_color='darkgray', zero_line_width=2):
 	update_layout_plot(fig, auto_size=auto_size, bar_mode=bar_mode, bg_color=bg_color,
 	                   show_title=show_title, title=title)
@@ -443,7 +444,8 @@ def update_layout(fig,
 	                   title_x=title_x, title_y=title_y, title_y2=title_y2,
 	                   zero_line_color=zero_line_color, zero_line_width=zero_line_width)
 	update_layout_legend(fig, bg_color=legend_bg_color, x=legend_x, y=legend_y)
-	update_layout_size(fig, width=width, height=height, margin=margin)
+	update_layout_size(fig, has_title=not is_empty(title), width=width, height=height,
+	                   margin=margin)
 
 
 def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_COLOR,
@@ -638,8 +640,9 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 				yanchor='top', y=y))
 
 
-def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN):
-	margin = create_margin(margin)
+def update_layout_size(fig, has_title=False, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
+                       margin=None):
+	margin = get_margin(margin, has_title=has_title)
 	if is_matplot(fig):
 		fig.set_size_inches(width / 100, height / 100)
 		fig.subplots_adjust(left=margin['l'], right=1 - margin['r'],
@@ -683,7 +686,7 @@ def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, s
 
 #########################
 
-def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN):
+def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	"""Converts the specified figure to HTML."""
 	if is_null(fig):
 		return ''
@@ -691,8 +694,8 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 	return pio.to_html(fig, full_html=full, default_width=width, default_height=height)
 
 
-def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
-                      margin=DEFAULT_MARGIN, rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                      rotate=False, scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to the specified format, encodes it to Base64 and returns its
 	HTML code."""
 	if is_null(fig):
@@ -704,22 +707,22 @@ def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
 	return buffer_to_html(buffer, format, width=width, height=height, style=style)
 
 
-def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                     rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                     scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to JPEG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'jpeg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
-def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                    rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                    scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to PNG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'png', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
-def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                    rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                    scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to SVG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'svg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
@@ -797,7 +800,7 @@ def buffer_to_image(buffer):
 
 #########################
 
-def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   scale=DEFAULT_SCALE):
 	"""Converts the specified figure to an image buffer with the specified format."""
 	update_layout_size(fig, width=width, height=height, margin=margin)
@@ -810,20 +813,17 @@ def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margi
 		return pio.to_image(fig, format=format, width=width, height=height, scale=scale)
 
 
-def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                scale=DEFAULT_SCALE):
+def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to JPEG."""
 	return fig_to_buffer(fig, 'jpeg', width=width, height=height, margin=margin, scale=scale)
 
 
-def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-               scale=DEFAULT_SCALE):
+def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to PNG."""
 	return fig_to_buffer(fig, 'png', width=width, height=height, margin=margin, scale=scale)
 
 
-def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-               scale=DEFAULT_SCALE):
+def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to SVG."""
 	return fig_to_buffer(fig, 'svg', width=width, height=height, margin=margin, scale=scale)
 
