@@ -15,9 +15,10 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
-from nutil.ml.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
+
+from nutil.ml.common import *
 
 ####################################################################################################
 # NLP CONSTANTS
@@ -36,8 +37,8 @@ __NLP_CLASSES_____________________________________ = ''
 
 class GloVe:
 	"""
-	A handler for Global Vectors for Word Representation (GloVe) by Jeffrey Pennington,
-	Richard Socher, and Christopher D. Manning (2014).
+	A handler for Global Vectors for Word Representation (GloVe) of Jeffrey Pennington, Richard
+	Socher, and Christopher D. Manning (2014).
 	"""
 
 	def __init__(self, path=None, size=None, verbose=VERBOSE, verbose_interval=100000):

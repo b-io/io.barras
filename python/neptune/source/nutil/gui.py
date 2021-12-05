@@ -81,6 +81,44 @@ DEFAULT_BG_COLOR = TRANSPARENT
 
 ##################################################
 
+NAMED_COLORS = [
+	'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure',
+	'beige', 'bisque', 'black', 'blanchedalmond', 'blue',
+	'blueviolet', 'brown', 'burlywood', 'cadetblue',
+	'chartreuse', 'chocolate', 'coral', 'cornflowerblue',
+	'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
+	'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen',
+	'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
+	'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
+	'darkslateblue', 'darkslategray', 'darkslategrey',
+	'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue',
+	'dimgray', 'dimgrey', 'dodgerblue', 'firebrick',
+	'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro',
+	'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green',
+	'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo',
+	'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen',
+	'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
+	'lightgoldenrodyellow', 'lightgray', 'lightgrey',
+	'lightgreen', 'lightpink', 'lightsalmon', 'lightseagreen',
+	'lightskyblue', 'lightslategray', 'lightslategrey',
+	'lightsteelblue', 'lightyellow', 'lime', 'limegreen',
+	'linen', 'magenta', 'maroon', 'mediumaquamarine',
+	'mediumblue', 'mediumorchid', 'mediumpurple',
+	'mediumseagreen', 'mediumslateblue', 'mediumspringgreen',
+	'mediumturquoise', 'mediumvioletred', 'midnightblue',
+	'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy',
+	'oldlace', 'olive', 'olivedrab', 'orange', 'orangered',
+	'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise',
+	'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink',
+	'plum', 'powderblue', 'purple', 'red', 'rosybrown',
+	'royalblue', 'rebeccapurple', 'saddlebrown', 'salmon',
+	'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver',
+	'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow',
+	'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato',
+	'turquoise', 'violet', 'wheat', 'white', 'whitesmoke',
+	'yellow', 'yellowgreen'
+]
+
 RAINBOW_SCALE = mcm.get_cmap(name='rainbow')
 RYG_SCALE = mcm.get_cmap(name='RdYlGn')
 
@@ -120,6 +158,10 @@ def get_complementary_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
 	return to_rgba_color([minimum(r, g, b) + maximum(r, g, b) - c for c in (r, g, b)], alpha=alpha,
 	                     scale=False)
+
+
+def get_random_named_color():
+	return random.choice(NAMED_COLORS)
 
 
 def get_RYG(brightness='8'):
@@ -198,6 +240,18 @@ def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=
 
 
 ##################################################
+
+def create_margin(x):
+	"""Creates a margin with the specified ratio to the width or height."""
+	if is_dict(x):
+		for k in ('l', 'r', 'b', 't'):
+			if k not in x:
+				x[k] = DEFAULT_MARGIN[k]
+		return x
+	return dict(l=x, r=x, b=x, t=x)
+
+
+#########################
 
 def create_figure(auto_size=True,
                   axis_color='black', axis_width=2,
@@ -300,11 +354,6 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 		showlakes=showlakes, lakecolor=lakecolor,
 		showrivers=showrivers, rivercolor=rivercolor)
 	return fig
-
-
-def create_margin(x):
-	"""Creates a margin with the specified ratio to the width or height."""
-	return dict(l=x, r=x, b=x, t=x)
 
 
 ##################################################
@@ -589,6 +638,7 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 
 
 def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN):
+	margin = create_margin(margin)
 	if is_matplot(fig):
 		fig.set_size_inches(width / 100, height / 100)
 		fig.subplots_adjust(left=margin['l'], right=1 - margin['r'],

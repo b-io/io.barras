@@ -1809,6 +1809,20 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 
 #########################
 
+def get_group_freq(freq=FREQUENCY, group=GROUP):
+	f = freq.value
+	if group is Group.FIRST:
+		if freq is Frequency.DAYS:
+			pass
+		elif freq is Frequency.WEEKS:
+			f += '-MON'
+		else:
+			f += 'S'
+	return f
+
+
+#########################
+
 def get_period_index(period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
@@ -1984,7 +1998,7 @@ def to_series(data, name=None, index=None, type=None):
 def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
-		index = to_timestamp(index)
+		index = to_timestamp(get_values(index))
 	return to_series(data, name=name, index=index, type=type)
 
 
@@ -2265,14 +2279,7 @@ def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, group=GR
 		return filter_with(create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS,
 		                                        group=group),
 		                   f=lambda d: get_month(d) in months)
-	f = freq.value
-	if group is Group.FIRST:
-		if freq is Frequency.DAYS:
-			pass
-		elif freq is Frequency.WEEKS:
-			f += '-MON'
-		else:
-			f += 'S'
+	f = get_group_freq(freq=freq, group=group)
 	return pd.date_range(date_from, date_to, freq=f)
 
 
