@@ -328,18 +328,19 @@ def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, 
 
 
 def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Trend Decomposition',
-                       name=None, color='black', trend_color='white', seasonal_color='gray',
+                       name=None, color='black', trend_color='red', seasonal_color='gray',
                        residual_color='lightgray', show_legend=False, width=2, yaxis=0):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x='Time')
-	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='tonexty',
-	                   name='Trend', show_legend=False, stackgroup='one', width=width, yaxis=yaxis))
-	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal), color=seasonal_color,
-	                   fill='tonexty', name=paste(name, '(Seasonal Component)'),
-	                   show_legend=show_legend, stackgroup='one', width=width, yaxis=yaxis))
-	fig.add_trace(draw(x=residual.index, y=get_col(residual), color=residual_color,
-	                   fill='tonexty', name=paste(name, '(Residual Component)'),
-	                   show_legend=show_legend, stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='none',
+	                   name=paste(name, '(Trend Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal), color=seasonal_color, fill='tonexty',
+	                   name=paste(name, '(Seasonal Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=residual.index, y=get_col(residual), color=residual_color, fill='tonexty',
+	                   name=paste(name, '(Residual Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
 	series = trend + seasonal + residual
 	fig.add_trace(draw(x=series.index, y=get_col(series), color=color, name=name, width=width,
 	                   yaxis=yaxis))
