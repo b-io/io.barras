@@ -17,6 +17,7 @@
 from statistics import mode
 
 from statsmodels.tsa.api import ExponentialSmoothing
+from statsmodels.tsa.seasonal import STL
 
 from nutil.math import *
 
@@ -95,15 +96,27 @@ def get_average_freq_days(series):
 
 ##################################################
 
-def set_group_freq(series, freq=FREQUENCY, group=GROUP):
+def set_freq(series, freq=FREQUENCY, group=GROUP):
 	if is_null(freq):
 		freq = find_nearest_freq(series)
 	if is_null(group):
 		group = find_nearest_group(series, freq=freq)
-	series.index.freq = get_group_freq(freq=freq, group=group)
+	series.index.freq = get_freq(freq=freq, group=group)
 
 
 ##################################################
+
+def decompose_series(series, seasonal_period=1):
+	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
+	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
+	I. Terpenning (1990)."""
+	freq, group = find_nearest_freq_group(series)
+	series = prepare_series(series, freq=freq, group=group)
+	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
+	return STL(series, period=seasonal_period_length).fit()
+
+
+#########################
 
 def find_nearest_freq(series):
 	return find_nearest_freq_from_days(get_average_freq_days(series))
@@ -116,8 +129,6 @@ def find_nearest_freq_from_days(n):
 def find_nearest_freq_from_period(period=PERIOD):
 	return find_nearest_freq_from_days(get_period_days(None, period=period))
 
-
-#########################
 
 def find_nearest_group(series, freq=FREQUENCY):
 	if is_null(series) or freq is Frequency.DAYS:
@@ -141,13 +152,18 @@ def find_nearest_group(series, freq=FREQUENCY):
 	return Group.LAST
 
 
+def find_nearest_freq_group(series):
+	freq = find_nearest_freq(series)
+	group = find_nearest_group(series, freq=freq)
+	return freq, group
+
+
 #########################
 
 def forecast_series(series, horizon=1, initialization_method='estimated', trend='add',
                     seasonal='add', seasonal_period=1):
 	"""Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
-	freq = find_nearest_freq(series)
-	group = find_nearest_group(series, freq=freq)
+	freq, group = find_nearest_freq_group(series)
 	series = prepare_series(series, freq=freq, group=group)
 	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
 	model = ExponentialSmoothing(series, initialization_method=initialization_method, trend=trend,
@@ -208,19 +224,19 @@ def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
 
 def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True,
                    freq=FREQUENCY, group=GROUP):
+	if is_null(freq):
+		freq = find_nearest_freq(series)
+	if is_null(group):
+		group = find_nearest_group(series, freq=freq)
 	series = transform_series(series, freq=freq, group=group)
 	if is_null(date_from):
 		date_from = get_first(series.index)
 	if is_null(date_to):
 		date_to = get_last(series.index)
-	if is_null(freq):
-		freq = find_nearest_freq(series)
-	if is_null(group):
-		group = find_nearest_group(series, freq=freq)
 	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
 	                               (series.index <= date_to)],
 	                        create_datetime_sequence(date_from, date_to, freq=freq, group=group))
-	set_group_freq(series, freq=freq, group=group)
+	set_freq(series, freq=freq, group=group)
 	if fill:
 		series = series.fillna(method='ffill')
 	elif interpolate:

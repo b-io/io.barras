@@ -1809,7 +1809,7 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 
 #########################
 
-def get_group_freq(freq=FREQUENCY, group=GROUP):
+def get_freq(freq=FREQUENCY, group=GROUP):
 	f = freq.value
 	if group is Group.FIRST:
 		if freq is Frequency.DAYS:
@@ -2279,7 +2279,7 @@ def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, group=GR
 		return filter_with(create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS,
 		                                        group=group),
 		                   f=lambda d: get_month(d) in months)
-	f = get_group_freq(freq=freq, group=group)
+	f = get_freq(freq=freq, group=group)
 	return pd.date_range(date_from, date_to, freq=f)
 
 
