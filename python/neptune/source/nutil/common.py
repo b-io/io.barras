@@ -1134,11 +1134,14 @@ def set_values(c, new_values, inclusion=None, exclusion=None):
 		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_table(new_values):
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_collection(new_values):
 		new_values = get_values(new_values)
 	else:
-		new_values = to_list(new_values)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+		if is_table(c) or is_array(c):
+			new_values = np.full(c.shape, new_values)
+		else:
+			new_values = repeat(new_values, len(keys))
 	if is_frame(c):
 		chained_assignment = pd.options.mode.chained_assignment
 		pd.options.mode.chained_assignment = None
@@ -3185,6 +3188,24 @@ def take_not_at(c, indices, axis=0):
 
 #########################
 
+def tally(c, boundaries):
+	"""Tallies the values of the specified collection into the intervals delimited by the specified
+	boundaries."""
+	if is_empty(c):
+		return c
+	if is_empty(boundaries):
+		return repeat(0, len(c))
+	tc = c.copy()
+	lower = minimum(tc)
+	for i, upper in enumerate(boundaries):
+		set_values(tc, i, inclusion=where(c, condition=lambda v: lower <= v < upper))
+		lower = upper
+	set_values(tc, i + 1, inclusion=where(c, condition=lambda v: v >= upper))
+	return tc
+
+
+#########################
+
 def unique(c, keep='first'):
 	if is_table(c):
 		return c.loc[invert(c.index.duplicated(keep=keep))]
@@ -3229,6 +3250,13 @@ def upsert(left, right, inclusion=None, exclusion=None):
 	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
 	left = update(left, include_index(right, left))
 	return concat(left, exclude_index(right, left))
+
+
+#########################
+
+def where(c, *args, condition=lambda x: True, inclusion=None, exclusion=None, **kwargs):
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	return [k for k in keys if condition(c[k], *args, **kwargs)]
 
 
 # • CONSOLE ########################################################################################
@@ -3925,22 +3953,6 @@ def repeat(value, n):
 
 def rotate(l, n=1):
 	return l[-n:] + l[:-n]
-
-
-#########################
-
-def tally(l, boundaries):
-	"""Tallies the values of the specified list into the intervals delimited by the specified
-	boundaries."""
-	if is_empty(l):
-		return to_list(l)
-	if is_empty(boundaries):
-		return repeat(0, len(l))
-	lower = minimum(l)
-	for i, upper in enumerate(boundaries):
-		l = fill_with(l, i, condition=lambda v: lower <= v < upper)
-		lower = upper
-	return fill_with(l, i, condition=lambda v: v >= upper)
 
 
 # • NUMBER #########################################################################################
