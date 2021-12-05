@@ -90,9 +90,9 @@ def create_bayesian_outlier_detector(data, component_count=1, covariance_type='f
 __MIXTURE_FIGURE__________________________________ = ''
 
 
-def plot_clusters(data, classes, means, covariances, fig=None, colors=DEFAULT_COLORS_ITERATOR,
+def plot_clusters(data, classes, means, covariances, fig=None, title=None, colors=DEFAULT_COLORS,
                   dash='dot', index=None, opacity=0.5, precision=100, show_ellipses=True,
-                  show_legend=True, show_points=True, size=4, title=None, width=2):
+                  show_legend=True, show_points=True, size=4, width=2):
 	"""Plots the clusters of the specified data identified by the specified classes and encircles
 	them with ellipses using their specified means and covariances."""
 	if is_null(fig):
@@ -103,7 +103,7 @@ def plot_clusters(data, classes, means, covariances, fig=None, colors=DEFAULT_CO
 			fig = create_figure(title=title)
 	if is_null(index) and is_frame(data):
 		index = get_index(data)
-
+	colors = get_iterator(to_list(colors), cycle=True)
 	for i, (mean, covariance, color) in enumerate(zip(means, covariances, colors)):
 		# Skip the classes that are not present
 		if not np.any(classes == i):
@@ -125,8 +125,8 @@ def plot_clusters(data, classes, means, covariances, fig=None, colors=DEFAULT_CO
 			a, b = v
 			color = get_complementary_color(color)
 			name = collapse('Cluster ', i + 1, ' Tilted At ', round(angle * RAD_TO_DEG, 2), '°')
-			fig.add_trace(draw_ellipse(mean, a, b, angle=angle, color=color, dash=dash,
-			                           name=name, opacity=opacity, precision=precision,
+			fig.add_trace(draw_ellipse(mean, a, b, angle=angle, color=color, dash=dash, name=name,
+			                           opacity=opacity, precision=precision,
 			                           show_legend=show_legend, width=width))
 			fig.add_trace(draw([mean[0] - a * cos(angle), mean[0] + a * cos(angle)],
 			                   [mean[1] - a * sin(angle), mean[1] + a * sin(angle)],
@@ -139,20 +139,20 @@ def plot_clusters(data, classes, means, covariances, fig=None, colors=DEFAULT_CO
 	return fig
 
 
-def plot_mixture(data, model, fig=None, colors=DEFAULT_COLORS_ITERATOR, index=None, opacity=0.5,
-                 precision=100, show_ellipses=True, show_legend=True, show_points=True, size=4,
-                 title=None, width=2):
+def plot_mixture(data, model, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None,
+                 opacity=0.5, precision=100, show_ellipses=True, show_legend=True, show_points=True,
+                 size=4, width=2):
 	"""Plots the clusters of the specified data identified by the specified model and encircles them
 	with ellipses."""
 	return plot_clusters(data, model.predict(data), model.means_, model.covariances_, fig=fig,
-	                     colors=colors, index=index, opacity=opacity, precision=precision,
-	                     show_ellipses=show_ellipses, show_legend=show_legend,
-	                     show_points=show_points, size=size, title=title, width=width)
+	                     title=title, colors=colors, dash=dash, index=index, opacity=opacity,
+	                     precision=precision, show_ellipses=show_ellipses, show_legend=show_legend,
+	                     show_points=show_points, size=size, width=width)
 
 
-def plot_detector(data, detector, fig=None, colors=DEFAULT_COLORS_ITERATOR, index=None, opacity=0.5,
-                  precision=100, show_ellipses=True, show_legend=True, show_points=True, size=4,
-                  title=None, width=2):
+def plot_detector(data, detector, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot',
+                  index=None, opacity=0.5, precision=100, show_ellipses=True, show_legend=True,
+                  show_points=True, size=4, width=2):
 	"""Plots the clusters of the specified data identified by the specified detector and encircles
 	them with ellipses."""
 	if is_null(index) and is_frame(data):
@@ -168,7 +168,7 @@ def plot_detector(data, detector, fig=None, colors=DEFAULT_COLORS_ITERATOR, inde
 
 	# Create the trace of an ellipse around each cluster
 	if show_ellipses:
-		fig = plot_mixture(data, detector.gmm_, fig=fig, colors=colors, index=index,
-		                   opacity=opacity, precision=precision, show_legend=show_legend,
-		                   show_points=False, size=size, title=title, width=width)
+		fig = plot_mixture(data, detector.gmm_, fig=fig, title=title, colors=colors, dash=dash,
+		                   index=index, opacity=opacity, precision=precision,
+		                   show_legend=show_legend, show_points=False, size=size, width=width)
 	return fig

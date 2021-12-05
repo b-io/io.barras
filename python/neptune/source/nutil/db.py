@@ -39,13 +39,13 @@ DEFAULT_DB_MSSQL = DEFAULT_DB == 'mssql'
 if not exists('DEFAULT_SCHEMA'):
 	DEFAULT_SCHEMA = 'dbo'
 
-##################################################
+#########################
 
 # The default chunk size
 if not exists('DEFAULT_CHUNK_SIZE'):
 	DEFAULT_CHUNK_SIZE = 1000
 
-##################################################
+#########################
 
 # The default debug frequency
 if not exists('DEFAULT_DEBUG_FREQUENCY'):

@@ -16,7 +16,6 @@
 
 import base64
 import io
-import itertools
 
 import cv2
 import matplotlib.cm as mcm
@@ -30,8 +29,8 @@ import plotly.tools as ptools
 from xhtml2pdf import pisa
 
 import nutil.html as html
+from nutil.common import *
 from nutil.stats import normal
-from nutil.ts import *
 
 ####################################################################################################
 # GUI CONSTANTS
@@ -74,7 +73,7 @@ DEFAULT_COLORS = [
 ]
 
 # The default colors iterator
-DEFAULT_COLORS_ITERATOR = itertools.cycle(DEFAULT_COLORS)
+DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color
 DEFAULT_BG_COLOR = TRANSPARENT
@@ -359,7 +358,8 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 ##################################################
 
 def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines', name=None,
-         opacity=1, show_date=False, show_legend=True, show_name=True, size=4, width=2, yaxis=0):
+         opacity=1, show_date=False, show_legend=True, show_name=True, size=4, stackgroup=None,
+         width=2, yaxis=0):
 	if is_null(y):
 		data = x
 		x = data.index
@@ -385,6 +385,7 @@ def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines'
 	                  fill=fill,
 	                  mode=mode, line=line, marker=marker, opacity=opacity,
 	                  showlegend=show_legend,
+	                  stackgroup=stackgroup,
 	                  yaxis='y' + str(1 if yaxis == 0 else yaxis))
 
 

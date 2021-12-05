@@ -19,6 +19,7 @@ from statistics import mode
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
+from nutil.gui import *
 from nutil.math import *
 
 ####################################################################################################
@@ -42,53 +43,13 @@ class Transformation(Enum):
 __TIME_SERIES_____________________________________ = ''
 
 
-def is_time_series(series):
-	return is_table(series) and isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
+def get_freq_group(series, freq=FREQUENCY, group=GROUP):
+	if is_null(freq):
+		freq = find_nearest_freq(series)
+	if is_null(group):
+		group = find_nearest_group(series, freq=freq)
+	return freq, group
 
-
-##################################################
-
-def get_diff(series, periods=1):
-	if is_table(series):
-		return remove_null(series.diff(periods=periods))
-	return to_array(series[periods:]) - to_array(series[:-periods])
-
-
-def cum_diff(series, offset):
-	series = concat(offset, series)
-	if is_table(series):
-		return series.cumsum()
-	return np.cumsum(series)
-
-
-def get_returns(series, periods=1):
-	if is_table(series):
-		return remove_null(series.pct_change(periods=periods))
-	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
-
-
-def cum_returns(series, offset):
-	series = concat(offset, series + 1)
-	if is_table(series):
-		return series.cumprod()
-	return np.cumprod(series)
-
-
-def get_log_returns(series, periods=1):
-	return log(get_returns(series, periods=periods) + 1)
-
-
-def cum_log_returns(series, offset):
-	return cum_returns(exp(series) - 1, offset)
-
-
-#########################
-
-def get_moving_average(series, window):
-	return remove_null(series.rolling(window).mean())
-
-
-#########################
 
 def get_average_freq_days(series):
 	return np.diff(series.index).mean() / np.timedelta64(1, 'D')
@@ -97,26 +58,11 @@ def get_average_freq_days(series):
 ##################################################
 
 def set_freq(series, freq=FREQUENCY, group=GROUP):
-	if is_null(freq):
-		freq = find_nearest_freq(series)
-	if is_null(group):
-		group = find_nearest_group(series, freq=freq)
+	freq, group = get_freq_group(series, freq=freq, group=group)
 	series.index.freq = get_freq(freq=freq, group=group)
 
 
 ##################################################
-
-def decompose_series(series, seasonal_period=1):
-	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
-	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
-	I. Terpenning (1990)."""
-	freq, group = find_nearest_freq_group(series)
-	series = prepare_series(series, freq=freq, group=group)
-	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
-	return STL(series, period=seasonal_period_length).fit()
-
-
-#########################
 
 def find_nearest_freq(series):
 	return find_nearest_freq_from_days(get_average_freq_days(series))
@@ -156,20 +102,6 @@ def find_nearest_freq_group(series):
 	freq = find_nearest_freq(series)
 	group = find_nearest_group(series, freq=freq)
 	return freq, group
-
-
-#########################
-
-def forecast_series(series, horizon=1, initialization_method='estimated', trend='add',
-                    seasonal='add', seasonal_period=1):
-	"""Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
-	freq, group = find_nearest_freq_group(series)
-	series = prepare_series(series, freq=freq, group=group)
-	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
-	model = ExponentialSmoothing(series, initialization_method=initialization_method, trend=trend,
-	                             seasonal=seasonal, seasonal_periods=seasonal_period_length).fit()
-	prediction = set_names(model.forecast(steps=horizon * seasonal_period_length), series)
-	return concat_rows(series, prediction)
 
 
 #########################
@@ -220,14 +152,85 @@ def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
 	return series
 
 
+# • TIME SERIES TRANSFORMATION #####################################################################
+
+__TIME_SERIES_TRANSFORMATION______________________ = ''
+
+
+def get_diff(series, periods=1):
+	if is_table(series):
+		return remove_null(series.diff(periods=periods))
+	return to_array(series[periods:]) - to_array(series[:-periods])
+
+
+def cum_diff(series, offset):
+	series = concat(offset, series)
+	if is_table(series):
+		return series.cumsum()
+	return np.cumsum(series)
+
+
+def get_returns(series, periods=1):
+	if is_table(series):
+		return remove_null(series.pct_change(periods=periods))
+	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
+
+
+def cum_returns(series, offset):
+	series = concat(offset, series + 1)
+	if is_table(series):
+		return series.cumprod()
+	return np.cumprod(series)
+
+
+def get_log_returns(series, periods=1):
+	return log(get_returns(series, periods=periods) + 1)
+
+
+def cum_log_returns(series, offset):
+	return cum_returns(exp(series) - 1, offset)
+
+
+#########################
+
+def get_moving_average(series, window):
+	return remove_null(series.rolling(window).mean())
+
+
+##################################################
+
+def decompose_series(series, seasonal_period=1, freq=FREQUENCY, group=GROUP):
+	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
+	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
+	I. Terpenning (1990)."""
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = prepare_series(series, freq=freq, group=group)
+	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
+	return STL(series, period=seasonal_period_length).fit()
+
+
+#########################
+
+def forecast_series(series, horizon=1, initialization_method='estimated', trend='add',
+                    seasonal='add', seasonal_period=1, freq=FREQUENCY, group=GROUP):
+	"""Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = prepare_series(series, freq=freq, group=group)
+	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
+	predictions = to_frame([])
+	for s in to_series(series) if is_frame(series) else [series]:
+		model = ExponentialSmoothing(s, initialization_method=initialization_method, trend=trend,
+		                             seasonal=seasonal, seasonal_periods=seasonal_period_length).fit()
+		prediction = set_names(model.forecast(steps=horizon * seasonal_period_length), s)
+		predictions = concat_cols(predictions, concat_rows(s, prediction))
+	return predictions
+
+
 #########################
 
 def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True,
                    freq=FREQUENCY, group=GROUP):
-	if is_null(freq):
-		freq = find_nearest_freq(series)
-	if is_null(group):
-		group = find_nearest_group(series, freq=freq)
+	freq, group = get_freq_group(series, freq=freq, group=group)
 	series = transform_series(series, freq=freq, group=group)
 	if is_null(date_from):
 		date_from = get_first(series.index)
@@ -254,6 +257,7 @@ def transform_series(series, clean=True, sort=True, freq=FREQUENCY, group=GROUP,
 		series = sort_index(series)
 	if is_empty(series):
 		return series
+	freq, group = get_freq_group(series, freq=freq, group=group)
 	series = group_series(series, freq=freq)
 	if group is Group.COUNT:
 		series = series.count()
@@ -301,3 +305,23 @@ def untransform_series(series, offset, clean=True, transformation=None):
 	elif transformation is Transformation.LOG_RETURNS:
 		return cum_log_returns(series, offset)
 	return series
+
+
+# • TIME SERIES FIGURE #############################################################################
+
+__TIME_SERIES_FIGURE______________________________ = ''
+
+
+def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, fill='none',
+                index=None, mode='lines', opacity=1, show_date=False, show_legend=True,
+                show_name=True, size=4, stackgroup=None, width=2, yaxis=0):
+	if is_null(fig):
+		fig = create_figure(title=title)
+	colors = get_iterator(to_list(colors), cycle=True)
+	for s in to_series(series) if is_frame(series) else [series]:
+		fig.add_trace(draw(x=get_index(s), y=get_col(s),
+		                   color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
+		                   name=get_name(s), opacity=opacity, show_date=show_date,
+		                   show_legend=show_legend, show_name=show_name, size=size,
+		                   stackgroup=stackgroup, width=width, yaxis=yaxis))
+	return fig

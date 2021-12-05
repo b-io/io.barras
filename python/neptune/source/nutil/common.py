@@ -17,6 +17,7 @@
 import cProfile
 import functools
 import inspect
+import itertools
 import json
 import multiprocessing as mp
 import numbers
@@ -215,7 +216,7 @@ INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else Non
 UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
 OBJECT_TYPE = object
 
-##################################################
+#########################
 
 CORE_COUNT = mp.cpu_count()
 
@@ -476,6 +477,12 @@ def is_frame(x):
 def is_group(x):
 	return isinstance(x, pd.core.groupby.generic.SeriesGroupBy) or \
 	       isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+
+
+#########################
+
+def is_time_series(series):
+	return is_table(series) and isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
 
 
 # • DATE ###########################################################################################
@@ -903,10 +910,16 @@ def get_last(c, axis=0):
 	return get(c, index=-1, axis=axis)
 
 
+def get_iterator(c, cycle=False):
+	if cycle:
+		return itertools.cycle(c)
+	return iter(c)
+
+
 def get_next(c):
 	if not is_collection(c):
 		return c
-	return next(iter(c))
+	return next(get_iterator(c))
 
 
 #########################
@@ -1225,8 +1238,8 @@ def get_datetime():
 	return datetime.now()
 
 
-def get_datetime_string(fmt=DATE_TIME_FORMAT):
-	return format_datetime(get_datetime(), fmt=fmt)
+def get_datetime_string(format=DATE_TIME_FORMAT):
+	return format_datetime(get_datetime(), format=format)
 
 
 def get_time_string():
@@ -2029,11 +2042,11 @@ def to_frame(data, names=None, index=None, type=None):
 __DATE_CONVERTERS_________________________________ = ''
 
 
-def to_date(x, fmt=DATE_FORMAT):
+def to_date(x, format=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_date, x, fmt=fmt)
+		return apply(to_date, x, format=format)
 	elif is_stamp(x):
 		x = parse_stamp(x)
 		return create_date(x.year, x.month, x.day)
@@ -2044,14 +2057,14 @@ def to_date(x, fmt=DATE_FORMAT):
 		return create_date(x.year, x.month, x.day)
 	elif is_date(x):
 		return x
-	return datetime.strptime(x, fmt)
+	return datetime.strptime(x, format)
 
 
-def to_datetime(x, fmt=DATE_TIME_FORMAT):
+def to_datetime(x, format=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_datetime, x, fmt=fmt)
+		return apply(to_datetime, x, format=format)
 	elif is_stamp(x):
 		return parse_stamp(x)
 	elif is_timestamp(x):
@@ -2060,13 +2073,13 @@ def to_datetime(x, fmt=DATE_TIME_FORMAT):
 		return x
 	elif is_date(x):
 		return create_datetime(x.year, x.month, x.day)
-	return datetime.strptime(x, fmt)
+	return datetime.strptime(x, format)
 
 
-def to_time(x, fmt=TIME_FORMAT):
+def to_time(x, format=TIME_FORMAT):
 	if is_null(x):
 		return None
-	return to_datetime(x, fmt=fmt)
+	return to_datetime(x, format=format)
 
 
 def to_datestamp(d):
@@ -2219,7 +2232,7 @@ def unset(s):
 	return s
 
 
-##################################################
+#########################
 
 def to_ordered_set(*args):
 	if len(args) == 1:
@@ -3701,37 +3714,37 @@ def find_nearest_period(length, freq=FREQUENCY):
 #########################
 
 def format_date(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DATE_FORMAT))
+	return trim(format_datetime(d, format=DATE_FORMAT))
 
 
 def format_full_date(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_DATE_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_DATE_FORMAT))
 
 
 def format_month_year(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_MONTH_YEAR_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_MONTH_YEAR_FORMAT))
 
 
 def format_full_month_year(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_YEAR_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_MONTH_YEAR_FORMAT))
 
 
 def format_month(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_MONTH_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_MONTH_FORMAT))
 
 
 def format_full_month(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_MONTH_FORMAT))
 
 
-def format_datetime(d=get_datetime(), fmt=DATE_TIME_FORMAT):
+def format_datetime(d=get_datetime(), format=DATE_TIME_FORMAT):
 	if is_string(d):
 		d = parse_datetime(d)
-	return trim(d.strftime(fmt)) if not is_null(d) else None
+	return trim(d.strftime(format)) if not is_null(d) else None
 
 
 def format_time(d=get_datetime()):
-	return trim(format_datetime(d, fmt=TIME_FORMAT))
+	return trim(format_datetime(d, format=TIME_FORMAT))
 
 
 #########################
@@ -4020,8 +4033,7 @@ def exclude_set(s, exclusion):
 	return filter_set(s, exclusion=exclusion)
 
 
-##################################################
-
+#########################
 
 def filter_ordered_set(s, inclusion=None, exclusion=None):
 	"""Returns the values of the specified ordered set that are in the specified inclusive set and
