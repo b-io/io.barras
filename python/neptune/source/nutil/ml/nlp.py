@@ -50,7 +50,7 @@ class GloVe:
 		             vectors
 		:param size: the size of the word vectors
 		"""
-		self.vocabulary = list()
+		self.vocabulary = []
 		self.word_to_vector = {}  # the dictionary mapping every vocabulary word to its word vector
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
 		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word

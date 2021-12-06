@@ -1139,7 +1139,7 @@ def set_values(c, new_values, inclusion=None, exclusion=None):
 		new_values = get_values(new_values)
 	else:
 		if is_table(c) or is_array(c):
-			new_values = np.full(c.shape, new_values)
+			new_values = create_array(c, fill=new_values, size=len(c[keys]))
 		else:
 			new_values = repeat(new_values, len(keys))
 	if is_frame(c):
@@ -2003,6 +2003,8 @@ def to_series(data, name=None, index=None, type=None):
 	elif is_series(data):
 		series = data
 	else:
+		if not is_collection(data):
+			data = create_array(len(get_index(index)), fill=data)
 		series = pd.Series(data=data, dtype=type)
 	if not is_null(name):
 		set_names(series, name)
@@ -2018,6 +2020,8 @@ def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 	return to_series(data, name=name, index=index, type=type)
 
 
+#########################
+
 def to_frame(data, names=None, index=None, type=None):
 	"""Converts the specified collection to a dataframe."""
 	if is_empty(data):
@@ -2030,14 +2034,23 @@ def to_frame(data, names=None, index=None, type=None):
 	elif is_series(data):
 		frame = data.to_frame()
 	elif is_dict(data):
-		frame = pd.DataFrame.from_dict(data, orient='index', dtype=type)
+		frame = pd.DataFrame.from_dict(data, dtype=type, orient='index')
 	else:
+		if not is_collection(data):
+			data = create_array((len(get_index(index)), len(get_names(names))), fill=data)
 		frame = pd.DataFrame(data=data, dtype=type)
 	if not is_null(names):
 		set_names(frame, names)
 	if not is_null(index):
 		set_index(frame, index)
 	return frame
+
+
+def to_time_frame(data, names=None, index=None, type=FLOAT_TYPE):
+	"""Converts the specified collection to a time frame."""
+	if not is_null(index):
+		index = to_timestamp(get_values(index))
+	return to_frame(data, names=names, index=index, type=type)
 
 
 # • DATE ###########################################################################################
@@ -2263,6 +2276,31 @@ def to_string(x, delimiter=','):
 ####################################################################################################
 
 __COMMON_GENERATORS_______________________________ = ''
+
+# • ARRAY ##########################################################################################
+
+__ARRAY_GENERATORS________________________________ = ''
+
+
+def create_array(shape, fill=0, order='C', size=None, type=None):
+	if is_table(shape) or is_array(shape):
+		shape = shape.shape
+	shape = list(shape) if is_tuple(shape) else to_list(shape)
+	if not is_null(size):
+		shape[0] = size
+	return np.full(shape, fill, dtype=type, order=order)
+
+
+# • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
+
+__COLLECTION_GENERATORS___________________________ = ''
+
+
+def create_mask(c, fill=False):
+	if is_frame(c):
+		return to_frame(fill, names=c, index=c)
+	return to_series(fill, index=c)
+
 
 # • DATE ###########################################################################################
 
@@ -2636,10 +2674,11 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and all_values(apply(f, x, *args, **kwargs)))
 	elif is_table(c):
-		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_and(mask, axis=1)]
+		mask = create_mask(c, fill=False)
+		set_values(mask, get_values(apply(f, c, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		if is_frame(c):
+			return c.loc[reduce_and(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
@@ -2655,10 +2694,12 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and all_not_values(apply(f, x, *args, **kwargs)))
 	elif is_table(c):
-		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_and(mask, axis=1)]
+		mask = create_mask(c, fill=False)
+		set_values(mask, invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs))),
+		           inclusion=keys)
+		if is_frame(c):
+			return c.loc[reduce_and(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
@@ -2674,10 +2715,11 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and any_values(apply(f, x, *args, **kwargs)))
 	elif is_table(c):
-		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_or(mask, axis=1)]
+		mask = create_mask(c, fill=False)
+		set_values(mask, get_values(apply(f, c, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		if is_frame(c):
+			return c.loc[reduce_or(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
@@ -2693,10 +2735,12 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and any_not_values(apply(f, x, *args, **kwargs)))
 	elif is_table(c):
-		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_or(mask, axis=1)]
+		mask = create_mask(c, fill=False)
+		set_values(mask, invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs))),
+		           inclusion=keys)
+		if is_frame(c):
+			return c.loc[reduce_or(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
