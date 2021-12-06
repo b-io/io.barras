@@ -2001,7 +2001,7 @@ def to_series(data, name=None, index=None, type=None):
 			return get_cols(data)
 		series = get_col(data) if not is_empty(data) else pd.Series(data=data, dtype=type)
 	elif is_series(data):
-		series = data
+		series = data.copy()
 	else:
 		if not is_collection(data):
 			data = create_array(len(get_index(index)), fill=data)
@@ -2030,7 +2030,7 @@ def to_frame(data, names=None, index=None, type=None):
 	elif is_group(data):
 		data = data.obj
 	if is_frame(data):
-		frame = data
+		frame = data.copy()
 	elif is_series(data):
 		frame = data.to_frame()
 	elif is_dict(data):
