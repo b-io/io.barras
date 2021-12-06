@@ -131,8 +131,8 @@ def cdf(x, n=1, p=0.5):
 	return stats.binom.cdf(x, n=n, p=p)
 
 
-def inv_cdf(probability, n=1, p=0.5):
-	return stats.binom.ppf(probability, n=n, p=p)
+def inv_cdf(q, n=1, p=0.5):
+	return stats.binom.ppf(q, n=n, p=p)
 
 
 #########################
