@@ -97,15 +97,15 @@ class Distribution(ABC):
 		pass
 
 	@abstractmethod
-	def inv_cdf(self, p):
+	def inv_cdf(self, q):
 		pass
 
 	@abstractmethod
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		pass
 
 	@abstractmethod
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		pass
 
 
@@ -152,48 +152,48 @@ def entropy(*args, axis=0):
 	return calculate(c, f=stats.entropy, axis=axis)
 
 
-def margin(p=DEFAULT_CONFIDENCE_LEVEL, tail=2):
+def margin(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2):
 	if tail == -1 or tail == 1:
 		# Cantelli's inequality
-		k = sqrt(1 / (1 - p) - 1)
+		k = sqrt(1 / (1 - cl) - 1)
 		if tail == -1:
 			return -k
 		elif tail == 1:
 			return k
 	elif tail == 2:
 		# Chebyshev's inequality
-		k = sqrt(1 / (1 - p))
+		k = sqrt(1 / (1 - cl))
 		return to_array(-k, k, type=FLOAT_TYPE)
 
 
 #########################
 
-def interval_probability(p=DEFAULT_CONFIDENCE_LEVEL, tail=2):
+def interval_probability(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2):
 	if tail == -1:
-		return 1 - p
+		return 1 - cl
 	elif tail == 1:
-		return p
+		return cl
 	elif tail == 2:
-		return to_array(0.5 - p / 2, 0.5 + p / 2, type=FLOAT_TYPE)
+		return to_array(0.5 - cl / 2, 0.5 + cl / 2, type=FLOAT_TYPE)
 	return NAN
 
 
-def z(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
-	return apply(stats.norm.ppf, interval_probability(p=p, tail=tail), mu, sigma)
+def z(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
+	return apply(interval_probability(cl=cl, tail=tail), stats.norm.ppf, mu, sigma)
 
 
-def t(dof, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
-	return apply(stats.t.ppf, interval_probability(p=p, tail=tail), dof, mu, sigma)
+def t(dof, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
+	return apply(interval_probability(cl=cl, tail=tail), stats.t.ppf, dof, mu, sigma)
 
 
-def chi2(*dof, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, sigma=1):
+def chi2(*dof, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, sigma=1):
 	sigma2 = sigma ** 2
-	return apply(stats.chi2.ppf, interval_probability(p=p, tail=tail), forward(*dof), 0, sigma2)
+	return apply(interval_probability(cl=cl, tail=tail), stats.chi2.ppf, forward(*dof), 0, sigma2)
 
 
-def f(dofn, dofd, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, sigma=1):
+def f(dofn, dofd, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, sigma=1):
 	sigma2 = sigma ** 2
-	return apply(stats.f.ppf, interval_probability(p=p, tail=tail), dofn, dofd, 0, sigma2)
+	return apply(interval_probability(cl=cl, tail=tail), stats.f.ppf, dofn, dofd, 0, sigma2)
 
 
 #########################

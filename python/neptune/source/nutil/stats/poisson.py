@@ -85,22 +85,22 @@ class Poisson(Distribution):
 	def cdf(self, x):
 		return cdf(x, lam=self.lam)
 
-	def inv_cdf(self, p):
-		return inv_cdf(p, lam=self.lam)
+	def inv_cdf(self, q):
+		return inv_cdf(q, lam=self.lam)
 
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		# Confidence interval
 		if mean or std:
-			q = normal.quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = normal.quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			if mean:
 				return multiply(q / sqrt(self.size), self.std())
 			elif std:
 				return multiply(sqrt((self.size - 1) / q), self.std())
 		# Prediction interval
-		return subtract(interval(p=p, tail=tail, lam=self.lam), self.mean())
+		return subtract(interval(cl=cl, tail=tail, lam=self.lam), self.mean())
 
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(p=p, tail=tail, mean=mean, std=std)
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
 		if std:
 			return add(self.std(), margin)
 		return add(self.mean(), margin)
@@ -127,26 +127,26 @@ def cdf(x, lam=1):
 	return stats.poisson.cdf(x, mu=lam)
 
 
-def inv_cdf(p, lam=1):
-	return stats.poisson.ppf(p, mu=lam)
+def inv_cdf(q, lam=1):
+	return stats.poisson.ppf(q, mu=lam)
 
 
 #########################
 
-def quantile(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, lam=1, std=False):
+def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, lam=1, std=False):
 	if std:
-		return normal.chi2(dof, p=p, tail=tail, sigma=sqrt(lam))
-	return apply(inv_cdf, interval_probability(p=p, tail=tail), lam=lam)
+		return normal.chi2(dof, cl=cl, tail=tail, sigma=sqrt(lam))
+	return interval(cl=cl, tail=tail, lam=lam)
 
 
-def interval(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, lam=1):
-	return apply(inv_cdf, interval_probability(p=p, tail=tail), lam=lam)
+def interval(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, lam=1):
+	return apply(interval_probability(cl=cl, tail=tail), inv_cdf, lam=lam)
 
 
 #########################
 
-def event_interval(k, p=DEFAULT_CONFIDENCE_LEVEL):
-	p = 0.5 + p / 2
-	return to_array(chi2(2 * k, p=p, tail=-1) / 2,
-	                chi2(2 * k + 2, p=p, tail=1) / 2,
+def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL):
+	cl = 0.5 + cl / 2
+	return to_array(chi2(2 * k, cl=cl, tail=-1) / 2,
+	                chi2(2 * k + 2, cl=cl, tail=1) / 2,
 	                type=FLOAT_TYPE)

@@ -1429,7 +1429,7 @@ def get_month_days(year, month):
 
 def get_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_month_start, d)
+		return apply(d, get_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(day=1))
@@ -1437,7 +1437,7 @@ def get_month_start(d=get_datetime()):
 
 def get_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_month_end, d)
+		return apply(d, get_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(day=get_month_days(d.year, d.month)))
@@ -1445,7 +1445,7 @@ def get_month_end(d=get_datetime()):
 
 def get_prev_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_month_start, d)
+		return apply(d, get_prev_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 1:
@@ -1459,7 +1459,7 @@ def get_prev_month_start(d=get_datetime()):
 
 def get_prev_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_month_end, d)
+		return apply(d, get_prev_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 1:
@@ -1473,7 +1473,7 @@ def get_prev_month_end(d=get_datetime()):
 
 def get_next_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_month_start, d)
+		return apply(d, get_next_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 12:
@@ -1487,7 +1487,7 @@ def get_next_month_start(d=get_datetime()):
 
 def get_next_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_month_end, d)
+		return apply(d, get_next_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 12:
@@ -1503,7 +1503,7 @@ def get_next_month_end(d=get_datetime()):
 
 def get_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_quarter_start, d)
+		return apply(d, get_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1519,7 +1519,7 @@ def get_quarter_start(d=get_datetime()):
 
 def get_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_quarter_end, d)
+		return apply(d, get_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1535,7 +1535,7 @@ def get_quarter_end(d=get_datetime()):
 
 def get_prev_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_quarter_start, d)
+		return apply(d, get_prev_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1555,7 +1555,7 @@ def get_prev_quarter_start(d=get_datetime()):
 
 def get_prev_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_quarter_end, d)
+		return apply(d, get_prev_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1575,7 +1575,7 @@ def get_prev_quarter_end(d=get_datetime()):
 
 def get_next_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_quarter_start, d)
+		return apply(d, get_next_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1595,7 +1595,7 @@ def get_next_quarter_start(d=get_datetime()):
 
 def get_next_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_quarter_end, d)
+		return apply(d, get_next_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1617,7 +1617,7 @@ def get_next_quarter_end(d=get_datetime()):
 
 def get_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_semester_start, d)
+		return apply(d, get_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1629,7 +1629,7 @@ def get_semester_start(d=get_datetime()):
 
 def get_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_semester_end, d)
+		return apply(d, get_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1641,7 +1641,7 @@ def get_semester_end(d=get_datetime()):
 
 def get_prev_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_semester_start, d)
+		return apply(d, get_prev_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1655,7 +1655,7 @@ def get_prev_semester_start(d=get_datetime()):
 
 def get_prev_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_semester_end, d)
+		return apply(d, get_prev_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1669,7 +1669,7 @@ def get_prev_semester_end(d=get_datetime()):
 
 def get_next_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_semester_start, d)
+		return apply(d, get_next_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1683,7 +1683,7 @@ def get_next_semester_start(d=get_datetime()):
 
 def get_next_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_semester_end, d)
+		return apply(d, get_next_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1699,7 +1699,7 @@ def get_next_semester_end(d=get_datetime()):
 
 def get_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_year_start, d)
+		return apply(d, get_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(month=1, day=1))
@@ -1707,7 +1707,7 @@ def get_year_start(d=get_datetime()):
 
 def get_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_year_end, d)
+		return apply(d, get_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(month=12, day=31))
@@ -1715,7 +1715,7 @@ def get_year_end(d=get_datetime()):
 
 def get_prev_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_year_start, d)
+		return apply(d, get_prev_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year - 1, month=1, day=1))
@@ -1723,7 +1723,7 @@ def get_prev_year_start(d=get_datetime()):
 
 def get_prev_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_year_end, d)
+		return apply(d, get_prev_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year - 1, month=12, day=31))
@@ -1731,7 +1731,7 @@ def get_prev_year_end(d=get_datetime()):
 
 def get_next_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_year_start, d)
+		return apply(d, get_next_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year + 1, month=1, day=1))
@@ -1739,7 +1739,7 @@ def get_next_year_start(d=get_datetime()):
 
 def get_next_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_year_end, d)
+		return apply(d, get_next_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year + 1, month=12, day=31))
@@ -2062,7 +2062,7 @@ def to_date(x, format=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_date, x, format=format)
+		return apply(x, to_date, format=format)
 	elif is_stamp(x):
 		x = parse_stamp(x)
 		return create_date(x.year, x.month, x.day)
@@ -2080,7 +2080,7 @@ def to_datetime(x, format=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_datetime, x, format=format)
+		return apply(x, to_datetime, format=format)
 	elif is_stamp(x):
 		return parse_stamp(x)
 	elif is_timestamp(x):
@@ -2118,7 +2118,7 @@ def to_stamp(x):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_stamp, x)
+		return apply(x, to_stamp)
 	elif is_stamp(x):
 		return x
 	return to_datetime(x).timestamp()
@@ -2129,7 +2129,7 @@ def to_stamp(x):
 def timestamp_to_type(t, x):
 	"""Converts the specified timestamp to the type of the specified variable."""
 	if is_collection(t):
-		return apply(timestamp_to_type, t, x)
+		return apply(t, timestamp_to_type, x)
 	elif is_stamp(x):
 		return to_stamp(t)
 	elif is_timestamp(x):
@@ -2204,7 +2204,7 @@ def to_bool(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_bool, x)
+		return apply(x, to_bool)
 	return strtobool(str(x))
 
 
@@ -2212,7 +2212,7 @@ def to_int(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_int, x)
+		return apply(x, to_int)
 	return int(x)
 
 
@@ -2220,7 +2220,7 @@ def to_float(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_float, x)
+		return apply(x, to_float)
 	return float(x)
 
 
@@ -2401,7 +2401,7 @@ def generate_string(length, case_sensitive=False, digits=True):
 __COMMON_PROCESSORS_______________________________ = ''
 
 
-def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None, **kwargs):
+def apply(x, f, *args, axis=None, inplace=False, inclusion=None, exclusion=None, **kwargs):
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
@@ -2412,7 +2412,7 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 				chained_assignment = pd.options.mode.chained_assignment
 				pd.options.mode.chained_assignment = None
 				for k in keys:
-					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
+					apply(x.loc[:, k], f, *args, axis=axis, inplace=inplace, **kwargs)
 				pd.options.mode.chained_assignment = chained_assignment
 			elif is_series(x):
 				set_values(x, x.loc[keys].apply(f, args=args, **kwargs), inclusion=keys)
@@ -2450,7 +2450,7 @@ def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 
 
 def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
-	return apply(lambda x: value if condition(x, *args, **kwargs) else x, x, inplace=inplace)
+	return apply(x, lambda x: value if condition(x, *args, **kwargs) else x, inplace=inplace)
 
 
 def fill_null_with(x, value, inplace=False):
@@ -2672,10 +2672,10 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and all_values(apply(f, x, *args, **kwargs)))
+		return c.filter(lambda x: x.name in keys and all_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, fill=False)
-		set_values(mask, get_values(apply(f, c, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		set_values(mask, get_values(apply(c, f, *args, inclusion=keys, **kwargs)), inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_and(mask, axis=1)]
 		return c.loc[mask]
@@ -2692,10 +2692,10 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and all_not_values(apply(f, x, *args, **kwargs)))
+		return c.filter(lambda x: x.name in keys and all_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, fill=False)
-		set_values(mask, invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs))),
+		set_values(mask, invert(get_values(apply(c, f, *args, inclusion=keys, **kwargs))),
 		           inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_and(mask, axis=1)]
@@ -2713,10 +2713,10 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and any_values(apply(f, x, *args, **kwargs)))
+		return c.filter(lambda x: x.name in keys and any_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, fill=False)
-		set_values(mask, get_values(apply(f, c, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		set_values(mask, get_values(apply(c, f, *args, inclusion=keys, **kwargs)), inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
 		return c.loc[mask]
@@ -2733,10 +2733,10 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and any_not_values(apply(f, x, *args, **kwargs)))
+		return c.filter(lambda x: x.name in keys and any_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, fill=False)
-		set_values(mask, invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs))),
+		set_values(mask, invert(get_values(apply(c, f, *args, inclusion=keys, **kwargs))),
 		           inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
@@ -3240,7 +3240,7 @@ def tally(c, boundaries):
 	if is_empty(boundaries):
 		return repeat(0, len(c))
 	tc = c.copy()
-	lower = minimum(tc)
+	lower = minimum(tc, axis=None)
 	for i, upper in enumerate(boundaries):
 		set_values(tc, i, inclusion=where(c, condition=lambda v: lower <= v < upper))
 		lower = upper
@@ -3464,7 +3464,7 @@ def filter_rows_with(df, row, f, *args, **kwargs):
 	row and function for all the specified keys."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_and([apply(f, df[k], v, *args, **kwargs)
+	return df.loc[reduce_and([apply(df[k], f, v, *args, **kwargs)
 	                          for k, v in row.items() if k in df])]
 
 
@@ -3473,7 +3473,7 @@ def filter_rows_not_with(df, row, f, *args, **kwargs):
 	row and function for all the specified keys."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_and([invert(apply(f, df[k], v, *args, **kwargs))
+	return df.loc[reduce_and([invert(apply(df[k], f, v, *args, **kwargs))
 	                          for k, v in row.items() if k in df])]
 
 
@@ -3482,7 +3482,7 @@ def filter_any_rows_with(df, row, f, *args, **kwargs):
 	row and function for at least one specified key."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_or([apply(f, df[k], v, *args, **kwargs)
+	return df.loc[reduce_or([apply(df[k], f, v, *args, **kwargs)
 	                         for k, v in row.items() if k in df])]
 
 
@@ -3491,7 +3491,7 @@ def filter_any_rows_not_with(df, row, f, *args, **kwargs):
 	row and function for at least one specified key."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_or([invert(apply(f, df[k], v, *args, **kwargs))
+	return df.loc[reduce_or([invert(apply(df[k], f, v, *args, **kwargs))
 	                         for k, v in row.items() if k in df])]
 
 
@@ -4210,7 +4210,7 @@ def wrap(content, left, right=None):
 	elif is_null(right):
 		right = left
 	if is_collection(content):
-		return apply(wrap, content, left, right=right)
+		return apply(content, wrap, left, right=right)
 	return collapse(left, content, right)
 
 
@@ -4239,7 +4239,7 @@ def bra(content):
 __THREAD_PROCESSORS_______________________________ = ''
 
 
-def parallelize(f, c, *args, timeout=None, **kwargs):
+def parallelize(c, f, *args, timeout=None, **kwargs):
 	results = []
 	if is_empty(c):
 		return results
@@ -4249,7 +4249,7 @@ def parallelize(f, c, *args, timeout=None, **kwargs):
 		chunk_size = ceil(len(c) / CORE_COUNT)
 		for index_from in range(0, len(c), chunk_size):
 			index_to = min(index_from + chunk_size, len(c))
-			futures.append(executor.submit(f, slice(c, index_from=index_from, index_to=index_to),
+			futures.append(executor.submit(slice(c, index_from=index_from, index_to=index_to), f,
 			                               *args, **kwargs))
 		# Collect the results
 		for future in futures:
@@ -4257,5 +4257,5 @@ def parallelize(f, c, *args, timeout=None, **kwargs):
 	return flatten_list(results, depth=1)
 
 
-def parallelize_apply(f, c, *args, timeout=None, **kwargs):
-	return parallelize(lambda x: apply(f, x, *args, **kwargs), c, timeout=timeout)
+def parallelize_apply(c, f, *args, timeout=None, **kwargs):
+	return parallelize(c, lambda x: apply(x, f, *args, **kwargs), timeout=timeout)

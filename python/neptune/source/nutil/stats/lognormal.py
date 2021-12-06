@@ -92,13 +92,13 @@ class LogNormal(Distribution):
 	def cdf(self, x):
 		return cdf(x, mu=self.mu, sigma=self.sigma)
 
-	def inv_cdf(self, p):
-		return inv_cdf(p, mu=self.mu, sigma=self.sigma)
+	def inv_cdf(self, q):
+		return inv_cdf(q, mu=self.mu, sigma=self.sigma)
 
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		if mean or std:
 			# Confidence interval
-			q = normal.quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = normal.quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			if mean:
 				if self.dof == 0:
 					# Cox's method
@@ -107,13 +107,13 @@ class LogNormal(Distribution):
 				else:
 					# Angus's conservative method
 					if tail == -1:
-						q = t(p=p, tail=-1, dof=self.size - 1)
+						q = t(cl=cl, tail=-1, dof=self.size - 1)
 					elif tail == 1:
-						q = sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, p=p, tail=-1) - 1))
+						q = sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1))
 					elif tail == 2:
-						p = 0.5 + p / 2
-						q = to_array(t(p=p, tail=-1, dof=self.size - 1),
-						             sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, p=p, tail=-1) - 1)),
+						cl = 0.5 + cl / 2
+						q = to_array(t(cl=cl, tail=-1, dof=self.size - 1),
+						             sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1)),
 						             type=FLOAT_TYPE)
 					sigma2 = self.sigma ** 2
 					s = sqrt((sigma2 + sigma2 ** 2 / 2) / self.size)
@@ -121,10 +121,10 @@ class LogNormal(Distribution):
 			elif std:
 				return exp(multiply(sqrt((self.size - 1) / q), self.sigma))
 		# Prediction interval
-		return divide(interval(p=p, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
+		return divide(interval(cl=cl, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
 
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(p=p, tail=tail, mean=mean, std=std)
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
 		if std:
 			return multiply(self.std(), margin)
 		return multiply(self.mean(), margin)
@@ -151,17 +151,17 @@ def cdf(x, mu=0, sigma=1):
 	return stats.lognorm.cdf(x, s=sigma, scale=exp(mu))
 
 
-def inv_cdf(p, mu=0, sigma=1):
-	return stats.lognorm.ppf(p, s=sigma, scale=exp(mu))
+def inv_cdf(q, mu=0, sigma=1):
+	return stats.lognorm.ppf(q, s=sigma, scale=exp(mu))
 
 
 #########################
 
-def quantile(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1, std=False):
+def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1, std=False):
 	if std:
-		return normal.chi2(dof, p=p, tail=tail, sigma=sigma)
-	return apply(inv_cdf, interval_probability(p=p, tail=tail), mu=mu, sigma=sigma)
+		return normal.chi2(dof, cl=cl, tail=tail, sigma=sigma)
+	return interval(cl=cl, tail=tail, mu=mu, sigma=sigma)
 
 
-def interval(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
-	return apply(inv_cdf, interval_probability(p=p, tail=tail), mu=mu, sigma=sigma)
+def interval(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mu=0, sigma=1):
+	return apply(interval_probability(cl=cl, tail=tail), inv_cdf, mu=mu, sigma=sigma)

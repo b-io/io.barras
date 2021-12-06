@@ -88,26 +88,26 @@ class Normal(Distribution):
 	def cdf(self, x):
 		return cdf(x, dof=self.size - 1, mu=self.mu, sigma=self.sigma)
 
-	def inv_cdf(self, p):
-		return inv_cdf(p, dof=self.size - 1, mu=self.mu, sigma=self.sigma)
+	def inv_cdf(self, q):
+		return inv_cdf(q, dof=self.size - 1, mu=self.mu, sigma=self.sigma)
 
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		if mean or std:
 			# Confidence interval
-			q = quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			if mean:
 				return multiply(q / sqrt(self.size), self.std())
 			elif std:
 				return multiply(sqrt((self.size - 1) / q), self.std())
 		if not is_null(self.size):
 			# Prediction interval for unknown mean and variance
-			q = quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			return multiply(sqrt(1 + 1 / self.size) * q, self.std())
 		# Prediction interval
-		return subtract(interval(p=p, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
+		return subtract(interval(cl=cl, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
 
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(p=p, tail=tail, mean=mean, std=std)
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
 		if std:
 			return add(self.std(), margin)
 		return add(self.mean(), margin)
@@ -166,26 +166,26 @@ class NormalKDE(Distribution):
 	def cdf(self, x):
 		return ndtr(np.ravel(x - self.kernel.dataset) / self.kernel.factor).mean()
 
-	def inv_cdf(self, p):
-		return np.quantile(self.series, p)
+	def inv_cdf(self, q):
+		return np.quantile(self.series, q)
 
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		if mean or std:
 			# Confidence interval
-			q = quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			if mean:
 				return multiply(q / sqrt(self.size), self.std())
 			elif std:
 				return multiply(sqrt((self.size - 1) / q), self.std())
 		if not is_null(self.size):
 			# Prediction interval for unknown mean and variance
-			q = quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			return multiply(sqrt(1 + 1 / self.size) * q, self.std())
 		# Prediction interval
-		return subtract(interval(p=p, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
+		return subtract(interval(cl=cl, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
 
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(p=p, tail=tail, mean=mean, std=std)
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
 		if std:
 			return add(self.std(), margin)
 		return add(self.mean(), margin)
@@ -216,21 +216,21 @@ def cdf(x, dof=None, mu=0, sigma=1):
 	return stats.t.cdf(x, df=dof, loc=mu, scale=sigma)
 
 
-def inv_cdf(p, dof=None, mu=0, sigma=1):
+def inv_cdf(q, dof=None, mu=0, sigma=1):
 	if is_null(dof):
-		return stats.norm.ppf(p, loc=mu, scale=sigma)
-	return stats.t.ppf(p, df=dof, loc=mu, scale=sigma)
+		return stats.norm.ppf(q, loc=mu, scale=sigma)
+	return stats.t.ppf(q, df=dof, loc=mu, scale=sigma)
 
 
 #########################
 
-def quantile(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1, std=False):
+def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1, std=False):
 	if std:
-		return chi2(dof, p=p, tail=tail, sigma=sigma)
+		return chi2(dof, cl=cl, tail=tail, sigma=sigma)
 	if is_null(dof):
-		return z(p=p, tail=tail, mu=mu, sigma=sigma)
-	return t(dof, p=p, tail=tail, mu=mu, sigma=sigma)
+		return z(cl=cl, tail=tail, mu=mu, sigma=sigma)
+	return t(dof, cl=cl, tail=tail, mu=mu, sigma=sigma)
 
 
-def interval(p=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1):
-	return apply(inv_cdf, interval_probability(p=p, tail=tail), dof=dof, mu=mu, sigma=sigma)
+def interval(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, mu=0, sigma=1):
+	return apply(interval_probability(cl=cl, tail=tail), inv_cdf, dof=dof, mu=mu, sigma=sigma)
