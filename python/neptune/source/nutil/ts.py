@@ -81,7 +81,7 @@ def find_nearest_group(series, freq=FREQUENCY):
 		return GROUP
 	index = get_index(series)
 	if freq is Frequency.WEEKS:
-		if mode(get_days(index, week=True)) < DAYS_PER_WEEK / 2:
+		if mode(get_weekdays(index)) < DAYS_PER_WEEK / 2:
 			return Group.FIRST
 	elif freq is Frequency.MONTHS:
 		if mode(get_days(index)) < DAYS_PER_MONTH / 2:

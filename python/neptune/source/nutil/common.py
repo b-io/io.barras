@@ -1298,6 +1298,22 @@ def get_days(c, week=False, year=False):
 	return collection_to_type([get_day(d, week=week, year=year) for d in c], c)
 
 
+def get_weekday(d=get_datetime()):
+	return get_day(d, week=True)
+
+
+def get_weekdays(d=get_datetime()):
+	return get_days(d, week=True)
+
+
+def get_weekday_name(d=get_datetime()):
+	return WEEKDAY_NAMES[get_weekday(d)]
+
+
+def get_weekday_names(d=get_datetime()):
+	return apply(get_weekdays(d), lambda d: WEEKDAY_NAMES[d])
+
+
 def get_week(d=get_datetime()):
 	if is_string(d):
 		d = parse_datetime(d)
