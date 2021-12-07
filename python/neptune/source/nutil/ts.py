@@ -199,6 +199,31 @@ def get_moving_average(series, window):
 
 ##################################################
 
+def clean_series(series, group=GROUP):
+	return sort_index(unique(remove_null(series), group=group))
+
+
+def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True,
+                   freq=FREQUENCY, group=GROUP):
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = transform_series(series, freq=freq, group=group)
+	if is_null(date_from):
+		date_from = get_first(series.index)
+	if is_null(date_to):
+		date_to = get_last(series.index)
+	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
+	                               (series.index <= date_to)],
+	                        create_datetime_sequence(date_from, date_to, freq=freq, group=group))
+	set_freq(series, freq=freq, group=group)
+	if fill:
+		series = series.fillna(method='ffill')
+	elif interpolate:
+		series = series.interpolate()
+	return series[series.index >= date_from]
+
+
+#########################
+
 def decompose_series(series, seasonal_period=1, freq=FREQUENCY, group=GROUP):
 	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
 	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
@@ -224,27 +249,6 @@ def forecast_series(series, horizon=1, initialization_method='estimated', trend=
 		prediction = set_names(model.forecast(steps=horizon * seasonal_period_length), s)
 		predictions = concat_cols(predictions, concat_rows(s, prediction))
 	return predictions
-
-
-#########################
-
-def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True,
-                   freq=FREQUENCY, group=GROUP):
-	freq, group = get_freq_group(series, freq=freq, group=group)
-	series = transform_series(series, freq=freq, group=group)
-	if is_null(date_from):
-		date_from = get_first(series.index)
-	if is_null(date_to):
-		date_to = get_last(series.index)
-	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
-	                               (series.index <= date_to)],
-	                        create_datetime_sequence(date_from, date_to, freq=freq, group=group))
-	set_freq(series, freq=freq, group=group)
-	if fill:
-		series = series.fillna(method='ffill')
-	elif interpolate:
-		series = series.interpolate()
-	return series[series.index >= date_from]
 
 
 #########################

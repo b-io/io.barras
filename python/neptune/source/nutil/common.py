@@ -924,6 +924,17 @@ def get_next(c):
 
 #########################
 
+def get_shape(c, inclusion=None, exclusion=None):
+	c = filter(c, inclusion=inclusion, exclusion=exclusion)
+	if is_table(c) or is_array(c):
+		return c.shape
+	elif is_tuple(c):
+		return c
+	return (len(c),)
+
+
+#########################
+
 def get_name(c, inclusion=None, exclusion=None):
 	return simplify(get_names(c, inclusion=inclusion, exclusion=exclusion))
 
@@ -1117,7 +1128,8 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 		new_index = to_list(new_index)
 	if is_table(c):
 		if not is_empty(new_index) and is_tuple(new_index[0]):
-			c.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
+			c.index = pd.MultiIndex.from_tuples(new_index,
+			                                    names=new_index_names[0:len(new_index[0])])
 		else:
 			index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 			rename(c, index=dict(zip(index, new_index)))
@@ -1126,7 +1138,7 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 	return c
 
 
-def set_values(c, new_values, inclusion=None, exclusion=None):
+def set_values(c, new_values, mask=None, inclusion=None, exclusion=None):
 	"""Sets the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
@@ -1138,25 +1150,30 @@ def set_values(c, new_values, inclusion=None, exclusion=None):
 	if is_collection(new_values):
 		new_values = get_values(new_values)
 	else:
+		new_values = create_array(get_shape(c, inclusion=keys), fill=new_values)
+	if not is_null(mask):
 		if is_table(c) or is_array(c):
-			new_values = create_array(c, fill=new_values, size=len(c[keys]))
+			c[mask] = new_values
 		else:
-			new_values = repeat(new_values, len(keys))
-	if is_frame(c):
-		chained_assignment = pd.options.mode.chained_assignment
-		pd.options.mode.chained_assignment = None
-		c.loc[:, keys] = new_values
-		pd.options.mode.chained_assignment = chained_assignment
-	elif is_series(c):
-		chained_assignment = pd.options.mode.chained_assignment
-		pd.options.mode.chained_assignment = None
-		c.loc[keys] = new_values
-		pd.options.mode.chained_assignment = chained_assignment
-	elif is_array(c):
-		c[keys] = new_values
+			for i, k in enumerate(keys):
+				if mask[i]:
+					c[k] = new_values
 	else:
-		for i in range(len(keys)):
-			c[keys[i]] = new_values[i]
+		if is_frame(c):
+			chained_assignment = pd.options.mode.chained_assignment
+			pd.options.mode.chained_assignment = None
+			c.loc[:, keys] = new_values.reshape(count_rows(c), len(keys))
+			pd.options.mode.chained_assignment = chained_assignment
+		elif is_series(c):
+			chained_assignment = pd.options.mode.chained_assignment
+			pd.options.mode.chained_assignment = None
+			c.loc[keys] = new_values
+			pd.options.mode.chained_assignment = chained_assignment
+		elif is_array(c):
+			c[keys] = new_values
+		else:
+			for i in range(len(keys)):
+				c[keys[i]] = new_values[i]
 
 
 # • DATAFRAME ######################################################################################
@@ -1953,9 +1970,9 @@ def uncollect(c):
 
 def collection_to_type(c, x):
 	if is_frame(x):
-		return to_frame(c, names=get_names(x), index=get_index(x))
+		return to_frame(c, names=x, index=x)
 	elif is_series(x):
-		return to_series(c, name=get_names(x), index=get_index(x))
+		return to_series(c, name=x, index=x)
 	elif is_dict(x):
 		return dict(zip(get_keys(x), c))
 	elif is_ordered_set(x):
@@ -2004,7 +2021,7 @@ def to_series(data, name=None, index=None, type=None):
 		series = data.copy()
 	else:
 		if not is_collection(data):
-			data = create_array(len(get_index(index)), fill=data)
+			data = create_array(len(get_index(index)), fill=data, type=type)
 		series = pd.Series(data=data, dtype=type)
 	if not is_null(name):
 		set_names(series, name)
@@ -2037,7 +2054,8 @@ def to_frame(data, names=None, index=None, type=None):
 		frame = pd.DataFrame.from_dict(data, dtype=type, orient='index')
 	else:
 		if not is_collection(data):
-			data = create_array((len(get_index(index)), len(get_names(names))), fill=data)
+			data = create_array((len(get_index(index)), len(get_names(names))), fill=data,
+			                    type=type)
 		frame = pd.DataFrame(data=data, dtype=type)
 	if not is_null(names):
 		set_names(frame, names)
@@ -2282,13 +2300,8 @@ __COMMON_GENERATORS_______________________________ = ''
 __ARRAY_GENERATORS________________________________ = ''
 
 
-def create_array(shape, fill=0, order='C', size=None, type=None):
-	if is_table(shape) or is_array(shape):
-		shape = shape.shape
-	shape = list(shape) if is_tuple(shape) else to_list(shape)
-	if not is_null(size):
-		shape[0] = size
-	return np.full(shape, fill, dtype=type, order=order)
+def create_array(shape, fill=0, order='C', type=None):
+	return np.full(get_shape(shape), fill, dtype=type, order=order)
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -2296,10 +2309,11 @@ def create_array(shape, fill=0, order='C', size=None, type=None):
 __COLLECTION_GENERATORS___________________________ = ''
 
 
-def create_mask(c, fill=False):
-	if is_frame(c):
-		return to_frame(fill, names=c, index=c)
-	return to_series(fill, index=c)
+def create_mask(c, *args, condition=lambda x: True, inclusion=None, exclusion=None, **kwargs):
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	mask = collection_to_type(create_array(c, fill=False, type=BOOL_TYPE), c)
+	set_values(mask, apply(c, condition, *args, inclusion=keys, **kwargs), inclusion=keys)
+	return mask
 
 
 # • DATE ###########################################################################################
@@ -2416,6 +2430,9 @@ def apply(x, f, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 				pd.options.mode.chained_assignment = chained_assignment
 			elif is_series(x):
 				set_values(x, x.loc[keys].apply(f, args=args, **kwargs), inclusion=keys)
+			elif is_array(x):
+				for k in keys:
+					apply(x[k], f, *args, inplace=inplace, **kwargs)
 			else:
 				for k in keys:
 					x[k] = f(x[k], *args, **kwargs)
@@ -2443,6 +2460,10 @@ def apply(x, f, *args, axis=None, inplace=False, inclusion=None, exclusion=None,
 			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
+		elif is_array(x):
+			if is_null(axis):
+				return np.vectorize(lambda x: f(x, *args, **kwargs))(x)
+			return np.apply_along_axis(f, axis, x, *args, **kwargs)
 		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
 		return collapse([f(c, *args, **kwargs) for c in x])
@@ -2674,8 +2695,7 @@ def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and all_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, fill=False)
-		set_values(mask, get_values(apply(c, f, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		mask = create_mask(c, *args, condition=f, inclusion=keys, **kwargs)
 		if is_frame(c):
 			return c.loc[reduce_and(mask, axis=1)]
 		return c.loc[mask]
@@ -2694,9 +2714,7 @@ def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and all_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, fill=False)
-		set_values(mask, invert(get_values(apply(c, f, *args, inclusion=keys, **kwargs))),
-		           inclusion=keys)
+		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_and(mask, axis=1)]
 		return c.loc[mask]
@@ -2715,8 +2733,7 @@ def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and any_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, fill=False)
-		set_values(mask, get_values(apply(c, f, *args, inclusion=keys, **kwargs)), inclusion=keys)
+		mask = create_mask(c, *args, condition=f, inclusion=keys, **kwargs)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
 		return c.loc[mask]
@@ -2735,9 +2752,7 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
 		return c.filter(lambda x: x.name in keys and any_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, fill=False)
-		set_values(mask, invert(get_values(apply(c, f, *args, inclusion=keys, **kwargs))),
-		           inclusion=keys)
+		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), inclusion=keys)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
 		return c.loc[mask]
@@ -3242,17 +3257,17 @@ def tally(c, boundaries):
 	tc = c.copy()
 	lower = minimum(tc, axis=None)
 	for i, upper in enumerate(boundaries):
-		set_values(tc, i, inclusion=where(c, condition=lambda v: lower <= v < upper))
+		set_values(tc, i, mask=create_mask(c, condition=lambda v: lower <= v < upper))
 		lower = upper
-	set_values(tc, i + 1, inclusion=where(c, condition=lambda v: v >= upper))
+	set_values(tc, i + 1, mask=create_mask(c, condition=lambda v: v >= upper))
 	return tc
 
 
 #########################
 
-def unique(c, keep='first'):
+def unique(c, group=GROUP):
 	if is_table(c):
-		return c.loc[invert(c.index.duplicated(keep=keep))]
+		return c.loc[invert(c.index.duplicated(keep='first' if group is Group.FIRST else 'last'))]
 	elif is_dict(c):
 		return c
 	return to_list(dict.fromkeys(c))
