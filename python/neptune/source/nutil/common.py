@@ -330,7 +330,8 @@ DAY_COUNT_FREQUENCY = {FREQUENCY_DAY_COUNT[k]: k for k in FREQUENCY_DAY_COUNT}
 #########################
 
 # The weekdays
-MO, TU, WE, TH, FR, SA, SU = WEEKDAYS = tuple(i for i in range(7))
+MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
+WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 # • FILE ###########################################################################################
 
@@ -1408,9 +1409,9 @@ def get_prev_business_day(d=get_datetime()):
 	if is_string(d):
 		d = parse_datetime(d)
 	day = date.weekday(d)
-	if day is MO:  # Monday
+	if day is MON:  # Monday
 		return d - 3 * DAY
-	elif day is SU:  # Sunday
+	elif day is SUN:  # Sunday
 		return d - 2 * DAY
 	return d - DAY
 
@@ -1419,9 +1420,9 @@ def get_next_business_day(d=get_datetime()):
 	if is_string(d):
 		d = parse_datetime(d)
 	day = date.weekday(d)
-	if day is FR:  # Friday
+	if day is FRI:  # Friday
 		return d + 3 * DAY
-	elif day is SA:  # Saturday
+	elif day is SAT:  # Saturday
 		return d + 2 * DAY
 	return d + DAY
 
@@ -1848,7 +1849,7 @@ def get_freq(freq=FREQUENCY, group=GROUP):
 		if freq is Frequency.DAYS:
 			pass
 		elif freq is Frequency.WEEKS:
-			f += '-MON'
+			f += '-' + WEEKDAY_NAMES[MON]
 		else:
 			f += 'S'
 	return f
