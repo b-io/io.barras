@@ -36,7 +36,6 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import *
 from distutils.util import *
 from enum import Enum
-from io import StringIO
 from pstats import SortKey
 from urllib.request import urlopen
 
@@ -1033,6 +1032,8 @@ def get_items(c, inclusion=None, exclusion=None):
 		if is_table(c) or is_dict(c):
 			return c.items()
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return []
 	if is_group(c):
 		if c.axis == 0:
 			return [(k, include(v, keys)) for k, v in c]
@@ -1053,6 +1054,8 @@ def get_values(c, type=None, inclusion=None, exclusion=None):
 	elif not is_collection(c):
 		return to_array(c, type=type)
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return to_array(type=type)
 	if is_group(c):
 		if c.axis == 0:
 			return to_array([include(v, keys).values for k, v in c], type=type)
@@ -1090,13 +1093,15 @@ def set_keys(c, new_keys, inclusion=None, exclusion=None):
 	inclusive list and are not in the specified exclusive list."""
 	if is_empty(c):
 		return c
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(new_keys):
 		new_keys = get_keys(new_keys)
 	else:
 		new_keys = to_ordered_set(new_keys)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_frame(c):
 		c.loc[:, keys].columns = new_keys
 	elif is_series(c):
@@ -1145,9 +1150,11 @@ def set_values(c, new_values, mask=None, inclusion=None, exclusion=None):
 	list."""
 	if is_empty(c):
 		return c
+	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_collection(new_values):
 		new_values = get_values(new_values)
 	else:
@@ -1175,6 +1182,7 @@ def set_values(c, new_values, mask=None, inclusion=None, exclusion=None):
 		else:
 			for i in range(len(keys)):
 				c[keys[i]] = new_values[i]
+	return c
 
 
 # • DATAFRAME ######################################################################################
@@ -2328,7 +2336,7 @@ __COLLECTION_GENERATORS___________________________ = ''
 
 def create_mask(c, *args, condition=lambda x: True, inclusion=None, exclusion=None, **kwargs):
 	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
-	mask = collection_to_type(create_array(c, fill=False, type=BOOL_TYPE), c)
+	mask = collection_to_type(create_array(c, fill=True, type=BOOL_TYPE), c)
 	set_values(mask, apply(c, condition, *args, inclusion=keys, **kwargs), inclusion=keys)
 	return mask
 
