@@ -1135,8 +1135,8 @@ def set_index(c, new_index, inclusion=None, exclusion=None):
 		new_index = to_list(new_index)
 	if is_table(c):
 		if not is_empty(new_index) and is_tuple(new_index[0]):
-			c.index = pd.MultiIndex.from_tuples(new_index,
-			                                    names=new_index_names[0:len(new_index[0])])
+			new_index_names = resize_list(new_index_names, len(new_index[0]))
+			c.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
 		else:
 			index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 			rename(c, index=dict(zip(index, new_index)))
@@ -4026,6 +4026,17 @@ def find_last_not_with(l, f, *args, **kwargs):
 def mask_list(l, mask):
 	"""Returns the values of the specified list that are True in the specified mask."""
 	return [v for i, v in enumerate(l) if mask[i]]
+
+
+#########################
+
+def resize_list(l, size, left=False, value=None):
+	if len(l) < size:
+		values = repeat(value, size - len(l))
+		if left:
+			return values + l
+		return l + values
+	return l[0:size]
 
 
 #########################
