@@ -950,8 +950,6 @@ def get_names(c, inclusion=None, exclusion=None):
 	"""Returns the names of the specified collection."""
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
-		return []
 	if is_table(inclusion):
 		inclusion = get_names(inclusion)
 	if is_table(exclusion):
@@ -1014,8 +1012,6 @@ def get_index(c, inclusion=None, exclusion=None):
 	specified inclusive list and are not in the specified exclusive list."""
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
-	if is_empty(c):
-		return []
 	if is_table(inclusion):
 		inclusion = get_index(inclusion)
 	if is_table(exclusion):
@@ -1099,6 +1095,8 @@ def set_names(c, new_names):
 		new_names = get_names(new_names)
 	else:
 		new_names = to_list(new_names)
+	if is_empty(new_names):
+		return c
 	if is_frame(c):
 		c.columns = new_names
 	elif is_series(c):
@@ -1123,6 +1121,8 @@ def set_keys(c, new_keys, keys=None, inclusion=None, exclusion=None):
 		new_keys = get_keys(new_keys)
 	else:
 		new_keys = to_ordered_set(new_keys)
+	if is_empty(new_keys):
+		return c
 	if is_frame(c):
 		c.loc[:, keys].columns = new_keys
 	elif is_series(c):
@@ -1153,6 +1153,8 @@ def set_index(c, new_index):
 	else:
 		new_index_names = get_names(new_index)
 		new_index = to_list(new_index)
+	if is_empty(new_index):
+		return c
 	if is_table(c):
 		if not is_empty(new_index) and is_tuple(new_index[0]):
 			new_index_names = resize_list(new_index_names, len(new_index[0]))
@@ -1181,6 +1183,8 @@ def set_values(c, new_values, mask=None, keys=None, inclusion=None, exclusion=No
 		new_values = get_values(new_values)
 	else:
 		new_values = create_array(get_shape(c, keys=keys), fill=new_values)
+	if is_empty(new_values):
+		return c
 	if not is_null(mask):
 		if is_table(c) or is_array(c):
 			c[mask] = new_values
