@@ -2652,6 +2652,8 @@ def concat(c1, c2):
 
 def fill_null(c, numeric_default=None, object_default=None, keys=None, inclusion=None,
               exclusion=None):
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	for k in keys:
@@ -3259,6 +3261,8 @@ def slice(c, index_from=None, index_to=None):
 
 def sort(c, ascending=True, by=None, inplace=False, axis=0):
 	"""Sorts the values of the specified collection."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_frame(c):
 		return c.sort_values(get_keys(c, inclusion=by), ascending=ascending, inplace=inplace,
 		                     axis=axis)
