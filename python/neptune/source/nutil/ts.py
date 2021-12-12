@@ -14,6 +14,12 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+from statistics import mode
+
+from statsmodels.tsa.api import ExponentialSmoothing
+from statsmodels.tsa.seasonal import STL
+
+from nutil.gui import *
 from nutil.math import *
 
 ####################################################################################################
@@ -37,53 +43,13 @@ class Transformation(Enum):
 __TIME_SERIES_____________________________________ = ''
 
 
-def is_time_series(series):
-	return is_table(series) and isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
+def get_freq_group(series, freq=FREQUENCY, group=GROUP):
+	if is_null(freq):
+		freq = find_nearest_freq(series)
+	if is_null(group):
+		group = find_nearest_group(series, freq=freq)
+	return freq, group
 
-
-##################################################
-
-def get_diff(series, periods=1):
-	if is_table(series):
-		return remove_null(series.diff(periods=periods))
-	return to_array(series[periods:]) - to_array(series[:-periods])
-
-
-def cum_diff(series, offset):
-	series = concat(offset, series)
-	if is_table(series):
-		return series.cumsum()
-	return np.cumsum(series)
-
-
-def get_returns(series, periods=1):
-	if is_table(series):
-		return remove_null(series.pct_change(periods=periods))
-	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
-
-
-def cum_returns(series, offset):
-	series = concat(offset, series + 1)
-	if is_table(series):
-		return series.cumprod()
-	return np.cumprod(series)
-
-
-def get_log_returns(series, periods=1):
-	return log(get_returns(series, periods=periods) + 1)
-
-
-def cum_log_returns(series, offset):
-	return cum_returns(exp(series) - 1, offset)
-
-
-#########################
-
-def get_moving_average(series, window):
-	return remove_null(series.rolling(window).mean())
-
-
-#########################
 
 def get_average_freq_days(series):
 	return np.diff(series.index).mean() / np.timedelta64(1, 'D')
@@ -91,21 +57,12 @@ def get_average_freq_days(series):
 
 ##################################################
 
-def prepare_series(series, date_from=None, date_to=None, fill=True, freq=FREQUENCY, group=GROUP):
-	series = transform_series(series, freq=freq, group=group)
-	if is_null(date_from):
-		date_from = get_first(series.index)
-	if is_null(date_to):
-		date_to = get_last(series.index)
-	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
-	                               (series.index <= date_to)],
-	                        create_datetime_sequence(date_from, date_to, freq=freq))
-	if fill:
-		series = series.fillna(method='ffill')
-	return series[series.index >= date_from]
+def set_freq(series, freq=FREQUENCY, group=GROUP):
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series.index.freq = get_freq(freq=freq, group=group)
 
 
-#########################
+##################################################
 
 def find_nearest_freq(series):
 	return find_nearest_freq_from_days(get_average_freq_days(series))
@@ -117,6 +74,34 @@ def find_nearest_freq_from_days(n):
 
 def find_nearest_freq_from_period(period=PERIOD):
 	return find_nearest_freq_from_days(get_period_days(None, period=period))
+
+
+def find_nearest_group(series, freq=FREQUENCY):
+	if is_null(series) or freq is Frequency.DAYS:
+		return GROUP
+	index = get_index(series)
+	if freq is Frequency.WEEKS:
+		if mode(get_weekdays(index)) < DAYS_PER_WEEK / 2:
+			return Group.FIRST
+	elif freq is Frequency.MONTHS:
+		if mode(get_days(index)) < DAYS_PER_MONTH / 2:
+			return Group.FIRST
+	elif freq is Frequency.QUARTERS:
+		if mode(get_days(index), year=True) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
+			return Group.FIRST
+	elif freq is Frequency.SEMESTERS:
+		if mode(get_days(index), year=True) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
+			return Group.FIRST
+	elif freq is Frequency.YEARS:
+		if mode(get_days(index), year=True) < DAYS_PER_YEAR / 2:
+			return Group.FIRST
+	return Group.LAST
+
+
+def find_nearest_freq_group(series):
+	freq = find_nearest_freq(series)
+	group = find_nearest_group(series, freq=freq)
+	return freq, group
 
 
 #########################
@@ -167,13 +152,116 @@ def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
 	return series
 
 
+# • TIME SERIES TRANSFORMATION #####################################################################
+
+__TIME_SERIES_TRANSFORMATION______________________ = ''
+
+
+def get_diff(series, periods=1):
+	if is_table(series):
+		return remove_null(series.diff(periods=periods))
+	return to_array(series[periods:]) - to_array(series[:-periods])
+
+
+def cum_diff(series, offset):
+	series = concat(offset, series)
+	if is_table(series):
+		return series.cumsum()
+	return np.cumsum(series)
+
+
+def get_returns(series, periods=1):
+	if is_table(series):
+		return remove_null(series.pct_change(periods=periods))
+	return to_array(series[periods:]) / to_array(series[:-periods]) - 1
+
+
+def cum_returns(series, offset):
+	series = concat(offset, series + 1)
+	if is_table(series):
+		return series.cumprod()
+	return np.cumprod(series)
+
+
+def get_log_returns(series, periods=1):
+	return log(get_returns(series, periods=periods) + 1)
+
+
+def cum_log_returns(series, offset):
+	return cum_returns(exp(series) - 1, offset)
+
+
 #########################
 
-def transform_series(series, clean=True, freq=FREQUENCY, group=GROUP, transformation=None):
+def get_moving_average(series, window):
+	return remove_null(series.rolling(window).mean())
+
+
+##################################################
+
+def clean_series(series, group=GROUP):
+	return sort_index(unique(remove_null(series), group=group))
+
+
+def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True,
+                   freq=FREQUENCY, group=GROUP):
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = transform_series(series, freq=freq, group=group)
+	if is_null(date_from):
+		date_from = get_first(series.index)
+	if is_null(date_to):
+		date_to = get_last(series.index)
+	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
+	                               (series.index <= date_to)],
+	                        create_datetime_sequence(date_from, date_to, freq=freq, group=group))
+	set_freq(series, freq=freq, group=group)
+	if fill:
+		series = series.fillna(method='ffill')
+	elif interpolate:
+		series = series.interpolate()
+	return series[series.index >= date_from]
+
+
+#########################
+
+def decompose_series(series, seasonal_period=1, freq=FREQUENCY, group=GROUP):
+	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
+	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
+	I. Terpenning (1990)."""
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = prepare_series(series, freq=freq, group=group)
+	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
+	return STL(series, period=seasonal_period_length).fit()
+
+
+#########################
+
+def forecast_series(series, horizon=1, initialization_method='estimated', trend='add',
+                    seasonal='add', seasonal_period=1, freq=FREQUENCY, group=GROUP):
+	"""Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
+	freq, group = get_freq_group(series, freq=freq, group=group)
+	series = prepare_series(series, freq=freq, group=group)
+	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
+	predictions = to_frame([])
+	for s in to_series(series) if is_frame(series) else [series]:
+		model = ExponentialSmoothing(s, initialization_method=initialization_method, trend=trend,
+		                             seasonal=seasonal, seasonal_periods=seasonal_period_length).fit()
+		prediction = set_names(model.forecast(steps=horizon * seasonal_period_length), s)
+		predictions = concat_cols(predictions, concat_rows(s, prediction))
+	return predictions
+
+
+#########################
+
+def transform_series(series, clean=True, sort=True, freq=FREQUENCY, group=GROUP,
+                     transformation=None):
 	if clean:
 		series = remove_null(series)
+	if sort:
+		series = sort_index(series)
 	if is_empty(series):
 		return series
+	freq, group = get_freq_group(series, freq=freq, group=group)
 	series = group_series(series, freq=freq)
 	if group is Group.COUNT:
 		series = series.count()
@@ -221,3 +309,43 @@ def untransform_series(series, offset, clean=True, transformation=None):
 	elif transformation is Transformation.LOG_RETURNS:
 		return cum_log_returns(series, offset)
 	return series
+
+
+# • TIME SERIES FIGURE #############################################################################
+
+__TIME_SERIES_FIGURE______________________________ = ''
+
+
+def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, fill='none',
+                index=None, mode='lines', opacity=1, show_date=False, show_legend=True,
+                show_name=True, size=4, stackgroup=None, width=2, yaxis=0):
+	if is_null(fig):
+		fig = create_figure(title=title, title_x='Time')
+	colors = get_iterator(to_list(colors), cycle=True)
+	for s in to_series(series) if is_frame(series) else [series]:
+		fig.add_trace(draw(x=get_index(s), y=get_col(s),
+		                   color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
+		                   name=get_name(s), opacity=opacity, show_date=show_date,
+		                   show_legend=show_legend, show_name=show_name, size=size,
+		                   stackgroup=stackgroup, width=width, yaxis=yaxis))
+	return fig
+
+
+def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Trend Decomposition',
+                       name=None, color='black', trend_color='red', seasonal_color='gray',
+                       residual_color='lightgray', show_legend=False, width=2, yaxis=0):
+	if is_null(fig):
+		fig = create_figure(title=title, title_x='Time')
+	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='none',
+	                   name=paste(name, '(Trend Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal), color=seasonal_color, fill='tonexty',
+	                   name=paste(name, '(Seasonal Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
+	fig.add_trace(draw(x=residual.index, y=get_col(residual), color=residual_color, fill='tonexty',
+	                   name=paste(name, '(Residual Component)'), show_legend=show_legend,
+	                   stackgroup='one', width=width, yaxis=yaxis))
+	series = trend + seasonal + residual
+	fig.add_trace(draw(x=series.index, y=get_col(series), color=color, name=name, width=width,
+	                   yaxis=yaxis))
+	return fig

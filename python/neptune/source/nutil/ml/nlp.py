@@ -15,10 +15,10 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
-from nutil.common import *
-from nutil.ml.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
+
+from nutil.ml.common import *
 
 ####################################################################################################
 # NLP CONSTANTS
@@ -37,26 +37,27 @@ __NLP_CLASSES_____________________________________ = ''
 
 class GloVe:
 	"""
-	Global Vectors for Word Representation (GloVe) by Jeffrey Pennington, Richard Socher, and
-	Christopher D. Manning (2014).
+	A handler for Global Vectors for Word Representation (GloVe) of Jeffrey Pennington, Richard
+	Socher, and Christopher D. Manning (2014).
 	"""
 
-	def __init__(self, path=None, size=None):
+	def __init__(self, path=None, size=None, verbose=VERBOSE, verbose_interval=100000):
 		"""
-		Constructs a GloVe containing a vocabulary of words and their pre-trained word vectors.
+		Constructs a handler for Global Vectors for Word Representation (GloVe) containing a
+		vocabulary of words and their pre-trained word vectors.
 
 		:param path: the path to the file containing the vocabulary words and their pre-trained word
 		             vectors
 		:param size: the size of the word vectors
 		"""
-		self.vocabulary = list()
+		self.vocabulary = []
 		self.word_to_vector = {}  # the dictionary mapping every vocabulary word to its word vector
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
 		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word
 		self.size = size
 
 		if not is_null(path):
-			self.load(path, size=size)
+			self.load(path, size=size, verbose=verbose, verbose_interval=verbose_interval)
 
 	##############################################
 
@@ -99,7 +100,6 @@ class GloVe:
 
 		:return: an embedding layer using the pre-trained word vectors
 		"""
-
 		# Initialize the embedding matrix
 		vocabulary_size = len(self.vocabulary) + 1  # add 1 to fit Keras embedding (requirement)
 		embedding_size = self.get_size()
@@ -180,7 +180,7 @@ class GloVe:
 					      'from', i + 1, 'to', i + verbose_interval, '...')
 				word = paste(line[:-size])
 				self.vocabulary.append(word)
-				self.word_to_vector[word] = np.array(line[-size:], dtype=FLOAT_TYPE)
+				self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_TYPE)
 				i += 1
 		# Create the dictionary mapping every vocabulary word to its index, and vice versa
 		sort(self.vocabulary, inplace=True)

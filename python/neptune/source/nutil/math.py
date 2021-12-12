@@ -75,7 +75,7 @@ def sqrt(x):
 
 def scale(x, base=10):
 	if is_collection(x):
-		return apply(scale, x, axis=1, base=base)
+		return apply(x, scale, axis=1, base=base)
 	return x / base ** floor(log(maximum(abs(x)) + EPS) / log(base))
 
 
