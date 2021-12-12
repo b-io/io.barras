@@ -39,13 +39,13 @@ DEFAULT_DB_MSSQL = DEFAULT_DB == 'mssql'
 if not exists('DEFAULT_SCHEMA'):
 	DEFAULT_SCHEMA = 'dbo'
 
-##################################################
+#########################
 
 # The default chunk size
 if not exists('DEFAULT_CHUNK_SIZE'):
 	DEFAULT_CHUNK_SIZE = 1000
 
-##################################################
+#########################
 
 # The default debug frequency
 if not exists('DEFAULT_DEBUG_FREQUENCY'):
@@ -169,7 +169,7 @@ def format(value, mssql=DEFAULT_DB_MSSQL):
 	if is_null(value):
 		return 'NULL'
 	elif is_collection(value):
-		return par(collist(apply(format, value, mssql=mssql)))
+		return par(collist(apply(value, format, mssql=mssql)))
 	elif is_bool(value):
 		if mssql:
 			return 1 if value else 0

@@ -89,22 +89,22 @@ class Binomial(Distribution):
 	def cdf(self, x):
 		return cdf(x, n=self.n, p=self.p)
 
-	def inv_cdf(self, p):
-		return inv_cdf(p, n=self.n, p=self.p)
+	def inv_cdf(self, q):
+		return inv_cdf(q, n=self.n, p=self.p)
 
-	def margin(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
 		# Confidence interval
 		if mean or std:
-			q = normal.quantile(p=p, tail=tail, dof=self.size - 1, std=std)
+			q = normal.quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
 			if mean:
 				return multiply(q / sqrt(self.size), self.std())
 			elif std:
 				return multiply(sqrt((self.size - 1) / q), self.std())
 		# Prediction interval
-		return subtract(interval(probability=p, tail=tail, n=self.n, p=self.p), self.mean())
+		return subtract(interval(cl=cl, tail=tail, n=self.n, p=self.p), self.mean())
 
-	def interval(self, p=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(p=p, tail=tail, mean=mean, std=std)
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
 		if std:
 			return add(self.std(), margin)
 		return add(self.mean(), margin)
@@ -131,25 +131,26 @@ def cdf(x, n=1, p=0.5):
 	return stats.binom.cdf(x, n=n, p=p)
 
 
-def inv_cdf(probability, n=1, p=0.5):
-	return stats.binom.ppf(probability, n=n, p=p)
+def inv_cdf(q, n=1, p=0.5):
+	return stats.binom.ppf(q, n=n, p=p)
 
 
 #########################
 
-def quantile(probability=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, n=1, p=0.5, std=False):
+def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, n=1, p=0.5, std=False):
 	if std:
-		return normal.chi2(dof, p=probability, tail=tail, sigma=sqrt(n * p * (1 - p)))
-	return apply(inv_cdf, interval_probability(p=probability, tail=tail), n=n, p=p)
+		return normal.chi2(dof, cl=cl, tail=tail, sigma=sqrt(n * p * (1 - p)))
+	return interval(cl=cl, tail=tail, n=n, p=p)
 
 
-def interval(probability=DEFAULT_CONFIDENCE_LEVEL, tail=2, n=1, p=0.5):
-	return apply(inv_cdf, interval_probability(p=probability, tail=tail), n=n, p=p)
+def interval(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, n=1, p=0.5):
+	return apply(interval_probability(cl=cl, tail=tail), inv_cdf, n=n, p=p)
 
 
 #########################
 
-def event_interval(k, probability=DEFAULT_CONFIDENCE_LEVEL, n=1):
-	p = 0.5 + probability / 2
-	return to_array(1 / (1 + (n - k + 1) / (k * f(2 * k, 2 * (n - k + 1), p=p, tail=-1))),
-	                1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), p=p, tail=1))))
+def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL, n=1):
+	cl = 0.5 + cl / 2
+	return to_array(1 / (1 + (n - k + 1) / (k * f(2 * k, 2 * (n - k + 1), cl=cl, tail=-1))),
+	                1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), cl=cl, tail=1))),
+	                type=FLOAT_TYPE)

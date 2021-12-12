@@ -17,6 +17,7 @@
 import cProfile
 import functools
 import inspect
+import itertools
 import json
 import multiprocessing as mp
 import numbers
@@ -31,6 +32,7 @@ import sys
 import warnings
 from calendar import monthrange
 from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
+from concurrent.futures import ThreadPoolExecutor
 from datetime import *
 from distutils.util import *
 from enum import Enum
@@ -208,11 +210,13 @@ class OrderedSet(MutableSet, Sequence):
 __COMMON_CONSTANTS________________________________ = ''
 
 BIT_COUNT = 8 * struct.calcsize('P')
+BOOL_TYPE = np.bool8
 FLOAT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
 INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
 UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
+OBJECT_TYPE = object
 
-##################################################
+#########################
 
 CORE_COUNT = mp.cpu_count()
 
@@ -326,7 +330,8 @@ DAY_COUNT_FREQUENCY = {FREQUENCY_DAY_COUNT[k]: k for k in FREQUENCY_DAY_COUNT}
 #########################
 
 # The weekdays
-MO, TU, WE, TH, FR, SA, SU = WEEKDAYS = tuple(i for i in range(7))
+MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
+WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
 # • FILE ###########################################################################################
 
@@ -342,7 +347,7 @@ DEFAULT_RES_DIR = 'resources'
 
 __NUMBER_CONSTANTS________________________________ = ''
 
-EPS = np.finfo(float).eps
+EPS = np.finfo(FLOAT_TYPE).eps
 INF = np.inf
 NAN = np.nan
 
@@ -453,6 +458,12 @@ def is_collection(x):
 	return is_iterable(x) and not is_string(x) and not is_tuple(x)
 
 
+##################################################
+
+def has_filter(keys=None, inclusion=None, exclusion=None):
+	return not is_null(keys) or not is_null(inclusion) or not is_empty(exclusion)
+
+
 # • DATAFRAME ######################################################################################
 
 __DATAFRAME_VERIFIERS_____________________________ = ''
@@ -473,6 +484,12 @@ def is_frame(x):
 def is_group(x):
 	return isinstance(x, pd.core.groupby.generic.SeriesGroupBy) or \
 	       isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+
+
+#########################
+
+def is_time_series(series):
+	return is_table(series) and isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
 
 
 # • DATE ###########################################################################################
@@ -669,14 +686,14 @@ def read_json(path, encoding=None):
 
 
 def read_csv(path, encoding=None,
-             delimiter=',', dtype=None,
+             delimiter=',', type=None,
              na_values=None, keep_default_na=False, na_filter=True,
              parse_dates=True, date_parser=None, infer_datetime_format=True, keep_date_col=True,
              verbose=False):
 	if is_null(na_values):
 		na_values = ['']
 	return pd.read_csv(path, encoding=encoding,
-	                   delimiter=delimiter, dtype=dtype,
+	                   delimiter=delimiter, dtype=type,
 	                   na_values=na_values, keep_default_na=keep_default_na, na_filter=na_filter,
 	                   parse_dates=parse_dates, date_parser=date_parser,
 	                   infer_datetime_format=infer_datetime_format, keep_date_col=keep_date_col,
@@ -900,10 +917,27 @@ def get_last(c, axis=0):
 	return get(c, index=-1, axis=axis)
 
 
+def get_iterator(c, cycle=False):
+	if cycle:
+		return itertools.cycle(c)
+	return iter(c)
+
+
 def get_next(c):
 	if not is_collection(c):
 		return c
-	return next(iter(c))
+	return next(get_iterator(c))
+
+
+#########################
+
+def get_shape(c, keys=None, inclusion=None, exclusion=None):
+	c = filter(c, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	if is_table(c) or is_array(c):
+		return c.shape
+	elif is_tuple(c):
+		return c
+	return (len(c),)
 
 
 #########################
@@ -914,8 +948,6 @@ def get_name(c, inclusion=None, exclusion=None):
 
 def get_names(c, inclusion=None, exclusion=None):
 	"""Returns the names of the specified collection."""
-	if is_empty(c):
-		return []
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(inclusion):
@@ -931,6 +963,17 @@ def get_names(c, inclusion=None, exclusion=None):
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
 
 
+def get_all_common_names(*args, inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_common_names(c1, c2, inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def get_common_names(c1, c2, inclusion=None, exclusion=None):
+	"""Returns the common names of the specified collections that are in the specified inclusive
+	list and are not in the specified exclusive list."""
+	return get_names(c1, inclusion=include_list(inclusion, get_names(c2)), exclusion=exclusion)
+
+
 def get_key(c, inclusion=None, exclusion=None):
 	return simplify(get_keys(c, inclusion=inclusion, exclusion=exclusion))
 
@@ -938,10 +981,10 @@ def get_key(c, inclusion=None, exclusion=None):
 def get_keys(c, inclusion=None, exclusion=None):
 	"""Returns the keys (indices/keys/names) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
-	if is_empty(c):
-		return OrderedSet()
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c):
+		return OrderedSet()
 	if is_table(inclusion):
 		inclusion = get_keys(inclusion)
 	if is_table(exclusion):
@@ -961,14 +1004,12 @@ def get_all_common_keys(*args, inclusion=None, exclusion=None):
 def get_common_keys(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common keys (indices/keys/names) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
+	return get_keys(c1, inclusion=include_list(inclusion, get_keys(c2)), exclusion=exclusion)
 
 
 def get_index(c, inclusion=None, exclusion=None):
 	"""Returns the index (indices/keys/index) of the specified collection that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	if is_empty(c):
-		return []
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_table(inclusion):
@@ -988,23 +1029,26 @@ def get_all_common_index(*args, inclusion=None, exclusion=None):
 def get_common_index(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common index (indices/keys/index) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_index(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
+	return get_index(c1, inclusion=include_list(inclusion, get_index(c2)), exclusion=exclusion)
 
 
-def get_item(c, inclusion=None, exclusion=None):
-	return simplify(get_items(c, inclusion=inclusion, exclusion=exclusion))
+def get_item(c, keys=None, inclusion=None, exclusion=None):
+	return simplify(get_items(c, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_items(c, inclusion=None, exclusion=None):
+def get_items(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the items (values/entries/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
 	if is_empty(c):
 		return []
-	if is_null(inclusion) and is_empty(exclusion):
-		if is_table(c) or is_dict(c):
+	if not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
+		if is_table(c) and not is_group(c) or is_dict(c):
 			return c.items()
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return []
 	if is_group(c):
 		if c.axis == 0:
 			return [(k, include(v, keys)) for k, v in c]
@@ -1012,42 +1056,47 @@ def get_items(c, inclusion=None, exclusion=None):
 	return [(k, c[k]) for k in keys]
 
 
-def get_value(c, inclusion=None, exclusion=None):
-	return simplify(get_values(c, inclusion=inclusion, exclusion=exclusion))
+def get_value(c, type=None, keys=None, inclusion=None, exclusion=None):
+	return simplify(get_values(c, type=type, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_values(c, inclusion=None, exclusion=None):
+def get_values(c, type=None, keys=None, inclusion=None, exclusion=None):
 	"""Returns the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
 	if is_empty(c):
-		return np.array([])
+		return to_array(type=type)
 	elif not is_collection(c):
-		return to_array(c)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+		return to_array(c, type=type)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return to_array(type=type)
 	if is_group(c):
 		if c.axis == 0:
-			return to_array([include(v, keys).values for k, v in c])
-		return to_array([v.values for k, v in c if k in keys])
+			return to_array([include(v, keys).values for k, v in c], type=type)
+		return to_array([v.values for k, v in c if k in keys], type=type)
 	elif is_table(c):
 		return include(c, keys).values
 	elif is_array(c):
-		return c[to_list(keys)]
-	return to_array([c[k] for k in keys])
+		return c[keys]
+	return to_array([c[k] for k in keys], type=type)
 
 
 ##################################################
 
 def set_names(c, new_names):
 	"""Sets the names of the specified collection."""
-	if is_empty(c):
-		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c):
+		return c
 	if is_table(new_names):
 		new_names = get_names(new_names)
 	else:
 		new_names = to_list(new_names)
+	if is_empty(new_names):
+		return c
 	if is_frame(c):
 		c.columns = new_names
 	elif is_series(c):
@@ -1057,87 +1106,109 @@ def set_names(c, new_names):
 	return c
 
 
-def set_keys(c, new_keys, inclusion=None, exclusion=None):
+def set_keys(c, new_keys, keys=None, inclusion=None, exclusion=None):
 	"""Sets the keys (indices/keys/names) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
-	if is_empty(c):
-		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c):
+		return c
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c
 	if is_table(new_keys):
 		new_keys = get_keys(new_keys)
 	else:
 		new_keys = to_ordered_set(new_keys)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(new_keys):
+		return c
 	if is_frame(c):
 		c.loc[:, keys].columns = new_keys
 	elif is_series(c):
-		set_index(c, new_keys, inclusion=inclusion, exclusion=exclusion)
+		set_index(c, new_keys)
 	elif is_dict(c):
 		d = c.copy()
 		for key, new_key in zip(keys, new_keys):
 			d[new_key] = c.pop(key)
-		update(c, d, inclusion=new_keys)
+		update(c, d, keys=new_keys)
 	else:
 		l = c.copy()
 		for key, new_key in zip(keys, new_keys):
 			l[new_key] = c[key]
-		update(c, l, inclusion=new_keys)
+		update(c, l, keys=new_keys)
 	return c
 
 
-def set_index(c, new_index, inclusion=None, exclusion=None):
+def set_index(c, new_index):
 	"""Sets the index (indices/keys/index) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
-	if is_empty(c):
-		return c
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
+	if is_empty(c):
+		return c
 	if is_table(new_index):
 		new_index_names = get_names(new_index.index)
 		new_index = get_index(new_index)
 	else:
 		new_index_names = get_names(new_index)
 		new_index = to_list(new_index)
+	if is_empty(new_index):
+		return c
 	if is_table(c):
 		if not is_empty(new_index) and is_tuple(new_index[0]):
+			new_index_names = resize_list(new_index_names, len(new_index[0]))
 			c.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
 		else:
-			index = get_index(c, inclusion=inclusion, exclusion=exclusion)
+			index = get_index(c)
 			rename(c, index=dict(zip(index, new_index)))
 	else:
-		set_keys(c, new_index, inclusion=inclusion, exclusion=exclusion)
+		set_keys(c, new_index)
 	return c
 
 
-def set_values(c, new_values, inclusion=None, exclusion=None):
+def set_values(c, new_values, mask=None, keys=None, inclusion=None, exclusion=None):
 	"""Sets the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
-	if is_empty(c):
-		return c
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_table(new_values):
+	if is_empty(c):
+		return c
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c
+	if is_collection(new_values):
 		new_values = get_values(new_values)
 	else:
-		new_values = to_list(new_values)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
-	if is_frame(c):
-		chained_assignment = pd.options.mode.chained_assignment
-		pd.options.mode.chained_assignment = None
-		c.loc[:, keys] = new_values
-		pd.options.mode.chained_assignment = chained_assignment
-	elif is_series(c):
-		chained_assignment = pd.options.mode.chained_assignment
-		pd.options.mode.chained_assignment = None
-		c.loc[keys] = new_values
-		pd.options.mode.chained_assignment = chained_assignment
-	elif is_array(c):
-		c[to_list(keys)] = new_values
+		new_values = create_array(get_shape(c, keys=keys), fill=new_values)
+	if is_empty(new_values):
+		return c
+	if not is_null(mask):
+		if is_table(c) or is_array(c):
+			c[mask] = new_values
+		else:
+			for i, k in enumerate(keys):
+				if mask[i]:
+					c[k] = new_values
 	else:
-		for i in range(len(keys)):
-			c[keys[i]] = new_values[i]
+		if is_frame(c):
+			chained_assignment = pd.options.mode.chained_assignment
+			pd.options.mode.chained_assignment = None
+			c.loc[:, keys] = new_values.reshape(count_rows(c), len(keys))
+			pd.options.mode.chained_assignment = chained_assignment
+		elif is_series(c):
+			chained_assignment = pd.options.mode.chained_assignment
+			pd.options.mode.chained_assignment = None
+			c.loc[keys] = new_values
+			pd.options.mode.chained_assignment = chained_assignment
+		elif is_array(c):
+			c[keys] = new_values
+		else:
+			for i in range(len(keys)):
+				c[keys[i]] = new_values[i]
+	return c
 
 
 # • DATAFRAME ######################################################################################
@@ -1222,8 +1293,8 @@ def get_datetime():
 	return datetime.now()
 
 
-def get_datetime_string(fmt=DATE_TIME_FORMAT):
-	return format_datetime(get_datetime(), fmt=fmt)
+def get_datetime_string(format=DATE_TIME_FORMAT):
+	return format_datetime(get_datetime(), format=format)
 
 
 def get_time_string():
@@ -1259,6 +1330,22 @@ def get_days(c, week=False, year=False):
 	elif is_dict(c):
 		return get_days(get_index(c), week=week, year=year)
 	return collection_to_type([get_day(d, week=week, year=year) for d in c], c)
+
+
+def get_weekday(d=get_datetime()):
+	return get_day(d, week=True)
+
+
+def get_weekdays(d=get_datetime()):
+	return get_days(d, week=True)
+
+
+def get_weekday_name(d=get_datetime()):
+	return WEEKDAY_NAMES[get_weekday(d)]
+
+
+def get_weekday_names(d=get_datetime()):
+	return apply(get_weekdays(d), lambda d: WEEKDAY_NAMES[d])
 
 
 def get_week(d=get_datetime()):
@@ -1372,9 +1459,9 @@ def get_prev_business_day(d=get_datetime()):
 	if is_string(d):
 		d = parse_datetime(d)
 	day = date.weekday(d)
-	if day is MO:  # Monday
+	if day is MON:  # Monday
 		return d - 3 * DAY
-	elif day is SU:  # Sunday
+	elif day is SUN:  # Sunday
 		return d - 2 * DAY
 	return d - DAY
 
@@ -1383,9 +1470,9 @@ def get_next_business_day(d=get_datetime()):
 	if is_string(d):
 		d = parse_datetime(d)
 	day = date.weekday(d)
-	if day is FR:  # Friday
+	if day is FRI:  # Friday
 		return d + 3 * DAY
-	elif day is SA:  # Saturday
+	elif day is SAT:  # Saturday
 		return d + 2 * DAY
 	return d + DAY
 
@@ -1410,7 +1497,7 @@ def get_month_days(year, month):
 
 def get_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_month_start, d)
+		return apply(d, get_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(day=1))
@@ -1418,7 +1505,7 @@ def get_month_start(d=get_datetime()):
 
 def get_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_month_end, d)
+		return apply(d, get_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(day=get_month_days(d.year, d.month)))
@@ -1426,7 +1513,7 @@ def get_month_end(d=get_datetime()):
 
 def get_prev_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_month_start, d)
+		return apply(d, get_prev_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 1:
@@ -1440,7 +1527,7 @@ def get_prev_month_start(d=get_datetime()):
 
 def get_prev_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_month_end, d)
+		return apply(d, get_prev_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 1:
@@ -1454,7 +1541,7 @@ def get_prev_month_end(d=get_datetime()):
 
 def get_next_month_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_month_start, d)
+		return apply(d, get_next_month_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 12:
@@ -1468,7 +1555,7 @@ def get_next_month_start(d=get_datetime()):
 
 def get_next_month_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_month_end, d)
+		return apply(d, get_next_month_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if d.month == 12:
@@ -1484,7 +1571,7 @@ def get_next_month_end(d=get_datetime()):
 
 def get_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_quarter_start, d)
+		return apply(d, get_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1500,7 +1587,7 @@ def get_quarter_start(d=get_datetime()):
 
 def get_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_quarter_end, d)
+		return apply(d, get_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1516,7 +1603,7 @@ def get_quarter_end(d=get_datetime()):
 
 def get_prev_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_quarter_start, d)
+		return apply(d, get_prev_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1536,7 +1623,7 @@ def get_prev_quarter_start(d=get_datetime()):
 
 def get_prev_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_quarter_end, d)
+		return apply(d, get_prev_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1556,7 +1643,7 @@ def get_prev_quarter_end(d=get_datetime()):
 
 def get_next_quarter_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_quarter_start, d)
+		return apply(d, get_next_quarter_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1576,7 +1663,7 @@ def get_next_quarter_start(d=get_datetime()):
 
 def get_next_quarter_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_quarter_end, d)
+		return apply(d, get_next_quarter_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 3:
@@ -1598,7 +1685,7 @@ def get_next_quarter_end(d=get_datetime()):
 
 def get_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_semester_start, d)
+		return apply(d, get_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1610,7 +1697,7 @@ def get_semester_start(d=get_datetime()):
 
 def get_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_semester_end, d)
+		return apply(d, get_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1622,7 +1709,7 @@ def get_semester_end(d=get_datetime()):
 
 def get_prev_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_semester_start, d)
+		return apply(d, get_prev_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1636,7 +1723,7 @@ def get_prev_semester_start(d=get_datetime()):
 
 def get_prev_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_semester_end, d)
+		return apply(d, get_prev_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1650,7 +1737,7 @@ def get_prev_semester_end(d=get_datetime()):
 
 def get_next_semester_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_semester_start, d)
+		return apply(d, get_next_semester_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1664,7 +1751,7 @@ def get_next_semester_start(d=get_datetime()):
 
 def get_next_semester_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_semester_end, d)
+		return apply(d, get_next_semester_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	if 1 <= d.month <= 6:
@@ -1680,7 +1767,7 @@ def get_next_semester_end(d=get_datetime()):
 
 def get_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_year_start, d)
+		return apply(d, get_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(month=1, day=1))
@@ -1688,7 +1775,7 @@ def get_year_start(d=get_datetime()):
 
 def get_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_year_end, d)
+		return apply(d, get_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(month=12, day=31))
@@ -1696,7 +1783,7 @@ def get_year_end(d=get_datetime()):
 
 def get_prev_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_year_start, d)
+		return apply(d, get_prev_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year - 1, month=1, day=1))
@@ -1704,7 +1791,7 @@ def get_prev_year_start(d=get_datetime()):
 
 def get_prev_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_prev_year_end, d)
+		return apply(d, get_prev_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year - 1, month=12, day=31))
@@ -1712,7 +1799,7 @@ def get_prev_year_end(d=get_datetime()):
 
 def get_next_year_start(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_year_start, d)
+		return apply(d, get_next_year_start)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year + 1, month=1, day=1))
@@ -1720,7 +1807,7 @@ def get_next_year_start(d=get_datetime()):
 
 def get_next_year_end(d=get_datetime()):
 	if is_collection(d):
-		return apply(get_next_year_end, d)
+		return apply(d, get_next_year_end)
 	elif is_string(d):
 		d = parse_datetime(d)
 	return reset_time(d.replace(year=d.year + 1, month=12, day=31))
@@ -1806,6 +1893,20 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 
 #########################
 
+def get_freq(freq=FREQUENCY, group=GROUP):
+	f = freq.value
+	if group is Group.FIRST:
+		if freq is Frequency.DAYS:
+			pass
+		elif freq is Frequency.WEEKS:
+			f += '-' + WEEKDAY_NAMES[MON]
+		else:
+			f += 'S'
+	return f
+
+
+#########################
+
 def get_period_index(period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
@@ -1876,14 +1977,14 @@ __COMMON_CONVERTERS_______________________________ = ''
 __ARRAY_CONVERTERS________________________________ = ''
 
 
-def to_array(*args):
+def to_array(*args, type=None):
 	if len(args) == 1:
 		arg = args[0]
 		if is_array(arg):
 			return arg
 		elif is_collection(arg):
-			return np.array(arg)
-	return np.array(to_list(*args))
+			return np.array(arg, dtype=type)
+	return np.array(to_list(*args), dtype=type)
 
 
 def unarray(a):
@@ -1920,9 +2021,9 @@ def uncollect(c):
 
 def collection_to_type(c, x):
 	if is_frame(x):
-		return to_frame(c, names=get_names(x), index=get_index(x))
+		return to_frame(c, names=x, index=x)
 	elif is_series(x):
-		return to_series(c, name=get_names(x), index=get_index(x))
+		return to_series(c, name=x, index=x)
 	elif is_dict(x):
 		return dict(zip(get_keys(x), c))
 	elif is_ordered_set(x):
@@ -1960,15 +2061,17 @@ def to_series(data, name=None, index=None, type=None):
 	"""Converts the specified collection to a series."""
 	if is_empty(data):
 		data = []
-		type = object
+		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
+	elif not is_collection(data):
+		data = create_array(len(get_index(index)), fill=data, type=type)
 	if is_frame(data):
 		if count_cols(data) > 1:
 			return get_cols(data)
 		series = get_col(data) if not is_empty(data) else pd.Series(data=data, dtype=type)
 	elif is_series(data):
-		series = data
+		series = data.copy()
 	else:
 		series = pd.Series(data=data, dtype=type)
 	if not is_null(name):
@@ -1978,26 +2081,30 @@ def to_series(data, name=None, index=None, type=None):
 	return series
 
 
-def to_time_series(data, name=None, index=None, type=float):
+def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
-		index = to_timestamp(index)
+		index = to_timestamp(to_array(index))
 	return to_series(data, name=name, index=index, type=type)
 
+
+#########################
 
 def to_frame(data, names=None, index=None, type=None):
 	"""Converts the specified collection to a dataframe."""
 	if is_empty(data):
 		data = []
-		type = object
+		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
+	elif not is_collection(data):
+		data = create_array((len(get_index(index)), len(get_names(names))), fill=data, type=type)
 	if is_frame(data):
-		frame = data
+		frame = data.copy()
 	elif is_series(data):
 		frame = data.to_frame()
 	elif is_dict(data):
-		frame = pd.DataFrame.from_dict(data, orient='index', dtype=type)
+		frame = pd.DataFrame.from_dict(data, dtype=type, orient='index')
 	else:
 		frame = pd.DataFrame(data=data, dtype=type)
 	if not is_null(names):
@@ -2007,16 +2114,23 @@ def to_frame(data, names=None, index=None, type=None):
 	return frame
 
 
+def to_time_frame(data, names=None, index=None, type=FLOAT_TYPE):
+	"""Converts the specified collection to a time frame."""
+	if not is_null(index):
+		index = to_timestamp(to_array(index))
+	return to_frame(data, names=names, index=index, type=type)
+
+
 # • DATE ###########################################################################################
 
 __DATE_CONVERTERS_________________________________ = ''
 
 
-def to_date(x, fmt=DATE_FORMAT):
+def to_date(x, format=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_date, x, fmt=fmt)
+		return apply(x, to_date, format=format)
 	elif is_stamp(x):
 		x = parse_stamp(x)
 		return create_date(x.year, x.month, x.day)
@@ -2027,14 +2141,14 @@ def to_date(x, fmt=DATE_FORMAT):
 		return create_date(x.year, x.month, x.day)
 	elif is_date(x):
 		return x
-	return datetime.strptime(x, fmt)
+	return datetime.strptime(x, format)
 
 
-def to_datetime(x, fmt=DATE_TIME_FORMAT):
+def to_datetime(x, format=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_datetime, x, fmt=fmt)
+		return apply(x, to_datetime, format=format)
 	elif is_stamp(x):
 		return parse_stamp(x)
 	elif is_timestamp(x):
@@ -2043,13 +2157,13 @@ def to_datetime(x, fmt=DATE_TIME_FORMAT):
 		return x
 	elif is_date(x):
 		return create_datetime(x.year, x.month, x.day)
-	return datetime.strptime(x, fmt)
+	return datetime.strptime(x, format)
 
 
-def to_time(x, fmt=TIME_FORMAT):
+def to_time(x, format=TIME_FORMAT):
 	if is_null(x):
 		return None
-	return to_datetime(x, fmt=fmt)
+	return to_datetime(x, format=format)
 
 
 def to_datestamp(d):
@@ -2072,7 +2186,7 @@ def to_stamp(x):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		return apply(to_stamp, x)
+		return apply(x, to_stamp)
 	elif is_stamp(x):
 		return x
 	return to_datetime(x).timestamp()
@@ -2083,7 +2197,7 @@ def to_stamp(x):
 def timestamp_to_type(t, x):
 	"""Converts the specified timestamp to the type of the specified variable."""
 	if is_collection(t):
-		return apply(timestamp_to_type, t, x)
+		return apply(t, timestamp_to_type, x)
 	elif is_stamp(x):
 		return to_stamp(t)
 	elif is_timestamp(x):
@@ -2116,6 +2230,8 @@ __DICT_CONVERTERS_________________________________ = ''
 
 def to_dict(c):
 	"""Converts the specified collection to a dictionary."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
 		return {}
 	elif is_table(c):
@@ -2158,7 +2274,7 @@ def to_bool(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_bool, x)
+		return apply(x, to_bool)
 	return strtobool(str(x))
 
 
@@ -2166,7 +2282,7 @@ def to_int(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_int, x)
+		return apply(x, to_int)
 	return int(x)
 
 
@@ -2174,7 +2290,7 @@ def to_float(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
-		return apply(to_float, x)
+		return apply(x, to_float)
 	return float(x)
 
 
@@ -2202,7 +2318,7 @@ def unset(s):
 	return s
 
 
-##################################################
+#########################
 
 def to_ordered_set(*args):
 	if len(args) == 1:
@@ -2230,6 +2346,30 @@ def to_string(x, delimiter=','):
 ####################################################################################################
 
 __COMMON_GENERATORS_______________________________ = ''
+
+# • ARRAY ##########################################################################################
+
+__ARRAY_GENERATORS________________________________ = ''
+
+
+def create_array(shape, fill=0, order='C', type=None):
+	return np.full(get_shape(shape), fill, dtype=type, order=order)
+
+
+# • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
+
+__COLLECTION_GENERATORS___________________________ = ''
+
+
+def create_mask(c, *args, condition=lambda x: True, fill=True, keys=None, inclusion=None,
+                exclusion=None, **kwargs):
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	mask = collection_to_type(create_array(c, fill=fill, type=BOOL_TYPE), c)
+	values = apply(c, condition, *args, keys=keys, **kwargs)
+	set_values(mask, values, keys=keys)
+	return mask
+
 
 # • DATE ###########################################################################################
 
@@ -2262,14 +2402,7 @@ def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, group=GR
 		return filter_with(create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS,
 		                                        group=group),
 		                   f=lambda d: get_month(d) in months)
-	f = freq.value
-	if group is Group.FIRST:
-		if freq is Frequency.DAYS:
-			pass
-		elif freq is Frequency.WEEKS:
-			f += '-MON'
-		else:
-			f += 'S'
+	f = get_freq(freq=freq, group=group)
 	return pd.date_range(date_from, date_to, freq=f)
 
 
@@ -2302,7 +2435,7 @@ def create_sequence(start=0, stop=0, step=1, include=False, size=None):
 	if start == stop:
 		if include:
 			return start
-		return np.array([])
+		return to_array(type=INT_TYPE)
 	elif start > stop:
 		start, stop = stop, start
 	if not is_null(size):
@@ -2337,56 +2470,43 @@ def generate_string(length, case_sensitive=False, digits=True):
 __COMMON_PROCESSORS_______________________________ = ''
 
 
-def apply(f, x, *args, axis=None, inplace=False, inclusion=None, exclusion=None, **kwargs):
+def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, exclusion=None,
+          **kwargs):
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
-	if is_collection(x):
+	if is_null(keys):
 		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
+	if is_collection(x):
 		if inplace:
-			if is_frame(x):
-				chained_assignment = pd.options.mode.chained_assignment
-				pd.options.mode.chained_assignment = None
-				for k in keys:
-					apply(f, x.loc[:, k], *args, axis=axis, inplace=inplace, **kwargs)
-				pd.options.mode.chained_assignment = chained_assignment
-			elif is_series(x):
-				set_values(x, x.loc[keys].apply(f, args=args, **kwargs), inclusion=keys)
-			else:
-				for k in keys:
-					x[k] = f(x[k], *args, **kwargs)
-			return x
+			return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
 		if is_group(x):
 			axis = x.axis
 			if axis == 0:
-				names = get_names(x, inclusion=keys)
-				return concat_rows([to_frame([f(get_values(v, inclusion=keys), *args, **kwargs)],
-				                             names=names, index=i) for i, v in x])
-			index = get_index(x)
-			return concat_cols([to_series(f(get_values(v, inclusion=keys), *args, **kwargs),
-			                              name=k, index=index) for k, v in x if k in keys])
+				return concat_rows([to_frame([to_array(f(get_values(v, keys=keys)), *args, **kwargs)],
+				                             index=to_list(i)) for i, v in x])
+			return concat_cols([to_series(to_array(f(to_array(v), *args, **kwargs)),
+			                              name=k) for k, v in x if k in keys])
 		elif is_frame(x):
 			if is_null(axis):
 				return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
-			values = get_values(x, inclusion=keys).T if axis == 0 else get_values(x, inclusion=keys)
-			data = f(values, *args, **kwargs)
-			index = get_names(x, inclusion=keys) if axis == 0 else get_index(x)
-			if count_cols(data) <= 1:
-				return to_series(data, name=f.__name__, index=index)
-			names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
-			return to_frame(data, names=names, index=index)
+			return x.loc[:, keys].apply(f, args=args, axis=axis, **kwargs)
 		elif is_series(x):
 			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
+		elif is_array(x):
+			if is_null(axis):
+				return np.vectorize(lambda x: f(x, *args, **kwargs))(x[keys])
+			return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
 		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
-		return collapse([f(c, *args, **kwargs) for c in x])
+		return collapse([f(c, *args, **kwargs) if i in keys else c for i, c in enumerate(x)])
 	return f(x, *args, **kwargs)
 
 
 def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
-	return apply(lambda x: value if condition(x, *args, **kwargs) else x, x, inplace=inplace)
+	return apply(x, lambda x: value if condition(x, *args, **kwargs) else x, inplace=inplace)
 
 
 def fill_null_with(x, value, inplace=False):
@@ -2424,7 +2544,7 @@ def reduce_and(x, axis=0):
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
+		return to_array(x, type=BOOL_TYPE)
 	return np.logical_and.reduce(x, axis=axis)
 
 
@@ -2433,7 +2553,7 @@ def reduce_or(x, axis=0):
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x)
+		return to_array(x, type=BOOL_TYPE)
 	return np.logical_or.reduce(x, axis=axis)
 
 
@@ -2479,12 +2599,12 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		if axis == 0:
 			names = get_names(c)
 			return concat_rows([to_frame([f(v.values, *args, axis=axis, **kwargs)],
-			                             names=names, index=i) for i, v in c])
+			                             names=names, index=to_list(i)) for i, v in c])
 		index = get_index(c)
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
 		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
-		index = get_names(c) if axis == 0 else get_index(c)
+		index = get_keys(c) if axis == 0 else get_index(c)
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
 	return f(get_values(c), *args, axis=axis, **kwargs)
 
@@ -2512,8 +2632,12 @@ def concat(c1, c2):
 
 #########################
 
-def fill_null(c, numeric_default=None, object_default=None, inclusion=None, exclusion=None):
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+def fill_null(c, numeric_default=None, object_default=None, keys=None, inclusion=None,
+              exclusion=None):
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	for k in keys:
 		if is_frame(c):
 			col = c.loc[:, k]
@@ -2538,14 +2662,16 @@ def fill_null(c, numeric_default=None, object_default=None, inclusion=None, excl
 
 #########################
 
-def filter(c, inclusion=None, exclusion=None):
+def filter(c, keys=None, inclusion=None, exclusion=None):
 	"""Filters the specified collection by excluding the keys that are not in the specified
 	inclusive collection and are in the specified exclusive collection."""
 	if is_empty(c):
 		return c
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys)
 	elif is_frame(c):
 		return c.loc[:, keys]
@@ -2554,7 +2680,7 @@ def filter(c, inclusion=None, exclusion=None):
 	elif is_dict(c):
 		return {k: c[k] for k in keys}
 	elif is_array(c):
-		return c[to_list(keys)]
+		return c[keys]
 	return collection_to_type([c[k] for k in keys], c)
 
 
@@ -2579,11 +2705,12 @@ def filter_index(c, inclusion=None, exclusion=None):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		index = index if c.axis == 0 else get_keys(c, inclusion=inclusion, exclusion=exclusion)
+		if c.axis == 1:
+			index = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in index)
 	elif is_table(c):
 		return c.loc[c.index.isin(index)]
-	return filter(c, inclusion=inclusion, exclusion=exclusion)
+	return filter(c, keys=index)
 
 
 def include_index(c, inclusion):
@@ -2600,77 +2727,85 @@ def exclude_index(c, exclusion):
 
 #########################
 
-def filter_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
+def filter_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
 	"""Returns the entries of the specified collection whose values return True with the specified
 	function for all the specified keys."""
 	if is_empty(c):
 		return c
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and all_values(apply(f, x, *args, **kwargs)))
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
+		return c.filter(lambda x: x.name in keys and all_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_and(mask, axis=1)]
+		mask = create_mask(c, *args, condition=f, keys=keys, **kwargs)
+		if is_frame(c):
+			return c.loc[reduce_and(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
-def filter_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
+def filter_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
 	"""Returns the entries of the specified collection whose values return False with the specified
 	function for all the specified keys."""
 	if is_empty(c):
 		return c
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and all_not_values(apply(f, x, *args, **kwargs)))
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
+		return c.filter(lambda x: x.name in keys and all_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_and(mask, axis=1)]
+		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), keys=keys)
+		if is_frame(c):
+			return c.loc[reduce_and(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
 
 
-def filter_any_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
+def filter_any_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
 	"""Returns the entries of the specified collection whose values return True with the specified
 	function for at least one specified key."""
 	if is_empty(c):
 		return c
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and any_values(apply(f, x, *args, **kwargs)))
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
+		return c.filter(lambda x: x.name in keys and any_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = get_values(apply(f, c, *args, inclusion=keys, **kwargs))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_or(mask, axis=1)]
+		mask = create_mask(c, *args, condition=f, keys=keys, **kwargs)
+		if is_frame(c):
+			return c.loc[reduce_or(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
-def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
+def filter_any_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
 	"""Returns the entries of the specified collection whose values return False with the specified
 	function for at least one specified key."""
 	if is_empty(c):
 		return c
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
-		return c.filter(lambda x: x.name in keys and any_not_values(apply(f, x, *args, **kwargs)))
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
+		return c.filter(lambda x: x.name in keys and any_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = invert(get_values(apply(f, c, *args, inclusion=keys, **kwargs)))
-		if is_series(c):
-			return c.loc[mask_list(keys, mask)]
-		return c.loc[reduce_or(mask, axis=1)]
+		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), keys=keys)
+		if is_frame(c):
+			return c.loc[reduce_or(mask, axis=1)]
+		return c.loc[mask]
 	elif is_dict(c):
 		return {k: c[k] for k in keys if not f(c[k], *args, **kwargs)}
 	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
@@ -2678,160 +2813,160 @@ def filter_any_not_with(c, f, *args, inclusion=None, exclusion=None, **kwargs):
 
 #########################
 
-def filter_null(c, inclusion=None, exclusion=None):
+def filter_null(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are null for all the specified
 	keys."""
-	return filter_with(c, is_null, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_null(c, inclusion=None, exclusion=None):
+def filter_not_null(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not null for all the
 	specified keys."""
-	return filter_not_with(c, is_null, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_null(c, inclusion=None, exclusion=None):
+def filter_any_null(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are null for at least one
 	specified key."""
-	return filter_any_with(c, is_null, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_null(c, inclusion=None, exclusion=None):
+def filter_any_not_null(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not null for at least one
 	specified key."""
-	return filter_any_not_with(c, is_null, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_empty(c, inclusion=None, exclusion=None):
+def filter_empty(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are empty for all the specified
 	keys."""
-	return filter_with(c, is_empty, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_empty(c, inclusion=None, exclusion=None):
+def filter_not_empty(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not empty for all the
 	specified keys."""
-	return filter_not_with(c, is_empty, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_empty(c, inclusion=None, exclusion=None):
+def filter_any_empty(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are empty for at least one
 	specified key."""
-	return filter_any_with(c, is_empty, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_empty(c, inclusion=None, exclusion=None):
+def filter_any_not_empty(c, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not empty for at least one
 	specified key."""
-	return filter_any_not_with(c, is_empty, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_value(c, value, inclusion=None, exclusion=None):
+def filter_value(c, value, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	 for all the specified keys."""
-	return filter_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_value(c, value, inclusion=None, exclusion=None):
+def filter_not_value(c, value, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for all the specified keys."""
-	return filter_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_value(c, value, inclusion=None, exclusion=None):
+def filter_any_value(c, value, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	for at least one specified key."""
-	return filter_any_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_value(c, value, inclusion=None, exclusion=None):
+def filter_any_not_value(c, value, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for at least one specified key."""
-	return filter_any_not_with(c, lambda v: v == value, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_in(c, values, inclusion=None, exclusion=None):
+def filter_in(c, values, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	all the specified keys."""
 	values = to_set(values)
-	return filter_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_in(c, values, inclusion=None, exclusion=None):
+def filter_not_in(c, values, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for all the specified keys."""
 	values = to_set(values)
-	return filter_not_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_in(c, values, inclusion=None, exclusion=None):
+def filter_any_in(c, values, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	at least one specified key."""
 	values = to_set(values)
-	return filter_any_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_in(c, values, inclusion=None, exclusion=None):
+def filter_any_not_in(c, values, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for at least one specified key."""
 	values = to_set(values)
-	return filter_any_not_with(c, lambda v: v in values, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_between(c, lower=None, upper=None, inclusion=None, exclusion=None):
+def filter_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are lying between the lower
 	(inclusive) and upper (exclusive) bounds for all the specified keys."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_with(c, lambda v: v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_with(c, lambda v: v >= lower, inclusion=inclusion, exclusion=exclusion)
-	return filter_with(c, lambda v: lower <= v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_between(c, lower=None, upper=None, inclusion=None, exclusion=None):
+def filter_not_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not lying between the lower
 	(inclusive) and upper (exclusive) bounds for all the specified keys."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_not_with(c, lambda v: v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_not_with(c, lambda v: v >= lower, inclusion=inclusion, exclusion=exclusion)
-	return filter_not_with(c, lambda v: lower <= v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_between(c, lower=None, upper=None, inclusion=None, exclusion=None):
+def filter_any_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are lying between the lower
 	(inclusive) and upper (exclusive) bounds for at least one specified key."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_any_with(c, lambda v: v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_any_with(c, lambda v: v >= lower, inclusion=inclusion, exclusion=exclusion)
-	return filter_any_with(c, lambda v: lower <= v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_between(c, lower=None, upper=None, inclusion=None, exclusion=None):
+def filter_any_not_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not lying between the lower
 	(inclusive) and upper (exclusive) bounds for at least one specified key."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_any_not_with(c, lambda v: v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_not_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_any_not_with(c, lambda v: v >= lower, inclusion=inclusion, exclusion=exclusion)
-	return filter_any_not_with(c, lambda v: lower <= v < upper, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_not_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
@@ -2881,8 +3016,12 @@ def filter_years(c, years):
 
 #########################
 
-def flatten(c, axis=0):
-	return get_values(c).flatten(order='C' if axis == 0 else 'F' if axis == 1 else 'A')
+def flatten(c, axis=0, type=None):
+	if is_empty(c):
+		return to_array(type=type)
+	if type == OBJECT_TYPE:
+		return to_array(flatten_list(c), type=type)
+	return get_values(c, type=type).flatten(order='C' if axis == 0 else 'F' if axis == 1 else 'A')
 
 
 #########################
@@ -2914,6 +3053,8 @@ def count(*args, axis=0):
 	c = forward(*args)
 	if is_group(c):
 		return c.count()
+	elif not is_collection(c):
+		return 1
 	if is_null(axis):
 		return np.size(get_values(c))
 	if is_frame(c):
@@ -2988,18 +3129,6 @@ def sum(*args, axis=0):
 
 #########################
 
-def reverse(c, axis=0):
-	if is_table(c):
-		if axis == 0:
-			return c.loc[::-1]
-		return c.loc[:, ::-1]
-	elif is_dict(c):
-		return {c[k]: k for k in c}
-	return c[::-1]
-
-
-#########################
-
 def keep_min(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
@@ -3019,36 +3148,39 @@ def keep_max(c, n, group=GROUP, axis=0):
 
 #########################
 
-def remove_null(c, axis=0, conservative=True, inclusion=None, exclusion=None):
+def remove_null(c, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
 		if conservative:
-			return filter_any_not_null(c, inclusion=inclusion, exclusion=exclusion)
-		return filter_not_null(c, inclusion=inclusion, exclusion=exclusion)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+			return filter_any_not_null(c, keys=keys)
+		return filter_not_null(c, keys=keys)
 	for k in keys:
 		if is_all_null(c[k]) if conservative else is_any_null(c[k]):
 			c = remove_col(c, names=k)
 	return c
 
 
-def remove_empty(c, axis=0, conservative=True, inclusion=None, exclusion=None):
+def remove_empty(c, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
 		if conservative:
-			return filter_any_not_empty(c, inclusion=inclusion, exclusion=exclusion)
-		return filter_not_empty(c, inclusion=inclusion, exclusion=exclusion)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+			return filter_any_not_empty(c, keys=keys)
+		return filter_not_empty(c, keys=keys)
 	for k in keys:
 		if is_all_empty(c[k]) if conservative else is_any_empty(c[k]):
 			c = remove_col(c, names=k)
 	return c
 
 
-def remove_value(c, value, axis=0, conservative=True, inclusion=None, exclusion=None):
+def remove_value(c, value, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
 		if conservative:
-			return filter_any_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
-		return filter_not_value(c, value, inclusion=inclusion, exclusion=exclusion)
-	keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+			return filter_any_not_value(c, value, keys=keys)
+		return filter_not_value(c, value, keys=keys)
 	for k in keys:
 		if is_all_value(value, c[k]) if conservative else is_any_value(value, c[k]):
 			c = remove_col(c, names=k)
@@ -3057,9 +3189,25 @@ def remove_value(c, value, axis=0, conservative=True, inclusion=None, exclusion=
 
 #########################
 
+def reverse(c, axis=0):
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_table(c):
+		if axis == 0:
+			return c.loc[::-1]
+		return c.loc[:, ::-1]
+	elif is_dict(c):
+		return {c[k]: k for k in c}
+	return c[::-1]
+
+
+#########################
+
 def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
                 microseconds=0):
 	"""Shifts the date-time index of the specified collection."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
 		t = c.copy()
 		t.index += pd.DateOffset(years=years, months=months, weeks=weeks, days=days, hours=hours,
@@ -3087,8 +3235,23 @@ def simplify(c):
 
 #########################
 
+def slice(c, axis=0, index_from=None, index_to=None):
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_null(index_from):
+		index_from = 0
+	if is_null(index_to):
+		index_to = len(c)
+	keys = get_index(c) if axis == 0 else get_keys(c)
+	return take(c, keys[index_from:index_to], axis=axis)
+
+
+#########################
+
 def sort(c, ascending=True, by=None, inplace=False, axis=0):
 	"""Sorts the values of the specified collection."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_frame(c):
 		return c.sort_values(get_keys(c, inclusion=by), ascending=ascending, inplace=inplace,
 		                     axis=axis)
@@ -3103,6 +3266,8 @@ def sort(c, ascending=True, by=None, inplace=False, axis=0):
 
 def sort_index(c):
 	"""Sorts the index of the specified collection."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
 		return c.sort_index()
 	return c
@@ -3112,6 +3277,8 @@ def sort_index(c):
 
 def take(c, keys, axis=0):
 	"""Returns the entries of the specified collection for all the specified keys."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	keys = to_ordered_set(keys)
 	if is_table(c):
 		if axis == 0:
@@ -3128,6 +3295,8 @@ def take_not(c, keys, axis=0):
 
 def take_at(c, indices, axis=0):
 	"""Returns the entries of the specified collection that are at the specified indices."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	indices = to_list(indices)
 	if is_table(c):
 		if axis == 0:
@@ -3146,9 +3315,31 @@ def take_not_at(c, indices, axis=0):
 
 #########################
 
-def unique(c, keep='first'):
+def tally(c, boundaries):
+	"""Tallies the values of the specified collection into the intervals delimited by the specified
+	boundaries."""
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c):
+		return c
+	if is_empty(boundaries):
+		return repeat(0, len(c))
+	tc = c.copy()
+	lower = minimum(tc, axis=None)
+	for i, upper in enumerate(boundaries):
+		set_values(tc, i, mask=create_mask(c, condition=lambda v: lower <= v < upper))
+		lower = upper
+	set_values(tc, i + 1, mask=create_mask(c, condition=lambda v: v >= upper))
+	return tc
+
+
+#########################
+
+def unique(c, group=GROUP):
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
-		return c.loc[invert(c.index.duplicated(keep=keep))]
+		return c.loc[invert(c.index.duplicated(keep='first' if group is Group.FIRST else 'last'))]
 	elif is_dict(c):
 		return c
 	return to_list(dict.fromkeys(c))
@@ -3177,19 +3368,28 @@ def update(left, right, inclusion=None, exclusion=None):
 
 #########################
 
-def upsert_all(*args, inclusion=None, exclusion=None):
-	return reduce(lambda left, right: upsert(left, right, inclusion=inclusion, exclusion=exclusion),
-	              *args)
+def upsert_all(*args, keys=None, inclusion=None, exclusion=None):
+	return reduce(lambda left, right: upsert(left, right, keys=keys, inclusion=inclusion,
+	                                         exclusion=exclusion), *args)
 
 
-def upsert(left, right, inclusion=None, exclusion=None):
+def upsert(left, right, keys=None, inclusion=None, exclusion=None):
 	"""Upserts the specified left collection with the specified right collection by overriding the
 	left values with the right values that have the same indices and concatenating the right values
 	to the left values that have different indices on the common keys that are in the specified
 	inclusive list and are not in the specified exclusive list."""
-	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
+	right = collection_to_common_type(right, left, keys=keys, inclusion=inclusion,
+	                                  exclusion=exclusion)
 	left = update(left, include_index(right, left))
 	return concat(left, exclude_index(right, left))
+
+
+#########################
+
+def where(c, *args, condition=lambda x: True, keys=None, inclusion=None, exclusion=None, **kwargs):
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	return [k for k in keys if condition(c[k], *args, **kwargs)]
 
 
 # • CONSOLE ########################################################################################
@@ -3353,7 +3553,7 @@ def filter_rows_with(df, row, f, *args, **kwargs):
 	row and function for all the specified keys."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_and([apply(f, df[k], v, *args, **kwargs)
+	return df.loc[reduce_and([apply(df[k], f, v, *args, **kwargs)
 	                          for k, v in row.items() if k in df])]
 
 
@@ -3362,7 +3562,7 @@ def filter_rows_not_with(df, row, f, *args, **kwargs):
 	row and function for all the specified keys."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_and([invert(apply(f, df[k], v, *args, **kwargs))
+	return df.loc[reduce_and([invert(apply(df[k], f, v, *args, **kwargs))
 	                          for k, v in row.items() if k in df])]
 
 
@@ -3371,7 +3571,7 @@ def filter_any_rows_with(df, row, f, *args, **kwargs):
 	row and function for at least one specified key."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_or([apply(f, df[k], v, *args, **kwargs)
+	return df.loc[reduce_or([apply(df[k], f, v, *args, **kwargs)
 	                         for k, v in row.items() if k in df])]
 
 
@@ -3380,7 +3580,7 @@ def filter_any_rows_not_with(df, row, f, *args, **kwargs):
 	row and function for at least one specified key."""
 	if is_empty(df):
 		return df
-	return df.loc[reduce_or([invert(apply(f, df[k], v, *args, **kwargs))
+	return df.loc[reduce_or([invert(apply(df[k], f, v, *args, **kwargs))
 	                         for k, v in row.items() if k in df])]
 
 
@@ -3675,37 +3875,37 @@ def find_nearest_period(length, freq=FREQUENCY):
 #########################
 
 def format_date(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DATE_FORMAT))
+	return trim(format_datetime(d, format=DATE_FORMAT))
 
 
 def format_full_date(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_DATE_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_DATE_FORMAT))
 
 
 def format_month_year(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_MONTH_YEAR_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_MONTH_YEAR_FORMAT))
 
 
 def format_full_month_year(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_YEAR_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_MONTH_YEAR_FORMAT))
 
 
 def format_month(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_MONTH_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_MONTH_FORMAT))
 
 
 def format_full_month(d=get_datetime()):
-	return trim(format_datetime(d, fmt=DEFAULT_FULL_MONTH_FORMAT))
+	return trim(format_datetime(d, format=DEFAULT_FULL_MONTH_FORMAT))
 
 
-def format_datetime(d=get_datetime(), fmt=DATE_TIME_FORMAT):
+def format_datetime(d=get_datetime(), format=DATE_TIME_FORMAT):
 	if is_string(d):
 		d = parse_datetime(d)
-	return trim(d.strftime(fmt)) if not is_null(d) else None
+	return trim(d.strftime(format)) if not is_null(d) else None
 
 
 def format_time(d=get_datetime()):
-	return trim(format_datetime(d, fmt=TIME_FORMAT))
+	return trim(format_datetime(d, format=TIME_FORMAT))
 
 
 #########################
@@ -3753,7 +3953,9 @@ __LIST_PROCESSORS_________________________________ = ''
 def filter_list(l, inclusion=None, exclusion=None):
 	"""Returns the values of the specified list that are in the specified inclusive list and are not
 	in the specified exclusive list."""
-	if is_empty(l) or is_null(inclusion) and is_empty(exclusion):
+	if is_empty(l):
+		return []
+	if not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return to_list(l)
 	elif is_null(inclusion):
 		return [v for v in l if v not in to_list(exclusion)]
@@ -3770,6 +3972,21 @@ def include_list(l, inclusion):
 def exclude_list(l, exclusion):
 	"""Returns the values of the specified list that are not in the specified exclusive list."""
 	return filter_list(l, exclusion=exclusion)
+
+
+#########################
+
+def flatten_list(l, depth=-1):
+	if is_empty(l):
+		return []
+	if not is_collection(l) or depth == 0:
+		return to_list(l)
+	elif depth == 1:
+		return [v for sl in l for v in sl]
+	fl = []
+	for sl in l:
+		fl += flatten_list(sl, depth=depth - 1)
+	return fl
 
 
 #########################
@@ -3865,6 +4082,17 @@ def mask_list(l, mask):
 
 #########################
 
+def resize_list(l, size, left=False, value=None):
+	if len(l) < size:
+		values = repeat(value, size - len(l))
+		if left:
+			return values + l
+		return l + values
+	return l[0:size]
+
+
+#########################
+
 def repeat(value, n):
 	return n * [value]
 
@@ -3873,22 +4101,6 @@ def repeat(value, n):
 
 def rotate(l, n=1):
 	return l[-n:] + l[:-n]
-
-
-#########################
-
-def tally(l, boundaries):
-	"""Tallies the values of the specified list into the intervals delimited by the specified
-	boundaries."""
-	if is_empty(l):
-		return to_list(l)
-	if is_empty(boundaries):
-		return repeat(0, len(l))
-	lower = minimum(l)
-	for i, upper in enumerate(boundaries):
-		l = fill_with(l, i, condition=lambda v: lower <= v < upper)
-		lower = upper
-	return fill_with(l, i, condition=lambda v: v >= upper)
 
 
 # • NUMBER #########################################################################################
@@ -3962,7 +4174,7 @@ __SET_PROCESSORS__________________________________ = ''
 def filter_set(s, inclusion=None, exclusion=None):
 	"""Returns the values of the specified set that are in the specified inclusive set and are not
 	in the specified exclusive set."""
-	if is_empty(s) or is_null(inclusion) and is_empty(exclusion):
+	if is_empty(s) or not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return to_set(s)
 	elif is_null(inclusion):
 		return to_set(s) - to_set(exclusion)
@@ -3981,13 +4193,12 @@ def exclude_set(s, exclusion):
 	return filter_set(s, exclusion=exclusion)
 
 
-##################################################
-
+#########################
 
 def filter_ordered_set(s, inclusion=None, exclusion=None):
 	"""Returns the values of the specified ordered set that are in the specified inclusive set and
 	are not in the specified exclusive set."""
-	if is_empty(s) or is_null(inclusion) and is_empty(exclusion):
+	if is_empty(s) or not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return to_ordered_set(s)
 	elif is_null(inclusion):
 		return to_ordered_set(s) - to_set(exclusion)
@@ -4061,6 +4272,16 @@ def replace(s, pattern, replacement):
 	return s
 
 
+def replace_word(s, word, replacement):
+	"""Returns the string constructed by replacing the specified word by the specified replacement
+	string in the specified string recursively (only if the length is decreasing)."""
+	count = INF
+	while len(s) < count:
+		count = len(s)
+		s = re.sub('\b' + word + '\b', replacement, s)
+	return s
+
+
 #########################
 
 def split(s, delimiter=',', empty_filter=True):
@@ -4093,7 +4314,7 @@ def wrap(content, left, right=None):
 	elif is_null(right):
 		right = left
 	if is_collection(content):
-		return apply(wrap, content, left, right=right)
+		return apply(content, wrap, left, right=right)
 	return collapse(left, content, right)
 
 
@@ -4115,3 +4336,30 @@ def par(content):
 def bra(content):
 	"""Returns the bracketized representative string of the specified content."""
 	return wrap(content, '[', ']')
+
+
+# • THREAD #########################################################################################
+
+__THREAD_PROCESSORS_______________________________ = ''
+
+
+def parallelize(c, f, *args, timeout=None, **kwargs):
+	results = []
+	if is_empty(c):
+		return results
+	with ThreadPoolExecutor(max_workers=CORE_COUNT) as executor:
+		futures = []
+		# Submit the tasks
+		chunk_size = ceil(len(c) / CORE_COUNT)
+		for index_from in range(0, len(c), chunk_size):
+			index_to = min(index_from + chunk_size, len(c))
+			futures.append(executor.submit(slice(c, index_from=index_from, index_to=index_to), f,
+			                               *args, **kwargs))
+		# Collect the results
+		for future in futures:
+			results.append(future.result(timeout=timeout))
+	return flatten_list(results, depth=1)
+
+
+def parallelize_apply(c, f, *args, timeout=None, **kwargs):
+	return parallelize(c, lambda x: apply(x, f, *args, **kwargs), timeout=timeout)

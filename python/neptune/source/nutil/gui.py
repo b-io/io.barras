@@ -16,7 +16,6 @@
 
 import base64
 import io
-import itertools
 
 import cv2
 import matplotlib.cm as mcm
@@ -29,9 +28,9 @@ import plotly.io as pio
 import plotly.tools as ptools
 from xhtml2pdf import pisa
 
-import nutil.html as html
+import nutil.web as web
+from nutil.common import *
 from nutil.stats import normal
-from nutil.ts import *
 
 ####################################################################################################
 # GUI CONSTANTS
@@ -48,8 +47,9 @@ DEFAULT_WIDTH = 660
 # The default height
 DEFAULT_HEIGHT = 933
 
-# The default margin (left, right, bottom and top)
-DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)  # the ratio of the margin to the width or height
+# The default margin (left, right, bottom and top) defined by the ratio to the width or height
+DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
+DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.1)
 
 # • GUI COLOR ######################################################################################
 
@@ -74,12 +74,50 @@ DEFAULT_COLORS = [
 ]
 
 # The default colors iterator
-DEFAULT_COLORS_ITERATOR = itertools.cycle(DEFAULT_COLORS)
+DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color
 DEFAULT_BG_COLOR = TRANSPARENT
 
 ##################################################
+
+NAMED_COLORS = [
+	'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure',
+	'beige', 'bisque', 'black', 'blanchedalmond', 'blue',
+	'blueviolet', 'brown', 'burlywood', 'cadetblue',
+	'chartreuse', 'chocolate', 'coral', 'cornflowerblue',
+	'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
+	'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen',
+	'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
+	'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
+	'darkslateblue', 'darkslategray', 'darkslategrey',
+	'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue',
+	'dimgray', 'dimgrey', 'dodgerblue', 'firebrick',
+	'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro',
+	'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green',
+	'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo',
+	'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen',
+	'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
+	'lightgoldenrodyellow', 'lightgray', 'lightgrey',
+	'lightgreen', 'lightpink', 'lightsalmon', 'lightseagreen',
+	'lightskyblue', 'lightslategray', 'lightslategrey',
+	'lightsteelblue', 'lightyellow', 'lime', 'limegreen',
+	'linen', 'magenta', 'maroon', 'mediumaquamarine',
+	'mediumblue', 'mediumorchid', 'mediumpurple',
+	'mediumseagreen', 'mediumslateblue', 'mediumspringgreen',
+	'mediumturquoise', 'mediumvioletred', 'midnightblue',
+	'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy',
+	'oldlace', 'olive', 'olivedrab', 'orange', 'orangered',
+	'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise',
+	'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink',
+	'plum', 'powderblue', 'purple', 'red', 'rosybrown',
+	'royalblue', 'rebeccapurple', 'saddlebrown', 'salmon',
+	'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver',
+	'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow',
+	'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato',
+	'turquoise', 'violet', 'wheat', 'white', 'whitesmoke',
+	'yellow', 'yellowgreen'
+]
 
 RAINBOW_SCALE = mcm.get_cmap(name='rainbow')
 RYG_SCALE = mcm.get_cmap(name='RdYlGn')
@@ -120,6 +158,10 @@ def get_complementary_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
 	return to_rgba_color([minimum(r, g, b) + maximum(r, g, b) - c for c in (r, g, b)], alpha=alpha,
 	                     scale=False)
+
+
+def get_random_named_color():
+	return random.choice(NAMED_COLORS)
 
 
 def get_RYG(brightness='8'):
@@ -197,6 +239,18 @@ def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=
 	return paste(yaxis, date_range, name, transformation)
 
 
+def get_margin(x, has_title=False):
+	"""Returns the margin with the specified ratio to the width or height."""
+	if is_null(x):
+		x = {}
+	if is_dict(x):
+		for k in ('l', 'r', 'b', 't'):
+			if k not in x:
+				x[k] = DEFAULT_MARGIN_WITH_TITLE[k] if has_title else DEFAULT_MARGIN[k]
+		return x
+	return dict(l=x, r=x, b=x, t=x)
+
+
 ##################################################
 
 def create_figure(auto_size=True,
@@ -216,7 +270,7 @@ def create_figure(auto_size=True,
                   tick_step_x=None, tick_step_y=None, tick_step_y2=None,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
-                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   zero_line_color='darkgray', zero_line_width=2):
 	fig = go.Figure()
 	update_layout(fig,
@@ -250,7 +304,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
                           # Layout
                           title=None, dragmode=False, showframe=False,
                           colors=get_RYG(), range_color=None,
-                          width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                          width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                           # Geos
                           lat=None, lon=None,
                           projection='miller',
@@ -263,7 +317,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
                           showrivers=False, rivercolor='Blue'):
 	"""Creates a choropleth map with the specified parameters."""
 	fig = px.choropleth(data_frame=df,
-	                    lat=None, lon=None,
+	                    lat=lat, lon=lon,
 	                    locations=loc_col, locationmode=loc_mode, projection=projection,
 	                    labels={label_col: label_name if not is_null(label_name) else label_col},
 	                    color=label_col, range_color=range_color,
@@ -302,15 +356,11 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 	return fig
 
 
-def create_margin(x):
-	"""Creates a margin with the specified ratio to the width or height."""
-	return dict(l=x, r=x, b=x, t=x)
-
-
 ##################################################
 
 def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines', name=None,
-         opacity=1, show_date=False, show_legend=True, show_name=True, size=4, width=2, yaxis=0):
+         opacity=1, show_date=False, show_legend=True, show_name=True, size=4, stackgroup=None,
+         width=2, yaxis=0):
 	if is_null(y):
 		data = x
 		x = data.index
@@ -336,6 +386,7 @@ def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines'
 	                  fill=fill,
 	                  mode=mode, line=line, marker=marker, opacity=opacity,
 	                  showlegend=show_legend,
+	                  stackgroup=stackgroup,
 	                  yaxis='y' + str(1 if yaxis == 0 else yaxis))
 
 
@@ -368,7 +419,7 @@ def update_layout(fig,
                   tick_step_x=None, tick_step_y=None, tick_step_y2=None,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
-                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   zero_line_color='darkgray', zero_line_width=2):
 	update_layout_plot(fig, auto_size=auto_size, bar_mode=bar_mode, bg_color=bg_color,
 	                   show_title=show_title, title=title)
@@ -393,7 +444,8 @@ def update_layout(fig,
 	                   title_x=title_x, title_y=title_y, title_y2=title_y2,
 	                   zero_line_color=zero_line_color, zero_line_width=zero_line_width)
 	update_layout_legend(fig, bg_color=legend_bg_color, x=legend_x, y=legend_y)
-	update_layout_size(fig, width=width, height=height, margin=margin)
+	update_layout_size(fig, has_title=not is_empty(title), width=width, height=height,
+	                   margin=margin)
 
 
 def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_COLOR,
@@ -407,7 +459,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 	elif is_plotly(fig):
 		bg_color = to_rgba_color(bg_color)
 		if not is_null(title) or not show_title:
-			fig.update_layout(title=html.b(title) if show_title else None)
+			fig.update_layout(title=web.b(title) if show_title else None)
 		if not is_null(bar_mode):
 			fig.update_layout(barmode=bar_mode)
 		fig.update_layout(
@@ -588,7 +640,9 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 				yanchor='top', y=y))
 
 
-def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN):
+def update_layout_size(fig, has_title=False, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
+                       margin=None):
+	margin = get_margin(margin, has_title=has_title)
 	if is_matplot(fig):
 		fig.set_size_inches(width / 100, height / 100)
 		fig.subplots_adjust(left=margin['l'], right=1 - margin['r'],
@@ -632,7 +686,7 @@ def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, s
 
 #########################
 
-def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN):
+def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	"""Converts the specified figure to HTML."""
 	if is_null(fig):
 		return ''
@@ -640,8 +694,8 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 	return pio.to_html(fig, full_html=full, default_width=width, default_height=height)
 
 
-def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
-                      margin=DEFAULT_MARGIN, rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                      rotate=False, scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to the specified format, encodes it to Base64 and returns its
 	HTML code."""
 	if is_null(fig):
@@ -653,22 +707,22 @@ def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
 	return buffer_to_html(buffer, format, width=width, height=height, style=style)
 
 
-def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                     rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                     scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to JPEG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'jpeg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
-def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                    rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                    scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to PNG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'png', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
-def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                    rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
+                    scale=DEFAULT_SCALE, style=None):
 	"""Converts the specified figure to SVG, encodes it to Base64 and returns its HTML code."""
 	return fig_to_image_html(fig, 'svg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
@@ -746,7 +800,7 @@ def buffer_to_image(buffer):
 
 #########################
 
-def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
+def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   scale=DEFAULT_SCALE):
 	"""Converts the specified figure to an image buffer with the specified format."""
 	update_layout_size(fig, width=width, height=height, margin=margin)
@@ -759,20 +813,17 @@ def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margi
 		return pio.to_image(fig, format=format, width=width, height=height, scale=scale)
 
 
-def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-                scale=DEFAULT_SCALE):
+def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to JPEG."""
 	return fig_to_buffer(fig, 'jpeg', width=width, height=height, margin=margin, scale=scale)
 
 
-def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-               scale=DEFAULT_SCALE):
+def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to PNG."""
 	return fig_to_buffer(fig, 'png', width=width, height=height, margin=margin, scale=scale)
 
 
-def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=DEFAULT_MARGIN,
-               scale=DEFAULT_SCALE):
+def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
 	"""Converts the specified figure to SVG."""
 	return fig_to_buffer(fig, 'svg', width=width, height=height, margin=margin, scale=scale)
 
