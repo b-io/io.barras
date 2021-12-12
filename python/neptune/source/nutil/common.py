@@ -2471,7 +2471,8 @@ def generate_string(length, case_sensitive=False, digits=True):
 __COMMON_PROCESSORS_______________________________ = ''
 
 
-def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, exclusion=None, **kwargs):
+def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, exclusion=None,
+          **kwargs):
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
