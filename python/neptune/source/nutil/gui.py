@@ -28,7 +28,7 @@ import plotly.io as pio
 import plotly.tools as ptools
 from xhtml2pdf import pisa
 
-import nutil.html as html
+import nutil.web as web
 from nutil.common import *
 from nutil.stats import normal
 
@@ -459,7 +459,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 	elif is_plotly(fig):
 		bg_color = to_rgba_color(bg_color)
 		if not is_null(title) or not show_title:
-			fig.update_layout(title=html.b(title) if show_title else None)
+			fig.update_layout(title=web.b(title) if show_title else None)
 		if not is_null(bar_mode):
 			fig.update_layout(barmode=bar_mode)
 		fig.update_layout(

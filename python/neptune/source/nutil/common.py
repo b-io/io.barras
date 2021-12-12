@@ -2476,25 +2476,11 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
+	if is_null(keys):
+		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 	if is_collection(x):
-		if is_null(keys):
-			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		if inplace:
-			if is_frame(x):
-				chained_assignment = pd.options.mode.chained_assignment
-				pd.options.mode.chained_assignment = None
-				for k in keys:
-					apply(x.loc[:, k], f, *args, axis=axis, inplace=inplace, **kwargs)
-				pd.options.mode.chained_assignment = chained_assignment
-			elif is_series(x):
-				set_values(x, x.loc[keys].apply(f, args=args, **kwargs), keys=keys)
-			elif is_array(x):
-				for k in keys:
-					apply(x[k], f, *args, inplace=inplace, **kwargs)
-			else:
-				for k in keys:
-					x[k] = f(x[k], *args, **kwargs)
-			return x
+			return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
 		if is_group(x):
 			axis = x.axis
 			if axis == 0:
@@ -2507,24 +2493,20 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 		elif is_frame(x):
 			if is_null(axis):
 				return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
-			values = get_values(x, keys=keys).T if axis == 0 else get_values(x, keys=keys)
-			data = f(values, *args, **kwargs)
-			index = get_names(x, inclusion=keys) if axis == 0 else get_index(x)
-			if count_cols(data) <= 1:
-				return to_series(data, name=f.__name__, index=index)
-			names = get_index(x) if axis == 0 else get_names(x, inclusion=keys)
-			return to_frame(data, names=names, index=index)
+			return calculate(x.loc[:, keys], f, *args, axis=axis, **kwargs)
 		elif is_series(x):
-			return x.loc[keys].apply(f, args=args, **kwargs)
+			if is_null(axis):
+				return x.loc[keys].apply(f, args=args, **kwargs)
+			return calculate(x.loc[keys], f, *args, axis=axis, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
 		elif is_array(x):
 			if is_null(axis):
-				return np.vectorize(lambda x: f(x, *args, **kwargs))(x)
-			return np.apply_along_axis(f, axis, x, *args, **kwargs)
+				return np.vectorize(lambda x: f(x, *args, **kwargs))(x[keys])
+			return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
 		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
-		return collapse([f(c, *args, **kwargs) for c in x])
+		return collapse([f(c, *args, **kwargs) if i in keys else c for i, c in enumerate(x)])
 	return f(x, *args, **kwargs)
 
 
@@ -2727,7 +2709,7 @@ def filter_index(c, inclusion=None, exclusion=None):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		index = index if c.axis == 0 else get_keys(c, inclusion=inclusion, exclusion=exclusion)
+		index = index if c.axis == 0 else get_names(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in index)
 	elif is_table(c):
 		return c.loc[c.index.isin(index)]
@@ -3148,7 +3130,7 @@ def keep_min(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)))[:n]]
+	keys = [t[1] for t in sorted(zip(g, get_names(g) if axis == 0 else get_index(g)))[:n]]
 	return take(c, keys, axis=1 if axis == 0 else 0)
 
 
@@ -3156,7 +3138,7 @@ def keep_max(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)),
+	keys = [t[1] for t in sorted(zip(g, get_names(g) if axis == 0 else get_index(g)),
 	                             reverse=True)[:n]]
 	return take(c, keys, axis=1 if axis == 0 else 0)
 
@@ -3250,16 +3232,15 @@ def simplify(c):
 
 #########################
 
-def slice(c, index_from=None, index_to=None):
+def slice(c, axis=0, index_from=None, index_to=None):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_null(index_from):
 		index_from = 0
 	if is_null(index_to):
 		index_to = len(c)
-	if is_table(c) or is_dict(c) or is_array(c):
-		return c[get_keys(c)[index_from:index_to]]
-	return c[index_from:index_to]
+	keys = get_index(c) if axis == 0 else get_names(c)
+	return take(c, keys[index_from:index_to], axis=axis)
 
 
 #########################
@@ -3305,7 +3286,7 @@ def take(c, keys, axis=0):
 
 def take_not(c, keys, axis=0):
 	"""Returns the entries of the specified collection except for all the specified keys."""
-	indices = find_all_not_in(get_index(c) if axis == 0 else get_keys(c), keys)
+	indices = find_all_not_in(get_index(c) if axis == 0 else get_names(c), keys)
 	return take_at(c, indices, axis=axis)
 
 
