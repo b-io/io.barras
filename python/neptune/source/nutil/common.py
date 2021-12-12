@@ -2064,6 +2064,8 @@ def to_series(data, name=None, index=None, type=None):
 		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
+	elif not is_collection(data):
+		data = create_array(len(get_index(index)), fill=data, type=type)
 	if is_frame(data):
 		if count_cols(data) > 1:
 			return get_cols(data)
@@ -2071,8 +2073,6 @@ def to_series(data, name=None, index=None, type=None):
 	elif is_series(data):
 		series = data.copy()
 	else:
-		if not is_collection(data):
-			data = create_array(len(get_index(index)), fill=data, type=type)
 		series = pd.Series(data=data, dtype=type)
 	if not is_null(name):
 		set_names(series, name)
@@ -2084,7 +2084,7 @@ def to_series(data, name=None, index=None, type=None):
 def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 	"""Converts the specified collection to a time series."""
 	if not is_null(index):
-		index = to_timestamp(get_values(index))
+		index = to_timestamp(to_array(index))
 	return to_series(data, name=name, index=index, type=type)
 
 
@@ -2097,6 +2097,8 @@ def to_frame(data, names=None, index=None, type=None):
 		type = OBJECT_TYPE
 	elif is_group(data):
 		data = data.obj
+	elif not is_collection(data):
+		data = create_array((len(get_index(index)), len(get_names(names))), fill=data, type=type)
 	if is_frame(data):
 		frame = data.copy()
 	elif is_series(data):
@@ -2104,9 +2106,6 @@ def to_frame(data, names=None, index=None, type=None):
 	elif is_dict(data):
 		frame = pd.DataFrame.from_dict(data, dtype=type, orient='index')
 	else:
-		if not is_collection(data):
-			data = create_array((len(get_index(index)), len(get_names(names))), fill=data,
-			                    type=type)
 		frame = pd.DataFrame(data=data, dtype=type)
 	if not is_null(names):
 		set_names(frame, names)
@@ -2118,7 +2117,7 @@ def to_frame(data, names=None, index=None, type=None):
 def to_time_frame(data, names=None, index=None, type=FLOAT_TYPE):
 	"""Converts the specified collection to a time frame."""
 	if not is_null(index):
-		index = to_timestamp(get_values(index))
+		index = to_timestamp(to_array(index))
 	return to_frame(data, names=names, index=index, type=type)
 
 
@@ -2484,20 +2483,16 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 		if is_group(x):
 			axis = x.axis
 			if axis == 0:
-				names = get_names(x, inclusion=keys)
-				return concat_rows([to_frame([f(get_values(v, keys=keys), *args, **kwargs)],
-				                             names=names, index=i) for i, v in x])
-			index = get_index(x)
-			return concat_cols([to_series(f(get_values(v, keys=keys), *args, **kwargs),
-			                              name=k, index=index) for k, v in x if k in keys])
+				return concat_rows([to_frame([to_array(f(get_values(v, keys=keys)), *args, **kwargs)],
+				                             index=to_list(i)) for i, v in x])
+			return concat_cols([to_series(to_array(f(to_array(v), *args, **kwargs)),
+			                              name=k) for k, v in x if k in keys])
 		elif is_frame(x):
 			if is_null(axis):
 				return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
-			return calculate(x.loc[:, keys], f, *args, axis=axis, **kwargs)
+			return x.loc[:, keys].apply(f, args=args, axis=axis, **kwargs)
 		elif is_series(x):
-			if is_null(axis):
-				return x.loc[keys].apply(f, args=args, **kwargs)
-			return calculate(x.loc[keys], f, *args, axis=axis, **kwargs)
+			return x.loc[keys].apply(f, args=args, **kwargs)
 		elif is_dict(x):
 			return {k: f(x[k], *args, **kwargs) for k in keys}
 		elif is_array(x):
@@ -2604,12 +2599,12 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		if axis == 0:
 			names = get_names(c)
 			return concat_rows([to_frame([f(v.values, *args, axis=axis, **kwargs)],
-			                             names=names, index=i) for i, v in c])
+			                             names=names, index=to_list(i)) for i, v in c])
 		index = get_index(c)
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
 		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
-		index = get_names(c) if axis == 0 else get_index(c)
+		index = get_keys(c) if axis == 0 else get_index(c)
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
 	return f(get_values(c), *args, axis=axis, **kwargs)
 
@@ -2675,7 +2670,8 @@ def filter(c, keys=None, inclusion=None, exclusion=None):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys)
 	elif is_frame(c):
 		return c.loc[:, keys]
@@ -2709,7 +2705,8 @@ def filter_index(c, inclusion=None, exclusion=None):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		index = index if c.axis == 0 else get_names(c, inclusion=inclusion, exclusion=exclusion)
+		if c.axis == 1:
+			index = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in index)
 	elif is_table(c):
 		return c.loc[c.index.isin(index)]
@@ -2738,7 +2735,8 @@ def filter_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and all_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, *args, condition=f, keys=keys, **kwargs)
@@ -2758,7 +2756,8 @@ def filter_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kw
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and all_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), keys=keys)
@@ -2778,7 +2777,8 @@ def filter_any_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kw
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and any_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, *args, condition=f, keys=keys, **kwargs)
@@ -2798,7 +2798,8 @@ def filter_any_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, 
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
-		keys = get_index(c, inclusion=inclusion, exclusion=exclusion) if c.axis == 0 else keys
+		if c.axis == 0:
+			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and any_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
 		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), keys=keys)
@@ -3052,6 +3053,8 @@ def count(*args, axis=0):
 	c = forward(*args)
 	if is_group(c):
 		return c.count()
+	elif not is_collection(c):
+		return 1
 	if is_null(axis):
 		return np.size(get_values(c))
 	if is_frame(c):
@@ -3130,7 +3133,7 @@ def keep_min(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_names(g) if axis == 0 else get_index(g)))[:n]]
+	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)))[:n]]
 	return take(c, keys, axis=1 if axis == 0 else 0)
 
 
@@ -3138,7 +3141,7 @@ def keep_max(c, n, group=GROUP, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_names(g) if axis == 0 else get_index(g)),
+	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)),
 	                             reverse=True)[:n]]
 	return take(c, keys, axis=1 if axis == 0 else 0)
 
@@ -3239,7 +3242,7 @@ def slice(c, axis=0, index_from=None, index_to=None):
 		index_from = 0
 	if is_null(index_to):
 		index_to = len(c)
-	keys = get_index(c) if axis == 0 else get_names(c)
+	keys = get_index(c) if axis == 0 else get_keys(c)
 	return take(c, keys[index_from:index_to], axis=axis)
 
 
@@ -3286,7 +3289,7 @@ def take(c, keys, axis=0):
 
 def take_not(c, keys, axis=0):
 	"""Returns the entries of the specified collection except for all the specified keys."""
-	indices = find_all_not_in(get_index(c) if axis == 0 else get_names(c), keys)
+	indices = find_all_not_in(get_index(c) if axis == 0 else get_keys(c), keys)
 	return take_at(c, indices, axis=axis)
 
 

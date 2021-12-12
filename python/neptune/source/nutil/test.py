@@ -50,9 +50,11 @@ class TestCommon(Test):
 
 	def test(self):
 		# Initialize the collections
-		d = to_dict(reverse(range(10000)))
+		d = to_dict(reverse(range(100)))
 		s = to_series(d, name='a')
 		df = concat_cols(s, to_frame(reverse(get_values(s)), names='b'))
+		g0 = df.groupby(by=get_index(df), axis=0)
+		g1 = df.groupby(by={k: 'group' for k in get_keys(df)}, axis=1)
 		f = np.sum
 
 		test('Test the dictionary functions')
@@ -81,6 +83,13 @@ class TestCommon(Test):
 		self.apply(df, f, axis=0)
 		self.apply(df, f, axis=1)
 		self.apply(df.copy(), f, inplace=True)
+
+		test('Test the group functions')
+		self.get_items(g0)
+		self.get_items(g1)
+
+		self.apply(g0, f)
+		self.apply(g1, f)
 
 	def apply(self, c, f, axis=None, inplace=False):
 		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
