@@ -110,7 +110,7 @@ nltk==3.6.5
 notebook==6.4.6
 numba==0.53.1
 numpy==1.19.5
-nutil @ file:///D:/IT/DEV/io.barras/python/neptune/target/nutil-1.0.0.post111-py3-none-any.whl
+nutil @ file:///D:/IT/DEV/io.barras/python/neptune/target/nutil-1.0.0.post112-py3-none-any.whl
 oauthlib==3.1.1
 opencv-python==4.5.2.54
 opt-einsum==3.3.0

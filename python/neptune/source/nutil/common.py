@@ -3369,17 +3369,16 @@ def update(left, right, inclusion=None, exclusion=None):
 #########################
 
 def upsert_all(*args, keys=None, inclusion=None, exclusion=None):
-	return reduce(lambda left, right: upsert(left, right, keys=keys, inclusion=inclusion,
-	                                         exclusion=exclusion), *args)
+	return reduce(lambda left, right: upsert(left, right, inclusion=inclusion, exclusion=exclusion),
+	              *args)
 
 
-def upsert(left, right, keys=None, inclusion=None, exclusion=None):
+def upsert(left, right, inclusion=None, exclusion=None):
 	"""Upserts the specified left collection with the specified right collection by overriding the
 	left values with the right values that have the same indices and concatenating the right values
 	to the left values that have different indices on the common keys that are in the specified
 	inclusive list and are not in the specified exclusive list."""
-	right = collection_to_common_type(right, left, keys=keys, inclusion=inclusion,
-	                                  exclusion=exclusion)
+	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
 	left = update(left, include_index(right, left))
 	return concat(left, exclude_index(right, left))
 
@@ -4278,7 +4277,7 @@ def replace_word(s, word, replacement):
 	count = INF
 	while len(s) < count:
 		count = len(s)
-		s = re.sub('\b' + word + '\b', replacement, s)
+		s = re.sub('\\b' + word + '\\b', replacement, s)
 	return s
 
 
@@ -4351,9 +4350,11 @@ def parallelize(c, f, *args, timeout=None, **kwargs):
 		futures = []
 		# Submit the tasks
 		chunk_size = ceil(len(c) / CORE_COUNT)
-		for index_from in range(0, len(c), chunk_size):
+		for i, index_from in enumerate(range(0, len(c), chunk_size)):
 			index_to = min(index_from + chunk_size, len(c))
-			futures.append(executor.submit(slice(c, index_from=index_from, index_to=index_to), f,
+			trace(str(i + 1) + '/' + str(CORE_COUNT), 'Apply the function', quote(f.__name__),
+			      'to the slice from', index_from, 'to', index_to, 'of the collection')
+			futures.append(executor.submit(f, slice(c, index_from=index_from, index_to=index_to),
 			                               *args, **kwargs))
 		# Collect the results
 		for future in futures:
