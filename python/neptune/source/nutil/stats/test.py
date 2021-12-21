@@ -44,7 +44,12 @@ class TestStats(Test):
 			to_series(lognormal.generate(SIZE, mu=0, sigma=1), name='Log-Normal'),
 			to_series(poisson.generate(SIZE, lam=10), name='Poisson')
 		]
-		fig = descriptive.plot_multi_hist(concat_cols(series), share_x=False, share_y=False)
+		df = concat_cols(series)
+		fig = descriptive.plot_multi_histogram(df, share_x=False, share_y=False)
+		fig.show()
+		fig = descriptive.plot_multi_density(df, share_x=False, share_y=False)
+		fig.show()
+		fig = descriptive.plot_histogram(get_col(df))
 		fig.show()
 
 	#####################

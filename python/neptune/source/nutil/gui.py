@@ -449,15 +449,17 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 
 ##################################################
 
-def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines', name=None,
-         opacity=1, show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
+def draw(x, y=None,
+         color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
+         show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
          stackgroup=None, width=2, yaxis=0):
 	if is_null(y):
 		data = x
 		x = data.index
 		y = get_col(data)
 	if is_null(name):
-		name = y if is_collection(y) else name
+		name = get_name(y)
+	name = get_label(name, show_date=show_date, show_name=show_name, yaxis=yaxis)
 	hover_template = get_hover_template(index)
 	line = dict(color=color, dash=dash, width=width)
 	marker = dict(color=color, size=size)
@@ -466,8 +468,7 @@ def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines'
 	elif mode == 'markers':
 		line = None
 	return go.Scatter(x=x, y=y,
-	                  name=get_label(name, show_date=show_date, show_name=show_name, yaxis=yaxis),
-	                  customdata=index, hovertemplate=hover_template,
+	                  name=name, customdata=index, hovertemplate=hover_template,
 	                  fill=fill,
 	                  mode=mode, line=line, marker=marker, opacity=opacity,
 	                  showlegend=show_legend,
@@ -475,19 +476,22 @@ def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines'
 	                  yaxis='y' + str(1 if yaxis == 0 else yaxis))
 
 
-def draw_ellipse(center, a, b, angle=0, color=None, dash=None, fill='none', index=None,
-                 mode='lines', name=None, opacity=1, precision=100, show_date=False,
-                 show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE, width=2, yaxis=0):
+def draw_ellipse(center, a, b, angle=0, precision=100,
+                 color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
+                 show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
+                 width=2, yaxis=0):
 	X, Y = create_ellipse(center, a, b, angle=angle, precision=precision)
-	return draw(x=X, y=Y, color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
+	return draw(x=X, y=Y,
+	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
 	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
 	            size=size, width=width, yaxis=yaxis)
 
 
 #########################
 
-def plot_multi(df, draw, *args, fig=None, row_count=None, col_count=None, share_x=True,
-               share_y=True, title=None, subtitles=None, title_x=None, title_y=None,
+def plot_multi(df, draw, *args,
+               fig=None, row_count=None, col_count=None, share_x=True, share_y=True, title=None,
+               subtitles=None, title_x=None, title_y=None,
                colors=DEFAULT_COLORS, **kwargs):
 	if is_null(fig):
 		row_count, col_count = get_grid_size(df, row_count=row_count, col_count=col_count)
