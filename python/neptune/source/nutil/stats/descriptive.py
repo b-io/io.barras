@@ -45,7 +45,7 @@ def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=No
 __DESCRIPTIVE_FIGURE______________________________ = ''
 
 
-def draw_histogram(s, bins=None, norm='probability',
+def draw_histogram(series, bins=None, norm='probability',
                    color=None, index=None, name=None, opacity=1, show_date=False, show_legend=True,
                    show_name=True, yaxis=0):
 	if is_null(name):
@@ -54,7 +54,7 @@ def draw_histogram(s, bins=None, norm='probability',
 	name = get_label(name, show_date=show_date, show_name=show_name, yaxis=yaxis)
 	hover_template = get_hover_template(index)
 	marker = dict(color=color)
-	return go.Histogram(x=s,
+	return go.Histogram(x=series,
 	                    histnorm=norm, xbins=bins,
 	                    name=name, customdata=index, hovertemplate=hover_template,
 	                    marker=marker, opacity=opacity,
@@ -103,11 +103,11 @@ def plot_multi_histogram(df, bins=None, norm='probability',
 
 #########################
 
-def draw_density(s, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
+def draw_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                  color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                  show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
                  stackgroup=None, width=2, yaxis=0):
-	return draw_series(s,
+	return draw_series(series,
 	                   f=get_density, method=method, point_count=point_count, weights=weights,
 	                   color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
 	                   opacity=opacity, show_date=show_date, show_legend=show_legend,

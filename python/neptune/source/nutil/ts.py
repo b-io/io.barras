@@ -316,13 +316,13 @@ def untransform_series(series, offset, clean=True, transformation=None):
 __TIME_SERIES_FIGURE______________________________ = ''
 
 
-def draw_series(s, *args, f=None,
+def draw_series(series, *args, f=None,
                 color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                 show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
                 stackgroup=None, width=2, yaxis=0, **kwargs):
 	if not is_null(f):
-		s = f(s, *args, **kwargs)
-	return draw(x=get_index(s), y=get_col(s),
+		series = f(series, *args, **kwargs)
+	return draw(x=get_index(series), y=get_col(series),
 	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
 	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
 	            size=size, stackgroup=stackgroup, width=width, yaxis=yaxis)
