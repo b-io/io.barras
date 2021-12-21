@@ -316,26 +316,60 @@ def untransform_series(series, offset, clean=True, transformation=None):
 __TIME_SERIES_FIGURE______________________________ = ''
 
 
-def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, fill='none',
-                index=None, mode='lines', opacity=1, show_date=False, show_legend=True,
-                show_name=True, size=4, stackgroup=None, width=2, yaxis=0):
+def draw_series(series, *args, f=None,
+                color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
+                show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
+                stackgroup=None, width=2, yaxis=0, **kwargs):
+	if not is_null(f):
+		series = f(series, *args, **kwargs)
+	return draw(x=get_index(series), y=get_col(series),
+	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
+	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
+	            size=size, stackgroup=stackgroup, width=width, yaxis=yaxis)
+
+
+def plot_series(series, *args, f=None,
+                fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
+                colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
+                opacity=1, show_date=False, show_legend=True, show_name=True,
+                size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2, yaxis=0, **kwargs):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x='Time')
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
 	for s in to_series(series) if is_frame(series) else [series]:
-		fig.add_trace(draw(x=get_index(s), y=get_col(s),
-		                   color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
-		                   name=get_name(s), opacity=opacity, show_date=show_date,
-		                   show_legend=show_legend, show_name=show_name, size=size,
-		                   stackgroup=stackgroup, width=width, yaxis=yaxis))
+		fig.add_trace(draw_series(s,
+		                          *args, f=f,
+		                          color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
+		                          name=name, opacity=opacity, show_date=show_date,
+		                          show_legend=show_legend, show_name=show_name, size=size,
+		                          stackgroup=stackgroup, width=width, yaxis=yaxis, **kwargs))
 	return fig
 
 
-def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Trend Decomposition',
+def plot_multi_series(df, *args, f=None,
+                      fig=None, row_count=None, col_count=None, share_x=True, share_y=True,
+                      title=None, subtitles=None, title_x=None, title_y=None,
+                      colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines',
+                      opacity=1, show_date=False, show_legend=False, show_name=True,
+                      size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2, **kwargs):
+	return plot_multi(df, draw_series,
+	                  *args, f=f,
+	                  fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,
+	                  share_y=share_y, title=title, subtitles=subtitles, title_x=title_x,
+	                  title_y=title_y,
+	                  colors=colors, dash=dash, fill=fill, index=index, mode=mode, opacity=opacity,
+	                  show_date=show_date, show_legend=show_legend, show_name=show_name, size=size,
+	                  stackgroup=stackgroup, width=width, **kwargs)
+
+
+#########################
+
+def plot_decomposition(trend, seasonal, residual,
+                       fig=None, title='Seasonal-Trend Decomposition', title_x='Time', title_y=None,
                        name=None, color='black', trend_color='red', seasonal_color='gray',
                        residual_color='lightgray', show_legend=False, width=2, yaxis=0):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x='Time')
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y)
 	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='none',
 	                   name=paste(name, '(Trend Component)'), show_legend=show_legend,
 	                   stackgroup='one', width=width, yaxis=yaxis))
@@ -346,6 +380,6 @@ def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Tren
 	                   name=paste(name, '(Residual Component)'), show_legend=show_legend,
 	                   stackgroup='one', width=width, yaxis=yaxis))
 	series = trend + seasonal + residual
-	fig.add_trace(draw(x=series.index, y=get_col(series), color=color, name=name, width=width,
-	                   yaxis=yaxis))
+	fig.add_trace(draw(x=series.index, y=get_col(series),
+	                   color=color, name=name, width=width, yaxis=yaxis))
 	return fig
