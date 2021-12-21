@@ -2475,9 +2475,9 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
-	if is_null(keys):
-		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 	if is_collection(x):
+		if is_null(keys):
+			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		if inplace:
 			return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
 		if is_group(x):
@@ -2501,6 +2501,8 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 			return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
 		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
+		if is_null(keys):
+			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		return collapse([f(c, *args, **kwargs) if i in keys else c for i, c in enumerate(x)])
 	return f(x, *args, **kwargs)
 
@@ -3051,13 +3053,13 @@ def groupby(c, group=GROUP, dof=1, axis=0):
 
 def count(*args, axis=0):
 	c = forward(*args)
-	if is_group(c):
-		return c.count()
-	elif not is_collection(c):
+	if not is_collection(c):
 		return 1
 	if is_null(axis):
 		return np.size(get_values(c))
-	if is_frame(c):
+	if is_group(c):
+		return c.count()
+	elif is_frame(c):
 		return c.count(axis=axis)
 	elif is_array(c):
 		return np.apply_along_axis(len, axis, c)
@@ -3066,63 +3068,77 @@ def count(*args, axis=0):
 
 def minimum(*args, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.min(get_values(c))
 	if is_group(c):
 		return c.min()
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.min(c, axis=axis)
 
 
 def maximum(*args, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.max(get_values(c))
 	if is_group(c):
 		return c.max()
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.max(c, axis=axis)
 
 
 def mean(*args, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.mean(get_values(c))
 	if is_group(c):
 		return c.mean()
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.mean(c, axis=axis)
 
 
 def median(*args, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.median(get_values(c))
 	if is_group(c):
 		return c.median()
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.median(c, axis=axis)
 
 
 def std(*args, dof=1, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.std(get_values(c), ddof=dof)
 	if is_group(c):
 		return c.std(ddof=dof)
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.std(c, axis=axis, ddof=dof)
 
 
 def var(*args, dof=1, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.var(get_values(c), ddof=dof)
 	if is_group(c):
 		return c.var(ddof=dof)
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.var(c, axis=axis, ddof=dof)
 
 
 def sum(*args, axis=0):
 	c = forward(*args)
+	if is_null(axis):
+		return np.sum(get_values(c))
 	if is_group(c):
 		return c.sum()
-	if is_null(axis) or is_dict(c):
+	elif is_dict(c):
 		c = get_values(c)
 	return np.sum(c, axis=axis)
 

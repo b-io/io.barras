@@ -93,7 +93,7 @@ class TestCommon(Test):
 
 	def apply(self, c, f, axis=None, inplace=False):
 		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
-		test('Applied', f.__name__, 'on', count(c), 'items', TEST_COUNT, 'times in', t, '[s]')
+		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in', t, '[s]')
 
 	def get_items(self, c):
 		t = timeit.timeit(stmt=lambda: get_items(c, inclusion=range(len(c)),

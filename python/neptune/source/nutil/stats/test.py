@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.stats import binomial, lognormal, normal, poisson
+from nutil.stats import binomial, descriptive, lognormal, normal, poisson
 from nutil.stats.common import *
 from nutil.test import *
 
@@ -25,7 +25,7 @@ from nutil.test import *
 __STATS_TEST_CONSTANTS____________________________ = ''
 
 PRECISION = 14  # decimals
-SIZE = 10000
+SIZE = 1000
 
 ####################################################################################################
 # STATS TEST CLASSES
@@ -36,8 +36,26 @@ __STATS_TEST_CLASSES______________________________ = ''
 
 class TestStats(Test):
 
+	def test_descriptive(self):
+		test('Descriptive Statistics')
+		series = [
+			to_series(binomial.generate(SIZE, n=10, p=0.2), name='Binomial'),
+			to_series(normal.generate(SIZE, mu=10, sigma=1), name='Normal'),
+			to_series(lognormal.generate(SIZE, mu=0, sigma=1), name='Log-Normal'),
+			to_series(poisson.generate(SIZE, lam=10), name='Poisson')
+		]
+		df = concat_cols(series)
+		fig = descriptive.plot_multi_histogram(df, share_x=False, share_y=False)
+		fig.show()
+		fig = descriptive.plot_multi_density(df, share_x=False, share_y=False)
+		fig.show()
+		fig = descriptive.plot_histogram(get_col(df))
+		fig.show()
+
+	#####################
+
 	def test_binomial(self):
-		test(binomial.BINOMIAL_NAME.title())
+		test(binomial.BINOMIAL_NAME.title(), 'Distribution')
 		n = 10
 		p = 0.2
 		test(par(collist(n, p)))
@@ -50,7 +68,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_normal(self):
-		test(normal.NORMAL_NAME.title())
+		test(normal.NORMAL_NAME.title(), 'Distribution')
 		mu = 100
 		sigma = 10
 		test(par(collist(mu, sigma)))
@@ -63,7 +81,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_normal_kde(self):
-		test(normal.NORMAL_KDE_NAME.title())
+		test(normal.NORMAL_KDE_NAME.title(), 'Distribution')
 		mu = 100
 		sigma = 10
 		test(par(collist(mu, sigma)))
@@ -76,7 +94,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_log_normal(self):
-		test(lognormal.LOG_NORMAL_NAME.title())
+		test(lognormal.LOG_NORMAL_NAME.title(), 'Distribution')
 		mu = 10
 		sigma = 1
 		test(par(collist(mu, sigma)))
@@ -89,7 +107,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_poisson(self):
-		test(poisson.POISSON_NAME.title())
+		test(poisson.POISSON_NAME.title(), 'Distribution')
 		lam = 10
 		test(par(collist(lam)))
 		a = poisson.generate(SIZE, lam=lam)
