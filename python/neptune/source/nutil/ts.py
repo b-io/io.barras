@@ -316,20 +316,45 @@ def untransform_series(series, offset, clean=True, transformation=None):
 __TIME_SERIES_FIGURE______________________________ = ''
 
 
-def plot_series(series, fig=None, title=None, colors=DEFAULT_COLORS, dash=None, fill='none',
-                index=None, mode='lines', opacity=1, show_date=False, show_legend=True,
-                show_name=True, size=4, stackgroup=None, width=2, yaxis=0):
+def draw_series(s, color=None, dash=None, fill='none', index=None, mode='lines', opacity=1,
+                show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
+                stackgroup=None, width=2, yaxis=0):
+	return draw(x=get_index(s), y=get_col(s),
+	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=get_name(s),
+	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
+	            size=size, stackgroup=stackgroup, width=width, yaxis=yaxis)
+
+
+def plot_series(series, fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
+                colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', opacity=1,
+                show_date=False, show_legend=True, show_name=True, size=4, stackgroup=None, width=2,
+                yaxis=0):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x='Time')
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
 	for s in to_series(series) if is_frame(series) else [series]:
-		fig.add_trace(draw(x=get_index(s), y=get_col(s),
-		                   color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
-		                   name=get_name(s), opacity=opacity, show_date=show_date,
-		                   show_legend=show_legend, show_name=show_name, size=size,
-		                   stackgroup=stackgroup, width=width, yaxis=yaxis))
+		fig.add_trace(draw_series(s,
+		                          color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
+		                          opacity=opacity, show_date=show_date, show_legend=show_legend,
+		                          show_name=show_name, size=size, stackgroup=stackgroup,
+		                          width=width, yaxis=yaxis))
 	return fig
 
+
+def plot_multi_series(df, fig=None, row_count=None, col_count=None, share_x=True, share_y=True,
+                      title=None, subtitles=None, title_x=None, title_y=None, colors=DEFAULT_COLORS,
+                      dash=None, fill='none', index=None, mode='lines', opacity=1, show_date=False,
+                      show_legend=False, show_name=True, size=4, stackgroup=None, width=2):
+	return plot_multi(df, draw_series,
+	                  fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,
+	                  share_y=share_y, title=title, subtitles=subtitles, title_x=title_x,
+	                  title_y=title_y, colors=colors,
+	                  dash=dash, fill=fill, index=index, mode=mode, opacity=opacity,
+	                  show_date=show_date, show_legend=show_legend, show_name=show_name, size=size,
+	                  stackgroup=stackgroup, width=width)
+
+
+#########################
 
 def plot_decomposition(trend, seasonal, residual, fig=None, title='Seasonal-Trend Decomposition',
                        name=None, color='black', trend_color='red', seasonal_color='gray',

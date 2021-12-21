@@ -2475,9 +2475,9 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments."""
-	if is_null(keys):
-		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 	if is_collection(x):
+		if is_null(keys):
+			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		if inplace:
 			return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
 		if is_group(x):
@@ -2501,6 +2501,8 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 			return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
 		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 	elif is_string(x):
+		if is_null(keys):
+			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		return collapse([f(c, *args, **kwargs) if i in keys else c for i, c in enumerate(x)])
 	return f(x, *args, **kwargs)
 

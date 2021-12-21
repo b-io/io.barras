@@ -25,12 +25,19 @@ import matplotlib.ticker as mticker
 import plotly.express as px
 import plotly.graph_objs as go
 import plotly.io as pio
-import plotly.tools as ptools
+import plotly.subplots as sp
+import plotly.tools as tls
 from xhtml2pdf import pisa
 
 import nutil.web as web
-from nutil.common import *
+from nutil.math import *
 from nutil.stats import normal
+
+####################################################################################################
+# GUI SETTINGS
+####################################################################################################
+
+pio.renderers.default = 'browser'
 
 ####################################################################################################
 # GUI CONSTANTS
@@ -49,7 +56,10 @@ DEFAULT_HEIGHT = 933
 
 # The default margin (left, right, bottom and top) defined by the ratio to the width or height
 DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
-DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.1)
+DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.05)
+
+# The default marker size
+DEFAULT_MARKER_SIZE = 4
 
 # • GUI COLOR ######################################################################################
 
@@ -78,6 +88,9 @@ DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color
 DEFAULT_BG_COLOR = TRANSPARENT
+
+# The default font size
+DEFAULT_FONT_SIZE = 12
 
 ##################################################
 
@@ -213,6 +226,21 @@ def to_rgba_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 __GUI_FIGURE______________________________________ = ''
 
 
+def is_multi_plot(fig):
+	return not is_null(fig._grid_ref)
+
+
+##################################################
+
+def get_hover_template(index):
+	if not is_null(index):
+		return collapse('<b>%{customdata}</b><br />',
+		                '<b>x:</b> %{x}<br />',
+		                '<b>y:</b> %{y}')
+	return collapse('<b>x:</b> %{x}<br />',
+	                '<b>y:</b> %{y}')
+
+
 def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=0):
 	if is_null(data):
 		return ''
@@ -230,7 +258,7 @@ def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=
 			date_range = year_from
 	else:
 		date_range = ''
-	if show_name:
+	if show_name and not is_empty(data):
 		name = get_names(data)[0] if is_collection(data) else data
 		name = str(name).title() if not is_null(name) else ''
 	else:
@@ -251,12 +279,23 @@ def get_margin(x, has_title=False):
 	return dict(l=x, r=x, b=x, t=x)
 
 
+def get_grid_size(n, row_count=None, col_count=None):
+	if is_collection(n):
+		n = max(1, count_cols(n))
+	if is_null(col_count):
+		col_count = round(sqrt(n))
+	if is_null(row_count):
+		row_count = ceil(n / col_count)
+	return row_count, col_count
+
+
 ##################################################
 
 def create_figure(auto_size=True,
                   axis_color='black', axis_width=2,
                   bar_mode=None,
                   bg_color=DEFAULT_BG_COLOR,
+                  font_size=DEFAULT_FONT_SIZE,
                   grid_color='lightgray', grid_width=1,
                   label_color='black', label_size=None,
                   legend_bg_color=DEFAULT_BG_COLOR, legend_x=0.01, legend_y=0.99,
@@ -278,6 +317,7 @@ def create_figure(auto_size=True,
 	              axis_color=axis_color, axis_width=axis_width,
 	              bar_mode=bar_mode,
 	              bg_color=bg_color,
+	              font_size=font_size,
 	              grid_color=grid_color, grid_width=grid_width,
 	              label_color=label_color, label_size=label_size,
 	              legend_bg_color=legend_bg_color, legend_x=legend_x, legend_y=legend_y,
@@ -293,6 +333,57 @@ def create_figure(auto_size=True,
 	              tick_values_x=tick_values_x, tick_values_y=tick_values_y,
 	              tick_values_y2=tick_values_y2,
 	              title=title, title_x=title_x, title_y=title_y, title_y2=title_y2,
+	              width=width, height=height, margin=margin,
+	              zero_line_color=zero_line_color, zero_line_width=zero_line_width)
+	return fig
+
+
+def create_figures(row_count, col_count,
+                   share_x=False, share_y=False,
+                   auto_size=True,
+                   axis_color='black', axis_width=2,
+                   bar_mode=None,
+                   bg_color=DEFAULT_BG_COLOR,
+                   font_size=DEFAULT_FONT_SIZE,
+                   grid_color='lightgray', grid_width=1,
+                   label_color='black', label_size=None,
+                   legend_bg_color=DEFAULT_BG_COLOR, legend_x=0.01, legend_y=0.99,
+                   range_to_zero_x=False, range_to_zero_y=False,
+                   show_grid_x=True, show_grid_y=True, show_spine=True,
+                   show_title=True, show_zero_line=True,
+                   tick_color='black', tick_direction=DEFAULT_TICK_DIRECTION,
+                   tick_length=DEFAULT_TICK_LENGTH,
+                   tick_number_x=None, tick_number_y=None,
+                   tick_start_x=None, tick_start_y=None,
+                   tick_step_x=None, tick_step_y=None,
+                   tick_values_x=None, tick_values_y=None,
+                   title=None, subtitles=None, title_x=None, title_y=None,
+                   width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                   zero_line_color='darkgray', zero_line_width=2):
+	margin = get_margin(margin, has_title=not is_empty(title) or not is_empty(subtitles))
+	fig = sp.make_subplots(rows=row_count, cols=col_count,
+	                       shared_xaxes=share_x, shared_yaxes=share_y,
+	                       subplot_titles=apply(subtitles, to_string),
+	                       row_titles=repeat(to_string(title_y), row_count),
+	                       column_titles=repeat(to_string(title_x), row_count))
+	update_layout(fig,
+	              auto_size=auto_size,
+	              axis_color=axis_color, axis_width=axis_width,
+	              bar_mode=bar_mode,
+	              bg_color=bg_color,
+	              font_size=font_size,
+	              grid_color=grid_color, grid_width=grid_width,
+	              label_color=label_color, label_size=label_size,
+	              legend_bg_color=legend_bg_color, legend_x=legend_x, legend_y=legend_y,
+	              range_to_zero_x=range_to_zero_x, range_to_zero_y=range_to_zero_y,
+	              show_grid_x=show_grid_x, show_grid_y=show_grid_y,
+	              show_spine=show_spine, show_title=show_title, show_zero_line=show_zero_line,
+	              tick_color=tick_color, tick_direction=tick_direction, tick_length=tick_length,
+	              tick_number_x=tick_number_x, tick_number_y=tick_number_y,
+	              tick_start_x=tick_start_x, tick_start_y=tick_start_y,
+	              tick_step_x=tick_step_x, tick_step_y=tick_step_y,
+	              tick_values_x=tick_values_x, tick_values_y=tick_values_y,
+	              title=title, title_x=None, title_y=None,
 	              width=width, height=height, margin=margin,
 	              zero_line_color=zero_line_color, zero_line_width=zero_line_width)
 	return fig
@@ -359,21 +450,15 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 ##################################################
 
 def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines', name=None,
-         opacity=1, show_date=False, show_legend=True, show_name=True, size=4, stackgroup=None,
-         width=2, yaxis=0):
+         opacity=1, show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
+         stackgroup=None, width=2, yaxis=0):
 	if is_null(y):
 		data = x
 		x = data.index
 		y = get_col(data)
-	if not is_null(index):
-		hover_template = collapse('<b>%{customdata}</b><br />',
-		                          '<b>x:</b> %{x}<br />',
-		                          '<b>y:</b> %{y}')
-	else:
-		hover_template = collapse('<b>x:</b> %{x}<br />',
-		                          '<b>y:</b> %{y}')
 	if is_null(name):
 		name = y if is_collection(y) else name
+	hover_template = get_hover_template(index)
 	line = dict(color=color, dash=dash, width=width)
 	marker = dict(color=color, size=size)
 	if mode == 'lines':
@@ -392,11 +477,33 @@ def draw(x, y=None, color=None, dash=None, fill='none', index=None, mode='lines'
 
 def draw_ellipse(center, a, b, angle=0, color=None, dash=None, fill='none', index=None,
                  mode='lines', name=None, opacity=1, precision=100, show_date=False,
-                 show_legend=True, show_name=True, size=4, width=2, yaxis=0):
+                 show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE, width=2, yaxis=0):
 	X, Y = create_ellipse(center, a, b, angle=angle, precision=precision)
 	return draw(x=X, y=Y, color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
 	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
 	            size=size, width=width, yaxis=yaxis)
+
+
+#########################
+
+def plot_multi(df, draw, *args, fig=None, row_count=None, col_count=None, share_x=True,
+               share_y=True, title=None, subtitles=None, title_x=None, title_y=None,
+               colors=DEFAULT_COLORS, **kwargs):
+	if is_null(fig):
+		row_count, col_count = get_grid_size(df, row_count=row_count, col_count=col_count)
+		if is_null(subtitles):
+			subtitles = get_names(df)
+		fig = create_figures(row_count, col_count, share_x=share_x, share_y=share_y, title=title,
+		                     subtitles=subtitles, title_x=title_x, title_y=title_y)
+	colors = get_iterator(to_list(colors), cycle=True)
+	series_count = count_cols(df)
+	for i in range(row_count):
+		for j in range(col_count):
+			series_index = i * col_count + j
+			if series_index < series_count:
+				fig.add_trace(draw(get_col(df, series_index), *args, color=next(colors), **kwargs),
+				              row=i + 1, col=j + 1)
+	return fig
 
 
 #########################
@@ -406,6 +513,7 @@ def update_layout(fig,
                   axis_color='black', axis_width=2,
                   bar_mode=None,
                   bg_color=DEFAULT_BG_COLOR,
+                  font_size=DEFAULT_FONT_SIZE,
                   grid_color='lightgray', grid_width=1,
                   label_color='black', label_size=None,
                   legend_bg_color=DEFAULT_BG_COLOR, legend_x=0.01, legend_y=0.99,
@@ -421,8 +529,9 @@ def update_layout(fig,
                   title=None, title_x=None, title_y=None, title_y2=None,
                   width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   zero_line_color='darkgray', zero_line_width=2):
+	margin = get_margin(margin, has_title=not is_empty(title))
 	update_layout_plot(fig, auto_size=auto_size, bar_mode=bar_mode, bg_color=bg_color,
-	                   show_title=show_title, title=title)
+	                   font_size=font_size, show_title=show_title, title=title)
 	update_layout_axes(fig,
 	                   axis_color=axis_color, axis_width=axis_width,
 	                   grid_color=grid_color, grid_width=grid_width,
@@ -444,12 +553,11 @@ def update_layout(fig,
 	                   title_x=title_x, title_y=title_y, title_y2=title_y2,
 	                   zero_line_color=zero_line_color, zero_line_width=zero_line_width)
 	update_layout_legend(fig, bg_color=legend_bg_color, x=legend_x, y=legend_y)
-	update_layout_size(fig, has_title=not is_empty(title), width=width, height=height,
-	                   margin=margin)
+	update_layout_size(fig, width=width, height=height, margin=margin)
 
 
 def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_COLOR,
-                       show_title=True, title=None):
+                       font_size=DEFAULT_FONT_SIZE, show_title=True, title=None):
 	if is_matplot(fig):
 		for ax in fig.axes:
 			if not is_null(bg_color):
@@ -457,6 +565,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 			if not is_null(title) or not show_title:
 				ax.set_title(title if show_title else None)
 	elif is_plotly(fig):
+		fig.update_annotations(font_size=font_size)
 		bg_color = to_rgba_color(bg_color)
 		if not is_null(title) or not show_title:
 			fig.update_layout(title=web.b(title) if show_title else None)
@@ -489,10 +598,10 @@ def update_layout_axes(fig,
 			# Set the titles
 			# - Horizontal axis
 			if not is_null(title_x):
-				ax.set_xlabel(title_x)
+				ax.set_xlabel(to_string(title_x))
 			# - Vertical axis
 			if not is_null(title_y):
-				ax.set_ylabel(title_y)
+				ax.set_ylabel(to_string(title_y))
 			# Set the spines
 			for _, spine in ax.spines.items():
 				spine.set_color(axis_color)
@@ -550,79 +659,93 @@ def update_layout_axes(fig,
 		# Set the titles
 		# - Horizontal axis
 		if not is_null(title_x):
-			fig.update_layout(
-				xaxis=dict(title=dict(text=title_x,
-				                      font_color=label_color, font_size=label_size)))
-		# - Vertical axis
+			fig.update_xaxes(title=dict(text=to_string(title_x), font_color=label_color,
+			                            font_size=label_size))
+		# - Primary vertical axis
 		if not is_null(title_y):
-			fig.update_layout(
-				yaxis=dict(title=dict(text=title_y,
-				                      font_color=label_color, font_size=label_size)))
-		# - Second vertical axis
+			update_axis_y(fig, yaxis=1,
+			              title=dict(text=to_string(title_y), font_color=label_color,
+			                         font_size=label_size))
+		# - Secondary vertical axis
 		if not is_null(title_y2):
-			fig.update_layout(
-				yaxis2=dict(title=dict(text=title_y2,
-				                       font_color=label_color, font_size=label_size)))
+			update_axis_y(fig, yaxis=2,
+			              title=dict(text=to_string(title_y2), font_color=label_color,
+			                         font_size=label_size))
 		# Set the scale
 		if not is_null(scale_ratio_y):
-			fig.update_layout(yaxis=dict(scaleanchor='x', scaleratio=scale_ratio_y))
+			update_axis_y(fig, yaxis=1,
+			              scaleanchor='x', scaleratio=scale_ratio_y)
 		if not is_null(scale_ratio_y2):
-			fig.update_layout(yaxis=dict(scaleanchor='x', scaleratio=scale_ratio_y2))
-		fig.update_layout(
-			# - Horizontal axis
-			xaxis=dict(
-				# Set the spine
-				showline=show_spine, linecolor=axis_color, linewidth=axis_width,
-				# Set the grid
-				showgrid=show_grid_x, gridcolor=grid_color, gridwidth=grid_width,
-				# Set the range
-				rangemode='tozero' if range_to_zero_x else None,
-				# Set the ticks
-				tickmode='array' if not is_null(tick_values_x)
-				else 'linear' if not is_null(tick_start_x) or not is_null(tick_step_x)
-				else 'auto', nticks=tick_number_x, tick0=tick_start_x, dtick=tick_step_x,
-				tickvals=tick_values_x,
-				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
-				tickwidth=grid_width,
-				# Set the zero line
-				zeroline=show_zero_line, zerolinecolor=zero_line_color,
-				zerolinewidth=zero_line_width),
-			# - Vertical axis
-			yaxis=dict(
-				# Set the spine
-				showline=show_spine, linecolor=axis_color, linewidth=axis_width,
-				# Set the grid
-				showgrid=show_grid_y, gridcolor=grid_color, gridwidth=grid_width,
-				# Set the range
-				rangemode='tozero' if range_to_zero_y else None,
-				# Set the ticks
-				tickmode='array' if not is_null(tick_values_y)
-				else 'linear' if not is_null(tick_start_y) or not is_null(tick_step_y)
-				else 'auto', nticks=tick_number_y, tick0=tick_start_y, dtick=tick_step_y,
-				tickvals=tick_values_y,
-				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
-				tickwidth=grid_width,
-				# Set the zero line
-				zeroline=show_zero_line, zerolinecolor=zero_line_color,
-				zerolinewidth=zero_line_width),
-			# - Second vertical axis
-			yaxis2=dict(
-				# Set the spine
-				showline=show_spine, linecolor=axis_color, linewidth=axis_width,
-				# Set the grid
-				showgrid=show_grid_y2, gridcolor=grid_color, gridwidth=grid_width,
-				# Set the range
-				rangemode='tozero' if range_to_zero_y2 else None,
-				# Set the ticks
-				tickmode='array' if not is_null(tick_values_y2)
-				else 'linear' if not is_null(tick_start_y2) or not is_null(tick_step_y2)
-				else 'auto', nticks=tick_number_y2, tick0=tick_start_y2, dtick=tick_step_y2,
-				tickvals=tick_values_y2,
-				tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
-				tickwidth=grid_width,
-				# Set the zero line
-				zeroline=show_zero_line, zerolinecolor=zero_line_color,
-				zerolinewidth=zero_line_width))
+			update_axis_y(fig, yaxis=2,
+			              scaleanchor='x', scaleratio=scale_ratio_y2)
+		# Set the layout
+		# - Horizontal axis
+		fig.update_xaxes(
+			# Set the spine
+			showline=show_spine, linecolor=axis_color, linewidth=axis_width,
+			# Set the grid
+			showgrid=show_grid_x, gridcolor=grid_color, gridwidth=grid_width,
+			# Set the range
+			rangemode='tozero' if range_to_zero_x else None,
+			# Set the ticks
+			tickmode='array' if not is_null(tick_values_x)
+			else 'linear' if not is_null(tick_start_x) or not is_null(tick_step_x)
+			else 'auto', nticks=tick_number_x, tick0=tick_start_x, dtick=tick_step_x,
+			tickvals=tick_values_x,
+			tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
+			tickwidth=grid_width,
+			# Set the zero line
+			zeroline=show_zero_line, zerolinecolor=zero_line_color,
+			zerolinewidth=zero_line_width)
+		# - Primary vertical axis
+		update_axis_y(fig, yaxis=1,
+		              # Set the spine
+		              showline=show_spine, linecolor=axis_color, linewidth=axis_width,
+		              # Set the grid
+		              showgrid=show_grid_y, gridcolor=grid_color, gridwidth=grid_width,
+		              # Set the range
+		              rangemode='tozero' if range_to_zero_y else None,
+		              # Set the ticks
+		              tickmode='array' if not is_null(tick_values_y)
+		              else 'linear' if not is_null(tick_start_y) or not is_null(tick_step_y)
+		              else 'auto', nticks=tick_number_y, tick0=tick_start_y, dtick=tick_step_y,
+		              tickvals=tick_values_y,
+		              tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
+		              tickwidth=grid_width,
+		              # Set the zero line
+		              zeroline=show_zero_line, zerolinecolor=zero_line_color,
+		              zerolinewidth=zero_line_width)
+		# - Secondary vertical axis
+		update_axis_y(fig, yaxis=2,
+		              # Set the spine
+		              showline=show_spine, linecolor=axis_color, linewidth=axis_width,
+		              # Set the grid
+		              showgrid=show_grid_y2, gridcolor=grid_color, gridwidth=grid_width,
+		              # Set the range
+		              rangemode='tozero' if range_to_zero_y2 else None,
+		              # Set the ticks
+		              tickmode='array' if not is_null(tick_values_y2)
+		              else 'linear' if not is_null(tick_start_y2) or not is_null(tick_step_y2)
+		              else 'auto', nticks=tick_number_y2, tick0=tick_start_y2, dtick=tick_step_y2,
+		              tickvals=tick_values_y2,
+		              tickcolor=tick_color, ticks=tick_direction, ticklen=tick_length,
+		              tickwidth=grid_width,
+		              # Set the zero line
+		              zeroline=show_zero_line, zerolinecolor=zero_line_color,
+		              zerolinewidth=zero_line_width)
+
+
+def update_axis_y(fig, yaxis=0, **kwargs):
+	if is_multi_plot(fig):
+		if yaxis == 2:
+			fig.update_yaxes(secondary_y=True, **kwargs)
+		else:
+			fig.update_yaxes(secondary_y=False, **kwargs)
+	else:
+		if yaxis == 2:
+			fig.update_layout(yaxis2=dict(**kwargs))
+		else:
+			fig.update_layout(yaxis=dict(**kwargs))
 
 
 def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
@@ -666,7 +789,7 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=False):
 			collection.get_offset_position = lambda: 'screen'
 		for _, spine in ax.spines.items():
 			spine.is_frame_like = lambda: False
-	return ptools.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
+	return tls.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
 
 
 # • GUI HTML #######################################################################################
