@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ package jupiter.transfer.ftp;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.io.file.Files.SEPARATOR;
 import static jupiter.common.util.Characters.SEMICOLON;
+import static jupiter.common.util.Strings.ANY_CHARS;
 import static jupiter.common.util.Strings.STAR;
 
 import com.jcraft.jsch.Channel;
@@ -145,7 +146,7 @@ public class FTPHandler
 	 */
 	public FTPHandler(final Protocol protocol, final String hostName, final String userName,
 			final String password, final String remoteDirPath, final String localDirPath) {
-		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, STAR);
+		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, ANY_CHARS);
 	}
 
 	/**
@@ -165,7 +166,7 @@ public class FTPHandler
 			final String password, final String remoteDirPath, final String localDirPath,
 			final String fileNameFilter) {
 		this(protocol, hostName, userName, password, remoteDirPath, localDirPath, fileNameFilter,
-				new String[] {STAR});
+				new String[] {ANY_CHARS});
 	}
 
 	/**
@@ -403,14 +404,14 @@ public class FTPHandler
 		final int downloadedFileCount;
 		switch (protocol) {
 			case FTP:
-				fileNameFilter = fileNameFilter.replace(STAR, ".*");
 				downloadedFileCount = downloadFTP();
 				break;
 			case FTPS:
-				fileNameFilter = fileNameFilter.replace(STAR, ".*");
+
 				downloadedFileCount = downloadFTPS();
 				break;
 			case SFTP:
+				fileNameFilter = fileNameFilter.replace(ANY_CHARS, STAR);
 				downloadedFileCount = downloadSFTP();
 				break;
 			default:
@@ -658,7 +659,6 @@ public class FTPHandler
 
 		// Upload the filtered files
 		final int uploadedFileCount;
-		fileNameFilter = fileNameFilter.replace(STAR, ".*");
 		switch (protocol) {
 			case FTP:
 				uploadedFileCount = uploadFTP();
@@ -907,8 +907,8 @@ public class FTPHandler
 		password = properties.getProperty("password");
 		remoteDirPath = properties.getProperty("remoteDir");
 		localDirPath = properties.getProperty("localDir");
-		fileNameFilter = properties.getProperty("fileNameFilter", STAR);
-		fileNames = Strings.split(properties.getProperty("fileNames", STAR)).toArray();
+		fileNameFilter = properties.getProperty("fileNameFilter", ANY_CHARS);
+		fileNames = Strings.split(properties.getProperty("fileNames", ANY_CHARS)).toArray();
 	}
 
 
