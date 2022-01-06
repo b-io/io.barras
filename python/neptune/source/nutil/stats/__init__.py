@@ -10,7 +10,7 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2021 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
@@ -23,7 +23,7 @@ from nutil.common import *
 __STATS_CONSTANTS_________________________________ = ''
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post113'
+__version__ = '1.0.0.post114'
 
 ##################################################
 
