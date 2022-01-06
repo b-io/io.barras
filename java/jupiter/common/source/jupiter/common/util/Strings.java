@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2021 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -100,6 +100,26 @@ public class Strings {
 	public static final String STAR = "*";
 
 	public static final String UNICODE = "\\u";
+
+	//////////////////////////////////////////////
+
+	public static final String ANY_CHAR = ".";
+	public static final String ANY_CHARS = ANY_CHAR + STAR;
+
+	public static final String LOWER_CASE_CHAR = "[a-z]";
+	public static final String LOWER_CASE_CHARS = LOWER_CASE_CHAR + STAR;
+
+	public static final String UPPER_CASE_CHAR = "[A-Z]";
+	public static final String UPPER_CASE_CHARS = UPPER_CASE_CHAR + STAR;
+
+	public static final String ALPHA_CHAR = "[a-zA-Z]";
+	public static final String ALPHA_CHARS = ALPHA_CHAR + STAR;
+
+	public static final String NUMERICAL_CHAR = "[0-9]";
+	public static final String NUMERICAL_CHARS = NUMERICAL_CHAR + STAR;
+
+	public static final String ALPHA_NUMERICAL_CHAR = "[a-zA-Z0-9]";
+	public static final String ALPHA_NUMERICAL_CHARS = ALPHA_NUMERICAL_CHAR + STAR;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

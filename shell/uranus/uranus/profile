@@ -10,7 +10,7 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 #COPYRIGHT
-#    Copyright © 2013-2021 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ################################################################################
 

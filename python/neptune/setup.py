@@ -10,7 +10,7 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2021 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
@@ -40,7 +40,7 @@ URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune'
 PACKAGES = [
 	'gensim', 'javaproperties', 'matplotlib', 'numpy', 'opencv-python', 'pandas', 'plotly',
 	'psutil', 'python-dateutil', 'requests', 'scipy', 'scikit-learn', 'scikit-lego', 'sqlalchemy',
-	'tensorflow', 'validators', 'xhtml2pdf'
+	'statsmodels', 'tensorflow', 'validators', 'xhtml2pdf'
 ]
 
 ####################################################################################################
