@@ -3701,8 +3701,13 @@ def pivot(df, names, index, values):
 	return df.pivot(columns=names, index=index, values=values)
 
 
-def unpivot(df):
-	return df.reset_index(level=0)
+def unpivot(df, names, value):
+	df = df.unstack().reset_index(name=value)
+	cols = {}
+	for i, name in enumerate(to_list(names)):
+		cols['level_' + str(i)] = name
+	df.rename(columns=cols, inplace=True)
+	return df
 
 
 #########################
@@ -3743,6 +3748,12 @@ def rename(df, names=None, index=None, level=None):
 def rename_all(*args, names=None, index=None, level=None):
 	for arg in args:
 		rename(arg, names=names, index=index, level=level)
+
+
+#########################
+
+def reset_index(df):
+	return df.reset_index(level=0)
 
 
 #########################
