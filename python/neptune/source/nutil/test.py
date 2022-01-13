@@ -43,7 +43,10 @@ class Test(unittest.TestCase):
 			for i in range(len(first)):
 				self.assert_equals(first[i], second[i], precision=precision)
 		else:
-			self.assertAlmostEqual(first, second, places=precision)
+			if is_number(first):
+				self.assertAlmostEqual(first, second, places=precision)
+			else:
+				self.assertEqual(first, second)
 
 
 class TestCommon(Test):
@@ -117,10 +120,17 @@ class TestTimeSeries(Test):
 		date_from = date_to - 2 * YEAR
 		index = create_datetime_sequence(date_from, date_to)
 		s = to_series(range(len(index)), index=index)
-		s = transform_series(s, freq=Frequency.MONTHS, transformation=Transformation.LOG_RETURNS)
+
+		test('Test the time series functions')
+		s = transform_series(s, freq=Frequency.MONTHS, group=Group.LAST,
+		                     transformation=Transformation.LOG_RETURNS)
 		test(get_first(get_index(s)), '=', get_next_month_end(date_from))
 		self.assert_equals(to_stamp(get_first(get_index(s))),
 		                   to_stamp(get_next_month_end(date_from)))
+		test(find_nearest_freq(s), '=', Frequency.MONTHS)
+		self.assert_equals(find_nearest_freq(s).value, Frequency.MONTHS.value)
+		test(find_nearest_group(s), '=', Group.LAST)
+		self.assert_equals(find_nearest_group(s).value, Group.LAST.value)
 
 
 ####################################################################################################

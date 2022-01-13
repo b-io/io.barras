@@ -79,21 +79,20 @@ def find_nearest_freq_from_period(period=PERIOD):
 def find_nearest_group(series, freq=FREQUENCY):
 	if is_null(series) or freq is Frequency.DAYS:
 		return GROUP
-	index = get_index(series)
 	if freq is Frequency.WEEKS:
-		if mode(get_weekdays(index)) < DAYS_PER_WEEK / 2:
+		if mode(get_weekdays(series.index)) < DAYS_PER_WEEK / 2:
 			return Group.FIRST
 	elif freq is Frequency.MONTHS:
-		if mode(get_days(index)) < DAYS_PER_MONTH / 2:
+		if mode(get_days(series.index)) < DAYS_PER_MONTH / 2:
 			return Group.FIRST
 	elif freq is Frequency.QUARTERS:
-		if mode(get_days(index), year=True) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
+		if mode(get_days(series.index), year=True) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.SEMESTERS:
-		if mode(get_days(index), year=True) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
+		if mode(get_days(series.index), year=True) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.YEARS:
-		if mode(get_days(index), year=True) < DAYS_PER_YEAR / 2:
+		if mode(get_days(series.index), year=True) < DAYS_PER_YEAR / 2:
 			return Group.FIRST
 	return Group.LAST
 
@@ -195,6 +194,27 @@ def cum_log_returns(series, offset):
 
 def get_moving_average(series, window):
 	return remove_null(series.rolling(window).mean())
+
+
+#########################
+
+def get_period_over_period(series, freq=FREQUENCY):
+	if is_null(freq):
+		return series
+	s = series.copy()
+	if freq is Frequency.DAYS:
+		s = shift_dates(s, days=1)
+	elif freq is Frequency.WEEKS:
+		s = shift_dates(s, days=7)
+	elif freq is Frequency.MONTHS:
+		s = shift_dates(s, months=1)
+	elif freq is Frequency.QUARTERS:
+		s = shift_dates(s, months=3)
+	elif freq is Frequency.SEMESTERS:
+		s = shift_dates(s, months=6)
+	elif freq is Frequency.YEARS:
+		s = shift_dates(s, years=1)
+	return subtract(series, s)
 
 
 ##################################################
@@ -322,7 +342,7 @@ def draw_series(series, *args, f=None,
                 stackgroup=None, width=2, yaxis=0, **kwargs):
 	if not is_null(f):
 		series = f(series, *args, **kwargs)
-	return draw(x=get_index(series), y=get_col(series),
+	return draw(series,
 	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
 	            opacity=opacity, show_date=show_date, show_legend=show_legend, show_name=show_name,
 	            size=size, stackgroup=stackgroup, width=width, yaxis=yaxis)
