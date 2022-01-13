@@ -489,7 +489,8 @@ def is_group(x):
 #########################
 
 def is_time_series(series):
-	return is_table(series) and isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
+	return is_table(series) and not is_group(series) and \
+	       isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
 
 
 # • DATE ###########################################################################################
@@ -971,7 +972,7 @@ def get_all_common_names(*args, inclusion=None, exclusion=None):
 def get_common_names(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common names of the specified collections that are in the specified inclusive
 	list and are not in the specified exclusive list."""
-	return get_names(c1, inclusion=include_list(inclusion, get_names(c2)), exclusion=exclusion)
+	return get_names(c1, inclusion=include_list(get_names(c2), inclusion), exclusion=exclusion)
 
 
 def get_key(c, inclusion=None, exclusion=None):
@@ -1004,7 +1005,7 @@ def get_all_common_keys(*args, inclusion=None, exclusion=None):
 def get_common_keys(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common keys (indices/keys/names) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_keys(c1, inclusion=include_list(inclusion, get_keys(c2)), exclusion=exclusion)
+	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
 def get_index(c, inclusion=None, exclusion=None):
@@ -1029,7 +1030,7 @@ def get_all_common_index(*args, inclusion=None, exclusion=None):
 def get_common_index(c1, c2, inclusion=None, exclusion=None):
 	"""Returns the common index (indices/keys/index) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
-	return get_index(c1, inclusion=include_list(inclusion, get_index(c2)), exclusion=exclusion)
+	return get_index(c1, inclusion=include_list(get_index(c2), inclusion), exclusion=exclusion)
 
 
 def get_item(c, keys=None, inclusion=None, exclusion=None):
@@ -1149,7 +1150,7 @@ def set_index(c, new_index):
 		return c
 	if is_table(new_index):
 		new_index_names = get_names(new_index.index)
-		new_index = get_index(new_index)
+		new_index = new_index.index
 	else:
 		new_index_names = get_names(new_index)
 		new_index = to_list(new_index)
@@ -1160,8 +1161,7 @@ def set_index(c, new_index):
 			new_index_names = resize_list(new_index_names, len(new_index[0]))
 			c.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
 		else:
-			index = get_index(c)
-			rename(c, index=dict(zip(index, new_index)))
+			rename(c, index=dict(zip(c.index, new_index)))
 	else:
 		set_keys(c, new_index)
 	return c
@@ -2606,7 +2606,7 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
 		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
-		index = get_keys(c) if axis == 0 else get_index(c)
+		index = get_keys(c) if axis == 0 else c.index
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
 	return f(get_values(c), *args, axis=axis, **kwargs)
 
