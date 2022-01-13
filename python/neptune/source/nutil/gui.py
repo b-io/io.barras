@@ -453,12 +453,12 @@ def draw(x, y=None,
          color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
          show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
          stackgroup=None, width=2, yaxis=0):
+	data = x
 	if is_null(y):
-		data = x
-		x = data.index
-		y = get_col(data)
+		x = to_array(get_index(data))
+		y = get_values(data)
 	if is_null(name):
-		name = get_name(y)
+		name = get_name(data)
 	name = get_label(name, show_date=show_date, show_name=show_name, yaxis=yaxis)
 	hover_template = get_hover_template(index)
 	line = dict(color=color, dash=dash, width=width)

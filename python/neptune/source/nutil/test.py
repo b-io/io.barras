@@ -43,7 +43,10 @@ class Test(unittest.TestCase):
 			for i in range(len(first)):
 				self.assert_equals(first[i], second[i], precision=precision)
 		else:
-			self.assertAlmostEqual(first, second, places=precision)
+			if is_number(first) and is_number(second):
+				self.assertAlmostEqual(first, second, places=precision)
+			else:
+				self.assertEqual(first, second)
 
 
 class TestCommon(Test):
@@ -93,21 +96,22 @@ class TestCommon(Test):
 
 	def apply(self, c, f, axis=None, inplace=False):
 		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
-		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in', t, '[s]')
+		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in',
+		     round(t, 6), '[s]')
 
 	def get_items(self, c):
 		t = timeit.timeit(stmt=lambda: get_items(c, inclusion=range(len(c)),
 		                                         exclusion=range(int(len(c) / 2))),
 		                  number=TEST_COUNT)
-		test(len(c), 'items retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(len(c), 'items retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 	def get_rows(self, c):
 		t = timeit.timeit(stmt=lambda: get_rows(c), number=TEST_COUNT)
-		test(count_rows(c), 'rows retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(count_rows(c), 'rows retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 	def get_cols(self, c):
 		t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
-		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 
 class TestTimeSeries(Test):
@@ -117,10 +121,17 @@ class TestTimeSeries(Test):
 		date_from = date_to - 2 * YEAR
 		index = create_datetime_sequence(date_from, date_to)
 		s = to_series(range(len(index)), index=index)
-		s = transform_series(s, freq=Frequency.MONTHS, transformation=Transformation.LOG_RETURNS)
+
+		test('Test the time series functions')
+		s = transform_series(s, freq=Frequency.MONTHS, group=Group.LAST,
+		                     transformation=Transformation.LOG_RETURNS)
 		test(get_first(get_index(s)), '=', get_next_month_end(date_from))
 		self.assert_equals(to_stamp(get_first(get_index(s))),
 		                   to_stamp(get_next_month_end(date_from)))
+		test(find_nearest_freq(s), '=', Frequency.MONTHS)
+		self.assert_equals(find_nearest_freq(s).value, Frequency.MONTHS.value)
+		test(find_nearest_group(s), '=', Group.LAST)
+		self.assert_equals(find_nearest_group(s).value, Group.LAST.value)
 
 
 ####################################################################################################
