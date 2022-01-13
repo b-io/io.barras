@@ -43,7 +43,7 @@ class Test(unittest.TestCase):
 			for i in range(len(first)):
 				self.assert_equals(first[i], second[i], precision=precision)
 		else:
-			if is_number(first):
+			if is_number(first) and is_number(second):
 				self.assertAlmostEqual(first, second, places=precision)
 			else:
 				self.assertEqual(first, second)
@@ -96,21 +96,22 @@ class TestCommon(Test):
 
 	def apply(self, c, f, axis=None, inplace=False):
 		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
-		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in', t, '[s]')
+		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in',
+		     round(t, 6), '[s]')
 
 	def get_items(self, c):
 		t = timeit.timeit(stmt=lambda: get_items(c, inclusion=range(len(c)),
 		                                         exclusion=range(int(len(c) / 2))),
 		                  number=TEST_COUNT)
-		test(len(c), 'items retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(len(c), 'items retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 	def get_rows(self, c):
 		t = timeit.timeit(stmt=lambda: get_rows(c), number=TEST_COUNT)
-		test(count_rows(c), 'rows retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(count_rows(c), 'rows retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 	def get_cols(self, c):
 		t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
-		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', t, '[s]')
+		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', round(t, 6), '[s]')
 
 
 class TestTimeSeries(Test):
