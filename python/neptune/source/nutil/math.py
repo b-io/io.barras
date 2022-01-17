@@ -117,15 +117,15 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 + c2
-	keys = get_common_keys(c1, c2)
-	if is_array(c1):
-		return [collection_to_type(a, c2) for a in np.vstack(c1) + get_values(c2, keys=keys)]
+	elif is_array(c1):
+		return [collection_to_type(a, c2) for a in np.vstack(c1) + get_values(c2)]
 	elif is_array(c2):
-		return [collection_to_type(a, c1) for a in get_values(c1, keys=keys) + np.vstack(c2)]
+		return [collection_to_type(a, c1) for a in get_values(c1) + np.vstack(c2)]
 	elif is_table(c1):
-		return sum_cols(join(c1, get_values(c2, keys=keys)))
+		return sum_cols(join(c1, get_values(c2)))
 	elif is_table(c2):
-		return sum_cols(join(c2, get_values(c1, keys=keys)))
+		return sum_cols(join(c2, get_values(c1)))
+	keys = get_common_keys(c1, c2)
 	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.add(v1, v2), c1)
@@ -164,15 +164,15 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 - c2
-	keys = get_common_keys(c1, c2)
-	if is_array(c1):
-		return [collection_to_type(a, c2) for a in np.vstack(c1) - get_values(c2, keys=keys)]
+	elif is_array(c1):
+		return [collection_to_type(a, c2) for a in np.vstack(c1) - get_values(c2)]
 	elif is_array(c2):
-		return [collection_to_type(a, c1) for a in get_values(c1, keys=keys) - np.vstack(c2)]
+		return [collection_to_type(a, c1) for a in get_values(c1) - np.vstack(c2)]
 	elif is_table(c1):
-		return sum_cols(join(c1, -get_values(c2, keys=keys)))
+		return sum_cols(join(c1, -get_values(c2)))
 	elif is_table(c2):
-		return sum_cols(join(-c2, get_values(c1, keys=keys)))
+		return sum_cols(join(-c2, get_values(c1)))
+	keys = get_common_keys(c1, c2)
 	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.subtract(v1, v2), c1)
@@ -211,15 +211,15 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 * c2
-	keys = get_common_keys(c1, c2)
-	if is_array(c1):
-		return [collection_to_type(a, c2) for a in np.vstack(c1) * get_values(c2, keys=keys)]
+	elif is_array(c1):
+		return [collection_to_type(a, c2) for a in np.vstack(c1) * get_values(c2)]
 	elif is_array(c2):
-		return [collection_to_type(a, c1) for a in get_values(c1, keys=keys) * np.vstack(c2)]
+		return [collection_to_type(a, c1) for a in get_values(c1) * np.vstack(c2)]
 	elif is_table(c1):
-		return product_cols(join(c1, get_values(c2, keys=keys)))
+		return product_cols(join(c1, get_values(c2)))
 	elif is_table(c2):
-		return product_cols(join(c2, get_values(c1, keys=keys)))
+		return product_cols(join(c2, get_values(c1)))
+	keys = get_common_keys(c1, c2)
 	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.multiply(v1, v2), c1)
@@ -258,15 +258,15 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
 			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
 		return c1 / c2
-	keys = get_common_keys(c1, c2)
-	if is_array(c1):
-		return [collection_to_type(a, c2) for a in np.vstack(c1) / get_values(c2, keys=keys)]
+	elif is_array(c1):
+		return [collection_to_type(a, c2) for a in np.vstack(c1) / get_values(c2)]
 	elif is_array(c2):
-		return [collection_to_type(a, c1) for a in get_values(c1, keys=keys) / np.vstack(c2)]
+		return [collection_to_type(a, c1) for a in get_values(c1) / np.vstack(c2)]
 	elif is_table(c1):
-		return product_cols(join(c1, 1 / get_values(c2, keys=keys)))
+		return product_cols(join(c1, 1 / get_values(c2)))
 	elif is_table(c2):
-		return product_cols(join(1 / c2, get_values(c1, keys=keys)))
+		return product_cols(join(1 / c2, get_values(c1)))
+	keys = get_common_keys(c1, c2)
 	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.divide(v1, v2), c1)
