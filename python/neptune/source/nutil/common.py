@@ -646,6 +646,13 @@ def get_extension(path='.'):
 
 ##################################################
 
+def create_dir(path):
+	if not os.path.exists(path):
+		os.makedirs(path)
+
+
+##################################################
+
 def find_path(filename, dir=None, subdir=None):
 	if is_null(dir):
 		dir = get_dir(get_path())
