@@ -4377,6 +4377,10 @@ __THREAD_PROCESSORS_______________________________ = ''
 
 
 def parallelize(c, f, *args, timeout=None, **kwargs):
+	return parallelize_chunk(c, lambda x: apply(x, f, *args, **kwargs), timeout=timeout)
+
+
+def parallelize_chunk(c, f, *args, timeout=None, **kwargs):
 	results = []
 	if is_empty(c):
 		return results
@@ -4392,9 +4396,5 @@ def parallelize(c, f, *args, timeout=None, **kwargs):
 			                               *args, **kwargs))
 		# Collect the results
 		for future in futures:
-			results.append(future.result(timeout=timeout))
-	return flatten_list(results, depth=1)
-
-
-def parallelize_apply(c, f, *args, timeout=None, **kwargs):
-	return parallelize(c, lambda x: apply(x, f, *args, **kwargs), timeout=timeout)
+			results += future.result(timeout=timeout)
+	return results
