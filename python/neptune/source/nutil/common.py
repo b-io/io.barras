@@ -982,6 +982,8 @@ def get_common_names(c1, c2, inclusion=None, exclusion=None):
 	return get_names(c1, inclusion=include_list(get_names(c2), inclusion), exclusion=exclusion)
 
 
+#########################
+
 def get_key(c, inclusion=None, exclusion=None):
 	return simplify(get_keys(c, inclusion=inclusion, exclusion=exclusion))
 
@@ -1015,6 +1017,8 @@ def get_common_keys(c1, c2, inclusion=None, exclusion=None):
 	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
+#########################
+
 def get_index(c, inclusion=None, exclusion=None):
 	"""Returns the index (indices/keys/index) of the specified collection that are in the
 	specified inclusive list and are not in the specified exclusive list."""
@@ -1040,6 +1044,20 @@ def get_common_index(c1, c2, inclusion=None, exclusion=None):
 	return get_index(c1, inclusion=include_list(get_index(c2), inclusion), exclusion=exclusion)
 
 
+#########################
+
+def get_keys_or_index(c, inclusion=None, exclusion=None, axis=0):
+	return get_keys(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
+		get_index(c, inclusion=inclusion, exclusion=exclusion)
+
+
+def get_index_or_keys(c, inclusion=None, exclusion=None, axis=0):
+	return get_index(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
+		get_keys(c, inclusion=inclusion, exclusion=exclusion)
+
+
+#########################
+
 def get_item(c, keys=None, inclusion=None, exclusion=None):
 	return simplify(get_items(c, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
@@ -1063,6 +1081,8 @@ def get_items(c, keys=None, inclusion=None, exclusion=None):
 		return [(k, v) for k, v in c if k in keys]
 	return [(k, c[k]) for k in keys]
 
+
+#########################
 
 def get_value(c, type=None, keys=None, inclusion=None, exclusion=None):
 	return simplify(get_values(c, type=type, keys=keys, inclusion=inclusion, exclusion=exclusion))
@@ -2613,7 +2633,7 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
 		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
-		index = get_keys(c) if axis == 0 else c.index
+		index = get_keys_or_index(c, axis=axis)
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
 	return f(get_values(c), *args, axis=axis, **kwargs)
 
@@ -3152,21 +3172,28 @@ def sum(*args, axis=0):
 
 #########################
 
-def keep_min(c, n, group=GROUP, axis=0):
+def keep_min(c, n, group=None, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)))[:n]]
-	return take(c, keys, axis=1 if axis == 0 else 0)
+	keys = [t[1] for t in sorted(zip(g, get_keys_or_index(g, axis=axis)))[:n]]
+	return take(c, keys, axis=1 if (is_frame(c) or is_array(c)) and axis == 0 else 0)
 
 
-def keep_max(c, n, group=GROUP, axis=0):
+def keep_min_with(c, n, f, axis=0):
+	return keep_min(apply(c, f, axis=axis), n)
+
+
+def keep_max(c, n, group=None, axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
 	if is_number(g):
 		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)),
-	                             reverse=True)[:n]]
-	return take(c, keys, axis=1 if axis == 0 else 0)
+	keys = [t[1] for t in sorted(zip(g, get_keys_or_index(g, axis=axis)), reverse=True)[:n]]
+	return take(c, keys, axis=1 if (is_frame(c) or is_array(c)) and axis == 0 else 0)
+
+
+def keep_max_with(c, n, f, axis=0):
+	return keep_max(apply(c, f, axis=axis), n)
 
 
 #########################
@@ -3265,7 +3292,7 @@ def slice(c, axis=0, index_from=None, index_to=None):
 		index_from = 0
 	if is_null(index_to):
 		index_to = len(c)
-	keys = get_index(c) if axis == 0 else get_keys(c)
+	keys = get_index_or_keys(c, axis=axis)
 	return take(c, keys[index_from:index_to], axis=axis)
 
 
@@ -3312,7 +3339,7 @@ def take(c, keys, axis=0):
 
 def take_not(c, keys, axis=0):
 	"""Returns the entries of the specified collection except for all the specified keys."""
-	indices = find_all_not_in(get_index(c) if axis == 0 else get_keys(c), keys)
+	indices = find_all_not_in(get_index_or_keys(c, axis=axis), keys)
 	return take_at(c, indices, axis=axis)
 
 
