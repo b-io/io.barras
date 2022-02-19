@@ -1180,15 +1180,9 @@ def set_keys(c, new_keys,
 	elif is_series(c):
 		set_index(c, new_keys)
 	elif is_dict(c):
-		d = c.copy()
-		for key, new_key in zip(keys, new_keys):
-			d[new_key] = c.pop(key)
-		update(c, d)
+		upsert(c, {new_key: c.pop(key) for key, new_key in zip(keys, new_keys)})
 	else:
-		l = c.copy()
-		for key, new_key in zip(keys, new_keys):
-			l[new_key] = c[key]
-		update(c, l)
+		update(c, {new_key: c[key] for key, new_key in zip(keys, new_keys)}, inclusion=new_keys)
 	return c
 
 
@@ -2087,9 +2081,7 @@ def collection_to_type(c, x):
 	return c
 
 
-def collection_to_common_type(c, x,
-                              inclusion=None, exclusion=None):
-	c = include(c, get_common_keys(c, x, inclusion=inclusion, exclusion=exclusion))
+def collection_to_common_type(c, x):
 	if is_frame(x):
 		return to_frame(c)
 	elif is_series(x):
@@ -2682,7 +2674,7 @@ def concat(c1, c2):
 	if is_table(c1) or is_table(c2):
 		return concat_rows(c1, c2)
 	elif is_dict(c1) or is_dict(c2):
-		return dict(get_items(c1) + get_items(c2))
+		return dict(to_list(get_items(c1)) + to_list(get_items(c2)))
 	elif is_ordered_set(c1) or is_ordered_set(c2):
 		return to_ordered_set(c1).union(to_ordered_set(c2))
 	elif is_set(c1) or is_set(c2):
@@ -3245,6 +3237,30 @@ def sum(*args,
 
 #########################
 
+def insert_all(*args):
+	return reduce(insert, *args)
+
+
+def insert(c1, c2):
+	"""Inserts the specified second collection into the first collection by inserting the values
+	that have different indices."""
+	if is_table(c2) or is_dict(c2):
+		c2 = exclude_index(c2, c1)
+	if is_table(c1):
+		for k, v in get_items(c2):
+			c1.loc[k] = v
+	elif is_dict(c1):
+		c1.update(get_items(c2))
+	elif is_ordered_set(c1) or is_set(c1):
+		for e in c2:
+			c1.add(e)
+	else:
+		c1 = concat(c1, c2)
+	return c1
+
+
+#########################
+
 def keep_min(c, n, group=None,
              axis=0):
 	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
@@ -3348,11 +3364,9 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 		                         minutes=minutes, seconds=seconds, microseconds=microseconds)
 		return t
 	elif is_dict(c):
-		d = {}
-		for k in c:
-			d[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
-			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = c[k]
-		return d
+		return {shift_date(d, years=years, months=months, weeks=weeks, days=days, hours=hours,
+		                   minutes=minutes, seconds=seconds, microseconds=microseconds):
+			        c[d] for d in c}
 	return collection_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
 	                                      hours=hours, minutes=minutes, seconds=seconds,
 	                                      microseconds=microseconds) for d in c], c)
@@ -3489,42 +3503,36 @@ def unique(c, group=GROUP):
 
 def update_all(*args,
                inclusion=None, exclusion=None):
-	return reduce(lambda left, right: update(left, right, inclusion=inclusion, exclusion=exclusion),
-	              *args)
+	return reduce(lambda c1, c2: update(c1, c2, inclusion=inclusion, exclusion=exclusion), *args)
 
 
-def update(left, right,
+def update(c1, c2,
            inclusion=None, exclusion=None):
-	"""Updates the specified left collection with the specified right collection by overriding the
-	left values with the right values that have the same indices on the common keys that are in the
-	specified inclusive list and are not in the specified exclusive list."""
-	if is_table(left) or is_dict(left):
-		right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
-		left.update(right)
+	"""Updates the specified first collection with the specified second collection by updating the
+	values that have the same indices on the common keys that are in the specified inclusive list
+	and are not in the specified exclusive list."""
+	if is_table(c2) or is_dict(c2):
+		c2 = include_index(c2, c1)
+	keys = get_common_keys(c1, c2, inclusion=inclusion, exclusion=exclusion)
+	if is_table(c1) or is_dict(c1):
+		c1.update(collection_to_common_type(filter(c2, keys=keys), c1))
 	else:
-		keys = get_common_keys(left, right, inclusion=inclusion, exclusion=exclusion)
 		for k in keys:
-			left[k] = right[k]
-	return left
+			c1[k] = c2[k]
+	return c1
 
 
 #########################
 
-def upsert_all(*args,
-               inclusion=None, exclusion=None):
-	return reduce(lambda left, right: upsert(left, right, inclusion=inclusion, exclusion=exclusion),
-	              *args)
+def upsert_all(*args):
+	return reduce(lambda c1, c2: upsert(c1, c2), *args)
 
 
-def upsert(left, right,
-           inclusion=None, exclusion=None):
-	"""Upserts the specified left collection with the specified right collection by overriding the
-	left values with the right values that have the same indices and concatenating the right values
-	to the left values that have different indices on the common keys that are in the specified
-	inclusive list and are not in the specified exclusive list."""
-	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
-	left = update(left, include_index(right, left))
-	return concat(left, exclude_index(right, left))
+def upsert(c1, c2):
+	"""Upserts the specified first collection with the specified second collection by updating the
+	values that have the same indices and inserting the values that have different indices."""
+	c2 = collection_to_common_type(c2, c1)
+	return insert(update(c1, c2), c2)
 
 
 #########################
@@ -3833,10 +3841,8 @@ def pivot(df, names, index, values):
 
 def unpivot(df, names, value):
 	df = df.unstack().reset_index(name=value)
-	cols = {}
-	for i, name in enumerate(to_list(names)):
-		cols['level_' + str(i)] = name
-	df.rename(columns=cols, inplace=True)
+	df.rename(columns={'level_' + str(i): name for i, name in enumerate(to_list(names))},
+	          inplace=True)
 	return df
 
 
