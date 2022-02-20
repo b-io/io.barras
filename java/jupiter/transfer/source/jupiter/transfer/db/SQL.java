@@ -139,8 +139,8 @@ public class SQL {
 	public static int[] getColumnTypes(final Connection connection, final String table,
 			final String[] columns)
 			throws SQLException {
-		if (DB == DB.MSSQL) {
-			return MSSQL.getColumnTypes(connection, table, columns);
+		if (DB == DB.TSQL) {
+			return TSQL.getColumnTypes(connection, table, columns);
 		}
 		return StandardSQL.getColumnTypes(connection, table, columns);
 	}
@@ -163,8 +163,8 @@ public class SQL {
 	public static int[] getProcedureParameterTypes(final Connection connection,
 			final String procedure)
 			throws SQLException {
-		if (DB == DB.MSSQL) {
-			return MSSQL.getProcedureParameterTypes(connection, procedure);
+		if (DB == DB.TSQL) {
+			return TSQL.getProcedureParameterTypes(connection, procedure);
 		}
 		return StandardSQL.getProcedureParameterTypes(connection, procedure);
 	}
@@ -395,8 +395,8 @@ public class SQL {
 
 	public static String createSelectQuery(final String table, final String[] columns,
 			final String... conditionalColumns) {
-		if (DB == DB.MSSQL) {
-			return MSSQL.createSelectQuery(table, columns, conditionalColumns);
+		if (DB == DB.TSQL) {
+			return TSQL.createSelectQuery(table, columns, conditionalColumns);
 		}
 		return StandardSQL.createSelectQuery(table, columns, conditionalColumns);
 	}
@@ -426,8 +426,8 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	public static String createInsertQuery(final String table, final String... columns) {
-		if (DB == DB.MSSQL) {
-			return MSSQL.createInsertQuery(table, columns);
+		if (DB == DB.TSQL) {
+			return TSQL.createInsertQuery(table, columns);
 		}
 		return StandardSQL.createInsertQuery(table, columns);
 	}
@@ -451,8 +451,8 @@ public class SQL {
 
 	public static String createUpdateQuery(final String table, final String[] columns,
 			final String... conditionalColumns) {
-		if (DB == DB.MSSQL) {
-			return MSSQL.createUpdateQuery(table, columns, conditionalColumns);
+		if (DB == DB.TSQL) {
+			return TSQL.createUpdateQuery(table, columns, conditionalColumns);
 		}
 		return StandardSQL.createUpdateQuery(table, columns, conditionalColumns);
 	}
@@ -480,8 +480,8 @@ public class SQL {
 	}
 
 	public static String createDeleteQuery(final String table, final String... conditionalColumns) {
-		if (DB == DB.MSSQL) {
-			return MSSQL.createDeleteQuery(table, conditionalColumns);
+		if (DB == DB.TSQL) {
+			return TSQL.createDeleteQuery(table, conditionalColumns);
 		}
 		return StandardSQL.createDeleteQuery(table, conditionalColumns);
 	}
@@ -506,8 +506,8 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	public static String createProcedureQuery(final String procedure, final int parameterCount) {
-		if (DB == DB.MSSQL) {
-			return MSSQL.createProcedureQuery(procedure, parameterCount);
+		if (DB == DB.TSQL) {
+			return TSQL.createProcedureQuery(procedure, parameterCount);
 		}
 		return StandardSQL.createProcedureQuery(procedure, parameterCount);
 	}
@@ -2031,7 +2031,7 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public enum DB {
-		MSSQL,
-		StandardSQL
+		StandardSQL,
+		TSQL
 	}
 }

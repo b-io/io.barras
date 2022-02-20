@@ -47,7 +47,7 @@ public class SQLTest
 		String result = SQL.createSelectQuery("test", Strings.EMPTY_ARRAY, new String[] {"a"});
 		IO.test(result);
 		assertEquals("SELECT * FROM \"test\" WHERE \"a\"=?", result);
-		SQL.DB = DB.MSSQL;
+		SQL.DB = DB.TSQL;
 		result = SQL.createSelectQuery("test", Strings.EMPTY_ARRAY, new String[] {"a"});
 		IO.test(result);
 		assertEquals("SELECT * FROM [test] WHERE [a]=?", result);
