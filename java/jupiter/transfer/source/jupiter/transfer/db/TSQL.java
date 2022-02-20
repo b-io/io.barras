@@ -43,7 +43,7 @@ import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class MSSQL
+public class TSQL
 		extends SQL {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +51,9 @@ public class MSSQL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link MSSQL}.
+	 * Prevents the construction of {@link TSQL}.
 	 */
-	protected MSSQL() {
+	protected TSQL() {
 	}
 
 
