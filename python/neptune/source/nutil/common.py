@@ -396,8 +396,7 @@ def is_any_not_null(*args):
 
 def is_empty(x):
 	return is_null(x) or \
-	       (is_collection(x) and len(x) == 0 or is_frame(x) and count_cols(x) == 0) or \
-	       str(x) == ''
+	       (hasattr(x, '__len__') and len(x) == 0 or is_frame(x) and count_cols(x) == 0)
 
 
 def is_all_empty(*args):
@@ -903,7 +902,8 @@ def get_all_attributes(obj):
 __COLLECTION_ACCESSORS____________________________ = ''
 
 
-def get(c, index=0, axis=0):
+def get(c, index=0,
+        axis=0):
 	if not is_collection(c):
 		return c
 	if is_null(axis):
@@ -917,11 +917,13 @@ def get(c, index=0, axis=0):
 	return simplify(c[index])
 
 
-def get_first(c, axis=0):
+def get_first(c,
+              axis=0):
 	return get(c, index=0, axis=axis)
 
 
-def get_last(c, axis=0):
+def get_last(c,
+             axis=0):
 	return get(c, index=-1, axis=axis)
 
 
@@ -939,7 +941,8 @@ def get_next(c):
 
 #########################
 
-def get_shape(c, keys=None, inclusion=None, exclusion=None):
+def get_shape(c,
+              keys=None, inclusion=None, exclusion=None):
 	c = filter(c, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	if is_table(c) or is_array(c):
 		return c.shape
@@ -950,11 +953,13 @@ def get_shape(c, keys=None, inclusion=None, exclusion=None):
 
 #########################
 
-def get_name(c, inclusion=None, exclusion=None):
+def get_name(c,
+             inclusion=None, exclusion=None):
 	return simplify(get_names(c, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_names(c, inclusion=None, exclusion=None):
+def get_names(c,
+              inclusion=None, exclusion=None):
 	"""Returns the names of the specified collection."""
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
@@ -971,22 +976,43 @@ def get_names(c, inclusion=None, exclusion=None):
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
 
 
-def get_all_common_names(*args, inclusion=None, exclusion=None):
-	return reduce(lambda c1, c2: get_common_names(c1, c2, inclusion=inclusion, exclusion=exclusion),
+def get_all_common_names(*args,
+                         inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_common_names(c1, c2,
+	                                              inclusion=inclusion, exclusion=exclusion),
 	              *args)
 
 
-def get_common_names(c1, c2, inclusion=None, exclusion=None):
+def get_common_names(c1, c2,
+                     inclusion=None, exclusion=None):
 	"""Returns the common names of the specified collections that are in the specified inclusive
 	list and are not in the specified exclusive list."""
 	return get_names(c1, inclusion=include_list(get_names(c2), inclusion), exclusion=exclusion)
 
 
-def get_key(c, inclusion=None, exclusion=None):
+def get_all_uncommon_names(*args,
+                           inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_uncommon_names(c1, c2,
+	                                                inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def get_uncommon_names(c1, c2,
+                       inclusion=None, exclusion=None):
+	"""Returns the uncommon names of the specified collections that are in the specified inclusive
+	list and are not in the specified exclusive list."""
+	return get_names(c1, inclusion=inclusion, exclusion=include_list(get_names(c2), exclusion))
+
+
+#########################
+
+def get_key(c,
+            inclusion=None, exclusion=None):
 	return simplify(get_keys(c, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_keys(c, inclusion=None, exclusion=None):
+def get_keys(c,
+             inclusion=None, exclusion=None):
 	"""Returns the keys (indices/keys/names) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
 	if is_group(c):
@@ -1004,18 +1030,38 @@ def get_keys(c, inclusion=None, exclusion=None):
 	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
 
-def get_all_common_keys(*args, inclusion=None, exclusion=None):
-	return reduce(lambda c1, c2: get_common_keys(c1, c2, inclusion=inclusion, exclusion=exclusion),
+def get_all_common_keys(*args,
+                        inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_common_keys(c1, c2,
+	                                             inclusion=inclusion, exclusion=exclusion),
 	              *args)
 
 
-def get_common_keys(c1, c2, inclusion=None, exclusion=None):
+def get_common_keys(c1, c2,
+                    inclusion=None, exclusion=None):
 	"""Returns the common keys (indices/keys/names) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
 	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
-def get_index(c, inclusion=None, exclusion=None):
+def get_all_uncommon_keys(*args,
+                          inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_uncommon_keys(c1, c2,
+	                                               inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def get_uncommon_keys(c1, c2,
+                      inclusion=None, exclusion=None):
+	"""Returns the uncommon keys (indices/keys/names) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list."""
+	return get_keys(c1, inclusion=inclusion, exclusion=include_list(get_keys(c2), exclusion))
+
+
+#########################
+
+def get_index(c,
+              inclusion=None, exclusion=None):
 	"""Returns the index (indices/keys/index) of the specified collection that are in the
 	specified inclusive list and are not in the specified exclusive list."""
 	if is_group(c):
@@ -1029,22 +1075,59 @@ def get_index(c, inclusion=None, exclusion=None):
 	return get_keys(c, inclusion=inclusion, exclusion=exclusion)
 
 
-def get_all_common_index(*args, inclusion=None, exclusion=None):
-	return reduce(lambda c1, c2: get_common_index(c1, c2, inclusion=inclusion, exclusion=exclusion),
+def get_all_common_index(*args,
+                         inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_common_index(c1, c2,
+	                                              inclusion=inclusion, exclusion=exclusion),
 	              *args)
 
 
-def get_common_index(c1, c2, inclusion=None, exclusion=None):
+def get_common_index(c1, c2,
+                     inclusion=None, exclusion=None):
 	"""Returns the common index (indices/keys/index) of the specified collections that are in the
 	specified inclusive list and are not in the specified exclusive list."""
 	return get_index(c1, inclusion=include_list(get_index(c2), inclusion), exclusion=exclusion)
 
 
-def get_item(c, keys=None, inclusion=None, exclusion=None):
+def get_all_uncommon_index(*args,
+                           inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: get_uncommon_index(c1, c2,
+	                                                inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def get_uncommon_index(c1, c2,
+                       inclusion=None, exclusion=None):
+	"""Returns the uncommon index (indices/keys/index) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list."""
+	return get_index(c1, inclusion=inclusion, exclusion=include_list(get_index(c2), exclusion))
+
+
+#########################
+
+def get_keys_or_index(c,
+                      axis=0,
+                      inclusion=None, exclusion=None):
+	return get_keys(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
+		get_index(c, inclusion=inclusion, exclusion=exclusion)
+
+
+def get_index_or_keys(c,
+                      axis=0,
+                      inclusion=None, exclusion=None):
+	return get_index(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
+		get_keys(c, inclusion=inclusion, exclusion=exclusion)
+
+
+#########################
+
+def get_item(c,
+             keys=None, inclusion=None, exclusion=None):
 	return simplify(get_items(c, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_items(c, keys=None, inclusion=None, exclusion=None):
+def get_items(c,
+              keys=None, inclusion=None, exclusion=None):
 	"""Returns the items (values/entries/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
@@ -1059,16 +1142,20 @@ def get_items(c, keys=None, inclusion=None, exclusion=None):
 		return []
 	if is_group(c):
 		if c.axis == 0:
-			return [(k, include(v, keys)) for k, v in c]
+			return [(k, filter(v, keys=keys)) for k, v in c]
 		return [(k, v) for k, v in c if k in keys]
 	return [(k, c[k]) for k in keys]
 
 
-def get_value(c, type=None, keys=None, inclusion=None, exclusion=None):
+#########################
+
+def get_value(c, type=None,
+              keys=None, inclusion=None, exclusion=None):
 	return simplify(get_values(c, type=type, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
 
-def get_values(c, type=None, keys=None, inclusion=None, exclusion=None):
+def get_values(c, type=None,
+               keys=None, inclusion=None, exclusion=None):
 	"""Returns the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
@@ -1082,10 +1169,10 @@ def get_values(c, type=None, keys=None, inclusion=None, exclusion=None):
 		return to_array(type=type)
 	if is_group(c):
 		if c.axis == 0:
-			return to_array([include(v, keys).values for k, v in c], type=type)
+			return to_array([filter(v, keys=keys).values for k, v in c], type=type)
 		return to_array([v.values for k, v in c if k in keys], type=type)
 	elif is_table(c):
-		return include(c, keys).values
+		return filter(c, keys=keys).values
 	elif is_array(c):
 		return c[keys]
 	return to_array([c[k] for k in keys], type=type)
@@ -1114,7 +1201,8 @@ def set_names(c, new_names):
 	return c
 
 
-def set_keys(c, new_keys, keys=None, inclusion=None, exclusion=None):
+def set_keys(c, new_keys,
+             keys=None, inclusion=None, exclusion=None):
 	"""Sets the keys (indices/keys/names) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list."""
 	if is_group(c):
@@ -1136,15 +1224,9 @@ def set_keys(c, new_keys, keys=None, inclusion=None, exclusion=None):
 	elif is_series(c):
 		set_index(c, new_keys)
 	elif is_dict(c):
-		d = c.copy()
-		for key, new_key in zip(keys, new_keys):
-			d[new_key] = c.pop(key)
-		update(c, d, keys=new_keys)
+		upsert(c, {new_key: c.pop(key) for key, new_key in zip(keys, new_keys)})
 	else:
-		l = c.copy()
-		for key, new_key in zip(keys, new_keys):
-			l[new_key] = c[key]
-		update(c, l, keys=new_keys)
+		update(c, {new_key: c[key] for key, new_key in zip(keys, new_keys)}, inclusion=new_keys)
 	return c
 
 
@@ -1174,7 +1256,8 @@ def set_index(c, new_index):
 	return c
 
 
-def set_values(c, new_values, mask=None, keys=None, inclusion=None, exclusion=None):
+def set_values(c, new_values, mask=None,
+               keys=None, inclusion=None, exclusion=None):
 	"""Sets the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
 	list."""
@@ -2042,8 +2125,7 @@ def collection_to_type(c, x):
 	return c
 
 
-def collection_to_common_type(c, x, inclusion=None, exclusion=None):
-	c = include(c, get_common_keys(c, x, inclusion=inclusion, exclusion=exclusion))
+def collection_to_common_type(c, x):
 	if is_frame(x):
 		return to_frame(c)
 	elif is_series(x):
@@ -2368,8 +2450,9 @@ def create_array(shape, fill=0, order='C', type=None):
 __COLLECTION_GENERATORS___________________________ = ''
 
 
-def create_mask(c, *args, condition=lambda x: True, fill=True, keys=None, inclusion=None,
-                exclusion=None, **kwargs):
+def create_mask(c, *args, condition=lambda x, *args, **kwargs: True, fill=True,
+                keys=None, inclusion=None, exclusion=None,
+                **kwargs):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	mask = collection_to_type(create_array(c, fill=fill, type=BOOL_TYPE), c)
@@ -2477,7 +2560,9 @@ def generate_string(length, case_sensitive=False, digits=True):
 __COMMON_PROCESSORS_______________________________ = ''
 
 
-def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, exclusion=None,
+def apply(x, f, *args, inplace=False,
+          axis=None,
+          keys=None, inclusion=None, exclusion=None,
           **kwargs):
 	"""Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
@@ -2514,7 +2599,7 @@ def apply(x, f, *args, axis=None, inplace=False, keys=None, inclusion=None, excl
 	return f(x, *args, **kwargs)
 
 
-def fill_with(x, value, *args, condition=lambda x: True, inplace=False, **kwargs):
+def fill_with(x, value, *args, condition=lambda x, *args, **kwargs: True, inplace=False, **kwargs):
 	return apply(x, lambda x: value if condition(x, *args, **kwargs) else x, inplace=inplace)
 
 
@@ -2548,7 +2633,8 @@ def invert(x):
 	return np.logical_not(x)
 
 
-def reduce_and(x, axis=0):
+def reduce_and(x,
+               axis=0):
 	"""Reduces the dimension of the specified arguments by applying the logical AND function
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
@@ -2557,7 +2643,8 @@ def reduce_and(x, axis=0):
 	return np.logical_and.reduce(x, axis=axis)
 
 
-def reduce_or(x, axis=0):
+def reduce_or(x,
+              axis=0):
 	"""Reduces the dimension of the specified arguments by applying the logical OR function
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one)."""
@@ -2602,7 +2689,9 @@ def any_not_values(c):
 
 #########################
 
-def calculate(c, f, *args, axis=0, **kwargs):
+def calculate(c, f, *args,
+              axis=0,
+              **kwargs):
 	if is_group(c):
 		axis = c.axis
 		if axis == 0:
@@ -2613,7 +2702,7 @@ def calculate(c, f, *args, axis=0, **kwargs):
 		return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs),
 		                              name=k, index=index) for k, v in c])
 	elif is_frame(c):
-		index = get_keys(c) if axis == 0 else c.index
+		index = get_keys_or_index(c, axis=axis)
 		return to_series(f(c.values, *args, axis=axis, **kwargs), index=index)
 	return f(get_values(c), *args, axis=axis, **kwargs)
 
@@ -2629,7 +2718,7 @@ def concat(c1, c2):
 	if is_table(c1) or is_table(c2):
 		return concat_rows(c1, c2)
 	elif is_dict(c1) or is_dict(c2):
-		return dict(get_items(c1) + get_items(c2))
+		return dict(to_list(get_items(c1)) + to_list(get_items(c2)))
 	elif is_ordered_set(c1) or is_ordered_set(c2):
 		return to_ordered_set(c1).union(to_ordered_set(c2))
 	elif is_set(c1) or is_set(c2):
@@ -2641,8 +2730,8 @@ def concat(c1, c2):
 
 #########################
 
-def fill_null(c, numeric_default=None, object_default=None, keys=None, inclusion=None,
-              exclusion=None):
+def fill_null(c, numeric_default=None, object_default=None,
+              keys=None, inclusion=None, exclusion=None):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_null(keys):
@@ -2671,10 +2760,11 @@ def fill_null(c, numeric_default=None, object_default=None, keys=None, inclusion
 
 #########################
 
-def filter(c, keys=None, inclusion=None, exclusion=None):
+def filter(c,
+           keys=None, inclusion=None, exclusion=None):
 	"""Filters the specified collection by excluding the keys that are not in the specified
 	inclusive collection and are in the specified exclusive collection."""
-	if is_empty(c):
+	if is_empty(c) or not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2707,10 +2797,11 @@ def exclude(c, exclusion):
 
 #########################
 
-def filter_index(c, inclusion=None, exclusion=None):
+def filter_index(c,
+                 inclusion=None, exclusion=None):
 	"""Filters the specified collection by excluding the index that are not in the specified
 	inclusive collection and are in the specified exclusive collection."""
-	if is_empty(c):
+	if is_empty(c) or not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
@@ -2736,7 +2827,9 @@ def exclude_index(c, exclusion):
 
 #########################
 
-def filter_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
+def filter_with(c, f, *args,
+                keys=None, inclusion=None, exclusion=None,
+                **kwargs):
 	"""Returns the entries of the specified collection whose values return True with the specified
 	function for all the specified keys."""
 	if is_empty(c):
@@ -2757,7 +2850,9 @@ def filter_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
-def filter_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
+def filter_not_with(c, f, *args,
+                    keys=None, inclusion=None, exclusion=None,
+                    **kwargs):
 	"""Returns the entries of the specified collection whose values return False with the specified
 	function for all the specified keys."""
 	if is_empty(c):
@@ -2778,7 +2873,9 @@ def filter_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kw
 	return collection_to_type([c[k] for k in keys if not f(c[k], *args, **kwargs)], c)
 
 
-def filter_any_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
+def filter_any_with(c, f, *args,
+                    keys=None, inclusion=None, exclusion=None,
+                    **kwargs):
 	"""Returns the entries of the specified collection whose values return True with the specified
 	function for at least one specified key."""
 	if is_empty(c):
@@ -2799,7 +2896,9 @@ def filter_any_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kw
 	return collection_to_type([c[k] for k in keys if f(c[k], *args, **kwargs)], c)
 
 
-def filter_any_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, **kwargs):
+def filter_any_not_with(c, f, *args,
+                        keys=None, inclusion=None, exclusion=None,
+                        **kwargs):
 	"""Returns the entries of the specified collection whose values return False with the specified
 	function for at least one specified key."""
 	if is_empty(c):
@@ -2822,25 +2921,29 @@ def filter_any_not_with(c, f, *args, keys=None, inclusion=None, exclusion=None, 
 
 #########################
 
-def filter_null(c, keys=None, inclusion=None, exclusion=None):
+def filter_null(c,
+                keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are null for all the specified
 	keys."""
 	return filter_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_null(c, keys=None, inclusion=None, exclusion=None):
+def filter_not_null(c,
+                    keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not null for all the
 	specified keys."""
 	return filter_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_null(c, keys=None, inclusion=None, exclusion=None):
+def filter_any_null(c,
+                    keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are null for at least one
 	specified key."""
 	return filter_any_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_null(c, keys=None, inclusion=None, exclusion=None):
+def filter_any_not_null(c,
+                        keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not null for at least one
 	specified key."""
 	return filter_any_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -2848,25 +2951,29 @@ def filter_any_not_null(c, keys=None, inclusion=None, exclusion=None):
 
 #########################
 
-def filter_empty(c, keys=None, inclusion=None, exclusion=None):
+def filter_empty(c,
+                 keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are empty for all the specified
 	keys."""
 	return filter_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_empty(c, keys=None, inclusion=None, exclusion=None):
+def filter_not_empty(c,
+                     keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not empty for all the
 	specified keys."""
 	return filter_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_empty(c, keys=None, inclusion=None, exclusion=None):
+def filter_any_empty(c,
+                     keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are empty for at least one
 	specified key."""
 	return filter_any_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_empty(c, keys=None, inclusion=None, exclusion=None):
+def filter_any_not_empty(c,
+                         keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not empty for at least one
 	specified key."""
 	return filter_any_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -2874,108 +2981,140 @@ def filter_any_not_empty(c, keys=None, inclusion=None, exclusion=None):
 
 #########################
 
-def filter_value(c, value, keys=None, inclusion=None, exclusion=None):
+def filter_value(c, value,
+                 keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	 for all the specified keys."""
-	return filter_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: v == value,
+	                   keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_value(c, value, keys=None, inclusion=None, exclusion=None):
+def filter_not_value(c, value,
+                     keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for all the specified keys."""
-	return filter_not_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: v == value,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_value(c, value, keys=None, inclusion=None, exclusion=None):
+def filter_any_value(c, value,
+                     keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are equal to the specified value
 	for at least one specified key."""
-	return filter_any_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: v == value,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_value(c, value, keys=None, inclusion=None, exclusion=None):
+def filter_any_not_value(c, value,
+                         keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not equal to the specified
 	value for at least one specified key."""
-	return filter_any_not_with(c, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: v == value,
+	                           keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_in(c, values, keys=None, inclusion=None, exclusion=None):
+def filter_in(c, values,
+              keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	all the specified keys."""
 	values = to_set(values)
-	return filter_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: v in values,
+	                   keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_in(c, values, keys=None, inclusion=None, exclusion=None):
+def filter_not_in(c, values,
+                  keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for all the specified keys."""
 	values = to_set(values)
-	return filter_not_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: v in values,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_in(c, values, keys=None, inclusion=None, exclusion=None):
+def filter_any_in(c, values,
+                  keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are in the specified values for
 	at least one specified key."""
 	values = to_set(values)
-	return filter_any_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: v in values,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_in(c, values, keys=None, inclusion=None, exclusion=None):
+def filter_any_not_in(c, values,
+                      keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not in the specified values
 	for at least one specified key."""
 	values = to_set(values)
-	return filter_any_not_with(c, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: v in values,
+	                           keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
 
-def filter_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
+def filter_between(c, lower=None, upper=None,
+                   keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are lying between the lower
 	(inclusive) and upper (exclusive) bounds for all the specified keys."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_with(c, lambda v: v < upper,
+		                   keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
-	return filter_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_with(c, lambda v: v >= lower,
+		                   keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_with(c, lambda v: lower <= v < upper,
+	                   keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
+def filter_not_between(c, lower=None, upper=None,
+                       keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not lying between the lower
 	(inclusive) and upper (exclusive) bounds for all the specified keys."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_not_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_with(c, lambda v: v < upper,
+		                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_not_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
-	return filter_not_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_not_with(c, lambda v: v >= lower,
+		                       keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_not_with(c, lambda v: lower <= v < upper,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
+def filter_any_between(c, lower=None, upper=None,
+                       keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are lying between the lower
 	(inclusive) and upper (exclusive) bounds for at least one specified key."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_any_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_with(c, lambda v: v < upper,
+		                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_any_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
-	return filter_any_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_with(c, lambda v: v >= lower,
+		                       keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_with(c, lambda v: lower <= v < upper,
+	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_between(c, lower=None, upper=None, keys=None, inclusion=None, exclusion=None):
+def filter_any_not_between(c, lower=None, upper=None,
+                           keys=None, inclusion=None, exclusion=None):
 	"""Returns the entries of the specified collection whose values are not lying between the lower
 	(inclusive) and upper (exclusive) bounds for at least one specified key."""
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
-		return filter_any_not_with(c, lambda v: v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_not_with(c, lambda v: v < upper,
+		                           keys=keys, inclusion=inclusion, exclusion=exclusion)
 	elif is_null(upper):
-		return filter_any_not_with(c, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
-	return filter_any_not_with(c, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+		return filter_any_not_with(c, lambda v: v >= lower,
+		                           keys=keys, inclusion=inclusion, exclusion=exclusion)
+	return filter_any_not_with(c, lambda v: lower <= v < upper,
+	                           keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 #########################
@@ -3025,7 +3164,8 @@ def filter_years(c, years):
 
 #########################
 
-def flatten(c, axis=0, type=None):
+def flatten(c, type=None,
+            axis=0):
 	if is_empty(c):
 		return to_array(type=type)
 	if type == OBJECT_TYPE:
@@ -3035,7 +3175,8 @@ def flatten(c, axis=0, type=None):
 
 #########################
 
-def groupby(c, group=GROUP, dof=1, axis=0):
+def groupby(c, group=GROUP, dof=1,
+            axis=0):
 	if group is Group.COUNT:
 		return count(c, axis=axis)
 	elif group is Group.FIRST:
@@ -3058,7 +3199,8 @@ def groupby(c, group=GROUP, dof=1, axis=0):
 		return sum(c, axis=axis)
 
 
-def count(*args, axis=0):
+def count(*args,
+          axis=0):
 	c = forward(*args)
 	if not is_collection(c):
 		return 1
@@ -3073,7 +3215,8 @@ def count(*args, axis=0):
 	return len(c)
 
 
-def minimum(*args, axis=0):
+def minimum(*args,
+            axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.min(get_values(c))
@@ -3084,7 +3227,8 @@ def minimum(*args, axis=0):
 	return np.min(c, axis=axis)
 
 
-def maximum(*args, axis=0):
+def maximum(*args,
+            axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.max(get_values(c))
@@ -3095,7 +3239,8 @@ def maximum(*args, axis=0):
 	return np.max(c, axis=axis)
 
 
-def mean(*args, axis=0):
+def mean(*args,
+         axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.mean(get_values(c))
@@ -3106,7 +3251,8 @@ def mean(*args, axis=0):
 	return np.mean(c, axis=axis)
 
 
-def median(*args, axis=0):
+def median(*args,
+           axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.median(get_values(c))
@@ -3117,7 +3263,8 @@ def median(*args, axis=0):
 	return np.median(c, axis=axis)
 
 
-def std(*args, dof=1, axis=0):
+def std(*args, dof=1,
+        axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.std(get_values(c), ddof=dof)
@@ -3128,7 +3275,8 @@ def std(*args, dof=1, axis=0):
 	return np.std(c, axis=axis, ddof=dof)
 
 
-def var(*args, dof=1, axis=0):
+def var(*args, dof=1,
+        axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.var(get_values(c), ddof=dof)
@@ -3139,7 +3287,8 @@ def var(*args, dof=1, axis=0):
 	return np.var(c, axis=axis, ddof=dof)
 
 
-def sum(*args, axis=0):
+def sum(*args,
+        axis=0):
 	c = forward(*args)
 	if is_null(axis):
 		return np.sum(get_values(c))
@@ -3152,26 +3301,80 @@ def sum(*args, axis=0):
 
 #########################
 
-def keep_min(c, n, group=GROUP, axis=0):
-	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
-	if is_number(g):
-		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)))[:n]]
-	return take(c, keys, axis=1 if axis == 0 else 0)
+def insert_all(*args):
+	return reduce(insert, *args)
 
 
-def keep_max(c, n, group=GROUP, axis=0):
-	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
-	if is_number(g):
-		return g
-	keys = [t[1] for t in sorted(zip(g, get_keys(g) if axis == 0 else get_index(g)),
-	                             reverse=True)[:n]]
-	return take(c, keys, axis=1 if axis == 0 else 0)
+def insert(c1, c2,
+           keys=None, inclusion=None, exclusion=None):
+	"""Inserts the specified second collection into the first collection by inserting the values
+	whose keys, which are in the specified inclusive list and are not in the specified exclusive
+	list, or indices are different."""
+	# - Insert the rows
+	insert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	# - Insert the columns
+	return insert_cols(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+
+
+def insert_rows(c1, c2,
+                keys=None, inclusion=None, exclusion=None):
+	"""Inserts the specified second collection into the first collection by inserting the values
+	whose keys, which are in the specified inclusive list and are not in the specified exclusive
+	list, are identical and indices are different."""
+	if is_table(c2) or is_dict(c2):
+		c2 = exclude_index(c2, c1)
+	return upsert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+
+
+def insert_cols(c1, c2,
+                keys=None, inclusion=None, exclusion=None):
+	"""Inserts the specified second collection into the first collection by inserting the values
+	whose keys, which are in the specified inclusive list and are not in the specified exclusive
+	list, are different."""
+	if not is_table(c1) or not is_dict(c1):
+		return c1
+	if is_null(keys):
+		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	c1.update(c2)
+	return c1
 
 
 #########################
 
-def remove_null(c, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+def keep_min(c, n, group=None,
+             axis=0):
+	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
+	if is_number(g):
+		return g
+	keys = [t[1] for t in sorted(zip(g, get_keys_or_index(g, axis=axis)))[:n]]
+	return take(c, keys, axis=1 if (is_frame(c) or is_array(c)) and axis == 0 else 0)
+
+
+def keep_min_with(c, n, f,
+                  axis=0):
+	return keep_min(apply(c, f, axis=axis), n)
+
+
+def keep_max(c, n, group=None,
+             axis=0):
+	g = groupby(c, group=group, axis=axis) if not is_group(c) and not is_null(group) else c
+	if is_number(g):
+		return g
+	keys = [t[1] for t in sorted(zip(g, get_keys_or_index(g, axis=axis)), reverse=True)[:n]]
+	return take(c, keys, axis=1 if (is_frame(c) or is_array(c)) and axis == 0 else 0)
+
+
+def keep_max_with(c, n, f,
+                  axis=0):
+	return keep_max(apply(c, f, axis=axis), n)
+
+
+#########################
+
+def remove_null(c, conservative=True,
+                axis=0,
+                keys=None, inclusion=None, exclusion=None):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3184,7 +3387,9 @@ def remove_null(c, axis=0, conservative=True, keys=None, inclusion=None, exclusi
 	return c
 
 
-def remove_empty(c, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+def remove_empty(c, conservative=True,
+                 axis=0,
+                 keys=None, inclusion=None, exclusion=None):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3197,7 +3402,9 @@ def remove_empty(c, axis=0, conservative=True, keys=None, inclusion=None, exclus
 	return c
 
 
-def remove_value(c, value, axis=0, conservative=True, keys=None, inclusion=None, exclusion=None):
+def remove_value(c, value, conservative=True,
+                 axis=0,
+                 keys=None, inclusion=None, exclusion=None):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3212,7 +3419,8 @@ def remove_value(c, value, axis=0, conservative=True, keys=None, inclusion=None,
 
 #########################
 
-def reverse(c, axis=0):
+def reverse(c,
+            axis=0):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
@@ -3237,11 +3445,9 @@ def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, secon
 		                         minutes=minutes, seconds=seconds, microseconds=microseconds)
 		return t
 	elif is_dict(c):
-		d = {}
-		for k in c:
-			d[shift_date(k, years=years, months=months, weeks=weeks, days=days, hours=hours,
-			             minutes=minutes, seconds=seconds, microseconds=microseconds)] = c[k]
-		return d
+		return {shift_date(d, years=years, months=months, weeks=weeks, days=days, hours=hours,
+		                   minutes=minutes, seconds=seconds, microseconds=microseconds):
+			        c[d] for d in c}
 	return collection_to_type([shift_date(d, years=years, months=months, weeks=weeks, days=days,
 	                                      hours=hours, minutes=minutes, seconds=seconds,
 	                                      microseconds=microseconds) for d in c], c)
@@ -3258,20 +3464,22 @@ def simplify(c):
 
 #########################
 
-def slice(c, axis=0, index_from=None, index_to=None):
+def slice(c, index_from=None, index_to=None,
+          axis=0):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_null(index_from):
 		index_from = 0
 	if is_null(index_to):
 		index_to = len(c)
-	keys = get_index(c) if axis == 0 else get_keys(c)
+	keys = get_index_or_keys(c, axis=axis)
 	return take(c, keys[index_from:index_to], axis=axis)
 
 
 #########################
 
-def sort(c, ascending=True, by=None, inplace=False, axis=0):
+def sort(c, ascending=True, by=None, inplace=False,
+         axis=0):
 	"""Sorts the values of the specified collection."""
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
@@ -3298,7 +3506,8 @@ def sort_index(c):
 
 #########################
 
-def take(c, keys, axis=0):
+def take(c, keys,
+         axis=0):
 	"""Returns the entries of the specified collection for all the specified keys."""
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
@@ -3307,16 +3516,18 @@ def take(c, keys, axis=0):
 		if axis == 0:
 			return c.loc[keys]
 		return c.loc[:, keys]
-	return include(c, keys)
+	return filter(c, keys=keys)
 
 
-def take_not(c, keys, axis=0):
+def take_not(c, keys,
+             axis=0):
 	"""Returns the entries of the specified collection except for all the specified keys."""
-	indices = find_all_not_in(get_index(c) if axis == 0 else get_keys(c), keys)
+	indices = find_all_not_in(get_index_or_keys(c, axis=axis), keys)
 	return take_at(c, indices, axis=axis)
 
 
-def take_at(c, indices, axis=0):
+def take_at(c, indices,
+            axis=0):
 	"""Returns the entries of the specified collection that are at the specified indices."""
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
@@ -3330,7 +3541,8 @@ def take_at(c, indices, axis=0):
 	return collection_to_type([c[i] for i in indices], c)
 
 
-def take_not_at(c, indices, axis=0):
+def take_not_at(c, indices,
+                axis=0):
 	"""Returns the entries of the specified collection that are not at the specified indices."""
 	indices = find_all_not_in(range(count_rows(c) if axis == 0 else count_cols(c)), indices)
 	return take_at(c, indices, axis=axis)
@@ -3370,45 +3582,65 @@ def unique(c, group=GROUP):
 
 #########################
 
-def update_all(*args, inclusion=None, exclusion=None):
-	return reduce(lambda left, right: update(left, right, inclusion=inclusion, exclusion=exclusion),
+def update_all(*args,
+               keys=None, inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: update(c1, c2,
+	                                    keys=keys, inclusion=inclusion, exclusion=exclusion),
 	              *args)
 
 
-def update(left, right, inclusion=None, exclusion=None):
-	"""Updates the specified left collection with the specified right collection by overriding the
-	left values with the right values that have the same indices on the common keys that are in the
-	specified inclusive list and are not in the specified exclusive list."""
-	if is_table(left) or is_dict(left):
-		right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
-		left.update(right)
+def update(c1, c2,
+           keys=None, inclusion=None, exclusion=None):
+	"""Updates the specified first collection with the specified second collection by updating the
+	values whose keys, which are in the specified inclusive list and are not in the specified
+	exclusive list, and indices are identical."""
+	# - Update the rows
+	if is_table(c2) or is_dict(c2):
+		c2 = include_index(c2, c1)
+	return upsert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+
+
+#########################
+
+def upsert_all(*args,
+               keys=None, inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: upsert(c1, c2,
+	                                    keys=keys, inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def upsert(c1, c2,
+           keys=None, inclusion=None, exclusion=None):
+	"""Upserts the specified first collection with the specified second collection by updating or
+	inserting the values whose keys are in the specified inclusive list and are not in the specified
+	exclusive list."""
+	if is_null(keys):
+		keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	return insert(update(c1, c2), c2)
+
+
+def upsert_rows(c1, c2,
+                keys=None, inclusion=None, exclusion=None):
+	"""Upserts the specified first collection with the specified second collection by updating or
+	inserting the values whose keys, which are in the specified inclusive list and are not in the
+	specified exclusive list, are identical."""
+	if is_null(keys):
+		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	if is_table(c1) or is_dict(c1):
+		c1.update(c2)
 	else:
-		keys = get_common_keys(left, right, inclusion=inclusion, exclusion=exclusion)
 		for k in keys:
-			left[k] = right[k]
-	return left
+			c1[k] = c2[k]
+	return c1
 
 
 #########################
 
-def upsert_all(*args, keys=None, inclusion=None, exclusion=None):
-	return reduce(lambda left, right: upsert(left, right, inclusion=inclusion, exclusion=exclusion),
-	              *args)
-
-
-def upsert(left, right, inclusion=None, exclusion=None):
-	"""Upserts the specified left collection with the specified right collection by overriding the
-	left values with the right values that have the same indices and concatenating the right values
-	to the left values that have different indices on the common keys that are in the specified
-	inclusive list and are not in the specified exclusive list."""
-	right = collection_to_common_type(right, left, inclusion=inclusion, exclusion=exclusion)
-	left = update(left, include_index(right, left))
-	return concat(left, exclude_index(right, left))
-
-
-#########################
-
-def where(c, *args, condition=lambda x: True, keys=None, inclusion=None, exclusion=None, **kwargs):
+def where(c, *args, condition=lambda x, *args, **kwargs: True,
+          keys=None, inclusion=None, exclusion=None,
+          **kwargs):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	return [k for k in keys if condition(c[k], *args, **kwargs)]
@@ -3710,10 +3942,8 @@ def pivot(df, names, index, values):
 
 def unpivot(df, names, value):
 	df = df.unstack().reset_index(name=value)
-	cols = {}
-	for i, name in enumerate(to_list(names)):
-		cols['level_' + str(i)] = name
-	df.rename(columns=cols, inplace=True)
+	df.rename(columns={'level_' + str(i): name for i, name in enumerate(to_list(names))},
+	          inplace=True)
 	return df
 
 
@@ -3983,7 +4213,8 @@ def shift_date(d=get_datetime(), years=0, months=0, weeks=0, days=0, hours=0, mi
 __LIST_PROCESSORS_________________________________ = ''
 
 
-def filter_list(l, inclusion=None, exclusion=None):
+def filter_list(l,
+                inclusion=None, exclusion=None):
 	"""Returns the values of the specified list that are in the specified inclusive list and are not
 	in the specified exclusive list."""
 	if is_empty(l):
@@ -4204,10 +4435,13 @@ def end_profile(profile, stream=StringIO()):
 __SET_PROCESSORS__________________________________ = ''
 
 
-def filter_set(s, inclusion=None, exclusion=None):
+def filter_set(s,
+               inclusion=None, exclusion=None):
 	"""Returns the values of the specified set that are in the specified inclusive set and are not
 	in the specified exclusive set."""
-	if is_empty(s) or not has_filter(inclusion=inclusion, exclusion=exclusion):
+	if is_empty(s):
+		return set()
+	if not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return to_set(s)
 	elif is_null(inclusion):
 		return to_set(s) - to_set(exclusion)
@@ -4228,10 +4462,13 @@ def exclude_set(s, exclusion):
 
 #########################
 
-def filter_ordered_set(s, inclusion=None, exclusion=None):
+def filter_ordered_set(s,
+                       inclusion=None, exclusion=None):
 	"""Returns the values of the specified ordered set that are in the specified inclusive set and
 	are not in the specified exclusive set."""
-	if is_empty(s) or not has_filter(inclusion=inclusion, exclusion=exclusion):
+	if is_empty(s):
+		return OrderedSet()
+	if not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return to_ordered_set(s)
 	elif is_null(inclusion):
 		return to_ordered_set(s) - to_set(exclusion)

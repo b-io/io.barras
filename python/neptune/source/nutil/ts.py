@@ -86,13 +86,13 @@ def find_nearest_group(series, freq=FREQUENCY):
 		if mode(get_days(series.index)) < DAYS_PER_MONTH / 2:
 			return Group.FIRST
 	elif freq is Frequency.QUARTERS:
-		if mode(get_days(series.index), year=True) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
+		if mode(get_days(series.index, year=True)) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.SEMESTERS:
-		if mode(get_days(series.index), year=True) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
+		if mode(get_days(series.index, year=True)) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.YEARS:
-		if mode(get_days(series.index), year=True) < DAYS_PER_YEAR / 2:
+		if mode(get_days(series.index, year=True)) < DAYS_PER_YEAR / 2:
 			return Group.FIRST
 	return Group.LAST
 
@@ -273,7 +273,7 @@ def forecast_series(series, horizon=1, initialization_method='estimated', trend=
 
 #########################
 
-def transform_series(series, clean=True, sort=True, freq=FREQUENCY, group=GROUP,
+def transform_series(series, clean=True, method=None, sort=True, freq=FREQUENCY, group=GROUP,
                      transformation=None):
 	if clean:
 		series = remove_null(series)
@@ -304,6 +304,8 @@ def transform_series(series, clean=True, sort=True, freq=FREQUENCY, group=GROUP,
 	elif group is Group.SUM:
 		series = series.sum()
 	series = ungroup_series(series, clean=clean, freq=freq, end=group != Group.FIRST)
+	if not is_null(method):
+		series = series.asfreq(get_freq(freq, group), method=method)
 	if transformation is Transformation.LOG:
 		series = log(series)
 	elif transformation is Transformation.DIFF:
