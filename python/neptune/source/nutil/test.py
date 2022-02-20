@@ -174,18 +174,28 @@ class TestTimeSeries(Test):
 		date_to = get_datetime()
 		date_from = date_to - 2 * YEAR
 		index = create_datetime_sequence(date_from, date_to)
-		s = to_series(range(len(index)), index=index)
+		series = to_series(np.random.randint(1, 100, size=len(index)), index=index)
 
 		test('Test the time series functions')
-		s = transform_series(s, freq=Frequency.MONTHS, group=Group.LAST,
-		                     transformation=Transformation.LOG_RETURNS)
-		test(get_first(get_index(s)), '=', get_next_month_end(date_from))
-		self.assert_equals(to_stamp(get_first(get_index(s))),
-		                   to_stamp(get_next_month_end(date_from)))
-		test(find_nearest_freq(s), '=', Frequency.MONTHS)
-		self.assert_equals(find_nearest_freq(s).value, Frequency.MONTHS.value)
-		test(find_nearest_group(s), '=', Group.LAST)
-		self.assert_equals(find_nearest_group(s).value, Group.LAST.value)
+		for freq in [Frequency.DAYS, Frequency.WEEKS, Frequency.MONTHS, Frequency.QUARTERS,
+		             Frequency.SEMESTERS, Frequency.YEARS]:
+			for group in [Group.FIRST, Group.LAST]:
+				s = transform_series(series, freq=freq, group=group,
+				                     transformation=Transformation.LOG_RETURNS)
+				if freq is Frequency.MONTHS:
+					if group is Group.FIRST:
+						test(get_first(get_index(s)), '=', get_next_month_start(date_from))
+						self.assert_equals(to_stamp(get_first(get_index(s))),
+						                   to_stamp(get_next_month_start(date_from)))
+					else:
+						test(get_first(get_index(s)), '=', get_next_month_end(date_from))
+						self.assert_equals(to_stamp(get_first(get_index(s))),
+						                   to_stamp(get_next_month_end(date_from)))
+				test(find_nearest_freq(s), '=', freq)
+				self.assert_equals(find_nearest_freq(s).value, freq.value)
+				if freq is not Frequency.DAYS:
+					test(find_nearest_group(s, freq=freq), '=', group)
+					self.assert_equals(find_nearest_group(s, freq=freq).value, group.value)
 
 
 ####################################################################################################
