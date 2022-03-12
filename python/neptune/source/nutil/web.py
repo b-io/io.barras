@@ -465,12 +465,12 @@ __WEB_NETWORK_____________________________________ = ''
 
 
 def get_host_ip():
-	"""Returns the IP of the host."""
+	'''Returns the IP of the host.'''
 	return socket.gethostbyname(get_host_name())
 
 
 def get_host_name():
-	"""Returns the name of the host."""
+	'''Returns the name of the host.'''
 	return socket.gethostname()
 
 
@@ -480,7 +480,7 @@ __WEB_QUERY_______________________________________ = ''
 
 
 def download(url, dir=None):
-	"""Downloads the file pointed by the specified URL and writes it to the specified directory."""
+	'''Downloads the file pointed by the specified URL and writes it to the specified directory.'''
 	if is_null(dir):
 		dir = get_dir('.')
 	info('Download the file', quote(url), 'to the directory', quote(dir))

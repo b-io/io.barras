@@ -38,9 +38,9 @@ __MIXTURE_________________________________________ = ''
 
 def create_gaussian_mixture(data, component_count=1, covariance_type='full',
                             max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
-	"""Creates a Gaussian mixture with the specified number of components and fits the specified
+	'''Creates a Gaussian mixture with the specified number of components and fits the specified
 	data with the expectation-maximization (EM) algorithm. Note that the variational inference model
-	is using all the components."""
+	is using all the components.'''
 	model = mixture.GaussianMixture(n_components=component_count, covariance_type=covariance_type,
 	                                max_iter=max_iteration_count)
 	return model.fit(data)
@@ -48,9 +48,9 @@ def create_gaussian_mixture(data, component_count=1, covariance_type='full',
 
 def create_bayesian_gaussian_mixture(data, component_count=1, covariance_type='full',
                                      max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
-	"""Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
+	'''Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
 	the specified data with the expectation-maximization (EM) algorithm. Note that the Dirichlet
-	process model adapts the number of components automatically."""
+	process model adapts the number of components automatically.'''
 	model = mixture.BayesianGaussianMixture(n_components=component_count,
 	                                        covariance_type=covariance_type,
 	                                        max_iter=max_iteration_count)
@@ -62,9 +62,9 @@ def create_bayesian_gaussian_mixture(data, component_count=1, covariance_type='f
 def create_outlier_detector(data, component_count=1, covariance_type='full', init_params='kmeans',
                             max_iteration_count=DEFAULT_MAX_ITERATION_COUNT, method='quantile',
                             threshold=DEFAULT_CONFIDENCE_LEVEL):
-	"""Creates a detector based on a Gaussian mixture with the specified number of components and
+	'''Creates a detector based on a Gaussian mixture with the specified number of components and
 	fits the specified data with the expectation-maximization (EM) algorithm. Note that the
-	variational inference model is using all the components."""
+	variational inference model is using all the components.'''
 	model = GMMOutlierDetector(n_components=component_count, covariance_type=covariance_type,
 	                           init_params=init_params, max_iter=max_iteration_count, method=method,
 	                           threshold=threshold)
@@ -75,9 +75,9 @@ def create_bayesian_outlier_detector(data, component_count=1, covariance_type='f
                                      init_params='kmeans',
                                      max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
                                      method='quantile', threshold=DEFAULT_CONFIDENCE_LEVEL):
-	"""Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
+	'''Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
 	components and fits the specified data with the expectation-maximization (EM) algorithm. Note
-	that the Dirichlet process model adapts the number of components automatically."""
+	that the Dirichlet process model adapts the number of components automatically.'''
 	model = BayesianGMMOutlierDetector(n_components=component_count,
 	                                   covariance_type=covariance_type, init_params=init_params,
 	                                   max_iter=max_iteration_count, method=method,
@@ -93,8 +93,8 @@ __MIXTURE_FIGURE__________________________________ = ''
 def plot_clusters(data, classes, means, covariances, fig=None, title=None, colors=DEFAULT_COLORS,
                   dash='dot', index=None, opacity=0.5, precision=100, show_ellipses=True,
                   show_legend=True, show_points=True, size=4, width=2):
-	"""Plots the clusters of the specified data identified by the specified classes and encircles
-	them with ellipses using their specified means and covariances."""
+	'''Plots the clusters of the specified data identified by the specified classes and encircles
+	them with ellipses using their specified means and covariances.'''
 	if is_null(fig):
 		if is_frame(data):
 			names = get_names(data)
@@ -142,8 +142,8 @@ def plot_clusters(data, classes, means, covariances, fig=None, title=None, color
 def plot_mixture(data, model, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None,
                  opacity=0.5, precision=100, show_ellipses=True, show_legend=True, show_points=True,
                  size=4, width=2):
-	"""Plots the clusters of the specified data identified by the specified model and encircles them
-	with ellipses."""
+	'''Plots the clusters of the specified data identified by the specified model and encircles them
+	with ellipses.'''
 	return plot_clusters(data, model.predict(data), model.means_, model.covariances_, fig=fig,
 	                     title=title, colors=colors, dash=dash, index=index, opacity=opacity,
 	                     precision=precision, show_ellipses=show_ellipses, show_legend=show_legend,
@@ -153,8 +153,8 @@ def plot_mixture(data, model, fig=None, title=None, colors=DEFAULT_COLORS, dash=
 def plot_detector(data, detector, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot',
                   index=None, opacity=0.5, precision=100, show_ellipses=True, show_legend=True,
                   show_points=True, size=4, width=2):
-	"""Plots the clusters of the specified data identified by the specified detector and encircles
-	them with ellipses."""
+	'''Plots the clusters of the specified data identified by the specified detector and encircles
+	them with ellipses.'''
 	if is_null(index) and is_frame(data):
 		index = get_index(data)
 

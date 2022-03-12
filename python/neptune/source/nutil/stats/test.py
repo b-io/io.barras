@@ -175,7 +175,7 @@ __STATS_TEST_MAIN_________________________________ = ''
 
 
 def main():
-	"""Tests the stats library."""
+	'''Tests the stats library.'''
 	unittest.main()
 
 

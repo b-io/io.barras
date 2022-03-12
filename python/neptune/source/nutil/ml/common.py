@@ -36,21 +36,21 @@ def get_confusion_matrix(target, prediction, normalize=False):
 ##################################################
 
 def to_one_hot(Y, size):
-	"""
+	'''
 	Converts the specified array of vectors Y to an array of one-hot vectors of the specified size.
 
 	:param Y:    an array of vectors
 	:param size: the size of the one-hot vectors
 
 	:return: an array of one-hot vectors of the specified size
-	"""
+	'''
 	return np.eye(size)[Y.reshape(-1)]
 
 
 ##################################################
 
 def softmax(x):
-	"""Returns the softmax values for every set of scores in x."""
+	'''Returns the softmax values for every set of scores in x.'''
 	e_x = np.exp(x - np.max(x))
 	return e_x / e_x.sum()
 
@@ -62,7 +62,7 @@ __ML_FIGURE_______________________________________ = ''
 
 def plot_confusion_matrix(target, prediction, color_map=plt.cm.gray_r, normalize=False,
                           title='Confusion Matrix'):
-	"""Plots the confusion matrix between the specified target and prediction."""
+	'''Plots the confusion matrix between the specified target and prediction.'''
 	cm = get_confusion_matrix(target, prediction, normalize=normalize)
 	plt.matshow(cm, cmap=color_map)
 	plt.colorbar()

@@ -727,7 +727,7 @@ __COMMON_PROPERTIES_______________________________ = ''
 
 
 def load_props(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
-	"""Returns the properties with the specified filename in the specified directory."""
+	'''Returns the properties with the specified filename in the specified directory.'''
 	with open(find_path(filename + '.properties', dir=dir, subdir=subdir), 'r') as f:
 		return prop.load(f)
 
@@ -767,7 +767,7 @@ except FileNotFoundError as ex:
 
 
 def get_prop(name, default=None):
-	"""Returns the property with the specified name."""
+	'''Returns the property with the specified name.'''
 	try:
 		return PROPS[name]
 	except Exception as ex:
@@ -960,7 +960,7 @@ def get_name(c,
 
 def get_names(c,
               inclusion=None, exclusion=None):
-	"""Returns the names of the specified collection."""
+	'''Returns the names of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(inclusion):
@@ -985,8 +985,8 @@ def get_all_common_names(*args,
 
 def get_common_names(c1, c2,
                      inclusion=None, exclusion=None):
-	"""Returns the common names of the specified collections that are in the specified inclusive
-	list and are not in the specified exclusive list."""
+	'''Returns the common names of the specified collections that are in the specified inclusive
+	list and are not in the specified exclusive list.'''
 	return get_names(c1, inclusion=include_list(get_names(c2), inclusion), exclusion=exclusion)
 
 
@@ -999,8 +999,8 @@ def get_all_uncommon_names(*args,
 
 def get_uncommon_names(c1, c2,
                        inclusion=None, exclusion=None):
-	"""Returns the uncommon names of the specified collections that are in the specified inclusive
-	list and are not in the specified exclusive list."""
+	'''Returns the uncommon names of the specified collections that are in the specified inclusive
+	list and are not in the specified exclusive list.'''
 	return get_names(c1, inclusion=inclusion, exclusion=include_list(get_names(c2), exclusion))
 
 
@@ -1013,8 +1013,8 @@ def get_key(c,
 
 def get_keys(c,
              inclusion=None, exclusion=None):
-	"""Returns the keys (indices/keys/names) of the specified collection that are in the specified
-	inclusive list and are not in the specified exclusive list."""
+	'''Returns the keys (indices/keys/names) of the specified collection that are in the specified
+	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -1039,8 +1039,8 @@ def get_all_common_keys(*args,
 
 def get_common_keys(c1, c2,
                     inclusion=None, exclusion=None):
-	"""Returns the common keys (indices/keys/names) of the specified collections that are in the
-	specified inclusive list and are not in the specified exclusive list."""
+	'''Returns the common keys (indices/keys/names) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list.'''
 	return get_keys(c1, inclusion=include_list(get_keys(c2), inclusion), exclusion=exclusion)
 
 
@@ -1053,8 +1053,8 @@ def get_all_uncommon_keys(*args,
 
 def get_uncommon_keys(c1, c2,
                       inclusion=None, exclusion=None):
-	"""Returns the uncommon keys (indices/keys/names) of the specified collections that are in the
-	specified inclusive list and are not in the specified exclusive list."""
+	'''Returns the uncommon keys (indices/keys/names) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list.'''
 	return get_keys(c1, inclusion=inclusion, exclusion=include_list(get_keys(c2), exclusion))
 
 
@@ -1062,8 +1062,8 @@ def get_uncommon_keys(c1, c2,
 
 def get_index(c,
               inclusion=None, exclusion=None):
-	"""Returns the index (indices/keys/index) of the specified collection that are in the
-	specified inclusive list and are not in the specified exclusive list."""
+	'''Returns the index (indices/keys/index) of the specified collection that are in the
+	specified inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_table(inclusion):
@@ -1084,8 +1084,8 @@ def get_all_common_index(*args,
 
 def get_common_index(c1, c2,
                      inclusion=None, exclusion=None):
-	"""Returns the common index (indices/keys/index) of the specified collections that are in the
-	specified inclusive list and are not in the specified exclusive list."""
+	'''Returns the common index (indices/keys/index) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list.'''
 	return get_index(c1, inclusion=include_list(get_index(c2), inclusion), exclusion=exclusion)
 
 
@@ -1098,8 +1098,8 @@ def get_all_uncommon_index(*args,
 
 def get_uncommon_index(c1, c2,
                        inclusion=None, exclusion=None):
-	"""Returns the uncommon index (indices/keys/index) of the specified collections that are in the
-	specified inclusive list and are not in the specified exclusive list."""
+	'''Returns the uncommon index (indices/keys/index) of the specified collections that are in the
+	specified inclusive list and are not in the specified exclusive list.'''
 	return get_index(c1, inclusion=inclusion, exclusion=include_list(get_index(c2), exclusion))
 
 
@@ -1128,9 +1128,9 @@ def get_item(c,
 
 def get_items(c,
               keys=None, inclusion=None, exclusion=None):
-	"""Returns the items (values/entries/columns) of the specified collection whose keys
+	'''Returns the items (values/entries/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
-	list."""
+	list.'''
 	if is_empty(c):
 		return []
 	if not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
@@ -1156,9 +1156,9 @@ def get_value(c, type=None,
 
 def get_values(c, type=None,
                keys=None, inclusion=None, exclusion=None):
-	"""Returns the values (values/values/columns) of the specified collection whose keys
+	'''Returns the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
-	list."""
+	list.'''
 	if is_empty(c):
 		return to_array(type=type)
 	elif not is_collection(c):
@@ -1181,7 +1181,7 @@ def get_values(c, type=None,
 ##################################################
 
 def set_names(c, new_names):
-	"""Sets the names of the specified collection."""
+	'''Sets the names of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -1203,8 +1203,8 @@ def set_names(c, new_names):
 
 def set_keys(c, new_keys,
              keys=None, inclusion=None, exclusion=None):
-	"""Sets the keys (indices/keys/names) of the specified collection that are in the specified
-	inclusive list and are not in the specified exclusive list."""
+	'''Sets the keys (indices/keys/names) of the specified collection that are in the specified
+	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -1231,8 +1231,8 @@ def set_keys(c, new_keys,
 
 
 def set_index(c, new_index):
-	"""Sets the index (indices/keys/index) of the specified collection that are in the specified
-	inclusive list and are not in the specified exclusive list."""
+	'''Sets the index (indices/keys/index) of the specified collection that are in the specified
+	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
 	if is_empty(c):
@@ -1258,9 +1258,9 @@ def set_index(c, new_index):
 
 def set_values(c, new_values, mask=None,
                keys=None, inclusion=None, exclusion=None):
-	"""Sets the values (values/values/columns) of the specified collection whose keys
+	'''Sets the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
-	list."""
+	list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -1307,7 +1307,7 @@ __DATAFRAME_ACCESSORS_____________________________ = ''
 
 
 def get_row(df, i=0):
-	"""Returns the row of the specified dataframe at the specified index."""
+	'''Returns the row of the specified dataframe at the specified index.'''
 	if is_group(df):
 		df = get_values(df)
 	elif is_table(df):
@@ -1316,17 +1316,17 @@ def get_row(df, i=0):
 
 
 def get_first_row(df):
-	"""Returns the first row of the specified dataframe."""
+	'''Returns the first row of the specified dataframe.'''
 	return get_row(df, 0)
 
 
 def get_last_row(df):
-	"""Returns the last row of the specified dataframe."""
+	'''Returns the last row of the specified dataframe.'''
 	return get_row(df, -1)
 
 
 def get_rows(df):
-	"""Returns the rows of the specified dataframe."""
+	'''Returns the rows of the specified dataframe.'''
 	if is_frame(df):
 		return [row for _, row in df.iterrows()]
 	elif is_series(df):
@@ -1337,7 +1337,7 @@ def get_rows(df):
 #########################
 
 def get_col(df, j=0):
-	"""Returns the column of the specified dataframe at the specified index."""
+	'''Returns the column of the specified dataframe at the specified index.'''
 	if is_group(df):
 		df = get_values(df)
 	elif is_frame(df):
@@ -1348,17 +1348,17 @@ def get_col(df, j=0):
 
 
 def get_first_col(df):
-	"""Returns the first column of the specified dataframe."""
+	'''Returns the first column of the specified dataframe.'''
 	return get_col(df, 0)
 
 
 def get_last_col(df):
-	"""Returns the last column of the specified dataframe."""
+	'''Returns the last column of the specified dataframe.'''
 	return get_col(df, -1)
 
 
 def get_cols(df):
-	"""Returns the columns of the specified dataframe."""
+	'''Returns the columns of the specified dataframe.'''
 	if is_frame(df):
 		return [col for _, col in df.items()]
 	elif is_series(df):
@@ -2147,7 +2147,7 @@ __DATAFRAME_CONVERTERS____________________________ = ''
 
 
 def to_series(data, name=None, index=None, type=None):
-	"""Converts the specified collection to a series."""
+	'''Converts the specified collection to a series.'''
 	if is_empty(data):
 		data = []
 		type = OBJECT_TYPE
@@ -2171,7 +2171,7 @@ def to_series(data, name=None, index=None, type=None):
 
 
 def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
-	"""Converts the specified collection to a time series."""
+	'''Converts the specified collection to a time series.'''
 	if not is_null(index):
 		index = to_timestamp(to_array(index))
 	return to_series(data, name=name, index=index, type=type)
@@ -2180,7 +2180,7 @@ def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
 #########################
 
 def to_frame(data, names=None, index=None, type=None):
-	"""Converts the specified collection to a dataframe."""
+	'''Converts the specified collection to a dataframe.'''
 	if is_empty(data):
 		data = []
 		type = OBJECT_TYPE
@@ -2204,7 +2204,7 @@ def to_frame(data, names=None, index=None, type=None):
 
 
 def to_time_frame(data, names=None, index=None, type=FLOAT_TYPE):
-	"""Converts the specified collection to a time frame."""
+	'''Converts the specified collection to a time frame.'''
 	if not is_null(index):
 		index = to_timestamp(to_array(index))
 	return to_frame(data, names=names, index=index, type=type)
@@ -2284,7 +2284,7 @@ def to_stamp(x):
 #########################
 
 def timestamp_to_type(t, x):
-	"""Converts the specified timestamp to the type of the specified variable."""
+	'''Converts the specified timestamp to the type of the specified variable.'''
 	if is_collection(t):
 		return apply(t, timestamp_to_type, x)
 	elif is_stamp(x):
@@ -2318,7 +2318,7 @@ __DICT_CONVERTERS_________________________________ = ''
 
 
 def to_dict(c):
-	"""Converts the specified collection to a dictionary."""
+	'''Converts the specified collection to a dictionary.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -2544,7 +2544,7 @@ __STRING_GENERATORS_______________________________ = ''
 
 
 def generate_string(length, case_sensitive=False, digits=True):
-	"""Generates a pseudorandom, uniformly distributed string of the specified length."""
+	'''Generates a pseudorandom, uniformly distributed string of the specified length.'''
 	choices = string.ascii_uppercase
 	if case_sensitive:
 		choices += string.ascii_lowercase
@@ -2564,9 +2564,9 @@ def apply(x, f, *args, inplace=False,
           axis=None,
           keys=None, inclusion=None, exclusion=None,
           **kwargs):
-	"""Applies the specified function iteratively over the specified value along the specified axis
+	'''Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
-	with the specified arguments."""
+	with the specified arguments.'''
 	if is_collection(x):
 		if is_null(keys):
 			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
@@ -2635,9 +2635,9 @@ def invert(x):
 
 def reduce_and(x,
                axis=0):
-	"""Reduces the dimension of the specified arguments by applying the logical AND function
+	'''Reduces the dimension of the specified arguments by applying the logical AND function
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
-	respectively zero or one)."""
+	respectively zero or one).'''
 	if axis == 1 and count_cols(x) == 0:
 		return to_array(x, type=BOOL_TYPE)
 	return np.logical_and.reduce(x, axis=axis)
@@ -2645,9 +2645,9 @@ def reduce_and(x,
 
 def reduce_or(x,
               axis=0):
-	"""Reduces the dimension of the specified arguments by applying the logical OR function
+	'''Reduces the dimension of the specified arguments by applying the logical OR function
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
-	respectively zero or one)."""
+	respectively zero or one).'''
 	if axis == 1 and count_cols(x) == 0:
 		return to_array(x, type=BOOL_TYPE)
 	return np.logical_or.reduce(x, axis=axis)
@@ -2656,8 +2656,8 @@ def reduce_or(x,
 #########################
 
 def reduce(f, *args, initial=None, **kwargs):
-	"""Reduces the specified arguments to a single one by applying the specified function
-	cumulatively (from left to right)."""
+	'''Reduces the specified arguments to a single one by applying the specified function
+	cumulatively (from left to right).'''
 	args = remove_empty(to_collection(*args))
 	if is_empty(args):
 		return initial
@@ -2714,7 +2714,7 @@ def concat_all(*args):
 
 
 def concat(c1, c2):
-	"""Concatenates the specified collections."""
+	'''Concatenates the specified collections.'''
 	if is_table(c1) or is_table(c2):
 		return concat_rows(c1, c2)
 	elif is_dict(c1) or is_dict(c2):
@@ -2762,8 +2762,8 @@ def fill_null(c, numeric_default=None, object_default=None,
 
 def filter(c,
            keys=None, inclusion=None, exclusion=None):
-	"""Filters the specified collection by excluding the keys that are not in the specified
-	inclusive collection and are in the specified exclusive collection."""
+	'''Filters the specified collection by excluding the keys that are not in the specified
+	inclusive collection and are in the specified exclusive collection.'''
 	if is_empty(c) or not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
 		return c
 	if is_null(keys):
@@ -2784,14 +2784,14 @@ def filter(c,
 
 
 def include(c, inclusion):
-	"""Filters the specified collection by excluding the keys that are not in the specified
-	inclusive collection."""
+	'''Filters the specified collection by excluding the keys that are not in the specified
+	inclusive collection.'''
 	return filter(c, inclusion=inclusion)
 
 
 def exclude(c, exclusion):
-	"""Filters the specified collection by excluding the keys that are in the specified exclusive
-	collection."""
+	'''Filters the specified collection by excluding the keys that are in the specified exclusive
+	collection.'''
 	return filter(c, exclusion=exclusion)
 
 
@@ -2799,8 +2799,8 @@ def exclude(c, exclusion):
 
 def filter_index(c,
                  inclusion=None, exclusion=None):
-	"""Filters the specified collection by excluding the index that are not in the specified
-	inclusive collection and are in the specified exclusive collection."""
+	'''Filters the specified collection by excluding the index that are not in the specified
+	inclusive collection and are in the specified exclusive collection.'''
 	if is_empty(c) or not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
@@ -2814,14 +2814,14 @@ def filter_index(c,
 
 
 def include_index(c, inclusion):
-	"""Filters the specified collection by excluding the index that are not in the specified
-	inclusive collection."""
+	'''Filters the specified collection by excluding the index that are not in the specified
+	inclusive collection.'''
 	return filter_index(c, inclusion=inclusion)
 
 
 def exclude_index(c, exclusion):
-	"""Filters the specified collection by excluding the index that are in the specified exclusive
-	collection."""
+	'''Filters the specified collection by excluding the index that are in the specified exclusive
+	collection.'''
 	return filter_index(c, exclusion=exclusion)
 
 
@@ -2830,8 +2830,8 @@ def exclude_index(c, exclusion):
 def filter_with(c, f, *args,
                 keys=None, inclusion=None, exclusion=None,
                 **kwargs):
-	"""Returns the entries of the specified collection whose values return True with the specified
-	function for all the specified keys."""
+	'''Returns the entries of the specified collection whose values return True with the specified
+	function for all the specified keys.'''
 	if is_empty(c):
 		return c
 	if is_null(keys):
@@ -2853,8 +2853,8 @@ def filter_with(c, f, *args,
 def filter_not_with(c, f, *args,
                     keys=None, inclusion=None, exclusion=None,
                     **kwargs):
-	"""Returns the entries of the specified collection whose values return False with the specified
-	function for all the specified keys."""
+	'''Returns the entries of the specified collection whose values return False with the specified
+	function for all the specified keys.'''
 	if is_empty(c):
 		return c
 	if is_null(keys):
@@ -2876,8 +2876,8 @@ def filter_not_with(c, f, *args,
 def filter_any_with(c, f, *args,
                     keys=None, inclusion=None, exclusion=None,
                     **kwargs):
-	"""Returns the entries of the specified collection whose values return True with the specified
-	function for at least one specified key."""
+	'''Returns the entries of the specified collection whose values return True with the specified
+	function for at least one specified key.'''
 	if is_empty(c):
 		return c
 	if is_null(keys):
@@ -2899,8 +2899,8 @@ def filter_any_with(c, f, *args,
 def filter_any_not_with(c, f, *args,
                         keys=None, inclusion=None, exclusion=None,
                         **kwargs):
-	"""Returns the entries of the specified collection whose values return False with the specified
-	function for at least one specified key."""
+	'''Returns the entries of the specified collection whose values return False with the specified
+	function for at least one specified key.'''
 	if is_empty(c):
 		return c
 	if is_null(keys):
@@ -2923,29 +2923,29 @@ def filter_any_not_with(c, f, *args,
 
 def filter_null(c,
                 keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are null for all the specified
-	keys."""
+	'''Returns the entries of the specified collection whose values are null for all the specified
+	keys.'''
 	return filter_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_null(c,
                     keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not null for all the
-	specified keys."""
+	'''Returns the entries of the specified collection whose values are not null for all the
+	specified keys.'''
 	return filter_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_null(c,
                     keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are null for at least one
-	specified key."""
+	'''Returns the entries of the specified collection whose values are null for at least one
+	specified key.'''
 	return filter_any_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_null(c,
                         keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not null for at least one
-	specified key."""
+	'''Returns the entries of the specified collection whose values are not null for at least one
+	specified key.'''
 	return filter_any_not_with(c, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2953,29 +2953,29 @@ def filter_any_not_null(c,
 
 def filter_empty(c,
                  keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are empty for all the specified
-	keys."""
+	'''Returns the entries of the specified collection whose values are empty for all the specified
+	keys.'''
 	return filter_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_empty(c,
                      keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not empty for all the
-	specified keys."""
+	'''Returns the entries of the specified collection whose values are not empty for all the
+	specified keys.'''
 	return filter_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_empty(c,
                      keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are empty for at least one
-	specified key."""
+	'''Returns the entries of the specified collection whose values are empty for at least one
+	specified key.'''
 	return filter_any_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_empty(c,
                          keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not empty for at least one
-	specified key."""
+	'''Returns the entries of the specified collection whose values are not empty for at least one
+	specified key.'''
 	return filter_any_not_with(c, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2983,32 +2983,32 @@ def filter_any_not_empty(c,
 
 def filter_value(c, value,
                  keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are equal to the specified value
-	 for all the specified keys."""
+	'''Returns the entries of the specified collection whose values are equal to the specified value
+	 for all the specified keys.'''
 	return filter_with(c, lambda v: v == value,
 	                   keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_value(c, value,
                      keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not equal to the specified
-	value for all the specified keys."""
+	'''Returns the entries of the specified collection whose values are not equal to the specified
+	value for all the specified keys.'''
 	return filter_not_with(c, lambda v: v == value,
 	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_value(c, value,
                      keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are equal to the specified value
-	for at least one specified key."""
+	'''Returns the entries of the specified collection whose values are equal to the specified value
+	for at least one specified key.'''
 	return filter_any_with(c, lambda v: v == value,
 	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_value(c, value,
                          keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not equal to the specified
-	value for at least one specified key."""
+	'''Returns the entries of the specified collection whose values are not equal to the specified
+	value for at least one specified key.'''
 	return filter_any_not_with(c, lambda v: v == value,
 	                           keys=keys, inclusion=inclusion, exclusion=exclusion)
 
@@ -3017,8 +3017,8 @@ def filter_any_not_value(c, value,
 
 def filter_in(c, values,
               keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are in the specified values for
-	all the specified keys."""
+	'''Returns the entries of the specified collection whose values are in the specified values for
+	all the specified keys.'''
 	values = to_set(values)
 	return filter_with(c, lambda v: v in values,
 	                   keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -3026,8 +3026,8 @@ def filter_in(c, values,
 
 def filter_not_in(c, values,
                   keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not in the specified values
-	for all the specified keys."""
+	'''Returns the entries of the specified collection whose values are not in the specified values
+	for all the specified keys.'''
 	values = to_set(values)
 	return filter_not_with(c, lambda v: v in values,
 	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -3035,8 +3035,8 @@ def filter_not_in(c, values,
 
 def filter_any_in(c, values,
                   keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are in the specified values for
-	at least one specified key."""
+	'''Returns the entries of the specified collection whose values are in the specified values for
+	at least one specified key.'''
 	values = to_set(values)
 	return filter_any_with(c, lambda v: v in values,
 	                       keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -3044,8 +3044,8 @@ def filter_any_in(c, values,
 
 def filter_any_not_in(c, values,
                       keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not in the specified values
-	for at least one specified key."""
+	'''Returns the entries of the specified collection whose values are not in the specified values
+	for at least one specified key.'''
 	values = to_set(values)
 	return filter_any_not_with(c, lambda v: v in values,
 	                           keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -3055,8 +3055,8 @@ def filter_any_not_in(c, values,
 
 def filter_between(c, lower=None, upper=None,
                    keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are lying between the lower
-	(inclusive) and upper (exclusive) bounds for all the specified keys."""
+	'''Returns the entries of the specified collection whose values are lying between the lower
+	(inclusive) and upper (exclusive) bounds for all the specified keys.'''
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
@@ -3071,8 +3071,8 @@ def filter_between(c, lower=None, upper=None,
 
 def filter_not_between(c, lower=None, upper=None,
                        keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not lying between the lower
-	(inclusive) and upper (exclusive) bounds for all the specified keys."""
+	'''Returns the entries of the specified collection whose values are not lying between the lower
+	(inclusive) and upper (exclusive) bounds for all the specified keys.'''
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
@@ -3087,8 +3087,8 @@ def filter_not_between(c, lower=None, upper=None,
 
 def filter_any_between(c, lower=None, upper=None,
                        keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are lying between the lower
-	(inclusive) and upper (exclusive) bounds for at least one specified key."""
+	'''Returns the entries of the specified collection whose values are lying between the lower
+	(inclusive) and upper (exclusive) bounds for at least one specified key.'''
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
@@ -3103,8 +3103,8 @@ def filter_any_between(c, lower=None, upper=None,
 
 def filter_any_not_between(c, lower=None, upper=None,
                            keys=None, inclusion=None, exclusion=None):
-	"""Returns the entries of the specified collection whose values are not lying between the lower
-	(inclusive) and upper (exclusive) bounds for at least one specified key."""
+	'''Returns the entries of the specified collection whose values are not lying between the lower
+	(inclusive) and upper (exclusive) bounds for at least one specified key.'''
 	if is_all_null(lower, upper):
 		return c
 	elif is_null(lower):
@@ -3120,44 +3120,44 @@ def filter_any_not_between(c, lower=None, upper=None,
 #########################
 
 def filter_days(c, days, week=False, year=False):
-	"""Filters the collection by matching its date-time index with the specified days (week days
-	if week is True, days of the year if year is True, days of the month otherwise)."""
+	'''Filters the collection by matching its date-time index with the specified days (week days
+	if week is True, days of the year if year is True, days of the month otherwise).'''
 	indices = find_all_in(get_days(c, week=week, year=year), get_days(days, week=week, year=year))
 	return take_at(c, indices)
 
 
 def filter_weeks(c, weeks):
-	"""Filters the collection by matching its date-time index with the specified weeks."""
+	'''Filters the collection by matching its date-time index with the specified weeks.'''
 	indices = find_all_in(get_weeks(c), get_weeks(weeks))
 	return take_at(c, indices)
 
 
 def filter_year_weeks(c, year_weeks):
-	"""Filters the collection by matching its date-time index with the specified year-weeks."""
+	'''Filters the collection by matching its date-time index with the specified year-weeks.'''
 	indices = find_all_in(get_year_weeks(c), get_year_weeks(year_weeks))
 	return take_at(c, indices)
 
 
 def filter_months(c, months):
-	"""Filters the collection by matching its date-time index with the specified months."""
+	'''Filters the collection by matching its date-time index with the specified months.'''
 	indices = find_all_in(get_months(c), get_months(months))
 	return take_at(c, indices)
 
 
 def filter_quarters(c, quarters):
-	"""Filters the collection by matching its date-time index with the specified quarters."""
+	'''Filters the collection by matching its date-time index with the specified quarters.'''
 	indices = find_all_in(get_quarters(c), get_quarters(quarters))
 	return take_at(c, indices)
 
 
 def filter_semesters(c, semesters):
-	"""Filters the collection by matching its date-time index with the specified semesters."""
+	'''Filters the collection by matching its date-time index with the specified semesters.'''
 	indices = find_all_in(get_semesters(c), get_semesters(semesters))
 	return take_at(c, indices)
 
 
 def filter_years(c, years):
-	"""Filters the collection by matching its date-time index with the specified years."""
+	'''Filters the collection by matching its date-time index with the specified years.'''
 	indices = find_all_in(get_years(c), get_years(years))
 	return take_at(c, indices)
 
@@ -3307,9 +3307,9 @@ def insert_all(*args):
 
 def insert(c1, c2,
            keys=None, inclusion=None, exclusion=None):
-	"""Inserts the specified second collection into the first collection by inserting the values
+	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
-	list, or indices are different."""
+	list, or indices are different.'''
 	# - Insert the rows
 	insert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
 	# - Insert the columns
@@ -3318,9 +3318,9 @@ def insert(c1, c2,
 
 def insert_rows(c1, c2,
                 keys=None, inclusion=None, exclusion=None):
-	"""Inserts the specified second collection into the first collection by inserting the values
+	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
-	list, are identical and indices are different."""
+	list, are identical and indices are different.'''
 	if is_table(c2) or is_dict(c2):
 		c2 = exclude_index(c2, c1)
 	return upsert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
@@ -3328,9 +3328,9 @@ def insert_rows(c1, c2,
 
 def insert_cols(c1, c2,
                 keys=None, inclusion=None, exclusion=None):
-	"""Inserts the specified second collection into the first collection by inserting the values
+	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
-	list, are different."""
+	list, are different.'''
 	if not is_table(c1) or not is_dict(c1):
 		return c1
 	if is_null(keys):
@@ -3436,7 +3436,7 @@ def reverse(c,
 
 def shift_dates(c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0,
                 microseconds=0):
-	"""Shifts the date-time index of the specified collection."""
+	'''Shifts the date-time index of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
@@ -3480,7 +3480,7 @@ def slice(c, index_from=None, index_to=None,
 
 def sort(c, ascending=True, by=None, inplace=False,
          axis=0):
-	"""Sorts the values of the specified collection."""
+	'''Sorts the values of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_frame(c):
@@ -3496,7 +3496,7 @@ def sort(c, ascending=True, by=None, inplace=False,
 
 
 def sort_index(c):
-	"""Sorts the index of the specified collection."""
+	'''Sorts the index of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_table(c):
@@ -3508,7 +3508,7 @@ def sort_index(c):
 
 def take(c, keys,
          axis=0):
-	"""Returns the entries of the specified collection for all the specified keys."""
+	'''Returns the entries of the specified collection for all the specified keys.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	keys = to_ordered_set(keys)
@@ -3521,14 +3521,14 @@ def take(c, keys,
 
 def take_not(c, keys,
              axis=0):
-	"""Returns the entries of the specified collection except for all the specified keys."""
+	'''Returns the entries of the specified collection except for all the specified keys.'''
 	indices = find_all_not_in(get_index_or_keys(c, axis=axis), keys)
 	return take_at(c, indices, axis=axis)
 
 
 def take_at(c, indices,
             axis=0):
-	"""Returns the entries of the specified collection that are at the specified indices."""
+	'''Returns the entries of the specified collection that are at the specified indices.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	indices = to_list(indices)
@@ -3543,7 +3543,7 @@ def take_at(c, indices,
 
 def take_not_at(c, indices,
                 axis=0):
-	"""Returns the entries of the specified collection that are not at the specified indices."""
+	'''Returns the entries of the specified collection that are not at the specified indices.'''
 	indices = find_all_not_in(range(count_rows(c) if axis == 0 else count_cols(c)), indices)
 	return take_at(c, indices, axis=axis)
 
@@ -3551,8 +3551,8 @@ def take_not_at(c, indices,
 #########################
 
 def tally(c, boundaries):
-	"""Tallies the values of the specified collection into the intervals delimited by the specified
-	boundaries."""
+	'''Tallies the values of the specified collection into the intervals delimited by the specified
+	boundaries.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_empty(c):
@@ -3591,9 +3591,9 @@ def update_all(*args,
 
 def update(c1, c2,
            keys=None, inclusion=None, exclusion=None):
-	"""Updates the specified first collection with the specified second collection by updating the
+	'''Updates the specified first collection with the specified second collection by updating the
 	values whose keys, which are in the specified inclusive list and are not in the specified
-	exclusive list, and indices are identical."""
+	exclusive list, and indices are identical.'''
 	# - Update the rows
 	if is_table(c2) or is_dict(c2):
 		c2 = include_index(c2, c1)
@@ -3611,9 +3611,9 @@ def upsert_all(*args,
 
 def upsert(c1, c2,
            keys=None, inclusion=None, exclusion=None):
-	"""Upserts the specified first collection with the specified second collection by updating or
+	'''Upserts the specified first collection with the specified second collection by updating or
 	inserting the values whose keys are in the specified inclusive list and are not in the specified
-	exclusive list."""
+	exclusive list.'''
 	if is_null(keys):
 		keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -3622,9 +3622,9 @@ def upsert(c1, c2,
 
 def upsert_rows(c1, c2,
                 keys=None, inclusion=None, exclusion=None):
-	"""Upserts the specified first collection with the specified second collection by updating or
+	'''Upserts the specified first collection with the specified second collection by updating or
 	inserting the values whose keys, which are in the specified inclusive list and are not in the
-	specified exclusive list, are identical."""
+	specified exclusive list, are identical.'''
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -3720,15 +3720,15 @@ def combine_all(*args, f):
 
 
 def combine(left, right, f):
-	"""Combines the specified left dataframe with the specified right dataframe with the specified
-	function on the common columns (or on the specified columns if they are not null)."""
+	'''Combines the specified left dataframe with the specified right dataframe with the specified
+	function on the common columns (or on the specified columns if they are not null).'''
 	return to_frame(left).combine(to_frame(right), f)
 
 
 #########################
 
 def concat_rows(*rows):
-	"""Concatenates the specified rows to a dataframe."""
+	'''Concatenates the specified rows to a dataframe.'''
 	rows = remove_empty(to_collection(*rows))
 	if is_empty(rows):
 		return to_series(rows)
@@ -3739,7 +3739,7 @@ def concat_rows(*rows):
 
 
 def concat_cols(*cols):
-	"""Concatenates the specified columns to a dataframe."""
+	'''Concatenates the specified columns to a dataframe.'''
 	cols = remove_empty(to_collection(*cols))
 	if is_empty(cols):
 		return to_series(cols)
@@ -3752,7 +3752,7 @@ def concat_cols(*cols):
 #########################
 
 def count_rows(df):
-	"""Counts the rows of the specified dataframe."""
+	'''Counts the rows of the specified dataframe.'''
 	if is_group(df):
 		if df.axis == 0:
 			return len(df.groups)
@@ -3764,7 +3764,7 @@ def count_rows(df):
 
 
 def count_cols(df):
-	"""Counts the columns of the specified dataframe."""
+	'''Counts the columns of the specified dataframe.'''
 	if is_group(df):
 		if df.axis == 1:
 			return len(df.groups)
@@ -3803,8 +3803,8 @@ def fill_null_cols(df, names, numeric_default=None, object_default=None):
 #########################
 
 def filter_rows_with(df, row, f, *args, **kwargs):
-	"""Returns the rows of the specified dataframe whose values return True with the specified
-	row and function for all the specified keys."""
+	'''Returns the rows of the specified dataframe whose values return True with the specified
+	row and function for all the specified keys.'''
 	if is_empty(df):
 		return df
 	return df.loc[reduce_and([apply(df[k], f, v, *args, **kwargs)
@@ -3812,8 +3812,8 @@ def filter_rows_with(df, row, f, *args, **kwargs):
 
 
 def filter_rows_not_with(df, row, f, *args, **kwargs):
-	"""Returns the rows of the specified dataframe whose values return False with the specified
-	row and function for all the specified keys."""
+	'''Returns the rows of the specified dataframe whose values return False with the specified
+	row and function for all the specified keys.'''
 	if is_empty(df):
 		return df
 	return df.loc[reduce_and([invert(apply(df[k], f, v, *args, **kwargs))
@@ -3821,8 +3821,8 @@ def filter_rows_not_with(df, row, f, *args, **kwargs):
 
 
 def filter_any_rows_with(df, row, f, *args, **kwargs):
-	"""Returns the rows of the specified dataframe whose values return True with the specified
-	row and function for at least one specified key."""
+	'''Returns the rows of the specified dataframe whose values return True with the specified
+	row and function for at least one specified key.'''
 	if is_empty(df):
 		return df
 	return df.loc[reduce_or([apply(df[k], f, v, *args, **kwargs)
@@ -3830,8 +3830,8 @@ def filter_any_rows_with(df, row, f, *args, **kwargs):
 
 
 def filter_any_rows_not_with(df, row, f, *args, **kwargs):
-	"""Returns the rows of the specified dataframe whose values return False with the specified
-	row and function for at least one specified key."""
+	'''Returns the rows of the specified dataframe whose values return False with the specified
+	row and function for at least one specified key.'''
 	if is_empty(df):
 		return df
 	return df.loc[reduce_or([invert(apply(df[k], f, v, *args, **kwargs))
@@ -3841,32 +3841,32 @@ def filter_any_rows_not_with(df, row, f, *args, **kwargs):
 #########################
 
 def filter_rows(df, row):
-	"""Returns the rows of the specified dataframe that match the specified row for all the common
-	columns."""
+	'''Returns the rows of the specified dataframe that match the specified row for all the common
+	columns.'''
 	if is_empty(df) or is_null(row):
 		return df
 	return df.loc[reduce_and([df[k] == v for k, v in row.items() if k in df])]
 
 
 def filter_rows_not(df, row):
-	"""Returns the rows of the specified dataframe that do not match the specified row for all the
-	common columns."""
+	'''Returns the rows of the specified dataframe that do not match the specified row for all the
+	common columns.'''
 	if is_empty(df) or is_null(row):
 		return df
 	return df.loc[reduce_and([df[k] != v for k, v in row.items() if k in df])]
 
 
 def filter_any_rows(df, row):
-	"""Returns the rows of the specified dataframe that match the specified row for at least one
-	common column."""
+	'''Returns the rows of the specified dataframe that match the specified row for at least one
+	common column.'''
 	if is_empty(df) or is_null(row):
 		return df
 	return df.loc[reduce_or([df[k] == v for k, v in row.items() if k in df])]
 
 
 def filter_any_rows_not(df, row):
-	"""Returns the rows of the specified dataframe that do not match the specified row for at least
-	one common column."""
+	'''Returns the rows of the specified dataframe that do not match the specified row for at least
+	one common column.'''
 	if is_empty(df) or is_null(row):
 		return df
 	return df.loc[reduce_or([df[k] != v for k, v in row.items() if k in df])]
@@ -3875,8 +3875,8 @@ def filter_any_rows_not(df, row):
 #########################
 
 def filter_rows_in(df, rows):
-	"""Returns the rows of the specified dataframe that match the specified rows for all the common
-	columns."""
+	'''Returns the rows of the specified dataframe that match the specified rows for all the common
+	columns.'''
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_and([df[k].isin(to_set(values))
@@ -3884,8 +3884,8 @@ def filter_rows_in(df, rows):
 
 
 def filter_rows_not_in(df, rows):
-	"""Returns the rows of the specified dataframe that do not match the specified rows for all the
-	common columns."""
+	'''Returns the rows of the specified dataframe that do not match the specified rows for all the
+	common columns.'''
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_and([invert(df[k].isin(to_set(values)))
@@ -3893,8 +3893,8 @@ def filter_rows_not_in(df, rows):
 
 
 def filter_any_rows_in(df, rows):
-	"""Returns the rows of the specified dataframe that match the specified rows for at least one
-	common column."""
+	'''Returns the rows of the specified dataframe that match the specified rows for at least one
+	common column.'''
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_or([df[k].isin(to_set(values))
@@ -3902,8 +3902,8 @@ def filter_any_rows_in(df, rows):
 
 
 def filter_any_rows_not_in(df, rows):
-	"""Returns the rows of the specified dataframe that do not match the specified rows for at least
-	one common column."""
+	'''Returns the rows of the specified dataframe that do not match the specified rows for at least
+	one common column.'''
 	if is_empty(df) or is_null(rows):
 		return df
 	return df.loc[reduce_or([invert(df[k].isin(to_set(values)))
@@ -3917,8 +3917,8 @@ def join_all(*args, how='inner', on=None, suffix=' 2'):
 
 
 def join(left, right, how='inner', on=None, suffix=' 2'):
-	"""Joins the specified left dataframe with the specified right dataframe on the common columns
-	(or on the specified columns if they are not null)."""
+	'''Joins the specified left dataframe with the specified right dataframe on the common columns
+	(or on the specified columns if they are not null).'''
 	return to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix)
 
 
@@ -3929,8 +3929,8 @@ def merge_all(*args, how='inner', on=None):
 
 
 def merge(left, right, how='inner', on=None):
-	"""Merges the specified left dataframe with the specified right dataframe on the common columns
-	(or on the specified columns if they are not null)."""
+	'''Merges the specified left dataframe with the specified right dataframe on the common columns
+	(or on the specified columns if they are not null).'''
 	return to_frame(left).merge(to_frame(right), how=how, on=on)
 
 
@@ -3996,7 +3996,7 @@ def reset_index(df):
 #########################
 
 def rotate_rows(df, drop=True, prepend=False):
-	"""Rotates the rows of the specified dataframe."""
+	'''Rotates the rows of the specified dataframe.'''
 	if is_empty(df):
 		return df
 	if prepend:
@@ -4011,7 +4011,7 @@ def rotate_rows(df, drop=True, prepend=False):
 
 
 def rotate_cols(df, drop=True, prepend=False):
-	"""Rotates the columns of the specified dataframe."""
+	'''Rotates the columns of the specified dataframe.'''
 	if is_empty(df):
 		return df
 	if prepend:
@@ -4028,22 +4028,22 @@ def rotate_cols(df, drop=True, prepend=False):
 #########################
 
 def sum_rows(df):
-	"""Returns the sum of the rows of the specified dataframe."""
+	'''Returns the sum of the rows of the specified dataframe.'''
 	return df.sum(axis=0)
 
 
 def sum_cols(df):
-	"""Returns the sum of the columns of the specified dataframe."""
+	'''Returns the sum of the columns of the specified dataframe.'''
 	return df.sum(axis=1)
 
 
 def product_rows(df):
-	"""Returns the product of the rows of the specified dataframe."""
+	'''Returns the product of the rows of the specified dataframe.'''
 	return df.product(axis=0)
 
 
 def product_cols(df):
-	"""Returns the product of the columns of the specified dataframe."""
+	'''Returns the product of the columns of the specified dataframe.'''
 	return df.product(axis=1)
 
 
@@ -4055,35 +4055,13 @@ __DATE_PROCESSORS_________________________________ = ''
 def add_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
-	if period_freq is Frequency.DAYS:
-		return d + period_length * DAY
-	elif period_freq is Frequency.WEEKS:
-		return d + period_length * WEEK
-	elif period_freq is Frequency.MONTHS:
-		return d + period_length * MONTH
-	elif period_freq is Frequency.QUARTERS:
-		return d + period_length * QUARTER
-	elif period_freq is Frequency.SEMESTERS:
-		return d + period_length * SEMESTER
-	elif period_freq is Frequency.YEARS:
-		return d + period_length * YEAR
+	return d + period_length * FREQUENCY_DELTA[period_freq]
 
 
 def subtract_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
-	if period_freq is Frequency.DAYS:
-		return d - period_length * DAY
-	elif period_freq is Frequency.WEEKS:
-		return d - period_length * WEEK
-	elif period_freq is Frequency.MONTHS:
-		return d - period_length * MONTH
-	elif period_freq is Frequency.QUARTERS:
-		return d - period_length * QUARTER
-	elif period_freq is Frequency.SEMESTERS:
-		return d - period_length * SEMESTER
-	elif period_freq is Frequency.YEARS:
-		return d - period_length * YEAR
+	return d - period_length * FREQUENCY_DELTA[period_freq]
 
 
 #########################
@@ -4215,8 +4193,8 @@ __LIST_PROCESSORS_________________________________ = ''
 
 def filter_list(l,
                 inclusion=None, exclusion=None):
-	"""Returns the values of the specified list that are in the specified inclusive list and are not
-	in the specified exclusive list."""
+	'''Returns the values of the specified list that are in the specified inclusive list and are not
+	in the specified exclusive list.'''
 	if is_empty(l):
 		return []
 	if not has_filter(inclusion=inclusion, exclusion=exclusion):
@@ -4229,12 +4207,12 @@ def filter_list(l,
 
 
 def include_list(l, inclusion):
-	"""Returns the values of the specified list that are in the specified inclusive list."""
+	'''Returns the values of the specified list that are in the specified inclusive list.'''
 	return filter_list(l, inclusion=inclusion)
 
 
 def exclude_list(l, exclusion):
-	"""Returns the values of the specified list that are not in the specified exclusive list."""
+	'''Returns the values of the specified list that are not in the specified exclusive list.'''
 	return filter_list(l, exclusion=exclusion)
 
 
@@ -4340,7 +4318,7 @@ def find_last_not_with(l, f, *args, **kwargs):
 #########################
 
 def mask_list(l, mask):
-	"""Returns the values of the specified list that are True in the specified mask."""
+	'''Returns the values of the specified list that are True in the specified mask.'''
 	return [v for i, v in enumerate(l) if mask[i]]
 
 
@@ -4417,14 +4395,14 @@ __PROFILE_PROCESSORS______________________________ = ''
 
 
 def start_profile():
-	"""Starts profiling."""
+	'''Starts profiling.'''
 	profile = cProfile.Profile()
 	profile.enable()
 	return profile
 
 
 def end_profile(profile, stream=StringIO()):
-	"""Ends profiling and returns the stream."""
+	'''Ends profiling and returns the stream.'''
 	profile.disable()
 	pstats.Stats(profile, stream=stream).sort_stats(SortKey.CUMULATIVE).print_stats()
 	return stream
@@ -4437,8 +4415,8 @@ __SET_PROCESSORS__________________________________ = ''
 
 def filter_set(s,
                inclusion=None, exclusion=None):
-	"""Returns the values of the specified set that are in the specified inclusive set and are not
-	in the specified exclusive set."""
+	'''Returns the values of the specified set that are in the specified inclusive set and are not
+	in the specified exclusive set.'''
 	if is_empty(s):
 		return set()
 	if not has_filter(inclusion=inclusion, exclusion=exclusion):
@@ -4451,12 +4429,12 @@ def filter_set(s,
 
 
 def include_set(s, inclusion):
-	"""Returns the values of the specified set that are in the specified inclusive set."""
+	'''Returns the values of the specified set that are in the specified inclusive set.'''
 	return filter_set(s, inclusion=inclusion)
 
 
 def exclude_set(s, exclusion):
-	"""Returns the values of the specified set that are not in the specified exclusive set."""
+	'''Returns the values of the specified set that are not in the specified exclusive set.'''
 	return filter_set(s, exclusion=exclusion)
 
 
@@ -4464,8 +4442,8 @@ def exclude_set(s, exclusion):
 
 def filter_ordered_set(s,
                        inclusion=None, exclusion=None):
-	"""Returns the values of the specified ordered set that are in the specified inclusive set and
-	are not in the specified exclusive set."""
+	'''Returns the values of the specified ordered set that are in the specified inclusive set and
+	are not in the specified exclusive set.'''
 	if is_empty(s):
 		return OrderedSet()
 	if not has_filter(inclusion=inclusion, exclusion=exclusion):
@@ -4478,13 +4456,13 @@ def filter_ordered_set(s,
 
 
 def include_ordered_set(s, inclusion):
-	"""Returns the values of the specified ordered set that are in the specified inclusive set."""
+	'''Returns the values of the specified ordered set that are in the specified inclusive set.'''
 	return filter_ordered_set(s, inclusion=inclusion)
 
 
 def exclude_ordered_set(s, exclusion):
-	"""Returns the values of the specified ordered set that are not in the specified exclusive
-	set."""
+	'''Returns the values of the specified ordered set that are not in the specified exclusive
+	set.'''
 	return filter_ordered_set(s, exclusion=exclusion)
 
 
@@ -4494,32 +4472,32 @@ __STRING_PROCESSORS_______________________________ = ''
 
 
 def collapse(*args, delimiter='', append=False):
-	"""Returns the string computed by joining the specified arguments with the specified
-	delimiter."""
+	'''Returns the string computed by joining the specified arguments with the specified
+	delimiter.'''
 	return delimiter.join([str(v) for v in to_collection(*args)]) + (delimiter if append else '')
 
 
 def collist(*args):
-	"""Returns the string computed by joining the specified arguments with a comma."""
+	'''Returns the string computed by joining the specified arguments with a comma.'''
 	return collapse(*args, delimiter=',')
 
 
 def paste(*args):
-	"""Returns the string computed by joining the specified arguments with a space."""
+	'''Returns the string computed by joining the specified arguments with a space.'''
 	return collapse(remove_empty(to_collection(*args)), delimiter=' ')
 
 
 #########################
 
 def extract(s, pattern):
-	"""Returns all the occurrences of the specified pattern from the specified string."""
+	'''Returns all the occurrences of the specified pattern from the specified string.'''
 	return re.findall(pattern, s)
 
 
 #########################
 
 def nth(n):
-	"""Returns the string representation of the specified nth number."""
+	'''Returns the string representation of the specified nth number.'''
 	s = str(n)
 	if s[-1] == '1':
 		return s + 'st'
@@ -4533,8 +4511,8 @@ def nth(n):
 #########################
 
 def replace(s, pattern, replacement):
-	"""Returns the string constructed by replacing the specified pattern by the specified
-	replacement string in the specified string recursively (only if the length is decreasing)."""
+	'''Returns the string constructed by replacing the specified pattern by the specified
+	replacement string in the specified string recursively (only if the length is decreasing).'''
 	count = INF
 	while len(s) < count:
 		count = len(s)
@@ -4543,8 +4521,8 @@ def replace(s, pattern, replacement):
 
 
 def replace_word(s, word, replacement):
-	"""Returns the string constructed by replacing the specified word by the specified replacement
-	string in the specified string recursively (only if the length is decreasing)."""
+	'''Returns the string constructed by replacing the specified word by the specified replacement
+	string in the specified string recursively (only if the length is decreasing).'''
 	count = INF
 	while len(s) < count:
 		count = len(s)
@@ -4555,8 +4533,8 @@ def replace_word(s, word, replacement):
 #########################
 
 def split(s, delimiter=',', empty_filter=True):
-	"""Returns all the tokens computed by splitting the specified string around the specified
-	delimiter (regular expression)."""
+	'''Returns all the tokens computed by splitting the specified string around the specified
+	delimiter (regular expression).'''
 	if empty_filter:
 		return remove_empty(re.split(delimiter, s))
 	return re.split(delimiter, s)
@@ -4565,9 +4543,9 @@ def split(s, delimiter=',', empty_filter=True):
 #########################
 
 def trim(s, replace_space=True, replace_special=True):
-	"""Returns the string constructed by stripping the specified string (and replacing recursively
+	'''Returns the string constructed by stripping the specified string (and replacing recursively
 	the adjacent spaces if replace_space is True and/or special characters if replace_special is
-	True to a single space)."""
+	True to a single space).'''
 	if replace_special:
 		s = replace(s, '\b|\f|\r\n|\r|\n|\t', ' ')
 	if replace_space:
@@ -4578,7 +4556,7 @@ def trim(s, replace_space=True, replace_special=True):
 #########################
 
 def wrap(content, left, right=None):
-	"""Returns the wrapped representative string of the specified content."""
+	'''Returns the wrapped representative string of the specified content.'''
 	if is_null(left):
 		return content
 	elif is_null(right):
@@ -4589,22 +4567,22 @@ def wrap(content, left, right=None):
 
 
 def quote(content):
-	"""Returns the single-quoted representative string of the specified content."""
+	'''Returns the single-quoted representative string of the specified content.'''
 	return wrap(content, '\'')
 
 
 def dquote(content):
-	"""Returns the double-quoted representative string of the specified content."""
+	'''Returns the double-quoted representative string of the specified content.'''
 	return wrap(content, '"')
 
 
 def par(content):
-	"""Returns the parenthesized representative string of the specified content."""
+	'''Returns the parenthesized representative string of the specified content.'''
 	return wrap(content, '(', ')')
 
 
 def bra(content):
-	"""Returns the bracketized representative string of the specified content."""
+	'''Returns the bracketized representative string of the specified content.'''
 	return wrap(content, '[', ']')
 
 

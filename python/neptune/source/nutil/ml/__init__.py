@@ -23,7 +23,7 @@ from nutil.common import *
 __ML_CONSTANTS____________________________________ = ''
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post120'
+__version__ = '1.0.0.post121'
 
 ##################################################
 
@@ -39,7 +39,7 @@ __ML_MAIN_________________________________________ = ''
 
 
 def main():
-	"""Starts the application."""
+	'''Starts the application.'''
 	info('Start %s %s (%s)' % (NAME, VERSION, ENV))
 
 
