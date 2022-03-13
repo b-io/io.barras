@@ -185,7 +185,7 @@ def get_RYG(brightness='8'):
 ##################################################
 
 def to_color(value, alpha=1, color_scale=RYG_SCALE, normalize=False, scale=True):
-	"""Converts the specified value to a RGBA color using the specified alpha and color scale."""
+	'''Converts the specified value to a RGBA color using the specified alpha and color scale.'''
 	if normalize:
 		value = float(normal.cdf(value))
 	c = color_scale(value)
@@ -268,7 +268,7 @@ def get_label(data, show_date=False, show_name=True, transformation=None, yaxis=
 
 
 def get_margin(x, has_title=False):
-	"""Returns the margin with the specified ratio to the width or height."""
+	'''Returns the margin with the specified ratio to the width or height.'''
 	if is_null(x):
 		x = {}
 	if is_dict(x):
@@ -406,7 +406,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
                           showocean=True, oceancolor='AliceBlue',
                           showlakes=False, lakecolor='Blue',
                           showrivers=False, rivercolor='Blue'):
-	"""Creates a choropleth map with the specified parameters."""
+	'''Creates a choropleth map with the specified parameters.'''
 	fig = px.choropleth(data_frame=df,
 	                    lat=lat, lon=lon,
 	                    locations=loc_col, locationmode=loc_mode, projection=projection,
@@ -802,7 +802,7 @@ __GUI_HTML________________________________________ = ''
 
 
 def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, style=None):
-	"""Converts the specified image buffer to HTML."""
+	'''Converts the specified image buffer to HTML.'''
 	if is_null(buffer):
 		return ''
 	image = base64.b64encode(buffer).decode('utf-8')
@@ -814,7 +814,7 @@ def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, s
 #########################
 
 def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
-	"""Converts the specified figure to HTML."""
+	'''Converts the specified figure to HTML.'''
 	if is_null(fig):
 		return ''
 	update_layout_size(fig, width=width, height=height, margin=margin)
@@ -823,8 +823,8 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 
 def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                       rotate=False, scale=DEFAULT_SCALE, style=None):
-	"""Converts the specified figure to the specified format, encodes it to Base64 and returns its
-	HTML code."""
+	'''Converts the specified figure to the specified format, encodes it to Base64 and returns its
+	HTML code.'''
 	if is_null(fig):
 		return ''
 	buffer = fig_to_buffer(fig, format, width=width, height=height, margin=margin, scale=scale)
@@ -836,21 +836,21 @@ def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, m
 
 def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
                      scale=DEFAULT_SCALE, style=None):
-	"""Converts the specified figure to JPEG, encodes it to Base64 and returns its HTML code."""
+	'''Converts the specified figure to JPEG, encodes it to Base64 and returns its HTML code.'''
 	return fig_to_image_html(fig, 'jpeg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
 def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
                     scale=DEFAULT_SCALE, style=None):
-	"""Converts the specified figure to PNG, encodes it to Base64 and returns its HTML code."""
+	'''Converts the specified figure to PNG, encodes it to Base64 and returns its HTML code.'''
 	return fig_to_image_html(fig, 'png', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
 
 def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
                     scale=DEFAULT_SCALE, style=None):
-	"""Converts the specified figure to SVG, encodes it to Base64 and returns its HTML code."""
+	'''Converts the specified figure to SVG, encodes it to Base64 and returns its HTML code.'''
 	return fig_to_image_html(fig, 'svg', width=width, height=height, margin=margin, rotate=rotate,
 	                         scale=scale, style=style)
 
@@ -858,7 +858,7 @@ def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None
 #########################
 
 def image_to_html(path, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, rotate=False, style=None):
-	"""Encodes the specified image to Base64 and returns its HTML code."""
+	'''Encodes the specified image to Base64 and returns its HTML code.'''
 	format = get_extension(path).lower()
 	with open(path, mode='rb') as f:
 		buffer = f.read()
@@ -920,7 +920,7 @@ def rotate_by(image, angle, center=None, scale=1):
 ##################################################
 
 def buffer_to_image(buffer):
-	"""Converts the specified image buffer to an image."""
+	'''Converts the specified image buffer to an image.'''
 	image = np.frombuffer(buffer, dtype=np.uint8)
 	return cv2.imdecode(image, flags=cv2.IMREAD_UNCHANGED)
 
@@ -929,7 +929,7 @@ def buffer_to_image(buffer):
 
 def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                   scale=DEFAULT_SCALE):
-	"""Converts the specified figure to an image buffer with the specified format."""
+	'''Converts the specified figure to an image buffer with the specified format.'''
 	update_layout_size(fig, width=width, height=height, margin=margin)
 	if is_matplot(fig):
 		buffer = io.BytesIO()
@@ -941,17 +941,17 @@ def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margi
 
 
 def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	"""Converts the specified figure to JPEG."""
+	'''Converts the specified figure to JPEG.'''
 	return fig_to_buffer(fig, 'jpeg', width=width, height=height, margin=margin, scale=scale)
 
 
 def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	"""Converts the specified figure to PNG."""
+	'''Converts the specified figure to PNG.'''
 	return fig_to_buffer(fig, 'png', width=width, height=height, margin=margin, scale=scale)
 
 
 def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	"""Converts the specified figure to SVG."""
+	'''Converts the specified figure to SVG.'''
 	return fig_to_buffer(fig, 'svg', width=width, height=height, margin=margin, scale=scale)
 
 
@@ -961,7 +961,7 @@ __GUI_PDF_________________________________________ = ''
 
 
 def html_to_pdf(html, path, encoding=None):
-	"""Converts the specified HTML code to PDF."""
+	'''Converts the specified HTML code to PDF.'''
 	with open(path, mode='wb', encoding=encoding) as f:
 		status = pisa.CreatePDF(html, dest=f)
 		return status.err == 0

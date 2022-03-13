@@ -34,6 +34,11 @@ public class Arguments {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static String NAME = "object";
+	public static String NAMES = NAME + "s";
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static volatile boolean CHECK_ARGS = true;
 
 
@@ -103,7 +108,7 @@ public class Arguments {
 
 	public static <T> T requireNonNull(final T object) {
 		if (CHECK_ARGS) {
-			return requireNonNull(object, "object", 1);
+			return requireNonNull(object, NAME, 1);
 		}
 		return object;
 	}
@@ -127,19 +132,20 @@ public class Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static <T> void require(final T found, final T expected) {
+	public static <T> T require(final T found, final T expected) {
 		if (CHECK_ARGS && !requireNonNull(found).equals(expected)) {
-			throw new IllegalArgumentException("The specified object is wrong " +
-					expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
 		}
+		return found;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	public static <T> void requireEquals(final T a, final T b) {
 		if (CHECK_ARGS && !requireNonNull(a).equals(requireNonNull(b))) {
-			throw new IllegalArgumentException("The specified objects are not equal " +
-					isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 

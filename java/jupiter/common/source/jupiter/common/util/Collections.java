@@ -537,4 +537,31 @@ public class Collections {
 		}
 		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the {@link Collection} to compare for equality (may be {@code null})
+	 * @param b the other{@link Collection} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Collection<?> a, final Collection<?> b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.size() != b.size()) {
+			return false;
+		}
+		final Iterator<?> aIterator = a.iterator();
+		final Iterator<?> bIterator = b.iterator();
+		while (aIterator.hasNext()) {
+			if (!Objects.equals(aIterator.next(), bIterator.next())) {
+				return false;
+			}
+		}
+		return true;
+	}
 }

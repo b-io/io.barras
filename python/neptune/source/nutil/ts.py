@@ -214,7 +214,7 @@ def get_period_over_period(series, freq=FREQUENCY):
 		s = shift_dates(s, months=6)
 	elif freq is Frequency.YEARS:
 		s = shift_dates(s, years=1)
-	return subtract(series, s)
+	return remove_null(subtract(series, s))
 
 
 ##################################################
@@ -245,9 +245,9 @@ def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate
 #########################
 
 def decompose_series(series, seasonal_period=1, freq=FREQUENCY, group=GROUP):
-	"""Decomposes the specified time series into trend and seasonality using the seasonal-trend
+	'''Decomposes the specified time series into trend and seasonality using the seasonal-trend
 	decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
-	I. Terpenning (1990)."""
+	I. Terpenning (1990).'''
 	freq, group = get_freq_group(series, freq=freq, group=group)
 	series = prepare_series(series, freq=freq, group=group)
 	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
@@ -258,7 +258,7 @@ def decompose_series(series, seasonal_period=1, freq=FREQUENCY, group=GROUP):
 
 def forecast_series(series, horizon=1, initialization_method='estimated', trend='add',
                     seasonal='add', seasonal_period=1, freq=FREQUENCY, group=GROUP):
-	"""Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
+	'''Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014).'''
 	freq, group = get_freq_group(series, freq=freq, group=group)
 	series = prepare_series(series, freq=freq, group=group)
 	seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)

@@ -21,52 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jupiter.common.test;
+package jupiter.common.struct.list.row;
 
-import java.io.File;
+import static junit.framework.Assert.assertEquals;
+import static jupiter.common.io.InputOutput.IO;
+import static jupiter.common.util.Characters.BULLET;
 
+import jupiter.common.test.Test;
+import jupiter.common.util.Arrays;
 import jupiter.common.util.Strings;
 
-public class FileArguments
-		extends Arguments {
+public class RowListTest
+		extends Test {
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// ATTRIBUTES
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	public RowListTest(final String name) {
+		super(name);
+	}
 
-	public static String NAME = "file";
-	public static String NAMES = NAME + "s";
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link FileArguments}.
+	 * Tests {@link RowList#getRow}.
 	 */
-	protected FileArguments() {
-		super();
-	}
+	public void testGetRow() {
+		IO.test(BULLET, "getRow");
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// VERIFIERS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static File requireDir(final File file) {
-		if (CHECK_ARGS && !file.isDirectory()) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
-					"is not a directory:", Strings.quote(file)));
-		}
-		return file;
-	}
-
-	public static File requireFile(final File file) {
-		if (CHECK_ARGS && !file.isFile()) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
-					"is not a normal file:", Strings.quote(file)));
-		}
-		return file;
+		RowList rowList = new RowList();
+		assertEquals(Strings.EMPTY_ARRAY, rowList.header);
+		rowList = new RowList("A", "B", "C");
+		assertEquals(3, rowList.getColumnCount());
+		final Row row = new Row("Test", rowList.header, new Integer[] {1, 2, 3});
+		rowList.add(row);
+		assertTrue(Arrays.equals(row.elements, rowList.getRow("Test")));
 	}
 }

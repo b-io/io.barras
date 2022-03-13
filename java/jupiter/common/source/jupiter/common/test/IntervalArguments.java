@@ -34,6 +34,17 @@ public class IntervalArguments
 		extends SetArguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "interval";
+	public static String NAMES = NAME + "s";
+
+	public static String LIST_NAME = "interval list";
+	public static String LIST_NAMES = LIST_NAME + "s";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,7 +62,7 @@ public class IntervalArguments
 
 	public static <I extends Interval<?>> I requireNonEmpty(final I interval) {
 		if (CHECK_ARGS) {
-			return requireNonEmpty(interval, "interval");
+			return requireNonEmpty(interval, NAME);
 		}
 		return interval;
 	}
@@ -61,7 +72,7 @@ public class IntervalArguments
 	public static <T extends Comparable<? super T>> T requireInside(final T object,
 			final Interval<? super T> interval) {
 		if (CHECK_ARGS) {
-			return requireInside(object, "object", interval, "interval");
+			return requireInside(object, "object", interval, NAME);
 		}
 		return object;
 	}
@@ -71,7 +82,7 @@ public class IntervalArguments
 	public static <I extends Interval<T>, T extends Comparable<? super T>> I requireInside(
 			final I interval, final GenericIntervalList<I, T> intervalList) {
 		if (CHECK_ARGS) {
-			return requireInside(interval, "interval", intervalList, "interval list");
+			return requireInside(interval, NAME, intervalList, LIST_NAME);
 		}
 		return interval;
 	}
@@ -92,7 +103,7 @@ public class IntervalArguments
 
 	public static DoubleInterval requireInside(final DoubleInterval interval, final Domain domain) {
 		if (CHECK_ARGS) {
-			return requireInside(interval, "interval", domain, "domain");
+			return requireInside(interval, NAME, domain, "domain");
 		}
 		return interval;
 	}
@@ -112,7 +123,7 @@ public class IntervalArguments
 
 	public static <I extends Interval<?>> I requireValid(final I interval) {
 		if (CHECK_ARGS) {
-			return requireValid(interval, "interval");
+			return requireValid(interval, NAME);
 		}
 		return interval;
 	}
@@ -121,7 +132,7 @@ public class IntervalArguments
 
 	public static <L extends IntervalList<?>> L requireValid(final L intervalList) {
 		if (CHECK_ARGS) {
-			return requireValid(intervalList, "interval list");
+			return requireValid(intervalList, LIST_NAME);
 		}
 		return intervalList;
 	}

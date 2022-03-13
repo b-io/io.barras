@@ -23,10 +23,22 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Integers;
 import jupiter.common.util.Strings;
 
 public class IntegerArguments
 		extends Arguments {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "integer";
+	public static String NAMES = NAME + "s";
+
+	public static String ARRAY_NAME = "integer array";
+	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -44,25 +56,57 @@ public class IntegerArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Integer requireNonNull(final Integer value) {
+		return Arguments.requireNonNull(value, NAME);
+	}
+
+	public static int[] requireNonNull(final int[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireInteger(final Object object) {
+		if (CHECK_ARGS) {
+			requireInteger(object, "object");
+		}
+	}
+
+	public static void requireInteger(final Object object, final String name) {
+		if (CHECK_ARGS && !Integers.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not an", NAME));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static int require(final int found, final int expected) {
 		if (CHECK_ARGS && found != expected) {
-			throw new IllegalArgumentException("The specified int number is wrong " +
-					expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static void requireEquals(final int a, final int b) {
 		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException("The specified int numbers are not equal " +
-					isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static int requireGreaterThan(final int found, final int expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
@@ -70,8 +114,7 @@ public class IntegerArguments
 
 	public static int requireGreaterOrEqualTo(final int found, final int expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower than", expectedLowerBound));
 		}
 		return found;
@@ -79,8 +122,7 @@ public class IntegerArguments
 
 	public static int requireLessThan(final int found, final int expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
@@ -88,16 +130,17 @@ public class IntegerArguments
 
 	public static int requireLessOrEqualTo(final int found, final int expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static int requireNegative(final int found) {
 		if (CHECK_ARGS && found >= 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or positive"));
 		}
 		return found;
@@ -105,7 +148,7 @@ public class IntegerArguments
 
 	public static int requireNonNegative(final int found) {
 		if (CHECK_ARGS && found < 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is negative"));
 		}
 		return found;
@@ -113,7 +156,7 @@ public class IntegerArguments
 
 	public static int requireNonZero(final int found) {
 		if (CHECK_ARGS && found == 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero"));
 		}
 		return found;
@@ -121,7 +164,7 @@ public class IntegerArguments
 
 	public static int requirePositive(final int found) {
 		if (CHECK_ARGS && found <= 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or negative"));
 		}
 		return found;
@@ -129,7 +172,7 @@ public class IntegerArguments
 
 	public static int requireNonPositive(final int found) {
 		if (CHECK_ARGS && found > 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified int number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is positive"));
 		}
 		return found;
@@ -137,7 +180,7 @@ public class IntegerArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static int[] requireNonEmpty(final int... array) {
+	public static int[] requireNonEmpty(final int[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}
@@ -146,7 +189,8 @@ public class IntegerArguments
 
 	public static void requireNonEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified int array is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"is empty"));
 		}
 	}
 
@@ -161,10 +205,12 @@ public class IntegerArguments
 
 	public static void requireLength(final int foundLength, final int expectedLength) {
 		if (CHECK_ARGS && foundLength != expectedLength) {
-			throw new IllegalArgumentException("The specified int array has wrong length " +
-					expectedButFound(foundLength, expectedLength));
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static int[] requireMinLength(final int[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
@@ -175,11 +221,13 @@ public class IntegerArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"inferior to", minExpectedLength));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static int[] requireMaxLength(final int[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
@@ -190,19 +238,13 @@ public class IntegerArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified int array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"superior to", maxExpectedLength));
 		}
 	}
 
 	//////////////////////////////////////////////
-
-	public static void requireSameLength(final int[] a, final int bLength) {
-		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, bLength);
-		}
-	}
 
 	public static void requireSameLength(final int[] a, final int[] b) {
 		if (CHECK_ARGS) {
@@ -210,10 +252,16 @@ public class IntegerArguments
 		}
 	}
 
-	public static void requireSameLength(final int a, final int b) {
-		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified int arrays do not have the same length " + isNotEqualTo(a, b));
+	public static void requireSameLength(final int[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 }

@@ -69,7 +69,7 @@ __ML_TEST_MAIN_________________________________ = ''
 
 
 def main():
-	"""Tests the machine learning library."""
+	'''Tests the machine learning library.'''
 	unittest.main()
 
 

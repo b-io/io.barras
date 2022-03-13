@@ -25,10 +25,20 @@ package jupiter.common.test;
 
 import java.util.Map;
 
+import jupiter.common.util.Maps;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class MapArguments
 		extends Arguments {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "map";
+	public static String NAMES = NAME + "s";
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -46,9 +56,65 @@ public class MapArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <M extends Map<?, ?>> M requireNonNull(final M map) {
+		return Arguments.requireNonNull(map, NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireMap(final Object object) {
+		if (CHECK_ARGS) {
+			requireMap(object, "object");
+		}
+	}
+
+	public static void requireMap(final Object object, final String name) {
+		if (CHECK_ARGS && !Maps.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a", NAME));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
+	 * or interface represented by {@code b}.
+	 * <p>
+	 * @param a a {@link Class}
+	 * @param b another {@link Class}
+	 */
+	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
+		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
+			throw new IllegalArgumentException(Strings.paste("Cannot store", Objects.getName(b),
+					"in a", NAME, "of", Objects.getName(a)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <M extends Map<?, ?>> M require(final M found, final M expected) {
+		if (CHECK_ARGS && !Maps.equals(found, expected)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
+		}
+		return found;
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireEquals(final Map<?, ?> a, final Map<?, ?> b) {
+		if (CHECK_ARGS && !Maps.equals(a, b)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <M extends Map<?, ?>> M requireNonEmpty(final M map) {
 		if (CHECK_ARGS) {
-			return requireNonEmpty(map, "map");
+			return requireNonEmpty(map, NAME);
 		}
 		return map;
 	}
@@ -60,8 +126,8 @@ public class MapArguments
 		return map;
 	}
 
-	public static void requireNonEmpty(final int length, final String name) {
-		if (CHECK_ARGS && length == 0) {
+	public static void requireNonEmpty(final int size, final String name) {
+		if (CHECK_ARGS && size == 0) {
 			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
 					"is empty"));
 		}
@@ -69,28 +135,72 @@ public class MapArguments
 
 	//////////////////////////////////////////////
 
+	public static <M extends Map<?, ?>> M requireSize(final M map, final int expectedSize) {
+		if (CHECK_ARGS) {
+			requireSize(requireNonNull(map).size(), expectedSize);
+		}
+		return map;
+	}
+
+	public static void requireSize(final int foundSize, final int expectedSize) {
+		if (CHECK_ARGS && foundSize != expectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has wrong size", expectedButFound(foundSize, expectedSize)));
+		}
+	}
+
+	//////////////////////////////////////////////
+
 	public static <M extends Map<?, ?>> M requireMinSize(final M map, final int minExpectedSize) {
-		if (CHECK_ARGS && requireNonNull(map).size() < minExpectedSize) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified map has a size", map.size(),
+		if (CHECK_ARGS) {
+			requireMinSize(requireNonNull(map).size(), minExpectedSize);
+		}
+		return map;
+	}
+
+	public static void requireMinSize(final int foundSize, final int minExpectedSize) {
+		if (CHECK_ARGS && foundSize < minExpectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a size", foundSize,
 					"inferior to", minExpectedSize));
 		}
-		return map;
 	}
 
+	//////////////////////////////////////////////
+
 	public static <M extends Map<?, ?>> M requireMaxSize(final M map, final int maxExpectedSize) {
-		if (CHECK_ARGS && requireNonNull(map).size() > maxExpectedSize) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified map has a size", map.size(),
-					"superior to", maxExpectedSize));
+		if (CHECK_ARGS) {
+			requireMaxSize(requireNonNull(map).size(), maxExpectedSize);
 		}
 		return map;
 	}
 
+	public static void requireMaxSize(final int foundSize, final int maxExpectedSize) {
+		if (CHECK_ARGS && foundSize > maxExpectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a size", foundSize,
+					"superior to", maxExpectedSize));
+		}
+	}
+
+	//////////////////////////////////////////////
+
 	public static void requireSameSize(final Map<?, ?> a, final Map<?, ?> b) {
-		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
-			throw new IllegalArgumentException("The specified maps do not have the same size " +
-					isNotEqualTo(a.size(), b.size()));
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), requireNonNull(b).size());
+		}
+	}
+
+	public static void requireSameSize(final Map<?, ?> a, final int bSize) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), bSize);
+		}
+	}
+
+	public static void requireSameSize(final int aSize, final int bSize) {
+		if (CHECK_ARGS && aSize != bSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"do not have the same size", isNotEqualTo(aSize, bSize)));
 		}
 	}
 }
