@@ -30,6 +30,17 @@ public class FloatArguments
 		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "floating point number";
+	public static String NAMES = NAME + "s";
+
+	public static String ARRAY_NAME = "float array";
+	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,25 +56,57 @@ public class FloatArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Float requireNonNull(final Float value) {
+		return Arguments.requireNonNull(value, NAME);
+	}
+
+	public static float[] requireNonNull(final float[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireFloat(final Object object) {
+		if (CHECK_ARGS) {
+			requireFloat(object, "object");
+		}
+	}
+
+	public static void requireFloat(final Object object, final String name) {
+		if (CHECK_ARGS && !Floats.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a", NAME));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static float require(final float found, final float expected) {
 		if (CHECK_ARGS && !Floats.equals(found, expected)) {
-			throw new IllegalArgumentException("The specified float number is wrong " +
-					expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static void requireEquals(final float a, final float b) {
 		if (CHECK_ARGS && !Floats.equals(a, b)) {
-			throw new IllegalArgumentException("The specified float numbers are not equal " +
-					isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static float requireGreaterThan(final float found, final float expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
@@ -71,8 +114,7 @@ public class FloatArguments
 
 	public static float requireGreaterOrEqualTo(final float found, final float expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower than", expectedLowerBound));
 		}
 		return found;
@@ -80,8 +122,7 @@ public class FloatArguments
 
 	public static float requireLessThan(final float found, final float expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
@@ -89,16 +130,17 @@ public class FloatArguments
 
 	public static float requireLessOrEqualTo(final float found, final float expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static float requireNegative(final float found) {
 		if (CHECK_ARGS && found >= 0f) {
-			throw new IllegalArgumentException(Strings.paste("The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or positive"));
 		}
 		return found;
@@ -106,7 +148,7 @@ public class FloatArguments
 
 	public static float requireNonNegative(final float found) {
 		if (CHECK_ARGS && found < 0f) {
-			throw new IllegalArgumentException(Strings.paste("The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is negative"));
 		}
 		return found;
@@ -114,7 +156,7 @@ public class FloatArguments
 
 	public static float requireNonZero(final float found) {
 		if (CHECK_ARGS && found == 0f) {
-			throw new IllegalArgumentException(Strings.paste("The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero"));
 		}
 		return found;
@@ -122,7 +164,7 @@ public class FloatArguments
 
 	public static float requirePositive(final float found) {
 		if (CHECK_ARGS && found <= 0f) {
-			throw new IllegalArgumentException(Strings.paste("The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or negative"));
 		}
 		return found;
@@ -130,7 +172,7 @@ public class FloatArguments
 
 	public static float requireNonPositive(final float found) {
 		if (CHECK_ARGS && found > 0f) {
-			throw new IllegalArgumentException(Strings.paste("The specified float number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is positive"));
 		}
 		return found;
@@ -138,7 +180,7 @@ public class FloatArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static float[] requireNonEmpty(final float... array) {
+	public static float[] requireNonEmpty(final float[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}
@@ -147,7 +189,8 @@ public class FloatArguments
 
 	public static void requireNonEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified float array is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"is empty"));
 		}
 	}
 
@@ -162,10 +205,12 @@ public class FloatArguments
 
 	public static void requireLength(final int foundLength, final int expectedLength) {
 		if (CHECK_ARGS && foundLength != expectedLength) {
-			throw new IllegalArgumentException("The specified float array has wrong length " +
-					expectedButFound(foundLength, expectedLength));
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static float[] requireMinLength(final float[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
@@ -176,11 +221,13 @@ public class FloatArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"inferior to", minExpectedLength));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static float[] requireMaxLength(final float[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
@@ -191,19 +238,13 @@ public class FloatArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified float array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"superior to", maxExpectedLength));
 		}
 	}
 
 	//////////////////////////////////////////////
-
-	public static void requireSameLength(final float[] a, final int bLength) {
-		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, bLength);
-		}
-	}
 
 	public static void requireSameLength(final float[] a, final float[] b) {
 		if (CHECK_ARGS) {
@@ -211,10 +252,16 @@ public class FloatArguments
 		}
 	}
 
-	public static void requireSameLength(final int a, final int b) {
-		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified float arrays do not have the same length " + isNotEqualTo(a, b));
+	public static void requireSameLength(final float[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 }

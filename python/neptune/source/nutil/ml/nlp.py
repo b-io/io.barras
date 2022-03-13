@@ -36,20 +36,20 @@ __NLP_CLASSES_____________________________________ = ''
 
 
 class GloVe:
-	"""
+	'''
 	A handler for Global Vectors for Word Representation (GloVe) of Jeffrey Pennington, Richard
 	Socher, and Christopher D. Manning (2014).
-	"""
+	'''
 
 	def __init__(self, path=None, size=None, verbose=VERBOSE, verbose_interval=100000):
-		"""
+		'''
 		Constructs a handler for Global Vectors for Word Representation (GloVe) containing a
 		vocabulary of words and their pre-trained word vectors.
 
 		:param path: the path to the file containing the vocabulary words and their pre-trained word
 		             vectors
 		:param size: the size of the word vectors
-		"""
+		'''
 		self.vocabulary = []
 		self.word_to_vector = {}  # the dictionary mapping every vocabulary word to its word vector
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
@@ -62,7 +62,7 @@ class GloVe:
 	##############################################
 
 	def get_size(self):
-		"""Returns the size of the word vectors."""
+		'''Returns the size of the word vectors.'''
 		if not is_null(self.size):
 			return self.size
 		return self.word_to_vector[self.vocabulary[0]].shape[0]
@@ -70,7 +70,7 @@ class GloVe:
 	##############################################
 
 	def sentences_to_indices(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
-		"""
+		'''
 		Converts the specified array of sentences of shape (m) to an array of vocabulary word
 		indices of shape (m x max_word_count).
 
@@ -79,7 +79,7 @@ class GloVe:
 
 		:return: an array of vocabulary word indices of shape (m x max_word_count) and the set of
 		         unknown words
-		"""
+		'''
 		indices = np.zeros((len(sentences), max_word_count), dtype=INT_TYPE)
 		unknown_words = set()
 		for i, sentence in enumerate(sentences):
@@ -95,11 +95,11 @@ class GloVe:
 	##############################################
 
 	def create_embedding_layer(self):
-		"""
+		'''
 		Creates an embedding layer using the pre-trained word vectors.
 
 		:return: an embedding layer using the pre-trained word vectors
-		"""
+		'''
 		# Initialize the embedding matrix
 		vocabulary_size = len(self.vocabulary) + 1  # add 1 to fit Keras embedding (requirement)
 		embedding_size = self.get_size()
@@ -122,7 +122,7 @@ class GloVe:
 
 	def create_embedding_model(self, class_count, dropout_rate=0.5, hidden_unit_count=128,
 	                           max_word_count=DEFAULT_MAX_WORD_COUNT):
-		"""
+		'''
 		Create a model with an embedding layer using the pre-trained word vectors that converts the
 		input sentence indices to the estimated output classes.
 
@@ -133,7 +133,7 @@ class GloVe:
 
 		:return: a model with an embedding layer using the pre-trained word vectors that converts
 		         the input sentence indices to the estimated output classes
-		"""
+		'''
 		# Create the input (sentence indices)
 		sentence_indices = Input(shape=(max_word_count,), dtype=INT_TYPE)
 
@@ -161,13 +161,13 @@ class GloVe:
 	##############################################
 
 	def load(self, path, size=None, verbose=VERBOSE, verbose_interval=100000):
-		"""
+		'''
 		Loads the dictionary mapping the vocabulary words to their pre-trained word vectors.
 
 		:param path: the path to the file containing the vocabulary words and their pre-trained word
 		             vectors
 		:param size: the size of the word vectors
-		"""
+		'''
 		with open(path, mode='r', encoding='utf8', errors='ignore') as f:
 			# Create the dictionary mapping every vocabulary word to its word vector
 			i = 0

@@ -23,20 +23,20 @@
  */
 package jupiter.common.test;
 
-import jupiter.common.util.Shorts;
+import jupiter.common.util.Booleans;
 import jupiter.common.util.Strings;
 
-public class ShortArguments
+public class BooleanArguments
 		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "short number";
+	public static String NAME = "boolean";
 	public static String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "short array";
+	public static String ARRAY_NAME = "boolean array";
 	public static String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
@@ -45,9 +45,9 @@ public class ShortArguments
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Prevents the construction of {@link ShortArguments}.
+	 * Prevents the construction of {@link BooleanArguments}.
 	 */
-	protected ShortArguments() {
+	protected BooleanArguments() {
 		super();
 	}
 
@@ -56,11 +56,11 @@ public class ShortArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static Short requireNonNull(final Short value) {
+	public static Boolean requireNonNull(final Boolean value) {
 		return Arguments.requireNonNull(value, NAME);
 	}
 
-	public static short[] requireNonNull(final short[] array) {
+	public static boolean[] requireNonNull(final boolean[] array) {
 		return Arguments.requireNonNull(array, ARRAY_NAME);
 	}
 
@@ -70,14 +70,14 @@ public class ShortArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void requireShort(final Object object) {
+	public static void requireBoolean(final Object object) {
 		if (CHECK_ARGS) {
-			requireShort(object, "object");
+			requireBoolean(object, "object");
 		}
 	}
 
-	public static void requireShort(final Object object, final String name) {
-		if (CHECK_ARGS && !Shorts.is(requireNonNull(object, name))) {
+	public static void requireBoolean(final Object object, final String name) {
+		if (CHECK_ARGS && !Booleans.is(requireNonNull(object, name))) {
 			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
 					"is not a", NAME));
 		}
@@ -85,7 +85,7 @@ public class ShortArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static short require(final short found, final short expected) {
+	public static boolean require(final boolean found, final boolean expected) {
 		if (CHECK_ARGS && found != expected) {
 			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
 					expectedButFound(found, expected)));
@@ -95,92 +95,16 @@ public class ShortArguments
 
 	//////////////////////////////////////////////
 
-	public static void requireEquals(final short a, final short b) {
+	public static void requireEquals(final boolean a, final boolean b) {
 		if (CHECK_ARGS && a != b) {
 			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
 					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
-	//////////////////////////////////////////////
-
-	public static short requireGreaterThan(final short found, final short expectedLowerBound) {
-		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is lower or equal to", expectedLowerBound));
-		}
-		return found;
-	}
-
-	public static short requireGreaterOrEqualTo(final short found, final short expectedLowerBound) {
-		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is lower than", expectedLowerBound));
-		}
-		return found;
-	}
-
-	public static short requireLessThan(final short found, final short expectedUpperBound) {
-		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is greater or equal to", expectedUpperBound));
-		}
-		return found;
-	}
-
-	public static short requireLessOrEqualTo(final short found, final short expectedUpperBound) {
-		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is greater than", expectedUpperBound));
-		}
-		return found;
-	}
-
-	//////////////////////////////////////////////
-
-	public static short requireNegative(final short found) {
-		if (CHECK_ARGS && found >= 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is zero or positive"));
-		}
-		return found;
-	}
-
-	public static short requireNonNegative(final short found) {
-		if (CHECK_ARGS && found < 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is negative"));
-		}
-		return found;
-	}
-
-	public static short requireNonZero(final short found) {
-		if (CHECK_ARGS && found == 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is zero"));
-		}
-		return found;
-	}
-
-	public static short requirePositive(final short found) {
-		if (CHECK_ARGS && found <= 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is zero or negative"));
-		}
-		return found;
-	}
-
-	public static short requireNonPositive(final short found) {
-		if (CHECK_ARGS && found > 0) {
-			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
-					"is positive"));
-		}
-		return found;
-	}
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static short[] requireNonEmpty(final short[] array) {
+	public static boolean[] requireNonEmpty(final boolean[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}
@@ -196,7 +120,7 @@ public class ShortArguments
 
 	//////////////////////////////////////////////
 
-	public static short[] requireLength(final short[] array, final int expectedLength) {
+	public static boolean[] requireLength(final boolean[] array, final int expectedLength) {
 		if (CHECK_ARGS) {
 			requireLength(requireNonNull(array).length, expectedLength);
 		}
@@ -212,7 +136,7 @@ public class ShortArguments
 
 	//////////////////////////////////////////////
 
-	public static short[] requireMinLength(final short[] array, final int minExpectedLength) {
+	public static boolean[] requireMinLength(final boolean[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
 			requireMinLength(requireNonNull(array).length, minExpectedLength);
 		}
@@ -229,7 +153,7 @@ public class ShortArguments
 
 	//////////////////////////////////////////////
 
-	public static short[] requireMaxLength(final short[] array, final int maxExpectedLength) {
+	public static boolean[] requireMaxLength(final boolean[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
 			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
 		}
@@ -246,13 +170,13 @@ public class ShortArguments
 
 	//////////////////////////////////////////////
 
-	public static void requireSameLength(final short[] a, final short[] b) {
+	public static void requireSameLength(final boolean[] a, final boolean[] b) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
 		}
 	}
 
-	public static void requireSameLength(final short[] a, final int bLength) {
+	public static void requireSameLength(final boolean[] a, final int bLength) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, bLength);
 		}

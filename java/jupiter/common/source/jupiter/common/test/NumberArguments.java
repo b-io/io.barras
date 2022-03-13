@@ -30,6 +30,17 @@ public class NumberArguments
 		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "number";
+	public static String NAMES = NAME + "s";
+
+	public static String ARRAY_NAME = "number array";
+	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,16 +56,136 @@ public class NumberArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static void requireNumber(final Object number) {
+	public static Number requireNonNull(final Number value) {
+		return Arguments.requireNonNull(value, NAME);
+	}
+
+	public static Number[] requireNonNull(final Number[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireNumber(final Object object) {
 		if (CHECK_ARGS) {
-			requireNumber(number, "number");
+			requireNumber(object, "object");
 		}
 	}
 
-	public static void requireNumber(final Object number, final String name) {
-		if (CHECK_ARGS && !Numbers.is(requireNonNull(number, name))) {
+	public static void requireNumber(final Object object, final String name) {
+		if (CHECK_ARGS && !Numbers.is(requireNonNull(object, name))) {
 			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
-					"is not a number"));
+					"is not a", NAME));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Number require(final Number found, final Number expected) {
+		if (CHECK_ARGS && !Numbers.equals(found, expected)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
+		}
+		return found;
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireEquals(final Number a, final Number b) {
+		if (CHECK_ARGS && !Numbers.equals(a, b)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static Number[] requireNonEmpty(final Number[] array) {
+		if (CHECK_ARGS) {
+			requireNonEmpty(requireNonNull(array).length);
+		}
+		return array;
+	}
+
+	public static void requireNonEmpty(final int length) {
+		if (CHECK_ARGS && length == 0) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"is empty"));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static Number[] requireLength(final Number[] array, final int expectedLength) {
+		if (CHECK_ARGS) {
+			requireLength(requireNonNull(array).length, expectedLength);
+		}
+		return array;
+	}
+
+	public static void requireLength(final int foundLength, final int expectedLength) {
+		if (CHECK_ARGS && foundLength != expectedLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static Number[] requireMinLength(final Number[] array, final int minExpectedLength) {
+		if (CHECK_ARGS) {
+			requireMinLength(requireNonNull(array).length, minExpectedLength);
+		}
+		return array;
+	}
+
+	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
+		if (CHECK_ARGS && foundLength < minExpectedLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
+					"inferior to", minExpectedLength));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static Number[] requireMaxLength(final Number[] array, final int maxExpectedLength) {
+		if (CHECK_ARGS) {
+			requireMaxLength(requireNonNull(array).length, maxExpectedLength);
+		}
+		return array;
+	}
+
+	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
+		if (CHECK_ARGS && foundLength > maxExpectedLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
+					"superior to", maxExpectedLength));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameLength(final Number[] a, final Number[] b) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
+		}
+	}
+
+	public static void requireSameLength(final Number[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 }

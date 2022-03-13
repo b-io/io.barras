@@ -967,10 +967,6 @@ public class FTPHandler
 			return port > 0 ? port : getDefaultPort();
 		}
 
-		public void setPort(final int port) {
-			this.port = port > 0 ? port : getDefaultPort();
-		}
-
 		public static Protocol get(final String name) {
 			final String value = Strings.toUpperCase(name);
 			if (FTP.value.equals(value)) {
@@ -981,6 +977,10 @@ public class FTPHandler
 				return SFTP;
 			}
 			throw new IllegalTypeException(name);
+		}
+
+		public void setPort(final int port) {
+			this.port = port > 0 ? port : getDefaultPort();
 		}
 
 		/**

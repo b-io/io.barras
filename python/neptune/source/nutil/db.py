@@ -61,7 +61,7 @@ __DB_CONNECT______________________________________ = ''
 
 
 def create_session(engine):
-	"""Creates a session for the specified engine."""
+	'''Creates a session for the specified engine.'''
 	return Session(bind=engine)
 
 
@@ -129,7 +129,7 @@ __DB_FORMAT_______________________________________ = ''
 
 
 def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_DB_MSSQL):
-	"""Creates the WHERE clause with the specified filtering columns and row."""
+	'''Creates the WHERE clause with the specified filtering columns and row.'''
 	cols = include_list(get_keys(filtering_row), filtering_cols)
 	if is_empty(cols):
 		return ''
@@ -145,27 +145,27 @@ def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_D
 ##################################################
 
 def escape(name):
-	"""Escapes the specified name (for either MSSQL or PostgreSQL)."""
+	'''Escapes the specified name (for either MSSQL or PostgreSQL).'''
 	return name.replace('\'', '\'\'').replace('%', '%%')
 
 
 #########################
 
 def format_name(name):
-	"""Formats the specified name (for either MSSQL or PostgreSQL)."""
+	'''Formats the specified name (for either MSSQL or PostgreSQL).'''
 	if '(' in name and ')' in name:
 		return name
 	return dquote(name)
 
 
 def format_cols(*cols):
-	"""Formats the specified column names (for either MSSQL or PostgreSQL)."""
+	'''Formats the specified column names (for either MSSQL or PostgreSQL).'''
 	cols = remove_empty(to_list(*cols))
 	return collist([format_name(col) for col in cols])
 
 
 def format(value, mssql=DEFAULT_DB_MSSQL):
-	"""Formats the specified value (for either MSSQL or PostgreSQL)."""
+	'''Formats the specified value (for either MSSQL or PostgreSQL).'''
 	if is_null(value):
 		return 'NULL'
 	elif is_collection(value):
@@ -189,15 +189,15 @@ __DB_METADATA_____________________________________ = ''
 
 
 def create_metadata(engine, schema=DEFAULT_SCHEMA):
-	"""Creates the metadata (in the specified schema) using the specified engine."""
+	'''Creates the metadata (in the specified schema) using the specified engine.'''
 	return db.MetaData(bind=engine, schema=schema)
 
 
 ##################################################
 
 def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
-	"""Returns the metadata of the specified table (in the specified schema) using the specified
-	engine."""
+	'''Returns the metadata of the specified table (in the specified schema) using the specified
+	engine.'''
 	if is_null(metadata):
 		metadata = create_metadata(engine, schema=schema)
 	metadata.reflect(extend_existing=True, only=[table], schema=schema, views=True)
@@ -205,7 +205,7 @@ def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
 
 
 def get_full_table_name(table, schema=DEFAULT_SCHEMA):
-	"""Returns the full table name (in the specified schema)."""
+	'''Returns the full table name (in the specified schema).'''
 	return collapse(collapse(format_name(schema), '.') if not is_null(schema) else '',
 	                format_name(table))
 
@@ -213,8 +213,8 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
 #########################
 
 def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
-	"""Returns the columns of the specified dataframe that exist in the specified table and that are
-	not the specified filtering columns."""
+	'''Returns the columns of the specified dataframe that exist in the specified table and that are
+	not the specified filtering columns.'''
 	if test:
 		# Test the existence of the columns in the table
 		for col in df:
@@ -229,7 +229,7 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 
 
 def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=False):
-	"""Returns the identity columns of the specified table."""
+	'''Returns the identity columns of the specified table.'''
 	if mssql:
 		return select_table_where(engine, 'identity_columns', cols=['name'],
 		                          filtering_cols='OBJECT_NAME(object_id)',
@@ -239,7 +239,7 @@ def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=False):
 
 
 def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCHEMA):
-	"""Returns the primary columns of the specified table."""
+	'''Returns the primary columns of the specified table.'''
 	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
 	primary_cols = [col.name for col in table_metadata.primary_key.columns]
 	return include_list(primary_cols, cols)
@@ -268,14 +268,14 @@ def table_to_lowercase(table):
 # • DB EXECUTE #####################################################################################
 
 def execute(engine, query, *args, **kwargs):
-	"""Returns the result of the execution of the specified query using the specified engine."""
+	'''Returns the result of the execution of the specified query using the specified engine.'''
 	with engine.connect() as connection:
 		result = connection.execute(query, *args, **kwargs)
 		return result.fetchall() if not is_null(result.cursor) else result.rowcount
 
 
 def execute_procedure(engine, procedure, *args):
-	"""Returns the result of the execution of the specified procedure using the specified engine."""
+	'''Returns the result of the execution of the specified procedure using the specified engine.'''
 	connection = engine.raw_connection()
 	try:
 		with connection.cursor() as cursor:
@@ -289,7 +289,7 @@ def execute_procedure(engine, procedure, *args):
 
 
 def transact(engine, query, *args, **kwargs):
-	"""Returns the result of the transaction of the specified query using the specified engine."""
+	'''Returns the result of the transaction of the specified query using the specified engine.'''
 	with engine.begin() as connection:
 		result = connection.execute(query, *args, **kwargs)
 		return result.fetchall() if not is_null(result.cursor) else result.rowcount
@@ -303,9 +303,9 @@ __DB_SELECT_______________________________________ = ''
 def create_select_table_where_query(table, cols=None, filtering_cols=None, filtering_row=None,
                                     mssql=DEFAULT_DB_MSSQL, n=None, order='ASC',
                                     schema=DEFAULT_SCHEMA):
-	"""Creates the query to select the specified columns of the rows matching the specified
+	'''Creates the query to select the specified columns of the rows matching the specified
 	filtering row at the specified filtering columns from the specified table (in the specified
-	schema)."""
+	schema).'''
 	return paste('SELECT', paste('TOP', n) if not is_null(n) and mssql else '',
 	             '*' if is_empty(cols) else format_cols(cols),
 	             'FROM', get_full_table_name(table, schema=schema),
@@ -318,12 +318,12 @@ def create_select_table_where_query(table, cols=None, filtering_cols=None, filte
 ##################################################
 
 def select_query(engine, query):
-	"""Returns the dataframe read from the specified query."""
+	'''Returns the dataframe read from the specified query.'''
 	return pd.read_sql(query, con=engine)
 
 
 def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
-	"""Returns the dataframe read from the specified table (in the specified schema)."""
+	'''Returns the dataframe read from the specified table (in the specified schema).'''
 	if verbose:
 		debug('Select the table', quote(table))
 	return pd.read_sql_table(table, con=engine, columns=cols, index_col=index_cols, schema=schema)
@@ -332,9 +332,9 @@ def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEM
 def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_row=None,
                        index_cols=None, mssql=DEFAULT_DB_MSSQL, n=None, order='ASC',
                        schema=DEFAULT_SCHEMA, verbose=VERBOSE):
-	"""Selects the specified columns of the rows matching the specified filtering row at the
+	'''Selects the specified columns of the rows matching the specified filtering row at the
 	specified filtering columns from the specified table (in the specified schema) and returns them
-	in a dataframe."""
+	in a dataframe.'''
 	if verbose:
 		filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
 		debug('Select the columns', '*' if is_empty(cols) else format_cols(cols),
@@ -355,8 +355,8 @@ __DB_DELETE_______________________________________ = ''
 
 def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
                               mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
-	"""Creates the query to delete the rows matching the specified filtering row at the specified
-	filtering columns from the specified table (in the specified schema)."""
+	'''Creates the query to delete the rows matching the specified filtering row at the specified
+	filtering columns from the specified table (in the specified schema).'''
 	return paste('DELETE FROM', get_full_table_name(table, schema=schema),
 	             create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row,
 	                                 mssql=mssql)) + ';'
@@ -366,9 +366,9 @@ def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
 
 def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
-	"""Deletes the rows matching the rows of the specified dataframe at the specified filtering
+	'''Deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of deleted
-	rows."""
+	rows.'''
 	delete_count = 0
 
 	# Get the metadata of the table
@@ -410,9 +410,9 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
                       mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
-	"""Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
+	'''Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of
-	bulk-deleted rows."""
+	bulk-deleted rows.'''
 	delete_count = 0
 
 	# Get the metadata of the table
@@ -468,7 +468,7 @@ __DB_INSERT_______________________________________ = ''
 
 
 def set_id_insert(engine, table, flag, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
-	"""Allows the insertion of identifiers into the specified table (in the specified schema)."""
+	'''Allows the insertion of identifiers into the specified table (in the specified schema).'''
 	if mssql:
 		return execute(engine, paste('SET IDENTITY_INSERT',
 		                             get_full_table_name(table, schema=schema),
@@ -478,8 +478,8 @@ def set_id_insert(engine, table, flag, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SC
 ##################################################
 
 def create_insert_table_query(table, cols, row, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
-	"""Creates the query to insert the specified row with the specified columns into the specified
-	table (in the specified schema)."""
+	'''Creates the query to insert the specified row with the specified columns into the specified
+	table (in the specified schema).'''
 	return paste('INSERT INTO', get_full_table_name(table, schema=schema),
 	             par(format_cols(cols)),
 	             'VALUES', par(collist([format(row[col], mssql=mssql) for col in cols]))) + ';'
@@ -489,8 +489,8 @@ def create_insert_table_query(table, cols, row, mssql=DEFAULT_DB_MSSQL, schema=D
 
 def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
                  test=ASSERT, verbose=VERBOSE):
-	"""Inserts the rows of the specified dataframe into the specified table (in the specified
-	schema) and returns the number of inserted rows."""
+	'''Inserts the rows of the specified dataframe into the specified table (in the specified
+	schema) and returns the number of inserted rows.'''
 	insert_count = 0
 
 	# Get the metadata of the table
@@ -535,8 +535,8 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_id=None,
                       mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
-	"""Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
-	schema) and returns the number of bulk-inserted rows."""
+	'''Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
+	schema) and returns the number of bulk-inserted rows.'''
 	insert_count = 0
 
 	# Get the metadata of the table
@@ -597,8 +597,8 @@ __DB_UPDATE_______________________________________ = ''
 
 def create_update_table_query(table, cols, row, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
                               schema=DEFAULT_SCHEMA):
-	"""Creates the query to update the rows matching the rows of the specified dataframe at the
-	specified filtering columns of the specified table (in the specified schema)."""
+	'''Creates the query to update the rows matching the rows of the specified dataframe at the
+	specified filtering columns of the specified table (in the specified schema).'''
 	return paste('UPDATE', get_full_table_name(table, schema=schema),
 	             'SET', collist([collapse(format_name(col), '=',
 	                                      format(row[col], mssql=mssql)) for col in cols]),
@@ -610,9 +610,9 @@ def create_update_table_query(table, cols, row, filtering_cols=None, mssql=DEFAU
 
 def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
-	"""Updates the rows matching the rows of the specified dataframe at the specified filtering
+	'''Updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of updated
-	rows."""
+	rows.'''
 	update_count = 0
 
 	# Get the metadata of the table
@@ -659,9 +659,9 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
                       mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
-	"""Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
+	'''Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of bulk-updated
-	rows."""
+	rows.'''
 	update_count = 0
 
 	# Get the metadata of the table
@@ -719,9 +719,9 @@ __DB_UPSERT_______________________________________ = ''
 
 def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
-	"""Updates/inserts the rows matching the rows of the specified dataframe at the specified
+	'''Updates/inserts the rows matching the rows of the specified dataframe at the specified
 	filtering columns of/into the specified table (in the specified schema) and returns the number
-	of updated/inserted rows."""
+	of updated/inserted rows.'''
 	upsert_count = 0
 
 	# Update the matching rows
@@ -772,8 +772,8 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
             create=True, drop=False, fill=True, filtering_cols=None, filtering_row=None,
             mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
             test=ASSERT, upsert=False, verbose=VERBOSE):
-	"""Migrates the specified tables (in the specified schema) from the specified engine to the
-	specified engine using the specified collation and returns the number of migrated rows."""
+	'''Migrates the specified tables (in the specified schema) from the specified engine to the
+	specified engine using the specified collation and returns the number of migrated rows.'''
 	count = 0
 
 	# Create the tables
@@ -819,7 +819,7 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 #########################
 
 def update_col(col, collation=None, mssql_from=True, mssql_to=True):
-	"""Updates the default value, type and collation of the specified column."""
+	'''Updates the default value, type and collation of the specified column.'''
 	# - Update the default value
 	update_col_default(col, mssql_from=mssql_from, mssql_to=mssql_to)
 	# - Update the type
@@ -829,7 +829,7 @@ def update_col(col, collation=None, mssql_from=True, mssql_to=True):
 
 
 def update_col_default(col, mssql_from=True, mssql_to=True):
-	"""Updates the default value of the specified column."""
+	'''Updates the default value of the specified column.'''
 	if hasattr(col.server_default, 'arg') and isinstance(col.server_default.arg, TextClause):
 		if mssql_from and not mssql_to:
 			if isinstance(col.type, mssql.base.BIT):
@@ -853,7 +853,7 @@ def update_col_default(col, mssql_from=True, mssql_to=True):
 
 
 def update_col_type(col, mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL):
-	"""Updates the type of the specified column."""
+	'''Updates the type of the specified column.'''
 	if mssql_from and not mssql_to:
 		if isinstance(col.type, mssql.base.BIT):
 			col.type = db.BOOLEAN()
@@ -869,6 +869,6 @@ def update_col_type(col, mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL)
 
 
 def update_col_collation(col, collation=None):
-	"""Updates the collation of the specified column."""
+	'''Updates the collation of the specified column.'''
 	if not is_null(collation) and hasattr(col.type, 'collation'):
 		col.type.collation = collation

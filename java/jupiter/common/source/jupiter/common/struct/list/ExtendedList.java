@@ -321,7 +321,7 @@ public class ExtendedList<E>
 	 * Removes all the elements that are contained in the specified {@link Collection} from
 	 * {@code this}.
 	 * <p>
-	 * @param collection the {@link Collection} of {@link Object} to remove (may be {@code null})
+	 * @param collection the {@link Collection} to remove (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
@@ -372,7 +372,7 @@ public class ExtendedList<E>
 	 * Removes all the elements that are not contained in the specified {@link Collection} from
 	 * {@code this}.
 	 * <p>
-	 * @param collection the {@link Collection} of {@link Object} to retain (may be {@code null})
+	 * @param collection the {@link Collection} to retain (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
@@ -416,6 +416,47 @@ public class ExtendedList<E>
 		}
 		return clone;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+//	/**
+//	 * Tests whether {@code this} is equal to {@code other}.
+//	 * <p>
+//	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+//	 * <p>
+//	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+//	 *
+//	 * @see #hashCode()
+//	 */
+//	@Override
+//	public boolean equals(final Object other) {
+//		if (this == other) {
+//			return true;
+//		}
+//		if (other == null || !(other instanceof ExtendedList)) {
+//			return false;
+//		}
+//		final ExtendedList<?> otherExtendedList = (ExtendedList<?>) other;
+//		if (!Lists.equals(this, otherExtendedList)) {
+//			return false;
+//		}
+//		return true;
+//	}
+//
+//	//////////////////////////////////////////////
+//
+//	/**
+//	 * Returns the hash code of {@code this}.
+//	 * <p>
+//	 * @return the hash code of {@code this}
+//	 *
+//	 * @see #equals(Object)
+//	 * @see System#identityHashCode(Object)
+//	 */
+//	@Override
+//	public int hashCode() {
+//		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
+//	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 

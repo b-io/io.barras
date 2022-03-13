@@ -206,7 +206,7 @@ __TEST_MAIN_______________________________________ = ''
 
 
 def main():
-	"""Tests the library."""
+	'''Tests the library.'''
 	unittest.main()
 
 

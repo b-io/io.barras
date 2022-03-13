@@ -23,10 +23,22 @@
  */
 package jupiter.common.test;
 
+import jupiter.common.util.Longs;
 import jupiter.common.util.Strings;
 
 public class LongArguments
 		extends Arguments {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "long number";
+	public static String NAMES = NAME + "s";
+
+	public static String ARRAY_NAME = "long array";
+	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -44,25 +56,57 @@ public class LongArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Long requireNonNull(final Long value) {
+		return Arguments.requireNonNull(value, NAME);
+	}
+
+	public static long[] requireNonNull(final long[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireLong(final Object object) {
+		if (CHECK_ARGS) {
+			requireLong(object, "object");
+		}
+	}
+
+	public static void requireLong(final Object object, final String name) {
+		if (CHECK_ARGS && !Longs.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a", NAME));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static long require(final long found, final long expected) {
 		if (CHECK_ARGS && found != expected) {
-			throw new IllegalArgumentException("The specified long number is wrong " +
-					expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static void requireEquals(final long a, final long b) {
 		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException("The specified long numbers are not equal " +
-					isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static long requireGreaterThan(final long found, final long expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
@@ -70,8 +114,7 @@ public class LongArguments
 
 	public static long requireGreaterOrEqualTo(final long found, final long expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower than", expectedLowerBound));
 		}
 		return found;
@@ -79,8 +122,7 @@ public class LongArguments
 
 	public static long requireLessThan(final long found, final long expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
@@ -88,16 +130,17 @@ public class LongArguments
 
 	public static long requireLessOrEqualTo(final long found, final long expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static long requireNonZero(final long found) {
 		if (CHECK_ARGS && found == 0L) {
-			throw new IllegalArgumentException(Strings.paste("The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero"));
 		}
 		return found;
@@ -105,7 +148,7 @@ public class LongArguments
 
 	public static long requireZero(final long found) {
 		if (CHECK_ARGS && found > 0L) {
-			throw new IllegalArgumentException(Strings.paste("The specified long number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is not zero"));
 		}
 		return found;
@@ -113,7 +156,7 @@ public class LongArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static long[] requireNonEmpty(final long... array) {
+	public static long[] requireNonEmpty(final long[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}
@@ -122,7 +165,8 @@ public class LongArguments
 
 	public static void requireNonEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified long array is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"is empty"));
 		}
 	}
 
@@ -137,10 +181,12 @@ public class LongArguments
 
 	public static void requireLength(final int foundLength, final int expectedLength) {
 		if (CHECK_ARGS && foundLength != expectedLength) {
-			throw new IllegalArgumentException("The specified long array has wrong length " +
-					expectedButFound(foundLength, expectedLength));
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static long[] requireMinLength(final long[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
@@ -151,11 +197,13 @@ public class LongArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"inferior to", minExpectedLength));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static long[] requireMaxLength(final long[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
@@ -166,19 +214,13 @@ public class LongArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified long array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"superior to", maxExpectedLength));
 		}
 	}
 
 	//////////////////////////////////////////////
-
-	public static void requireSameLength(final long[] a, final int bLength) {
-		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, bLength);
-		}
-	}
 
 	public static void requireSameLength(final long[] a, final long[] b) {
 		if (CHECK_ARGS) {
@@ -186,10 +228,16 @@ public class LongArguments
 		}
 	}
 
-	public static void requireSameLength(final int a, final int b) {
-		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified long arrays do not have the same length " + isNotEqualTo(a, b));
+	public static void requireSameLength(final long[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 }

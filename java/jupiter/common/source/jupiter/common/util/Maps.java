@@ -24,6 +24,7 @@
 package jupiter.common.util;
 
 import static jupiter.common.io.string.Stringifiers.STRINGIFIER;
+import static jupiter.common.util.Classes.OBJECT_CLASS;
 import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
@@ -56,6 +57,42 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// ACCESSORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the key {@link Class} of the specified {@link Map}.
+	 * <p>
+	 * @param map a {@link Map} (may be {@code null})
+	 * <p>
+	 * @return the key {@link Class} of the specified {@link Map}
+	 */
+	public static Class<?> getKeyClass(final Map<?, ?> map) {
+		// Check the arguments
+		if (isNullOrEmpty(map)) {
+			return OBJECT_CLASS;
+		}
+
+		// Return the key class of the map (common ancestor of the key classes)
+		return getElementClass(map.keySet());
+	}
+
+	/**
+	 * Returns the value {@link Class} of the specified {@link Map}.
+	 * <p>
+	 * @param map a {@link Map} (may be {@code null})
+	 * <p>
+	 * @return the value {@link Class} of the specified {@link Map}
+	 */
+	public static Class<?> getValueClass(final Map<?, ?> map) {
+		// Check the arguments
+		if (isNullOrEmpty(map)) {
+			return OBJECT_CLASS;
+		}
+
+		// Return the value class of the map (common ancestor of the value classes)
+		return getElementClass(map.values());
+	}
+
+	//////////////////////////////////////////////
 
 	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
@@ -315,6 +352,44 @@ public class Maps
 		return Map.class.isAssignableFrom(c);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests whether the specified {@link Map} is {@code null} or empty.
+	 * <p>
+	 * @param map the {@link Map} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link Map} is {@code null} or empty, {@code false}
+	 *         otherwise
+	 */
+	public static boolean isNullOrEmpty(final Map<?, ?> map) {
+		return map == null || map.isEmpty();
+	}
+
+	/**
+	 * Tests whether the specified {@link Map} is non-{@code null} and empty.
+	 * <p>
+	 * @param map the {@link Map} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link Map} is non-{@code null} and empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isEmpty(final Map<?, ?> map) {
+		return map != null && map.isEmpty();
+	}
+
+	/**
+	 * Tests whether the specified {@link Map} is non-{@code null} and non-empty.
+	 * <p>
+	 * @param map the {@link Map} to test (may be {@code null})
+	 * <p>
+	 * @return {@code true} if the specified {@link Map} is non-{@code null} and non-empty,
+	 *         {@code false} otherwise
+	 */
+	public static boolean isNonEmpty(final Map<?, ?> map) {
+		return map != null && !map.isEmpty();
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// OBJECT
@@ -375,5 +450,25 @@ public class Maps
 	 */
 	public static String toString(final Object key, final Object value) {
 		return STRINGIFIER.stringifyNode(Objects.toString(key), value);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the {@link Map} to compare for equality (may be {@code null})
+	 * @param b the other{@link Map} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Map<?, ?> a, final Map<?, ?> b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.size() != b.size()) {
+			return false;
+		}
+		return a.equals(b);
 	}
 }

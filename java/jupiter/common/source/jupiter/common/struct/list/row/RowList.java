@@ -26,6 +26,7 @@ package jupiter.common.struct.list.row;
 import static jupiter.common.util.Classes.OBJECT_CLASS;
 
 import java.util.Collection;
+import java.util.List;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
@@ -33,6 +34,7 @@ import jupiter.common.struct.list.ExtendedList;
 import jupiter.common.struct.table.ITable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
+import jupiter.common.test.CollectionArguments;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Classes;
@@ -65,7 +67,7 @@ public class RowList
 	/**
 	 * The index (row names).
 	 */
-	protected Object[] index;
+	protected List<Object> index;
 	/**
 	 * The header (column names).
 	 */
@@ -101,19 +103,19 @@ public class RowList
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public RowList(final String[] header, final int initialCapacity) {
-		this(null, header, initialCapacity);
+		this(new ExtendedList<Object>(), header, initialCapacity);
 	}
 
 	/**
 	 * Constructs an empty {@link RowList} with the specified index, header and initial capacity.
 	 * <p>
-	 * @param index           an array of {@link Object} (may be {@code null})
+	 * @param index           a {@link List} of {@link Object} (may be {@code null})
 	 * @param header          an array of {@link String}
 	 * @param initialCapacity the initial capacity
 	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
-	public RowList(final Object[] index, final String[] header, final int initialCapacity) {
+	public RowList(final List<Object> index, final String[] header, final int initialCapacity) {
 		super(initialCapacity);
 
 		// Check the arguments
@@ -132,7 +134,7 @@ public class RowList
 	 * @param elements an array of {@link Row}
 	 */
 	public RowList(final Row... elements) {
-		this(createHeader(Arguments.requireNonNull(elements, "elements").length), elements);
+		this(getHeader(elements), elements);
 	}
 
 	/**
@@ -142,17 +144,17 @@ public class RowList
 	 * @param elements an array of {@link Row}
 	 */
 	public RowList(final String[] header, final Row... elements) {
-		this(null, header, elements);
+		this(new ExtendedList<Object>(), header, elements);
 	}
 
 	/**
 	 * Constructs a {@link RowList} with the specified index, header and elements.
 	 * <p>
-	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param index    a {@link List} of {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
 	 * @param elements an array of {@link Row}
 	 */
-	public RowList(final Object[] index, final String[] header, final Row... elements) {
+	public RowList(final List<Object> index, final String[] header, final Row... elements) {
 		super(elements);
 
 		// Check the arguments
@@ -171,7 +173,7 @@ public class RowList
 	 * @param elements a {@link Collection} of {@link Row}
 	 */
 	public RowList(final Collection<? extends Row> elements) {
-		this(createHeader(Arguments.requireNonNull(elements, "elements").size()), elements);
+		this(getHeader(elements), elements);
 	}
 
 	/**
@@ -182,18 +184,18 @@ public class RowList
 	 * @param elements a {@link Collection} of {@link Row}
 	 */
 	public RowList(final String[] header, final Collection<? extends Row> elements) {
-		this(null, header, elements);
+		this(new ExtendedList<Object>(), header, elements);
 	}
 
 	/**
 	 * Constructs a {@link RowList} with the specified index, header and elements of the specified
 	 * {@link Collection}.
 	 * <p>
-	 * @param index    an array of {@link Object} (may be {@code null})
+	 * @param index    a {@link List} of {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
 	 * @param elements a {@link Collection} of {@link Row}
 	 */
-	public RowList(final Object[] index, final String[] header,
+	public RowList(final List<Object> index, final String[] header,
 			final Collection<? extends Row> elements) {
 		super(elements);
 
@@ -236,7 +238,7 @@ public class RowList
 	 * @return the row names
 	 */
 	public Object[] getIndex() {
-		return index;
+		return index.toArray();
 	}
 
 	/**
@@ -258,7 +260,7 @@ public class RowList
 		ArrayArguments.requireIndex(i, getRowCount());
 
 		// Return the row name
-		return index[i];
+		return index.get(i);
 	}
 
 	/**
@@ -278,7 +280,7 @@ public class RowList
 		}
 
 		// Return the row index
-		final int i = Arrays.findFirstIndex(index, name);
+		final int i = index.indexOf(name);
 		if (i < 0) {
 			throw new IllegalArgumentException("There is no row " + Strings.quote(name));
 		}
@@ -539,7 +541,9 @@ public class RowList
 		// • i
 		ArrayArguments.requireIndex(i, getRowCount());
 		// • from
-		ArrayArguments.requireIndex(fromColumn, getColumnCount());
+		if (getColumnCount() > 0) {
+			ArrayArguments.requireIndex(fromColumn, getColumnCount());
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -648,7 +652,9 @@ public class RowList
 		// • j
 		ArrayArguments.requireIndex(j, getColumnCount());
 		// • from
-		ArrayArguments.requireIndex(fromRow, getRowCount());
+		if (getRowCount() > 0) {
+			ArrayArguments.requireIndex(fromRow, getRowCount());
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -682,6 +688,44 @@ public class RowList
 		return getColumn(getColumnIndex(name), fromRow, length);
 	}
 
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the header of the specified array of {@link Row}.
+	 * <p>
+	 * @param rows an array of {@link Row}
+	 * <p>
+	 * @return the header of the specified array of {@link Row}
+	 */
+	protected static String[] getHeader(final Row... rows) {
+		// Check the arguments
+		Arguments.requireNonNull(rows, "rows");
+
+		// Return the header
+		if (Arrays.isEmpty(rows)) {
+			return Strings.EMPTY_ARRAY;
+		}
+		return rows[0].header;
+	}
+
+	/**
+	 * Returns the header of the specified {@link Collection} of {@link Row}.
+	 * <p>
+	 * @param rows a {@link Collection} of {@link Row}
+	 * <p>
+	 * @return the header of the specified {@link Collection} of {@link Row}
+	 */
+	protected static String[] getHeader(final Collection<? extends Row> rows) {
+		// Check the arguments
+		Arguments.requireNonNull(rows, "rows");
+
+		// Return the header
+		if (Collections.isEmpty(rows)) {
+			return Strings.EMPTY_ARRAY;
+		}
+		return Collections.get(rows, 0).header;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -692,6 +736,19 @@ public class RowList
 	public void setIndex(final Object... index) {
 		// Check the arguments
 		ArrayArguments.requireLength(index, getRowCount());
+
+		// Set the index
+		this.index = new ExtendedList<Object>(index);
+	}
+
+	/**
+	 * Sets the index.
+	 * <p>
+	 * @param index a {@link List} of {@link Object}
+	 */
+	public void setIndex(final List<Object> index) {
+		// Check the arguments
+		CollectionArguments.requireSize(index, getRowCount());
 
 		// Set the index
 		this.index = index;
@@ -777,7 +834,9 @@ public class RowList
 		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		ArrayArguments.requireIndex(fromColumn, getColumnCount());
+		if (getColumnCount() > 0) {
+			ArrayArguments.requireIndex(fromColumn, getColumnCount());
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -846,7 +905,9 @@ public class RowList
 		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		ArrayArguments.requireIndex(fromRow, getRowCount());
+		if (getRowCount() > 0) {
+			ArrayArguments.requireIndex(fromRow, getRowCount());
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -969,6 +1030,9 @@ public class RowList
 		Arguments.requireNonNull(element, "element");
 
 		// Add the element
+		if (index != null) {
+			index.add(element.index);
+		}
 		if (Arrays.isNullOrEmpty(header) && !Arrays.isNullOrEmpty(element.header)) {
 			setHeader(element.header);
 		}
@@ -976,23 +1040,26 @@ public class RowList
 	}
 
 	/**
-	 * Inserts the specified element {@link Row} at the specified index into {@code this}. Shifts
-	 * the element currently at that position (if any) and any subsequent elements to the right
-	 * (adds one to their indices).
+	 * Inserts the specified element {@link Row} at the specified row index into {@code this}.
+	 * Shifts the element currently at that position (if any) and any subsequent elements to the
+	 * right (adds one to their indices).
 	 * <p>
-	 * @param index   the index to insert at
+	 * @param i       the row index
 	 * @param element the element {@link Row} to insert
 	 */
 	@Override
-	public void add(final int index, final Row element) {
+	public void add(final int i, final Row element) {
 		// Check the arguments
 		Arguments.requireNonNull(element, "element");
 
 		// Add the element
+		if (index != null) {
+			index.add(i, element.index);
+		}
 		if (Arrays.isNullOrEmpty(header) && !Arrays.isNullOrEmpty(element.header)) {
 			setHeader(element.header);
 		}
-		super.add(index, element);
+		super.add(i, element);
 	}
 
 
@@ -1015,4 +1082,70 @@ public class RowList
 		}
 		return clone;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+//	/**
+//	 * Tests whether {@code this} is equal to {@code other}.
+//	 * <p>
+//	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+//	 * <p>
+//	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+//	 *
+//	 * @see #hashCode()
+//	 */
+//	@Override
+//	public boolean equals(final Object other) {
+//		if (this == other) {
+//			return true;
+//		}
+//		if (other == null || !(other instanceof RowList)) {
+//			return false;
+//		}
+//		final RowList otherTable = (RowList) other;
+//		if (!Objects.equals(c, otherTable.c) || m != otherTable.m || n != otherTable.n) {
+//			return false;
+//		}
+//		if (!Arrays.equals(index, otherTable.index)) {
+//			return false;
+//		}
+//		if (!Arrays.equals(header, otherTable.header)) {
+//			return false;
+//		}
+//		if (!Arrays.equals(elements, otherTable.elements)) {
+//			return false;
+//		}
+//		return true;
+//	}
+//
+//	//////////////////////////////////////////////
+//
+//	/**
+//	 * Returns the hash code of {@code this}.
+//	 * <p>
+//	 * @return the hash code of {@code this}
+//	 *
+//	 * @see #equals(Object)
+//	 * @see System#identityHashCode(Object)
+//	 */
+//	@Override
+//	public int hashCode() {
+//		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
+//	}
+//
+//	////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//	/**
+//	 * Returns a representative {@link String} of {@code this}.
+//	 * <p>
+//	 * @return a representative {@link String} of {@code this}
+//	 */
+//	@Override
+//	public String toString() {
+//		final StringBuilder builder = Strings.createBuilder(m * n * (INITIAL_CAPACITY + 1));
+//		for (int i = 0; i < m; ++i) {
+//			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEWLINE);
+//		}
+//		return builder.toString();
+//	}
 }
