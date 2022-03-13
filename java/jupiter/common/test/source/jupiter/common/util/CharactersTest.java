@@ -27,6 +27,7 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Characters.NUMERICAL_DIGITS;
 
+import jupiter.common.test.CharacterArguments;
 import jupiter.common.test.Test;
 
 public class CharactersTest
@@ -57,8 +58,8 @@ public class CharactersTest
 		IO.test(BULLET, "clone");
 
 		final String text = "Hello world!";
-		final char[] array = text.toCharArray();
-		final char[] clone = array.clone();
+		final char[] array = CharacterArguments.requireNonEmpty(text.toCharArray());
+		final char[] clone = CharacterArguments.requireNonEmpty(array.clone());
 		Characters.shuffle(array);
 		assertNotSame(array, clone);
 	}

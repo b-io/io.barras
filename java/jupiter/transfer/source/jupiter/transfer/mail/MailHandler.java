@@ -642,10 +642,6 @@ public class MailHandler
 			return port > 0 ? port : getDefaultPort();
 		}
 
-		public void setPort(final int port) {
-			this.port = port > 0 ? port : getDefaultPort();
-		}
-
 		public static Protocol get(final String name) {
 			final String value = Strings.toUpperCase(name);
 			if (POP3.value.equals(value)) {
@@ -664,6 +660,10 @@ public class MailHandler
 				return SMTPTLS;
 			}
 			throw new IllegalTypeException(name);
+		}
+
+		public void setPort(final int port) {
+			this.port = port > 0 ? port : getDefaultPort();
 		}
 
 		/**

@@ -30,6 +30,17 @@ public class DoubleArguments
 		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "double floating point number";
+	public static String NAMES = NAME + "s";
+
+	public static String ARRAY_NAME = "double array";
+	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,25 +56,57 @@ public class DoubleArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static Double requireNonNull(final Double value) {
+		return Arguments.requireNonNull(value, NAME);
+	}
+
+	public static double[] requireNonNull(final double[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, ARRAY_NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireDouble(final Object object) {
+		if (CHECK_ARGS) {
+			requireDouble(object, "object");
+		}
+	}
+
+	public static void requireDouble(final Object object, final String name) {
+		if (CHECK_ARGS && !Doubles.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a", NAME));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static double require(final double found, final double expected) {
 		if (CHECK_ARGS && !Doubles.equals(found, expected)) {
-			throw new IllegalArgumentException("The specified double number is wrong " +
-					expectedButFound(found, expected));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static void requireEquals(final double a, final double b) {
 		if (CHECK_ARGS && !Doubles.equals(a, b)) {
-			throw new IllegalArgumentException("The specified double numbers are not equal " +
-					isNotEqualTo(a, b));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
+	//////////////////////////////////////////////
+
 	public static double requireGreaterThan(final double found, final double expectedLowerBound) {
 		if (CHECK_ARGS && found <= expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower or equal to", expectedLowerBound));
 		}
 		return found;
@@ -72,8 +115,7 @@ public class DoubleArguments
 	public static double requireGreaterOrEqualTo(final double found,
 			final double expectedLowerBound) {
 		if (CHECK_ARGS && found < expectedLowerBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is lower than", expectedLowerBound));
 		}
 		return found;
@@ -81,8 +123,7 @@ public class DoubleArguments
 
 	public static double requireLessThan(final double found, final double expectedUpperBound) {
 		if (CHECK_ARGS && found >= expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater or equal to", expectedUpperBound));
 		}
 		return found;
@@ -90,16 +131,17 @@ public class DoubleArguments
 
 	public static double requireLessOrEqualTo(final double found, final double expectedUpperBound) {
 		if (CHECK_ARGS && found > expectedUpperBound) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is greater than", expectedUpperBound));
 		}
 		return found;
 	}
 
+	//////////////////////////////////////////////
+
 	public static double requireNegative(final double found) {
 		if (CHECK_ARGS && found >= 0.) {
-			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or positive"));
 		}
 		return found;
@@ -107,7 +149,7 @@ public class DoubleArguments
 
 	public static double requireNonNegative(final double found) {
 		if (CHECK_ARGS && found < 0.) {
-			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is negative"));
 		}
 		return found;
@@ -115,7 +157,7 @@ public class DoubleArguments
 
 	public static double requireNonZero(final double found) {
 		if (CHECK_ARGS && found == 0.) {
-			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero"));
 		}
 		return found;
@@ -123,7 +165,7 @@ public class DoubleArguments
 
 	public static double requirePositive(final double found) {
 		if (CHECK_ARGS && found <= 0.) {
-			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is zero or negative"));
 		}
 		return found;
@@ -131,7 +173,7 @@ public class DoubleArguments
 
 	public static double requireNonPositive(final double found) {
 		if (CHECK_ARGS && found > 0.) {
-			throw new IllegalArgumentException(Strings.paste("The specified double number", found,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, found,
 					"is positive"));
 		}
 		return found;
@@ -139,7 +181,7 @@ public class DoubleArguments
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static double[] requireNonEmpty(final double... array) {
+	public static double[] requireNonEmpty(final double[] array) {
 		if (CHECK_ARGS) {
 			requireNonEmpty(requireNonNull(array).length);
 		}
@@ -148,7 +190,8 @@ public class DoubleArguments
 
 	public static void requireNonEmpty(final int length) {
 		if (CHECK_ARGS && length == 0) {
-			throw new IllegalArgumentException("The specified double array is empty");
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"is empty"));
 		}
 	}
 
@@ -163,10 +206,12 @@ public class DoubleArguments
 
 	public static void requireLength(final int foundLength, final int expectedLength) {
 		if (CHECK_ARGS && foundLength != expectedLength) {
-			throw new IllegalArgumentException("The specified double array has wrong length " +
-					expectedButFound(foundLength, expectedLength));
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static double[] requireMinLength(final double[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
@@ -177,11 +222,13 @@ public class DoubleArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"inferior to", minExpectedLength));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static double[] requireMaxLength(final double[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
@@ -192,19 +239,13 @@ public class DoubleArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified double array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAME,
+					"has a length", foundLength,
 					"superior to", maxExpectedLength));
 		}
 	}
 
 	//////////////////////////////////////////////
-
-	public static void requireSameLength(final double[] a, final int bLength) {
-		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, bLength);
-		}
-	}
 
 	public static void requireSameLength(final double[] a, final double[] b) {
 		if (CHECK_ARGS) {
@@ -212,11 +253,16 @@ public class DoubleArguments
 		}
 	}
 
-	public static void requireSameLength(final int a, final int b) {
-		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException(
-					"The specified double arrays do not have the same length " +
-							isNotEqualTo(a, b));
+	public static void requireSameLength(final double[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", ARRAY_NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 }

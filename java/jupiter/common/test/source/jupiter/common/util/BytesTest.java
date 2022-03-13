@@ -26,6 +26,7 @@ package jupiter.common.util;
 import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 
+import jupiter.common.test.ByteArguments;
 import jupiter.common.test.Test;
 
 public class BytesTest
@@ -113,8 +114,8 @@ public class BytesTest
 		IO.test(BULLET, "clone");
 
 		final String text = "Hello world!";
-		final byte[] array = text.getBytes();
-		final byte[] clone = array.clone();
+		final byte[] array = ByteArguments.requireNonEmpty(text.getBytes());
+		final byte[] clone = ByteArguments.requireNonEmpty(array.clone());
 		Bytes.shuffle(array);
 		assertEquals("48656C6C6F20776F726C6421", Bytes.toHexString(clone));
 	}

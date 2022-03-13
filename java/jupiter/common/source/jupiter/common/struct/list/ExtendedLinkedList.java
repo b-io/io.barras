@@ -280,7 +280,7 @@ public class ExtendedLinkedList<E>
 	 * Removes all the elements that are contained in the specified {@link Collection} from
 	 * {@code this}.
 	 * <p>
-	 * @param collection the {@link Collection} of {@link Object} to remove (may be {@code null})
+	 * @param collection the {@link Collection} to remove (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
@@ -331,7 +331,7 @@ public class ExtendedLinkedList<E>
 	 * Removes all the elements that are not contained in the specified {@link Collection} from
 	 * {@code this}.
 	 * <p>
-	 * @param collection the {@link Collection} of {@link Object} to retain (may be {@code null})
+	 * @param collection the {@link Collection} to retain (may be {@code null})
 	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise

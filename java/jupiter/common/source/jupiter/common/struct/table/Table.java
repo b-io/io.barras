@@ -618,7 +618,9 @@ public class Table<E>
 		// • i
 		ArrayArguments.requireIndex(i, m);
 		// • from
-		ArrayArguments.requireIndex(fromColumn, n);
+		if (n > 0) {
+			ArrayArguments.requireIndex(fromColumn, n);
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -727,7 +729,9 @@ public class Table<E>
 		// • j
 		ArrayArguments.requireIndex(j, n);
 		// • from
-		ArrayArguments.requireIndex(fromRow, m);
+		if (m > 0) {
+			ArrayArguments.requireIndex(fromRow, m);
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -868,7 +872,9 @@ public class Table<E>
 		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		ArrayArguments.requireIndex(fromColumn, n);
+		if (n > 0) {
+			ArrayArguments.requireIndex(fromColumn, n);
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 
@@ -937,7 +943,9 @@ public class Table<E>
 		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
-		ArrayArguments.requireIndex(fromRow, m);
+		if (m > 0) {
+			ArrayArguments.requireIndex(fromRow, m);
+		}
 		// • length
 		IntegerArguments.requireNonNegative(length);
 

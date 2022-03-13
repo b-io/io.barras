@@ -25,10 +25,20 @@ package jupiter.common.test;
 
 import java.util.Collection;
 
+import jupiter.common.util.Collections;
+import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 public class CollectionArguments
 		extends Arguments {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "collection";
+	public static String NAMES = NAME + "s";
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -46,9 +56,65 @@ public class CollectionArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <C extends Collection<?>> C requireNonNull(final C collection) {
+		return Arguments.requireNonNull(collection, NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static void requireCollection(final Object object) {
+		if (CHECK_ARGS) {
+			requireCollection(object, "object");
+		}
+	}
+
+	public static void requireCollection(final Object object, final String name) {
+		if (CHECK_ARGS && !Collections.is(requireNonNull(object, name))) {
+			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
+					"is not a", NAME));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
+	 * or interface represented by {@code b}.
+	 * <p>
+	 * @param a a {@link Class}
+	 * @param b another {@link Class}
+	 */
+	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
+		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
+			throw new IllegalArgumentException(Strings.paste("Cannot store", Objects.getName(b),
+					"in a", NAME, "of", Objects.getName(a)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <C extends Collection<?>> C require(final C found, final C expected) {
+		if (CHECK_ARGS && !Collections.equals(found, expected)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
+		}
+		return found;
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireEquals(final Collection<?> a, final Collection<?> b) {
+		if (CHECK_ARGS && !Collections.equals(a, b)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static <C extends Collection<?>> C requireNonEmpty(final C collection) {
 		if (CHECK_ARGS) {
-			return requireNonEmpty(collection, "collection");
+			return requireNonEmpty(collection, NAME);
 		}
 		return collection;
 	}
@@ -61,8 +127,8 @@ public class CollectionArguments
 		return collection;
 	}
 
-	public static void requireNonEmpty(final int length, final String name) {
-		if (CHECK_ARGS && length == 0) {
+	public static void requireNonEmpty(final int size, final String name) {
+		if (CHECK_ARGS && size == 0) {
 			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
 					"is empty"));
 		}
@@ -70,31 +136,75 @@ public class CollectionArguments
 
 	//////////////////////////////////////////////
 
-	public static <C extends Collection<?>> C requireMinSize(final C collection,
-			final int minExpectedSize) {
-		if (CHECK_ARGS && requireNonNull(collection).size() < minExpectedSize) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified collection has a size", collection.size(),
-					"inferior to", minExpectedSize));
+	public static <C extends Collection<?>> C requireSize(final C collection,
+			final int expectedSize) {
+		if (CHECK_ARGS) {
+			requireSize(requireNonNull(collection).size(), expectedSize);
 		}
 		return collection;
 	}
+
+	public static void requireSize(final int foundSize, final int expectedSize) {
+		if (CHECK_ARGS && foundSize != expectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has wrong size", expectedButFound(foundSize, expectedSize)));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static <C extends Collection<?>> C requireMinSize(final C collection,
+			final int minExpectedSize) {
+		if (CHECK_ARGS) {
+			requireMinSize(requireNonNull(collection).size(), minExpectedSize);
+		}
+		return collection;
+	}
+
+	public static void requireMinSize(final int foundSize, final int minExpectedSize) {
+		if (CHECK_ARGS && foundSize < minExpectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a size", foundSize,
+					"inferior to", minExpectedSize));
+		}
+	}
+
+	//////////////////////////////////////////////
 
 	public static <C extends Collection<?>> C requireMaxSize(final C collection,
 			final int maxExpectedSize) {
-		if (CHECK_ARGS && requireNonNull(collection).size() > maxExpectedSize) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified collection has a size", collection.size(),
-					"superior to", maxExpectedSize));
+		if (CHECK_ARGS) {
+			requireMaxSize(requireNonNull(collection).size(), maxExpectedSize);
 		}
 		return collection;
 	}
 
-	public static <C extends Collection<?>> void requireSameSize(final C a, final C b) {
-		if (CHECK_ARGS && requireNonNull(a).size() != requireNonNull(b).size()) {
-			throw new IllegalArgumentException(
-					"The specified collections do not have the same size " +
-							isNotEqualTo(a.size(), b.size()));
+	public static void requireMaxSize(final int foundSize, final int maxExpectedSize) {
+		if (CHECK_ARGS && foundSize > maxExpectedSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a size", foundSize,
+					"superior to", maxExpectedSize));
+		}
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireSameSize(final Collection<?> a, final Collection<?> b) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), requireNonNull(b).size());
+		}
+	}
+
+	public static void requireSameSize(final Collection<?> a, final int bSize) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), bSize);
+		}
+	}
+
+	public static void requireSameSize(final int aSize, final int bSize) {
+		if (CHECK_ARGS && aSize != bSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"do not have the same size", isNotEqualTo(aSize, bSize)));
 		}
 	}
 }

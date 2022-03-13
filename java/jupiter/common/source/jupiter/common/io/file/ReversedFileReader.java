@@ -84,7 +84,7 @@ public class ReversedFileReader
 	/**
 	 * The maximum number of bytes of a newline.
 	 */
-	protected final int maxNewLineSize;
+	protected final int maxNewlineSize;
 	/**
 	 * The flag specifying whether to skip the trailing newline.
 	 */
@@ -151,7 +151,7 @@ public class ReversedFileReader
 		charSize = Charsets.getCharSize(charset);
 		newlineSequences = new byte[][] {CRLF.getBytes(charset), CR.getBytes(charset),
 			LF.getBytes(charset)};
-		maxNewLineSize = newlineSequences[0].length;
+		maxNewlineSize = newlineSequences[0].length;
 
 		// Open the file
 		randomAccessFile = new RandomAccessFile(file, "r");
@@ -318,7 +318,7 @@ public class ReversedFileReader
 			int bi = currentLastByteIndex;
 			String line = null;
 			while (bi >= 0) {
-				if (!isLastPart && bi < maxNewLineSize) {
+				if (!isLastPart && bi < maxNewlineSize) {
 					// Skip the last few bytes and leave it to the next part
 					createRemainingBuffer();
 					break;

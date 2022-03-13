@@ -32,6 +32,14 @@ public class ArrayArguments
 		extends Arguments {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ATTRIBUTES
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static String NAME = "array";
+	public static String NAMES = NAME + "s";
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,6 +55,12 @@ public class ArrayArguments
 	// VERIFIERS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	public static <T> T[] requireNonNull(final T[] array) {
+		return Arguments.requireNonNull(array, NAME);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
 	public static void requireArray(final Object object) {
 		if (CHECK_ARGS) {
 			requireArray(object, "object");
@@ -56,7 +70,7 @@ public class ArrayArguments
 	public static void requireArray(final Object object, final String name) {
 		if (CHECK_ARGS && !Arrays.is(requireNonNull(object, name))) {
 			throw new IllegalArgumentException(Strings.paste("The specified", Strings.quote(name),
-					"is not an array"));
+					"is not an", NAME));
 		}
 	}
 
@@ -71,9 +85,27 @@ public class ArrayArguments
 	 */
 	public static void requireAssignableFrom(final Class<?> a, final Class<?> b) {
 		if (CHECK_ARGS && !a.isAssignableFrom(b)) {
-			throw new IllegalArgumentException(Strings.paste(
-					"Cannot store", Objects.getName(b),
-					"in an array of", Objects.getName(a)));
+			throw new IllegalArgumentException(Strings.paste("Cannot store", Objects.getName(b),
+					"in an", NAME, "of", Objects.getName(a)));
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static <T> T[] require(final T[] found, final T[] expected) {
+		if (CHECK_ARGS && !Arrays.equals(found, expected)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME, "is wrong",
+					expectedButFound(found, expected)));
+		}
+		return found;
+	}
+
+	//////////////////////////////////////////////
+
+	public static void requireEquals(final Object[] a, final Object[] b) {
+		if (CHECK_ARGS && !Arrays.equals(a, b)) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"are not equal", isNotEqualTo(a, b)));
 		}
 	}
 
@@ -81,7 +113,7 @@ public class ArrayArguments
 
 	public static <T> T[] requireNonEmpty(final T[] array) {
 		if (CHECK_ARGS) {
-			return requireNonEmpty(array, "array");
+			return requireNonEmpty(array, NAME);
 		}
 		return array;
 	}
@@ -111,10 +143,12 @@ public class ArrayArguments
 
 	public static void requireLength(final int foundLength, final int expectedLength) {
 		if (CHECK_ARGS && foundLength != expectedLength) {
-			throw new IllegalArgumentException("The specified array has wrong length " +
-					expectedButFound(foundLength, expectedLength));
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has wrong length", expectedButFound(foundLength, expectedLength)));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static <T> T[] requireMinLength(final T[] array, final int minExpectedLength) {
 		if (CHECK_ARGS) {
@@ -125,11 +159,13 @@ public class ArrayArguments
 
 	public static void requireMinLength(final int foundLength, final int minExpectedLength) {
 		if (CHECK_ARGS && foundLength < minExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a length", foundLength,
 					"inferior to", minExpectedLength));
 		}
 	}
+
+	//////////////////////////////////////////////
 
 	public static <T> T[] requireMaxLength(final T[] array, final int maxExpectedLength) {
 		if (CHECK_ARGS) {
@@ -140,30 +176,30 @@ public class ArrayArguments
 
 	public static void requireMaxLength(final int foundLength, final int maxExpectedLength) {
 		if (CHECK_ARGS && foundLength > maxExpectedLength) {
-			throw new IllegalArgumentException(Strings.paste(
-					"The specified array has a length", foundLength,
+			throw new IllegalArgumentException(Strings.paste("The specified", NAME,
+					"has a length", foundLength,
 					"superior to", maxExpectedLength));
 		}
 	}
 
 	//////////////////////////////////////////////
 
-	public static <T> void requireSameLength(final T[] a, final int bLength) {
-		if (CHECK_ARGS) {
-			requireSameLength(requireNonNull(a).length, bLength);
-		}
-	}
-
-	public static <T> void requireSameLength(final T[] a, final T[] b) {
+	public static void requireSameLength(final Object[] a, final Object[] b) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, requireNonNull(b).length);
 		}
 	}
 
-	public static void requireSameLength(final int a, final int b) {
-		if (CHECK_ARGS && a != b) {
-			throw new IllegalArgumentException("The specified arrays do not have the same length " +
-					isNotEqualTo(a, b));
+	public static void requireSameLength(final Object[] a, final int bLength) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, bLength);
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final int bLength) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}
 
@@ -186,9 +222,9 @@ public class ArrayArguments
 			final boolean isLowerInclusive, final boolean isUpperInclusive) {
 		if (CHECK_ARGS && !Integers.isBetween(foundIndex, 0, maxExpectedLength, isLowerInclusive,
 				isUpperInclusive)) {
-			throw new IllegalArgumentException("The specified index is out of bounds " +
+			throw new IllegalArgumentException(Strings.paste("The specified index is out of bounds",
 					betweenExpectedButFound(foundIndex, 0, maxExpectedLength, isLowerInclusive,
-							isUpperInclusive));
+							isUpperInclusive)));
 		}
 	}
 }
