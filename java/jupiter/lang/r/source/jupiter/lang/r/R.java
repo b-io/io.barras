@@ -47,22 +47,22 @@ public class R {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile String R_PATH = "R";
-	public static volatile String R_SCRIPT_PATH = "RScript";
-	public static volatile String[] ARGS = new String[] {};
-
-	//////////////////////////////////////////////
-
-	public static volatile String REPO = "https://cloud.r-project.org";
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * The default {@link RPrinter}.
 	 */
 	public static final RPrinter DEFAULT_PRINTER = new RPrinter();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile String R_PATH = "R";
+	public static volatile String R_SCRIPT_PATH = "RScript";
+	public static volatile String[] ARGS = Strings.EMPTY_ARRAY;
+
+	//////////////////////////////////////////////
+
+	public static volatile String REPO = "https://cloud.r-project.org";
+
+	//////////////////////////////////////////////
 
 	public static volatile String[] LIGHT_PACKAGES = new String[] {
 		// • API

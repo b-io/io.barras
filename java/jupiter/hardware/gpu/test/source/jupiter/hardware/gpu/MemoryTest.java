@@ -88,6 +88,8 @@ public class MemoryTest
 	 */
 	protected static final int DEVICE_INDEX = 0;
 
+	//////////////////////////////////////////////
+
 	/**
 	 * The OpenCL context.
 	 */

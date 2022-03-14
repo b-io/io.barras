@@ -66,6 +66,8 @@ public class Charts {
 	 */
 	public static volatile DateFormat DATE_FORMAT = Formats.DATE_FORMAT;
 
+	//////////////////////////////////////////////
+
 	/**
 	 * The {@link ExtendedList} of {@link Color}.
 	 */

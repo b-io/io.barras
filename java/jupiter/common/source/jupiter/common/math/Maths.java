@@ -50,26 +50,6 @@ public class Maths {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	/**
-	 * The tolerance level (or termination criterion) {@code ε} for {@code float} values.
-	 */
-	public static volatile float FLOAT_TOLERANCE = 1E-5f;
-	/**
-	 * The tiny tolerance level for {@code float} values.
-	 */
-	public static volatile float FLOAT_TINY_TOLERANCE = 1E-25f;
-
-	/**
-	 * The tolerance level (or termination criterion) {@code ε} for {@code double} values.
-	 */
-	public static volatile double TOLERANCE = 1E-10;
-	/**
-	 * The tiny tolerance level for {@code double} values.
-	 */
-	public static volatile double TINY_TOLERANCE = 1E-50;
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	public static final double DEFAULT_CONFIDENCE = 0.975; // 97.5%
 	public static final double DEFAULT_Z = 1.9599639845400536; // 97.5%
 
@@ -149,6 +129,26 @@ public class Maths {
 	 * The mask to clear the non-sign part of a {@code long} value.
 	 */
 	private static final long MASK_NON_SIGN_LONG = 0x7fffffffffffffffl;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The tolerance level (or termination criterion) {@code ε} for {@code float} values.
+	 */
+	public static volatile float FLOAT_TOLERANCE = 1E-5f;
+	/**
+	 * The tiny tolerance level for {@code float} values.
+	 */
+	public static volatile float FLOAT_TINY_TOLERANCE = 1E-25f;
+
+	/**
+	 * The tolerance level (or termination criterion) {@code ε} for {@code double} values.
+	 */
+	public static volatile double TOLERANCE = 1E-10;
+	/**
+	 * The tiny tolerance level for {@code double} values.
+	 */
+	public static volatile double TINY_TOLERANCE = 1E-50;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

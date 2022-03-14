@@ -35,6 +35,7 @@ import jupiter.common.model.ICloneable;
 import jupiter.common.thread.WorkQueue;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Objects;
+import jupiter.common.util.Strings;
 
 import org.python.util.PythonInterpreter;
 
@@ -42,11 +43,6 @@ public class Python {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	// CONSTANTS
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	public static volatile String PYTHON_SCRIPT_PATH = "python";
-	public static volatile String[] ARGS = new String[] {};
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
@@ -71,6 +67,11 @@ public class Python {
 	public static final PythonPrinter DEFAULT_PRINTER = new PythonPrinter();
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile String PYTHON_SCRIPT_PATH = "python";
+	public static volatile String[] ARGS = Strings.EMPTY_ARRAY;
+
+	//////////////////////////////////////////////
 
 	public static volatile String[] LIGHT_PACKAGES = new String[] {
 		// • API

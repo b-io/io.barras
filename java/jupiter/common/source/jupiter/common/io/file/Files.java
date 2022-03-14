@@ -102,7 +102,7 @@ public class Files {
 	public static volatile int TEMP_FILE_NAME_LENGTH = 10;
 	public static volatile String TEMP_FILE_EXTENSION = "tmp";
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////
 
 	/**
 	 * The {@link WorkQueue} used for copying the files (or directories).

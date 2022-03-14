@@ -37,11 +37,11 @@ public class IntervalArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "interval";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "interval";
+	public static final String NAMES = NAME + "s";
 
-	public static String LIST_NAME = "interval list";
-	public static String LIST_NAMES = LIST_NAME + "s";
+	public static final String LIST_NAME = "interval list";
+	public static final String LIST_NAMES = LIST_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
