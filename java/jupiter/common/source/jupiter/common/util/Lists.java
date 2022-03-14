@@ -65,7 +65,7 @@ public class Lists
 	public static <E extends Number> ExtendedList<E> getMin(final List<? extends E> a,
 			final List<? extends E> b) {
 		// Check the arguments
-		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
+		CollectionArguments.requireSameSize(a, b);
 
 		// Return the minimum element for each index of the lists
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
@@ -91,7 +91,7 @@ public class Lists
 	public static <E extends Number> ExtendedList<E> getMax(final List<? extends E> a,
 			final List<? extends E> b) {
 		// Check the arguments
-		CollectionArguments.<List<? extends E>>requireSameSize(a, b);
+		CollectionArguments.requireSameSize(a, b);
 
 		// Return the maximum element for each index of the lists
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
