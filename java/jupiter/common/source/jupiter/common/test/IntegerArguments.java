@@ -33,11 +33,11 @@ public class IntegerArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "integer";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "integer";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "integer array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "integer array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

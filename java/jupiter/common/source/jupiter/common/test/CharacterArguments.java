@@ -33,11 +33,11 @@ public class CharacterArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "character";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "character";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "character array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "character array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

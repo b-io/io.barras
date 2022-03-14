@@ -33,11 +33,11 @@ public class DoubleArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "double floating point number";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "double floating point number";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "double array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "double array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

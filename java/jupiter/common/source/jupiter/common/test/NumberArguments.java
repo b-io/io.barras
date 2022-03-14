@@ -33,11 +33,11 @@ public class NumberArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "number";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "number";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "number array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "number array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

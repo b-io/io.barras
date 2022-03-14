@@ -34,7 +34,7 @@ public class Classes {
 	/**
 	 * The {@link Class} of {@link Object}.
 	 */
-	public static Class<Object> OBJECT_CLASS = Object.class;
+	public static final Class<Object> OBJECT_CLASS = Object.class;
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
