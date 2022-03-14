@@ -66,12 +66,6 @@ public class SpeedChecker {
 	// CONSTANTS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static volatile int RUN_COUNT = 2880;
-	public static volatile int TIME_INTERVAL = 30000; // [ms]
-	public static volatile int TIME_OUT = 15000; // [ms]
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * The {@link ExtendedList} of names of the URLs pointing to the files to download.
 	 */
@@ -92,6 +86,12 @@ public class SpeedChecker {
 			"Downloading Speed [Mbits/s]");
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public static volatile int RUN_COUNT = 2880;
+	public static volatile int TIME_INTERVAL = 30000; // [ms]
+	public static volatile int TIME_OUT = 15000; // [ms]
+
+	//////////////////////////////////////////////
 
 	/**
 	 * The {@link WorkQueue} used for checking the downloading speeds (in Mbits/s).

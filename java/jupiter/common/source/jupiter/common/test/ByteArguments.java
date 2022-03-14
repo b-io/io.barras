@@ -33,11 +33,11 @@ public class ByteArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "byte";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "byte";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "byte array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "byte array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

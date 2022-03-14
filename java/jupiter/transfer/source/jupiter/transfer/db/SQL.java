@@ -79,15 +79,17 @@ public class SQL {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The default {@link DB}.
+	 * The default {@link Language}.
 	 */
-	public static final DB DEFAULT_DB = SQL.DB.StandardSQL;
+	public static final Language DEFAULT_LANGUAGE = Language.StandardSQL;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The {@link DB}.
+	 * The {@link Language}.
 	 */
-	public static DB DB = SQL.DB.valueOf(PROPERTIES.getProperty("transfer.db",
-			DEFAULT_DB.toString()));
+	public static volatile Language LANGUAGE = Language.valueOf(PROPERTIES.getProperty(
+			"transfer.db.sql", DEFAULT_LANGUAGE.toString()));
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +142,7 @@ public class SQL {
 	public static int[] getColumnTypes(final Connection connection, final String table,
 			final String[] columns)
 			throws SQLException {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.getColumnTypes(connection, table, columns);
 		}
 		return StandardSQL.getColumnTypes(connection, table, columns);
@@ -164,7 +166,7 @@ public class SQL {
 	public static int[] getProcedureParameterTypes(final Connection connection,
 			final String procedure)
 			throws SQLException {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.getProcedureParameterTypes(connection, procedure);
 		}
 		return StandardSQL.getProcedureParameterTypes(connection, procedure);
@@ -396,7 +398,7 @@ public class SQL {
 
 	public static String createSelectQuery(final String table, final String[] columns,
 			final String... conditionalColumns) {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.createSelectQuery(table, columns, conditionalColumns);
 		}
 		return StandardSQL.createSelectQuery(table, columns, conditionalColumns);
@@ -427,7 +429,7 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	public static String createInsertQuery(final String table, final String... columns) {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.createInsertQuery(table, columns);
 		}
 		return StandardSQL.createInsertQuery(table, columns);
@@ -452,7 +454,7 @@ public class SQL {
 
 	public static String createUpdateQuery(final String table, final String[] columns,
 			final String... conditionalColumns) {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.createUpdateQuery(table, columns, conditionalColumns);
 		}
 		return StandardSQL.createUpdateQuery(table, columns, conditionalColumns);
@@ -481,7 +483,7 @@ public class SQL {
 	}
 
 	public static String createDeleteQuery(final String table, final String... conditionalColumns) {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.createDeleteQuery(table, conditionalColumns);
 		}
 		return StandardSQL.createDeleteQuery(table, conditionalColumns);
@@ -507,7 +509,7 @@ public class SQL {
 	//////////////////////////////////////////////
 
 	public static String createProcedureQuery(final String procedure, final int parameterCount) {
-		if (DB == DB.TSQL) {
+		if (LANGUAGE == Language.TSQL) {
 			return TSQL.createProcedureQuery(procedure, parameterCount);
 		}
 		return StandardSQL.createProcedureQuery(procedure, parameterCount);
@@ -2007,7 +2009,7 @@ public class SQL {
 	// ENUMS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public enum DB {
+	public enum Language {
 		StandardSQL,
 		TSQL
 	}

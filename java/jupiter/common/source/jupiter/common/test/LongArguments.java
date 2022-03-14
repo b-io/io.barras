@@ -33,11 +33,11 @@ public class LongArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "long number";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "long number";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "long array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "long array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

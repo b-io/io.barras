@@ -53,13 +53,6 @@ public abstract class OpenCL
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * The flag specifying whether OpenCL is active.
-	 */
-	public static volatile boolean IS_ACTIVE = false;
-
-	//////////////////////////////////////////////
-
-	/**
 	 * The kernel prefix {@link String}.
 	 */
 	protected static final String KERNEL_PREFIX = "__kernel void";
@@ -122,7 +115,12 @@ public abstract class OpenCL
 			"	A[index] += c * B[index];",
 			"}");
 
-	//////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The flag specifying whether OpenCL is active.
+	 */
+	public static volatile boolean IS_ACTIVE = false;
 
 	public static volatile OpenCL CL = null;
 

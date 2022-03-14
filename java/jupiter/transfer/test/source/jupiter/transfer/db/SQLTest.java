@@ -28,7 +28,7 @@ import static jupiter.common.util.Characters.BULLET;
 
 import jupiter.common.test.Test;
 import jupiter.common.util.Strings;
-import jupiter.transfer.db.SQL.DB;
+import jupiter.transfer.db.SQL.Language;
 
 public class SQLTest
 		extends Test {
@@ -43,11 +43,11 @@ public class SQLTest
 		IO.test(BULLET, "createSelectQuery");
 
 		// • Select query
-		SQL.DB = DB.StandardSQL;
+		SQL.LANGUAGE = Language.StandardSQL;
 		String result = SQL.createSelectQuery("test", Strings.EMPTY_ARRAY, new String[] {"a"});
 		IO.test(result);
 		assertEquals("SELECT * FROM \"test\" WHERE \"a\"=?", result);
-		SQL.DB = DB.TSQL;
+		SQL.LANGUAGE = Language.TSQL;
 		result = SQL.createSelectQuery("test", Strings.EMPTY_ARRAY, new String[] {"a"});
 		IO.test(result);
 		assertEquals("SELECT * FROM [test] WHERE [a]=?", result);

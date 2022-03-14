@@ -33,11 +33,11 @@ public class FloatArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "floating point number";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "floating point number";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "float array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "float array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

@@ -33,11 +33,11 @@ public class BooleanArguments
 	// ATTRIBUTES
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-	public static String NAME = "boolean";
-	public static String NAMES = NAME + "s";
+	public static final String NAME = "boolean";
+	public static final String NAMES = NAME + "s";
 
-	public static String ARRAY_NAME = "boolean array";
-	public static String ARRAY_NAMES = ARRAY_NAME + "s";
+	public static final String ARRAY_NAME = "boolean array";
+	public static final String ARRAY_NAMES = ARRAY_NAME + "s";
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
