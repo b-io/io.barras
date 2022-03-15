@@ -1632,8 +1632,6 @@ public class Booleans {
 			return 0;
 		}
 		switch (array.length) {
-			case 0:
-				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
 				return array[0] ? 1231 : 1237;
 			default:

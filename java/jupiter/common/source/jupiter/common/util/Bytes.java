@@ -2256,8 +2256,6 @@ public class Bytes {
 			return 0;
 		}
 		switch (array.length) {
-			case 0:
-				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
 				return array[0];
 			default:

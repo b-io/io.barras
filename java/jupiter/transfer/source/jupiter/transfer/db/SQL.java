@@ -211,7 +211,7 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
 		if (type == Types.NULL) {
-			Arguments.requireNonNull(value, "parameter " + index);
+			Arguments.requireNonNull(value, Strings.nth(index) + " parameter value");
 		}
 
 		// Set the parameter of the SQL statement at the index
@@ -265,7 +265,7 @@ public class SQL {
 	 * Sets the parameters of the specified {@link PreparedStatement} to the specified values.
 	 * <p>
 	 * @param statement the {@link PreparedStatement} containing the parameters to set
-	 * @param values    an array of {@link Object} (may be {@code null})
+	 * @param values    an array of {@link Object}
 	 * <p>
 	 * @throws SQLException if the {@code values} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
@@ -283,7 +283,7 @@ public class SQL {
 	 * @param statement the {@link PreparedStatement} containing the parameters to set
 	 * @param types     the {@code int} array containing the SQL types of the parameters to set (may
 	 *                  be {@code null})
-	 * @param values    an array of {@link Object} (may be {@code null})
+	 * @param values    an array of {@link Object}
 	 * <p>
 	 * @throws SQLException if the {@code values} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
@@ -293,11 +293,11 @@ public class SQL {
 			final Object... values)
 			throws SQLException {
 		// Check the arguments
-		if (Integers.isNonEmpty(types)) {
-			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNonEmpty(values, "parameter values"), types.length);
-		}
 		Arguments.requireNonNull(values, "parameter values");
+		if (Integers.isNonEmpty(types)) {
+			ArrayArguments.requireSameLength(types.length, "types",
+					values.length, "parameter values");
+		}
 
 		// Set the parameters of the SQL statement
 		for (int i = 0; i < values.length; ++i) {
@@ -656,11 +656,8 @@ public class SQL {
 			final int[] conditionalTypes, final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
-		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
-			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
-		}
+		ArrayArguments.requireSameLength(conditionalColumns, "conditional columns",
+				conditionalValues, "conditional values");
 
 		// Execute the SQL query and return the selected rows
 		return selectWith(connection, createSelectQuery(table, columns, conditionalColumns),
@@ -949,11 +946,8 @@ public class SQL {
 			final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
-		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
-			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
-		}
+		ArrayArguments.requireSameLength(conditionalColumns, "conditional columns",
+				conditionalValues, "conditional values");
 
 		// Execute the SQL query and return the selected rows
 		return selectWith(c, connection, createSelectQuery(table, columns, conditionalColumns),
@@ -1275,11 +1269,8 @@ public class SQL {
 			final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
-		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
-			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
-		}
+		ArrayArguments.requireSameLength(conditionalColumns, "conditional columns",
+				conditionalValues, "conditional values");
 
 		// Execute the SQL query and return the number of deleted rows
 		return updateWith(connection, createDeleteQuery(table, conditionalColumns),
@@ -1443,8 +1434,7 @@ public class SQL {
 			final String[] columns, final int[] types, final Object... values)
 			throws SQLException {
 		// Check the arguments
-		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(columns, "columns"),
-				ArrayArguments.requireNonEmpty(values, "values"));
+		ArrayArguments.requireSameLength(columns, "columns", values, "values");
 
 		// Execute the SQL query and return any auto-generated keys
 		return insertWith(connection, createInsertQuery(table, columns), types, values);
@@ -1684,11 +1674,8 @@ public class SQL {
 			final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
-		if (Arrays.isNonEmpty(conditionalColumns) || Arrays.isNonEmpty(conditionalValues)) {
-			ArrayArguments.requireSameLength(
-					ArrayArguments.requireNonEmpty(conditionalColumns, "conditional columns"),
-					ArrayArguments.requireNonEmpty(conditionalValues, "conditional values"));
-		}
+		ArrayArguments.requireSameLength(conditionalColumns, "conditional columns",
+				conditionalValues, "conditional values");
 
 		// Execute the SQL query and return the number of updated rows
 		return updateWith(connection, createUpdateQuery(table, columns, conditionalColumns),
@@ -1965,8 +1952,7 @@ public class SQL {
 			final String[] conditionalColumns, final Object... conditionalValues)
 			throws SQLException {
 		// Check the arguments
-		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(columns, "columns"),
-				ArrayArguments.requireNonEmpty(values, "values"));
+		ArrayArguments.requireSameLength(columns, "columns", values, "values");
 
 		// Execute the SQL query and return the number of updated/inserted rows
 		final int upsertCount = updateWith(connection, table, columns, values, conditionalColumns,

@@ -379,6 +379,6 @@ public abstract class ComparableNumber
 	 */
 	@Override
 	public String toString() {
-		return Objects.toString(doubleValue());
+		return String.valueOf(doubleValue());
 	}
 }

@@ -86,6 +86,17 @@ public class RowList
 	}
 
 	/**
+	 * Constructs an empty {@link RowList} with the specified initial capacity.
+	 * <p>
+	 * @param initialCapacity the initial capacity
+	 * <p>
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public RowList(final int initialCapacity) {
+		this(Strings.EMPTY_ARRAY, initialCapacity);
+	}
+
+	/**
 	 * Constructs an empty {@link RowList} with the specified header.
 	 * <p>
 	 * @param header an array of {@link String}
@@ -103,7 +114,7 @@ public class RowList
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public RowList(final String[] header, final int initialCapacity) {
-		this(new ExtendedList<Object>(), header, initialCapacity);
+		this(new ExtendedList<Object>(initialCapacity), header, initialCapacity);
 	}
 
 	/**
@@ -144,7 +155,7 @@ public class RowList
 	 * @param elements an array of {@link Row}
 	 */
 	public RowList(final String[] header, final Row... elements) {
-		this(new ExtendedList<Object>(), header, elements);
+		this(getIndex(elements), header, elements);
 	}
 
 	/**
@@ -158,6 +169,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
+		CollectionArguments.requireSameSize(index, "index", elements, "elements");
 		Arguments.requireNonNull(header, "header");
 
 		// Set the attributes
@@ -184,7 +196,7 @@ public class RowList
 	 * @param elements a {@link Collection} of {@link Row}
 	 */
 	public RowList(final String[] header, final Collection<? extends Row> elements) {
-		this(new ExtendedList<Object>(), header, elements);
+		this(getIndex(elements), header, elements);
 	}
 
 	/**
@@ -200,6 +212,7 @@ public class RowList
 		super(elements);
 
 		// Check the arguments
+		CollectionArguments.requireSameSize(index, "index", elements, "elements");
 		Arguments.requireNonNull(header, "header");
 
 		// Set the attributes
@@ -691,6 +704,46 @@ public class RowList
 	//////////////////////////////////////////////
 
 	/**
+	 * Returns the index of the specified array of {@link Row}.
+	 * <p>
+	 * @param rows an array of {@link Row}
+	 * <p>
+	 * @return the index of the specified array of {@link Row}
+	 */
+	protected static ExtendedList<Object> getIndex(final Row... rows) {
+		// Check the arguments
+		Arguments.requireNonNull(rows, "rows");
+
+		// Return the index
+		final ExtendedList<Object> index = new ExtendedList<Object>(rows.length);
+		for (final Row row : rows) {
+			index.add(Arguments.requireNonNull(row, "row").index);
+		}
+		return index;
+	}
+
+	/**
+	 * Returns the index of the specified {@link Collection} of {@link Row}.
+	 * <p>
+	 * @param rows a {@link Collection} of {@link Row}
+	 * <p>
+	 * @return the index of the specified {@link Collection} of {@link Row}
+	 */
+	protected static ExtendedList<Object> getIndex(final Collection<? extends Row> rows) {
+		// Check the arguments
+		Arguments.requireNonNull(rows, "rows");
+
+		// Return the index
+		final ExtendedList<Object> index = new ExtendedList<Object>(rows.size());
+		for (final Row row : rows) {
+			index.add(Arguments.requireNonNull(row, "row").index);
+		}
+		return index;
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Returns the header of the specified array of {@link Row}.
 	 * <p>
 	 * @param rows an array of {@link Row}
@@ -831,7 +884,6 @@ public class RowList
 		// • i
 		ArrayArguments.requireIndex(i, getRowCount());
 		// • values
-		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		if (getColumnCount() > 0) {
@@ -902,7 +954,6 @@ public class RowList
 		// • j
 		ArrayArguments.requireIndex(j, getColumnCount());
 		// • values
-		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		if (getRowCount() > 0) {
@@ -1006,7 +1057,7 @@ public class RowList
 	protected static String[] createHeader(final int length) {
 		final String[] header = new String[length];
 		for (int i = 1; i <= length; ++i) {
-			header[i - 1] = Objects.toString(i);
+			header[i - 1] = String.valueOf(i);
 		}
 		return header;
 	}
@@ -1076,76 +1127,11 @@ public class RowList
 	 */
 	@Override
 	public RowList clone() {
-		final RowList clone = new RowList(index, header, getRowCount());
+		final RowList clone = new RowList(null, Arrays.clone(header), getRowCount());
 		for (final Row element : this) {
 			clone.add(Objects.clone(element));
 		}
+		clone.setIndex(Objects.clone(index));
 		return clone;
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-//	/**
-//	 * Tests whether {@code this} is equal to {@code other}.
-//	 * <p>
-//	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-//	 * <p>
-//	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-//	 *
-//	 * @see #hashCode()
-//	 */
-//	@Override
-//	public boolean equals(final Object other) {
-//		if (this == other) {
-//			return true;
-//		}
-//		if (other == null || !(other instanceof RowList)) {
-//			return false;
-//		}
-//		final RowList otherTable = (RowList) other;
-//		if (!Objects.equals(c, otherTable.c) || m != otherTable.m || n != otherTable.n) {
-//			return false;
-//		}
-//		if (!Arrays.equals(index, otherTable.index)) {
-//			return false;
-//		}
-//		if (!Arrays.equals(header, otherTable.header)) {
-//			return false;
-//		}
-//		if (!Arrays.equals(elements, otherTable.elements)) {
-//			return false;
-//		}
-//		return true;
-//	}
-//
-//	//////////////////////////////////////////////
-//
-//	/**
-//	 * Returns the hash code of {@code this}.
-//	 * <p>
-//	 * @return the hash code of {@code this}
-//	 *
-//	 * @see #equals(Object)
-//	 * @see System#identityHashCode(Object)
-//	 */
-//	@Override
-//	public int hashCode() {
-//		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
-//	}
-//
-//	////////////////////////////////////////////////////////////////////////////////////////////////
-//
-//	/**
-//	 * Returns a representative {@link String} of {@code this}.
-//	 * <p>
-//	 * @return a representative {@link String} of {@code this}
-//	 */
-//	@Override
-//	public String toString() {
-//		final StringBuilder builder = Strings.createBuilder(m * n * (INITIAL_CAPACITY + 1));
-//		for (int i = 0; i < m; ++i) {
-//			builder.append(Strings.joinWith(getRow(i), COLUMN_DELIMITERS[0])).append(NEWLINE);
-//		}
-//		return builder.toString();
-//	}
 }

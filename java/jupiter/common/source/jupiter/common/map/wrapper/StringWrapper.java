@@ -25,7 +25,6 @@ package jupiter.common.map.wrapper;
 
 import jupiter.common.map.ObjectToStringMapper;
 import jupiter.common.model.ICloneable;
-import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
@@ -72,8 +71,8 @@ public class StringWrapper
 	 */
 	public StringWrapper(final char left, final char right) {
 		super();
-		this.left = Objects.toString(left);
-		this.right = Objects.toString(right);
+		this.left = String.valueOf(left);
+		this.right = String.valueOf(right);
 	}
 
 	/**

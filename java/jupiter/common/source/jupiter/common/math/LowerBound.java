@@ -148,9 +148,9 @@ public class LowerBound<T extends Comparable<? super T>>
 		if (other == null || !(other instanceof LowerBound)) {
 			return false;
 		}
-		final LowerBound<?> otherBound = (LowerBound<?>) other;
-		return Objects.equals(value, otherBound.value) &&
-				Objects.equals(isInclusive, otherBound.isInclusive);
+		final LowerBound<?> otherLowerBound = (LowerBound<?>) other;
+		return Objects.equals(value, otherLowerBound.value) &&
+				Objects.equals(isInclusive, otherLowerBound.isInclusive);
 	}
 
 	//////////////////////////////////////////////

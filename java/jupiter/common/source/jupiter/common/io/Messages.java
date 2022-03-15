@@ -134,7 +134,7 @@ public class Messages {
 	protected static String createOutputPrefix(final SeverityLevel level, final String className,
 			final String methodName, final int lineNumber) {
 		return createOutputPrefix(level, className, methodName) +
-				createLabel(Objects.toString(lineNumber));
+				createLabel(String.valueOf(lineNumber));
 	}
 
 	//////////////////////////////////////////////
@@ -156,7 +156,7 @@ public class Messages {
 	}
 
 	protected static String createLabel(final SeverityLevel level) {
-		return createLabel(Objects.toString(level).substring(0, 4));
+		return createLabel(String.valueOf(level).substring(0, 4));
 	}
 
 	protected static String createLabel(final String text) {

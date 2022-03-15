@@ -71,7 +71,7 @@ public class Lists
 		final ExtendedList<E> minElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();
-		while (aIterator.hasNext() && bIterator.hasNext()) {
+		while (aIterator.hasNext()) { // or bIterator.hasNext()
 			minElements.add(Numbers.<E>getMin(aIterator.next(), bIterator.next()));
 		}
 		return minElements;
@@ -97,7 +97,7 @@ public class Lists
 		final ExtendedList<E> maxElements = new ExtendedList<E>(a.size());
 		final Iterator<? extends E> aIterator = a.iterator();
 		final Iterator<? extends E> bIterator = b.iterator();
-		while (aIterator.hasNext() && bIterator.hasNext()) {
+		while (aIterator.hasNext()) { // or bIterator.hasNext()
 			maxElements.add(Numbers.<E>getMax(aIterator.next(), bIterator.next()));
 		}
 		return maxElements;

@@ -190,7 +190,7 @@ public class ConsoleHandler
 	public synchronized boolean println(final Message message) {
 		final SeverityLevel severityLevel = message.getSeverityLevel();
 		if (USE_COLORS) {
-			return println(getColor(severityLevel).getStyledText(Objects.toString(message)),
+			return println(getColor(severityLevel).getStyledText(String.valueOf(message)),
 					severityLevel.isError());
 		} else {
 			return println(message, severityLevel.isError());

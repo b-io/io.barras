@@ -247,6 +247,6 @@ public class WholeNumber
 	 */
 	@Override
 	public String toString() {
-		return Objects.toString(value);
+		return String.valueOf(value);
 	}
 }

@@ -1315,6 +1315,6 @@ public class FileHandler
 	 */
 	@Override
 	public String toString() {
-		return Objects.toString(file);
+		return String.valueOf(file);
 	}
 }

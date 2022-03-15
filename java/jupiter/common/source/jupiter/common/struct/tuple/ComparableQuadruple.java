@@ -147,11 +147,11 @@ public class ComparableQuadruple<T1 extends Comparable<T1>, T2 extends Comparabl
 		if (other == null || !(other instanceof ComparableQuadruple)) {
 			return false;
 		}
-		final ComparableQuadruple<?, ?, ?, ?> otherQuadruple = (ComparableQuadruple<?, ?, ?, ?>) other;
-		return Objects.equals(first, otherQuadruple.first) &&
-				Objects.equals(second, otherQuadruple.second) &&
-				Objects.equals(third, otherQuadruple.third) &&
-				Objects.equals(fourth, otherQuadruple.fourth);
+		final ComparableQuadruple<?, ?, ?, ?> otherComparableQuadruple = (ComparableQuadruple<?, ?, ?, ?>) other;
+		return Objects.equals(first, otherComparableQuadruple.first) &&
+				Objects.equals(second, otherComparableQuadruple.second) &&
+				Objects.equals(third, otherComparableQuadruple.third) &&
+				Objects.equals(fourth, otherComparableQuadruple.fourth);
 	}
 
 	//////////////////////////////////////////////

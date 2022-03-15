@@ -28,7 +28,7 @@ import static jupiter.common.util.Strings.INITIAL_CAPACITY;
 import java.io.Serializable;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.test.Arguments;
+import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Booleans;
 import jupiter.common.util.Bytes;
@@ -96,8 +96,7 @@ public class Row
 	 */
 	public Row(final Object index, final String[] header, final Object... elements) {
 		// Check the arguments
-		Arguments.requireNonNull(header, "header");
-		Arguments.requireNonNull(elements, "elements");
+		ArrayArguments.requireSameLength(header, "header", elements, "elements");
 
 		// Set the attributes
 		this.index = index;
@@ -286,6 +285,46 @@ public class Row
 		} catch (final CloneNotSupportedException ex) {
 			throw new IllegalStateException(Objects.toString(ex), ex);
 		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is equal to {@code other}.
+	 * <p>
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 *
+	 * @see #hashCode()
+	 */
+	@Override
+	public boolean equals(final Object other) {
+		if (this == other) {
+			return true;
+		}
+		if (other == null || !(other instanceof Row)) {
+			return false;
+		}
+		final Row otherRow = (Row) other;
+		return Objects.equals(index, otherRow.index) &&
+				Arrays.equals(header, otherRow.header) &&
+				Arrays.equals(elements, otherRow.elements);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Returns the hash code of {@code this}.
+	 * <p>
+	 * @return the hash code of {@code this}
+	 *
+	 * @see #equals(Object)
+	 * @see System#identityHashCode(Object)
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(serialVersionUID, index, header, elements);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

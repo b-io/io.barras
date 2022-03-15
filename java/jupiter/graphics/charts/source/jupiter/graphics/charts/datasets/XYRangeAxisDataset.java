@@ -200,6 +200,6 @@ public class XYRangeAxisDataset<D extends XYDataset>
 	 */
 	@Override
 	public String toString() {
-		return yAxis != null ? Objects.toString(yAxis.getLabel()) : NULL;
+		return yAxis != null ? yAxis.getLabel() : NULL;
 	}
 }

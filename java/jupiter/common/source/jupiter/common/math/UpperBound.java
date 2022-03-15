@@ -148,9 +148,9 @@ public class UpperBound<T extends Comparable<? super T>>
 		if (other == null || !(other instanceof UpperBound)) {
 			return false;
 		}
-		final UpperBound<?> otherBound = (UpperBound<?>) other;
-		return Objects.equals(value, otherBound.value) &&
-				Objects.equals(isInclusive, otherBound.isInclusive);
+		final UpperBound<?> otherUpperBound = (UpperBound<?>) other;
+		return Objects.equals(value, otherUpperBound.value) &&
+				Objects.equals(isInclusive, otherUpperBound.isInclusive);
 	}
 
 	//////////////////////////////////////////////

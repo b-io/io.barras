@@ -141,10 +141,10 @@ public class ComparableTriple<T1 extends Comparable<T1>, T2 extends Comparable<T
 		if (other == null || !(other instanceof ComparableTriple)) {
 			return false;
 		}
-		final ComparableTriple<?, ?, ?> otherTriple = (ComparableTriple<?, ?, ?>) other;
-		return Objects.equals(first, otherTriple.first) &&
-				Objects.equals(second, otherTriple.second) &&
-				Objects.equals(third, otherTriple.third);
+		final ComparableTriple<?, ?, ?> otherComparableTriple = (ComparableTriple<?, ?, ?>) other;
+		return Objects.equals(first, otherComparableTriple.first) &&
+				Objects.equals(second, otherComparableTriple.second) &&
+				Objects.equals(third, otherComparableTriple.third);
 	}
 
 	//////////////////////////////////////////////

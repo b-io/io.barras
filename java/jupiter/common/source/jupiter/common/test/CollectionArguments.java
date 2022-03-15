@@ -195,15 +195,51 @@ public class CollectionArguments
 		}
 	}
 
+	public static void requireSameSize(final Collection<?> a, final String aName,
+			final Collection<?> b, final String bName) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), aName, requireNonNull(b).size(), bName);
+		}
+	}
+
+	public static void requireSameSize(final Collection<?> a, final Object[] b) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), requireNonNull(b).length);
+		}
+	}
+
+	public static void requireSameSize(final Collection<?> a, final String aName,
+			final Object[] b, final String bName) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), aName, requireNonNull(b).length, bName);
+		}
+	}
+
 	public static void requireSameSize(final Collection<?> a, final int bSize) {
 		if (CHECK_ARGS) {
 			requireSameSize(requireNonNull(a).size(), bSize);
 		}
 	}
 
+	public static void requireSameSize(final Collection<?> a, final String aName, final int bSize,
+			final String bName) {
+		if (CHECK_ARGS) {
+			requireSameSize(requireNonNull(a).size(), aName, bSize, bName);
+		}
+	}
+
 	public static void requireSameSize(final int aSize, final int bSize) {
 		if (CHECK_ARGS && aSize != bSize) {
 			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"do not have the same size", isNotEqualTo(aSize, bSize)));
+		}
+	}
+
+	public static void requireSameSize(final int aSize, final String aName, final int bSize,
+			final String bName) {
+		if (CHECK_ARGS && aSize != bSize) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					Strings.quote(aName), "and", Strings.quote(bName),
 					"do not have the same size", isNotEqualTo(aSize, bSize)));
 		}
 	}

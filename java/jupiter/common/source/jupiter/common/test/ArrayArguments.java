@@ -23,6 +23,8 @@
  */
 package jupiter.common.test;
 
+import java.util.Collection;
+
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Objects;
@@ -190,15 +192,51 @@ public class ArrayArguments
 		}
 	}
 
+	public static void requireSameLength(final Object[] a, final String aName, final Object[] b,
+			final String bName) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, aName, requireNonNull(b).length, bName);
+		}
+	}
+
+	public static void requireSameLength(final Object[] a, final Collection<?> b) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, requireNonNull(b).size());
+		}
+	}
+
+	public static void requireSameLength(final Object[] a, final String aName,
+			final Collection<?> b, final String bName) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, aName, requireNonNull(b).size(), bName);
+		}
+	}
+
 	public static void requireSameLength(final Object[] a, final int bLength) {
 		if (CHECK_ARGS) {
 			requireSameLength(requireNonNull(a).length, bLength);
 		}
 	}
 
+	public static void requireSameLength(final Object[] a, final String aName, final int bLength,
+			final String bName) {
+		if (CHECK_ARGS) {
+			requireSameLength(requireNonNull(a).length, aName, bLength, bName);
+		}
+	}
+
 	public static void requireSameLength(final int aLength, final int bLength) {
 		if (CHECK_ARGS && aLength != bLength) {
 			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					"do not have the same length", isNotEqualTo(aLength, bLength)));
+		}
+	}
+
+	public static void requireSameLength(final int aLength, final String aName, final int bLength,
+			final String bName) {
+		if (CHECK_ARGS && aLength != bLength) {
+			throw new IllegalArgumentException(Strings.paste("The specified", NAMES,
+					Strings.quote(aName), "and", Strings.quote(bName),
 					"do not have the same length", isNotEqualTo(aLength, bLength)));
 		}
 	}

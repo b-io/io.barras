@@ -98,7 +98,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 		super();
 
 		// Check the arguments
-		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
+		ArrayArguments.requireSameLength(keys, "keys", values, "values");
 
 		// Put all the key-value mappings
 		putAll(keys, values);
@@ -121,7 +121,7 @@ public class ComparableRedBlackTreeMap<K extends Comparable<? super K>, V>
 		super();
 
 		// Check the arguments
-		CollectionArguments.requireSameSize(keys, values);
+		CollectionArguments.requireSameSize(keys, "keys", values, "values");
 
 		// Put all the key-value mappings
 		putAll(keys, values);
