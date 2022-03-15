@@ -419,47 +419,6 @@ public class ExtendedList<E>
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
-//	/**
-//	 * Tests whether {@code this} is equal to {@code other}.
-//	 * <p>
-//	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-//	 * <p>
-//	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-//	 *
-//	 * @see #hashCode()
-//	 */
-//	@Override
-//	public boolean equals(final Object other) {
-//		if (this == other) {
-//			return true;
-//		}
-//		if (other == null || !(other instanceof ExtendedList)) {
-//			return false;
-//		}
-//		final ExtendedList<?> otherExtendedList = (ExtendedList<?>) other;
-//		if (!Lists.equals(this, otherExtendedList)) {
-//			return false;
-//		}
-//		return true;
-//	}
-//
-//	//////////////////////////////////////////////
-//
-//	/**
-//	 * Returns the hash code of {@code this}.
-//	 * <p>
-//	 * @return the hash code of {@code this}
-//	 *
-//	 * @see #equals(Object)
-//	 * @see System#identityHashCode(Object)
-//	 */
-//	@Override
-//	public int hashCode() {
-//		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
-//	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
 	/**
 	 * Returns a representative {@link String} of {@code this}.
 	 * <p>

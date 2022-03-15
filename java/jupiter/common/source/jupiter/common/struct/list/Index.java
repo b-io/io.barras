@@ -189,7 +189,8 @@ public class Index<T>
 			return false;
 		}
 		final Index<?> otherIndex = (Index<?>) other;
-		return Objects.equals(index, otherIndex.index) && Objects.equals(token, otherIndex.token);
+		return Objects.equals(index, otherIndex.index) &&
+				Objects.equals(token, otherIndex.token);
 	}
 
 	//////////////////////////////////////////////

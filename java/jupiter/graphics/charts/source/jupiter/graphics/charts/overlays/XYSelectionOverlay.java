@@ -215,7 +215,7 @@ public class XYSelectionOverlay
 			return false;
 		}
 		final XYSelectionOverlay otherXYSelectionOverlay = (XYSelectionOverlay) other;
-		return selections.equals(otherXYSelectionOverlay.selections);
+		return Objects.equals(selections, otherXYSelectionOverlay.selections);
 	}
 
 	//////////////////////////////////////////////

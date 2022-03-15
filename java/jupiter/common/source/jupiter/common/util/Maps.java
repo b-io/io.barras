@@ -172,7 +172,7 @@ public class Maps
 	public static <V> ExtendedList<V> getAll(final Map<?, V> map, final Object[] keys,
 			final V[] defaultValues) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(keys, defaultValues);
+		ArrayArguments.requireSameLength(keys, "keys", defaultValues, "default values");
 
 		// Get all the values of the map associated to the keys and the corresponding default values
 		// for those that are not present
@@ -396,6 +396,26 @@ public class Maps
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the {@link Map} to compare for equality (may be {@code null})
+	 * @param b the other{@link Map} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Map<?, ?> a, final Map<?, ?> b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.size() != b.size()) {
+			return false;
+		}
+		return a.equals(b);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of the specified {@link Map}, or {@code "null"} if it
 	 * is {@code null}.
 	 * <p>
@@ -450,25 +470,5 @@ public class Maps
 	 */
 	public static String toString(final Object key, final Object value) {
 		return STRINGIFIER.stringifyNode(Objects.toString(key), value);
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
-	 * @param a the {@link Map} to compare for equality (may be {@code null})
-	 * @param b the other{@link Map} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
-	 */
-	public static boolean equals(final Map<?, ?> a, final Map<?, ?> b) {
-		if (a == b) {
-			return true;
-		}
-		if (a == null || b == null || a.size() != b.size()) {
-			return false;
-		}
-		return a.equals(b);
 	}
 }

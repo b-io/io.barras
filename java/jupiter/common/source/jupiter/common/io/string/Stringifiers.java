@@ -70,13 +70,13 @@ public class Stringifiers {
 	/**
 	 * Tests whether the specified array is a leaf.
 	 * <p>
-	 * @param objects the array of {@link Object} to test
+	 * @param array the array of {@link Object} to test
 	 * <p>
 	 * @return {@code true} if the specified array is a leaf, {@code false} otherwise
 	 */
-	public static boolean isLeaf(final Object[] objects) {
-		for (final Object object : objects) {
-			if (!isLeaf(Classes.get(object))) {
+	public static boolean isLeaf(final Object[] array) {
+		for (final Object element : array) {
+			if (!isLeaf(Classes.get(element))) {
 				return false;
 			}
 		}

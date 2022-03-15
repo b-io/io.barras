@@ -30,7 +30,6 @@ import java.util.TreeMap;
 
 import jupiter.common.model.ICloneable;
 import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.CollectionArguments;
 import jupiter.common.util.Maps;
@@ -82,7 +81,7 @@ public class ExtendedTreeMap<K, V>
 		super();
 
 		// Check the arguments
-		ArrayArguments.requireSameLength(keys, values);
+		ArrayArguments.requireSameLength(keys, "keys", values, "values");
 
 		// Put all the key-value mappings
 		putAll(keys, values);
@@ -102,7 +101,7 @@ public class ExtendedTreeMap<K, V>
 		super();
 
 		// Check the arguments
-		ArrayArguments.requireSameLength(keys, Arguments.requireNonNull(values, "values").size());
+		ArrayArguments.requireSameLength(keys, "keys", values, "values");
 
 		// Put all the key-value mappings
 		putAll(keys, values);
@@ -124,7 +123,7 @@ public class ExtendedTreeMap<K, V>
 		super();
 
 		// Check the arguments
-		CollectionArguments.requireSameSize(keys, values);
+		CollectionArguments.requireSameSize(keys, "keys", values, "values");
 
 		// Put all the key-value mappings
 		putAll(keys, values);
