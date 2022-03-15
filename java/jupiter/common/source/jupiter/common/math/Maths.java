@@ -604,7 +604,7 @@ public class Maths {
 
 	public static double weightedSum(final Number[] numbers, final Number... weights) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(numbers, weights);
+		ArrayArguments.requireSameLength(numbers, "numbers", weights, "weights");
 
 		// Sum
 		double sum = 0.;
@@ -619,7 +619,7 @@ public class Maths {
 	public static double weightedSum(final List<? extends Number> numbers,
 			final List<? extends Number> weights) {
 		// Check the arguments
-		CollectionArguments.requireSameSize(numbers, weights);
+		CollectionArguments.requireSameSize(numbers, "numbers", weights, "weights");
 
 		// Sum
 		double sum = 0.;

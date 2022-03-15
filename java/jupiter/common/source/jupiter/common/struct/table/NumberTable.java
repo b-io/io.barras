@@ -235,14 +235,11 @@ public class NumberTable<E extends Number>
 			return false;
 		}
 		final NumberTable<?> otherNumberTable = (NumberTable<?>) other;
-		if (!Objects.equals(c, otherNumberTable.c) || m != otherNumberTable.m ||
-				n != otherNumberTable.n) {
-			return false;
-		}
-		if (!Arrays.equals(index, otherNumberTable.index)) {
-			return false;
-		}
-		if (!Arrays.equals(header, otherNumberTable.header)) {
+		if (!Objects.equals(c, otherNumberTable.c) ||
+				m != otherNumberTable.m ||
+				n != otherNumberTable.n ||
+				!Arrays.equals(index, otherNumberTable.index) ||
+				!Arrays.equals(header, otherNumberTable.header)) {
 			return false;
 		}
 		for (int i = 0; i < m; ++i) {
@@ -267,6 +264,6 @@ public class NumberTable<E extends Number>
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(serialVersionUID, elements);
+		return Objects.hashCode(serialVersionUID, c, m, n, index, header, elements);
 	}
 }

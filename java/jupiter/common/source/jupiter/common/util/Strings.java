@@ -582,6 +582,30 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Returns a {@link String} representation of the specified nth number.
+	 * <p>
+	 * @param index an {@code int} value
+	 * <p>
+	 * @return a {@link String} representation of the specified nth number
+	 */
+	public static String nth(int index) {
+		final String s = String.valueOf(index);
+		if (s.length() == 1 || s.charAt(s.length() - 2) != '1') {
+			switch (s.charAt(s.length() - 1)) {
+				case '1':
+					return s + "st";
+				case '2':
+					return s + "nd";
+				case '3':
+					return s + "rd";
+			}
+		}
+		return s + "th";
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
 	 * <p>
 	 * @param length the length of the random {@link String} to generate
@@ -626,7 +650,7 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static String repeat(final char token, final int length) {
-		return repeat(Objects.toString(token), length);
+		return repeat(String.valueOf(token), length);
 	}
 
 	public static String repeat(final String text, final int length) {
@@ -1163,7 +1187,7 @@ public class Strings {
 	 *         {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array) {
-		return joinWith(array, Objects.toString(DELIMITER));
+		return joinWith(array, String.valueOf(DELIMITER));
 	}
 
 	/**
@@ -1177,7 +1201,7 @@ public class Strings {
 	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Object[] array, final char delimiter) {
-		return joinWith(array, Objects.toString(delimiter));
+		return joinWith(array, String.valueOf(delimiter));
 	}
 
 	/**
@@ -1225,7 +1249,7 @@ public class Strings {
 	 *         {@code null}
 	 */
 	public static String joinWith(final Object[] array, final ObjectToStringMapper wrapper) {
-		return joinWith(array, Objects.toString(DELIMITER), wrapper);
+		return joinWith(array, String.valueOf(DELIMITER), wrapper);
 	}
 
 	/**
@@ -1243,7 +1267,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Object[] array, final char delimiter,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(array, Objects.toString(delimiter), wrapper);
+		return joinWith(array, String.valueOf(delimiter), wrapper);
 	}
 
 	/**
@@ -1296,7 +1320,7 @@ public class Strings {
 	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter) {
-		return joinWith(collection, Objects.toString(delimiter));
+		return joinWith(collection, String.valueOf(delimiter));
 	}
 
 	/**
@@ -1346,7 +1370,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Collection<?> collection, final char delimiter,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(collection, Objects.toString(delimiter), wrapper);
+		return joinWith(collection, String.valueOf(delimiter), wrapper);
 	}
 
 	/**
@@ -1361,7 +1385,7 @@ public class Strings {
 	 */
 	public static String joinWith(final Collection<?> collection,
 			final ObjectToStringMapper wrapper) {
-		return joinWith(collection, Objects.toString(DELIMITER), wrapper);
+		return joinWith(collection, String.valueOf(DELIMITER), wrapper);
 	}
 
 	/**
@@ -1790,7 +1814,9 @@ public class Strings {
 				Characters.isNullOrEmpty(replacements)) {
 			return text;
 		}
-		IntegerArguments.requireSameLength(indices, replacements.length);
+		ArrayArguments.requireSameLength(
+				Arguments.requireNonNull(indices, "indices").length, "indices",
+				Arguments.requireNonNull(indices, "replacements").length, "replacements");
 
 		// Replace the characters at the indices in the text by the replacement characters
 		final StringBuilder builder = createBuilder(text.length()).append(text);

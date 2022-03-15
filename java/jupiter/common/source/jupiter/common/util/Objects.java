@@ -283,8 +283,6 @@ public class Objects {
 			return 0;
 		}
 		switch (array.length) {
-			case 0:
-				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
 				final Object object = array[0];
 				if (object == null) {

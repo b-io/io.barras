@@ -394,10 +394,8 @@ public class JogAmpl
 		}
 
 		// Check the arguments
-		Arguments.requireNonNull(A, "array A");
-		Arguments.requireNonNull(B, "array B");
-		DoubleArguments.requireMinLength(A.length - aOffset, length);
-		DoubleArguments.requireMinLength(B.length - bOffset, length);
+		DoubleArguments.requireMinLength(Arguments.requireNonNull(A, "A").length - aOffset, length);
+		DoubleArguments.requireMinLength(Arguments.requireNonNull(B, "B").length - bOffset, length);
 
 		// Initialize
 		final double[] aSlice = new double[length];

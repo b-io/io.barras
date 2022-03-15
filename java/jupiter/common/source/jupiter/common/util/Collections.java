@@ -137,9 +137,7 @@ public class Collections {
 		Arguments.requireNonNull(collection, "collection");
 
 		// Return the first occurrence of the object in the collection
-		final Iterator<? extends E> iterator = collection.iterator();
-		while (iterator.hasNext()) {
-			final E element = iterator.next();
+		for (final E element : collection) {
 			if (Objects.equals(element, object)) {
 				return element;
 			}
@@ -166,9 +164,7 @@ public class Collections {
 
 		// Return all the occurrences of the object in the collection
 		final ExtendedLinkedList<E> elements = new ExtendedLinkedList<E>();
-		final Iterator<? extends E> iterator = collection.iterator();
-		while (iterator.hasNext()) {
-			final E element = iterator.next();
+		for (final E element : collection) {
 			if (Objects.equals(element, object)) {
 				elements.add(element);
 			}
@@ -453,6 +449,33 @@ public class Collections {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests whether {@code a} is equal to {@code b}.
+	 * <p>
+	 * @param a the {@link Collection} to compare for equality (may be {@code null})
+	 * @param b the other{@link Collection} to compare against for equality (may be {@code null})
+	 * <p>
+	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
+	 */
+	public static boolean equals(final Collection<?> a, final Collection<?> b) {
+		if (a == b) {
+			return true;
+		}
+		if (a == null || b == null || a.size() != b.size()) {
+			return false;
+		}
+		final Iterator<?> aIterator = a.iterator();
+		final Iterator<?> bIterator = b.iterator();
+		while (aIterator.hasNext()) { // or bIterator.hasNext()
+			if (!Objects.equals(aIterator.next(), bIterator.next())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}, or
 	 * {@code "null"} if it is {@code null}.
 	 * <p>
@@ -536,32 +559,5 @@ public class Collections {
 			return NULL;
 		}
 		return Strings.bracketize(Strings.joinWith(collection, delimiter, wrapper));
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
-	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
-	 * @param a the {@link Collection} to compare for equality (may be {@code null})
-	 * @param b the other{@link Collection} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
-	 */
-	public static boolean equals(final Collection<?> a, final Collection<?> b) {
-		if (a == b) {
-			return true;
-		}
-		if (a == null || b == null || a.size() != b.size()) {
-			return false;
-		}
-		final Iterator<?> aIterator = a.iterator();
-		final Iterator<?> bIterator = b.iterator();
-		while (aIterator.hasNext()) {
-			if (!Objects.equals(aIterator.next(), bIterator.next())) {
-				return false;
-			}
-		}
-		return true;
 	}
 }

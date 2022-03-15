@@ -1273,13 +1273,13 @@ public class InputOutput
 		if (other == null || !(other instanceof InputOutput)) {
 			return false;
 		}
-		final InputOutput otherIO = (InputOutput) other;
-		return Objects.equals(severityLevel, otherIO.severityLevel) &&
-				Objects.equals(stackIndex, otherIO.stackIndex) &&
-				Objects.equals(consoleHandler, otherIO.consoleHandler) &&
-				Objects.equals(logHandler, otherIO.logHandler) &&
-				Objects.equals(handlers, otherIO.handlers) &&
-				Objects.equals(printer, otherIO.printer);
+		final InputOutput otherInputOutput = (InputOutput) other;
+		return Objects.equals(severityLevel, otherInputOutput.severityLevel) &&
+				Objects.equals(stackIndex, otherInputOutput.stackIndex) &&
+				Objects.equals(consoleHandler, otherInputOutput.consoleHandler) &&
+				Objects.equals(logHandler, otherInputOutput.logHandler) &&
+				Objects.equals(handlers, otherInputOutput.handlers) &&
+				Objects.equals(printer, otherInputOutput.printer);
 	}
 
 	//////////////////////////////////////////////

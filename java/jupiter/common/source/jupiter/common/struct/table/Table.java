@@ -239,8 +239,7 @@ public class Table<E>
 			final E[][] elements) {
 		// Check the arguments
 		Arguments.requireNonNull(c, "class");
-		ArrayArguments.requireSameLength(ArrayArguments.requireNonEmpty(header, "header"),
-				ArrayArguments.requireNonEmpty(elements, "elements"));
+		ArrayArguments.requireSameLength(header, "header", elements, "elements");
 
 		// Set the attributes
 		this.c = c;
@@ -869,7 +868,6 @@ public class Table<E>
 		// • i
 		ArrayArguments.requireIndex(i, m);
 		// • values
-		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		if (n > 0) {
@@ -940,7 +938,6 @@ public class Table<E>
 		// • j
 		ArrayArguments.requireIndex(j, n);
 		// • values
-		ArrayArguments.requireNonEmpty(values, "values");
 		ArrayArguments.requireMinLength(values, length);
 		// • from
 		if (m > 0) {
@@ -1114,7 +1111,7 @@ public class Table<E>
 	protected static String[] createHeader(final int length) {
 		final String[] header = new String[length];
 		for (int i = 1; i <= length; ++i) {
-			header[i - 1] = Objects.toString(i);
+			header[i - 1] = String.valueOf(i);
 		}
 		return header;
 	}
@@ -1185,7 +1182,7 @@ public class Table<E>
 					Strings.quote(delimiter));
 			// Create the replacer for the delimiter
 			final StringReplacer replacer = new StringReplacer(new char[] {BAR},
-					Objects.toString(delimiter));
+					String.valueOf(delimiter));
 			// Clear the table
 			clear();
 			// Scan the file line by line
@@ -1607,19 +1604,12 @@ public class Table<E>
 			return false;
 		}
 		final Table<?> otherTable = (Table<?>) other;
-		if (!Objects.equals(c, otherTable.c) || m != otherTable.m || n != otherTable.n) {
-			return false;
-		}
-		if (!Arrays.equals(index, otherTable.index)) {
-			return false;
-		}
-		if (!Arrays.equals(header, otherTable.header)) {
-			return false;
-		}
-		if (!Arrays.equals(elements, otherTable.elements)) {
-			return false;
-		}
-		return true;
+		return Objects.equals(c, otherTable.c) &&
+				m == otherTable.m &&
+				n == otherTable.n &&
+				Arrays.equals(index, otherTable.index) &&
+				Arrays.equals(header, otherTable.header) &&
+				Arrays.equals(elements, otherTable.elements);
 	}
 
 	//////////////////////////////////////////////

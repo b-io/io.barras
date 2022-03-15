@@ -180,7 +180,7 @@ public abstract class Mapper<I, O>
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public ExtendedList<O> callToList(final I[] input) {
-		final ExtendedList<O> output = new ExtendedList<O>();
+		final ExtendedList<O> output = new ExtendedList<O>(input.length);
 		for (final I element : input) {
 			output.add(call(element));
 		}

@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
 import jupiter.graphics.charts.datasets.XYRangeAxisDataset;
@@ -238,7 +239,7 @@ public class TimeSeriesGraphic
 	public int addSeries(final int axisDatasetIndex, final TimeSeries timeSeries,
 			final SeriesStyle style, final Date[] X, final double[] Y) {
 		// Check the arguments
-		ArrayArguments.requireSameLength(X, Y.length);
+		ArrayArguments.requireSameLength(X, "X", Arguments.requireNonNull(Y, "Y").length, "Y");
 
 		// Add the time series with the style
 		final int timeSeriesIndex = addSeries(axisDatasetIndex, timeSeries, style);

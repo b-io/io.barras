@@ -2117,8 +2117,6 @@ public class Doubles {
 			return 0;
 		}
 		switch (array.length) {
-			case 0:
-				return Bits.SEEDS[depth % Bits.SEEDS.length];
 			case 1:
 				final long bits = Double.doubleToLongBits(array[0]);
 				return (int) (bits ^ bits >>> 32);

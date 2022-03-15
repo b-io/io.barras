@@ -41,17 +41,67 @@ public class RowListTest
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
+	 * Tests {@link RowList#getHeader}.
+	 */
+	public void testGetHeader() {
+		IO.test(BULLET, "getHeader");
+
+		final RowList emptyRowList = new RowList(0);
+		assertEquals(Strings.EMPTY_ARRAY, emptyRowList.getHeader());
+
+		final String[] header = new String[] {"A", "B", "C"};
+		final Object[] values = new Integer[] {1, 2, 3};
+		assertEquals(header, new RowList(new Row(header, values)).getHeader());
+		assertEquals(header, new RowList(header, new Row(header, values)).getHeader());
+	}
+
+	//////////////////////////////////////////////
+
+	/**
 	 * Tests {@link RowList#getRow}.
 	 */
 	public void testGetRow() {
 		IO.test(BULLET, "getRow");
 
-		RowList rowList = new RowList();
-		assertEquals(Strings.EMPTY_ARRAY, rowList.header);
-		rowList = new RowList("A", "B", "C");
+		final Object index = "Test";
+		final String[] header = new String[] {"A", "B", "C"};
+		final Object[] values = new Integer[] {1, 2, 3};
+		final Row row = new Row(index, header, values);
+		final RowList rowList = new RowList(row);
+		assertEquals(1, rowList.getRowCount());
 		assertEquals(3, rowList.getColumnCount());
-		final Row row = new Row("Test", rowList.header, new Integer[] {1, 2, 3});
+		assertTrue(Arrays.equals(row.elements, rowList.getRow(index)));
+	}
+
+	/**
+	 * Tests {@link RowList#getColumn}.
+	 */
+	public void testGetColumn() {
+		IO.test(BULLET, "getColumn");
+
+		final String[] header = new String[] {"A", "B", "C"};
+		final Object[] values = new Integer[] {1, 2, 3};
+		final Row row = new Row(header, values);
+		final RowList rowList = new RowList(row);
+		assertEquals(1, rowList.getRowCount());
+		assertEquals(3, rowList.getColumnCount());
+		assertTrue(Arrays.equals(new Integer[] {1}, rowList.getColumn("A")));
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Tests {@link RowList#clone}.
+	 */
+	public void testClone() {
+		IO.test(BULLET, "clone");
+
+		final Object index = "Test";
+		final String[] header = new String[] {"A", "B", "C"};
+		final Object[] values = new Integer[] {1, 2, 3};
+		final Row row = new Row(index, header, values);
+		final RowList rowList = new RowList(row);
 		rowList.add(row);
-		assertTrue(Arrays.equals(row.elements, rowList.getRow("Test")));
+		assertEquals(rowList, rowList.clone());
 	}
 }

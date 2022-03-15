@@ -116,8 +116,8 @@ public class SplineInterpolator
 	 */
 	public static SplineInterpolator create(final double[] X, final double[] Y) {
 		// Check the arguments
-		DoubleArguments.requireSameLength(X, Y);
 		DoubleArguments.requireMinLength(X, 2);
+		DoubleArguments.requireSameLength(X, Y);
 
 		// Initialize
 		final int n = X.length;

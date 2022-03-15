@@ -492,9 +492,9 @@ public class MailHandler
 		properties.put("mail.store.protocol", protocol.value);
 		properties.put("mail." + protocol + ".host", hostName);
 		properties.put("mail." + protocol + ".port", protocol.getPort());
-		properties.put("mail." + protocol + ".auth", Objects.toString(password != null));
-		properties.put("mail." + protocol + ".timeout", Objects.toString(TIMEOUT));
-		properties.put("mail." + protocol + ".connectiontimeout", Objects.toString(TIMEOUT));
+		properties.put("mail." + protocol + ".auth", String.valueOf(password != null));
+		properties.put("mail." + protocol + ".timeout", String.valueOf(TIMEOUT));
+		properties.put("mail." + protocol + ".connectiontimeout", String.valueOf(TIMEOUT));
 		if (protocol.isSSL()) {
 			properties.put("mail." + protocol + ".socketFactory.class",
 					"javax.net.ssl.SSLSocketFactory");
