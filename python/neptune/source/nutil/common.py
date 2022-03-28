@@ -131,6 +131,12 @@ class Frequency(Enum):
 __COMMON_CLASSES__________________________________ = ''
 
 
+class Object(object):
+	pass
+
+
+##################################################
+
 class OrderedSet(MutableSet, Sequence):
 
 	def __init__(self, *args):
@@ -214,13 +220,15 @@ BOOL_TYPE = np.bool8
 FLOAT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
 INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
 UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
+
 OBJECT_TYPE = object
+STRING_TYPE = np.str_  # np.string_
 
 #########################
 
 CORE_COUNT = mp.cpu_count()
 
-NA_NAME = 'NA'
+NA_NAME = 'N/A'
 
 # • DATE ###########################################################################################
 
@@ -366,6 +374,10 @@ def is_sequence(x):
 	return isinstance(x, Sequence)
 
 
+def is_subscriptable(x):
+	return hasattr(x, '__getitem__')
+
+
 def is_tuple(x):
 	return isinstance(x, tuple)
 
@@ -454,7 +466,7 @@ __COLLECTION_VERIFIERS____________________________ = ''
 
 
 def is_collection(x):
-	return is_iterable(x) and not is_string(x) and not is_tuple(x)
+	return is_iterable(x) and is_subscriptable(x) and not is_string(x) and not is_tuple(x)
 
 
 ##################################################
@@ -968,11 +980,15 @@ def get_names(c,
 	if is_table(exclusion):
 		exclusion = get_names(exclusion)
 	if hasattr(c, 'names'):
-		c = c.names
+		c = c.names() if callable(c.names) else c.names
 	elif hasattr(c, 'name'):
-		c = c.name
-	elif not is_table(c) and not is_dict(c):
+		c = c.name() if callable(c.name) else c.name
+	elif not is_collection(c):
+		c = [to_string(c)]
+	elif is_array(c) or is_sequence(c):
 		c = range(len(c))
+	else:
+		c = [get_name(e) for e in c]
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -1025,8 +1041,10 @@ def get_keys(c,
 		exclusion = get_keys(exclusion)
 	if is_series(c):
 		c = c.index
-	elif not is_table(c) and not is_dict(c):
+	elif is_array(c) or is_sequence(c):
 		c = range(len(c))
+	else:
+		c = get_names(c)
 	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -3629,7 +3647,8 @@ def upsert_rows(c1, c2,
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1) or is_dict(c1):
-		c1.update(c2)
+		c1.update(c2.fillna(NA_NAME))
+		c1.replace(NA_NAME, NAN, inplace=True)
 	else:
 		for k in keys:
 			c1[k] = c2[k]
@@ -4581,9 +4600,14 @@ def par(content):
 	return wrap(content, '(', ')')
 
 
-def bra(content):
+def sbra(content):
 	'''Returns the bracketized representative string of the specified content.'''
-	return wrap(content, '[', ']')
+	return wrap(content, '[', ']')  # square brackets
+
+
+def cbra(content):
+	'''Returns the braced representative string of the specified content.'''
+	return wrap(content, '{', '}')  # curly brackets
 
 
 # • THREAD #########################################################################################
