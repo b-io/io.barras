@@ -500,8 +500,17 @@ def is_group(x):
 #########################
 
 def is_time_series(series):
-	return is_table(series) and not is_group(series) and \
-	       isinstance(series.index, pd.core.indexes.datetimes.DatetimeIndex)
+	return is_table(series) and not is_group(series) and is_time_index(series.index)
+
+
+#########################
+
+def is_index(x):
+	return isinstance(x, pd.Index)
+
+
+def is_time_index(x):
+	return isinstance(x, pd.DatetimeIndex)
 
 
 # • DATE ###########################################################################################
@@ -985,7 +994,7 @@ def get_names(c,
 		c = c.name() if callable(c.name) else c.name
 	elif not is_collection(c):
 		c = [to_string(c)]
-	elif is_array(c) or is_sequence(c):
+	elif is_array(c) or is_index(c) or is_sequence(c):
 		c = range(len(c))
 	else:
 		c = [get_name(e) for e in c]
@@ -1041,7 +1050,7 @@ def get_keys(c,
 		exclusion = get_keys(exclusion)
 	if is_series(c):
 		c = c.index
-	elif is_array(c) or is_sequence(c):
+	elif is_array(c) or is_index(c) or is_sequence(c):
 		c = range(len(c))
 	else:
 		c = get_names(c)
