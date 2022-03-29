@@ -2113,7 +2113,7 @@ def to_array(*args, type=None):
 			return arg
 		elif is_subscriptable_collection(arg):
 			return np.array(arg, dtype=type)
-	return np.array(to_list(*args), dtype=type)
+	return np.array(list(args), dtype=type)
 
 
 def unarray(a):
@@ -2135,7 +2135,7 @@ def to_collection(*args):
 		if is_collection(arg):
 			return arg
 		return [arg]
-	return args
+	return list(args)
 
 
 def uncollect(c):
