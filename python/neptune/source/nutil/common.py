@@ -1052,7 +1052,7 @@ def get_keys(c,
 	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return OrderedSet()
 	if is_table(inclusion):
 		inclusion = get_keys(inclusion)
@@ -1062,7 +1062,7 @@ def get_keys(c,
 		c = c.index
 	elif has_index(c):
 		c = range(len(c))
-	elif not is_collection(c):
+	elif not is_table(c) and not is_dict(c):
 		c = get_names(c)
 	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
@@ -3378,12 +3378,13 @@ def insert_cols(c1, c2,
 	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
 	list, are different.'''
-	if not is_table(c1) or not is_dict(c1):
+	if not is_table(c1) and not is_dict(c1):
 		return c1
 	if is_null(keys):
 		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
-	c1.update(c2)
+	c1.update(c2.fillna(NA_NAME))
+	c1.replace(NA_NAME, NAN, inplace=True)
 	return c1
 
 
