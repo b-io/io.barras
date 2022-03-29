@@ -466,10 +466,20 @@ __COLLECTION_VERIFIERS____________________________ = ''
 
 
 def is_collection(x):
-	return is_iterable(x) and is_subscriptable(x) and not is_string(x) and not is_tuple(x)
+	return is_iterable(x) and not is_string(x) and not is_tuple(x)
+
+
+def is_subscriptable_collection(x):
+	return is_collection(x) and is_subscriptable(x)
 
 
 ##################################################
+
+def has_index(c):
+	return is_array(c) or is_index(c) or is_sequence(c) and not is_string(c)
+
+
+#########################
 
 def has_filter(keys=None, inclusion=None, exclusion=None):
 	return not is_null(keys) or not is_null(inclusion) or not is_empty(exclusion)
@@ -925,7 +935,7 @@ __COLLECTION_ACCESSORS____________________________ = ''
 
 def get(c, index=0,
         axis=0):
-	if not is_collection(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(axis):
 		return simplify(flatten(c, axis=axis)[index])
@@ -992,12 +1002,12 @@ def get_names(c,
 		c = c.names() if callable(c.names) else c.names
 	elif hasattr(c, 'name'):
 		c = c.name() if callable(c.name) else c.name
-	elif not is_collection(c):
-		c = [to_string(c)]
-	elif is_array(c) or is_index(c) or is_sequence(c):
+	elif has_index(c):
 		c = range(len(c))
-	else:
+	elif is_collection(c):
 		c = [get_name(e) for e in c]
+	else:
+		c = [to_string(c)]
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -1050,9 +1060,9 @@ def get_keys(c,
 		exclusion = get_keys(exclusion)
 	if is_series(c):
 		c = c.index
-	elif is_array(c) or is_index(c) or is_sequence(c):
+	elif has_index(c):
 		c = range(len(c))
-	else:
+	elif not is_collection(c):
 		c = get_names(c)
 	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
@@ -1160,6 +1170,8 @@ def get_items(c,
 	list.'''
 	if is_empty(c):
 		return []
+	elif not is_subscriptable_collection(c):
+		return to_list(c)
 	if not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
 		if is_table(c) and not is_group(c) or is_dict(c):
 			return c.items()
@@ -1188,7 +1200,7 @@ def get_values(c, type=None,
 	list.'''
 	if is_empty(c):
 		return to_array(type=type)
-	elif not is_collection(c):
+	elif not is_subscriptable_collection(c):
 		return to_array(c, type=type)
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -1211,7 +1223,7 @@ def set_names(c, new_names):
 	'''Sets the names of the specified collection.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_table(new_names):
 		new_names = get_names(new_names)
@@ -1234,7 +1246,7 @@ def set_keys(c, new_keys,
 	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -1262,7 +1274,7 @@ def set_index(c, new_index):
 	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
 		c = c.groups if c.axis == 0 else c.obj
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_table(new_index):
 		new_index_names = get_names(new_index.index)
@@ -1290,7 +1302,7 @@ def set_values(c, new_values, mask=None,
 	list.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2099,9 +2111,9 @@ def to_array(*args, type=None):
 		arg = args[0]
 		if is_array(arg):
 			return arg
-		elif is_collection(arg):
+		elif is_subscriptable_collection(arg):
 			return np.array(arg, dtype=type)
-	return np.array(to_list(*args), dtype=type)
+	return np.array(list(args), dtype=type)
 
 
 def unarray(a):
@@ -2123,13 +2135,13 @@ def to_collection(*args):
 		if is_collection(arg):
 			return arg
 		return [arg]
-	return args
+	return list(args)
 
 
 def uncollect(c):
 	if is_collection(c):
 		if len(c) == 1:
-			return c[0]
+			return get_next(c)
 		return tuple(c)
 	return c
 
@@ -2149,6 +2161,8 @@ def collection_to_type(c, x):
 		return to_set(c)
 	elif is_array(x):
 		return to_array(c)
+	elif is_list(x):
+		return to_list(c)
 	return c
 
 
@@ -2165,6 +2179,8 @@ def collection_to_common_type(c, x):
 		return to_set(c)
 	elif is_array(x):
 		return to_array(c)
+	elif is_list(x):
+		return to_list(c)
 	return c
 
 
@@ -2594,7 +2610,7 @@ def apply(x, f, *args, inplace=False,
 	'''Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments.'''
-	if is_collection(x):
+	if is_subscriptable_collection(x):
 		if is_null(keys):
 			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		if inplace:
@@ -2761,6 +2777,8 @@ def fill_null(c, numeric_default=None, object_default=None,
               keys=None, inclusion=None, exclusion=None):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	for k in keys:
@@ -2791,7 +2809,8 @@ def filter(c,
            keys=None, inclusion=None, exclusion=None):
 	'''Filters the specified collection by excluding the keys that are not in the specified
 	inclusive collection and are in the specified exclusive collection.'''
-	if is_empty(c) or not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
+	if is_empty(c) or not is_subscriptable_collection(c) or \
+			not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2828,7 +2847,8 @@ def filter_index(c,
                  inclusion=None, exclusion=None):
 	'''Filters the specified collection by excluding the index that are not in the specified
 	inclusive collection and are in the specified exclusive collection.'''
-	if is_empty(c) or not has_filter(inclusion=inclusion, exclusion=exclusion):
+	if is_empty(c) or not is_subscriptable_collection(c) or \
+			not has_filter(inclusion=inclusion, exclusion=exclusion):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):
@@ -2859,7 +2879,7 @@ def filter_with(c, f, *args,
                 **kwargs):
 	'''Returns the entries of the specified collection whose values return True with the specified
 	function for all the specified keys.'''
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2882,7 +2902,7 @@ def filter_not_with(c, f, *args,
                     **kwargs):
 	'''Returns the entries of the specified collection whose values return False with the specified
 	function for all the specified keys.'''
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2905,7 +2925,7 @@ def filter_any_with(c, f, *args,
                     **kwargs):
 	'''Returns the entries of the specified collection whose values return True with the specified
 	function for at least one specified key.'''
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -2928,7 +2948,7 @@ def filter_any_not_with(c, f, *args,
                         **kwargs):
 	'''Returns the entries of the specified collection whose values return False with the specified
 	function for at least one specified key.'''
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -3402,6 +3422,8 @@ def keep_max_with(c, n, f,
 def remove_null(c, conservative=True,
                 axis=0,
                 keys=None, inclusion=None, exclusion=None):
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3417,6 +3439,8 @@ def remove_null(c, conservative=True,
 def remove_empty(c, conservative=True,
                  axis=0,
                  keys=None, inclusion=None, exclusion=None):
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3432,6 +3456,8 @@ def remove_empty(c, conservative=True,
 def remove_value(c, value, conservative=True,
                  axis=0,
                  keys=None, inclusion=None, exclusion=None):
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if axis == 0:
@@ -3450,6 +3476,8 @@ def reverse(c,
             axis=0):
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_table(c):
 		if axis == 0:
 			return c.loc[::-1]
@@ -3558,6 +3586,8 @@ def take_at(c, indices,
 	'''Returns the entries of the specified collection that are at the specified indices.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	indices = to_list(indices)
 	if is_table(c):
 		if axis == 0:
@@ -3582,7 +3612,7 @@ def tally(c, boundaries):
 	boundaries.'''
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_empty(boundaries):
 		return repeat(0, len(c))
@@ -3669,6 +3699,8 @@ def upsert_rows(c1, c2,
 def where(c, *args, condition=lambda x, *args, **kwargs: True,
           keys=None, inclusion=None, exclusion=None,
           **kwargs):
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	return [k for k in keys if condition(c[k], *args, **kwargs)]
@@ -4630,7 +4662,7 @@ def parallelize(c, f, *args, timeout=None, **kwargs):
 
 def parallelize_chunk(c, f, *args, timeout=None, **kwargs):
 	results = []
-	if is_empty(c):
+	if is_empty(c) or not is_subscriptable_collection(c):
 		return results
 	with ThreadPoolExecutor(max_workers=CORE_COUNT) as executor:
 		futures = []
