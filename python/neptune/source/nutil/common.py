@@ -469,6 +469,10 @@ def is_collection(x):
 	return is_iterable(x) and not is_string(x) and not is_tuple(x)
 
 
+def is_indexed_collection(x):
+	return is_collection(x) and has_index(x)
+
+
 def is_subscriptable_collection(x):
 	return is_collection(x) and is_subscriptable(x)
 
@@ -476,7 +480,7 @@ def is_subscriptable_collection(x):
 ##################################################
 
 def has_index(c):
-	return is_array(c) or is_index(c) or is_sequence(c) and not is_string(c)
+	return is_array(c) or is_index(c) or is_sequence(c)
 
 
 #########################
@@ -509,8 +513,8 @@ def is_group(x):
 
 #########################
 
-def is_time_series(series):
-	return is_table(series) and not is_group(series) and is_time_index(series.index)
+def is_time_series(x):
+	return is_table(x) and not is_group(x) and is_time_index(x.index)
 
 
 #########################
@@ -1002,10 +1006,11 @@ def get_names(c,
 		c = c.names() if callable(c.names) else c.names
 	elif hasattr(c, 'name'):
 		c = c.name() if callable(c.name) else c.name
-	elif has_index(c):
-		c = range(len(c))
 	elif is_collection(c):
-		c = [get_name(e) for e in c]
+		if has_index(c):
+			c = range(len(c))
+		else:
+			c = [get_name(e) for e in c]
 	else:
 		c = [to_string(c)]
 	return filter_list(c, inclusion=inclusion, exclusion=exclusion)
@@ -1062,8 +1067,6 @@ def get_keys(c,
 		c = c.index
 	elif has_index(c):
 		c = range(len(c))
-	elif not is_table(c) and not is_dict(c):
-		c = get_names(c)
 	return filter_ordered_set(c, inclusion=inclusion, exclusion=exclusion)
 
 
