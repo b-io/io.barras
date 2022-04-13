@@ -949,6 +949,33 @@ public class Integers {
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
+	// FORMATTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the nth representative {@link String} of the specified {@code int} value.
+	 * <p>
+	 * @param value an {@code int} value
+	 * <p>
+	 * @return the nth representative {@link String} of the specified {@code int} value
+	 */
+	public static String formatNth(int value) {
+		final String s = String.valueOf(value);
+		if (s.length() == 1 || s.charAt(s.length() - 2) != '1') {
+			switch (s.charAt(s.length() - 1)) {
+				case '1':
+					return s + "st";
+				case '2':
+					return s + "nd";
+				case '3':
+					return s + "rd";
+			}
+		}
+		return s + "th";
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
 	// GENERATORS
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1975,8 +2002,7 @@ public class Integers {
 		}
 
 		// Clone the 2D array
-		final int[][] clone = new int[array2D.length]
-				[array2D.length > 0 ? array2D[0].length : 0];
+		final int[][] clone = new int[array2D.length][array2D.length > 0 ? array2D[0].length : 0];
 		for (int i = 0; i < array2D.length; ++i) {
 			clone[i] = clone(array2D[i]);
 		}
@@ -1997,9 +2023,7 @@ public class Integers {
 		}
 
 		// Clone the 3D array
-		final int[][][] clone = new int[array3D.length]
-				[array3D.length > 0 ? array3D[0].length : 0]
-				[array3D[0].length > 0 ? array3D[0][0].length : 0];
+		final int[][][] clone = new int[array3D.length][array3D.length > 0 ? array3D[0].length : 0][array3D[0].length > 0 ? array3D[0][0].length : 0];
 		for (int i = 0; i < array3D.length; ++i) {
 			clone[i] = clone(array3D[i]);
 		}

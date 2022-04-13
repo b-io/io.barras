@@ -582,30 +582,6 @@ public class Strings {
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Returns a {@link String} representation of the specified nth number.
-	 * <p>
-	 * @param index an {@code int} value
-	 * <p>
-	 * @return a {@link String} representation of the specified nth number
-	 */
-	public static String nth(int index) {
-		final String s = String.valueOf(index);
-		if (s.length() == 1 || s.charAt(s.length() - 2) != '1') {
-			switch (s.charAt(s.length() - 1)) {
-				case '1':
-					return s + "st";
-				case '2':
-					return s + "nd";
-				case '3':
-					return s + "rd";
-			}
-		}
-		return s + "th";
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/**
 	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
 	 * <p>
 	 * @param length the length of the random {@link String} to generate

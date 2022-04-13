@@ -1,0 +1,21 @@
+#!/bin/sh
+####################################################################################################
+# NAME
+#    <NAME> - install nlearn
+#
+# SYNOPSIS
+#    <NAME>
+#
+# AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+# COPYRIGHT
+#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+####################################################################################################
+
+python -m pip install --user --upgrade pip setuptools wheel
+
+python setup.py sdist bdist_wheel --dist-dir=target clean --all
+
+pip install target/nlearn-1.0.0.post128-py3-none-any.whl --force-reinstall --no-deps --upgrade

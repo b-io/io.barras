@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -12,30 +12,18 @@
 
 	<groupId>io.barras.neptune</groupId>
 	<artifactId>neptune</artifactId>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>Neptune</name>
-	<description>Utility library for Python</description>
+	<description>Utility libraries for Python</description>
 	<url>https://github.com/b-io/io.barras/tree/master/python/neptune</url>
 
-	<!-- Build Settings -->
-	<build>
-		<plugins>
-			<!-- Execute the installation -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-
-				<configuration>
-					<executable>sh</executable>
-					<!-- Optional -->
-					<workingDirectory>${basedir}</workingDirectory>
-
-					<arguments>
-						<argument>${basedir}/install</argument>
-					</arguments>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<!-- Project Settings -->
+	<modules>
+		<module>ngui</module>
+		<module>nlearn</module>
+		<module>nquant</module>
+		<module>nstats</module>
+		<module>nutil</module>
+	</modules>
 </project>
