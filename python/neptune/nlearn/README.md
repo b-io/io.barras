@@ -7,7 +7,7 @@ The library **nlearn** contains machine learning utility functions; among them:
 * regression models and
 * NLP models (including a handler for Global Vectors for Word Representation).
 
-NEPTUNE is based on popular libraries like pandas, plotly and scipy.
+NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ## Install
 

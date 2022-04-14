@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain common statistical utility functions
+#    <NAME> - contain common mathematical utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -21,20 +21,20 @@ from scipy import stats
 from nutil.math import *
 
 ####################################################################################################
-# STATS COMMON CONSTANTS
+# MATH COMMON CONSTANTS
 ####################################################################################################
 
-__STATS_COMMON_CONSTANTS__________________________ = ''
+__MATH_COMMON_CONSTANTS___________________________ = ''
 
 # The default confidence level
 if not exists('DEFAULT_CONFIDENCE_LEVEL'):
 	DEFAULT_CONFIDENCE_LEVEL = 0.95
 
 ####################################################################################################
-# STATS COMMON CLASSES
+# MATH COMMON CLASSES
 ####################################################################################################
 
-__STATS_COMMON_CLASSES____________________________ = ''
+__MATH_COMMON_CLASSES_____________________________ = ''
 
 
 class Distribution(ABC):
@@ -110,10 +110,10 @@ class Distribution(ABC):
 
 
 ####################################################################################################
-# STATS COMMON FUNCTIONS
+# MATH COMMON FUNCTIONS
 ####################################################################################################
 
-__STATS_COMMON____________________________________ = ''
+__MATH_COMMON_____________________________________ = ''
 
 
 def mode(*args, axis=0):

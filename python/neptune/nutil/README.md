@@ -6,7 +6,7 @@ The library **nutil** contains utility functions; among them:
 * handlers of main types (including array, dataframe, date/time, dictionary, list and string) and
 * database interface (including the CRUD and upsert operations).
 
-NEPTUNE is based on popular libraries like pandas, plotly and scipy.
+NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ## Install
 

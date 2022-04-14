@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain statistical utility functions for Poisson distributions
+#    <NAME> - contain mathematical utility functions for Poisson distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,8 +14,8 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nstats import normal
-from nstats.common import *
+from nmath import normal
+from nmath.common import *
 
 ####################################################################################################
 # POISSON CONSTANTS

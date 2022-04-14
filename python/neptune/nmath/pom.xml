@@ -10,12 +10,12 @@
 		<version>1.0.0</version>
 	</parent>
 
-	<artifactId>nstats</artifactId>
+	<artifactId>nmath</artifactId>
 	<packaging>jar</packaging>
 
-	<name>Stats</name>
-	<description>Statistical utility library</description>
-	<url>https://github.com/b-io/io.barras/tree/master/python/neptune/nstats</url>
+	<name>Math</name>
+	<description>Mathematical utility library</description>
+	<url>https://github.com/b-io/io.barras/tree/master/python/neptune/nmath</url>
 
 	<!-- Build Settings -->
 	<build>

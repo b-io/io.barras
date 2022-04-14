@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain statistical utility functions for descriptive statistics
+#    <NAME> - contain mathematical utility functions for descriptive statistics
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,7 +15,7 @@
 ####################################################################################################
 
 from ngui.chart import *
-from nstats.common import *
+from nmath.common import *
 
 ####################################################################################################
 # DESCRIPTIVE CONSTANTS

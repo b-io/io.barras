@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain statistical utility functions for log-normal distributions
+#    <NAME> - contain mathematical utility functions for log-normal distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,8 +14,8 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nstats import normal
-from nstats.common import *
+from nmath import normal
+from nmath.common import *
 
 ####################################################################################################
 # LOG-NORMAL CONSTANTS

@@ -1,11 +1,11 @@
 # ♆ NEPTUNE
 
 **NEPTUNE** is a set of **Python libraries** intended to facilitate Python development.
-The library **nstats** contains statistical utility functions; among them:
+The library **nmath** contains mathematical utility functions; among them:
 
 * wrappers around common statistical distributions (including normal, binomial and poisson).
 
-NEPTUNE is based on popular libraries like pandas, plotly and scipy.
+NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ## Install
 

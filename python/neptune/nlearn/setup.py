@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'nlearn'
-VERSION = '1.0.0.post128'
+VERSION = '1.0.0.post129'
 DESCRIPTION = 'Machine learning utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
@@ -38,7 +38,7 @@ LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nlearn'
 
 PACKAGES = [
-	'gensim', 'ngui', 'nstats', 'nutil', 'scikit-learn', 'scikit-lego', 'statsmodels', 'tensorflow'
+	'gensim', 'ngui', 'nmath', 'nutil', 'scikit-learn', 'scikit-lego', 'statsmodels', 'tensorflow'
 ]
 
 ####################################################################################################

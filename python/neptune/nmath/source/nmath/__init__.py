@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain statistical utility functions
+#    <NAME> - contain mathematical utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -17,25 +17,25 @@
 from nutil.common import *
 
 ####################################################################################################
-# STATS CONSTANTS
+# MATH CONSTANTS
 ####################################################################################################
 
-__STATS_CONSTANTS_________________________________ = ''
+__MATH_CONSTANTS__________________________________ = ''
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post128'
+__version__ = '1.0.0.post129'
 
 ##################################################
 
-NAME = 'nstats'
+NAME = 'nmath'
 VERSION = __version__
-DESCRIPTION = 'Statistical functions'
+DESCRIPTION = 'Mathematical functions'
 
 ####################################################################################################
-# STATS MAIN
+# MATH MAIN
 ####################################################################################################
 
-__STATS_MAIN______________________________________ = ''
+__MATH_MAIN_______________________________________ = ''
 
 
 def main():

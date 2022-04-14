@@ -6,7 +6,7 @@ The library **ngui** contains graphical utility functions; among them:
 * chart builders (including the choropleth map) and
 * HTML code generation (including the conversion of figures and images).
 
-NEPTUNE is based on popular libraries like pandas, plotly and scipy.
+NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ## Install
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain statistical utility functions for normal distributions
+#    <NAME> - contain mathematical utility functions for normal distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -16,7 +16,7 @@
 
 from scipy.special import ndtr
 
-from nstats.common import *
+from nmath.common import *
 
 ####################################################################################################
 # NORMAL CONSTANTS

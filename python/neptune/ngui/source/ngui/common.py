@@ -17,7 +17,7 @@
 import matplotlib.cm as mcm
 import matplotlib.colors as mcolors
 
-from nstats import normal
+from nmath import normal
 from nutil.math import *
 
 ####################################################################################################

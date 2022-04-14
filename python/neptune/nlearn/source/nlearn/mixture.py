@@ -19,7 +19,7 @@ from sklearn import mixture
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
 from ngui.chart import *
-from nstats.common import *
+from nmath.common import *
 
 ####################################################################################################
 # MIXTURE CONSTANTS

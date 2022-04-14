@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'ngui'
-VERSION = '1.0.0.post128'
+VERSION = '1.0.0.post129'
 DESCRIPTION = 'Graphical utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
@@ -38,7 +38,7 @@ LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/ngui'
 
 PACKAGES = [
-	'matplotlib', 'nstats', 'nutil', 'opencv-python', 'plotly', 'xhtml2pdf'
+	'matplotlib', 'nmath', 'nutil', 'opencv-python', 'plotly', 'xhtml2pdf'
 ]
 
 ####################################################################################################

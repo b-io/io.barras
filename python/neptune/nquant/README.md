@@ -6,7 +6,7 @@ The library **nquant** contains quantitative utility functions; among them:
 * time series manipulation and
 * pricing engine (including Black-Scholes model).
 
-NEPTUNE is based on popular libraries like pandas, plotly and scipy.
+NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ## Install
 

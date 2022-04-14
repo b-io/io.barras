@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the statistical utility library
+#    <NAME> - test the mathematical utility library
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,24 +14,24 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nstats import binomial, descriptive, lognormal, normal, poisson
-from nstats.common import *
+from nmath import binomial, descriptive, lognormal, normal, poisson
+from nmath.common import *
 from nutil.test import *
 
 ####################################################################################################
-# STATS TEST CONSTANTS
+# MATH TEST CONSTANTS
 ####################################################################################################
 
-__STATS_TEST_CONSTANTS____________________________ = ''
+__MATH_TEST_CONSTANTS_____________________________ = ''
 
 PRECISION = 14  # decimals
 SIZE = 1000
 
 ####################################################################################################
-# STATS TEST CLASSES
+# MATH TEST CLASSES
 ####################################################################################################
 
-__STATS_TEST_CLASSES______________________________ = ''
+__MATH_TEST_CLASSES_______________________________ = ''
 
 
 class TestStats(Test):
@@ -168,14 +168,14 @@ class TestStats(Test):
 
 
 ####################################################################################################
-# STATS TEST MAIN
+# MATH TEST MAIN
 ####################################################################################################
 
-__STATS_TEST_MAIN_________________________________ = ''
+__MATH_TEST_MAIN__________________________________ = ''
 
 
 def main():
-	'''Tests the statistical utility library.'''
+	'''Tests the mathematical utility library.'''
 	unittest.main()
 
 

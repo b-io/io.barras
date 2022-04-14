@@ -24,9 +24,9 @@ from setuptools import find_packages, setup
 
 __SETUP_CONSTANTS_________________________________ = ''
 
-NAME = 'nstats'
-VERSION = '1.0.0.post128'
-DESCRIPTION = 'Statistical utility library'
+NAME = 'nmath'
+VERSION = '1.0.0.post129'
+DESCRIPTION = 'Mathematical utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
 	LONG_DESCRIPTION = f.read()
@@ -35,7 +35,7 @@ AUTHOR = 'Florian Barras'
 AUTHOR_EMAIL = 'florian@barras.io'
 LICENSE = 'MIT'
 LICENSE_FILES = ['LICENSE']
-URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nstats'
+URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nmath'
 
 PACKAGES = [
 	'ngui', 'nutil', 'scipy'
@@ -130,6 +130,7 @@ setup(
 
 	# The project keywords.
 	keywords=[
+		'mathematics',
 		'statistics',
 		'utilities'
 	],  # Optional
@@ -154,7 +155,7 @@ setup(
 	#
 	# Note that the users will be able to install these additional dependencies using the "extras"
 	# syntax as follows:
-	#   $ pip install nstats[dev]
+	#   $ pip install nmath[dev]
 	extras_require={  # Optional
 		'dev': ['check-manifest'],
 		'test': ['coverage']
@@ -179,7 +180,7 @@ setup(
 	# appropriate form of executable for the target platform.
 	entry_points={  # Optional
 		'console_scripts': [
-			'main=nstats:main'
+			'main=nmath:main'
 		],
 	},
 
