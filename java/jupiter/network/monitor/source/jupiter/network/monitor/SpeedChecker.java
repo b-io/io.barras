@@ -57,8 +57,8 @@ import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
 import jupiter.common.util.Collections;
 import jupiter.common.util.Strings;
-import jupiter.graphics.charts.Charts;
-import jupiter.graphics.charts.TimeSeriesGraphic;
+import jupiter.gui.chart.Charts;
+import jupiter.gui.chart.TimeSeriesGraphic;
 
 public class SpeedChecker {
 

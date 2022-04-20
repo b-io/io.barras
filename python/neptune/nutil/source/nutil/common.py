@@ -31,13 +31,13 @@ import struct
 import sys
 import warnings
 from calendar import monthrange
-from collections import Iterable, MutableSet, OrderedDict, Sequence, Set
 from concurrent.futures import ThreadPoolExecutor
 from datetime import *
 from distutils.util import *
 from enum import Enum
 from io import StringIO
 from pstats import SortKey
+from typing import Iterable, MutableSet, OrderedDict, Sequence
 from urllib.request import urlopen
 
 import javaproperties as prop
@@ -215,20 +215,44 @@ class OrderedSet(MutableSet, Sequence):
 
 __COMMON_CONSTANTS________________________________ = ''
 
-BIT_COUNT = 8 * struct.calcsize('P')
-BOOL_TYPE = np.bool8
-FLOAT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
-INT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
-UINT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
-
 OBJECT_TYPE = object
-STRING_TYPE = np.str_  # np.string_
 
 #########################
+
+ITERABLE_TYPE = Iterable
+
+SEQUENCE_TYPE = Sequence
+
+TUPLE_TYPE = tuple
+
+##################################################
+
+BIT_COUNT = 8 * struct.calcsize('P')
 
 CORE_COUNT = mp.cpu_count()
 
 NA_NAME = 'N/A'
+
+# • ARRAY ##########################################################################################
+
+__ARRAY_CONSTANTS_________________________________ = ''
+
+ARRAY_TYPE = np.ndarray
+
+# • DATAFRAME ######################################################################################
+
+__DATAFRAME_CONSTANTS_____________________________ = ''
+
+SERIES_TYPE = pd.Series
+SERIES_GROUP_TYPE = pd.core.groupby.generic.SeriesGroupBy
+
+FRAME_TYPE = pd.DataFrame
+FRAME_GROUP_TYPE = pd.core.groupby.generic.DataFrameGroupBy
+
+#########################
+
+INDEX_TYPE = pd.Index
+TIME_INDEX_TYPE = pd.DatetimeIndex
 
 # • DATE ###########################################################################################
 
@@ -268,6 +292,14 @@ DEFAULT_GROUP = Group.LAST
 
 # The default period
 DEFAULT_PERIOD = '1' + Frequency.YEARS.value
+
+##################################################
+
+DATE_TYPE = date
+
+DATE_TIME_TYPE = datetime
+
+TIMESTAMP_TYPE = pd.Timestamp
 
 ##################################################
 
@@ -341,6 +373,12 @@ DAY_COUNT_FREQUENCY = {FREQUENCY_DAY_COUNT[k]: k for k in FREQUENCY_DAY_COUNT}
 MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
 WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
+# • DICT ###########################################################################################
+
+__DICT_CONSTANTS__________________________________ = ''
+
+DICT_TYPE = dict
+
 # • FILE ###########################################################################################
 
 __FILE_CONSTANTS__________________________________ = ''
@@ -351,6 +389,12 @@ DEFAULT_ROOT = None
 # The default resources directory
 DEFAULT_RES_DIR = 'resources'
 
+# • LIST ###########################################################################################
+
+__LIST_CONSTANTS__________________________________ = ''
+
+LIST_TYPE = list
+
 # • NUMBER #########################################################################################
 
 __NUMBER_CONSTANTS________________________________ = ''
@@ -359,13 +403,49 @@ DEFAULT_MAX_DECIMALS = 8
 
 ##################################################
 
+NUMBER_TYPE = numbers.Number
+
+#########################
+
+BOOL_TYPE = bool
+BOOL_ELEMENT_TYPE = np.bool8
+
+FLOAT_TYPE = float
+FLOAT_ELEMENT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
+
+INT_TYPE = int
+INT_ELEMENT_TYPE = np.int32 if BIT_COUNT == 32 else np.int64 if BIT_COUNT == 64 else None
+
+LONG_TYPE = int
+LONG_ELEMENT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 64 else None
+
+SHORT_TYPE = int
+SHORT_ELEMENT_TYPE = np.uint8
+
+##################################################
+
 EPS = np.finfo(FLOAT_TYPE).eps
 INF = np.inf
 NAN = np.nan
 
+# • SET ############################################################################################
+
+__SET_CONSTANTS___________________________________ = ''
+
+SET_TYPE = set
+
+MUTABLE_SET_TYPE = MutableSet
+
+ORDERED_SET_TYPE = OrderedSet
+
 # • STRING #########################################################################################
 
 __STRING_CONSTANTS________________________________ = ''
+
+STRING_TYPE = str
+STRING_ELEMENT_TYPE = np.str_  # np.string_
+
+##################################################
 
 NEWLINE = '\n'
 
@@ -381,11 +461,11 @@ __COMMON_VERIFIERS________________________________ = ''
 
 
 def is_iterable(x):
-	return isinstance(x, Iterable)
+	return isinstance(x, ITERABLE_TYPE)
 
 
 def is_sequence(x):
-	return isinstance(x, Sequence)
+	return isinstance(x, SEQUENCE_TYPE)
 
 
 def is_subscriptable(x):
@@ -393,7 +473,7 @@ def is_subscriptable(x):
 
 
 def is_tuple(x):
-	return isinstance(x, tuple)
+	return isinstance(x, TUPLE_TYPE)
 
 
 #########################
@@ -471,7 +551,7 @@ __ARRAY_VERIFIERS_________________________________ = ''
 
 
 def is_array(x):
-	return isinstance(x, np.ndarray)
+	return isinstance(x, ARRAY_TYPE)
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -513,16 +593,15 @@ def is_table(x):
 
 
 def is_series(x):
-	return isinstance(x, pd.Series) or isinstance(x, pd.core.groupby.generic.SeriesGroupBy)
+	return isinstance(x, SERIES_TYPE) or isinstance(x, SERIES_GROUP_TYPE)
 
 
 def is_frame(x):
-	return isinstance(x, pd.DataFrame) or isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+	return isinstance(x, FRAME_TYPE) or isinstance(x, FRAME_GROUP_TYPE)
 
 
 def is_group(x):
-	return isinstance(x, pd.core.groupby.generic.SeriesGroupBy) or \
-	       isinstance(x, pd.core.groupby.generic.DataFrameGroupBy)
+	return isinstance(x, SERIES_GROUP_TYPE) or isinstance(x, FRAME_GROUP_TYPE)
 
 
 #########################
@@ -534,11 +613,11 @@ def is_time_series(x):
 #########################
 
 def is_index(x):
-	return isinstance(x, pd.Index)
+	return isinstance(x, INDEX_TYPE)
 
 
 def is_time_index(x):
-	return isinstance(x, pd.DatetimeIndex)
+	return isinstance(x, TIME_INDEX_TYPE)
 
 
 # • DATE ###########################################################################################
@@ -547,15 +626,15 @@ __DATE_VERIFIERS__________________________________ = ''
 
 
 def is_date(x):
-	return isinstance(x, date)
+	return isinstance(x, DATE_TYPE)
 
 
 def is_datetime(x):
-	return isinstance(x, datetime)
+	return isinstance(x, DATE_TIME_TYPE)
 
 
 def is_timestamp(x):
-	return isinstance(x, pd.Timestamp)
+	return isinstance(x, TIMESTAMP_TYPE)
 
 
 def is_stamp(x):
@@ -576,7 +655,7 @@ __DICT_VERIFIERS__________________________________ = ''
 
 
 def is_dict(x):
-	return isinstance(x, dict)
+	return isinstance(x, DICT_TYPE)
 
 
 # • FILE ###########################################################################################
@@ -604,7 +683,7 @@ __LIST_VERIFIERS__________________________________ = ''
 
 
 def is_list(x):
-	return isinstance(x, list)
+	return isinstance(x, LIST_TYPE)
 
 
 # • NUMBER #########################################################################################
@@ -619,22 +698,30 @@ def is_nan(x):
 #########################
 
 def is_number(x):
-	return isinstance(x, numbers.Number)
+	return isinstance(x, NUMBER_TYPE)
 
 
 def is_bool(x):
-	return isinstance(x, bool)
-
-
-def is_int(x):
-	return isinstance(x, int)
+	return isinstance(x, BOOL_TYPE) or isinstance(x, BOOL_ELEMENT_TYPE)
 
 
 def is_float(x):
-	return isinstance(x, float)
+	return isinstance(x, FLOAT_TYPE) or isinstance(x, FLOAT_ELEMENT_TYPE)
 
 
-#########################
+def is_int(x):
+	return isinstance(x, INT_TYPE) or isinstance(x, INT_ELEMENT_TYPE)
+
+
+def is_long(x):
+	return isinstance(x, LONG_TYPE) or isinstance(x, LONG_ELEMENT_TYPE)
+
+
+def is_short(x):
+	return isinstance(x, SHORT_TYPE) or isinstance(x, SHORT_ELEMENT_TYPE)
+
+
+##################################################
 
 def equals(x, y):
 	return is_null(x) and is_null(y) or x == y
@@ -646,11 +733,15 @@ __SET_VERIFIERS___________________________________ = ''
 
 
 def is_set(x):
-	return isinstance(x, Set)
+	return isinstance(x, SET_TYPE)
+
+
+def is_mutable_set(x):
+	return isinstance(x, MUTABLE_SET_TYPE)
 
 
 def is_ordered_set(x):
-	return isinstance(x, OrderedSet)
+	return isinstance(x, ORDERED_SET_TYPE)
 
 
 # • STRING #########################################################################################
@@ -659,7 +750,7 @@ __STRING_VERIFIERS________________________________ = ''
 
 
 def is_string(x):
-	return isinstance(x, str)
+	return isinstance(x, STRING_TYPE) or isinstance(x, STRING_ELEMENT_TYPE)
 
 
 ####################################################################################################
@@ -2248,7 +2339,7 @@ def to_series(data, name=None, index=None, type=None):
 	return series
 
 
-def to_time_series(data, name=None, index=None, type=FLOAT_TYPE):
+def to_time_series(data, name=None, index=None, type=FLOAT_ELEMENT_TYPE):
 	'''Converts the specified collection to a time series.'''
 	if not is_null(index):
 		index = to_timestamp(to_array(index))
@@ -2281,7 +2372,7 @@ def to_frame(data, names=None, index=None, type=None):
 	return frame
 
 
-def to_time_frame(data, names=None, index=None, type=FLOAT_TYPE):
+def to_time_frame(data, names=None, index=None, type=FLOAT_ELEMENT_TYPE):
 	'''Converts the specified collection to a time frame.'''
 	if not is_null(index):
 		index = to_timestamp(to_array(index))
@@ -2624,7 +2715,7 @@ def create_mask(c, *args, condition=lambda x, *args, **kwargs: True, fill=True,
                 **kwargs):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
-	mask = collection_to_type(create_array(c, fill=fill, type=BOOL_TYPE), c)
+	mask = collection_to_type(create_array(c, fill=fill, type=BOOL_ELEMENT_TYPE), c)
 	values = apply(c, condition, *args, keys=keys, **kwargs)
 	set_values(mask, values, keys=keys)
 	return mask
@@ -2694,7 +2785,7 @@ def create_sequence(start=0, stop=0, step=1, include=False, size=None):
 	if start == stop:
 		if include:
 			return start
-		return to_array(type=INT_TYPE)
+		return to_array(type=INT_ELEMENT_TYPE)
 	elif start > stop:
 		start, stop = stop, start
 	if not is_null(size):
@@ -2808,7 +2899,7 @@ def reduce_and(x,
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one).'''
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x, type=BOOL_TYPE)
+		return to_array(x, type=BOOL_ELEMENT_TYPE)
 	return np.logical_and.reduce(x, axis=axis)
 
 
@@ -2818,7 +2909,7 @@ def reduce_or(x,
 	cumulatively along the specified axis (over the rows or columns if the specified axis is
 	respectively zero or one).'''
 	if axis == 1 and count_cols(x) == 0:
-		return to_array(x, type=BOOL_TYPE)
+		return to_array(x, type=BOOL_ELEMENT_TYPE)
 	return np.logical_or.reduce(x, axis=axis)
 
 

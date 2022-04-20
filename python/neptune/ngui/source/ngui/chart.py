@@ -17,6 +17,7 @@
 import io
 
 import matplotlib.figure as mfigure
+import matplotlib.pyplot as mplot
 import matplotlib.ticker as mticker
 import plotly.express as px
 import plotly.graph_objs as go

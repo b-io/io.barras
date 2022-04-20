@@ -40,7 +40,7 @@ def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, s
 
 def buffer_to_image(buffer):
 	'''Converts the specified image buffer to an image.'''
-	image = np.frombuffer(buffer, dtype=np.uint8)
+	image = np.frombuffer(buffer, dtype=SHORT_ELEMENT_TYPE)
 	return cv2.imdecode(image, flags=cv2.IMREAD_UNCHANGED)
 
 

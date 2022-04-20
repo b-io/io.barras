@@ -20,10 +20,10 @@
 
 	<!-- Project Settings -->
 	<modules>
+		<module>nfin</module>
 		<module>ngui</module>
 		<module>nlearn</module>
 		<module>nmath</module>
-		<module>nquant</module>
 		<module>nutil</module>
 	</modules>
 </project>

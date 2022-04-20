@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>io.barras.jupiter</groupId>
+		<artifactId>gui</artifactId>
+		<version>1.6.0</version>
+	</parent>
+
+	<artifactId>chart</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Chart</name>
+	<description>Chart</description>
+	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/gui/chart</url>
+
+	<properties>
+		<!-- JFree -->
+		<jfree.chart.version>1.5.0</jfree.chart.version>
+	</properties>
+
+	<!-- Project Settings -->
+	<dependencies>
+		<!-- JFree -->
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>${jfree.chart.version}</version>
+		</dependency>
+
+		<!-- Jupiter -->
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>analysis</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.jupiter</groupId>
+			<artifactId>swing</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

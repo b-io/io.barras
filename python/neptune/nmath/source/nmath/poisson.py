@@ -149,4 +149,4 @@ def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL):
 	cl = 0.5 + cl / 2
 	return to_array(chi2(2 * k, cl=cl, tail=-1) / 2,
 	                chi2(2 * k + 2, cl=cl, tail=1) / 2,
-	                type=FLOAT_TYPE)
+	                type=FLOAT_ELEMENT_TYPE)

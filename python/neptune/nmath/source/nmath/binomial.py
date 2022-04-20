@@ -153,4 +153,4 @@ def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL, n=1):
 	cl = 0.5 + cl / 2
 	return to_array(1 / (1 + (n - k + 1) / (k * f(2 * k, 2 * (n - k + 1), cl=cl, tail=-1))),
 	                1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), cl=cl, tail=1))),
-	                type=FLOAT_TYPE)
+	                type=FLOAT_ELEMENT_TYPE)

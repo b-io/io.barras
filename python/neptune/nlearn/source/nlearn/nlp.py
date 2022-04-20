@@ -80,7 +80,7 @@ class GloVe:
 		:return: an array of vocabulary word indices of shape (m x max_word_count) and the set of
 		         unknown words
 		'''
-		indices = np.zeros((len(sentences), max_word_count), dtype=INT_TYPE)
+		indices = np.zeros((len(sentences), max_word_count), dtype=INT_ELEMENT_TYPE)
 		unknown_words = set()
 		for i, sentence in enumerate(sentences):
 			sentence_words = tokenize(sentence, lowercase=True)
@@ -103,7 +103,7 @@ class GloVe:
 		# Initialize the embedding matrix
 		vocabulary_size = len(self.vocabulary) + 1  # add 1 to fit Keras embedding (requirement)
 		embedding_size = self.get_size()
-		embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_TYPE)
+		embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_ELEMENT_TYPE)
 
 		# Set every row of the embedding matrix to be the word vector of the ith vocabulary word
 		for i, word in self.index_to_word.items():
@@ -135,7 +135,7 @@ class GloVe:
 		         the input sentence indices to the estimated output classes
 		'''
 		# Create the input (sentence indices)
-		sentence_indices = Input(shape=(max_word_count,), dtype=INT_TYPE)
+		sentence_indices = Input(shape=(max_word_count,), dtype=INT_ELEMENT_TYPE)
 
 		# Propagate the input through an embedding layer created using the pre-trained word vectors
 		embeddings = self.create_embedding_layer()(sentence_indices)
@@ -180,7 +180,7 @@ class GloVe:
 					      'from', i + 1, 'to', i + verbose_interval, '...')
 				word = paste(line[:-size])
 				self.vocabulary.append(word)
-				self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_TYPE)
+				self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_ELEMENT_TYPE)
 				i += 1
 		# Create the dictionary mapping every vocabulary word to its index, and vice versa
 		sort(self.vocabulary, inplace=True)
