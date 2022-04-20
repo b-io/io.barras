@@ -22,7 +22,6 @@
 	<modules>
 		<module>common</module>
 		<module>execution</module>
-		<module>graphics</module>
 		<module>gui</module>
 		<module>hardware</module>
 		<module>lang</module>
