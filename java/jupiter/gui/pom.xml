@@ -19,6 +19,7 @@
 
 	<!-- Project Settings -->
 	<modules>
+		<module>chart</module>
 		<module>console</module>
 		<module>swing</module>
 	</modules>

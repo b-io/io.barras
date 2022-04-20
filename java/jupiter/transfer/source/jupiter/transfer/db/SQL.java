@@ -211,7 +211,7 @@ public class SQL {
 		// Check the arguments
 		Arguments.requireNonNull(statement, "statement");
 		if (type == Types.NULL) {
-			Arguments.requireNonNull(value, Strings.nth(index) + " parameter value");
+			Arguments.requireNonNull(value, Integers.formatNth(index) + " parameter value");
 		}
 
 		// Set the parameter of the SQL statement at the index
