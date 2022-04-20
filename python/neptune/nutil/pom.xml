@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>Util</name>
-	<description>Utility library</description>
+	<description>Utility library for Python</description>
 	<url>https://github.com/b-io/io.barras/tree/master/python/neptune/nutil</url>
 
 	<!-- Build Settings -->

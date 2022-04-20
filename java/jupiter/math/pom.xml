@@ -14,7 +14,7 @@
 	<packaging>pom</packaging>
 
 	<name>Math</name>
-	<description>Mathematical libraries</description>
+	<description>Mathematical functions</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/math</url>
 
 	<!-- Project Settings -->
