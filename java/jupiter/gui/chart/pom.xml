@@ -14,7 +14,7 @@
 	<packaging>jar</packaging>
 
 	<name>Chart</name>
-	<description>Chart</description>
+	<description>Chart handlers</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/gui/chart</url>
 
 	<properties>
