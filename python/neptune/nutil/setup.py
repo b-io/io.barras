@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'nutil'
-VERSION = '1.0.0.post130'
+VERSION = '1.0.0.post131'
 DESCRIPTION = 'Utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
@@ -38,8 +38,8 @@ LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nutil'
 
 PACKAGES = [
-	'javaproperties', 'numpy', 'pandas', 'psutil', 'python-dateutil', 'requests', 'sqlalchemy',
-	'validators'
+	'javaproperties', 'multiprocess', 'numpy', 'pandas', 'psutil', 'python-dateutil', 'requests',
+	'sqlalchemy', 'validators'
 ]
 
 ####################################################################################################
