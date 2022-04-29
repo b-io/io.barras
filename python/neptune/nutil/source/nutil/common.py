@@ -46,6 +46,7 @@ import pandas as pd
 import validators
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
+from multiprocess.pool import Pool
 from pandas.api.types import is_numeric_dtype
 
 ####################################################################################################
@@ -229,7 +230,7 @@ TUPLE_TYPE = tuple
 
 BIT_COUNT = 8 * struct.calcsize('P')
 
-CORE_COUNT = mp.cpu_count()
+CORE_COUNT = mp.cpu_count() or 1
 
 NA_NAME = 'N/A'
 
@@ -4833,25 +4834,48 @@ def cbra(content):
 __THREAD_PROCESSORS_______________________________ = ''
 
 
-def parallelize(c, f, *args, timeout=None, **kwargs):
-	return parallelize_chunk(c, lambda x: apply(x, f, *args, **kwargs), timeout=timeout)
+def multithread(c, f, *args, asynchronous=False, max_workers=CORE_COUNT, timeout=None, **kwargs):
+	return multithread_map(c, lambda x: apply(x, f, *args, **kwargs), asynchronous=asynchronous,
+	                       max_workers=max_workers, timeout=timeout)
 
 
-def parallelize_chunk(c, f, *args, timeout=None, **kwargs):
-	results = []
-	if is_empty(c) or not is_subscriptable_collection(c):
-		return results
-	with ThreadPoolExecutor(max_workers=CORE_COUNT) as executor:
-		futures = []
-		# Submit the tasks
-		chunk_size = ceil(len(c) / CORE_COUNT)
-		for i, index_from in enumerate(range(0, len(c), chunk_size)):
-			index_to = min(index_from + chunk_size, len(c))
-			trace(str(i + 1) + '/' + str(CORE_COUNT), 'Apply the function', quote(f.__name__),
-			      'to the slice from', index_from, 'to', index_to, 'of the collection')
-			futures.append(executor.submit(f, slice(c, index_from=index_from, index_to=index_to),
-			                               *args, **kwargs))
-		# Collect the results
-		for future in futures:
-			results += future.result(timeout=timeout)
-	return results
+def multithread_map(c, f, asynchronous=False, max_workers=CORE_COUNT, timeout=None):
+	if is_empty(c) or not is_collection(c):
+		return []
+	max_workers = min(max_workers, len(c))
+	trace('Apply the function', quote(f.__name__), 'to the collection of size', len(c),
+	      '(multithreading)')
+	with ThreadPoolExecutor(max_workers=max_workers) as executor:
+		# Submit the tasks and collect the results
+		results = executor.map(f, c, timeout=timeout)
+		if asynchronous:
+			return results
+		return to_list(results)
+
+
+def multiprocess(c, f, *args, asynchronous=False, chunk_size=None, max_workers=CORE_COUNT,
+                 timeout=None,
+                 callback=None, error_callback=None,
+                 **kwargs):
+	return multiprocess_map(c, lambda x: apply(x, f, *args, **kwargs), asynchronous=asynchronous,
+	                        chunk_size=chunk_size, max_workers=max_workers, timeout=timeout,
+	                        callback=callback, error_callback=error_callback)
+
+
+def multiprocess_map(c, f, asynchronous=False, chunk_size=None, max_workers=CORE_COUNT,
+                     timeout=None,
+                     callback=None, error_callback=None):
+	if is_empty(c) or not is_collection(c):
+		return []
+	max_workers = min(max_workers, len(c))
+	if is_null(chunk_size):
+		chunk_size = ceil(len(c) / max_workers)
+	trace('Apply the function', quote(f.__name__), 'to the collection of size', len(c),
+	      '(multiprocessing)')
+	with Pool(processes=max_workers) as executor:
+		# Submit the tasks and collect the results
+		results = executor.map_async(f, c, chunksize=chunk_size,
+		                             callback=callback, error_callback=error_callback)
+		if asynchronous:
+			return results
+		return results.get(timeout=timeout)
