@@ -76,8 +76,11 @@ class TestCommon(Test):
 
 	def test(self):
 		# Initialize the collections
-		d1 = to_dict(reverse(range(50)))
-		d2 = to_dict(np.random.randint(0, 100, size=100))
+		l1 = to_list(reverse(range(100)))
+		l2 = to_list(np.random.randint(0, 100, size=100))
+
+		d1 = to_dict(l1)
+		d2 = to_dict(l2)
 
 		s1 = to_series(d1, name='a')
 		s2 = to_series(d2, name='b')
@@ -90,10 +93,21 @@ class TestCommon(Test):
 		g1 = df.groupby(by={k: 'group' for k in get_keys(df)}, axis=1)
 
 		a = to_array(df)
-		a1 = to_array(df1)
-		a2 = to_array(df2)
 
 		f = np.sum
+
+		test('Test the list functions')
+		self.get_items(l1)
+		self.get_rows(l1)
+		self.get_cols(l1)
+
+		self.apply(l1, f)
+		self.apply(l1, f, axis=0)
+		self.apply(l1, f, axis=1)
+		self.apply(l1.copy(), f, inplace=True)
+
+		self.tally(l1, [33, 66])
+		self.tally(l2, [33, 66])
 
 		test('Test the array functions')
 		self.get_items(a)
@@ -106,6 +120,8 @@ class TestCommon(Test):
 		self.apply(a.copy(), f, inplace=True)
 
 		self.assert_equals(a, df, assert_order=True)
+
+		self.tally(a, [33, 66])
 
 		test('Test the dictionary functions')
 		self.get_items(d1)
@@ -128,6 +144,9 @@ class TestCommon(Test):
 		self.assert_equals(update(s1.copy(), s2), take(s2, s1))
 		self.assert_equals(upsert(s1.copy(), s2), s2)
 
+		self.tally(s1, [33, 66])
+		self.tally(s2, [33, 66])
+
 		test('Test the frame functions')
 		self.get_items(df)
 		self.get_rows(df)
@@ -141,6 +160,9 @@ class TestCommon(Test):
 		self.assert_equals(update(df1.copy(), df2), df1)
 		self.assert_equals(upsert(df1.copy(), df2), df)
 
+		self.tally(df1, [33, 66])
+		self.tally(df2, [33, 66])
+
 		test('Test the group functions')
 		self.get_items(g0)
 		self.get_items(g1)
@@ -148,10 +170,9 @@ class TestCommon(Test):
 		self.apply(g0, f)
 		self.apply(g1, f)
 
-	def apply(self, c, f, axis=None, inplace=False):
-		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
-		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in',
-		     round(t), '[s]')
+		self.tally(g0, [33, 66])
+
+	##############################################
 
 	def get_items(self, c):
 		t = timeit.timeit(stmt=lambda: get_items(c, inclusion=range(len(c)),
@@ -166,6 +187,17 @@ class TestCommon(Test):
 	def get_cols(self, c):
 		t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
 		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', round(t), '[s]')
+
+	##############################################
+
+	def apply(self, c, f, axis=None, inplace=False):
+		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
+		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in',
+		     round(t), '[s]')
+
+	def tally(self, c, boundaries):
+		t = timeit.timeit(stmt=lambda: tally(c, boundaries), number=TEST_COUNT)
+		test(count(c, axis=None), 'elements tallied', TEST_COUNT, 'times in', round(t), '[s]')
 
 
 ####################################################################################################

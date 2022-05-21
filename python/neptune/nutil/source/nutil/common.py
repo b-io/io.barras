@@ -564,12 +564,20 @@ def is_collection(x):
 	return is_iterable(x) and not is_string(x) and not is_tuple(x)
 
 
+#########################
+
 def is_indexed_collection(x):
 	return is_collection(x) and has_index(x)
 
 
 def is_subscriptable_collection(x):
 	return is_collection(x) and is_subscriptable(x)
+
+
+#########################
+
+def is_multidimensional_collection(x):
+	return is_table(x) or is_array(x)
 
 
 ##################################################
@@ -1049,7 +1057,7 @@ def get(c, index=0,
 		return c
 	if is_null(axis):
 		return simplify(flatten(c, axis=axis)[index])
-	if is_table(c) or is_array(c):
+	if is_multidimensional_collection(c):
 		if axis == 0:
 			return simplify(get_row(c, index))
 		return simplify(get_col(c, index))
@@ -1085,7 +1093,7 @@ def get_next(c):
 def get_shape(c,
               keys=None, inclusion=None, exclusion=None):
 	c = filter(c, keys=keys, inclusion=inclusion, exclusion=exclusion)
-	if is_table(c) or is_array(c):
+	if is_multidimensional_collection(c):
 		return c.shape
 	elif is_tuple(c):
 		return c
@@ -1211,7 +1219,7 @@ def get_index(c,
 	'''Returns the index (indices/keys/index) of the specified collection that are in the
 	specified inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
-		c = c.groups if c.axis == 0 else c.obj
+		c = c.obj if c.axis == 1 else c.groups
 	if is_table(inclusion):
 		inclusion = get_index(inclusion)
 	if is_table(exclusion):
@@ -1382,7 +1390,7 @@ def set_index(c, new_index):
 	'''Sets the index (indices/keys/index) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
-		c = c.groups if c.axis == 0 else c.obj
+		c = c.obj if c.axis == 1 else c.groups
 	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
 	if is_table(new_index):
@@ -1420,17 +1428,18 @@ def set_values(c, new_values, mask=None,
 	if is_collection(new_values):
 		new_values = get_values(new_values)
 	else:
-		new_values = create_array(get_shape(c, keys=keys), fill=new_values)
-	if is_empty(new_values):
-		return c
+		if not is_multidimensional_collection(c) or is_null(mask):
+			new_values = create_array(get_shape(c, keys=keys), fill=new_values)
 	if not is_null(mask):
-		if is_table(c) or is_array(c):
+		if is_multidimensional_collection(c):
 			c[mask] = new_values
 		else:
 			for i, k in enumerate(keys):
 				if mask[i]:
-					c[k] = new_values
+					c[k] = new_values[i]
 	else:
+		if is_empty(new_values):
+			return c
 		if is_frame(c):
 			chained_assignment = pd.options.mode.chained_assignment
 			pd.options.mode.chained_assignment = None
@@ -1444,8 +1453,8 @@ def set_values(c, new_values, mask=None,
 		elif is_array(c):
 			c[keys] = new_values
 		else:
-			for i in range(len(keys)):
-				c[keys[i]] = new_values[i]
+			for i, k in enumerate(keys):
+				c[k] = new_values[i]
 	return c
 
 
@@ -2534,7 +2543,9 @@ def to_bool(x):
 		return NAN
 	elif is_collection(x):
 		return apply(x, to_bool)
-	return strtobool(str(x))
+	elif is_string(x):
+		return bool(strtobool(x))
+	return bool(x)
 
 
 def to_int(x):
@@ -2829,6 +2840,8 @@ def apply(x, f, *args, inplace=False,
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments.'''
 	if is_subscriptable_collection(x):
+		if is_empty(x):
+			return x
 		if is_null(keys):
 			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
 		if inplace:
