@@ -3579,38 +3579,53 @@ def sum(*args,
 
 #########################
 
-def insert_all(*args):
-	return reduce(insert, *args)
+def insert_all(*args, copy=False, ignore_index=False, sort=False, verify_integrity=False,
+               keys=None, inclusion=None, exclusion=None):
+	return reduce(insert, *args, copy=copy, ignore_index=ignore_index, sort=sort,
+	              verify_integrity=verify_integrity,
+	              keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def insert(c1, c2,
+def insert(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=False,
            keys=None, inclusion=None, exclusion=None):
 	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
 	list, or indices are different.'''
 	# - Insert the rows
-	insert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	c1 = insert_rows(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
+	                 verify_integrity=verify_integrity,
+	                 keys=keys, inclusion=inclusion, exclusion=exclusion)
 	# - Insert the columns
 	return insert_cols(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def insert_rows(c1, c2,
+def insert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=False,
                 keys=None, inclusion=None, exclusion=None):
-	'''Inserts the specified second collection into the first collection by inserting the values
+	'''Inserts the specified second collection into the first collection by inserting the rows
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
 	list, are identical and indices are different.'''
-	if is_table(c2) or is_dict(c2):
-		c2 = exclude_index(c2, c1)
-	return upsert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
+	if not is_table(c1) and not is_dict(c1):
+		return c1
+	c2 = exclude_index(c2, c1)
+	if is_null(keys):
+		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	if is_table(c1):
+		c1 = concat_rows(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
+		                 verify_integrity=verify_integrity)
+	else:
+		c1.update(c2)
+	return c1
 
 
 def insert_cols(c1, c2,
                 keys=None, inclusion=None, exclusion=None):
-	'''Inserts the specified second collection into the first collection by inserting the values
+	'''Inserts the specified second collection into the first collection by inserting the columns
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
 	list, are different.'''
 	if not is_table(c1) and not is_dict(c1):
 		return c1
+	c2 = include_index(c2, c1)
 	if is_null(keys):
 		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -3889,34 +3904,6 @@ def update(c1, c2,
 	# - Update the rows
 	if is_table(c2) or is_dict(c2):
 		c2 = include_index(c2, c1)
-	return upsert_rows(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion)
-
-
-#########################
-
-def upsert_all(*args,
-               keys=None, inclusion=None, exclusion=None):
-	return reduce(lambda c1, c2: upsert(c1, c2,
-	                                    keys=keys, inclusion=inclusion, exclusion=exclusion),
-	              *args)
-
-
-def upsert(c1, c2,
-           keys=None, inclusion=None, exclusion=None):
-	'''Upserts the specified first collection with the specified second collection by updating or
-	inserting the values whose keys are in the specified inclusive list and are not in the specified
-	exclusive list.'''
-	if is_null(keys):
-		keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
-	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
-	return insert(update(c1, c2), c2)
-
-
-def upsert_rows(c1, c2,
-                keys=None, inclusion=None, exclusion=None):
-	'''Upserts the specified first collection with the specified second collection by updating or
-	inserting the values whose keys, which are in the specified inclusive list and are not in the
-	specified exclusive list, are identical.'''
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -3929,6 +3916,40 @@ def upsert_rows(c1, c2,
 		for k in keys:
 			c1[k] = c2[k]
 	return c1
+
+
+#########################
+
+def upsert_all(*args, copy=False, ignore_index=False, sort=False, verify_integrity=False,
+               keys=None, inclusion=None, exclusion=None):
+	return reduce(lambda c1, c2: upsert(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
+	                                    verify_integrity=verify_integrity,
+	                                    keys=keys, inclusion=inclusion, exclusion=exclusion),
+	              *args)
+
+
+def upsert(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=False,
+           keys=None, inclusion=None, exclusion=None):
+	'''Upserts the specified first collection with the specified second collection by updating or
+	inserting the values whose keys are in the specified inclusive list and are not in the specified
+	exclusive list.'''
+	if is_null(keys):
+		keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	return insert(update(c1, c2), c2, copy=copy, ignore_index=ignore_index, sort=sort,
+	              verify_integrity=verify_integrity)
+
+
+def upsert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=False,
+                keys=None, inclusion=None, exclusion=None):
+	'''Upserts the specified first collection with the specified second collection by updating or
+	inserting the rows whose keys, which are in the specified inclusive list and are not in the
+	specified exclusive list, are identical.'''
+	if is_null(keys):
+		keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
+	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+	return insert_rows(update(c1, c2), c2, copy=copy, ignore_index=ignore_index, sort=sort,
+	                   verify_integrity=verify_integrity)
 
 
 #########################
@@ -4024,23 +4045,25 @@ def combine(left, right, f):
 
 #########################
 
-def concat_rows(*rows):
+def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified rows to a dataframe.'''
 	rows = remove_empty(to_collection(*rows))
 	if is_empty(rows):
 		return to_series(rows)
-	df = pd.concat([to_frame(row) for row in rows], axis=0)
+	df = pd.concat([to_frame(row) for row in rows], axis=0, copy=copy, ignore_index=ignore_index,
+	               sort=sort, verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
 		return to_series(df)
 	return df
 
 
-def concat_cols(*cols):
+def concat_cols(*cols, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified columns to a dataframe.'''
 	cols = remove_empty(to_collection(*cols))
 	if is_empty(cols):
 		return to_series(cols)
-	df = pd.concat(cols, axis=1)
+	df = pd.concat(cols, axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
+	               verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
 		return to_series(df)
 	return df
