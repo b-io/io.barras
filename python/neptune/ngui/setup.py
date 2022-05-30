@@ -25,7 +25,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ''
 
 NAME = 'ngui'
-VERSION = '1.0.0.post132'
+VERSION = '1.0.0.post133'
 DESCRIPTION = 'Graphical utility library'
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, 'README.md'), encoding='utf-8') as f:
