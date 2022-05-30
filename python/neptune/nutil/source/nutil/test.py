@@ -51,7 +51,11 @@ class Test(unittest.TestCase):
 							                   precision=precision)
 				else:
 					keys = get_keys(first)
+					self.assertEqual(keys, get_keys(second),
+					                 msg='The keys of the collections are different')
 					index = get_index(first)
+					self.assertEqual(index, get_index(second),
+					                 msg='The indexes of the collections are different')
 					for k in keys:
 						for i in index:
 							self.assert_equals(first[k][i], second[k][i], precision=precision)
@@ -62,6 +66,8 @@ class Test(unittest.TestCase):
 						self.assert_equals(get(first, i), get(second, i), precision=precision)
 				else:
 					keys = get_keys(first)
+					self.assertEqual(keys, get_keys(second),
+					                 msg='The keys of the collections are different')
 					for k in keys:
 						self.assert_equals(first[k], second[k], precision=precision)
 		else:

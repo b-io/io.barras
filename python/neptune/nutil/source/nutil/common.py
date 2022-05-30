@@ -2839,38 +2839,34 @@ def apply(x, f, *args, inplace=False,
 	'''Applies the specified function iteratively over the specified value along the specified axis
 	(over the rows, columns or elements if the specified axis is respectively zero, one or null)
 	with the specified arguments.'''
-	if is_subscriptable_collection(x):
-		if is_empty(x):
-			return x
-		if is_null(keys):
-			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
-		if inplace:
-			return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
-		if is_group(x):
-			axis = x.axis
-			if axis == 0:
-				return concat_rows([to_frame([to_array(f(get_values(v, keys=keys)), *args, **kwargs)],
-				                             index=to_list(i)) for i, v in x])
-			return concat_cols([to_series(to_array(f(to_array(v), *args, **kwargs)),
-			                              name=k) for k, v in x if k in keys])
-		elif is_frame(x):
-			if is_null(axis):
-				return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
-			return x.loc[:, keys].apply(f, args=args, axis=axis, **kwargs)
-		elif is_series(x):
-			return x.loc[keys].apply(f, args=args, **kwargs)
-		elif is_dict(x):
-			return {k: f(x[k], *args, **kwargs) for k in keys}
-		elif is_array(x):
-			if is_null(axis):
-				return np.vectorize(lambda x: f(x, *args, **kwargs))(x[keys])
-			return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
-		return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
-	elif is_string(x):
-		if is_null(keys):
-			keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
-		return collapse([f(c, *args, **kwargs) if i in keys else c for i, c in enumerate(x)])
-	return f(x, *args, **kwargs)
+	if not is_subscriptable_collection(x):
+		return f(x, *args, **kwargs)
+	elif is_empty(x):
+		return x
+	if is_null(keys):
+		keys = get_keys(x, inclusion=inclusion, exclusion=exclusion)
+	if inplace:
+		return set_values(x, apply(x, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
+	if is_group(x):
+		axis = x.axis
+		if axis == 0:
+			return concat_rows([to_frame([to_array(f(get_values(v, keys=keys)), *args, **kwargs)],
+			                             index=to_list(i)) for i, v in x])
+		return concat_cols([to_series(to_array(f(to_array(v), *args, **kwargs)),
+		                              name=k) for k, v in x if k in keys])
+	elif is_frame(x):
+		if is_null(axis):
+			return concat_cols([x.loc[:, k].apply(f, args=args, **kwargs) for k in keys])
+		return x.loc[:, keys].apply(f, args=args, axis=axis, **kwargs)
+	elif is_series(x):
+		return x.loc[keys].apply(f, args=args, **kwargs)
+	elif is_dict(x):
+		return {k: f(x[k], *args, **kwargs) for k in keys}
+	elif is_array(x):
+		if is_null(axis):
+			return np.vectorize(lambda x: f(x, *args, **kwargs))(x[keys])
+		return np.apply_along_axis(f, axis, x[keys], *args, **kwargs)
+	return collection_to_type([f(x[k], *args, **kwargs) for k in keys], x)
 
 
 def fill_with(x, value, *args, condition=lambda x, *args, **kwargs: True, inplace=False, **kwargs):
@@ -3590,7 +3586,7 @@ def insert(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=
            keys=None, inclusion=None, exclusion=None):
 	'''Inserts the specified second collection into the first collection by inserting the values
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
-	list, or indices are different.'''
+	list, or indexes are different.'''
 	# - Insert the rows
 	c1 = insert_rows(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
 	                 verify_integrity=verify_integrity,
@@ -3603,7 +3599,7 @@ def insert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
                 keys=None, inclusion=None, exclusion=None):
 	'''Inserts the specified second collection into the first collection by inserting the rows
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
-	list, are identical and indices are different.'''
+	list, are identical and indexes are different.'''
 	if not is_table(c1) and not is_dict(c1):
 		return c1
 	c2 = exclude_index(c2, c1)
@@ -3618,7 +3614,7 @@ def insert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
 	return c1
 
 
-def insert_cols(c1, c2,
+def insert_cols(c1, c2, copy=False, ignore_index=False, sort=False, verify_integrity=False,
                 keys=None, inclusion=None, exclusion=None):
 	'''Inserts the specified second collection into the first collection by inserting the columns
 	whose keys, which are in the specified inclusive list and are not in the specified exclusive
@@ -3630,8 +3626,8 @@ def insert_cols(c1, c2,
 		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1):
-		c1.update(c2.fillna(NA_NAME))
-		c1.replace(NA_NAME, NAN, inplace=True)
+		c1 = concat_cols(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
+		                 verify_integrity=verify_integrity)
 	else:
 		c1.update(c2)
 	return c1
@@ -3900,7 +3896,7 @@ def update(c1, c2,
            keys=None, inclusion=None, exclusion=None):
 	'''Updates the specified first collection with the specified second collection by updating the
 	values whose keys, which are in the specified inclusive list and are not in the specified
-	exclusive list, and indices are identical.'''
+	exclusive list, and indexes are identical.'''
 	# - Update the rows
 	if is_table(c2) or is_dict(c2):
 		c2 = include_index(c2, c1)
@@ -4049,11 +4045,11 @@ def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integr
 	'''Concatenates the specified rows to a dataframe.'''
 	rows = remove_empty(to_collection(*rows))
 	if is_empty(rows):
-		return to_series(rows)
+		return rows
 	df = pd.concat([to_frame(row) for row in rows], axis=0, copy=copy, ignore_index=ignore_index,
 	               sort=sort, verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
-		return to_series(df)
+		return collection_to_common_type(df, get_first(rows))
 	return df
 
 
@@ -4061,11 +4057,11 @@ def concat_cols(*cols, copy=False, ignore_index=False, sort=False, verify_integr
 	'''Concatenates the specified columns to a dataframe.'''
 	cols = remove_empty(to_collection(*cols))
 	if is_empty(cols):
-		return to_series(cols)
+		return cols
 	df = pd.concat(cols, axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
 	               verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
-		return to_series(df)
+		return collection_to_common_type(df, get_first(cols))
 	return df
 
 
