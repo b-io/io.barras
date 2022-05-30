@@ -81,7 +81,10 @@ class Test(unittest.TestCase):
 class TestCommon(Test):
 
 	def test(self):
-		# Initialize the collections
+		# Initialize
+		hello = 'Hello, world!'
+		token = generate_string(100)
+
 		l1 = to_list(reverse(range(100)))
 		l2 = to_list(np.random.randint(0, 100, size=100))
 
@@ -101,6 +104,13 @@ class TestCommon(Test):
 		a = to_array(df)
 
 		f = np.sum
+
+		test('Test the string functions')
+		replace(token, 'A', 'B')
+		self.assert_equals(replace_word('Bonjour, world!', 'Bonjour', 'Hello'), hello)
+		self.assert_equals(count(split(hello, ',')), 2)
+
+		self.apply(hello, replace, 'H', 'I')
 
 		test('Test the list functions')
 		self.get_items(l1)
@@ -196,8 +206,9 @@ class TestCommon(Test):
 
 	##############################################
 
-	def apply(self, c, f, axis=None, inplace=False):
-		t = timeit.timeit(stmt=lambda: apply(c, f, axis=axis, inplace=inplace), number=TEST_COUNT)
+	def apply(self, c, f, *args, axis=None, inplace=False, **kwargs):
+		t = timeit.timeit(stmt=lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs),
+		                  number=TEST_COUNT)
 		test('Applied', f.__name__, 'on', count(c, axis=None), 'items', TEST_COUNT, 'times in',
 		     round(t), '[s]')
 
