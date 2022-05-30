@@ -23,7 +23,7 @@ from nutil.common import *
 __MATH_CONSTANTS__________________________________ = ''
 
 __all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post133'
+__version__ = '1.0.0.post134'
 
 ##################################################
 
