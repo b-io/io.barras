@@ -137,7 +137,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_D
 		return ''
 	return paste('WHERE',
 	             collapse([collapse(format_name(col),
-	                                ' IS ' if filtering_row[col] is None
+	                                ' IS ' if is_null(filtering_row[col])
 	                                else ' IN ' if is_collection(filtering_row[col])
 	                                else '=',
 	                                format(filtering_row[col], mssql=mssql)) for col in cols],
@@ -162,7 +162,7 @@ def format_name(name):
 
 def format_cols(*cols):
 	'''Formats the specified column names (for either MSSQL or PostgreSQL).'''
-	cols = remove_empty(to_list(*cols))
+	cols = remove_empty(to_collection(*cols))
 	return collist([format_name(col) for col in cols])
 
 

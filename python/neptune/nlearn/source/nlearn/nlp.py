@@ -123,7 +123,7 @@ class GloVe:
 	def create_embedding_model(self, class_count, dropout_rate=0.5, hidden_unit_count=128,
 	                           max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Create a model with an embedding layer using the pre-trained word vectors that converts the
+		Creates a model with an embedding layer using the pre-trained word vectors that converts the
 		input sentence indices to the estimated output classes.
 
 		:param class_count:       the number of output classes
@@ -168,7 +168,8 @@ class GloVe:
 		             vectors
 		:param size: the size of the word vectors
 		'''
-		with open(path, mode='r', encoding='utf8', errors='ignore') as f:
+		with open(path, mode='r', encoding=DEFAULT_ENCODING, errors='ignore',
+		          newline=DEFAULT_NEWLINE) as f:
 			# Create the dictionary mapping every vocabulary word to its word vector
 			i = 0
 			for line in f:

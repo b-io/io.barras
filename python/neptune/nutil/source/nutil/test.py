@@ -17,7 +17,7 @@
 import timeit
 import unittest
 
-from nutil.common import *
+from nutil.db import *
 
 ####################################################################################################
 # TEST CONSTANTS
@@ -215,6 +215,19 @@ class TestCommon(Test):
 	def tally(self, c, boundaries):
 		t = timeit.timeit(stmt=lambda: tally(c, boundaries), number=TEST_COUNT)
 		test(count(c, axis=None), 'elements tallied', TEST_COUNT, 'times in', round(t), '[s]')
+
+
+class TestDB(Test):
+
+	def test(self):
+		self.assert_equals(create_select_table_where_query('name', filtering_row={'A': 1}),
+		                   'SELECT * FROM "dbo"."name" WHERE "A"=1;')
+		self.assert_equals(create_delete_table_query('name', filtering_row={'A': 1}),
+		                   'DELETE FROM "dbo"."name" WHERE "A"=1;')
+		self.assert_equals(create_insert_table_query('name', ['A'], {'A': 1}),
+		                   'INSERT INTO "dbo"."name" ("A") VALUES (1);')
+		self.assert_equals(create_update_table_query('name', ['A'], {'A': 1}),
+		                   'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;')
 
 
 ####################################################################################################

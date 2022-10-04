@@ -46,9 +46,9 @@ def string_to_html(s):
 
 #########################
 
-def html_to_pdf(html, path, encoding=None):
+def html_to_pdf(html, path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
 	'''Converts the specified HTML code to PDF.'''
-	with open(path, mode='wb', encoding=encoding) as f:
+	with open(path, mode='wb', encoding=encoding, newline=newline) as f:
 		status = pisa.CreatePDF(html, dest=f)
 		return status.err == 0
 

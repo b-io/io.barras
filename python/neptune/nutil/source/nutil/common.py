@@ -15,6 +15,7 @@
 ####################################################################################################
 
 import cProfile
+import csv
 import functools
 import inspect
 import itertools
@@ -389,6 +390,14 @@ DEFAULT_ROOT = None
 
 # The default resources directory
 DEFAULT_RES_DIR = 'resources'
+
+#########################
+
+# The default encoding
+DEFAULT_ENCODING = 'utf-8'
+
+# The default newline
+DEFAULT_NEWLINE = '\n'
 
 # • LIST ###########################################################################################
 
@@ -823,25 +832,25 @@ def find_path(filename, dir=None, subdir=None):
 
 #########################
 
-def read(path, encoding=None):
-	with open(path, mode='r', encoding=encoding) as f:
+def read(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+	with open(path, mode='r', encoding=encoding, newline=newline) as f:
 		return f.read()
 
 
-def read_bytes(path, encoding=None):
-	with open(path, mode='rb', encoding=encoding) as f:
+def read_bytes(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+	with open(path, mode='rb', encoding=encoding, newline=newline) as f:
 		return f.read()
 
 
-def read_json(path, encoding=None):
+def read_json(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
 	if validators.url(path):
 		with urlopen(path) as f:
 			return json.load(f)
-	with open(path, encoding=encoding) as f:
+	with open(path, encoding=encoding, newline=newline) as f:
 		return json.load(f)
 
 
-def read_csv(path, encoding=None,
+def read_csv(path, encoding=DEFAULT_ENCODING,
              delimiter=',', type=None,
              na_values=None, keep_default_na=False, na_filter=True,
              parse_dates=True, date_parser=None, infer_datetime_format=True, keep_date_col=True,
@@ -858,14 +867,22 @@ def read_csv(path, encoding=None,
 
 #########################
 
-def write(path, content, encoding=None):
-	with open(path, mode='w', encoding=encoding) as f:
+def write(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+	with open(path, mode='a' if append else 'w', encoding=encoding, newline=newline) as f:
 		return f.write(content)
 
 
-def write_bytes(path, content, encoding=None):
-	with open(path, mode='wb', encoding=encoding) as f:
+def write_bytes(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+	with open(path, mode='ab' if append else 'wb', encoding=encoding, newline=newline) as f:
 		return f.write(content)
+
+
+def write_csv(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+	with open(path, mode='a' if append else 'w', encoding=encoding, newline=newline) as f:
+		if is_dict(content):
+			return csv.writer(f).writerow(content)
+		else:
+			return csv.writer(f).writerows(content)
 
 
 ####################################################################################################
@@ -1562,6 +1579,74 @@ def get_stamp():
 
 #########################
 
+def get_microsecond(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.microsecond
+	return d
+
+
+def get_microseconds(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).microsecond
+		elif is_dict(c):
+			return get_microseconds(get_index(c))
+	return collection_to_type([get_microsecond(d) for d in c], c)
+
+
+def get_second(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.second
+	return d
+
+
+def get_seconds(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).second
+		elif is_dict(c):
+			return get_seconds(get_index(c))
+	return collection_to_type([get_second(d) for d in c], c)
+
+
+def get_minute(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.minute
+	return d
+
+
+def get_minutes(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).minute
+		elif is_dict(c):
+			return get_minutes(get_index(c))
+	return collection_to_type([get_minute(d) for d in c], c)
+
+
+def get_hour(d=get_datetime()):
+	if is_string(d):
+		d = parse_datetime(d)
+	if is_date(d):
+		return d.hour
+	return d
+
+
+def get_hours(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).hour
+		elif is_dict(c):
+			return get_hours(get_index(c))
+	return collection_to_type([get_hour(d) for d in c], c)
+
+
 def get_day(d=get_datetime(), week=False, year=False):
 	if is_string(d):
 		d = parse_datetime(d)
@@ -1570,12 +1655,13 @@ def get_day(d=get_datetime(), week=False, year=False):
 	return d
 
 
-def get_days(c, week=False, year=False):
-	if is_table(c):
-		index = to_timestamp(get_index(c))
-		return index.weekday if week else index.dayofyear if year else index.day
-	elif is_dict(c):
-		return get_days(get_index(c), week=week, year=year)
+def get_days(c, week=False, year=False, use_index=False):
+	if use_index:
+		if is_table(c):
+			index = to_timestamp(get_index(c))
+			return index.weekday if week else index.dayofyear if year else index.day
+		elif is_dict(c):
+			return get_days(get_index(c), week=week, year=year)
 	return collection_to_type([get_day(d, week=week, year=year) for d in c], c)
 
 
@@ -1603,11 +1689,12 @@ def get_week(d=get_datetime()):
 	return d
 
 
-def get_weeks(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).week
-	elif is_dict(c):
-		return get_weeks(get_index(c))
+def get_weeks(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).week
+		elif is_dict(c):
+			return get_weeks(get_index(c))
 	return collection_to_type([get_week(d) for d in c], c)
 
 
@@ -1620,11 +1707,12 @@ def get_year_week(d=get_datetime()):
 	return d
 
 
-def get_year_weeks(c):
-	if is_table(c):
-		return pd.MultiIndex.from_tuples(get_year_weeks(get_index(c)), names=['year', 'week'])
-	elif is_dict(c):
-		return get_year_weeks(get_index(c))
+def get_year_weeks(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return pd.MultiIndex.from_tuples(get_year_weeks(get_index(c)), names=['year', 'week'])
+		elif is_dict(c):
+			return get_year_weeks(get_index(c))
 	return collection_to_type([get_year_week(d) for d in c], c)
 
 
@@ -1636,11 +1724,12 @@ def get_month(d=get_datetime()):
 	return d
 
 
-def get_months(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).month
-	elif is_dict(c):
-		return get_months(get_index(c))
+def get_months(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).month
+		elif is_dict(c):
+			return get_months(get_index(c))
 	return collection_to_type([get_month(d) for d in c], c)
 
 
@@ -1652,11 +1741,12 @@ def get_quarter(d=get_datetime()):
 	return d
 
 
-def get_quarters(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).quarter
-	elif is_dict(c):
-		return get_quarters(get_index(c))
+def get_quarters(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).quarter
+		elif is_dict(c):
+			return get_quarters(get_index(c))
 	return collection_to_type([get_quarter(d) for d in c], c)
 
 
@@ -1668,11 +1758,12 @@ def get_semester(d=get_datetime()):
 	return d
 
 
-def get_semesters(c):
-	if is_table(c):
-		return ceil(get_months(c) / 6)
-	elif is_dict(c):
-		return get_semesters(get_index(c))
+def get_semesters(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return ceil(get_months(c, use_index=use_index) / 6)
+		elif is_dict(c):
+			return get_semesters(get_index(c))
 	return collection_to_type([get_semester(d) for d in c], c)
 
 
@@ -1684,11 +1775,12 @@ def get_year(d=get_datetime()):
 	return d
 
 
-def get_years(c):
-	if is_table(c):
-		return to_timestamp(get_index(c)).year
-	elif is_dict(c):
-		return get_years(get_index(c))
+def get_years(c, use_index=False):
+	if use_index:
+		if is_table(c):
+			return to_timestamp(get_index(c)).year
+		elif is_dict(c):
+			return get_years(get_index(c))
 	return collection_to_type([get_year(d) for d in c], c)
 
 
@@ -2925,15 +3017,14 @@ def reduce_or(x,
 
 #########################
 
-def reduce(f, *args, initial=None, **kwargs):
+def reduce(c, f, *args, initializer=None, **kwargs):
 	'''Reduces the specified arguments to a single one by applying the specified function
 	cumulatively (from left to right).'''
-	args = remove_empty(to_collection(*args))
-	if is_empty(args):
-		return initial
-	if not is_null(initial):
-		return functools.reduce(lambda x, y: f(x, y, **kwargs), args, initial=initial)
-	return functools.reduce(lambda x, y: f(x, y, **kwargs), args)
+	if is_empty(c):
+		return initializer
+	if not is_null(initializer):
+		return functools.reduce(lambda x, y: f(x, y, *args, **kwargs), c, initializer)
+	return functools.reduce(lambda x, y: f(x, y, *args, **kwargs), c)
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -3785,8 +3876,7 @@ def sort(c, ascending=True, by=None, inplace=False,
 	if is_group(c):
 		c = c.obj if c.axis == 0 else c.groups
 	if is_frame(c):
-		return c.sort_values(get_keys(c, inclusion=by), ascending=ascending, inplace=inplace,
-		                     axis=axis)
+		return c.sort_values(by, ascending=ascending, inplace=inplace, axis=axis)
 	elif is_series(c):
 		return c.sort_values(ascending=ascending, inplace=inplace)
 	elif is_dict(c):
@@ -4305,8 +4395,8 @@ def rename_all(*args, names=None, index=None, level=None):
 
 #########################
 
-def reset_index(df):
-	return df.reset_index(level=0)
+def reset_index(df, drop=False, level=0):
+	return df.reset_index(drop=drop, level=level)
 
 
 #########################
