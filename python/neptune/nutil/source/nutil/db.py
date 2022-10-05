@@ -56,7 +56,7 @@ __DB______________________________________________ = ''
 __DB_CONNECT______________________________________ = ''
 
 
-def create_engine(dialect='mssql', driver='pyodbc', username=None, password=None, host=None,
+def create_engine(dialect='mssql', driver='pyodbc', username=None, password=None, host='localhost',
                   port=1433, database=None, query=None):
 	'''Creates an engine with the specified parameters.'''
 	return db.create_engine(URL.create(dialect + '+' + driver, username=username, password=password,
