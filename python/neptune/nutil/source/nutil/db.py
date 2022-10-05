@@ -15,7 +15,8 @@
 ####################################################################################################
 
 import sqlalchemy as db
-from sqlalchemy.dialects import *
+from sqlalchemy.dialects import mssql
+from sqlalchemy.engine import URL
 from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
@@ -28,28 +29,21 @@ from nutil.common import *
 
 __DB_CONSTANTS____________________________________ = ''
 
-# The default DB
-if not exists('DEFAULT_DB'):
-	DEFAULT_DB = 'mssql'  # Microsoft SQL Server
-
 # The default flag specifying whether the DB is Microsoft SQL Server
-DEFAULT_DB_MSSQL = DEFAULT_DB == 'mssql'
+DEFAULT_IS_MSSQL = True
 
 # The default schema
-if not exists('DEFAULT_SCHEMA'):
-	DEFAULT_SCHEMA = 'dbo'
+DEFAULT_SCHEMA = 'dbo'
 
 #########################
 
 # The default chunk size
-if not exists('DEFAULT_CHUNK_SIZE'):
-	DEFAULT_CHUNK_SIZE = 1000
+DEFAULT_CHUNK_SIZE = 1000
 
 #########################
 
 # The default debug frequency
-if not exists('DEFAULT_DEBUG_FREQUENCY'):
-	DEFAULT_DEBUG_FREQUENCY = 1000
+DEFAULT_DEBUG_FREQUENCY = 1000
 
 ####################################################################################################
 # DB FUNCTIONS
@@ -60,6 +54,13 @@ __DB______________________________________________ = ''
 # • DB CONNECT #####################################################################################
 
 __DB_CONNECT______________________________________ = ''
+
+
+def create_engine(dialect='mssql', driver='pyodbc', username=None, password=None, host=None,
+                  port=1433, database=None, query=None):
+	'''Creates an engine with the specified parameters.'''
+	return db.create_engine(URL.create(dialect + '+' + driver, username=username, password=password,
+	                                   host=host, port=port, database=database, query=query))
 
 
 def create_session(engine):
@@ -130,7 +131,7 @@ def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE)
 __DB_FORMAT_______________________________________ = ''
 
 
-def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_DB_MSSQL):
+def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAULT_IS_MSSQL):
 	'''Creates the WHERE clause with the specified filtering columns and row.'''
 	cols = include_list(get_keys(filtering_row), filtering_cols)
 	if is_empty(cols):
@@ -140,7 +141,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, mssql=DEFAULT_D
 	                                ' IS ' if is_null(filtering_row[col])
 	                                else ' IN ' if is_collection(filtering_row[col])
 	                                else '=',
-	                                format(filtering_row[col], mssql=mssql)) for col in cols],
+	                                format(filtering_row[col], is_mssql=is_mssql)) for col in cols],
 	                      delimiter=' AND '))
 
 
@@ -166,14 +167,14 @@ def format_cols(*cols):
 	return collist([format_name(col) for col in cols])
 
 
-def format(value, mssql=DEFAULT_DB_MSSQL):
+def format(value, is_mssql=DEFAULT_IS_MSSQL):
 	'''Formats the specified value (for either MSSQL or PostgreSQL).'''
 	if is_null(value):
 		return 'NULL'
 	elif is_collection(value):
-		return par(collist(apply(value, format, mssql=mssql)))
+		return par(collist(apply(value, format, is_mssql=is_mssql)))
 	elif is_bool(value):
-		if mssql:
+		if is_mssql:
 			return 1 if value else 0
 		return value
 	elif is_number(value):
@@ -230,9 +231,9 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
-def get_identity_cols(engine, table, mssql=DEFAULT_DB_MSSQL, verbose=False):
+def get_identity_cols(engine, table, is_mssql=DEFAULT_IS_MSSQL, verbose=False):
 	'''Returns the identity columns of the specified table.'''
-	if mssql:
+	if is_mssql:
 		return select_table_where(engine, 'identity_columns', cols=['name'],
 		                          filtering_cols='OBJECT_NAME(object_id)',
 		                          filtering_row={'OBJECT_NAME(object_id)': table}, schema='sys',
@@ -303,18 +304,18 @@ __DB_SELECT_______________________________________ = ''
 
 
 def create_select_table_where_query(table, cols=None, filtering_cols=None, filtering_row=None,
-                                    mssql=DEFAULT_DB_MSSQL, n=None, order='ASC',
+                                    is_mssql=DEFAULT_IS_MSSQL, n=None, order='ASC',
                                     schema=DEFAULT_SCHEMA):
 	'''Creates the query to select the specified columns of the rows matching the specified
 	filtering row at the specified filtering columns from the specified table (in the specified
 	schema).'''
-	return paste('SELECT', paste('TOP', n) if not is_null(n) and mssql else '',
+	return paste('SELECT', paste('TOP', n) if not is_null(n) and is_mssql else '',
 	             '*' if is_empty(cols) else format_cols(cols),
 	             'FROM', get_full_table_name(table, schema=schema),
 	             create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row,
-	                                 mssql=mssql),
+	                                 is_mssql=is_mssql),
 	             paste('ORDER BY', format_cols(cols), order) if not is_empty(cols) else '',
-	             paste('LIMIT', n) if not is_null(n) and not mssql else '') + ';'
+	             paste('LIMIT', n) if not is_null(n) and not is_mssql else '') + ';'
 
 
 ##################################################
@@ -332,7 +333,7 @@ def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEM
 
 
 def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_row=None,
-                       index_cols=None, mssql=DEFAULT_DB_MSSQL, n=None, order='ASC',
+                       index_cols=None, is_mssql=DEFAULT_IS_MSSQL, n=None, order='ASC',
                        schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	'''Selects the specified columns of the rows matching the specified filtering row at the
 	specified filtering columns from the specified table (in the specified schema) and returns them
@@ -345,8 +346,9 @@ def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_
 		            format_cols(filtering_cols)) if not is_empty(filtering_cols) else '')
 	return pd.read_sql(create_select_table_where_query(table, cols=cols,
 	                                                   filtering_cols=filtering_cols,
-	                                                   filtering_row=filtering_row, mssql=mssql,
-	                                                   n=n, order=order, schema=schema),
+	                                                   filtering_row=filtering_row,
+	                                                   is_mssql=is_mssql, n=n, order=order,
+	                                                   schema=schema),
 	                   con=engine, columns=cols, index_col=index_cols)
 
 
@@ -356,17 +358,17 @@ __DB_DELETE_______________________________________ = ''
 
 
 def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
-                              mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
+                              is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
 	'''Creates the query to delete the rows matching the specified filtering row at the specified
 	filtering columns from the specified table (in the specified schema).'''
 	return paste('DELETE FROM', get_full_table_name(table, schema=schema),
 	             create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row,
-	                                 mssql=mssql)) + ';'
+	                                 is_mssql=is_mssql)) + ';'
 
 
 ##################################################
 
-def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
+def delete_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of deleted
@@ -389,7 +391,7 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	for index, row in df.iterrows():
 		# Build the query
 		query = create_delete_table_query(table, filtering_cols=filtering_cols, filtering_row=row,
-		                                  mssql=mssql, schema=schema)
+		                                  is_mssql=is_mssql, schema=schema)
 
 		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
 			debug_query('delete', delete_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
@@ -410,7 +412,7 @@ def delete_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
+                      is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of
@@ -439,7 +441,7 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 				debug('Chunk the bulk-delete query from', index_from + 1, 'to', index_to, 'rows')
 			delete_count += bulk_delete_table(engine, df[index_from:index_to], table,
 			                                  chunk_size=chunk_size, filtering_cols=filtering_cols,
-			                                  mssql=mssql, schema=schema, test=False,
+			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
 		return delete_count
 
@@ -449,7 +451,7 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	query = ''
 	for index, row in df.iterrows():
 		query += create_delete_table_query(table, filtering_cols=filtering_cols, filtering_row=row,
-		                                   mssql=mssql, schema=schema)
+		                                   is_mssql=is_mssql, schema=schema)
 
 	# Execute the bulk query
 	try:
@@ -469,9 +471,9 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 __DB_INSERT_______________________________________ = ''
 
 
-def set_id_insert(engine, table, flag, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
+def set_id_insert(engine, table, flag, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
 	'''Allows the insertion of identifiers into the specified table (in the specified schema).'''
-	if mssql:
+	if is_mssql:
 		return execute(engine, paste('SET IDENTITY_INSERT',
 		                             get_full_table_name(table, schema=schema),
 		                             flag) + ';')
@@ -479,18 +481,18 @@ def set_id_insert(engine, table, flag, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SC
 
 ##################################################
 
-def create_insert_table_query(table, cols, row, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA):
+def create_insert_table_query(table, cols, row, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
 	'''Creates the query to insert the specified row with the specified columns into the specified
 	table (in the specified schema).'''
 	return paste('INSERT INTO', get_full_table_name(table, schema=schema),
 	             par(format_cols(cols)),
-	             'VALUES', par(collist([format(row[col], mssql=mssql) for col in cols]))) + ';'
+	             'VALUES', par(collist([format(row[col], is_mssql=is_mssql) for col in cols]))) + ';'
 
 
 ##################################################
 
-def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
-                 test=ASSERT, verbose=VERBOSE):
+def insert_table(engine, df, table, insert_id=None, is_mssql=DEFAULT_IS_MSSQL,
+                 schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of inserted rows.'''
 	insert_count = 0
@@ -504,15 +506,16 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
 	if is_null(insert_id):
-		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, mssql=mssql)))
+		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table,
+		                                                              is_mssql=is_mssql)))
 
 	debug_query('insert', len(df), table, verbose=verbose)
 
 	if insert_id:
-		set_id_insert(engine, table, 'ON', mssql=mssql, schema=schema)
+		set_id_insert(engine, table, 'ON', is_mssql=is_mssql, schema=schema)
 	for index, row in df.iterrows():
 		# Build the query
-		query = create_insert_table_query(table, cols, row, mssql=mssql, schema=schema)
+		query = create_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
 		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
 			debug_query('insert', insert_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
@@ -530,12 +533,12 @@ def insert_table(engine, df, table, insert_id=None, mssql=DEFAULT_DB_MSSQL, sche
 		except Exception as ex:
 			error_row('insert', index, table, ex=ex, cols=primary_cols, row=row, verbose=verbose)
 	if insert_id:
-		set_id_insert(engine, table, 'OFF', mssql=mssql, schema=schema)
+		set_id_insert(engine, table, 'OFF', is_mssql=is_mssql, schema=schema)
 	return insert_count
 
 
 def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_id=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
+                      is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of bulk-inserted rows.'''
@@ -548,12 +551,13 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
 	if is_null(insert_id):
-		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, mssql=mssql)))
+		insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table,
+		                                                              is_mssql=is_mssql)))
 
 	# Chunk the bulk query
 	if len(df) > chunk_size:
 		if insert_id:
-			set_id_insert(engine, table, 'ON', mssql=mssql, schema=schema)
+			set_id_insert(engine, table, 'ON', is_mssql=is_mssql, schema=schema)
 		chunk_count = ceil(len(df) / chunk_size)
 		index_to = 0
 		for i in range(chunk_count):
@@ -562,10 +566,11 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 			if verbose:
 				debug('Chunk the bulk-insert query from', index_from + 1, 'to', index_to, 'rows')
 			insert_count += bulk_insert_table(engine, df[index_from:index_to], table,
-			                                  chunk_size=chunk_size, insert_id=False, mssql=mssql,
-			                                  schema=schema, test=False, verbose=verbose)
+			                                  chunk_size=chunk_size, insert_id=False,
+			                                  is_mssql=is_mssql, schema=schema, test=False,
+			                                  verbose=verbose)
 		if insert_id:
-			set_id_insert(engine, table, 'OFF', mssql=mssql, schema=schema)
+			set_id_insert(engine, table, 'OFF', is_mssql=is_mssql, schema=schema)
 		return insert_count
 
 	debug_query('bulk-insert', len(df), table, verbose=verbose)
@@ -573,11 +578,11 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 	# Build the bulk query
 	query = ''
 	for index, row in df.iterrows():
-		query += create_insert_table_query(table, cols, row, mssql=mssql, schema=schema)
+		query += create_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
 	# Execute the bulk query
 	if insert_id:
-		set_id_insert(engine, table, 'ON', mssql=mssql, schema=schema)
+		set_id_insert(engine, table, 'ON', is_mssql=is_mssql, schema=schema)
 	try:
 		result = execute(engine, query, multi=True)
 		result_count = len(result) if is_collection(result) else result
@@ -588,7 +593,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 	except Exception as ex:
 		error_query('bulk-inserted', table, ex=ex, verbose=verbose)
 	if insert_id:
-		set_id_insert(engine, table, 'OFF', mssql=mssql, schema=schema)
+		set_id_insert(engine, table, 'OFF', is_mssql=is_mssql, schema=schema)
 	return insert_count
 
 
@@ -597,20 +602,20 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 __DB_UPDATE_______________________________________ = ''
 
 
-def create_update_table_query(table, cols, row, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
+def create_update_table_query(table, cols, row, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
                               schema=DEFAULT_SCHEMA):
 	'''Creates the query to update the rows matching the rows of the specified dataframe at the
 	specified filtering columns of the specified table (in the specified schema).'''
 	return paste('UPDATE', get_full_table_name(table, schema=schema),
 	             'SET', collist([collapse(format_name(col), '=',
-	                                      format(row[col], mssql=mssql)) for col in cols]),
+	                                      format(row[col], is_mssql=is_mssql)) for col in cols]),
 	             create_where_clause(filtering_cols=filtering_cols, filtering_row=row,
-	                                 mssql=mssql)) + ';'
+	                                 is_mssql=is_mssql)) + ';'
 
 
 ##################################################
 
-def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
+def update_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of updated
@@ -638,7 +643,7 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	for index, row in df.iterrows():
 		# Build the query
 		query = create_update_table_query(table, cols, row, filtering_cols=filtering_cols,
-		                                  mssql=mssql, schema=schema)
+		                                  is_mssql=is_mssql, schema=schema)
 
 		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
 			debug_query('update', update_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
@@ -659,7 +664,7 @@ def update_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 
 def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      mssql=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
+                      is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of bulk-updated
@@ -689,7 +694,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 				debug('Chunk the bulk-update query from', index_from + 1, 'to', index_to, 'rows')
 			update_count += bulk_update_table(engine, df[index_from:index_to], table,
 			                                  chunk_size=chunk_size, filtering_cols=filtering_cols,
-			                                  mssql=mssql, schema=schema, test=False,
+			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
 		return update_count
 
@@ -699,7 +704,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 	query = ''
 	for index, row in df.iterrows():
 		query += create_update_table_query(table, cols, row, filtering_cols=filtering_cols,
-		                                   mssql=mssql, schema=schema)
+		                                   is_mssql=is_mssql, schema=schema)
 
 	# Execute the bulk query
 	try:
@@ -719,7 +724,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 __DB_UPSERT_______________________________________ = ''
 
 
-def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
+def upsert_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Updates/inserts the rows matching the rows of the specified dataframe at the specified
 	filtering columns of/into the specified table (in the specified schema) and returns the number
@@ -727,7 +732,7 @@ def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	upsert_count = 0
 
 	# Update the matching rows
-	update_count = update_table(engine, df, table, filtering_cols=filtering_cols, mssql=mssql,
+	update_count = update_table(engine, df, table, filtering_cols=filtering_cols, is_mssql=is_mssql,
 	                            schema=schema, test=test, verbose=False)
 	upsert_count += update_count
 	if update_count > 0:
@@ -735,7 +740,7 @@ def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 
 	# Insert the non-matching rows
 	if update_count != len(df):
-		insert_count = insert_table(engine, df, table, mssql=mssql, schema=schema, test=test,
+		insert_count = insert_table(engine, df, table, is_mssql=is_mssql, schema=schema, test=test,
 		                            verbose=False)
 		upsert_count += insert_count
 		if insert_count > 0:
@@ -746,8 +751,8 @@ def upsert_table(engine, df, table, filtering_cols=None, mssql=DEFAULT_DB_MSSQL,
 	# Test
 	if upsert_count != len(df):
 		if verbose:
-			t = select_table_where(engine, table, cols=get_names(df), mssql=mssql, schema=schema,
-			                       verbose=verbose)
+			t = select_table_where(engine, table, cols=get_names(df), is_mssql=is_mssql,
+			                       schema=schema, verbose=verbose)
 			for index, row in df.iterrows():
 				if is_empty(filter_rows(t, row)):
 					error_row('update/insert', index, table, cols=filtering_cols, row=row,
@@ -772,7 +777,7 @@ __DB_MIGRATE______________________________________ = ''
 
 def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, collation=None,
             create=True, drop=False, fill=True, filtering_cols=None, filtering_row=None,
-            mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL, schema=DEFAULT_SCHEMA,
+            is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA,
             test=ASSERT, upsert=False, verbose=VERBOSE):
 	'''Migrates the specified tables (in the specified schema) from the specified engine to the
 	specified engine using the specified collation and returns the number of migrated rows.'''
@@ -787,8 +792,9 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 			table_metadata = get_table_metadata(engine_from, table, metadata=metadata,
 			                                    schema=schema)
 			for col in table_metadata.columns:
-				update_col(col, collation=collation, mssql_from=mssql_from, mssql_to=mssql_to)
-		if mssql_from and not mssql_to:
+				update_col(col, collation=collation, is_mssql_from=is_mssql_from,
+				           is_mssql_to=is_mssql_to)
+		if is_mssql_from and not is_mssql_to:
 			metadata_to_lowercase(metadata)
 		if drop:
 			metadata.drop_all(engine_to, checkfirst=True)
@@ -803,37 +809,37 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 				df = select_table(engine_from, table, schema=schema)
 			else:
 				df = select_table_where(engine_from, table, filtering_cols=filtering_cols,
-				                        filtering_row=filtering_row, mssql=mssql_from,
+				                        filtering_row=filtering_row, is_mssql=is_mssql_from,
 				                        schema=schema, verbose=verbose)
-			if mssql_from and not mssql_to:
+			if is_mssql_from and not is_mssql_to:
 				table = table.lower()
 				set_names(df, map(str.lower, get_names(df)))
 			if upsert:
-				count += upsert_table(engine_to, df, table, mssql=mssql_to, schema=schema,
+				count += upsert_table(engine_to, df, table, is_mssql=is_mssql_to, schema=schema,
 				                      test=test, verbose=verbose)
 			else:
 				count += bulk_insert_table(engine_to, df, table, chunk_size=chunk_size,
-				                           mssql=mssql_to, schema=schema, test=test,
+				                           is_mssql=is_mssql_to, schema=schema, test=test,
 				                           verbose=verbose)
 	return count
 
 
 #########################
 
-def update_col(col, collation=None, mssql_from=True, mssql_to=True):
+def update_col(col, collation=None, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
 	'''Updates the default value, type and collation of the specified column.'''
 	# - Update the default value
-	update_col_default(col, mssql_from=mssql_from, mssql_to=mssql_to)
+	update_col_default(col, is_mssql_from=is_mssql_from, is_mssql_to=is_mssql_to)
 	# - Update the type
-	update_col_type(col, mssql_from=mssql_from, mssql_to=mssql_to)
+	update_col_type(col, is_mssql_from=is_mssql_from, is_mssql_to=is_mssql_to)
 	# - Update the collation
 	update_col_collation(col, collation=collation)
 
 
-def update_col_default(col, mssql_from=True, mssql_to=True):
+def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
 	'''Updates the default value of the specified column.'''
 	if hasattr(col.server_default, 'arg') and isinstance(col.server_default.arg, TextClause):
-		if mssql_from and not mssql_to:
+		if is_mssql_from and not is_mssql_to:
 			if isinstance(col.type, mssql.base.BIT):
 				col.server_default.arg.text = col.server_default.arg.text.replace('0', 'FALSE') \
 					.replace('1', 'TRUE')
@@ -844,7 +850,7 @@ def update_col_default(col, mssql_from=True, mssql_to=True):
 					isinstance(col.type, mssql.base.TIME) or \
 					isinstance(col.type, mssql.base.TIMESTAMP):
 				col.server_default.arg.text = col.server_default.arg.text.replace('getdate', 'now')
-		elif not mssql_from and mssql_to:
+		elif not is_mssql_from and is_mssql_to:
 			if isinstance(col.type, db.BOOLEAN):
 				col.server_default.arg.text = col.server_default.arg.text.replace('FALSE', '0') \
 					.replace('TRUE', '1')
@@ -854,16 +860,16 @@ def update_col_default(col, mssql_from=True, mssql_to=True):
 				col.server_default.arg.text = col.server_default.arg.text.replace('now', 'getdate')
 
 
-def update_col_type(col, mssql_from=DEFAULT_DB_MSSQL, mssql_to=DEFAULT_DB_MSSQL):
+def update_col_type(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
 	'''Updates the type of the specified column.'''
-	if mssql_from and not mssql_to:
+	if is_mssql_from and not is_mssql_to:
 		if isinstance(col.type, mssql.base.BIT):
 			col.type = db.BOOLEAN()
 		elif isinstance(col.type, mssql.base.DATETIME) or \
 				isinstance(col.type, mssql.base.SMALLDATETIME) or \
 				isinstance(col.type, mssql.base.TIMESTAMP):
 			col.type = db.TIMESTAMP()
-	elif not mssql_from and mssql_to:
+	elif not is_mssql_from and is_mssql_to:
 		if isinstance(col.type, db.BOOLEAN):
 			col.type = mssql.base.BIT()
 		elif isinstance(col.type, db.TIMESTAMP):
