@@ -248,6 +248,34 @@ def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCH
 	return include_list(primary_cols, cols)
 
 
+#########################
+
+def get_col_types(df,
+                  # DateTime
+                  timezone=False, to_date=False,
+                  # Float
+                  decimal_scale=None, to_decimal=True, float_precision=None,
+                  # String
+                  string_length='MAX', to_text=False):
+	types = {}
+	for col, type in zip(df.columns, df.dtypes):
+		type_name = str(type)
+		if 'bool' in type_name:
+			types.update({col: db.Boolean()})
+		elif 'datetime' in type_name:
+			types.update({col: (db.Date(timezone=timezone) if to_date else
+			                    db.DateTime(timezone=timezone))})
+		elif 'float' in type_name:
+			types.update({col: db.Float(asdecimal=to_decimal,
+			                            decimal_return_scale=decimal_scale,
+			                            precision=float_precision)})
+		elif 'int' in type_name:
+			types.update({col: db.Integer()})
+		else:
+			types.update({col: db.Text() if to_text else db.String(length=string_length)})
+	return types
+
+
 ##################################################
 
 def metadata_to_lowercase(metadata):
@@ -296,6 +324,20 @@ def transact(engine, query, *args, **kwargs):
 	with engine.begin() as connection:
 		result = connection.execute(query, *args, **kwargs)
 		return result.fetchall() if not is_null(result.cursor) else result.rowcount
+
+
+# • DB CREATE ######################################################################################
+
+__DB_CREATE_______________________________________ = ''
+
+
+def create_table(engine, df, table, append=False, chunk_size=DEFAULT_CHUNK_SIZE, index=True,
+                 index_cols=None, method=None, replace=False, schema=DEFAULT_SCHEMA, types=None):
+	return df.to_sql(table, engine,
+	                 chunksize=chunk_size,
+	                 if_exists='append' if append else 'replace' if replace else 'fail',
+	                 index=index, index_label=index_cols, method=method, schema=schema,
+	                 dtype=types if not is_null(types) else get_col_types(df))
 
 
 # • DB SELECT ######################################################################################
@@ -841,22 +883,22 @@ def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_
 	if hasattr(col.server_default, 'arg') and isinstance(col.server_default.arg, TextClause):
 		if is_mssql_from and not is_mssql_to:
 			if isinstance(col.type, mssql.base.BIT):
-				col.server_default.arg.text = col.server_default.arg.text.replace('0', 'FALSE') \
-					.replace('1', 'TRUE')
-			elif isinstance(col.type, mssql.base.DATE) or \
-					isinstance(col.type, mssql.base.DATETIME) or \
-					isinstance(col.type, mssql.base.DATETIMEOFFSET) or \
-					isinstance(col.type, mssql.base.SMALLDATETIME) or \
-					isinstance(col.type, mssql.base.TIME) or \
-					isinstance(col.type, mssql.base.TIMESTAMP):
+				col.server_default.arg.text = (col.server_default.arg.text.replace('0', 'FALSE')
+				                               .replace('1', 'TRUE'))
+			elif (isinstance(col.type, mssql.base.DATE) or
+			      isinstance(col.type, mssql.base.DATETIME) or
+			      isinstance(col.type, mssql.base.DATETIMEOFFSET) or
+			      isinstance(col.type, mssql.base.SMALLDATETIME) or
+			      isinstance(col.type, mssql.base.TIME) or
+			      isinstance(col.type, mssql.base.TIMESTAMP)):
 				col.server_default.arg.text = col.server_default.arg.text.replace('getdate', 'now')
 		elif not is_mssql_from and is_mssql_to:
 			if isinstance(col.type, db.BOOLEAN):
-				col.server_default.arg.text = col.server_default.arg.text.replace('FALSE', '0') \
-					.replace('TRUE', '1')
-			elif isinstance(col.type, db.DATE) or \
-					isinstance(col.type, db.DATETIME) or \
-					isinstance(col.type, db.TIMESTAMP):
+				col.server_default.arg.text = (col.server_default.arg.text.replace('FALSE', '0')
+				                               .replace('TRUE', '1'))
+			elif (isinstance(col.type, db.DATE) or
+			      isinstance(col.type, db.DATETIME) or
+			      isinstance(col.type, db.TIMESTAMP)):
 				col.server_default.arg.text = col.server_default.arg.text.replace('now', 'getdate')
 
 
@@ -865,9 +907,9 @@ def update_col_type(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_
 	if is_mssql_from and not is_mssql_to:
 		if isinstance(col.type, mssql.base.BIT):
 			col.type = db.BOOLEAN()
-		elif isinstance(col.type, mssql.base.DATETIME) or \
-				isinstance(col.type, mssql.base.SMALLDATETIME) or \
-				isinstance(col.type, mssql.base.TIMESTAMP):
+		elif (isinstance(col.type, mssql.base.DATETIME) or
+		      isinstance(col.type, mssql.base.SMALLDATETIME) or
+		      isinstance(col.type, mssql.base.TIMESTAMP)):
 			col.type = db.TIMESTAMP()
 	elif not is_mssql_from and is_mssql_to:
 		if isinstance(col.type, db.BOOLEAN):

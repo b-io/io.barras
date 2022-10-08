@@ -511,8 +511,8 @@ def is_any_not_null(*args):
 #########################
 
 def is_empty(x):
-	return is_null(x) or \
-	       (hasattr(x, '__len__') and len(x) == 0 or is_frame(x) and count_cols(x) == 0)
+	return (is_null(x) or
+	        (hasattr(x, '__len__') and len(x) == 0 or is_frame(x) and count_cols(x) == 0))
 
 
 def is_all_empty(*args):
@@ -1279,15 +1279,15 @@ def get_uncommon_index(c1, c2,
 def get_keys_or_index(c,
                       axis=0,
                       inclusion=None, exclusion=None):
-	return get_keys(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
-		get_index(c, inclusion=inclusion, exclusion=exclusion)
+	return (get_keys(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else
+	        get_index(c, inclusion=inclusion, exclusion=exclusion))
 
 
 def get_index_or_keys(c,
                       axis=0,
                       inclusion=None, exclusion=None):
-	return get_index(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else \
-		get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	return (get_index(c, inclusion=inclusion, exclusion=exclusion) if axis == 0 else
+	        get_keys(c, inclusion=inclusion, exclusion=exclusion))
 
 
 #########################
@@ -3127,8 +3127,8 @@ def filter(c,
            keys=None, inclusion=None, exclusion=None):
 	'''Filters the specified collection by excluding the keys that are not in the specified
 	inclusive collection and are in the specified exclusive collection.'''
-	if is_empty(c) or not is_subscriptable_collection(c) or \
-			not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
+	if (is_empty(c) or not is_subscriptable_collection(c) or
+			not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion)):
 		return c
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
@@ -3165,8 +3165,8 @@ def filter_index(c,
                  inclusion=None, exclusion=None):
 	'''Filters the specified collection by excluding the index that are not in the specified
 	inclusive collection and are in the specified exclusive collection.'''
-	if is_empty(c) or not is_subscriptable_collection(c) or \
-			not has_filter(inclusion=inclusion, exclusion=exclusion):
+	if (is_empty(c) or not is_subscriptable_collection(c) or
+			not has_filter(inclusion=inclusion, exclusion=exclusion)):
 		return c
 	index = get_index(c, inclusion=inclusion, exclusion=exclusion)
 	if is_group(c):

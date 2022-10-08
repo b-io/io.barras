@@ -109,13 +109,13 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) + \
-		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) +
+		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
-	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
-			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
+	elif ((is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or
+	      (is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2))):
 		return c1 + c2
 	elif is_array(c1):
 		return [collection_to_type(a, c2) for a in np.vstack(c1) + get_values(c2)]
@@ -156,13 +156,13 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) - \
-		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) -
+		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
-	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
-			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
+	elif ((is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or
+	      (is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2))):
 		return c1 - c2
 	elif is_array(c1):
 		return [collection_to_type(a, c2) for a in np.vstack(c1) - get_values(c2)]
@@ -203,13 +203,13 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) * \
-		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) *
+		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
-	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
-			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
+	elif ((is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or
+	      (is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2))):
 		return c1 * c2
 	elif is_array(c1):
 		return [collection_to_type(a, c2) for a in np.vstack(c1) * get_values(c2)]
@@ -250,13 +250,13 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) / \
-		         fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default)
+		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) /
+		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
-	elif (is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or \
-			(is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2)):
+	elif ((is_table(c1) or is_number(c1)) and (is_table(c2) or is_number(c2)) or
+	      (is_array(c1) or is_number(c1)) and (is_array(c2) or is_number(c2))):
 		return c1 / c2
 	elif is_array(c1):
 		return [collection_to_type(a, c2) for a in np.vstack(c1) / get_values(c2)]
@@ -355,5 +355,5 @@ def atan2(y, x):
 #########################
 
 def rotate_point(x, y, angle=0):
-	return cos(angle) * x - sin(angle) * y, \
-	       sin(angle) * x + cos(angle) * y
+	return (cos(angle) * x - sin(angle) * y,
+	        sin(angle) * x + cos(angle) * y)

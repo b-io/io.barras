@@ -131,23 +131,23 @@ def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
 	if is_empty(series):
 		return series
 	if freq is Frequency.WEEKS:
-		series.index = [get_end_period(y, w=w) for y, w in series.index] if end \
-			else [get_start_period(y, w=w) for y, w in series.index]
+		series.index = ([get_end_period(y, w=w) for y, w in series.index] if end else
+		                [get_start_period(y, w=w) for y, w in series.index])
 	elif freq is Frequency.MONTHS:
-		series.index = [get_end_period(y, m=m) for y, m in series.index] if end \
-			else [get_start_period(y, m=m) for y, m in series.index]
+		series.index = ([get_end_period(y, m=m) for y, m in series.index] if end else
+		                [get_start_period(y, m=m) for y, m in series.index])
 	elif freq is Frequency.QUARTERS:
-		series.index = [get_end_period(y, q=q) for y, q in series.index] if end \
-			else [get_start_period(y, q=q) for y, q in series.index]
+		series.index = ([get_end_period(y, q=q) for y, q in series.index] if end else
+		                [get_start_period(y, q=q) for y, q in series.index])
 	elif freq is Frequency.SEMESTERS:
-		series.index = [get_end_period(y, s=s) for y, s in series.index] if end \
-			else [get_start_period(y, s=s) for y, s in series.index]
+		series.index = ([get_end_period(y, s=s) for y, s in series.index] if end else
+		                [get_start_period(y, s=s) for y, s in series.index])
 	elif freq is Frequency.YEARS:
-		series.index = [get_end_period(y) for y in series.index] if end \
-			else [get_start_period(y) for y in series.index]
+		series.index = ([get_end_period(y) for y in series.index] if end else
+		                [get_start_period(y) for y in series.index])
 	else:
-		series.index = [get_end_period(y, m=m, d=d) for y, m, d in series.index] if end \
-			else [get_start_period(y, m=m, d=d) for y, m, d in series.index]
+		series.index = ([get_end_period(y, m=m, d=d) for y, m, d in series.index] if end else
+		                [get_start_period(y, m=m, d=d) for y, m, d in series.index])
 	return series
 
 

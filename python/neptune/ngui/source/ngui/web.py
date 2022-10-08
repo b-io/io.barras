@@ -33,12 +33,12 @@ __WEB_HTML________________________________________ = ''
 
 
 def string_to_html(s):
-	s = s.replace('&', '&amp;') \
-		.replace(' ', '&nbsp;') \
-		.replace('\'', '&apos;') \
-		.replace('"', '&quot;') \
-		.replace('<', '&lt;') \
-		.replace('>', '&gt;')
+	s = (s.replace('&', '&amp;')
+	     .replace(' ', '&nbsp;')
+	     .replace('\'', '&apos;')
+	     .replace('"', '&quot;')
+	     .replace('<', '&lt;')
+	     .replace('>', '&gt;'))
 	s = replace(s, '\r\n|\r|\n', '<br />')
 	s = replace(s, '\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
 	return s
