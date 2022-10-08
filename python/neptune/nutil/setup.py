@@ -39,7 +39,7 @@ URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nutil'
 
 PACKAGES = [
 	'javaproperties', 'multiprocess', 'numpy', 'pandas', 'psutil', 'python-dateutil', 'requests',
-	'sqlalchemy', 'validators'
+	'sqlalchemy', 'tabulate', 'validators'
 ]
 
 ####################################################################################################

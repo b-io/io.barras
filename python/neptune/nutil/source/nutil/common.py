@@ -49,6 +49,7 @@ from dateutil import parser
 from dateutil.relativedelta import relativedelta
 from multiprocess.pool import Pool
 from pandas.api.types import is_numeric_dtype
+from tabulate import tabulate
 
 ####################################################################################################
 # COMMON SETTINGS
@@ -232,6 +233,8 @@ TUPLE_TYPE = tuple
 BIT_COUNT = 8 * struct.calcsize('P')
 
 CORE_COUNT = mp.cpu_count() or 1
+
+EMPTY = ()
 
 NA_NAME = 'N/A'
 
@@ -4112,6 +4115,19 @@ def fail(*args, level=0):
 		               '[', get_function_name(level + 1), ']',
 		               '[', get_line_number(level + 1), '] ',
 		               paste(*args)), file=sys.stderr)
+
+
+##################################################
+
+def print_table(table, format='grid', headers=None, show_index='default'):
+	if is_table(table):
+		print(table.to_markdown(tablefmt=format,
+		                        headers=headers if not is_null(headers) else get_keys(table),
+		                        showindex=show_index))
+	else:
+		print(tabulate(table, tablefmt=format,
+		               headers=headers if not is_null(headers) else EMPTY,
+		               showindex=show_index))
 
 
 # • DATAFRAME ######################################################################################
