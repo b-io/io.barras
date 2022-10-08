@@ -37,7 +37,7 @@ __MATH_TEST_CLASSES_______________________________ = ''
 class TestStats(Test):
 
 	def test_descriptive(self):
-		test('Descriptive Statistics')
+		test('Test the descriptive statistics')
 		series = [
 			to_series(binomial.generate(SIZE, n=10, p=0.2), name='Binomial'),
 			to_series(normal.generate(SIZE, mu=10, sigma=1), name='Normal'),
@@ -55,7 +55,7 @@ class TestStats(Test):
 	#####################
 
 	def test_binomial(self):
-		test(binomial.BINOMIAL_NAME.title(), 'Distribution')
+		test('Test the', binomial.BINOMIAL_NAME, 'distribution')
 		n = 10
 		p = 0.2
 		test(par(collist(n, p)))
@@ -68,7 +68,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_normal(self):
-		test(normal.NORMAL_NAME.title(), 'Distribution')
+		test('Test the', normal.NORMAL_NAME, 'distribution')
 		mu = 100
 		sigma = 10
 		test(par(collist(mu, sigma)))
@@ -81,7 +81,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_normal_kde(self):
-		test(normal.NORMAL_KDE_NAME.title(), 'Distribution')
+		test('Test the', normal.NORMAL_KDE_NAME, 'distribution')
 		mu = 100
 		sigma = 10
 		test(par(collist(mu, sigma)))
@@ -94,7 +94,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_log_normal(self):
-		test(lognormal.LOG_NORMAL_NAME.title(), 'Distribution')
+		test('Test the', lognormal.LOG_NORMAL_NAME, 'distribution')
 		mu = 10
 		sigma = 1
 		test(par(collist(mu, sigma)))
@@ -107,7 +107,7 @@ class TestStats(Test):
 		test('- Real confidence interval:', interval)
 
 	def test_poisson(self):
-		test(poisson.POISSON_NAME.title(), 'Distribution')
+		test('Test the', poisson.POISSON_NAME, 'distribution')
 		lam = 10
 		test(par(collist(lam)))
 		a = poisson.generate(SIZE, lam=lam)

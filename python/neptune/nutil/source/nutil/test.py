@@ -38,6 +38,12 @@ __TEST_CLASSES____________________________________ = ''
 
 class Test(unittest.TestCase):
 
+	def __init__(self, methodName='runTest'):
+		super().__init__(methodName=methodName)
+
+		random.seed(0)
+		np.random.seed(0)
+
 	def assert_equals(self, first, second, precision=PRECISION, assert_order=False):
 		if is_collection(first):
 			if len(np.shape(first)) > 1:

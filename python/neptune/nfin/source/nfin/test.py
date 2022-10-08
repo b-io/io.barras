@@ -42,7 +42,7 @@ class TestFin(Test):
 		index = create_datetime_sequence(date_from, date_to)
 		series = to_series(np.random.randint(1, 100, size=len(index)), index=index)
 
-		test('Test the time series functions')
+		test('Test the time series transformations')
 		for freq in [Frequency.DAYS, Frequency.WEEKS, Frequency.MONTHS, Frequency.QUARTERS,
 		             Frequency.SEMESTERS, Frequency.YEARS]:
 			for group in [Group.FIRST, Group.LAST]:
@@ -62,6 +62,10 @@ class TestFin(Test):
 				if freq is not Frequency.DAYS:
 					test(find_nearest_group(s, freq=freq), '=', group)
 					self.assert_equals(find_nearest_group(s, freq=freq).value, group.value)
+
+		test('Test the time series forecast')
+		forecasted_series = forecast_series(series)
+		self.assert_equals(forecasted_series[-1], 261.92149820545626)
 
 
 ####################################################################################################

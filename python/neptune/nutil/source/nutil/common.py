@@ -144,6 +144,7 @@ class OrderedSet(MutableSet, Sequence):
 
 	def __init__(self, *args):
 		super().__init__()
+
 		self.elements = OrderedDict.fromkeys(to_collection(*args))
 
 	##############################################
