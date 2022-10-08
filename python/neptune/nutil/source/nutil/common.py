@@ -4899,11 +4899,7 @@ def replace(s, pattern, replacement):
 def replace_word(s, word, replacement):
 	'''Returns the string constructed by replacing the specified word by the specified replacement
 	string in the specified string recursively (only if the length is decreasing).'''
-	count = INF
-	while len(s) < count:
-		count = len(s)
-		s = re.sub('\\b' + word + '\\b', replacement, s)
-	return s
+	return replace(s, '\\b' + word + '\\b', replacement)
 
 
 #########################
