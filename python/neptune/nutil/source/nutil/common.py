@@ -199,7 +199,10 @@ class OrderedSet(MutableSet, Sequence):
 	##############################################
 
 	def to_list(self):
-		return to_list(self.elements)
+		return to_list(self.elements.keys())
+
+	def to_set(self):
+		return to_set(self.elements.keys())
 
 	##############################################
 	# PROCESSORS
@@ -1354,6 +1357,36 @@ def get_values(c, type=None,
 	return to_array([c[k] for k in keys], type=type)
 
 
+#########################
+
+def get_element_type(c,
+                     keys=None, inclusion=None, exclusion=None):
+	return simplify(get_element_types(c, keys=keys, inclusion=inclusion, exclusion=exclusion))
+
+
+def get_element_types(c,
+                      keys=None, inclusion=None, exclusion=None):
+	'''Returns the element types of the specified collection whose keys (indices/keys/names) are in
+	the specified inclusive list and are not in the specified exclusive list.'''
+	if is_empty(c):
+		return []
+	elif not is_subscriptable_collection(c):
+		return [type(get_next(c))]
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return []
+	elif is_table(c):
+		return filter(c, keys=keys).dtypes
+	elif is_array(c):
+		return c[keys].dtype
+	elif hasattr(c, 'dtypes'):
+		return c.dtypes
+	elif hasattr(c, 'dtype'):
+		return c.dtype
+	return [type(c[k]) for k in keys]
+
+
 ##################################################
 
 def set_names(c, new_names):
@@ -1658,7 +1691,7 @@ def get_day(d=get_datetime(), week=False, year=False):
 	return d
 
 
-def get_days(c, week=False, year=False, use_index=False):
+def get_days(c, use_index=False, week=False, year=False):
 	if use_index:
 		if is_table(c):
 			index = to_timestamp(get_index(c))
@@ -1672,16 +1705,16 @@ def get_weekday(d=get_datetime()):
 	return get_day(d, week=True)
 
 
-def get_weekdays(d=get_datetime()):
-	return get_days(d, week=True)
+def get_weekdays(d=get_datetime(), use_index=False):
+	return get_days(d, use_index=use_index, week=True)
 
 
 def get_weekday_name(d=get_datetime()):
 	return WEEKDAY_NAMES[get_weekday(d)]
 
 
-def get_weekday_names(d=get_datetime()):
-	return apply(get_weekdays(d), lambda d: WEEKDAY_NAMES[d])
+def get_weekday_names(d=get_datetime(), use_index=False):
+	return apply(get_weekdays(d, use_index=use_index), lambda d: WEEKDAY_NAMES[d])
 
 
 def get_week(d=get_datetime()):
@@ -3490,43 +3523,50 @@ def filter_any_not_between(c, lower=None, upper=None,
 def filter_days(c, days, week=False, year=False):
 	'''Filters the collection by matching its date-time index with the specified days (week days
 	if week is True, days of the year if year is True, days of the month otherwise).'''
-	indices = find_all_in(get_days(c, week=week, year=year), get_days(days, week=week, year=year))
+	indices = find_all_in(get_days(c, use_index=True, week=week, year=year),
+	                      get_days(days, use_index=True, week=week, year=year))
 	return take_at(c, indices)
 
 
 def filter_weeks(c, weeks):
 	'''Filters the collection by matching its date-time index with the specified weeks.'''
-	indices = find_all_in(get_weeks(c), get_weeks(weeks))
+	indices = find_all_in(get_weeks(c, use_index=True),
+	                      get_weeks(weeks, use_index=True))
 	return take_at(c, indices)
 
 
 def filter_year_weeks(c, year_weeks):
 	'''Filters the collection by matching its date-time index with the specified year-weeks.'''
-	indices = find_all_in(get_year_weeks(c), get_year_weeks(year_weeks))
+	indices = find_all_in(get_year_weeks(c, use_index=True),
+	                      get_year_weeks(year_weeks, use_index=True))
 	return take_at(c, indices)
 
 
 def filter_months(c, months):
 	'''Filters the collection by matching its date-time index with the specified months.'''
-	indices = find_all_in(get_months(c), get_months(months))
+	indices = find_all_in(get_months(c, use_index=True),
+	                      get_months(months, use_index=True))
 	return take_at(c, indices)
 
 
 def filter_quarters(c, quarters):
 	'''Filters the collection by matching its date-time index with the specified quarters.'''
-	indices = find_all_in(get_quarters(c), get_quarters(quarters))
+	indices = find_all_in(get_quarters(c, use_index=True),
+	                      get_quarters(quarters, use_index=True))
 	return take_at(c, indices)
 
 
 def filter_semesters(c, semesters):
 	'''Filters the collection by matching its date-time index with the specified semesters.'''
-	indices = find_all_in(get_semesters(c), get_semesters(semesters))
+	indices = find_all_in(get_semesters(c, use_index=True),
+	                      get_semesters(semesters, use_index=True))
 	return take_at(c, indices)
 
 
 def filter_years(c, years):
 	'''Filters the collection by matching its date-time index with the specified years.'''
-	indices = find_all_in(get_years(c), get_years(years))
+	indices = find_all_in(get_years(c, use_index=True),
+	                      get_years(years, use_index=True))
 	return take_at(c, indices)
 
 

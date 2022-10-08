@@ -80,19 +80,19 @@ def find_nearest_group(series, freq=FREQUENCY):
 	if is_null(series) or freq is Frequency.DAYS:
 		return GROUP
 	if freq is Frequency.WEEKS:
-		if mode(get_weekdays(series.index)) < DAYS_PER_WEEK / 2:
+		if mode(get_weekdays(series, use_index=True)) < DAYS_PER_WEEK / 2:
 			return Group.FIRST
 	elif freq is Frequency.MONTHS:
-		if mode(get_days(series.index)) < DAYS_PER_MONTH / 2:
+		if mode(get_days(series, use_index=True)) < DAYS_PER_MONTH / 2:
 			return Group.FIRST
 	elif freq is Frequency.QUARTERS:
-		if mode(get_days(series.index, year=True)) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
+		if mode(get_days(series, use_index=True, year=True)) % DAYS_PER_QUARTER < DAYS_PER_QUARTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.SEMESTERS:
-		if mode(get_days(series.index, year=True)) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
+		if mode(get_days(series, use_index=True, year=True)) % DAYS_PER_SEMESTER < DAYS_PER_SEMESTER / 2:
 			return Group.FIRST
 	elif freq is Frequency.YEARS:
-		if mode(get_days(series.index, year=True)) < DAYS_PER_YEAR / 2:
+		if mode(get_days(series, use_index=True, year=True)) < DAYS_PER_YEAR / 2:
 			return Group.FIRST
 	return Group.LAST
 
@@ -111,17 +111,22 @@ def group_series(series, clean=False, freq=FREQUENCY, sort=True):
 	if is_empty(series):
 		return series
 	if freq is Frequency.WEEKS:
-		index = get_year_weeks(series)
+		index = get_year_weeks(series, use_index=True)
 	elif freq is Frequency.MONTHS:
-		index = [get_years(series), get_months(series)]
+		index = [get_years(series, use_index=True),
+		         get_months(series, use_index=True)]
 	elif freq is Frequency.QUARTERS:
-		index = [get_years(series), get_quarters(series)]
+		index = [get_years(series, use_index=True),
+		         get_quarters(series, use_index=True)]
 	elif freq is Frequency.SEMESTERS:
-		index = [get_years(series), get_semesters(series)]
+		index = [get_years(series, use_index=True),
+		         get_semesters(series, use_index=True)]
 	elif freq is Frequency.YEARS:
-		index = get_years(series)
+		index = get_years(series, use_index=True)
 	else:
-		index = [get_years(series), get_months(series), get_days(series)]
+		index = [get_years(series, use_index=True),
+		         get_months(series, use_index=True),
+		         get_days(series, use_index=True)]
 	return series.groupby(index, sort=sort)
 
 
