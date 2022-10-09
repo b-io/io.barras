@@ -3283,7 +3283,7 @@ def filter_any_with(c, f, *args,
 			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and any_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, *args, condition=f, keys=keys, **kwargs)
+		mask = create_mask(c, *args, condition=f, fill=False, keys=keys, **kwargs)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
 		return c.loc[mask]
@@ -3306,7 +3306,7 @@ def filter_any_not_with(c, f, *args,
 			keys = get_index(c, inclusion=inclusion, exclusion=exclusion)
 		return c.filter(lambda x: x.name in keys and any_not_values(apply(x, f, *args, **kwargs)))
 	elif is_table(c):
-		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), keys=keys)
+		mask = create_mask(c, condition=lambda x: not f(x, *args, **kwargs), fill=False, keys=keys)
 		if is_frame(c):
 			return c.loc[reduce_or(mask, axis=1)]
 		return c.loc[mask]
