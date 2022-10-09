@@ -1510,7 +1510,7 @@ def set_values(c, new_values, mask=None,
 	return c
 
 
-def set_element_types(c, new_element_types,
+def set_element_types(c, new_types,
                       keys=None, inclusion=None, exclusion=None):
 	'''Sets the values (values/values/columns) of the specified collection whose keys
 	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
@@ -1523,23 +1523,23 @@ def set_element_types(c, new_element_types,
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_empty(keys):
 		return c
-	if not is_dict(new_element_types) and not is_series(c) and not is_array(c):
-		if is_collection(new_element_types):
-			new_element_types = get_element_types(new_element_types, keys=keys)
+	if not is_dict(new_types) and not is_series(c) and not is_array(c):
+		if is_collection(new_types):
+			new_types = get_element_types(new_types, keys=keys)
 		else:
-			new_element_types = {k: new_element_types for k in keys}
-	if is_empty(new_element_types):
+			new_types = {k: new_types for k in keys}
+	if is_empty(new_types):
 		return c
 	if is_frame(c):
-		c = c.astype(new_element_types, copy=False)
+		c = c.astype(new_types, copy=False)
 	elif is_series(c) or is_array(c):
-		c = c.astype(new_element_types, copy=False)
+		c = c.astype(new_types, copy=False)
 	elif is_dict(c):
 		upsert(c, {key: to_element_type(c.pop(key), new_element_type)
-		           for key, new_element_type in new_element_types.items()})
+		           for key, new_element_type in new_types.items()})
 	else:
 		update(c, {key: to_element_type(c[key], new_element_type)
-		           for key, new_element_type in new_element_types.items()},
+		           for key, new_element_type in new_types.items()},
 		       keys=keys)
 	return c
 
@@ -4095,8 +4095,10 @@ def update(c1, c2,
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1):
+		types = get_element_types(c2)
 		c1.update(c2.fillna(NA_NAME))
 		c1.replace(NA_NAME, NAN, inplace=True)
+		c1 = set_element_types(c1, types)
 	elif is_dict(c1):
 		c1.update(c2)
 	else:
