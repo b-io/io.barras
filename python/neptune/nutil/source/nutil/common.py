@@ -857,19 +857,13 @@ def read_json(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
 		return json.load(f)
 
 
-def read_csv(path, encoding=DEFAULT_ENCODING,
-             delimiter=',', type=None,
-             na_values=None, keep_default_na=False, na_filter=True,
-             parse_dates=True, date_parser=None, infer_datetime_format=True, keep_date_col=True,
-             verbose=False):
-	if is_null(na_values):
-		na_values = ['']
-	return pd.read_csv(path, encoding=encoding,
-	                   delimiter=delimiter, dtype=type,
-	                   na_values=na_values, keep_default_na=keep_default_na, na_filter=na_filter,
-	                   parse_dates=parse_dates, date_parser=date_parser,
-	                   infer_datetime_format=infer_datetime_format, keep_date_col=keep_date_col,
-	                   verbose=verbose)
+def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', index_cols=None, index_name='index',
+             na_values=[''], type=None, **kwargs):
+	df = pd.read_csv(path, encoding=encoding, delimiter=delimiter, dtype=type,
+	                 index_col=index_cols, na_values=na_values, **kwargs)
+	if is_null(index_cols):
+		df.index.name = index_name
+	return df
 
 
 #########################
@@ -1384,7 +1378,7 @@ def get_element_types(c,
 	elif hasattr(c, 'dtypes'):
 		return c.dtypes
 	elif hasattr(c, 'dtype'):
-		return c.dtype
+		return to_series([c.dtype], index=get_name(c))
 	return [type(c[k]) for k in keys]
 
 
@@ -4163,7 +4157,7 @@ def fail(*args, level=0):
 def print_table(table, format='grid', headers=None, show_index='default'):
 	if is_table(table):
 		print(table.to_markdown(tablefmt=format,
-		                        headers=headers if not is_null(headers) else get_keys(table),
+		                        headers=headers if not is_null(headers) else get_names(table),
 		                        showindex=show_index))
 	else:
 		print(tabulate(table, tablefmt=format,
@@ -4196,7 +4190,7 @@ def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integr
 	df = pd.concat([to_frame(row) for row in rows], axis=0, copy=copy, ignore_index=ignore_index,
 	               sort=sort, verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
-		return collection_to_common_type(df, get_first(rows))
+		return to_series(df)
 	return df
 
 
@@ -4208,7 +4202,7 @@ def concat_cols(*cols, copy=False, ignore_index=False, sort=False, verify_integr
 	df = pd.concat(cols, axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
 	               verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
-		return collection_to_common_type(df, get_first(cols))
+		return to_series(df)
 	return df
 
 
@@ -4394,7 +4388,10 @@ def merge_all(*args, how='inner', on=None):
 def merge(left, right, how='inner', on=None):
 	'''Merges the specified left dataframe with the specified right dataframe on the common columns
 	(or on the specified columns if they are not null).'''
-	return to_frame(left).merge(to_frame(right), how=how, on=on)
+	index_name = get_names(left.index)
+	df = to_frame(left).merge(to_frame(right), how=how, on=on)
+	df.index.name = index_name
+	return df
 
 
 #########################
@@ -4452,8 +4449,8 @@ def rename_all(*args, names=None, index=None, level=None):
 
 #########################
 
-def reset_index(df, drop=False, level=0):
-	return df.reset_index(drop=drop, level=level)
+def reset_index(df, drop=False, level=0, inplace=False):
+	return df.reset_index(drop=drop, level=level, inplace=inplace)
 
 
 #########################

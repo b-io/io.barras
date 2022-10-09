@@ -256,9 +256,9 @@ def get_col_types(df,
                   # Float
                   decimal_scale=None, to_decimal=True, float_precision=None,
                   # String
-                  string_length='MAX', to_text=False):
+                  string_length=8000, to_text=False):
 	types = {}
-	for col, type in zip(df.columns, df.dtypes):
+	for col, type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
 		type_name = str(type)
 		if 'bool' in type_name:
 			types.update({col: db.Boolean()})
@@ -332,12 +332,12 @@ __DB_CREATE_______________________________________ = ''
 
 
 def create_table(engine, df, table, append=False, chunk_size=DEFAULT_CHUNK_SIZE, index=True,
-                 index_cols=None, method=None, replace=False, schema=DEFAULT_SCHEMA, types=None):
+                 index_cols=None, method=None, replace=False, schema=DEFAULT_SCHEMA, type=None):
 	return df.to_sql(table, engine,
 	                 chunksize=chunk_size,
 	                 if_exists='append' if append else 'replace' if replace else 'fail',
 	                 index=index, index_label=index_cols, method=method, schema=schema,
-	                 dtype=types if not is_null(types) else get_col_types(df))
+	                 dtype=type if not is_null(type) else get_col_types(df))
 
 
 # • DB SELECT ######################################################################################
