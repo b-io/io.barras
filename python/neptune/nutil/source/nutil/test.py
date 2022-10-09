@@ -128,6 +128,9 @@ class TestCommon(Test):
 		self.apply(l1, f, axis=1)
 		self.apply(l1.copy(), f, inplace=True)
 
+		self.assert_equals(set_element_types(l1.copy(), get_element_types(l1)), l1)
+		self.assert_equals(set_element_types(l1.copy(), FLOAT_TYPE), to_float(l1))
+
 		self.tally(l1, [33, 66])
 		self.tally(l2, [33, 66])
 
@@ -141,6 +144,9 @@ class TestCommon(Test):
 		self.apply(a, f, axis=1)
 		self.apply(a.copy(), f, inplace=True)
 
+		self.assert_equals(set_element_types(a.copy(), get_element_types(a)), a)
+		self.assert_equals(set_element_types(a.copy(), FLOAT_TYPE), to_float(a))
+
 		self.assert_equals(a, df, assert_order=True)
 
 		self.tally(a, [33, 66])
@@ -150,6 +156,9 @@ class TestCommon(Test):
 
 		self.apply(d1, f)
 		self.apply(d1.copy(), f, inplace=True)
+
+		self.assert_equals(set_element_types(d1.copy(), get_element_types(d1)), d1)
+		self.assert_equals(set_element_types(d1.copy(), FLOAT_TYPE), to_float(d1))
 
 		self.assert_equals(update(d1.copy(), d2), take(d2, d1))
 		self.assert_equals(upsert(d1.copy(), d2), d2)
@@ -162,6 +171,9 @@ class TestCommon(Test):
 		self.apply(s1, f)
 		self.apply(s1, f, axis=0)
 		self.apply(s1.copy(), f, inplace=True)
+
+		self.assert_equals(set_element_types(s1.copy(), get_element_types(s1)), s1)
+		self.assert_equals(set_element_types(s1.copy(), FLOAT_TYPE), to_float(s1))
 
 		self.assert_equals(update(s1.copy(), s2), take(s2, s1))
 		self.assert_equals(upsert(s1.copy(), s2), s2)
@@ -179,6 +191,9 @@ class TestCommon(Test):
 		self.apply(df, f, axis=1)
 		self.apply(df.copy(), f, inplace=True)
 
+		self.assert_equals(set_element_types(df.copy(), get_element_types(df)), df)
+		self.assert_equals(set_element_types(df.copy(), FLOAT_TYPE), to_float(df))
+
 		self.assert_equals(update(df1.copy(), df2), df1)
 		self.assert_equals(upsert(df1.copy(), df2), df)
 
@@ -191,6 +206,9 @@ class TestCommon(Test):
 
 		self.apply(g0, f)
 		self.apply(g1, f)
+
+		self.assert_equals(set_element_types(g0, get_element_types(g0)), df)
+		self.assert_equals(set_element_types(g0, FLOAT_TYPE), to_float(df))
 
 		self.tally(g0, [33, 66])
 

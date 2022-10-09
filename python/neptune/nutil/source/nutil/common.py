@@ -1244,6 +1244,8 @@ def get_index(c,
 		exclusion = get_index(exclusion)
 	if is_table(c):
 		return filter_list(c.index, inclusion=inclusion, exclusion=exclusion)
+	elif is_array(c):
+		return filter_list(range(count_cols(c)), inclusion=inclusion, exclusion=exclusion)
 	return get_keys(c, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -1364,22 +1366,24 @@ def get_element_types(c,
 	'''Returns the element types of the specified collection whose keys (indices/keys/names) are in
 	the specified inclusive list and are not in the specified exclusive list.'''
 	if is_empty(c):
-		return []
+		return {}
 	elif not is_subscriptable_collection(c):
-		return [type(get_next(c))]
+		return {i: type(e) for i, e in enumerate(c)}
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_empty(keys):
-		return []
-	elif is_table(c):
-		return filter(c, keys=keys).dtypes
+		return {}
+	elif is_frame(c):
+		return to_dict(filter(c, keys=keys).dtypes)
+	elif is_series(c):
+		return {get_name(c): c[keys].dtype}
 	elif is_array(c):
-		return c[keys].dtype
+		return c.dtype
 	elif hasattr(c, 'dtypes'):
-		return c.dtypes
+		return to_dict(c.dtypes)
 	elif hasattr(c, 'dtype'):
-		return to_series([c.dtype], index=get_name(c))
-	return [type(c[k]) for k in keys]
+		return {get_name(c): c.dtype}
+	return {k: type(c[k]) for k in keys}
 
 
 ##################################################
@@ -1430,7 +1434,7 @@ def set_keys(c, new_keys,
 	elif is_dict(c):
 		upsert(c, {new_key: c.pop(key) for key, new_key in zip(keys, new_keys)})
 	else:
-		update(c, {new_key: c[key] for key, new_key in zip(keys, new_keys)}, inclusion=new_keys)
+		update(c, {new_key: c[key] for key, new_key in zip(keys, new_keys)}, keys=keys)
 	return c
 
 
@@ -1503,6 +1507,40 @@ def set_values(c, new_values, mask=None,
 		else:
 			for i, k in enumerate(keys):
 				c[k] = new_values[i]
+	return c
+
+
+def set_element_types(c, new_element_types,
+                      keys=None, inclusion=None, exclusion=None):
+	'''Sets the values (values/values/columns) of the specified collection whose keys
+	(indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
+	list.'''
+	if is_group(c):
+		c = c.obj if c.axis == 0 else c.groups
+	if is_empty(c) or not is_subscriptable_collection(c):
+		return c
+	if is_null(keys):
+		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c
+	if not is_dict(new_element_types) and not is_series(c) and not is_array(c):
+		if is_collection(new_element_types):
+			new_element_types = get_element_types(new_element_types, keys=keys)
+		else:
+			new_element_types = {k: new_element_types for k in keys}
+	if is_empty(new_element_types):
+		return c
+	if is_frame(c):
+		c = c.astype(new_element_types, copy=False)
+	elif is_series(c) or is_array(c):
+		c = c.astype(new_element_types, copy=False)
+	elif is_dict(c):
+		upsert(c, {key: to_element_type(c.pop(key), new_element_type)
+		           for key, new_element_type in new_element_types.items()})
+	else:
+		update(c, {key: to_element_type(c[key], new_element_type)
+		           for key, new_element_type in new_element_types.items()},
+		       keys=keys)
 	return c
 
 
@@ -2342,6 +2380,29 @@ def get_period_years(d=get_datetime(), period=PERIOD):
 
 __COMMON_CONVERTERS_______________________________ = ''
 
+
+def to_element_type(x, t):
+	if type(x) is t:
+		return x
+	if t is TUPLE_TYPE:
+		return tuple(to_list(x))
+	elif t is TIMESTAMP_TYPE:
+		return to_timestamp(x)
+	elif t is DATE_TIME_TYPE:
+		return to_datetime(x)
+	elif t is DATE_TYPE:
+		return to_date(x)
+	elif t is BOOL_TYPE:
+		return to_bool(x)
+	elif t is FLOAT_TYPE:
+		return to_float(x)
+	elif t is INT_TYPE:
+		return to_int(x)
+	elif t is STRING_TYPE:
+		return to_string(x)
+	return x
+
+
 # • ARRAY ##########################################################################################
 
 __ARRAY_CONVERTERS________________________________ = ''
@@ -2629,7 +2690,7 @@ def to_dict(c):
 		return c.to_dict()
 	elif is_dict(c):
 		return c
-	return {k: v for k, v in enumerate(c)}
+	return {i: v for i, v in enumerate(c)}
 
 
 # • LIST ###########################################################################################
@@ -2643,7 +2704,7 @@ def to_list(*args):
 		if is_list(arg):
 			return arg
 		elif is_collection(arg):
-			return list(arg)
+			return list(arg if not is_dict(arg) else arg.values())
 		return [arg]
 	return list(args)
 
@@ -2698,7 +2759,7 @@ def to_set(*args):
 		if is_set(arg):
 			return arg
 		elif is_collection(arg):
-			return set(arg)
+			return set(arg if not is_dict(arg) else arg.values())
 		return {arg}
 	return set(args)
 
@@ -3731,7 +3792,8 @@ def insert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
 	list, are identical and indexes are different.'''
 	if not is_table(c1) and not is_dict(c1):
 		return c1
-	c2 = exclude_index(c2, c1)
+	if is_table(c2):
+		c2 = exclude_index(c2, c1)
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -3750,7 +3812,8 @@ def insert_cols(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
 	list, are different.'''
 	if not is_table(c1) and not is_dict(c1):
 		return c1
-	c2 = include_index(c2, c1)
+	if is_table(c2):
+		c2 = include_index(c2, c2)
 	if is_null(keys):
 		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
@@ -4026,7 +4089,7 @@ def update(c1, c2,
 	values whose keys, which are in the specified inclusive list and are not in the specified
 	exclusive list, and indexes are identical.'''
 	# - Update the rows
-	if is_table(c2) or is_dict(c2):
+	if is_table(c2):
 		c2 = include_index(c2, c1)
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
