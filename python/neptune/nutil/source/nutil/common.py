@@ -2571,7 +2571,7 @@ __DATAFRAME_CONVERTERS____________________________ = ''
 
 def to_series(data, name=None, index=None, type=None):
 	'''Converts the specified collection to a series.'''
-	if is_empty(data):
+	if is_empty(data) and not is_table(data):
 		data = []
 		type = OBJECT_TYPE
 	elif is_group(data):
@@ -2604,7 +2604,7 @@ def to_time_series(data, name=None, index=None, type=FLOAT_ELEMENT_TYPE):
 
 def to_frame(data, names=None, index=None, type=None):
 	'''Converts the specified collection to a dataframe.'''
-	if is_empty(data):
+	if is_empty(data) and not is_table(data):
 		data = []
 		type = OBJECT_TYPE
 	elif is_group(data):
@@ -4309,9 +4309,6 @@ def combine(left, right, f):
 
 def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified rows to a dataframe.'''
-	rows = remove_empty(to_collection(*rows))
-	if is_empty(rows):
-		return rows
 	df = pd.concat([to_frame(row) for row in rows], axis=0, copy=copy, ignore_index=ignore_index,
 	               sort=sort, verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
@@ -4321,9 +4318,6 @@ def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integr
 
 def concat_cols(*cols, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified columns to a dataframe.'''
-	cols = remove_empty(to_collection(*cols))
-	if is_empty(cols):
-		return cols
 	df = pd.concat(cols, axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
 	               verify_integrity=verify_integrity)
 	if count_cols(df) == 1:

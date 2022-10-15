@@ -231,10 +231,10 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
-def get_identity_cols(engine, table, is_mssql=DEFAULT_IS_MSSQL, verbose=False):
+def get_identity_cols(engine, table, is_mssql=DEFAULT_IS_MSSQL, verbose=VERBOSE):
 	'''Returns the identity columns of the specified table.'''
 	if is_mssql:
-		return select_table_where(engine, 'identity_columns', cols=['name'],
+		return select_table_where(engine, 'identity_columns', chunk_size=None, cols=['name'],
 		                          filtering_cols='OBJECT_NAME(object_id)',
 		                          filtering_row={'OBJECT_NAME(object_id)': table}, schema='sys',
 		                          verbose=verbose)['name']
@@ -331,8 +331,10 @@ def transact(engine, query, *args, **kwargs):
 __DB_CREATE_______________________________________ = ''
 
 
-def create_table(engine, df, table, append=False, chunk_size=DEFAULT_CHUNK_SIZE, index=True,
+def create_table(engine, df, table, append=False, chunk_size=DEFAULT_CHUNK_SIZE, index=False,
                  index_cols=None, method=None, replace=False, schema=DEFAULT_SCHEMA, type=None):
+	if index and is_null(index_cols):
+		index_cols = get_primary_cols(engine, table)
 	return df.to_sql(table, engine,
 	                 chunksize=chunk_size,
 	                 if_exists='append' if append else 'replace' if replace else 'fail',
@@ -362,21 +364,39 @@ def create_select_table_where_query(table, cols=None, filtering_cols=None, filte
 
 ##################################################
 
-def select_query(engine, query):
+def select_query(engine, query, chunk_size=DEFAULT_CHUNK_SIZE, index_cols=None, verbose=VERBOSE):
 	'''Returns the dataframe read from the specified query.'''
-	return pd.read_sql(query, con=engine)
+	if verbose:
+		debug('Select the query', quote(query))
+	return pd.read_sql(query, engine, chunksize=chunk_size, index_col=index_cols)
 
 
-def select_table(engine, table, cols=None, index_cols=None, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
+def select_table(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, index=False,
+                 index_cols=None, row_count=-1, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	'''Returns the dataframe read from the specified table (in the specified schema).'''
 	if verbose:
 		debug('Select the table', quote(table))
-	return pd.read_sql_table(table, con=engine, columns=cols, index_col=index_cols, schema=schema)
+	if index and is_null(index_cols):
+		index_cols = get_primary_cols(engine, table)
+	chunks = pd.read_sql_table(table, engine, chunksize=chunk_size, columns=cols,
+	                           index_col=index_cols, schema=schema)
+	if is_null(chunk_size):
+		if row_count >= 0 and len(chunks) >= row_count:
+			return chunks.head(row_count)
+		return chunks
+	df = to_frame([])
+	for i, chunk in enumerate(chunks):
+		debug_query('select', chunk_size, table, index_from=i * chunk_size,
+		            index_to=(i + 1) * chunk_size, verbose=verbose)
+		df = concat_rows(df, chunk)
+		if row_count >= 0 and len(df) >= row_count:
+			return df.head(row_count)
+	return df
 
 
-def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_row=None,
-                       index_cols=None, is_mssql=DEFAULT_IS_MSSQL, n=None, order='ASC',
-                       schema=DEFAULT_SCHEMA, verbose=VERBOSE):
+def select_table_where(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, filtering_cols=None,
+                       filtering_row=None, index=False, index_cols=None, is_mssql=DEFAULT_IS_MSSQL,
+                       n=None, order='ASC', row_count=-1, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	'''Selects the specified columns of the rows matching the specified filtering row at the
 	specified filtering columns from the specified table (in the specified schema) and returns them
 	in a dataframe.'''
@@ -386,12 +406,26 @@ def select_table_where(engine, table, cols=None, filtering_cols=None, filtering_
 		      'from the table', quote(table),
 		      paste('filtering on',
 		            format_cols(filtering_cols)) if not is_empty(filtering_cols) else '')
-	return pd.read_sql(create_select_table_where_query(table, cols=cols,
-	                                                   filtering_cols=filtering_cols,
-	                                                   filtering_row=filtering_row,
-	                                                   is_mssql=is_mssql, n=n, order=order,
-	                                                   schema=schema),
-	                   con=engine, columns=cols, index_col=index_cols)
+	if index and is_null(index_cols):
+		index_cols = get_primary_cols(engine, table)
+	chunks = pd.read_sql(create_select_table_where_query(table, cols=cols,
+	                                                     filtering_cols=filtering_cols,
+	                                                     filtering_row=filtering_row,
+	                                                     is_mssql=is_mssql, n=n, order=order,
+	                                                     schema=schema),
+	                     engine, chunksize=chunk_size, columns=cols, index_col=index_cols)
+	if is_null(chunk_size):
+		if row_count >= 0 and len(chunks) >= row_count:
+			return chunks.head(row_count)
+		return chunks
+	df = to_frame([])
+	for i, chunk in enumerate(chunks):
+		debug_query('select', chunk_size, table, index_from=i * chunk_size,
+		            index_to=(i + 1) * chunk_size, verbose=verbose)
+		df = concat_rows(df, chunk)
+		if row_count >= 0 and len(df) >= row_count:
+			return df.head(row_count)
+	return df
 
 
 # • DB DELETE ######################################################################################
@@ -793,8 +827,8 @@ def upsert_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSS
 	# Test
 	if upsert_count != len(df):
 		if verbose:
-			t = select_table_where(engine, table, cols=get_names(df), is_mssql=is_mssql,
-			                       schema=schema, verbose=verbose)
+			t = select_table_where(engine, table, chunk_size=None, cols=get_names(df),
+			                       is_mssql=is_mssql, schema=schema, verbose=verbose)
 			for index, row in df.iterrows():
 				if is_empty(filter_rows(t, row)):
 					error_row('update/insert', index, table, cols=filtering_cols, row=row,
@@ -848,11 +882,12 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 		for table in tables:
 			info('Fill the table', quote(table))
 			if is_null(filtering_row):
-				df = select_table(engine_from, table, schema=schema)
+				df = select_table(engine_from, table, chunk_size=chunk_size, schema=schema,
+				                  verbose=verbose)
 			else:
-				df = select_table_where(engine_from, table, filtering_cols=filtering_cols,
-				                        filtering_row=filtering_row, is_mssql=is_mssql_from,
-				                        schema=schema, verbose=verbose)
+				df = select_table_where(engine_from, table, chunk_size=chunk_size,
+				                        filtering_cols=filtering_cols, filtering_row=filtering_row,
+				                        is_mssql=is_mssql_from, schema=schema, verbose=verbose)
 			if is_mssql_from and not is_mssql_to:
 				table = table.lower()
 				set_names(df, map(str.lower, get_names(df)))

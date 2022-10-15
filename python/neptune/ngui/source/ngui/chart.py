@@ -138,7 +138,7 @@ def get_margin(x, has_title=False):
 
 ##################################################
 
-def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=False):
+def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
 	for ax in fig.axes:
 		ax.xaxis._gridOnMajor = ax.xaxis._major_tick_kw['gridOn']
 		ax.yaxis._gridOnMajor = ax.yaxis._major_tick_kw['gridOn']
