@@ -18,10 +18,27 @@ from ngui.chart import *
 from nutil.math import *
 
 ####################################################################################################
-# ML COMMON FUNCTIONS
+# LEARN PROPERTIES
 ####################################################################################################
 
-__ML_COMMON_______________________________________ = ''
+__LEARN_PROPERTIES________________________________ = ''
+
+# The default LEARN properties
+DEFAULT_LEARN_PROPS = {
+	# • NLP
+	# GloVe
+	'glovePath': None
+}
+try:
+	LEARN_PROPS = load_props('learn')
+except FileNotFoundError as ex:
+	LEARN_PROPS = DEFAULT_LEARN_PROPS
+
+####################################################################################################
+# LEARN COMMON FUNCTIONS
+####################################################################################################
+
+__LEARN_COMMON____________________________________ = ''
 
 
 def get_confusion_matrix(target, prediction, normalize=False):
@@ -54,9 +71,9 @@ def softmax(x):
 	return e_x / e_x.sum()
 
 
-# • ML FIGURE ######################################################################################
+# • LEARN FIGURE ###################################################################################
 
-__ML_FIGURE_______________________________________ = ''
+__LEARN_FIGURE____________________________________ = ''
 
 
 def plot_confusion_matrix(target, prediction, color_map=mplot.cm.gray_r, normalize=False,

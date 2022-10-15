@@ -97,8 +97,8 @@ class TestCommon(Test):
 		d1 = to_dict(l1)
 		d2 = to_dict(l2)
 
-		s1 = to_series(d1, name='a')
-		s2 = to_series(d2, name='b')
+		s1 = to_series(d1, name='A')
+		s2 = to_series(d2, name='B')
 
 		df = concat_cols(s1, s2)
 		df1 = to_frame(s1)
@@ -244,6 +244,12 @@ class TestCommon(Test):
 class TestDB(Test):
 
 	def test(self):
+		df = to_frame([['x', 1.], ['y', 2.], ['z', 3.]], names=['A', 'B'])
+		df.index.name = 'index'
+		self.assert_equals(str(get_col_types(df)), str({'index': db.Integer(),
+		                                                'A': db.String(length=8000),
+		                                                'B': db.Float(asdecimal=True)}))
+
 		self.assert_equals(create_select_table_where_query('name', filtering_row={'A': 1}),
 		                   'SELECT * FROM "dbo"."name" WHERE "A"=1;')
 		self.assert_equals(create_delete_table_query('name', filtering_row={'A': 1}),

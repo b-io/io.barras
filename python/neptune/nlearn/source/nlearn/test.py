@@ -15,24 +15,25 @@
 ####################################################################################################
 
 from nlearn.mixture import *
+from nlearn.nlp import GloVe
 from nutil.test import *
 
 ####################################################################################################
-# ML TEST CONSTANTS
+# LEARN TEST CONSTANTS
 ####################################################################################################
 
-__ML_TEST_CONSTANTS_______________________________ = ''
+__LEARN_TEST_CONSTANTS____________________________ = ''
 
 SIZE = 1000
 
 ####################################################################################################
-# ML TEST CLASSES
+# LEARN TEST CLASSES
 ####################################################################################################
 
-__ML_TEST_CLASSES_________________________________ = ''
+__LEARN_TEST_CLASSES______________________________ = ''
 
 
-class TestML(Test):
+class TestLearn(Test):
 
 	def test_mixture(self):
 		test('Fit a Gaussian mixture with one component')
@@ -60,12 +61,16 @@ class TestML(Test):
 		                   title='Dirichlet Process Gaussian Mixture With Five Components')
 		fig.show()
 
+	def test_nlp(self):
+		test('Create a handler for Global Vectors for Word Representation (GloVe)')
+		_ = GloVe()
+
 
 ####################################################################################################
-# ML TEST MAIN
+# LEARN TEST MAIN
 ####################################################################################################
 
-__ML_TEST_MAIN____________________________________ = ''
+__LEARN_TEST_MAIN_________________________________ = ''
 
 
 def main():

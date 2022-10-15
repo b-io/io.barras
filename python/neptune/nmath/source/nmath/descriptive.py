@@ -23,6 +23,7 @@ from nmath.common import *
 
 __DESCRIPTIVE_CONSTANTS___________________________ = ''
 
+# The default number of points
 DEFAULT_POINT_COUNT = 100
 
 ####################################################################################################

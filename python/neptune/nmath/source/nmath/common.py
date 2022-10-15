@@ -27,8 +27,7 @@ from nutil.math import *
 __MATH_COMMON_CONSTANTS___________________________ = ''
 
 # The default confidence level
-if not exists('DEFAULT_CONFIDENCE_LEVEL'):
-	DEFAULT_CONFIDENCE_LEVEL = 0.95
+DEFAULT_CONFIDENCE_LEVEL = 0.95
 
 ####################################################################################################
 # MATH COMMON CLASSES

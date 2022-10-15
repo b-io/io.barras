@@ -27,6 +27,7 @@ from nmath.common import *
 
 __MIXTURE_CONSTANTS_______________________________ = ''
 
+# The default maximum number of iterations
 DEFAULT_MAX_ITERATION_COUNT = 1000
 
 ####################################################################################################

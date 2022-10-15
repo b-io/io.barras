@@ -15,10 +15,17 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
+from nlearn.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
 
-from nlearn.common import *
+####################################################################################################
+# NLP PROPERTIES
+####################################################################################################
+
+__NLP_PROPERTIES__________________________________ = ''
+
+GLOVE_PATH = LEARN_PROPS.get('glovePath')
 
 ####################################################################################################
 # NLP CONSTANTS
@@ -26,6 +33,7 @@ from nlearn.common import *
 
 __NLP_CONSTANTS___________________________________ = ''
 
+# The default maximum number of words
 DEFAULT_MAX_WORD_COUNT = 20
 
 ####################################################################################################
@@ -41,7 +49,8 @@ class GloVe:
 	Socher, and Christopher D. Manning (2014).
 	'''
 
-	def __init__(self, path=None, size=None, verbose=VERBOSE, verbose_interval=100000):
+	def __init__(self, path=GLOVE_PATH, encoding=DEFAULT_ENCODING, ignore=True,
+	             newline=DEFAULT_NEWLINE, size=None, verbose=VERBOSE, verbose_interval=100000):
 		'''
 		Constructs a handler for Global Vectors for Word Representation (GloVe) containing a
 		vocabulary of words and their pre-trained word vectors.
@@ -56,8 +65,9 @@ class GloVe:
 		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word
 		self.size = size
 
-		if not is_null(path):
-			self.load(path, size=size, verbose=verbose, verbose_interval=verbose_interval)
+		if not is_empty(path):
+			self.load(path, encoding=encoding, ignore=ignore, newline=newline, size=size,
+			          verbose=verbose, verbose_interval=verbose_interval)
 
 	##############################################
 
@@ -160,7 +170,8 @@ class GloVe:
 
 	##############################################
 
-	def load(self, path, size=None, verbose=VERBOSE, verbose_interval=100000):
+	def load(self, path, encoding=DEFAULT_ENCODING, ignore=True, newline=DEFAULT_NEWLINE, size=None,
+	         verbose=VERBOSE, verbose_interval=100000):
 		'''
 		Loads the dictionary mapping the vocabulary words to their pre-trained word vectors.
 
@@ -168,21 +179,17 @@ class GloVe:
 		             vectors
 		:param size: the size of the word vectors
 		'''
-		with open(path, mode='r', encoding=DEFAULT_ENCODING, errors='ignore',
-		          newline=DEFAULT_NEWLINE) as f:
-			# Create the dictionary mapping every vocabulary word to its word vector
-			i = 0
-			for line in f:
-				line = line.strip().split()
-				if is_null(size):
-					size = len(line) - 1
-				if verbose and i % verbose_interval == 0:
-					debug('Load the', str(size) + '-dimensional word vectors',
-					      'from', i + 1, 'to', i + verbose_interval, '...')
-				word = paste(line[:-size])
-				self.vocabulary.append(word)
-				self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_ELEMENT_TYPE)
-				i += 1
+		# Create the dictionary mapping every vocabulary word to its word vector
+		for i, line in read_enumerator(path, encoding=encoding, ignore=ignore, newline=newline):
+			line = line.strip().split()
+			if is_null(size):
+				size = len(line) - 1
+			if verbose and i % verbose_interval == 0:
+				debug('Load the', str(size) + '-dimensional word vectors',
+				      'from', i + 1, 'to', i + verbose_interval, '...')
+			word = paste(line[:-size])
+			self.vocabulary.append(word)
+			self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_ELEMENT_TYPE)
 		# Create the dictionary mapping every vocabulary word to its index, and vice versa
 		sort(self.vocabulary, inplace=True)
 		for i, w in enumerate(self.vocabulary):

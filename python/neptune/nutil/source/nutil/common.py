@@ -73,6 +73,7 @@ class Enum(Enum):
 ##################################################
 
 class Environment(Enum):
+	LOCAL = 'local'
 	DEV = 'dev'
 	TEST = 'test'
 	MODEL = 'model'
@@ -221,6 +222,22 @@ class OrderedSet(MutableSet, Sequence):
 ####################################################################################################
 
 __COMMON_CONSTANTS________________________________ = ''
+
+# The default environment
+DEFAULT_ENV = 'local'
+
+# The default assert
+DEFAULT_ASSERT = True
+
+#########################
+
+# The default severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
+DEFAULT_SEVERITY_LEVEL = 4
+
+# The default flag specifying whether to enable the verbose mode
+DEFAULT_VERBOSE = True
+
+##################################################
 
 OBJECT_TYPE = object
 
@@ -416,6 +433,7 @@ LIST_TYPE = list
 
 __NUMBER_CONSTANTS________________________________ = ''
 
+# The default maximum number of decimals
 DEFAULT_MAX_DECIMALS = 8
 
 ##################################################
@@ -839,51 +857,101 @@ def find_path(filename, dir=None, subdir=None):
 
 #########################
 
-def read(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
-	with open(path, mode='r', encoding=encoding, newline=newline) as f:
-		return f.read()
-
-
-def read_bytes(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
-	with open(path, mode='rb', encoding=encoding, newline=newline) as f:
-		return f.read()
-
-
-def read_json(path, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
+def read(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
 	if validators.url(path):
 		with urlopen(path) as f:
-			return json.load(f)
-	with open(path, encoding=encoding, newline=newline) as f:
-		return json.load(f)
+			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
+			return f.read().decode(encoding=encoding)
+	with open(path, mode='r', encoding=encoding, errors='ignore' if ignore else None,
+	          newline=newline) as f:
+		return f.read()
 
 
-def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', index_cols=None, index_name='index',
-             na_values=[''], type=None, **kwargs):
+def read_iterator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
+	if validators.url(path):
+		with urlopen(path) as f:
+			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
+			for line in f:
+				yield line.decode(encoding=encoding)
+	else:
+		with open(path, mode='r', encoding=encoding, errors='ignore' if ignore else None,
+		          newline=newline) as f:
+			for line in f:
+				yield line
+
+
+def read_enumerator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
+	if validators.url(path):
+		with urlopen(path) as f:
+			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
+			for i, line in enumerate(f):
+				yield i, line.decode(encoding=encoding)
+	else:
+		with open(path, mode='r', encoding=encoding, errors='ignore' if ignore else None,
+		          newline=newline) as f:
+			for i, line in enumerate(f):
+				yield i, line
+
+
+def read_bytes(path):
+	if validators.url(path):
+		with urlopen(path) as f:
+			return f.read()
+	with open(path, mode='rb') as f:
+		return f.read()
+
+
+def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', ignore=False, index_cols=None,
+             index_name='index', na_values=[''], newline=DEFAULT_NEWLINE, type=None, **kwargs):
 	df = pd.read_csv(path, encoding=encoding, delimiter=delimiter, dtype=type,
-	                 index_col=index_cols, na_values=na_values, **kwargs)
+	                 error_bad_lines=not ignore, index_col=index_cols, lineterminator=newline,
+	                 na_values=na_values,
+	                 **kwargs)
 	if is_null(index_cols):
 		df.index.name = index_name
 	return df
 
 
+def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=DEFAULT_NEWLINE, **kwargs):
+	if validators.url(path):
+		with urlopen(path) as f:
+			return json.load(f, **kwargs)
+	with open(path, mode='r', encoding=encoding, errors='ignore' if ignore else None,
+	          newline=newline) as f:
+		return json.load(f, **kwargs)
+
+
 #########################
 
-def write(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
-	with open(path, mode='a' if append else 'w', encoding=encoding, newline=newline) as f:
+def write(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False,
+          newline=DEFAULT_NEWLINE):
+	with open(path, mode='a' if append else 'w', encoding=encoding,
+	          errors='ignore' if ignore else None, newline=newline) as f:
 		return f.write(content)
 
 
-def write_bytes(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
-	with open(path, mode='ab' if append else 'wb', encoding=encoding, newline=newline) as f:
+def write_bytes(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False,
+                newline=DEFAULT_NEWLINE):
+	with open(path, mode='ab' if append else 'wb', encoding=encoding,
+	          errors='ignore' if ignore else None, newline=newline) as f:
 		return f.write(content)
 
 
-def write_csv(path, content, append=False, encoding=DEFAULT_ENCODING, newline=DEFAULT_NEWLINE):
-	with open(path, mode='a' if append else 'w', encoding=encoding, newline=newline) as f:
+def write_csv(path, content, append=False, dialect='excel', encoding=DEFAULT_ENCODING, ignore=False,
+              newline=DEFAULT_NEWLINE, **kwargs):
+	with open(path, mode='a' if append else 'w', encoding=encoding,
+	          errors='ignore' if ignore else None, newline=newline) as f:
 		if is_dict(content):
-			return csv.writer(f).writerow(content)
+			return csv.writer(f, dialect=dialect, **kwargs).writerow(content)
 		else:
-			return csv.writer(f).writerows(content)
+			return csv.writer(f, dialect=dialect, **kwargs).writerows(content)
+
+
+def write_json(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False, indent=None,
+               newline=DEFAULT_NEWLINE, **kwargs):
+	with open(path, mode='a' if append else 'w', encoding=encoding,
+	          errors='ignore' if ignore else None, newline=newline) as f:
+		return json.dump(content, f, indent=indent, **kwargs)
 
 
 ####################################################################################################
@@ -901,31 +969,31 @@ def load_props(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
 
 #########################
 
-# The properties
+# The default properties
 DEFAULT_PROPS = {
 	# • COMMON
 	# Assert
-	'assert': True,
-	# Environment (dev, test, model, prod)
-	'env': 'prod',
+	'assert': DEFAULT_ASSERT,
+	# Environment (local, dev, test, model, prod)
+	'env': DEFAULT_ENV,
 
 	# • CONSOLE
 	# Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
-	'severityLevel': 4,
+	'severityLevel': DEFAULT_SEVERITY_LEVEL,
 	# Verbose
-	'verbose': True,
+	'verbose': DEFAULT_VERBOSE,
 
 	# • DATE
 	# Date format
-	'dateFormat': '%Y-%m-%d',
+	'dateFormat': DEFAULT_DATE_FORMAT,
 	# Time format
-	'timeFormat': '%H:%M:%S',
+	'timeFormat': DEFAULT_TIME_FORMAT,
 	# Frequency (D, W, M, Q, S, Y)
-	'frequency': 'D',
+	'frequency': DEFAULT_FREQUENCY.value,
 	# Group (count, first, last, min, max, mean, median, std, var, sum)
-	'group': 'last',
+	'group': DEFAULT_GROUP.value,
 	# Period
-	'period': '1Y'
+	'period': DEFAULT_PERIOD
 }
 try:
 	PROPS = load_props('common')
@@ -933,16 +1001,8 @@ except FileNotFoundError as ex:
 	PROPS = DEFAULT_PROPS
 
 
-def get_prop(name, default=None):
-	'''Returns the property with the specified name.'''
-	try:
-		return PROPS[name]
-	except Exception as ex:
-		return default
-
-
 def get_bool_prop(name, default=None):
-	prop = get_prop(name, default=default)
+	prop = PROPS.get(name, default)
 	if is_null(prop):
 		return prop
 	elif is_bool(prop):
@@ -951,7 +1011,7 @@ def get_bool_prop(name, default=None):
 
 
 def get_float_prop(name, default=None):
-	prop = get_prop(name, default=default)
+	prop = PROPS.get(name, default)
 	if is_null(prop):
 		return prop
 	elif is_float(prop):
@@ -960,7 +1020,7 @@ def get_float_prop(name, default=None):
 
 
 def get_int_prop(name, default=None):
-	prop = get_prop(name, default=default)
+	prop = PROPS.get(name, default)
 	if is_null(prop):
 		return prop
 	elif is_int(prop):
@@ -971,30 +1031,30 @@ def get_int_prop(name, default=None):
 ##################################################
 
 # The flag specifying whether to assert
-ASSERT = get_bool_prop('assert', True)
+ASSERT = get_bool_prop('assert', DEFAULT_ASSERT)
 
 # The environment
-ENV = Environment(get_prop('env', 'prod'))
+ENV = Environment(PROPS.get('env', DEFAULT_ENV))
 
 # • CONSOLE ########################################################################################
 
 __CONSOLE_PROPERTIES______________________________ = ''
 
 # The severity level
-SEVERITY_LEVEL = SeverityLevel(get_int_prop('severityLevel', 4))
+SEVERITY_LEVEL = SeverityLevel(get_int_prop('severityLevel', DEFAULT_SEVERITY_LEVEL))
 
 # The flag specifying whether to enable the verbose mode
-VERBOSE = get_bool_prop('verbose', True)
+VERBOSE = get_bool_prop('verbose', DEFAULT_VERBOSE)
 
 # • DATE ###########################################################################################
 
 __DATE_PROPERTIES_________________________________ = ''
 
 # The date format
-DATE_FORMAT = get_prop('dateFormat', DEFAULT_DATE_FORMAT)
+DATE_FORMAT = PROPS.get('dateFormat', DEFAULT_DATE_FORMAT)
 
 # The time format
-TIME_FORMAT = get_prop('timeFormat', DEFAULT_TIME_FORMAT)
+TIME_FORMAT = PROPS.get('timeFormat', DEFAULT_TIME_FORMAT)
 
 # The date-time format
 DATE_TIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
@@ -1002,13 +1062,13 @@ DATE_TIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
 #########################
 
 # The frequency
-FREQUENCY = Frequency(get_prop('frequency', DEFAULT_FREQUENCY.value))
+FREQUENCY = Frequency(PROPS.get('frequency', DEFAULT_FREQUENCY.value))
 
 # The group
-GROUP = Group(get_prop('group', DEFAULT_GROUP.value))
+GROUP = Group(PROPS.get('group', DEFAULT_GROUP.value))
 
 # The period
-PERIOD = get_prop('period', DEFAULT_PERIOD)
+PERIOD = PROPS.get('period', DEFAULT_PERIOD)
 
 ####################################################################################################
 # COMMON ACCESSORS
@@ -1100,10 +1160,10 @@ def get_iterator(c, cycle=False):
 	return iter(c)
 
 
-def get_next(c):
+def get_next(c, cycle=False):
 	if not is_collection(c):
 		return c
-	return next(get_iterator(c))
+	return next(get_iterator(c, cycle=cycle))
 
 
 #########################
@@ -1375,9 +1435,7 @@ def get_element_types(c,
 		return {}
 	elif is_frame(c):
 		return to_dict(filter(c, keys=keys).dtypes)
-	elif is_series(c):
-		return {get_name(c): c[keys].dtype}
-	elif is_array(c):
+	elif is_series(c) or is_array(c):
 		return c.dtype
 	elif hasattr(c, 'dtypes'):
 		return to_dict(c.dtypes)
@@ -1523,16 +1581,18 @@ def set_element_types(c, new_types,
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_empty(keys):
 		return c
-	if not is_dict(new_types) and not is_series(c) and not is_array(c):
+	if not is_dict(new_types):
 		if is_collection(new_types):
 			new_types = get_element_types(new_types, keys=keys)
-		else:
+		elif not is_series(c) and not is_array(c):
 			new_types = {k: new_types for k in keys}
 	if is_empty(new_types):
 		return c
 	if is_frame(c):
 		c = c.astype(new_types, copy=False)
 	elif is_series(c) or is_array(c):
+		if is_dict(new_types):
+			new_types = get_value(new_types)
 		c = c.astype(new_types, copy=False)
 	elif is_dict(c):
 		upsert(c, {key: to_element_type(c.pop(key), new_element_type)
