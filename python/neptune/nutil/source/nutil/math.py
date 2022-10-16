@@ -308,7 +308,7 @@ def create_ellipse(center, a, b, angle=0, precision=100):
 	Y = []
 	cx, cy = center
 	for theta in create_sequence(0, 2 * PI, include=True, size=precision):
-		# Calculate the coordinates of the ellipse point at the angle theta
+		# Compute the coordinates of the ellipse point at the angle theta
 		px = a * cos(theta)
 		py = b * sin(theta)
 
@@ -325,7 +325,7 @@ def create_ellipse(center, a, b, angle=0, precision=100):
 ##################################################
 
 def distance(vector, vectors):
-	return np.linalg.norm(vectors - vector, ord=2, axis=1)
+	return norm2(np.subtract(vectors, vector), axis=1)
 
 
 def min_distance(vector, vectors):
@@ -342,6 +342,16 @@ def max_distance(vector, vectors):
 
 def max_distance_index(vector, vectors):
 	return np.argmax(distance(vector, vectors))
+
+
+#########################
+
+def norm1(vector, axis=0):
+	return np.linalg.norm(vector, ord=1, axis=axis)
+
+
+def norm2(vector, axis=0):
+	return np.linalg.norm(vector, ord=2, axis=axis)
 
 
 ##################################################

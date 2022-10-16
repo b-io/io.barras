@@ -14,6 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+import cv2
 import matplotlib.cm as mcm
 import matplotlib.colors as mcolors
 
@@ -73,31 +74,141 @@ DEFAULT_BG_COLOR = TRANSPARENT
 # The default font size
 DEFAULT_FONT_SIZE = 12
 
+
 ##################################################
 
+def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
+	color = forward_element(*args)
+	if is_collection(color) or is_tuple(color):
+		if is_array(color):
+			b, g, r = cv2.split(to_float(color))
+		elif len(color) == 3:
+			r, g, b = color
+		elif len(color) == 4:
+			r, g, b, alpha = color
+	elif is_string(color):
+		if 'rgb' in color:
+			color = to_float(extract(color, '[0-9\.]+'))
+			if len(color) == 3:
+				r, g, b = color
+			elif len(color) == 4:
+				r, g, b, alpha = color
+		else:
+			if not is_null(alpha):
+				r, g, b, alpha = mcolors.to_rgba(color, alpha=alpha)
+			else:
+				r, g, b = mcolors.to_rgb(color)
+	if not is_null(scale):
+		r, g, b = unscale_color(r, g, b)
+		if scale:
+			r, g, b = scale_color(r, g, b)
+	if not is_null(alpha):
+		return r, g, b, alpha
+	return r, g, b
+
+
+#########################
+
+def to_hsv(*args, h=0, s=0, v=0, alpha=None, scale=None):
+	color = forward_element(*args)
+	if is_collection(color) or is_tuple(color):
+		if is_array(color):
+			h, s, v = cv2.split(to_float(color))
+		elif len(color) == 3:
+			h, s, v = color
+		elif len(color) == 4:
+			h, s, v, alpha = color
+	if not is_null(scale):
+		h, s, v = unscale_color(h, s, v)
+		if scale:
+			h, s, v = scale_color(h, s, v)
+	if not is_null(alpha):
+		return h, s, v, alpha
+	return h, s, v
+
+
+#########################
+
+def rgb_to_hsv(*args, r=0, g=0, b=0, alpha=None, scale=None):
+	color = forward_element(*args)
+	if is_array(color):
+		image = cv2.cvtColor(color, cv2.COLOR_BGR2HSV)
+		h, s, v = cv2.split(to_float(image))
+	else:
+		r, g, b = to_rgb(*args, r=r, g=g, b=b)
+		h, s, v = mcolors.rgb_to_hsv((r, g, b))
+	if not is_null(scale):
+		h, s, v = unscale_color(h, s, v)
+		if scale:
+			h, s, v = scale_color(h, s, v)
+	if not is_null(alpha):
+		return h, s, v, alpha
+	return h, s, v
+
+
+def hsv_to_rgb(*args, h=0, s=0, v=0, alpha=None, scale=None):
+	color = forward_element(*args)
+	if is_array(color):
+		image = cv2.cvtColor(color, cv2.COLOR_HSV2BGR)
+		b, g, r = cv2.split(to_float(image))
+	else:
+		h, s, v = to_hsv(*args, h=h, s=s, v=v)
+		r, g, b = mcolors.hsv_to_rgb((h, s, v))
+	if not is_null(scale):
+		r, g, b = unscale_color(r, g, b)
+		if scale:
+			r, g, b = scale_color(r, g, b)
+	if not is_null(alpha):
+		return r, g, b, alpha
+	return r, g, b
+
+
+#########################
+
+def is_scaled_color(x, y, z):
+	return maximum(maximum(x)) > 1 or maximum(maximum(y)) > 1 or maximum(maximum(z)) > 1
+
+
+def is_unscaled_color(x, y, z):
+	return maximum(maximum(x)) <= 1 and maximum(maximum(y)) <= 1 and maximum(maximum(z)) <= 1
+
+
+#########################
+
+
+def scale_color(x, y, z):
+	if is_unscaled_color(x, y, z):
+		x = round_to_int(x * 255)
+		y = round_to_int(y * 255)
+		z = round_to_int(z * 255)
+	return x, y, z
+
+
+def unscale_color(x, y, z):
+	if is_scaled_color(x, y, z):
+		x /= 255
+		y /= 255
+		z /= 255
+	return x, y, z
+
+
+#########################
+
 BASE_COLOR_NAMES = [name for name, _ in mcolors.BASE_COLORS.items()]
-BASE_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.BASE_COLORS.items()])
-BASE_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.BASE_COLORS.items()])
+BASE_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.BASE_COLORS.items()])
+BASE_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.BASE_COLORS.items()])
 
 TABLEAU_COLOR_NAMES = [name for name, _ in mcolors.TABLEAU_COLORS.items()]
-TABLEAU_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
-                                    for _, color in mcolors.TABLEAU_COLORS.items()])
-TABLEAU_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
-                                    for _, color in mcolors.TABLEAU_COLORS.items()])
+TABLEAU_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.TABLEAU_COLORS.items()])
+TABLEAU_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.TABLEAU_COLORS.items()])
 
 CSS4_COLOR_NAMES = [name for name, _ in mcolors.CSS4_COLORS.items()]
-CSS4_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.CSS4_COLORS.items()])
-CSS4_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.CSS4_COLORS.items()])
+CSS4_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.CSS4_COLORS.items()])
+CSS4_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.CSS4_COLORS.items()])
 
 XKCD_COLOR_NAMES = [name for name, _ in mcolors.XKCD_COLORS.items()]
-XKCD_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.XKCD_COLORS.items()])
-XKCD_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
-                                 for _, color in mcolors.XKCD_COLORS.items()])
+XKCD_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.XKCD_COLORS.items()])
+XKCD_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.XKCD_COLORS.items()])
 
 RAINBOW_SCALE = mcm.get_cmap(name='rainbow')
 RYG_SCALE = mcm.get_cmap(name='RdYlGn')
@@ -117,10 +228,9 @@ def get_alternate_colors(n, row_odd_color='white', row_even_color='lightgray'):
 	return ceil(n / 2) * [row_odd_color, row_even_color]
 
 
-def get_complementary_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
-	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
-	return to_rgba_color([minimum(r, g, b) + maximum(r, g, b) - c for c in (r, g, b)], alpha=alpha,
-	                     scale=False)
+def get_complementary_color(*args, r=0, g=0, b=0, scale=None):
+	r, g, b = to_rgb(*args, r=r, g=g, b=b, scale=scale)
+	return tuple(minimum(r, g, b) + maximum(r, g, b) - c for c in (r, g, b))
 
 
 def get_RYG(brightness='8'):
@@ -153,77 +263,42 @@ def get_color_name(code, names, codes):
 
 
 def get_base_color_name(code, is_hsv=False):
-	return get_color_name(code, BASE_COLOR_NAMES,
+	return get_color_name(unscale_color(*code), BASE_COLOR_NAMES,
 	                      BASE_COLOR_HSV_CODES if is_hsv else BASE_COLOR_RGB_CODES)
 
 
 def get_tableau_color_name(code, is_hsv=False):
-	return get_color_name(code, TABLEAU_COLOR_NAMES,
+	return get_color_name(unscale_color(*code), TABLEAU_COLOR_NAMES,
 	                      TABLEAU_COLOR_HSV_CODES if is_hsv else TABLEAU_COLOR_RGB_CODES)
 
 
 def get_css4_color_name(code, is_hsv=False):
-	return get_color_name(code, CSS4_COLOR_NAMES,
+	return get_color_name(unscale_color(*code), CSS4_COLOR_NAMES,
 	                      CSS4_COLOR_HSV_CODES if is_hsv else CSS4_COLOR_RGB_CODES)
 
 
 def get_xkcd_color_name(code, is_hsv=False):
-	return get_color_name(code, XKCD_COLOR_NAMES,
+	return get_color_name(unscale_color(*code), XKCD_COLOR_NAMES,
 	                      XKCD_COLOR_HSV_CODES if is_hsv else XKCD_COLOR_RGB_CODES)
 
 
 ##################################################
 
-def to_color(value, alpha=1, color_scale=RYG_SCALE, normalize=False, scale=True):
-	'''Converts the specified value to a RGBA color using the specified alpha and color scale.'''
+def format_color(value, alpha=1, color_scale=RYG_SCALE, normalize=False):
+	'''Formats the specified value to an RGBA color using the specified alpha and color scale.'''
 	if normalize:
 		value = float(normal.cdf(value))
 	c = color_scale(value)
-	return to_rgba_color(c, alpha=alpha, scale=scale)
+	return format_rgb_color(c, alpha=alpha, scale=True)
 
 
-def to_rgba(*args, r=0, g=0, b=0, alpha=1, scale=True):
-	if len(args) == 1:
-		arg = args[0]
-		if is_string(arg):
-			if 'rgba' in arg:
-				arg = to_float(extract(arg, '[0-9\.]+'))
-				if len(arg) == 3:
-					r, g, b = arg
-				elif len(arg) == 4:
-					r, g, b, alpha = arg
-			else:
-				r, g, b, alpha = mcolors.to_rgba(arg, alpha=alpha)
-		elif is_collection(arg) or is_tuple(arg):
-			if len(arg) == 3:
-				r, g, b = arg
-			elif len(arg) == 4:
-				r, g, b, alpha = arg
-	if scale and r <= 1 and g <= 1 and b <= 1:
-		r = round_to_int(r * 255)
-		g = round_to_int(g * 255)
-		b = round_to_int(b * 255)
-	return r, g, b, alpha
+def format_rgb_color(*args, r=0, g=0, b=0, alpha=1):
+	'''Formats the specified RGB color (with alpha if it is not null).'''
+	prefix = 'rgba' if not is_null(alpha) else 'rgb'
+	return prefix + str(to_rgb(*args, r=r, g=g, b=b, alpha=alpha, scale=True))
 
 
-def to_rgba_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
-	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
-	return 'rgba' + par(collist(r, g, b, alpha))
-
-
-##################################################
-
-def scale_rgb_color(r, g, b):
-	return tuple(round_to_int(255 * to_array([r, g, b])))
-
-
-def unscale_rgb_color(r, g, b):
-	return (r / 255, g / 255, b / 255)
-
-
-def scale_hsv_color(h, s, v):
-	return tuple(round_to_int(100 * to_array([h, s, v])))
-
-
-def unscale_hsv_color(h, s, v):
-	return (h / 100, s / 100, v / 100)
+def format_hsv_color(*args, h=0, s=0, v=0, alpha=1):
+	'''Formats the specified HSV color (with alpha if it is not null).'''
+	prefix = 'hsva' if not is_null(alpha) else 'hsv'
+	return prefix + str(to_hsv(*args, h=h, s=s, v=v, alpha=alpha, scale=True))

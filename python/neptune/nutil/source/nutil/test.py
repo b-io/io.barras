@@ -18,6 +18,7 @@ import timeit
 import unittest
 
 from nutil.db import *
+from nutil.math import *
 
 ####################################################################################################
 # TEST CONSTANTS
@@ -26,6 +27,8 @@ from nutil.db import *
 _TEST_CONSTANTS___________________________________ = ''
 
 PRECISION = 14  # decimals
+SIZE = 100
+ROW_SIZE = 10000
 
 TEST_COUNT = 10
 
@@ -89,10 +92,10 @@ class TestCommon(Test):
 	def test(self):
 		# Initialize
 		hello = 'Hello, world!'
-		token = generate_string(10)
+		token = generate_string(SIZE)
 
-		l1 = to_list(reverse(range(10)))
-		l2 = to_list(np.random.randint(0, 10, size=10))
+		l1 = to_list(reverse(range(SIZE)))
+		l2 = to_list(np.random.randint(0, SIZE, size=SIZE))
 
 		d1 = to_dict(l1)
 		d2 = to_dict(l2)
@@ -131,8 +134,8 @@ class TestCommon(Test):
 		self.assert_equals(set_element_types(l1.copy(), get_element_types(l1)), l1)
 		self.assert_equals(set_element_types(l1.copy(), FLOAT_TYPE), to_float(l1))
 
-		self.tally(l1, [3, 6])
-		self.tally(l2, [3, 6])
+		self.tally(l1, [SIZE / 3, 2 * SIZE / 3])
+		self.tally(l2, [SIZE / 3, 2 * SIZE / 3])
 
 		test('Test the array functions')
 		self.get_items(a)
@@ -149,7 +152,7 @@ class TestCommon(Test):
 
 		self.assert_equals(a, df, assert_order=True)
 
-		self.tally(a, [3, 6])
+		self.tally(a, [SIZE / 3, 2 * SIZE / 3])
 
 		test('Test the dictionary functions')
 		self.get_items(d1)
@@ -178,8 +181,8 @@ class TestCommon(Test):
 		self.assert_equals(update(s1.copy(), s2), take(s2, s1))
 		self.assert_equals(upsert(s1.copy(), s2), s2)
 
-		self.tally(s1, [3, 6])
-		self.tally(s2, [3, 6])
+		self.tally(s1, [SIZE / 3, 2 * SIZE / 3])
+		self.tally(s2, [SIZE / 3, 2 * SIZE / 3])
 
 		test('Test the frame functions')
 		self.get_items(df)
@@ -197,8 +200,8 @@ class TestCommon(Test):
 		self.assert_equals(update(df1.copy(), df2), df1)
 		self.assert_equals(upsert(df1.copy(), df2), df)
 
-		self.tally(df1, [3, 6])
-		self.tally(df2, [3, 6])
+		self.tally(df1, [SIZE / 3, 2 * SIZE / 3])
+		self.tally(df2, [SIZE / 3, 2 * SIZE / 3])
 
 		test('Test the group functions')
 		self.get_items(g0)
@@ -210,7 +213,7 @@ class TestCommon(Test):
 		self.assert_equals(set_element_types(g0, get_element_types(g0)), df)
 		self.assert_equals(set_element_types(g0, FLOAT_TYPE), to_float(df))
 
-		self.tally(g0, [3, 6])
+		self.tally(g0, [SIZE / 3, 2 * SIZE / 3])
 
 	##############################################
 
@@ -228,7 +231,7 @@ class TestCommon(Test):
 		t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
 		test(count_cols(c), 'cols retrieved', TEST_COUNT, 'times in', round(t), '[s]')
 
-	##############################################
+	#####################
 
 	def apply(self, c, f, *args, axis=None, inplace=False, **kwargs):
 		t = timeit.timeit(stmt=lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs),
@@ -258,6 +261,36 @@ class TestDB(Test):
 		                   'INSERT INTO "dbo"."name" ("A") VALUES (1);')
 		self.assert_equals(create_update_table_query('name', ['A'], {'A': 1}),
 		                   'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;')
+
+
+class TestMath(Test):
+
+	def test(self):
+		v = [[1, 2], [3, 4], [5, 6]]
+		self.assert_equals(distance(v[1], v)[1], 0)
+		self.assert_equals(distance(v[1], v)[0], distance(v[1], v)[2])
+		self.assert_equals(min_distance(v[1], v), 0)
+		self.assert_equals(min_distance_index(v[1], v), 1)
+
+		vector = create_random_array(ROW_SIZE)
+		self.norm2(vector)
+
+		vectors = create_random_array(SIZE, ROW_SIZE)
+		self.min_distance(vector, vectors)
+
+	##############################################
+
+
+	def norm2(self, vector):
+		t = timeit.timeit(stmt=lambda: norm2(vector), number=TEST_COUNT)
+		test('2-norm of a', str(ROW_SIZE) + '-dimensional vector computed', TEST_COUNT, 'times in',
+		     round(t), '[s]')
+
+	def min_distance(self, vector, vectors):
+		t = timeit.timeit(stmt=lambda: min_distance(vector, vectors), number=TEST_COUNT)
+		test('Minimum distance of a', str(ROW_SIZE) + '-dimensional vector to', SIZE, '',
+		     str(ROW_SIZE) + '-dimensional vectors computed', TEST_COUNT, 'times in',
+		     round(t), '[s]')
 
 
 ####################################################################################################

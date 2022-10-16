@@ -2445,7 +2445,7 @@ def to_element_type(x, t):
 	if type(x) is t:
 		return x
 	if t is TUPLE_TYPE:
-		return tuple(to_list(x))
+		return to_tuple(x)
 	elif t is TIMESTAMP_TYPE:
 		return to_timestamp(x)
 	elif t is DATE_TIME_TYPE:
@@ -2475,7 +2475,7 @@ def to_array(*args, type=None):
 			return arg
 		elif is_subscriptable_collection(arg):
 			return np.array(arg, dtype=type)
-	return np.array(list(args), dtype=type)
+	return np.array(to_list(*args), dtype=type)
 
 
 def unarray(a):
@@ -2497,7 +2497,7 @@ def to_collection(*args):
 		if is_collection(arg):
 			return arg
 		return [arg]
-	return list(args)
+	return to_list(*args)
 
 
 def to_indexed_collection(*args):
@@ -2506,7 +2506,7 @@ def to_indexed_collection(*args):
 		if is_indexed_collection(arg):
 			return arg
 		return [arg]
-	return list(args)
+	return to_list(*args)
 
 
 def to_subscriptable_collection(*args):
@@ -2515,7 +2515,7 @@ def to_subscriptable_collection(*args):
 		if is_subscriptable_collection(arg):
 			return arg
 		return [arg]
-	return list(args)
+	return to_list(*args)
 
 
 def uncollect(c):
@@ -2610,7 +2610,7 @@ def to_frame(data, names=None, index=None, type=None):
 	elif is_group(data):
 		data = data.obj
 	elif not is_collection(data):
-		data = create_array((len(get_index(index)), len(get_names(names))), fill=data, type=type)
+		data = create_array(len(get_index(index)), len(get_names(names)), fill=data, type=type)
 	if is_frame(data):
 		frame = data.copy()
 	elif is_series(data):
@@ -2642,6 +2642,8 @@ def to_date(x, format=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(DATE_TYPE)
 		return apply(x, to_date, format=format)
 	elif is_stamp(x):
 		x = parse_stamp(x)
@@ -2660,6 +2662,8 @@ def to_datetime(x, format=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(DATE_TIME_TYPE)
 		return apply(x, to_datetime, format=format)
 	elif is_stamp(x):
 		return parse_stamp(x)
@@ -2698,6 +2702,8 @@ def to_stamp(x):
 	if is_null(x):
 		return None
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(TIMESTAMP_TYPE)
 		return apply(x, to_stamp)
 	elif is_stamp(x):
 		return x
@@ -2786,6 +2792,8 @@ def to_bool(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(BOOL_TYPE)
 		return apply(x, to_bool)
 	elif is_string(x):
 		return bool(strtobool(x))
@@ -2796,6 +2804,8 @@ def to_int(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(INT_TYPE)
 		return apply(x, to_int)
 	return int(x)
 
@@ -2804,6 +2814,8 @@ def to_float(x):
 	if is_null(x):
 		return NAN
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(FLOAT_TYPE)
 		return apply(x, to_float)
 	return float(x)
 
@@ -2851,8 +2863,26 @@ def to_string(x, delimiter=','):
 	if is_null(x):
 		return None
 	elif is_collection(x):
+		if hasattr(x, 'astype'):
+			return x.astype(STRING_TYPE)
 		return collapse(x, delimiter=delimiter)
 	return str(x)
+
+
+# • TUPLE ##########################################################################################
+
+__TUPLE_CONVERTERS________________________________ = ''
+
+
+def to_tuple(*args):
+	if len(args) == 1:
+		arg = args[0]
+		if is_tuple(arg):
+			return arg
+		elif is_collection(arg):
+			return tuple(arg if not is_dict(arg) else arg.values())
+		return (arg,)
+	return tuple(args)
 
 
 ####################################################################################################
@@ -2957,8 +2987,24 @@ __COMMON_GENERATORS_______________________________ = ''
 __ARRAY_GENERATORS________________________________ = ''
 
 
-def create_array(shape, fill=0, order='C', type=None):
-	return np.full(get_shape(shape), fill, dtype=type, order=order)
+def create_array(*shape, fill=0, order='C', type=None):
+	return np.full(to_tuple(*shape), fill, dtype=type, order=order)
+
+
+def create_random_array(*shape):
+	return np.random.rand(*to_tuple(*shape))
+
+
+def create_random_int_array(low, *shape, high=None):
+	return np.random.randint(low, high=high, size=to_tuple(*shape), dtype=INT_ELEMENT_TYPE)
+
+
+def create_random_long_array(low, *shape, high=None):
+	return np.random.randint(low, high=high, size=to_tuple(*shape), dtype=LONG_ELEMENT_TYPE)
+
+
+def create_random_short_array(low, *shape, high=None):
+	return np.random.randint(low, high=high, size=to_tuple(*shape), dtype=SHORT_ELEMENT_TYPE)
 
 
 # • COLLECTION (LIST/DICT/DATAFRAME) ###############################################################
@@ -2971,7 +3017,7 @@ def create_mask(c, *args, condition=lambda x, *args, **kwargs: True, fill=True,
                 **kwargs):
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
-	mask = collection_to_type(create_array(c, fill=fill, type=BOOL_ELEMENT_TYPE), c)
+	mask = collection_to_type(create_array(get_shape(c), fill=fill, type=BOOL_ELEMENT_TYPE), c)
 	values = apply(c, condition, *args, keys=keys, **kwargs)
 	set_values(mask, values, keys=keys)
 	return mask
@@ -3139,6 +3185,12 @@ def forward(*args):
 	if len(args) == 1:
 		return args[0]
 	return list(args)
+
+
+def forward_element(*args):
+	if len(args) == 1:
+		return args[0]
+	return tuple(args)
 
 
 #########################
