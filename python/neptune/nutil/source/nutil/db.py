@@ -104,7 +104,7 @@ def error_query(verb, table, ex=None, verbose=VERBOSE):
 
 def get_row_message(verb, index, table, cols=None, row=None):
 	return paste(verb, 'the row', index + 1,
-	             par(get_items(row, inclusion=cols)) if not is_null(row) else '',
+	             get_items(row, inclusion=cols) if not is_null(row) else '',
 	             'in the table', quote(table))
 
 
