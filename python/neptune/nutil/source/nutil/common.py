@@ -288,7 +288,7 @@ __DATE_CONSTANTS__________________________________ = ''
 DEFAULT_DATE_FORMAT = '%Y-%m-%d'
 
 # The default time format
-DEFAULT_TIME_FORMAT = '%H:%M:%S'
+DEFAULT_TIME_FORMAT = '%H:%M:%S.%f'
 
 # The default date-time format
 DEFAULT_DATE_TIME_FORMAT = DEFAULT_DATE_FORMAT + ' ' + DEFAULT_TIME_FORMAT
@@ -1371,7 +1371,7 @@ def get_items(c,
 		return to_list(c)
 	if not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
 		if is_table(c) and not is_group(c) or is_dict(c):
-			return c.items()
+			return to_list(c.items())
 	if is_null(keys):
 		keys = get_keys(c, inclusion=inclusion, exclusion=exclusion)
 	if is_empty(keys):
@@ -4309,8 +4309,8 @@ def combine(left, right, f):
 
 def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified rows to a dataframe.'''
-	df = pd.concat([to_frame(row) for row in rows], axis=0, copy=copy, ignore_index=ignore_index,
-	               sort=sort, verify_integrity=verify_integrity)
+	df = pd.concat([to_frame(row) for row in to_collection(*rows)], axis=0, copy=copy,
+	               ignore_index=ignore_index, sort=sort, verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
 		return to_series(df)
 	return df
@@ -4318,7 +4318,7 @@ def concat_rows(*rows, copy=False, ignore_index=False, sort=False, verify_integr
 
 def concat_cols(*cols, copy=False, ignore_index=False, sort=False, verify_integrity=False):
 	'''Concatenates the specified columns to a dataframe.'''
-	df = pd.concat(cols, axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
+	df = pd.concat(to_collection(*cols), axis=1, copy=copy, ignore_index=ignore_index, sort=sort,
 	               verify_integrity=verify_integrity)
 	if count_cols(df) == 1:
 		return to_series(df)

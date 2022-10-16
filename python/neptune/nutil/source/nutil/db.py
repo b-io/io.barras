@@ -182,7 +182,7 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
 			return 'NULL'
 		return value
 	elif is_timestamp(value):
-		return quote(str(value)[:-3])
+		return quote(value.strftime(DEFAULT_DATE_TIME_FORMAT)[:-3])
 	return quote(escape(value))
 
 
@@ -531,7 +531,7 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 
 	# Execute the bulk query
 	try:
-		result = execute(engine, query, multi=True)
+		result = execute(engine, query)
 		result_count = len(result) if is_collection(result) else result
 		if result_count > 0:
 			delete_count = len(df)
@@ -660,7 +660,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 	if insert_id:
 		set_id_insert(engine, table, 'ON', is_mssql=is_mssql, schema=schema)
 	try:
-		result = execute(engine, query, multi=True)
+		result = execute(engine, query)
 		result_count = len(result) if is_collection(result) else result
 		if result_count > 0:
 			insert_count = len(df)
@@ -784,7 +784,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 
 	# Execute the bulk query
 	try:
-		result = execute(engine, query, multi=True)
+		result = execute(engine, query)
 		result_count = len(result) if is_collection(result) else result
 		if result_count > 0:
 			update_count = len(df)

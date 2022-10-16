@@ -75,43 +75,29 @@ DEFAULT_FONT_SIZE = 12
 
 ##################################################
 
-NAMED_COLORS = [
-	'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure',
-	'beige', 'bisque', 'black', 'blanchedalmond', 'blue',
-	'blueviolet', 'brown', 'burlywood', 'cadetblue',
-	'chartreuse', 'chocolate', 'coral', 'cornflowerblue',
-	'cornsilk', 'crimson', 'cyan', 'darkblue', 'darkcyan',
-	'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen',
-	'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
-	'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
-	'darkslateblue', 'darkslategray', 'darkslategrey',
-	'darkturquoise', 'darkviolet', 'deeppink', 'deepskyblue',
-	'dimgray', 'dimgrey', 'dodgerblue', 'firebrick',
-	'floralwhite', 'forestgreen', 'fuchsia', 'gainsboro',
-	'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey', 'green',
-	'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo',
-	'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen',
-	'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
-	'lightgoldenrodyellow', 'lightgray', 'lightgrey',
-	'lightgreen', 'lightpink', 'lightsalmon', 'lightseagreen',
-	'lightskyblue', 'lightslategray', 'lightslategrey',
-	'lightsteelblue', 'lightyellow', 'lime', 'limegreen',
-	'linen', 'magenta', 'maroon', 'mediumaquamarine',
-	'mediumblue', 'mediumorchid', 'mediumpurple',
-	'mediumseagreen', 'mediumslateblue', 'mediumspringgreen',
-	'mediumturquoise', 'mediumvioletred', 'midnightblue',
-	'mintcream', 'mistyrose', 'moccasin', 'navajowhite', 'navy',
-	'oldlace', 'olive', 'olivedrab', 'orange', 'orangered',
-	'orchid', 'palegoldenrod', 'palegreen', 'paleturquoise',
-	'palevioletred', 'papayawhip', 'peachpuff', 'peru', 'pink',
-	'plum', 'powderblue', 'purple', 'red', 'rosybrown',
-	'royalblue', 'rebeccapurple', 'saddlebrown', 'salmon',
-	'sandybrown', 'seagreen', 'seashell', 'sienna', 'silver',
-	'skyblue', 'slateblue', 'slategray', 'slategrey', 'snow',
-	'springgreen', 'steelblue', 'tan', 'teal', 'thistle', 'tomato',
-	'turquoise', 'violet', 'wheat', 'white', 'whitesmoke',
-	'yellow', 'yellowgreen'
-]
+BASE_COLOR_NAMES = [name for name, _ in mcolors.BASE_COLORS.items()]
+BASE_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.BASE_COLORS.items()])
+BASE_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.BASE_COLORS.items()])
+
+TABLEAU_COLOR_NAMES = [name for name, _ in mcolors.TABLEAU_COLORS.items()]
+TABLEAU_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
+                                    for _, color in mcolors.TABLEAU_COLORS.items()])
+TABLEAU_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
+                                    for _, color in mcolors.TABLEAU_COLORS.items()])
+
+CSS4_COLOR_NAMES = [name for name, _ in mcolors.CSS4_COLORS.items()]
+CSS4_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.CSS4_COLORS.items()])
+CSS4_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.CSS4_COLORS.items()])
+
+XKCD_COLOR_NAMES = [name for name, _ in mcolors.XKCD_COLORS.items()]
+XKCD_COLOR_RGB_CODES = to_array([to_array(list(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.XKCD_COLORS.items()])
+XKCD_COLOR_HSV_CODES = to_array([to_array(mcolors.rgb_to_hsv(mcolors.to_rgb(color)))
+                                 for _, color in mcolors.XKCD_COLORS.items()])
 
 RAINBOW_SCALE = mcm.get_cmap(name='rainbow')
 RYG_SCALE = mcm.get_cmap(name='RdYlGn')
@@ -137,13 +123,71 @@ def get_complementary_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 	                     scale=False)
 
 
-def get_random_named_color():
-	return random.choice(NAMED_COLORS)
-
-
 def get_RYG(brightness='8'):
 	colors = ['#E.0.0.', '#E..00.', '#E.E.0.', '#.0E.00', '#0...0.']
 	return [color.replace('.', brightness) for color in colors]
+
+
+#########################
+
+def get_random_base_color_name():
+	return random.choice(BASE_COLOR_NAMES)
+
+
+def get_random_tableau_color_name():
+	return random.choice(TABLEAU_COLOR_NAMES)
+
+
+def get_random_css4_color_name():
+	return random.choice(CSS4_COLOR_NAMES)
+
+
+def get_random_xkcd_color_name():
+	return random.choice(XKCD_COLOR_NAMES)
+
+
+#########################
+
+def get_color_name(code, names, codes):
+	return names[min_distance_index(code, codes)]
+
+
+def get_base_color_name(code, is_hsv=False):
+	return get_color_name(code, BASE_COLOR_NAMES,
+	                      BASE_COLOR_HSV_CODES if is_hsv else BASE_COLOR_RGB_CODES)
+
+
+def get_tableau_color_name(code, is_hsv=False):
+	return get_color_name(code, TABLEAU_COLOR_NAMES,
+	                      TABLEAU_COLOR_HSV_CODES if is_hsv else TABLEAU_COLOR_RGB_CODES)
+
+
+def get_css4_color_name(code, is_hsv=False):
+	return get_color_name(code, CSS4_COLOR_NAMES,
+	                      CSS4_COLOR_HSV_CODES if is_hsv else CSS4_COLOR_RGB_CODES)
+
+
+def get_xkcd_color_name(code, is_hsv=False):
+	return get_color_name(code, XKCD_COLOR_NAMES,
+	                      XKCD_COLOR_HSV_CODES if is_hsv else XKCD_COLOR_RGB_CODES)
+
+
+##################################################
+
+def scale_rgb_color(r, g, b):
+	return tuple(round_to_int(255 * to_array([r, g, b])))
+
+
+def unscale_rgb_color(r, g, b):
+	return (r / 255, g / 255, b / 255)
+
+
+def scale_hsv_color(h, s, v):
+	return tuple(round_to_int(100 * to_array([h, s, v])))
+
+
+def unscale_hsv_color(h, s, v):
+	return (h / 100, s / 100, v / 100)
 
 
 ##################################################
