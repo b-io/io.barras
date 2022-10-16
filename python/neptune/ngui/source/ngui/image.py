@@ -38,10 +38,10 @@ def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, s
 	return template.format(image=image, format=format, width=width, height=height)
 
 
-def buffer_to_image(buffer):
+def buffer_to_image(buffer, mode=cv2.IMREAD_UNCHANGED):
 	'''Converts the specified image buffer to an image.'''
 	image = np.frombuffer(buffer, dtype=SHORT_ELEMENT_TYPE)
-	return cv2.imdecode(image, flags=cv2.IMREAD_UNCHANGED)
+	return cv2.imdecode(image, flags=mode)
 
 
 #########################
@@ -58,6 +58,12 @@ def image_to_html(path, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, rotate=False
 
 
 ##################################################
+
+def load_image(path, mode=cv2.IMREAD_UNCHANGED):
+	return buffer_to_image(read_bytes(path), mode=mode)
+
+
+#########################
 
 def rotate_anti_90(image):
 	image = cv2.transpose(image)

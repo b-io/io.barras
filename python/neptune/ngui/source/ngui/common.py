@@ -174,24 +174,6 @@ def get_xkcd_color_name(code, is_hsv=False):
 
 ##################################################
 
-def scale_rgb_color(r, g, b):
-	return tuple(round_to_int(255 * to_array([r, g, b])))
-
-
-def unscale_rgb_color(r, g, b):
-	return (r / 255, g / 255, b / 255)
-
-
-def scale_hsv_color(h, s, v):
-	return tuple(round_to_int(100 * to_array([h, s, v])))
-
-
-def unscale_hsv_color(h, s, v):
-	return (h / 100, s / 100, v / 100)
-
-
-##################################################
-
 def to_color(value, alpha=1, color_scale=RYG_SCALE, normalize=False, scale=True):
 	'''Converts the specified value to a RGBA color using the specified alpha and color scale.'''
 	if normalize:
@@ -227,3 +209,21 @@ def to_rgba(*args, r=0, g=0, b=0, alpha=1, scale=True):
 def to_rgba_color(*args, r=0, g=0, b=0, alpha=1, scale=True):
 	r, g, b, alpha = to_rgba(*args, r=r, g=g, b=b, alpha=alpha, scale=scale)
 	return 'rgba' + par(collist(r, g, b, alpha))
+
+
+##################################################
+
+def scale_rgb_color(r, g, b):
+	return tuple(round_to_int(255 * to_array([r, g, b])))
+
+
+def unscale_rgb_color(r, g, b):
+	return (r / 255, g / 255, b / 255)
+
+
+def scale_hsv_color(h, s, v):
+	return tuple(round_to_int(100 * to_array([h, s, v])))
+
+
+def unscale_hsv_color(h, s, v):
+	return (h / 100, s / 100, v / 100)
