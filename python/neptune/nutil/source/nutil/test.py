@@ -89,10 +89,10 @@ class TestCommon(Test):
 	def test(self):
 		# Initialize
 		hello = 'Hello, world!'
-		token = generate_string(100)
+		token = generate_string(10)
 
-		l1 = to_list(reverse(range(100)))
-		l2 = to_list(np.random.randint(0, 100, size=100))
+		l1 = to_list(reverse(range(10)))
+		l2 = to_list(np.random.randint(0, 10, size=10))
 
 		d1 = to_dict(l1)
 		d2 = to_dict(l2)
@@ -131,8 +131,8 @@ class TestCommon(Test):
 		self.assert_equals(set_element_types(l1.copy(), get_element_types(l1)), l1)
 		self.assert_equals(set_element_types(l1.copy(), FLOAT_TYPE), to_float(l1))
 
-		self.tally(l1, [33, 66])
-		self.tally(l2, [33, 66])
+		self.tally(l1, [3, 6])
+		self.tally(l2, [3, 6])
 
 		test('Test the array functions')
 		self.get_items(a)
@@ -149,7 +149,7 @@ class TestCommon(Test):
 
 		self.assert_equals(a, df, assert_order=True)
 
-		self.tally(a, [33, 66])
+		self.tally(a, [3, 6])
 
 		test('Test the dictionary functions')
 		self.get_items(d1)
@@ -178,8 +178,8 @@ class TestCommon(Test):
 		self.assert_equals(update(s1.copy(), s2), take(s2, s1))
 		self.assert_equals(upsert(s1.copy(), s2), s2)
 
-		self.tally(s1, [33, 66])
-		self.tally(s2, [33, 66])
+		self.tally(s1, [3, 6])
+		self.tally(s2, [3, 6])
 
 		test('Test the frame functions')
 		self.get_items(df)
@@ -197,8 +197,8 @@ class TestCommon(Test):
 		self.assert_equals(update(df1.copy(), df2), df1)
 		self.assert_equals(upsert(df1.copy(), df2), df)
 
-		self.tally(df1, [33, 66])
-		self.tally(df2, [33, 66])
+		self.tally(df1, [3, 6])
+		self.tally(df2, [3, 6])
 
 		test('Test the group functions')
 		self.get_items(g0)
@@ -210,7 +210,7 @@ class TestCommon(Test):
 		self.assert_equals(set_element_types(g0, get_element_types(g0)), df)
 		self.assert_equals(set_element_types(g0, FLOAT_TYPE), to_float(df))
 
-		self.tally(g0, [33, 66])
+		self.tally(g0, [3, 6])
 
 	##############################################
 

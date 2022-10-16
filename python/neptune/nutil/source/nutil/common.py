@@ -3856,6 +3856,8 @@ def insert_rows(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
 		c2 = exclude_index(c2, c1)
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c1
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1):
 		c1 = concat_rows(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
@@ -3876,6 +3878,8 @@ def insert_cols(c1, c2, copy=False, ignore_index=False, sort=False, verify_integ
 		c2 = include_index(c2, c2)
 	if is_null(keys):
 		keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c1
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1):
 		c1 = concat_cols(c1, c2, copy=copy, ignore_index=ignore_index, sort=sort,
@@ -4153,6 +4157,8 @@ def update(c1, c2,
 		c2 = include_index(c2, c1)
 	if is_null(keys):
 		keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
+	if is_empty(keys):
+		return c1
 	c2 = collection_to_common_type(filter(c2, keys=keys), c1)
 	if is_table(c1):
 		types = get_element_types(c2)
