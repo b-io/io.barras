@@ -69,7 +69,7 @@ def find_nearest_freq(series):
 
 
 def find_nearest_freq_from_days(n):
-	return DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, n)]
+	return DAY_COUNT_FREQUENCY[nearest(FREQUENCY_DAY_COUNT, n)]
 
 
 def find_nearest_freq_from_period(period=PERIOD):

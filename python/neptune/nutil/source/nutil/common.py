@@ -2642,8 +2642,6 @@ def to_date(x, format=DATE_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		if hasattr(x, 'astype'):
-			return x.astype(DATE_TYPE)
 		return apply(x, to_date, format=format)
 	elif is_stamp(x):
 		x = parse_stamp(x)
@@ -2662,8 +2660,6 @@ def to_datetime(x, format=DATE_TIME_FORMAT):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		if hasattr(x, 'astype'):
-			return x.astype(DATE_TIME_TYPE)
 		return apply(x, to_datetime, format=format)
 	elif is_stamp(x):
 		return parse_stamp(x)
@@ -2702,8 +2698,6 @@ def to_stamp(x):
 	if is_null(x):
 		return None
 	elif is_collection(x):
-		if hasattr(x, 'astype'):
-			return x.astype(TIMESTAMP_TYPE)
 		return apply(x, to_stamp)
 	elif is_stamp(x):
 		return x
@@ -2793,7 +2787,7 @@ def to_bool(x):
 		return NAN
 	elif is_collection(x):
 		if hasattr(x, 'astype'):
-			return x.astype(BOOL_TYPE)
+			return x.astype(BOOL_ELEMENT_TYPE)
 		return apply(x, to_bool)
 	elif is_string(x):
 		return bool(strtobool(x))
@@ -2805,7 +2799,7 @@ def to_int(x):
 		return NAN
 	elif is_collection(x):
 		if hasattr(x, 'astype'):
-			return x.astype(INT_TYPE)
+			return x.astype(INT_ELEMENT_TYPE)
 		return apply(x, to_int)
 	return int(x)
 
@@ -2815,7 +2809,7 @@ def to_float(x):
 		return NAN
 	elif is_collection(x):
 		if hasattr(x, 'astype'):
-			return x.astype(FLOAT_TYPE)
+			return x.astype(FLOAT_ELEMENT_TYPE)
 		return apply(x, to_float)
 	return float(x)
 
@@ -2864,7 +2858,7 @@ def to_string(x, delimiter=','):
 		return None
 	elif is_collection(x):
 		if hasattr(x, 'astype'):
-			return x.astype(STRING_TYPE)
+			return x.astype(STRING_ELEMENT_TYPE)
 		return collapse(x, delimiter=delimiter)
 	return str(x)
 
@@ -2972,8 +2966,8 @@ def format_nth(x):
 	return s + 'th'
 
 
-def format_percent(x):
-	return format_number(x * 100) + '%'
+def format_percent(x, decimals=DEFAULT_MAX_DECIMALS):
+	return format_number(x * 100, decimals=decimals) + '%'
 
 
 ####################################################################################################
@@ -4187,7 +4181,7 @@ def unique(c, group=GROUP):
 		return c.loc[invert(c.index.duplicated(keep='first' if group is Group.FIRST else 'last'))]
 	elif is_dict(c):
 		return c
-	return to_list(dict.fromkeys(c))
+	return list(dict.fromkeys(c))
 
 
 #########################
@@ -4744,7 +4738,7 @@ def diff_years(date_from, date_to):
 
 def find_nearest_period(length, freq=FREQUENCY):
 	day_count = get_period_days(None, period=to_period(length, freq=freq))
-	period_freq = DAY_COUNT_FREQUENCY[nearest(DAY_COUNT_FREQUENCY, day_count)]
+	period_freq = DAY_COUNT_FREQUENCY[nearest(FREQUENCY_DAY_COUNT, day_count)]
 	period_length = round_to_int(day_count / FREQUENCY_DAY_COUNT[period_freq])
 	return to_period(period_length, period_freq)
 

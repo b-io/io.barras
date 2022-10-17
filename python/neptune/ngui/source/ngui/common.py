@@ -284,21 +284,24 @@ def get_xkcd_color_name(code, is_hsv=False):
 
 ##################################################
 
-def format_color(value, alpha=1, color_scale=RYG_SCALE, normalize=False):
-	'''Formats the specified value to an RGBA color using the specified alpha and color scale.'''
-	if normalize:
-		value = float(normal.cdf(value))
-	c = color_scale(value)
-	return format_rgb_color(c, alpha=alpha, scale=True)
-
-
 def format_rgb_color(*args, r=0, g=0, b=0, alpha=1):
 	'''Formats the specified RGB color (with alpha if it is not null).'''
 	prefix = 'rgba' if not is_null(alpha) else 'rgb'
-	return prefix + str(to_rgb(*args, r=r, g=g, b=b, alpha=alpha, scale=True))
+	return prefix + par(collist(*to_rgb(*args, r=r, g=g, b=b, alpha=alpha, scale=True)))
 
 
 def format_hsv_color(*args, h=0, s=0, v=0, alpha=1):
 	'''Formats the specified HSV color (with alpha if it is not null).'''
 	prefix = 'hsva' if not is_null(alpha) else 'hsv'
-	return prefix + str(to_hsv(*args, h=h, s=s, v=v, alpha=alpha, scale=True))
+	h, s, v = to_hsv(*args, h=h, s=s, v=v, scale=False)
+	hsv = (round_to_int(h * 360), format_percent(s, 0), format_percent(v, 0))
+	return prefix + par(collist(*hsv, alpha) if not is_null(alpha) else collist(*hsv))
+
+
+#########################
+
+def map_to_color(value, color_scale=RYG_SCALE, normalize=False):
+	'''Formats the specified value to an RGBA color using the specified alpha and color scale.'''
+	if normalize:
+		value = float(normal.cdf(value))
+	return color_scale(value)

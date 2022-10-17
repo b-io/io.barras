@@ -37,10 +37,11 @@ __FIN_TEST_CLASSES________________________________ = ''
 class TestFin(Test):
 
 	def test_time_series(self):
-		date_to = get_datetime()
+		date_to = get_date()
 		date_from = date_to - 2 * YEAR
-		index = create_datetime_sequence(date_from, date_to)
-		series = to_series(np.random.randint(1, 100, size=len(index)), index=index)
+		index = create_date_sequence(date_from, date_to)
+		series = rename(to_series(cum_diff(create_random_int_array(-5, len(index), high=6), 0)[:-1],
+		                          index=index), 'Random walk')
 
 		test('Test the time series transformations')
 		for freq in [Frequency.DAYS, Frequency.WEEKS, Frequency.MONTHS, Frequency.QUARTERS,
@@ -64,8 +65,23 @@ class TestFin(Test):
 					self.assert_equals(find_nearest_group(s, freq=freq).value, group.value)
 
 		test('Test the time series forecast')
-		forecasted_series = forecast_series(series)
-		self.assert_equals(forecasted_series[-1], 261.92149820545626)
+		forecasted_series = rename(forecast_series(series, horizon=2), 'Forecast')
+		forecasted_series = forecasted_series[forecasted_series.index >= date_to]
+		self.assert_equals(forecasted_series[-1], -153.4974678080443)
+		fig = plot_series(concat_cols(series, forecasted_series),
+		                  title='Forecasting')
+		fig.show()
+
+		test('Plot the seasonal-trend decomposition')
+		decomposition = decompose_series(series)
+		fig = plot_decomposition(decomposition.trend, decomposition.seasonal, decomposition.resid,
+		                         title='Seasonal-trend decomposition', name='Random walk',
+		                         color='blue')
+		decomposition = decompose_series(forecasted_series)
+		fig = plot_decomposition(decomposition.trend, decomposition.seasonal, decomposition.resid,
+		                         fig=fig, title='Seasonal-trend decomposition', name='Forecast',
+		                         color='orange')
+		fig.show()
 
 
 ####################################################################################################

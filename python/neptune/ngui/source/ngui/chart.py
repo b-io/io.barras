@@ -550,7 +550,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 				ax.set_title(title if show_title else None)
 	elif is_plotly(fig):
 		fig.update_annotations(font_size=font_size)
-		bg_color = to_rgba_color(bg_color)
+		bg_color = format_rgb_color(bg_color)
 		if not is_null(title) or not show_title:
 			fig.update_layout(title=web.b(title) if show_title else None)
 		if not is_null(bar_mode):
@@ -635,11 +635,11 @@ def update_layout_axes(fig,
 			elif not is_null(tick_values_y):
 				ax.set_yticks(tick_values_y)
 	elif is_plotly(fig):
-		axis_color = to_rgba_color(axis_color)
-		grid_color = to_rgba_color(grid_color)
-		label_color = to_rgba_color(label_color)
-		tick_color = to_rgba_color(tick_color)
-		zero_line_color = to_rgba_color(zero_line_color)
+		axis_color = format_rgb_color(axis_color)
+		grid_color = format_rgb_color(grid_color)
+		label_color = format_rgb_color(label_color)
+		tick_color = format_rgb_color(tick_color)
+		zero_line_color = format_rgb_color(zero_line_color)
 		# Set the titles
 		# - Horizontal axis
 		if not is_null(title_x):
@@ -739,7 +739,7 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 			if not is_empty(handles):
 				ax.legend(facecolor=bg_color, loc='upper left', bbox_to_anchor=(x, y))
 	elif is_plotly(fig):
-		bg_color = to_rgba_color(bg_color)
+		bg_color = format_rgb_color(bg_color)
 		fig.update_layout(
 			legend=dict(
 				bgcolor=bg_color,

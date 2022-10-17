@@ -51,11 +51,14 @@ class TestGui(Test):
 		self.assert_equals(get_css4_color_name(hsv, is_hsv=True), 'darkgoldenrod')
 		self.assert_equals(get_xkcd_color_name(hsv, is_hsv=True), 'xkcd:browny orange')
 
-		self.assert_equals(format_rgb_color(rgb, alpha=None), 'rgb(200, 100, 0)')
-		self.assert_equals(format_rgb_color(rgb), 'rgba(200, 100, 0, 1)')
+		self.assert_equals(format_rgb_color(rgb, alpha=None), 'rgb(200,100,0)')
+		self.assert_equals(format_rgb_color(rgb), 'rgba(200,100,0,1)')
 
-		self.assert_equals(format_hsv_color(hsv, alpha=None), 'hsv(21, 255, 200)')
-		self.assert_equals(format_hsv_color(hsv), 'hsva(21, 255, 200, 1)')
+		self.assert_equals(format_hsv_color(hsv, alpha=None), 'hsv(30,100%,78%)')
+		self.assert_equals(format_hsv_color(hsv), 'hsva(30,100%,78%,1)')
+
+		self.assert_equals(format_rgb_color(map_to_color(100, normalize=True)),
+		                   'rgba(0,104,55,1.0)')
 
 		np.random.seed(0)
 		rgb_image = generate_image(300, 200, 3)

@@ -124,7 +124,7 @@ def plot_clusters(data, classes, means, covariances, fig=None, title=None, color
 			u = w[0] / linalg.norm(w[0])
 			angle = atan2(u[1], u[0])
 			a, b = v
-			color = get_complementary_color(color)
+			color = format_rgb_color(get_complementary_color(color))
 			name = collapse('Cluster ', i + 1, ' Tilted At ', round(angle * RAD_TO_DEG, 2), '°')
 			fig.add_trace(draw_ellipse(mean, a, b, angle=angle, color=color, dash=dash, name=name,
 			                           opacity=opacity, precision=precision,
