@@ -15,9 +15,10 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
-from nlearn.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
+
+from nlearn.common import *
 
 ####################################################################################################
 # NLP PROPERTIES

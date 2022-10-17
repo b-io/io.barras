@@ -4559,9 +4559,8 @@ def merge_all(*args, how='inner', on=None):
 def merge(left, right, how='inner', on=None):
 	'''Merges the specified left dataframe with the specified right dataframe on the common columns
 	(or on the specified columns if they are not null).'''
-	index_name = get_names(left.index)
 	return to_frame(left).merge(to_frame(right), how=how,
-	                            on=on if not is_null(on) else index_name)
+	                            on=on if not is_null(on) else get_names(left.index))
 
 
 #########################
