@@ -14,6 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+import plotly.express as px
 from ngui.image import *
 from nutil.test import *
 
@@ -62,7 +63,7 @@ class TestGui(Test):
 
 		np.random.seed(0)
 		rgb_image = generate_image(300, 200, 3)
-		hsv_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2HSV)
+		hsv_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
 		# show_image(image)
 
 		self.assert_equals(hsv_to_rgb(hsv_image, scale=False)[0],
@@ -70,12 +71,14 @@ class TestGui(Test):
 		self.assert_equals(rgb_to_hsv(rgb_image, scale=False)[0],
 		                   to_hsv(hsv_image, scale=False)[0], precision=1)
 
-		self.assert_equals(evaluate_colorfulness(rgb_image), 112.47474098389532)
+		self.assert_equals(evaluate_colorfulness(rgb_image), 112.38149160405118)
 		self.assert_equals(evaluate_blurriness(rgb_image), 108648.5407215791)
 		self.assert_equals(evaluate_brightness(rgb_image), 190.55361666666667)
 
-	##############################################
+		fig = px.imshow(rotate_anti_90(rgb_image))
+		fig.show()
 
+	##############################################
 
 	def evaluate_colorfulness(self, image):
 		t = timeit.timeit(stmt=lambda: evaluate_colorfulness(image), number=TEST_COUNT)

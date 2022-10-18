@@ -81,7 +81,7 @@ def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
 	color = forward_element(*args)
 	if is_collection(color) or is_tuple(color):
 		if is_array(color):
-			b, g, r = cv2.split(to_float(color))
+			r, g, b = cv2.split(to_float(color))
 		elif len(color) == 3:
 			r, g, b = color
 		elif len(color) == 4:
@@ -132,7 +132,7 @@ def to_hsv(*args, h=0, s=0, v=0, alpha=None, scale=None):
 def rgb_to_hsv(*args, r=0, g=0, b=0, alpha=None, scale=None):
 	color = forward_element(*args)
 	if is_array(color):
-		image = cv2.cvtColor(color, cv2.COLOR_BGR2HSV)
+		image = cv2.cvtColor(color, cv2.COLOR_RGB2HSV)
 		h, s, v = cv2.split(to_float(image))
 	else:
 		r, g, b = to_rgb(*args, r=r, g=g, b=b)
@@ -149,8 +149,8 @@ def rgb_to_hsv(*args, r=0, g=0, b=0, alpha=None, scale=None):
 def hsv_to_rgb(*args, h=0, s=0, v=0, alpha=None, scale=None):
 	color = forward_element(*args)
 	if is_array(color):
-		image = cv2.cvtColor(color, cv2.COLOR_HSV2BGR)
-		b, g, r = cv2.split(to_float(image))
+		image = cv2.cvtColor(color, cv2.COLOR_HSV2RGB)
+		r, g, b = cv2.split(to_float(image))
 	else:
 		h, s, v = to_hsv(*args, h=h, s=s, v=v)
 		r, g, b = mcolors.hsv_to_rgb((h, s, v))

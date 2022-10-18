@@ -930,10 +930,8 @@ def write(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False,
 		return f.write(content)
 
 
-def write_bytes(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False,
-                newline=DEFAULT_NEWLINE):
-	with open(path, mode='ab' if append else 'wb', encoding=encoding,
-	          errors='ignore' if ignore else None, newline=newline) as f:
+def write_bytes(path, content, append=False, ignore=False):
+	with open(path, mode='ab' if append else 'wb', errors='ignore' if ignore else None) as f:
 		return f.write(content)
 
 

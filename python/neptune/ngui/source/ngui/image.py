@@ -26,32 +26,41 @@ from nutil.math import *
 __IMAGE___________________________________________ = ''
 
 
-def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, style=None):
-	'''Converts the specified image buffer to HTML.'''
-	if is_null(buffer):
-		return ''
-	image = base64.b64encode(buffer).decode('utf-8')
-	template = paste('<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
-	                 collapse('style="', style, '"') if not is_null(style) else '', '/>')
-	return template.format(image=image, format=format, width=width, height=height)
+def buffer_to_image(buffer, format):
+	'''Converts the specified image buffer to an image of the specified format.'''
+	return cv2.imencode('.' + format, buffer)[1]
 
 
-def buffer_to_image(buffer, mode=cv2.IMREAD_UNCHANGED):
-	'''Converts the specified image buffer to an image.'''
-	image = np.frombuffer(buffer, dtype=SHORT_ELEMENT_TYPE)
-	return cv2.imdecode(image, flags=mode)
+def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
+                   mode=cv2.IMREAD_UNCHANGED, rotate=False, style=None):
+	'''Encodes the specified image to Base64 and returns its HTML code.'''
+	return image_to_html(buffer_to_image(buffer, format), format, width=width, height=height,
+	                     mode=mode, rotate=rotate, style=style)
 
 
 #########################
 
-def image_to_html(path, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, rotate=False, style=None):
-	'''Encodes the specified image to Base64 and returns its HTML code.'''
-	format = get_extension(path).lower()
-	buffer = read_bytes(path)
+def image_to_buffer(image, mode=cv2.IMREAD_UNCHANGED):
+	'''Converts the specified image to an image buffer.'''
+	if is_string(image):
+		image = read_bytes(image)
+	return cv2.imdecode(np.frombuffer(image, dtype=SHORT_ELEMENT_TYPE), flags=mode)
+
+
+def image_to_html(image, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
+                  mode=cv2.IMREAD_UNCHANGED, rotate=False, style=None):
+	'''Converts the specified image to HTML.'''
+	if is_null(image):
+		return ''
+	buffer = image_to_buffer(image, mode=mode)
 	if rotate:
-		image = rotate_anti_90(buffer_to_image(buffer))
-		_, buffer = cv2.imencode('.' + format, image)
-	return buffer_to_html(buffer, format, width=width, height=height, style=style)
+		buffer = rotate_anti_90(buffer)
+		width, height = height, width
+	image = buffer_to_image(buffer, format)
+	image = base64.b64encode(image).decode('utf-8')
+	template = paste('<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
+	                 collapse('style="', style, '"') if not is_null(style) else '', '/>')
+	return template.format(image=image, format=format, width=width, height=height)
 
 
 ##################################################
@@ -64,13 +73,13 @@ def generate_image(*shape):
 
 def evaluate_colorfulness(image):
 	'''Evaluates the colorfulness with the combination of the means and standard deviations of the
-	colors of the specified image.'''
-	# Split the RGB components of the image
-	B, G, R = cv2.split(to_float(image))
+	color components of the specified RGB image.'''
+	# Split the color components of the image
+	r, g, b = cv2.split(to_float(image))
 	# Compute rg = R - G
-	rg = cv2.absdiff(R, G)
+	rg = cv2.absdiff(r, g)
 	# Compute yb = 0.5 * (R + G) - B
-	yb = cv2.absdiff(cv2.addWeighted(R, 0.5, G, 0.5, 0), B)
+	yb = cv2.absdiff(cv2.addWeighted(r, 0.5, g, 0.5, 0), b)
 	# Compute the mean and standard deviation of rg and yb
 	rg_mean, rg_std = cv2.meanStdDev(rg)
 	yb_mean, yb_std = cv2.meanStdDev(yb)
@@ -127,3 +136,9 @@ def show_image(image):
 	cv2.imshow('image', image)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
+
+
+##################################################
+
+def write_buffer(path, buffer):
+	return cv2.imwrite(path, buffer)
