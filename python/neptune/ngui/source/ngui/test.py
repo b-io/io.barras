@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-import plotly.express as px
+from ngui.chart import *
 from ngui.image import *
 from nutil.test import *
 
@@ -34,6 +34,21 @@ __GUI_TEST_CLASSES________________________________ = ''
 
 
 class TestGui(Test):
+
+	def test_chart(self):
+		rgb_buffer = rotate_anti_90(generate_image(300, 200, 3))
+		fig = px.imshow(rgb_buffer)
+
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_jpg(fig))))), 366623529)
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_png(fig))))), 523711948)
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_webp(fig))))), 366695046)
+
+		self.assert_equals(fig_to_jpg_html(fig)[-42:-10], 'AFFFFABRRRQAUUUUAFFFFABRRRQAUUUU')
+		self.assert_equals(fig_to_png_html(fig)[-42:-10], 'EAAACQ0P8DbOWjMNOJ6o0AAAAASUVORK')
+		self.assert_equals(fig_to_svg_html(fig)[-42:-10], 'g-xtitle"/><g class="g-ytitle"/>')
+		self.assert_equals(fig_to_webp_html(fig)[-42:-10], 'Mf5z/Of5z/OP9x/uP8x/mP8x/nP85/nP')
+
+	#####################
 
 	def test_image(self):
 		rgb = to_rgb(200, 100, 0, scale=False)
@@ -61,22 +76,31 @@ class TestGui(Test):
 		self.assert_equals(format_rgb_color(map_to_color(100, normalize=True)),
 		                   'rgba(0,104,55,1.0)')
 
-		np.random.seed(0)
-		rgb_image = generate_image(300, 200, 3)
-		hsv_image = cv2.cvtColor(rgb_image, cv2.COLOR_RGB2HSV)
-		# show_image(image)
+		rgb_buffer = generate_image(300, 200, 3)
+		hsv_buffer = cv2.cvtColor(rgb_buffer, cv2.COLOR_RGB2HSV)
 
-		self.assert_equals(hsv_to_rgb(hsv_image, scale=False)[0],
-		                   to_rgb(rgb_image, scale=False)[0], precision=1)
-		self.assert_equals(rgb_to_hsv(rgb_image, scale=False)[0],
-		                   to_hsv(hsv_image, scale=False)[0], precision=1)
+		self.assert_equals(hsv_to_rgb(hsv_buffer, scale=False)[0],
+		                   to_rgb(rgb_buffer, scale=False)[0], precision=1)
+		self.assert_equals(rgb_to_hsv(rgb_buffer, scale=False)[0],
+		                   to_hsv(hsv_buffer, scale=False)[0], precision=1)
 
-		self.assert_equals(evaluate_colorfulness(rgb_image), 112.38149160405118)
-		self.assert_equals(evaluate_blurriness(rgb_image), 108648.5407215791)
-		self.assert_equals(evaluate_brightness(rgb_image), 190.55361666666667)
+		self.assert_equals(image_to_buffer(buffer_to_image(rgb_buffer, BMP_FORMAT))[0],
+		                   rgb_buffer[0])
 
-		fig = px.imshow(rotate_anti_90(rgb_image))
-		fig.show()
+		self.assert_equals(buffer_to_html(rgb_buffer, BMP_FORMAT, rotate=True)[-42:-10],
+		                   'eGSbtiKk/I3KxKINurU+/j0p12l32DAO')
+		self.assert_equals(buffer_to_html(rgb_buffer, JPEG_FORMAT, rotate=True)[-42:-10],
+		                   'ucPaXnVi+ZyX8GapwfuShaXLJ8zja97W')
+		self.assert_equals(buffer_to_html(rgb_buffer, PNG_FORMAT, rotate=True)[-42:-10],
+		                   'q21NUEUdmYyUW1RCNWQjkhAAAAAElFTk')
+		self.assert_equals(buffer_to_html(rgb_buffer, TIFF_FORMAT, rotate=True)[-42:-10],
+		                   'B4CAMArTMDAO9eAwA8igMAc7UDAAEAAQ')
+
+		self.assert_equals(evaluate_colorfulness(rgb_buffer), 112.40, precision=2)
+		self.assert_equals(evaluate_blurriness(rgb_buffer), 108379.74, precision=2)
+		self.assert_equals(evaluate_brightness(rgb_buffer), 190.56, precision=2)
+
+		# show_image(rgb_buffer)
 
 	##############################################
 

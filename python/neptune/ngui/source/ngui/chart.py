@@ -151,8 +151,9 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
 
 #########################
 
-def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
-                  scale=DEFAULT_SCALE):
+def fig_to_image(fig, format,
+                 scale=DEFAULT_SCALE,
+                 width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	'''Converts the specified figure to an image buffer with the specified format.'''
 	update_layout_size(fig, width=width, height=height, margin=margin)
 	if is_matplot(fig):
@@ -161,27 +162,41 @@ def fig_to_buffer(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margi
 		buffer.seek(0)
 		return buffer.read()
 	elif is_plotly(fig):
-		return pio.to_image(fig, format=format, width=width, height=height, scale=scale)
+		return pio.to_image(fig, format=format, scale=scale, width=width, height=height)
 
 
-def fig_to_jpeg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	'''Converts the specified figure to JPEG.'''
-	return fig_to_buffer(fig, 'jpeg', width=width, height=height, margin=margin, scale=scale)
+def fig_to_jpg(fig,
+               scale=DEFAULT_SCALE,
+               width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a JPEG image.'''
+	return fig_to_image(fig, JPEG_FORMAT, scale=scale, width=width, height=height, margin=margin)
 
 
-def fig_to_png(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	'''Converts the specified figure to PNG.'''
-	return fig_to_buffer(fig, 'png', width=width, height=height, margin=margin, scale=scale)
+def fig_to_png(fig,
+               scale=DEFAULT_SCALE,
+               width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a PNG image.'''
+	return fig_to_image(fig, PNG_FORMAT, scale=scale, width=width, height=height, margin=margin)
 
 
-def fig_to_svg(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, scale=DEFAULT_SCALE):
-	'''Converts the specified figure to SVG.'''
-	return fig_to_buffer(fig, 'svg', width=width, height=height, margin=margin, scale=scale)
+def fig_to_svg(fig,
+               scale=DEFAULT_SCALE,
+               width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to an SVG image.'''
+	return fig_to_image(fig, SVG_FORMAT, scale=scale, width=width, height=height, margin=margin)
+
+
+def fig_to_webp(fig,
+                scale=DEFAULT_SCALE,
+                width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a WebP image.'''
+	return fig_to_image(fig, WEBP_FORMAT, scale=scale, width=width, height=height, margin=margin)
 
 
 #########################
 
-def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+def fig_to_html(fig, full=True,
+                width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	'''Converts the specified figure to HTML.'''
 	if is_null(fig):
 		return ''
@@ -189,38 +204,57 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 	return pio.to_html(fig, full_html=full, default_width=width, default_height=height)
 
 
-def fig_to_image_html(fig, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
-                      rotate=False, scale=DEFAULT_SCALE, style=None):
+def fig_to_image_html(fig, format, encoding=DEFAULT_ENCODING, mode=DEFAULT_IMAGE_MODE, style=None,
+                      rotate=False, scale=DEFAULT_SCALE,
+                      width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	'''Converts the specified figure to the specified format, encodes it to Base64 and returns its
 	HTML code.'''
 	if is_null(fig):
 		return ''
-	buffer = fig_to_buffer(fig, format, width=width, height=height, margin=margin, scale=scale)
-	if rotate:
-		image = rotate_anti_90(buffer_to_image(buffer))
-		_, buffer = cv2.imencode('.' + format, image)
-	return buffer_to_html(buffer, format, width=width, height=height, style=style)
+	image = fig_to_image(fig, format, scale=scale, width=width, height=height, margin=margin)
+	return image_to_html(image, format, encoding=encoding, mode=mode, style=style,
+	                     rotate=rotate,
+	                     width=width, height=height)
 
 
-def fig_to_jpeg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
-                     scale=DEFAULT_SCALE, style=None):
-	'''Converts the specified figure to JPEG, encodes it to Base64 and returns its HTML code.'''
-	return fig_to_image_html(fig, 'jpeg', width=width, height=height, margin=margin, rotate=rotate,
-	                         scale=scale, style=style)
+def fig_to_jpg_html(fig, encoding=DEFAULT_ENCODING, style=None,
+                    rotate=False, scale=DEFAULT_SCALE,
+                    width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a JPEG image, encodes it to Base64 and returns its HTML
+	code.'''
+	return fig_to_image_html(fig, JPEG_FORMAT, encoding=encoding, style=style,
+	                         rotate=rotate, scale=scale,
+	                         width=width, height=height, margin=margin)
 
 
-def fig_to_png_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
-                    scale=DEFAULT_SCALE, style=None):
-	'''Converts the specified figure to PNG, encodes it to Base64 and returns its HTML code.'''
-	return fig_to_image_html(fig, 'png', width=width, height=height, margin=margin, rotate=rotate,
-	                         scale=scale, style=style)
+def fig_to_png_html(fig, encoding=DEFAULT_ENCODING, style=None,
+                    rotate=False, scale=DEFAULT_SCALE,
+                    width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a PNG image, encodes it to Base64 and returns its HTML
+	code.'''
+	return fig_to_image_html(fig, PNG_FORMAT, encoding=encoding, style=style,
+	                         rotate=rotate, scale=scale,
+	                         width=width, height=height, margin=margin)
 
 
-def fig_to_svg_html(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None, rotate=False,
-                    scale=DEFAULT_SCALE, style=None):
-	'''Converts the specified figure to SVG, encodes it to Base64 and returns its HTML code.'''
-	return fig_to_image_html(fig, 'svg', width=width, height=height, margin=margin, rotate=rotate,
-	                         scale=scale, style=style)
+def fig_to_svg_html(fig, encoding=DEFAULT_ENCODING, style=None,
+                    rotate=False, scale=DEFAULT_SCALE,
+                    width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to an SVG image, encodes it to Base64 and returns its HTML
+	code.'''
+	return fig_to_image_html(fig, SVG_FORMAT, encoding=encoding, style=style,
+	                         rotate=rotate, scale=scale,
+	                         width=width, height=height, margin=margin)
+
+
+def fig_to_webp_html(fig, encoding=DEFAULT_ENCODING, style=None,
+                     rotate=False, scale=DEFAULT_SCALE,
+                     width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
+	'''Converts the specified figure to a WEBP image, encodes it to Base64 and returns its HTML
+	code.'''
+	return fig_to_image_html(fig, WEBP_FORMAT, encoding=encoding, style=style,
+	                         rotate=rotate, scale=scale,
+	                         width=width, height=height, margin=margin)
 
 
 ##################################################
@@ -747,8 +781,8 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 				yanchor='top', y=y))
 
 
-def update_layout_size(fig, has_title=False, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
-                       margin=None):
+def update_layout_size(fig, has_title=False,
+                       width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
 	margin = get_margin(margin, has_title=has_title)
 	if is_matplot(fig):
 		fig.set_size_inches(width / 100, height / 100)

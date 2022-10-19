@@ -20,26 +20,49 @@ from ngui.common import *
 from nutil.math import *
 
 ####################################################################################################
+# IMAGE CONSTANTS
+####################################################################################################
+
+__IMAGE_CONSTANTS_________________________________ = ''
+
+DEFAULT_IMAGE_MODE = cv2.IMREAD_UNCHANGED
+
+##################################################
+
+BMP_FORMAT = 'bmp'  # bitmap
+JPEG_FORMAT = 'jpg'  # Joint Photographic Experts Group
+PNG_FORMAT = 'png'  # Portable Network Graphics
+SVG_FORMAT = 'svg'  # Scalable Vector Graphics
+TIFF_FORMAT = 'tiff'  # Tag Image File Format
+WEBP_FORMAT = 'webp'  # WebP
+
+####################################################################################################
 # IMAGE FUNCTIONS
 ####################################################################################################
 
 __IMAGE___________________________________________ = ''
 
 
-def buffer_to_image(buffer, format):
+def buffer_to_image(buffer, format, rotate=False):
 	'''Converts the specified image buffer to an image of the specified format.'''
+	if format == SVG_FORMAT:
+		return buffer
+	if rotate:
+		buffer = rotate_anti_90(buffer)
 	return cv2.imencode('.' + format, buffer)[1]
 
 
-def buffer_to_html(buffer, format, encoding=DEFAULT_ENCODING, width=DEFAULT_WIDTH,
-                   height=DEFAULT_HEIGHT, rotate=False, style=None):
+def buffer_to_html(buffer, format, encoding=DEFAULT_ENCODING, style=None,
+                   rotate=False,
+                   width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT):
 	'''Encodes the specified image buffer to Base64 and returns its HTML code.'''
 	if is_empty(buffer):
 		return ''
+	if format == SVG_FORMAT:
+		return buffer.decode(encoding)
 	if rotate:
-		buffer = rotate_anti_90(buffer)
 		width, height = height, width
-	image = base64.b64encode(buffer_to_image(buffer, format)).decode(encoding)
+	image = base64.b64encode(buffer_to_image(buffer, format, rotate=rotate)).decode(encoding)
 	template = paste('<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
 	                 collapse('style="', style, '"') if not is_null(style) else '', '/>')
 	return template.format(image=image, format=format, width=width, height=height)
@@ -47,18 +70,24 @@ def buffer_to_html(buffer, format, encoding=DEFAULT_ENCODING, width=DEFAULT_WIDT
 
 #########################
 
-def image_to_buffer(image, mode=cv2.IMREAD_UNCHANGED):
+def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
 	'''Converts the specified image to an image buffer.'''
+	if image[1:4] == SVG_FORMAT.encode(DEFAULT_ENCODING):
+		return image
 	if is_string(image):
 		image = read_bytes(image)
 	return cv2.imdecode(np.frombuffer(image, dtype=SHORT_ELEMENT_TYPE), flags=mode)
 
 
-def image_to_html(image, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
-                  mode=cv2.IMREAD_UNCHANGED, rotate=False, style=None):
+def image_to_html(image, format, encoding=DEFAULT_ENCODING, mode=DEFAULT_IMAGE_MODE, style=None,
+                  rotate=False,
+                  width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT):
 	'''Converts the specified image to HTML.'''
-	return buffer_to_html(image_to_buffer(image, mode=mode), format, width=width, height=height,
-	                      rotate=rotate, style=style)
+	if format == SVG_FORMAT:
+		return image.decode(encoding)
+	return buffer_to_html(image_to_buffer(image, mode=mode), format, encoding=encoding, style=style,
+	                      rotate=rotate,
+	                      width=width, height=height)
 
 
 ##################################################
@@ -102,8 +131,9 @@ def evaluate_brightness(buffer):
 
 #########################
 
-def load_image(path, mode=cv2.IMREAD_UNCHANGED):
-	return buffer_to_image(read_bytes(path), mode=mode)
+def resize_image(buffer,
+                 width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT):
+	return cv2.resize(buffer, (width, height))
 
 
 #########################

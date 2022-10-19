@@ -38,7 +38,7 @@ LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/ngui'
 
 PACKAGES = [
-	'matplotlib', 'nmath', 'nutil', 'opencv-python', 'plotly', 'xhtml2pdf'
+	'kaleido', 'matplotlib', 'nmath', 'nutil', 'opencv-python', 'plotly', 'xhtml2pdf'
 ]
 
 ####################################################################################################
