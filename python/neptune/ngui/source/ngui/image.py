@@ -31,11 +31,18 @@ def buffer_to_image(buffer, format):
 	return cv2.imencode('.' + format, buffer)[1]
 
 
-def buffer_to_html(buffer, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
-                   mode=cv2.IMREAD_UNCHANGED, rotate=False, style=None):
-	'''Encodes the specified image to Base64 and returns its HTML code.'''
-	return image_to_html(buffer_to_image(buffer, format), format, width=width, height=height,
-	                     mode=mode, rotate=rotate, style=style)
+def buffer_to_html(buffer, format, encoding=DEFAULT_ENCODING, width=DEFAULT_WIDTH,
+                   height=DEFAULT_HEIGHT, rotate=False, style=None):
+	'''Encodes the specified image buffer to Base64 and returns its HTML code.'''
+	if is_empty(buffer):
+		return ''
+	if rotate:
+		buffer = rotate_anti_90(buffer)
+		width, height = height, width
+	image = base64.b64encode(buffer_to_image(buffer, format)).decode(encoding)
+	template = paste('<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
+	                 collapse('style="', style, '"') if not is_null(style) else '', '/>')
+	return template.format(image=image, format=format, width=width, height=height)
 
 
 #########################
@@ -50,17 +57,8 @@ def image_to_buffer(image, mode=cv2.IMREAD_UNCHANGED):
 def image_to_html(image, format, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT,
                   mode=cv2.IMREAD_UNCHANGED, rotate=False, style=None):
 	'''Converts the specified image to HTML.'''
-	if is_null(image):
-		return ''
-	buffer = image_to_buffer(image, mode=mode)
-	if rotate:
-		buffer = rotate_anti_90(buffer)
-		width, height = height, width
-	image = buffer_to_image(buffer, format)
-	image = base64.b64encode(image).decode('utf-8')
-	template = paste('<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
-	                 collapse('style="', style, '"') if not is_null(style) else '', '/>')
-	return template.format(image=image, format=format, width=width, height=height)
+	return buffer_to_html(image_to_buffer(image, mode=mode), format, width=width, height=height,
+	                      rotate=rotate, style=style)
 
 
 ##################################################
@@ -71,11 +69,11 @@ def generate_image(*shape):
 
 ##################################################
 
-def evaluate_colorfulness(image):
+def evaluate_colorfulness(buffer):
 	'''Evaluates the colorfulness with the combination of the means and standard deviations of the
-	color components of the specified RGB image.'''
-	# Split the color components of the image
-	r, g, b = cv2.split(to_float(image))
+	color components of the specified RGB image buffer.'''
+	# Split the color components of the RGB image buffer
+	r, g, b = cv2.split(to_float(buffer))
 	# Compute rg = R - G
 	rg = cv2.absdiff(r, g)
 	# Compute yb = 0.5 * (R + G) - B
@@ -90,15 +88,15 @@ def evaluate_colorfulness(image):
 	return simplify(0.3 * mean_root + std_root)
 
 
-def evaluate_blurriness(image):
-	'''Evaluates the blurriness with the variance of the Laplacian of the specified image.'''
-	return cv2.Laplacian(image, cv2.CV_64F).var()
+def evaluate_blurriness(buffer):
+	'''Evaluates the blurriness with the variance of the Laplacian of the specified image buffer.'''
+	return cv2.Laplacian(buffer, cv2.CV_64F).var()
 
 
-def evaluate_brightness(image):
+def evaluate_brightness(buffer):
 	'''Evaluates the blurriness with the mean of the value (brightness) of the HSV representation of
-	the specified image.'''
-	_, _, v = rgb_to_hsv(image)
+	the specified image buffer.'''
+	_, _, v = rgb_to_hsv(buffer)
 	return mean(mean(v))
 
 
@@ -110,35 +108,35 @@ def load_image(path, mode=cv2.IMREAD_UNCHANGED):
 
 #########################
 
-def rotate_anti_90(image):
-	image = cv2.transpose(image)
-	image = cv2.flip(image, 0)
-	return image
+def rotate_anti_90(buffer):
+	buffer = cv2.transpose(buffer)
+	buffer = cv2.flip(buffer, 0)
+	return buffer
 
 
-def rotate_anti_270(image):
-	image = cv2.transpose(image)
-	image = cv2.flip(image, 1)
-	return image
+def rotate_anti_270(buffer):
+	buffer = cv2.transpose(buffer)
+	buffer = cv2.flip(buffer, 1)
+	return buffer
 
 
-def rotate_by(image, angle, center=None, scale=1):
-	h, w = image.shape[:2]
+def rotate_by(buffer, angle, center=None, scale=1):
+	h, w = buffer.shape[:2]
 	if is_null(center):
 		center = (w / 2, h / 2)
 	m = cv2.getRotationMatrix2D(center, angle, scale)
-	return cv2.warpAffine(image, m, (w, h))
+	return cv2.warpAffine(buffer, m, (w, h))
 
 
 #########################
 
-def show_image(image):
-	cv2.imshow('image', image)
+def show_image(buffer, title='Image'):
+	cv2.imshow(title, buffer)
 	cv2.waitKey(0)
 	cv2.destroyAllWindows()
 
 
 ##################################################
 
-def write_buffer(path, buffer):
+def write_image(path, buffer):
 	return cv2.imwrite(path, buffer)

@@ -1,6 +1,7 @@
 # ♆ NEPTUNE
 
 **NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+
 * nfin,
 * ngui,
 * nlearn,
@@ -8,6 +9,7 @@
 * nutil.
 
 The library **nutil** contains utility functions; among them:
+
 * handlers of main types (including array, dataframe, date/time, dictionary, list and string) and
 * database interface (including the CRUD and upsert operations).
 

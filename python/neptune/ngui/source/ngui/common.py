@@ -175,7 +175,6 @@ def is_unscaled_color(x, y, z):
 
 #########################
 
-
 def scale_color(x, y, z):
 	if is_unscaled_color(x, y, z):
 		x = round_to_int(x * 255)

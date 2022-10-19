@@ -1,6 +1,7 @@
 # ♆ NEPTUNE
 
 **NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+
 * nfin,
 * ngui,
 * nlearn,
@@ -8,6 +9,7 @@
 * nutil.
 
 The library **ngui** contains graphical utility functions; among them:
+
 * chart builders (including the choropleth map) and
 * HTML code generation (including the conversion of figures and images).
 

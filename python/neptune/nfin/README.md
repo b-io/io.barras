@@ -1,6 +1,7 @@
 # ♆ NEPTUNE
 
 **NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+
 * nfin,
 * ngui,
 * nlearn,
@@ -8,6 +9,7 @@
 * nutil.
 
 The library **nfin** contains financial utility functions; among them:
+
 * time series manipulation and
 * pricing engine (including Black-Scholes model).
 
