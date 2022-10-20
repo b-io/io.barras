@@ -92,7 +92,7 @@ class TestCommon(Test):
 	def test(self):
 		# Initialize
 		hello = 'Hello, world!'
-		token = generate_string(SIZE)
+		token = generate_string(SIZE, digits=False)
 
 		l1 = to_list(reverse(range(SIZE)))
 		l2 = to_list(np.random.randint(0, SIZE, size=SIZE))
@@ -106,6 +106,8 @@ class TestCommon(Test):
 		df = concat_cols(s1, s2)
 		df1 = to_frame(s1)
 		df2 = to_frame(s2)
+		df3 = concat_cols(df, to_series(list(token), name='C'))
+		df4 = unpivot(df3, 'C', names=['group', 'index'])
 
 		g0 = df.groupby(by=get_index(df), axis=0)
 		g1 = df.groupby(by={k: 'group' for k in get_keys(df)}, axis=1)
@@ -199,6 +201,8 @@ class TestCommon(Test):
 
 		self.assert_equals(update(df1.copy(), df2), df1)
 		self.assert_equals(upsert(df1.copy(), df2), df)
+
+		self.assert_equals(pivot(df4, 'group', 'index', 'C'), df3)
 
 		self.tally(df1, [SIZE / 3, 2 * SIZE / 3])
 		self.tally(df2, [SIZE / 3, 2 * SIZE / 3])
