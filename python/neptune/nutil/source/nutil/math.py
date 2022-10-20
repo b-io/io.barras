@@ -84,33 +84,44 @@ def scale(x, base=10):
 __MATH_ARITHMETIC_________________________________ = ''
 
 
-def add_all(*args, numeric_default=None, object_default=None, rename=False):
-	return reduce(add, *args, numeric_default=numeric_default, object_default=object_default,
+def add_all(*args,
+            numeric_default=None, object_default=None,
+            rename=False):
+	return reduce(add, *args,
+	              numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def add(c1, c2, numeric_default=None, object_default=None, rename=False):
+def add(c1, c2,
+        numeric_default=None, object_default=None,
+        rename=False):
 	'''Returns the addition of the specified collections.'''
 	if is_list(c1):
-		return [add(c, c2, numeric_default=numeric_default, object_default=object_default,
+		return [add(c, c2,
+		            numeric_default=numeric_default, object_default=object_default,
 		            rename=rename) for c in c1]
 	elif is_list(c2):
-		return [add(c1, c, numeric_default=numeric_default, object_default=object_default,
+		return [add(c1, c,
+		            numeric_default=numeric_default, object_default=object_default,
 		            rename=rename) for c in c2]
 	elif is_table(c1) and is_table(c2):
 		if is_frame(c1) and not is_frame(c2):
 			return concat_cols(
-				[add(set_names(c1[k], k), c2, numeric_default=numeric_default,
-				     object_default=object_default, rename=rename) for k in get_keys(c1)])
+				[add(set_names(c1[k], k), c2,
+				     numeric_default=numeric_default, object_default=object_default,
+				     rename=rename) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols(
-				[add(c1, set_names(c2[k], k), numeric_default=numeric_default,
-				     object_default=object_default, rename=rename) for k in get_keys(c2)])
+				[add(c1, set_names(c2[k], k),
+				     numeric_default=numeric_default, object_default=object_default,
+				     rename=rename) for k in get_keys(c2)])
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) +
-		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
+		result = (fill_null_all(c1, c2,
+		                        numeric_default=numeric_default, object_default=object_default) +
+		          fill_null_all(c2, c1,
+		                        numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
@@ -126,38 +137,51 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif is_table(c2):
 		return sum_cols(join(c2, get_values(c1)))
 	keys = get_common_keys(c1, c2)
-	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
-	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
+	v1 = fill_null(get_values(c1, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
+	v2 = fill_null(get_values(c2, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.add(v1, v2), c1)
 
 
-def subtract_all(*args, numeric_default=None, object_default=None, rename=False):
-	return reduce(subtract, *args, numeric_default=numeric_default, object_default=object_default,
+def subtract_all(*args,
+                 numeric_default=None, object_default=None,
+                 rename=False):
+	return reduce(subtract, *args,
+	              numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
+def subtract(c1, c2,
+             numeric_default=None, object_default=None,
+             rename=False):
 	'''Returns the subtraction of the specified collections.'''
 	if is_list(c1):
-		return [subtract(c, c2, numeric_default=numeric_default, object_default=object_default,
+		return [subtract(c, c2,
+		                 numeric_default=numeric_default, object_default=object_default,
 		                 rename=rename) for c in c1]
 	elif is_list(c2):
-		return [subtract(c1, c, numeric_default=numeric_default, object_default=object_default,
+		return [subtract(c1, c,
+		                 numeric_default=numeric_default, object_default=object_default,
 		                 rename=rename) for c in c2]
 	elif is_table(c1) and is_table(c2):
 		if is_frame(c1) and not is_frame(c2):
 			return concat_cols(
-				[subtract(set_names(c1[k], k), c2, numeric_default=numeric_default,
-				          object_default=object_default, rename=rename) for k in get_keys(c1)])
+				[subtract(set_names(c1[k], k), c2,
+				          numeric_default=numeric_default, object_default=object_default,
+				          rename=rename) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols(
-				[subtract(c1, set_names(c2[k], k), numeric_default=numeric_default,
-				          object_default=object_default, rename=rename) for k in get_keys(c2)])
+				[subtract(c1, set_names(c2[k], k),
+				          numeric_default=numeric_default, object_default=object_default,
+				          rename=rename) for k in get_keys(c2)])
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) -
-		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
+		result = (fill_null_all(c1, c2,
+		                        numeric_default=numeric_default, object_default=object_default) -
+		          fill_null_all(c2, c1,
+		                        numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
@@ -173,38 +197,51 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif is_table(c2):
 		return sum_cols(join(-c2, get_values(c1)))
 	keys = get_common_keys(c1, c2)
-	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
-	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
+	v1 = fill_null(get_values(c1, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
+	v2 = fill_null(get_values(c2, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.subtract(v1, v2), c1)
 
 
-def multiply_all(*args, numeric_default=None, object_default=None, rename=False):
-	return reduce(multiply, *args, numeric_default=numeric_default, object_default=object_default,
+def multiply_all(*args,
+                 numeric_default=None, object_default=None,
+                 rename=False):
+	return reduce(multiply, *args,
+	              numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
+def multiply(c1, c2,
+             numeric_default=None, object_default=None,
+             rename=False):
 	'''Returns the multiplication of the specified collections.'''
 	if is_list(c1):
-		return [multiply(c, c2, numeric_default=numeric_default, object_default=object_default,
+		return [multiply(c, c2,
+		                 numeric_default=numeric_default, object_default=object_default,
 		                 rename=rename) for c in c1]
 	elif is_list(c2):
-		return [multiply(c1, c, numeric_default=numeric_default, object_default=object_default,
+		return [multiply(c1, c,
+		                 numeric_default=numeric_default, object_default=object_default,
 		                 rename=rename) for c in c2]
 	elif is_table(c1) and is_table(c2):
 		if is_frame(c1) and not is_frame(c2):
 			return concat_cols(
-				[multiply(set_names(c1[k], k), c2, numeric_default=numeric_default,
-				          object_default=object_default, rename=rename) for k in get_keys(c1)])
+				[multiply(set_names(c1[k], k), c2,
+				          numeric_default=numeric_default, object_default=object_default,
+				          rename=rename) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols(
-				[multiply(c1, set_names(c2[k], k), numeric_default=numeric_default,
-				          object_default=object_default, rename=rename) for k in get_keys(c2)])
+				[multiply(c1, set_names(c2[k], k),
+				          numeric_default=numeric_default, object_default=object_default,
+				          rename=rename) for k in get_keys(c2)])
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) *
-		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
+		result = (fill_null_all(c1, c2,
+		                        numeric_default=numeric_default, object_default=object_default) *
+		          fill_null_all(c2, c1,
+		                        numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
@@ -220,38 +257,51 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif is_table(c2):
 		return product_cols(join(c2, get_values(c1)))
 	keys = get_common_keys(c1, c2)
-	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
-	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
+	v1 = fill_null(get_values(c1, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
+	v2 = fill_null(get_values(c2, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.multiply(v1, v2), c1)
 
 
-def divide_all(*args, numeric_default=None, object_default=None, rename=False):
-	return reduce(divide, *args, numeric_default=numeric_default, object_default=object_default,
+def divide_all(*args,
+               numeric_default=None, object_default=None,
+               rename=False):
+	return reduce(divide, *args,
+	              numeric_default=numeric_default, object_default=object_default,
 	              rename=rename)
 
 
-def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
+def divide(c1, c2,
+           numeric_default=None, object_default=None,
+           rename=False):
 	'''Returns the division of the specified collections.'''
 	if is_list(c1):
-		return [divide(c, c2, numeric_default=numeric_default, object_default=object_default,
+		return [divide(c, c2,
+		               numeric_default=numeric_default, object_default=object_default,
 		               rename=rename) for c in c1]
 	elif is_list(c2):
-		return [divide(c1, c, numeric_default=numeric_default, object_default=object_default,
+		return [divide(c1, c,
+		               numeric_default=numeric_default, object_default=object_default,
 		               rename=rename) for c in c2]
 	elif is_table(c1) and is_table(c2):
 		if is_frame(c1) and not is_frame(c2):
 			return concat_cols(
-				[divide(set_names(c1[k], k), c2, numeric_default=numeric_default,
-				        object_default=object_default, rename=rename) for k in get_keys(c1)])
+				[divide(set_names(c1[k], k), c2,
+				        numeric_default=numeric_default, object_default=object_default,
+				        rename=rename) for k in get_keys(c1)])
 		elif not is_frame(c1) and is_frame(c2):
 			return concat_cols(
-				[divide(c1, set_names(c2[k], k), numeric_default=numeric_default,
-				        object_default=object_default, rename=rename) for k in get_keys(c2)])
+				[divide(c1, set_names(c2[k], k),
+				        numeric_default=numeric_default, object_default=object_default,
+				        rename=rename) for k in get_keys(c2)])
 		if rename:
 			names = get_names(c2)
 			rename_all(c1, c2, names=get_names(c1))
-		result = (fill_null_all(c1, c2, numeric_default=numeric_default, object_default=object_default) /
-		          fill_null_all(c2, c1, numeric_default=numeric_default, object_default=object_default))
+		result = (fill_null_all(c1, c2,
+		                        numeric_default=numeric_default, object_default=object_default) /
+		          fill_null_all(c2, c1,
+		                        numeric_default=numeric_default, object_default=object_default))
 		if rename:
 			set_names(c2, names)
 		return result
@@ -267,8 +317,10 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
 	elif is_table(c2):
 		return product_cols(join(1 / c2, get_values(c1)))
 	keys = get_common_keys(c1, c2)
-	v1 = fill_null(get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default)
-	v2 = fill_null(get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default)
+	v1 = fill_null(get_values(c1, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
+	v2 = fill_null(get_values(c2, keys=keys),
+	               numeric_default=numeric_default, object_default=object_default)
 	return collection_to_type(np.divide(v1, v2), c1)
 
 

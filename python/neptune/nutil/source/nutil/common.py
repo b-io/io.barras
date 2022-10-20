@@ -1494,7 +1494,7 @@ def set_keys(c, new_keys,
 	return c
 
 
-def set_index(c, new_index):
+def set_index(c, new_index, index_name='index'):
 	'''Sets the index (indices/keys/index) of the specified collection that are in the specified
 	inclusive list and are not in the specified exclusive list.'''
 	if is_group(c):
@@ -1517,7 +1517,13 @@ def set_index(c, new_index):
 			rename(c, index=dict(zip(c.index, new_index)))
 	else:
 		set_keys(c, new_index)
+	set_index_name(c, index_name=index_name)
 	return c
+
+
+def set_index_name(c, index_name):
+	if is_table(c) and is_null(c.index.name):
+		c.index.name = index_name
 
 
 def set_values(c, new_values, mask=None,
@@ -2621,8 +2627,7 @@ def to_frame(data, names=None, index=None, index_name='index', type=None):
 		set_names(frame, names)
 	if not is_null(index):
 		set_index(frame, index)
-	if not is_null(index_name):
-		frame.index.name = index_name
+	set_index_name(frame, index_name)
 	return frame
 
 
@@ -4540,35 +4545,48 @@ def filter_any_rows_not_in(df, rows):
 
 #########################
 
-def join_all(*args, how='inner', on=None, suffix='2',
+def join_all(*args, how='inner', on=None,
+             index_name='index', suffix='2',
              validate='m:m'):
-	return reduce(lambda left, right: join(left, right, how=how, on=on, suffix=suffix,
-	                                       validate=validate), *args)
+	return reduce(lambda left, right: join(left, right, how=how, on=on,
+	                                       index_name=index_name, suffix=suffix,
+	                                       validate=validate),
+	              *args)
 
 
-def join(left, right, how='inner', on=None, suffix='2',
+def join(left, right, how='inner', on=None,
+         index_name='index', suffix='2',
          validate='m:m'):
 	'''Joins the specified left dataframe with the specified right dataframe on the common index (or
 	on the specified index if it is not null).'''
-	return to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix, validate=validate)
+	return set_index_name(to_frame(left).join(to_frame(right), how=how, on=on,
+	                                          rsuffix=suffix,
+	                                          validate=validate),
+	                      index_name)
 
 
 #########################
 
-def merge_all(*args, how='inner', on=None, suffixes=[None, '2'],
+
+def merge_all(*args, how='inner', on=None,
+              index_name='index', suffixes=[None, '2'],
               indicator=None, validate='m:m'):
-	return reduce(lambda left, right: merge(left, right, how=how, on=on, suffixes=suffixes,
-	                                        indicator=indicator, validate=validate), *args)
+	return reduce(lambda left, right: merge(left, right, how=how, on=on,
+	                                        index_name=index_name, suffixes=suffixes,
+	                                        indicator=indicator, validate=validate),
+	              *args)
 
 
-def merge(left, right, how='inner', on=None, suffixes=[None, '2'],
+def merge(left, right, how='inner', on=None,
+          index_name='index', suffixes=[None, '2'],
           indicator=None, validate='m:m'):
 	'''Merges the specified left dataframe with the specified right dataframe on the common index
 	(or on the specified index and/or columns if they are not null).'''
-	return to_frame(left).merge(to_frame(right), copy=False, how=how,
-	                            on=on if not is_null(on) else get_names(left.index),
-	                            suffixes=suffixes,
-	                            indicator=indicator, validate=validate)
+	return set_index_name(to_frame(left).merge(to_frame(right), copy=False, how=how,
+	                                           on=on if not is_null(on) else get_names(left.index),
+	                                           suffixes=suffixes,
+	                                           indicator=indicator, validate=validate),
+	                      index_name)
 
 
 #########################
