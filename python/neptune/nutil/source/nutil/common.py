@@ -1524,6 +1524,7 @@ def set_index(c, new_index, index_name='index'):
 def set_index_name(c, index_name):
 	if is_table(c) and is_null(c.index.name):
 		c.index.name = index_name
+	return c
 
 
 def set_values(c, new_values, mask=None,
