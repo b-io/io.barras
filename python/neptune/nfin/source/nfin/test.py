@@ -75,12 +75,10 @@ class TestFin(Test):
 		test('Plot the seasonal-trend decomposition')
 		decomposition = decompose_series(series)
 		fig = plot_decomposition(decomposition.trend, decomposition.seasonal, decomposition.resid,
-		                         title='Seasonal-trend decomposition', name='Random walk',
-		                         color='blue')
+		                         name='Random walk', color='blue')
 		decomposition = decompose_series(forecasted_series)
 		fig = plot_decomposition(decomposition.trend, decomposition.seasonal, decomposition.resid,
-		                         fig=fig, title='Seasonal-trend decomposition', name='Forecast',
-		                         color='orange')
+		                         fig=fig, name='Forecast', color='orange')
 		fig.show()
 
 
