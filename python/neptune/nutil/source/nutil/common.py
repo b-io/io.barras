@@ -2600,7 +2600,7 @@ def to_time_series(data, name=None, index=None, type=FLOAT_ELEMENT_TYPE):
 
 #########################
 
-def to_frame(data, names=None, index=None, type=None):
+def to_frame(data, names=None, index=None, index_name='index', type=None):
 	'''Converts the specified collection to a dataframe.'''
 	if is_empty(data) and not is_table(data):
 		data = []
@@ -2621,14 +2621,16 @@ def to_frame(data, names=None, index=None, type=None):
 		set_names(frame, names)
 	if not is_null(index):
 		set_index(frame, index)
+	if not is_null(index_name):
+		frame.index.name = index_name
 	return frame
 
 
-def to_time_frame(data, names=None, index=None, type=FLOAT_ELEMENT_TYPE):
+def to_time_frame(data, names=None, index=None, index_name='index', type=FLOAT_ELEMENT_TYPE):
 	'''Converts the specified collection to a time frame.'''
 	if not is_null(index):
 		index = to_timestamp(to_array(index))
-	return to_frame(data, names=names, index=index, type=type)
+	return to_frame(data, names=names, index=index, index_name=index_name, type=type)
 
 
 # • DATE ###########################################################################################
@@ -4538,27 +4540,35 @@ def filter_any_rows_not_in(df, rows):
 
 #########################
 
-def join_all(*args, how='inner', on=None, suffix=' 2'):
-	return reduce(lambda left, right: join(left, right, how=how, on=on, suffix=suffix), *args)
+def join_all(*args, how='inner', on=None, suffix='2',
+             validate='m:m'):
+	return reduce(lambda left, right: join(left, right, how=how, on=on, suffix=suffix,
+	                                       validate=validate), *args)
 
 
-def join(left, right, how='inner', on=None, suffix=' 2'):
-	'''Joins the specified left dataframe with the specified right dataframe on the common columns
-	(or on the specified columns if they are not null).'''
-	return to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix)
+def join(left, right, how='inner', on=None, suffix='2',
+         validate='m:m'):
+	'''Joins the specified left dataframe with the specified right dataframe on the common index (or
+	on the specified index if it is not null).'''
+	return to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix, validate=validate)
 
 
 #########################
 
-def merge_all(*args, how='inner', on=None):
-	return reduce(lambda left, right: merge(left, right, how=how, on=on), *args)
+def merge_all(*args, how='inner', on=None, suffixes=[None, '2'],
+              indicator=None, validate='m:m'):
+	return reduce(lambda left, right: merge(left, right, how=how, on=on, suffixes=suffixes,
+	                                        indicator=indicator, validate=validate), *args)
 
 
-def merge(left, right, how='inner', on=None):
-	'''Merges the specified left dataframe with the specified right dataframe on the common columns
-	(or on the specified columns if they are not null).'''
-	return to_frame(left).merge(to_frame(right), how=how,
-	                            on=on if not is_null(on) else get_names(left.index))
+def merge(left, right, how='inner', on=None, suffixes=[None, '2'],
+          indicator=None, validate='m:m'):
+	'''Merges the specified left dataframe with the specified right dataframe on the common index
+	(or on the specified index and/or columns if they are not null).'''
+	return to_frame(left).merge(to_frame(right), copy=False, how=how,
+	                            on=on if not is_null(on) else get_names(left.index),
+	                            suffixes=suffixes,
+	                            indicator=indicator, validate=validate)
 
 
 #########################

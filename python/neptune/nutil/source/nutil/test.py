@@ -248,7 +248,6 @@ class TestDB(Test):
 
 	def test(self):
 		df = to_frame([['x', 1.], ['y', 2.], ['z', 3.]], names=['A', 'B'])
-		df.index.name = 'index'
 		self.assert_equals(str(get_col_types(df)), str({'index': db.Integer(),
 		                                                'A': db.String(length=8000),
 		                                                'B': db.Float(asdecimal=True)}))
