@@ -334,7 +334,7 @@ __DB_CREATE_______________________________________ = ''
 def create_table(engine, df, table, append=False, chunk_size=DEFAULT_CHUNK_SIZE, index=False,
                  index_cols=None, method=None, replace=False, schema=DEFAULT_SCHEMA, type=None):
 	if index and is_null(index_cols):
-		index_cols = get_primary_cols(engine, table)
+		index_cols = get_primary_cols(engine, table) if append else get_names(df.index)
 	return df.to_sql(table, engine,
 	                 chunksize=chunk_size,
 	                 if_exists='append' if append else 'replace' if replace else 'fail',
