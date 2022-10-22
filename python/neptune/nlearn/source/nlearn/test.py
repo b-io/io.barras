@@ -15,7 +15,7 @@
 ####################################################################################################
 
 from nlearn.mixture import *
-from nlearn.nlp import GloVe
+from nlearn.nlp import WordEmbeddings
 from nutil.test import *
 
 ####################################################################################################
@@ -62,8 +62,8 @@ class TestLearn(Test):
 		fig.show()
 
 	def test_nlp(self):
-		test('Create a handler for Global Vectors for Word Representation (GloVe)')
-		_ = GloVe()
+		test('Create a handler for word embeddings')
+		_ = WordEmbeddings()
 
 
 ####################################################################################################

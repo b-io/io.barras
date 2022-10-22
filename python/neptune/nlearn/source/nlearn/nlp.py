@@ -26,7 +26,7 @@ from nlearn.common import *
 
 __NLP_PROPERTIES__________________________________ = ''
 
-GLOVE_PATH = LEARN_PROPS.get('glovePath')
+WORD_VECTOR_PATH = LEARN_PROPS.get('wordVectorPath')
 
 ####################################################################################################
 # NLP CONSTANTS
@@ -44,17 +44,16 @@ DEFAULT_MAX_WORD_COUNT = 20
 __NLP_CLASSES_____________________________________ = ''
 
 
-class GloVe:
+class WordEmbeddings:
 	'''
-	A handler for Global Vectors for Word Representation (GloVe) of Jeffrey Pennington, Richard
-	Socher, and Christopher D. Manning (2014).
+	A handler for word embeddings.
 	'''
 
-	def __init__(self, path=GLOVE_PATH, encoding=DEFAULT_ENCODING, ignore=True,
+	def __init__(self, path=WORD_VECTOR_PATH, encoding=DEFAULT_ENCODING, ignore=True,
 	             newline=DEFAULT_NEWLINE, size=None, verbose=VERBOSE, verbose_interval=100000):
 		'''
-		Constructs a handler for Global Vectors for Word Representation (GloVe) containing a
-		vocabulary of words and their pre-trained word vectors.
+		Constructs a handler for word embeddings containing a vocabulary of words and their
+		pre-trained word vectors.
 
 		:param path: the path to the file containing the vocabulary words and their pre-trained word
 		             vectors

@@ -26,8 +26,8 @@ __LEARN_PROPERTIES________________________________ = ''
 # The default LEARN properties
 DEFAULT_LEARN_PROPS = {
 	# • NLP
-	# GloVe
-	'glovePath': None
+	# Pre-trained word vector path
+	'wordVectorPath': None
 }
 try:
 	LEARN_PROPS = load_props('learn')
