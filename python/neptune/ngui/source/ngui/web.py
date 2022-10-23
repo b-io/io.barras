@@ -509,7 +509,7 @@ def download(url, dir=None):
 	'''Downloads the file pointed by the specified URL and writes it to the specified directory.'''
 	if is_null(dir):
 		dir = get_dir('.')
-	info('Download the file', quote(url), 'to the directory', quote(dir))
+	debug('Download the file', quote(url), 'to the directory', quote(dir))
 	try:
 		content = requests.get(url).content
 		filename = get_filename(url).split('?')[0]

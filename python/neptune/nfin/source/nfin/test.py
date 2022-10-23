@@ -38,7 +38,7 @@ class TestFin(Test):
 
 	def test_time_series(self):
 		date_to = get_date()
-		date_from = date_to - 2 * YEAR
+		date_from = date_to - 2 * RELATIVE_YEAR
 		index = create_date_sequence(date_from, date_to)
 		series = rename(to_series(cum_diff(create_random_int_array(-5, len(index), high=6), 0)[:-1],
 		                          index=index), 'Random walk')

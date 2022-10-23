@@ -43,16 +43,16 @@ class Transformation(Enum):
 __TIME_SERIES_____________________________________ = ''
 
 
+def get_average_duration(series, per=DAY):
+	return np.diff(series.index).mean() / per
+
+
 def get_freq_group(series, freq=FREQUENCY, group=GROUP):
 	if is_null(freq):
 		freq = find_nearest_freq(series)
 	if is_null(group):
 		group = find_nearest_group(series, freq=freq)
 	return freq, group
-
-
-def get_average_freq_days(series):
-	return np.diff(series.index).mean() / np.timedelta64(1, 'D')
 
 
 ##################################################
@@ -65,11 +65,11 @@ def set_freq(series, freq=FREQUENCY, group=GROUP):
 ##################################################
 
 def find_nearest_freq(series):
-	return find_nearest_freq_from_days(get_average_freq_days(series))
+	return find_nearest_freq_from_days(get_average_duration(series, per=DAY))
 
 
-def find_nearest_freq_from_days(n):
-	return DAY_COUNT_FREQUENCY[nearest(FREQUENCY_DAY_COUNT, n)]
+def find_nearest_freq_from_days(day_count):
+	return DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
 
 
 def find_nearest_freq_from_period(period=PERIOD):
@@ -236,7 +236,7 @@ def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate
 		date_from = get_first(series.index)
 	if is_null(date_to):
 		date_to = get_last(series.index)
-	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_DELTA[freq]) &
+	series = fill_null_rows(series[(series.index >= date_from - FREQUENCY_TO_RELATIVE_DURATION[freq]) &
 	                               (series.index <= date_to)],
 	                        create_datetime_sequence(date_from, date_to, freq=freq, group=group))
 	set_freq(series, freq=freq, group=group)

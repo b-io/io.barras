@@ -863,8 +863,8 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 	if drop or create:
 		metadata = create_metadata(engine_from, schema=schema)
 		for table in tables:
-			info('Recreate' if drop and create else 'Drop' if drop else 'Create', 'the table',
-			     quote(table))
+			debug('Recreate' if drop and create else 'Drop' if drop else 'Create', 'the table',
+			      quote(table))
 			table_metadata = get_table_metadata(engine_from, table, metadata=metadata,
 			                                    schema=schema)
 			for col in table_metadata.columns:
@@ -880,7 +880,7 @@ def migrate(engine_from, engine_to, tables, chunk_size=DEFAULT_CHUNK_SIZE, colla
 	# Fill the tables
 	if fill:
 		for table in tables:
-			info('Fill the table', quote(table))
+			debug('Fill the table', quote(table))
 			if is_null(filtering_row):
 				df = select_table(engine_from, table, chunk_size=chunk_size, schema=schema,
 				                  verbose=verbose)

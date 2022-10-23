@@ -323,21 +323,27 @@ DEFAULT_PERIOD = '1' + Frequency.YEARS.value
 
 DATE_TYPE = date
 
-DATE_TIME_TYPE = datetime
+DATETIME_TYPE = datetime
 
 TIMESTAMP_TYPE = pd.Timestamp
 
 ##################################################
 
-# The time deltas
-DAY = relativedelta(days=1)
-WEEK = 7 * DAY
-MONTH = relativedelta(months=1)
+# The weekdays
+MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
+WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+
+#########################
+
+# The time durations
+DAY = np.timedelta64(1, 'D')
+WEEK = np.timedelta64(1, 'W')
+MONTH = np.timedelta64(1, 'M')
 QUARTER = 3 * MONTH
 SEMESTER = 6 * MONTH
-YEAR = relativedelta(years=1)
+YEAR = np.timedelta64(1, 'Y')
 
-FREQUENCY_DELTA = {
+FREQUENCY_TO_DURATION = {
 	Frequency.DAYS: DAY,
 	Frequency.WEEKS: WEEK,
 	Frequency.MONTHS: MONTH,
@@ -345,6 +351,29 @@ FREQUENCY_DELTA = {
 	Frequency.SEMESTERS: SEMESTER,
 	Frequency.YEARS: YEAR
 }
+
+# DURATION_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DURATION.items()}
+
+#########################
+
+# The relative time durations
+RELATIVE_DAY = relativedelta(days=1)
+RELATIVE_WEEK = relativedelta(weeks=1)
+RELATIVE_MONTH = relativedelta(months=1)
+RELATIVE_QUARTER = 3 * RELATIVE_MONTH
+RELATIVE_SEMESTER = 6 * RELATIVE_MONTH
+RELATIVE_YEAR = relativedelta(years=1)
+
+FREQUENCY_TO_RELATIVE_DURATION = {
+	Frequency.DAYS: RELATIVE_DAY,
+	Frequency.WEEKS: RELATIVE_WEEK,
+	Frequency.MONTHS: RELATIVE_MONTH,
+	Frequency.QUARTERS: RELATIVE_QUARTER,
+	Frequency.SEMESTERS: RELATIVE_SEMESTER,
+	Frequency.YEARS: RELATIVE_YEAR
+}
+
+RELATIVE_DURATION_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_RELATIVE_DURATION.items()}
 
 #########################
 
@@ -380,9 +409,7 @@ DAYS_PER_QUARTER = DAYS_PER_YEAR / QUARTERS_PER_YEAR  # days
 # The average number of days per semester
 DAYS_PER_SEMESTER = DAYS_PER_YEAR / SEMESTERS_PER_YEAR  # days
 
-#########################
-
-FREQUENCY_DAY_COUNT = {
+FREQUENCY_TO_DAY_COUNT = {
 	Frequency.DAYS: 1,
 	Frequency.WEEKS: DAYS_PER_WEEK,
 	Frequency.MONTHS: DAYS_PER_MONTH,
@@ -391,13 +418,7 @@ FREQUENCY_DAY_COUNT = {
 	Frequency.YEARS: DAYS_PER_YEAR
 }
 
-DAY_COUNT_FREQUENCY = {FREQUENCY_DAY_COUNT[k]: k for k in FREQUENCY_DAY_COUNT}
-
-#########################
-
-# The weekdays
-MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
-WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
 
 # • DICT ###########################################################################################
 
@@ -419,9 +440,6 @@ DEFAULT_RES_DIR = 'resources'
 
 # The default encoding
 DEFAULT_ENCODING = 'utf-8'
-
-# The default newline
-DEFAULT_NEWLINE = '\n'
 
 # • LIST ###########################################################################################
 
@@ -673,7 +691,7 @@ def is_date(x):
 
 
 def is_datetime(x):
-	return isinstance(x, DATE_TIME_TYPE)
+	return isinstance(x, DATETIME_TYPE)
 
 
 def is_timestamp(x):
@@ -857,7 +875,7 @@ def find_path(filename, dir=None, subdir=None):
 
 #########################
 
-def read(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
+def read(path, encoding=DEFAULT_ENCODING, ignore=False, newline=None):
 	if validators.url(path):
 		with urlopen(path) as f:
 			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
@@ -867,7 +885,7 @@ def read(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE)
 		return f.read()
 
 
-def read_iterator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
+def read_iterator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=None):
 	if validators.url(path):
 		with urlopen(path) as f:
 			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
@@ -880,7 +898,7 @@ def read_iterator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT
 				yield line
 
 
-def read_enumerator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=DEFAULT_NEWLINE):
+def read_enumerator(path, encoding=DEFAULT_ENCODING, ignore=False, newline=None):
 	if validators.url(path):
 		with urlopen(path) as f:
 			encoding = encoding if not is_null(encoding) else f.headers.get_content_charset()
@@ -902,7 +920,7 @@ def read_bytes(path):
 
 
 def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', ignore=False, index_cols=None,
-             index_name='index', na_values=[''], newline=DEFAULT_NEWLINE, type=None, **kwargs):
+             index_name='index', na_values=[''], newline=None, type=None, **kwargs):
 	df = pd.read_csv(path, encoding=encoding, delimiter=delimiter, dtype=type,
 	                 error_bad_lines=not ignore, index_col=index_cols, lineterminator=newline,
 	                 na_values=na_values,
@@ -912,7 +930,7 @@ def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', ignore=False, index
 	return df
 
 
-def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=DEFAULT_NEWLINE, **kwargs):
+def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwargs):
 	if validators.url(path):
 		with urlopen(path) as f:
 			return json.load(f, **kwargs)
@@ -923,8 +941,7 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=DEFAULT_NEWL
 
 #########################
 
-def write(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False,
-          newline=DEFAULT_NEWLINE):
+def write(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False, newline=None):
 	with open(path, mode='a' if append else 'w', encoding=encoding,
 	          errors='ignore' if ignore else None, newline=newline) as f:
 		return f.write(content)
@@ -936,7 +953,7 @@ def write_bytes(path, content, append=False, ignore=False):
 
 
 def write_csv(path, content, append=False, dialect='excel', encoding=DEFAULT_ENCODING, ignore=False,
-              newline=DEFAULT_NEWLINE, **kwargs):
+              newline=None, **kwargs):
 	with open(path, mode='a' if append else 'w', encoding=encoding,
 	          errors='ignore' if ignore else None, newline=newline) as f:
 		if is_dict(content):
@@ -946,7 +963,7 @@ def write_csv(path, content, append=False, dialect='excel', encoding=DEFAULT_ENC
 
 
 def write_json(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False, indent=None,
-               newline=DEFAULT_NEWLINE, **kwargs):
+               newline=None, **kwargs):
 	with open(path, mode='a' if append else 'w', encoding=encoding,
 	          errors='ignore' if ignore else None, newline=newline) as f:
 		return json.dump(content, f, indent=indent, **kwargs)
@@ -1594,17 +1611,24 @@ def set_element_types(c, new_types,
 	if is_empty(new_types):
 		return c
 	if is_frame(c):
-		c = c.astype(new_types, copy=False)
+		c = c.astype({k: v for k, v in new_types.items()
+		              if (v == OBJECT_TYPE or
+		                  v != DATE_TYPE and v != DATETIME_TYPE and v != TIMESTAMP_TYPE)},
+		             copy=False)
+		date_cols = [k for k, v in new_types.items()
+		             if (v != OBJECT_TYPE and
+		                 (v == DATE_TYPE or v == DATETIME_TYPE or v == TIMESTAMP_TYPE))]
+		set_values(c, c[date_cols].apply(pd.to_datetime), keys=date_cols)
 	elif is_series(c) or is_array(c):
 		if is_dict(new_types):
 			new_types = get_value(new_types)
 		c = c.astype(new_types, copy=False)
 	elif is_dict(c):
-		upsert(c, {key: to_element_type(c.pop(key), new_element_type)
-		           for key, new_element_type in new_types.items()})
+		upsert(c, {k: to_element_type(c.pop(k), new_element_type)
+		           for k, new_element_type in new_types.items()})
 	else:
-		update(c, {key: to_element_type(c[key], new_element_type)
-		           for key, new_element_type in new_types.items()},
+		update(c, {k: to_element_type(c[k], new_element_type)
+		           for k, new_element_type in new_types.items()},
 		       keys=keys)
 	return c
 
@@ -1933,10 +1957,10 @@ def get_prev_business_day(d=get_datetime()):
 		d = parse_datetime(d)
 	day = date.weekday(d)
 	if day is MON:  # Monday
-		return d - 3 * DAY
+		return d - 3 * RELATIVE_DAY
 	elif day is SUN:  # Sunday
-		return d - 2 * DAY
-	return d - DAY
+		return d - 2 * RELATIVE_DAY
+	return d - RELATIVE_DAY
 
 
 def get_next_business_day(d=get_datetime()):
@@ -1944,10 +1968,10 @@ def get_next_business_day(d=get_datetime()):
 		d = parse_datetime(d)
 	day = date.weekday(d)
 	if day is FRI:  # Friday
-		return d + 3 * DAY
+		return d + 3 * RELATIVE_DAY
 	elif day is SAT:  # Saturday
-		return d + 2 * DAY
-	return d + DAY
+		return d + 2 * RELATIVE_DAY
+	return d + RELATIVE_DAY
 
 
 #########################
@@ -2405,7 +2429,7 @@ def get_period_days(d=get_datetime(), period=PERIOD):
 	if is_null(d):
 		period_length = to_period_length(period)
 		period_freq = to_period_freq(period)
-		return period_length * FREQUENCY_DAY_COUNT[period_freq]
+		return period_length * FREQUENCY_TO_DAY_COUNT[period_freq]
 	return diff_days(subtract_period(d, period), d)
 
 
@@ -2453,7 +2477,7 @@ def to_element_type(x, t):
 		return to_tuple(x)
 	elif t is TIMESTAMP_TYPE:
 		return to_timestamp(x)
-	elif t is DATE_TIME_TYPE:
+	elif t is DATETIME_TYPE:
 		return to_datetime(x)
 	elif t is DATE_TYPE:
 		return to_date(x)
@@ -4706,13 +4730,13 @@ __DATE_PROCESSORS_________________________________ = ''
 def add_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
-	return d + period_length * FREQUENCY_DELTA[period_freq]
+	return d + period_length * FREQUENCY_TO_RELATIVE_DURATION[period_freq]
 
 
 def subtract_period(d=get_datetime(), period=PERIOD):
 	period_length = to_period_length(period)
 	period_freq = to_period_freq(period)
-	return d - period_length * FREQUENCY_DELTA[period_freq]
+	return d - period_length * FREQUENCY_TO_RELATIVE_DURATION[period_freq]
 
 
 #########################
@@ -4759,8 +4783,8 @@ def diff_years(date_from, date_to):
 
 def find_nearest_period(length, freq=FREQUENCY):
 	day_count = get_period_days(None, period=to_period(length, freq=freq))
-	period_freq = DAY_COUNT_FREQUENCY[nearest(FREQUENCY_DAY_COUNT, day_count)]
-	period_length = round_to_int(day_count / FREQUENCY_DAY_COUNT[period_freq])
+	period_freq = DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
+	period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
 	return to_period(period_length, period_freq)
 
 
