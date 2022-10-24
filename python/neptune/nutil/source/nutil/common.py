@@ -926,7 +926,7 @@ def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', ignore=False, index
 	                 na_values=na_values,
 	                 **kwargs)
 	if is_null(index_cols):
-		df.index.name = index_name
+		set_index_name(df, index_name)
 	return df
 
 
@@ -1324,6 +1324,14 @@ def get_index(c,
 	return get_keys(c, inclusion=inclusion, exclusion=exclusion)
 
 
+def get_index_name(c):
+	if is_table(c):
+		if isinstance(c.index, pd.MultiIndex):
+			return c.index.names
+		return c.index.name
+	return None
+
+
 def get_all_common_index(*args,
                          inclusion=None, exclusion=None):
 	return reduce(lambda c1, c2: get_common_index(c1, c2,
@@ -1534,13 +1542,19 @@ def set_index(c, new_index, index_name='index'):
 			rename(c, index=dict(zip(c.index, new_index)))
 	else:
 		set_keys(c, new_index)
-	set_index_name(c, index_name=index_name)
+	set_index_name(c, index_name)
 	return c
 
 
 def set_index_name(c, index_name):
-	if is_table(c) and is_null(c.index.name):
-		c.index.name = index_name
+	if is_empty(index_name):
+		return c
+	if is_table(c):
+		if isinstance(c.index, pd.MultiIndex):
+			c.index.names = (index_name if is_collection(index_name) else
+			                 [index_name + str(i + 1) for i in range(len(c.index.names))])
+		else:
+			c.index.name = index_name
 	return c
 
 
@@ -4061,7 +4075,7 @@ def reverse(c,
 			return c.loc[::-1]
 		return c.loc[:, ::-1]
 	elif is_dict(c):
-		return {c[k]: k for k in c}
+		return {v: k for k, v in c.items()}
 	return c[::-1]
 
 
@@ -4171,7 +4185,7 @@ def take_at(c, indices,
 			return c.iloc[indices]
 		return c.iloc[:, indices]
 	elif is_dict(c):
-		return {k: c[k] for i, k in enumerate(c) if i in indices or i - len(c) in indices}
+		return {k: v for i, (k, v) in enumerate(c.items()) if i in indices or i - len(c) in indices}
 	return collection_to_type([c[i] for i in indices], c)
 
 

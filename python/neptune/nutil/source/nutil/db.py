@@ -89,15 +89,20 @@ def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERB
 		debug((prefix + get_query_message(verb, count, table)).capitalize())
 
 
-def error_query(verb, table, ex=None, verbose=VERBOSE):
-	if not isinstance(ex, IntegrityError):
-		error(paste('No row has been', verb, 'in the table', quote(table)),
-		      par(ex) if not is_null(ex) else '')
-	elif verbose:
+def warn_query(verb, table, ex=None, verbose=VERBOSE):
+	if verbose:
 		warn(paste('No row has been', verb, 'in the table', quote(table)),
 		     par(get_full_class_name(ex)) if not is_null(ex) else '')
 		if not is_null(ex):
 			trace(ex)
+
+
+def error_query(verb, table, ex=None, verbose=VERBOSE):
+	if not isinstance(ex, IntegrityError):
+		error(paste('No row has been', verb, 'in the table', quote(table)),
+		      par(ex) if not is_null(ex) else '')
+	else:
+		warn_query(verb, table, ex=ex, verbose=verbose)
 
 
 ##################################################
@@ -115,15 +120,20 @@ def trace_row(verb, index, table, cols=None, row=None, verbose=VERBOSE):
 		trace('-', get_row_message(verb, index, table, cols=cols, row=row).capitalize())
 
 
-def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
-	if not is_null(ex) and not isinstance(ex, IntegrityError):
-		error(paste('- Fail to', get_row_message(verb, index, table, cols=cols, row=row)),
-		      par(ex) if not is_null(ex) else '')
-	elif verbose:
+def warn_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
+	if verbose:
 		warn(paste('- Fail to', get_row_message(verb, index, table, cols=cols, row=row)),
 		     par(get_full_class_name(ex)) if not is_null(ex) else '')
 		if not is_null(ex):
 			trace(ex)
+
+
+def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
+	if not is_null(ex) and not isinstance(ex, IntegrityError):
+		error(paste('- Fail to', get_row_message(verb, index, table, cols=cols, row=row)),
+		      par(ex) if not is_null(ex) else '')
+	else:
+		warn_row(verb, index, table, ex=ex, cols=cols, row=row, verbose=verbose)
 
 
 # • DB FORMAT ######################################################################################
@@ -223,12 +233,23 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 		for col in df:
 			if col not in table_cols:
 				warn('The column', quote(col), 'does not exist in the table', quote(table))
-		# Test the existence of the filtering columns in the dataframe
-		if not is_empty(filtering_cols):
+	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
+
+
+def get_filtering_cols(engine, df, table, filtering_cols=None, metadata=None, schema=DEFAULT_SCHEMA,
+                       test=ASSERT):
+	if is_null(filtering_cols):
+		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
+		if test:
+			# Test the existence of the filtering columns in the dataframe
 			for col in filtering_cols:
 				if col not in df:
 					warn('The filtering column', quote(col), 'does not exist in the dataframe')
-	return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
+	filtering_cols = include_list(df, filtering_cols)
+	if test and is_empty(filtering_cols):
+		# Test the existence of any filtering column in the dataframe
+		warn('There is no filtering column')
+	return filtering_cols
 
 
 def get_identity_cols(engine, table, is_mssql=DEFAULT_IS_MSSQL, verbose=VERBOSE):
@@ -444,23 +465,27 @@ def create_delete_table_query(table, filtering_cols=None, filtering_row=None,
 
 ##################################################
 
-def delete_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
+def delete_table(engine, df, table, filtering_cols=None, index=False, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of deleted
 	rows.'''
 	delete_count = 0
 
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
+
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
-	if is_null(filtering_cols):
-		filtering_cols = [col.name for col in table_metadata.primary_key.columns]
-	else:
-		filtering_cols = include(df, filtering_cols)
+	metadata = create_metadata(engine, schema=schema)
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
+	                                    metadata=metadata, schema=schema, test=test)
 	table_cols = [col.name for col in table_metadata.columns]
 
-	# Test the existence of the columns
-	get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
+	if test:
+		# Test the existence of the columns in the table
+		get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
 	debug_query('delete', len(df), table, verbose=verbose)
 
@@ -481,30 +506,34 @@ def delete_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSS
 				delete_count += result_count
 				trace_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
 			else:
-				error_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
+				warn_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('delete', index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
 	return delete_count
 
 
 def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
+                      index=False, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-deletes the rows matching the rows of the specified dataframe at the specified filtering
 	columns from the specified table (in the specified schema) and returns the number of
 	bulk-deleted rows.'''
 	delete_count = 0
 
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
+
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
-	if is_null(filtering_cols):
-		filtering_cols = [col.name for col in table_metadata.primary_key.columns]
-	else:
-		filtering_cols = include(df, filtering_cols)
+	metadata = create_metadata(engine, schema=schema)
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
+	                                    metadata=metadata, schema=schema, test=test)
 	table_cols = [col.name for col in table_metadata.columns]
 
-	# Test the existence of the columns
-	get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
+	if test:
+		# Test the existence of the columns in the table
+		get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
 	# Chunk the bulk query
 	if len(df) > chunk_size:
@@ -515,8 +544,9 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-delete query from', index_from + 1, 'to', index_to, 'rows')
-			delete_count += bulk_delete_table(engine, df[index_from:index_to], table,
-			                                  chunk_size=chunk_size, filtering_cols=filtering_cols,
+			delete_count += bulk_delete_table(engine, df.iloc[index_from:index_to], table,
+			                                  chunk_size=chunk_size,
+			                                  filtering_cols=filtering_cols, index=False,
 			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
 		return delete_count
@@ -536,7 +566,7 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 		if result_count > 0:
 			delete_count = len(df)
 		else:
-			error_query('bulk-deleted', table, verbose=verbose)
+			warn_query('bulk-deleted', table, verbose=verbose)
 	except Exception as ex:
 		error_query('bulk-deleted', table, ex=ex, verbose=verbose)
 	return delete_count
@@ -605,7 +635,7 @@ def insert_table(engine, df, table, insert_id=None, is_mssql=DEFAULT_IS_MSSQL,
 				insert_count += result_count
 				trace_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
 			else:
-				error_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
+				warn_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('insert', index, table, ex=ex, cols=primary_cols, row=row, verbose=verbose)
 	if insert_id:
@@ -641,7 +671,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-insert query from', index_from + 1, 'to', index_to, 'rows')
-			insert_count += bulk_insert_table(engine, df[index_from:index_to], table,
+			insert_count += bulk_insert_table(engine, df.iloc[index_from:index_to], table,
 			                                  chunk_size=chunk_size, insert_id=False,
 			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
@@ -665,7 +695,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 		if result_count > 0:
 			insert_count = len(df)
 		else:
-			error_query('bulk-inserted', table, verbose=verbose)
+			warn_query('bulk-inserted', table, verbose=verbose)
 	except Exception as ex:
 		error_query('bulk-inserted', table, ex=ex, verbose=verbose)
 	if insert_id:
@@ -691,20 +721,22 @@ def create_update_table_query(table, cols, row, filtering_cols=None, is_mssql=DE
 
 ##################################################
 
-def update_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
+def update_table(engine, df, table, filtering_cols=None, index=False, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of updated
 	rows.'''
 	update_count = 0
 
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
+
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
 	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
-	if is_null(filtering_cols):
-		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
-	else:
-		filtering_cols = include(df, filtering_cols)
+	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
+	                                    metadata=metadata, schema=schema, test=test)
 	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to update
@@ -733,27 +765,29 @@ def update_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSS
 				update_count += result_count
 				trace_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
 			else:
-				error_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
+				warn_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('update', index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
 	return update_count
 
 
 def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filtering_cols=None,
-                      is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
+                      index=False, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-updates the rows matching the rows of the specified dataframe at the specified filtering
 	columns of the specified table (in the specified schema) and returns the number of bulk-updated
 	rows.'''
 	update_count = 0
 
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
+
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
 	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
-	if is_null(filtering_cols):
-		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
-	else:
-		filtering_cols = include(df, filtering_cols)
+	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
+	                                    metadata=metadata, schema=schema, test=test)
 	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to update
@@ -768,8 +802,9 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 			index_to = minimum(index_from + chunk_size, len(df))
 			if verbose:
 				debug('Chunk the bulk-update query from', index_from + 1, 'to', index_to, 'rows')
-			update_count += bulk_update_table(engine, df[index_from:index_to], table,
-			                                  chunk_size=chunk_size, filtering_cols=filtering_cols,
+			update_count += bulk_update_table(engine, df.iloc[index_from:index_to], table,
+			                                  chunk_size=chunk_size,
+			                                  filtering_cols=filtering_cols, index=False,
 			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
 		return update_count
@@ -789,7 +824,7 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 		if result_count > 0:
 			update_count = len(df)
 		else:
-			error_query('bulk-updated', table, verbose=verbose)
+			warn_query('bulk-updated', table, verbose=verbose)
 	except Exception as ex:
 		error_query('bulk-updated', table, ex=ex, verbose=verbose)
 	return update_count
@@ -824,17 +859,17 @@ def upsert_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSS
 	else:
 		insert_count = 0
 
-	# Test
+	# Verify
 	if upsert_count != len(df):
 		if verbose:
 			t = select_table_where(engine, table, chunk_size=None, cols=get_names(df),
 			                       is_mssql=is_mssql, schema=schema, verbose=verbose)
 			for index, row in df.iterrows():
 				if is_empty(filter_rows(t, row)):
-					error_row('update/insert', index, table, cols=filtering_cols, row=row,
-					          verbose=verbose)
+					warn_row('update/insert', index, table, cols=filtering_cols, row=row,
+					         verbose=verbose)
 		if upsert_count == 0:
-			error_query('update/insert', table, verbose=verbose)
+			warn_query('update/insert', table, verbose=verbose)
 		elif upsert_count < len(df):
 			warn('Update/insert', collapse(update_count, '/', insert_count), 'rows in the table',
 			     quote(table), 'which is', len(df) - upsert_count, 'rows less than expected',

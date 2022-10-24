@@ -49,8 +49,8 @@ class WordEmbeddings:
 	A handler for word embeddings.
 	'''
 
-	def __init__(self, path=WORD_VECTOR_PATH, encoding=DEFAULT_ENCODING, ignore=True,
-	             newline=DEFAULT_NEWLINE, size=None, verbose=VERBOSE, verbose_interval=100000):
+	def __init__(self, path=WORD_VECTOR_PATH, encoding=DEFAULT_ENCODING, ignore=True, newline=None,
+	             size=None, verbose=VERBOSE, verbose_interval=100000):
 		'''
 		Constructs a handler for word embeddings containing a vocabulary of words and their
 		pre-trained word vectors.
@@ -60,7 +60,7 @@ class WordEmbeddings:
 		:param size: the size of the word vectors
 		'''
 		self.vocabulary = []
-		self.word_to_vector = {}  # the dictionary mapping every vocabulary word to its word vector
+		self.vectors = []
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
 		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word
 		self.size = size
@@ -75,16 +75,38 @@ class WordEmbeddings:
 		'''Returns the size of the word vectors.'''
 		if not is_null(self.size):
 			return self.size
-		return self.word_to_vector[self.vocabulary[0]].shape[0]
+		return self.vectors[0].shape[0]
 
 	##############################################
 
+	def sentence_to_indices(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
+		'''
+		Converts the specified sentence to a list of vocabulary word indices.
+
+		:param sentence:       a sentence
+		:param max_word_count: the maximum number of words in a sentence
+
+		:return: a list of vocabulary word indices and the set of unknown words
+		'''
+		indices = []
+		unknown_words = set()
+		sentence_words = tokenize(sentence, lowercase=True)
+		# Convert every sentence word to its index in the vocabulary
+		for i, word in enumerate(sentence_words):
+			if i >= max_word_count:
+				return indices, unknown_words
+			if word in self.word_to_index:
+				indices.append(self.word_to_index[word])
+			else:
+				unknown_words.add(word)
+		return indices, unknown_words
+
 	def sentences_to_indices(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Converts the specified array of sentences of shape (m) to an array of vocabulary word
-		indices of shape (m x max_word_count).
+		Converts the specified list of sentences of size m to an array of vocabulary word indices of
+		shape (m x max_word_count).
 
-		:param sentences:      an array of sentences of shape (m)
+		:param sentences:      a list of sentences of size m
 		:param max_word_count: the maximum number of words in a sentence
 
 		:return: an array of vocabulary word indices of shape (m x max_word_count) and the set of
@@ -93,14 +115,50 @@ class WordEmbeddings:
 		indices = np.zeros((len(sentences), max_word_count), dtype=INT_ELEMENT_TYPE)
 		unknown_words = set()
 		for i, sentence in enumerate(sentences):
-			sentence_words = tokenize(sentence, lowercase=True)
-			# Convert every sentence word to its index in the vocabulary
-			for j, word in enumerate(sentence_words):
-				if word in self.word_to_index:
-					indices[i, j] = self.word_to_index[word]
-				else:
-					unknown_words.add(word)
+			# Get the list of vocabulary word indices of the sentence
+			(sentence_indices,
+			 sentence_unknown_words) = self.sentence_to_indices(sentence,
+			                                                    max_word_count=max_word_count)
+			indices[i, :min(len(sentence_indices), max_word_count)] = sentence_indices
+			unknown_words = unknown_words.union(sentence_unknown_words)
 		return indices, unknown_words
+
+	#####################
+
+	def sentence_to_vector(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
+		'''
+		Converts the specified sentence to a word vector.
+
+		:param sentence:       a sentence
+		:param max_word_count: the maximum number of words in a sentence
+
+		:return: a word vector and the set of unknown words
+		'''
+		# Get the list of vocabulary word indices of the sentence
+		sentence_indices, unknown_words = self.sentence_to_indices(sentence,
+		                                                           max_word_count=max_word_count)
+		# Sum the corresponding vectors
+		return sum(take_at(self.vectors, sentence_indices)), unknown_words
+
+	def sentences_to_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
+		'''
+		Converts the specified list of sentences to a list of word vectors.
+
+		:param sentences:      a list of sentences
+		:param max_word_count: the maximum number of words in a sentence
+
+		:return: a list of word vectors and the set of unknown words
+		'''
+		vectors = []
+		unknown_words = set()
+		for i, sentence in enumerate(sentences):
+			# Get the word vector of the sentence
+			(sentence_vector,
+			 sentence_unknown_words) = self.sentence_to_vector(sentence,
+			                                                   max_word_count=max_word_count)
+			vectors.append(sentence_vector)
+			unknown_words = unknown_words.union(sentence_unknown_words)
+		return vectors, unknown_words
 
 	##############################################
 
@@ -116,8 +174,8 @@ class WordEmbeddings:
 		embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_ELEMENT_TYPE)
 
 		# Set every row of the embedding matrix to be the word vector of the ith vocabulary word
-		for i, word in self.index_to_word.items():
-			embedding_matrix[i, :] = self.word_to_vector[word]
+		for i, vector in enumerate(self.vectors):
+			embedding_matrix[i, :] = vector
 
 		# Create the embedding layer with the corresponding input and output sizes (non-trainable)
 		embedding_layer = Embedding(vocabulary_size, embedding_size, trainable=False)
@@ -170,7 +228,13 @@ class WordEmbeddings:
 
 	##############################################
 
-	def load(self, path, encoding=DEFAULT_ENCODING, ignore=True, newline=DEFAULT_NEWLINE, size=None,
+	def find_closest_words(self, vector, top=10):
+		distances = distance(vector, self.vectors, axis=1)
+		return [self.vocabulary[i] for _, i in sort(zip(distances, range(len(distances))))[:top]]
+
+	#####################
+
+	def load(self, path, encoding=DEFAULT_ENCODING, ignore=True, newline=None, size=None,
 	         verbose=VERBOSE, verbose_interval=100000):
 		'''
 		Loads the dictionary mapping the vocabulary words to their pre-trained word vectors.
@@ -189,9 +253,8 @@ class WordEmbeddings:
 				      'from', i + 1, 'to', i + verbose_interval, '...')
 			word = paste(line[:-size])
 			self.vocabulary.append(word)
-			self.word_to_vector[word] = to_array(line[-size:], type=FLOAT_ELEMENT_TYPE)
+			self.vectors.append(to_array(line[-size:], type=FLOAT_ELEMENT_TYPE))
 		# Create the dictionary mapping every vocabulary word to its index, and vice versa
-		sort(self.vocabulary, inplace=True)
-		for i, w in enumerate(self.vocabulary):
-			self.word_to_index[w] = i
-			self.index_to_word[i] = w
+		for i, word in enumerate(self.vocabulary):
+			self.word_to_index[word] = i
+			self.index_to_word[i] = word
