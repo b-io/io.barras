@@ -346,19 +346,21 @@ __TIME_SERIES_FIGURE______________________________ = ''
 def plot_decomposition(trend, seasonal, residual,
                        fig=None, title='Seasonal-Trend Decomposition', title_x='Time', title_y=None,
                        name=None, color='black', trend_color='red', seasonal_color='gray',
-                       residual_color='lightgray', show_legend=False, width=DEFAULT_LINE_WIDTH,
-                       yaxis=0):
+                       residual_color='lightgray', stackgroup=None, show_legend=False,
+                       width=DEFAULT_LINE_WIDTH, yaxis=0):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y)
-	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='none',
+	if is_null(stackgroup):
+		stackgroup = generate_string(10)
+	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color,
 	                   name=paste(name, '(Trend Component)'), show_legend=show_legend,
-	                   stackgroup='one', width=width, yaxis=yaxis))
+	                   stackgroup=stackgroup, width=width, yaxis=yaxis))
 	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal), color=seasonal_color, fill='tonexty',
 	                   name=paste(name, '(Seasonal Component)'), show_legend=show_legend,
-	                   stackgroup='one', width=width, yaxis=yaxis))
+	                   stackgroup=stackgroup, width=width, yaxis=yaxis))
 	fig.add_trace(draw(x=residual.index, y=get_col(residual), color=residual_color, fill='tonexty',
 	                   name=paste(name, '(Residual Component)'), show_legend=show_legend,
-	                   stackgroup='one', width=width, yaxis=yaxis))
+	                   stackgroup=stackgroup, width=width, yaxis=yaxis))
 	series = trend + seasonal + residual
 	fig.add_trace(draw(x=series.index, y=get_col(series),
 	                   color=color, name=name, width=width, yaxis=yaxis))

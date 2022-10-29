@@ -200,10 +200,10 @@ def plot_silhouettes(points, classes, labels=None,
 		cluster_scores = to_array(sort(scores[class_filter]))
 		cluster_color = next(colors)
 		fig.add_trace(draw(x=cluster_scores, y=repeat(offset_y, len(cluster_scores)),
-		                   color=cluster_color, show_legend=False))
+		                   color=cluster_color, show_legend=False, stackgroup=cluster_name))
 		fig.add_trace(draw(x=cluster_scores, y=offset_y + to_array(range(len(cluster_scores))),
 		                   color=cluster_color, fill='tonexty', name=cluster_name,
-		                   show_legend=show_legend, width=width))
+		                   show_legend=show_legend, stackgroup=cluster_name, width=width))
 		offset_y += len(cluster_scores)
 	return fig
 
