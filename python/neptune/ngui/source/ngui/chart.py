@@ -524,6 +524,29 @@ def plot_multi_series(df, *args, f=None,
 	                  stackgroup=stackgroup, width=width, **kwargs)
 
 
+def plot_ellipse(center, a, b, angle=0, precision=100,
+                 fig=None, title=None, title_x='Time', title_y=None, title_y2=None, color=None,
+                 dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
+                 show_axes=True, show_date=False, show_legend=True, show_name=True,
+                 size=DEFAULT_MARKER_SIZE, width=2, yaxis=0):
+	if is_null(fig):
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
+	fig.add_trace(draw_ellipse(center, a, b, angle=angle, precision=precision, color=color,
+	                           dash=dash, fill=fill, index=index, mode=mode, name=name,
+	                           opacity=opacity, show_date=show_date, show_legend=show_legend,
+	                           show_name=show_name, size=size, width=width, yaxis=yaxis))
+	if show_axes:
+		fig.add_trace(draw([center[0] - a * cos(angle), center[0] + a * cos(angle)],
+		                   [center[1] - a * sin(angle), center[1] + a * sin(angle)],
+		                   color=color, dash=dash, name=name, opacity=opacity,
+		                   show_legend=False, width=width))
+		fig.add_trace(draw([center[0] - b * sin(angle), center[0] + b * sin(angle)],
+		                   [center[1] + b * cos(angle), center[1] - b * cos(angle)],
+		                   color=color, dash=dash, name=name, opacity=opacity,
+		                   show_legend=False, width=width))
+	return fig
+
+
 #########################
 
 def update_layout(fig,

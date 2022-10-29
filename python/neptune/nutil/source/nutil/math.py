@@ -402,12 +402,22 @@ def max_distance_index(v1, v2):
 
 #########################
 
+def eigh(a, use_lower_part=True):
+	return np.linalg.eigh(a, UPLO='L' if use_lower_part else 'U')
+
+
+#########################
+
 def norm1(vector, axis=0):
 	return np.linalg.norm(vector, ord=1, axis=axis)
 
 
 def norm2(vector, axis=0):
 	return np.linalg.norm(vector, ord=2, axis=axis)
+
+
+def normalize(vector):
+	return vector / norm2(vector)
 
 
 ##################################################

@@ -1625,13 +1625,11 @@ def set_element_types(c, new_types,
 	if is_empty(new_types):
 		return c
 	if is_frame(c):
-		c = c.astype({k: v for k, v in new_types.items()
-		              if (v == OBJECT_TYPE or
-		                  v != DATE_TYPE and v != DATETIME_TYPE and v != TIMESTAMP_TYPE)},
+		c = c.astype({k: t for k, t in new_types.items()
+		              if t is not DATE_TYPE and t is not DATETIME_TYPE and t is not TIMESTAMP_TYPE},
 		             copy=False)
-		date_cols = [k for k, v in new_types.items()
-		             if (v != OBJECT_TYPE and
-		                 (v == DATE_TYPE or v == DATETIME_TYPE or v == TIMESTAMP_TYPE))]
+		date_cols = [k for k, t in new_types.items()
+		             if t is DATE_TYPE or t is DATETIME_TYPE or t is TIMESTAMP_TYPE]
 		set_values(c, c[date_cols].apply(pd.to_datetime), keys=date_cols)
 	elif is_series(c) or is_array(c):
 		if is_dict(new_types):
@@ -3782,7 +3780,7 @@ def flatten(c, type=None,
             axis=0):
 	if is_empty(c):
 		return to_array(type=type)
-	if type == OBJECT_TYPE:
+	if type is OBJECT_TYPE:
 		return to_array(flatten_list(c), type=type)
 	return get_values(c, type=type).flatten(order='C' if axis == 0 else 'F' if axis == 1 else 'A')
 

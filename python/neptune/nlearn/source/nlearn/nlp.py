@@ -172,8 +172,7 @@ class WordEmbeddings:
 		'''
 		# Get the word vectors of the sentence
 		(word_vectors,
-		 unknown_words) = self.sentence_to_word_vectors(self, sentence,
-		                                                max_word_count=max_word_count)
+		 unknown_words) = self.sentence_to_word_vectors(sentence, max_word_count=max_word_count)
 		# Sum the corresponding word vectors
 		return sum(word_vectors), unknown_words
 
@@ -286,7 +285,7 @@ class WordEmbeddings:
 			if is_null(size):
 				size = len(line) - 1
 			if verbose and i % verbose_interval == 0:
-				debug('Load the', str(size) + '-dimensional word vectors',
+				debug('Load the', str(size) + '-dimensional pre-trained word vectors',
 				      'from', i + 1, 'to', i + verbose_interval, '...')
 			word = paste(line[:-size])
 			self.vocabulary.append(word)

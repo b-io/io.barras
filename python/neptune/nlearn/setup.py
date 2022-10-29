@@ -131,7 +131,7 @@ setup(
 
 	# The project keywords.
 	keywords=[
-		'gaussian mixture',
+		'clustering',
 		'machine learning',
 		'nlp',
 		'regression',

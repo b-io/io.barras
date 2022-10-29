@@ -278,7 +278,7 @@ class TestMath(Test):
 		self.assert_equals(min_distance_index(vectors[1], vectors), 1)
 
 		vector = create_random_array(ROW_SIZE)
-		self.norm2(vector)
+		self.normalize(vector)
 
 		vectors = create_random_array(SIZE, ROW_SIZE)
 		self.min_distance(vector, vectors)
@@ -286,10 +286,10 @@ class TestMath(Test):
 	##############################################
 
 
-	def norm2(self, vector):
-		t = timeit.timeit(stmt=lambda: norm2(vector), number=TEST_COUNT)
-		test('2-norm of a', str(ROW_SIZE) + '-dimensional vector computed', TEST_COUNT, 'times in',
-		     round(t), '[s]')
+	def normalize(self, vector):
+		t = timeit.timeit(stmt=lambda: normalize(vector), number=TEST_COUNT)
+		test('Normalization of a', str(ROW_SIZE) + '-dimensional vector computed', TEST_COUNT,
+		     'times in', round(t), '[s]')
 
 	def min_distance(self, vector, vectors):
 		t = timeit.timeit(stmt=lambda: min_distance(vector, vectors), number=TEST_COUNT)
