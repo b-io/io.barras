@@ -60,9 +60,8 @@ class WordEmbeddings:
 		:param size: the size of the word vectors
 		'''
 		self.vocabulary = []
-		self.vectors = []
+		self.word_vectors = []
 		self.word_to_index = {}  # the dictionary mapping every vocabulary word to its index
-		self.index_to_word = {}  # the dictionary mapping every index to its vocabulary word
 		self.size = size
 
 		if not is_empty(path):
@@ -75,90 +74,128 @@ class WordEmbeddings:
 		'''Returns the size of the word vectors.'''
 		if not is_null(self.size):
 			return self.size
-		return self.vectors[0].shape[0]
+		return self.word_vectors[0].shape[0]
 
 	##############################################
 
-	def sentence_to_indices(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
+	def sentence_to_word_indices(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Converts the specified sentence to a list of vocabulary word indices.
+		Converts the specified sentence to a list of word indices.
 
 		:param sentence:       a sentence
 		:param max_word_count: the maximum number of words in a sentence
 
-		:return: a list of vocabulary word indices and the set of unknown words
+		:return: a list of word indices and the set of unknown words
 		'''
-		indices = []
+		word_indices = []
 		unknown_words = set()
 		sentence_words = tokenize(sentence, lowercase=True)
 		# Convert every sentence word to its index in the vocabulary
 		for i, word in enumerate(sentence_words):
 			if i >= max_word_count:
-				return indices, unknown_words
+				return word_indices, unknown_words
 			if word in self.word_to_index:
-				indices.append(self.word_to_index[word])
+				word_indices.append(self.word_to_index[word])
 			else:
 				unknown_words.add(word)
-		return indices, unknown_words
+		return word_indices, unknown_words
 
-	def sentences_to_indices(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
+	def sentences_to_word_indices(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Converts the specified list of sentences of size m to an array of vocabulary word indices of
-		shape (m x max_word_count).
+		Converts the specified sentences of size m to an array of word indices of shape
+		(m x max_word_count).
 
 		:param sentences:      a list of sentences of size m
 		:param max_word_count: the maximum number of words in a sentence
 
-		:return: an array of vocabulary word indices of shape (m x max_word_count) and the set of
-		         unknown words
+		:return: an array of word indices of shape (m x max_word_count) and the set of unknown words
 		'''
-		indices = np.zeros((len(sentences), max_word_count), dtype=INT_ELEMENT_TYPE)
+		word_indices = np.zeros((len(sentences), max_word_count), dtype=INT_ELEMENT_TYPE)
 		unknown_words = set()
 		for i, sentence in enumerate(sentences):
-			# Get the list of vocabulary word indices of the sentence
-			(sentence_indices,
-			 sentence_unknown_words) = self.sentence_to_indices(sentence,
-			                                                    max_word_count=max_word_count)
-			indices[i, :min(len(sentence_indices), max_word_count)] = sentence_indices
+			# Get the word indices of the sentence
+			(sentence_word_indices,
+			 sentence_unknown_words) = self.sentence_to_word_indices(sentence,
+			                                                         max_word_count=max_word_count)
+			word_indices[i, :min(len(sentence_word_indices), max_word_count)] = sentence_word_indices
 			unknown_words = unknown_words.union(sentence_unknown_words)
-		return indices, unknown_words
+		return word_indices, unknown_words
 
 	#####################
 
-	def sentence_to_vector(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
+	def sentence_to_word_vectors(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Converts the specified sentence to a word vector.
+		Converts the specified sentence to a list of word vectors.
 
 		:param sentence:       a sentence
 		:param max_word_count: the maximum number of words in a sentence
 
-		:return: a word vector and the set of unknown words
+		:return: a list of word vectors and the set of unknown words
 		'''
-		# Get the list of vocabulary word indices of the sentence
-		sentence_indices, unknown_words = self.sentence_to_indices(sentence,
-		                                                           max_word_count=max_word_count)
-		# Sum the corresponding vectors
-		return sum(take_at(self.vectors, sentence_indices)), unknown_words
+		# Get the word indices of the sentence
+		(word_indices,
+		 unknown_words) = self.sentence_to_word_indices(sentence,
+		                                                max_word_count=max_word_count)
+		# Get the corresponding word vectors
+		return take_at(self.word_vectors, word_indices), unknown_words
 
-	def sentences_to_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
+	def sentences_to_word_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Converts the specified list of sentences to a list of word vectors.
+		Converts the specified sentences to a list of lists of word vectors.
 
 		:param sentences:      a list of sentences
 		:param max_word_count: the maximum number of words in a sentence
 
-		:return: a list of word vectors and the set of unknown words
+		:return: a list of lists of word vectors and the set of unknown words
 		'''
-		vectors = []
+		word_vectors = []
 		unknown_words = set()
 		for i, sentence in enumerate(sentences):
-			# Get the word vector of the sentence
-			(sentence_vector,
-			 sentence_unknown_words) = self.sentence_to_vector(sentence,
-			                                                   max_word_count=max_word_count)
-			vectors.append(sentence_vector)
+			# Get the word vectors of the sentence
+			(sentence_word_vectors,
+			 sentence_unknown_words) = self.sentence_to_word_vectors(sentence,
+			                                                         max_word_count=max_word_count)
+			word_vectors.append(sentence_word_vectors)
 			unknown_words = unknown_words.union(sentence_unknown_words)
-		return vectors, unknown_words
+		return word_vectors, unknown_words
+
+	#####################
+
+	def sentence_to_single_word_vector(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
+		'''
+		Converts the specified sentence to a single word vector.
+
+		:param sentence:       a sentence
+		:param max_word_count: the maximum number of words in a sentence
+
+		:return: a single word vector and the set of unknown words
+		'''
+		# Get the word vectors of the sentence
+		(word_vectors,
+		 unknown_words) = self.sentence_to_word_vectors(self, sentence,
+		                                                max_word_count=max_word_count)
+		# Sum the corresponding word vectors
+		return sum(word_vectors), unknown_words
+
+	def sentences_to_single_word_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
+		'''
+		Converts the specified sentences to a list of single word vectors.
+
+		:param sentences:      a list of sentences
+		:param max_word_count: the maximum number of words in a sentence
+
+		:return: a list of single word vectors and the set of unknown words
+		'''
+		word_vectors = []
+		unknown_words = set()
+		for i, sentence in enumerate(sentences):
+			# Get the single word vector of the sentence
+			(sentence_word_vector,
+			 sentence_unknown_words) = self.sentence_to_single_word_vector(sentence,
+			                                                               max_word_count=max_word_count)
+			word_vectors.append(sentence_word_vector)
+			unknown_words = unknown_words.union(sentence_unknown_words)
+		return word_vectors, unknown_words
 
 	##############################################
 
@@ -174,8 +211,8 @@ class WordEmbeddings:
 		embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_ELEMENT_TYPE)
 
 		# Set every row of the embedding matrix to be the word vector of the ith vocabulary word
-		for i, vector in enumerate(self.vectors):
-			embedding_matrix[i, :] = vector
+		for i, word_vector in enumerate(self.word_vectors):
+			embedding_matrix[i, :] = word_vector
 
 		# Create the embedding layer with the corresponding input and output sizes (non-trainable)
 		embedding_layer = Embedding(vocabulary_size, embedding_size, trainable=False)
@@ -191,22 +228,22 @@ class WordEmbeddings:
 	def create_embedding_model(self, class_count, dropout_rate=0.5, hidden_unit_count=128,
 	                           max_word_count=DEFAULT_MAX_WORD_COUNT):
 		'''
-		Creates a model with an embedding layer using the pre-trained word vectors that converts the
-		input sentence indices to the estimated output classes.
+		Creates a model with an embedding layer using the pre-trained word vectors that classifies
+		the input sentences (encoded into arrays of word indices) into the output classes.
 
 		:param class_count:       the number of output classes
 		:param dropout_rate:      the fraction of the input units to drop
 		:param hidden_unit_count: the number of hidden units in the LSTM layers
 		:param max_word_count:    the maximum number of words in a sentence
 
-		:return: a model with an embedding layer using the pre-trained word vectors that converts
-		         the input sentence indices to the estimated output classes
+		:return: a model with an embedding layer using the pre-trained word vectors that classifies
+		         the input sentences (encoded into arrays of word indices) into the output classes
 		'''
-		# Create the input (sentence indices)
-		sentence_indices = Input(shape=(max_word_count,), dtype=INT_ELEMENT_TYPE)
+		# Create the input sentences (encoded into arrays of word indices)
+		word_indices = Input(shape=(max_word_count,), dtype=INT_ELEMENT_TYPE)
 
-		# Propagate the input through an embedding layer created using the pre-trained word vectors
-		embeddings = self.create_embedding_layer()(sentence_indices)
+		# Propagate the input through an embedding layer mapping every word index to its vector
+		embeddings = self.create_embedding_layer()(word_indices)
 
 		# Propagate the embeddings through an LSTM layer that returns a batch of sequences
 		X = LSTM(hidden_unit_count, return_sequences=True)(embeddings)
@@ -223,13 +260,13 @@ class WordEmbeddings:
 		# Add a softmax activation
 		classes = Activation('softmax')(X)
 
-		# Create the model that converts the input sentence indices to the estimated output classes
-		return Model(inputs=[sentence_indices], outputs=classes)
+		# Create the model that classifies the input sentences into the output classes
+		return Model(inputs=[word_indices], outputs=classes)
 
 	##############################################
 
-	def find_closest_words(self, vector, top=10):
-		a = distances(vector, self.vectors)
+	def find_closest_words(self, word_vector, top=10):
+		a = distances(word_vector, self.word_vectors)
 		return [self.vocabulary[i] for _, i in sort(zip(a, range(len(a))))[:top]]
 
 	#####################
@@ -243,7 +280,7 @@ class WordEmbeddings:
 		             vectors
 		:param size: the size of the word vectors
 		'''
-		# Create the dictionary mapping every vocabulary word to its word vector
+		# Create the dictionary mapping every vocabulary word to its vector
 		for i, line in read_enumerator(path, encoding=encoding, ignore=ignore, newline=newline):
 			line = line.strip().split()
 			if is_null(size):
@@ -253,8 +290,7 @@ class WordEmbeddings:
 				      'from', i + 1, 'to', i + verbose_interval, '...')
 			word = paste(line[:-size])
 			self.vocabulary.append(word)
-			self.vectors.append(to_array(line[-size:], type=FLOAT_ELEMENT_TYPE))
-		# Create the dictionary mapping every vocabulary word to its index, and vice versa
+			self.word_vectors.append(to_array(line[-size:], type=FLOAT_ELEMENT_TYPE))
+		# Create the dictionary mapping every vocabulary word to its index
 		for i, word in enumerate(self.vocabulary):
 			self.word_to_index[word] = i
-			self.index_to_word[i] = word
