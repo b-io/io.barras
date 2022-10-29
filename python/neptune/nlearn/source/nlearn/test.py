@@ -44,13 +44,24 @@ class TestLearn(Test):
 		                                    return_centers=True)
 		fig = plot_clusters(data, classes, means=centers, title='Clusters')
 		fig.show()
-		model = create_clustering(data, n=5)
+		# - K-Means
+		model = create_clustering(data, n=4, use_mini_batch=True)
+		fig = plot_clusters(data, model.predict(data), means=model.cluster_centers_,
+		                    title='K-Means With Four Components')
+		fig.show()
+		fig = plot_silhouettes(data, model.predict(data))
+		fig.show()
+		model = create_clustering(data, n=5, use_mini_batch=True)
 		fig = plot_clusters(data, model.predict(data), means=model.cluster_centers_,
 		                    title='K-Means With Five Components')
 		fig.show()
+		fig = plot_silhouettes(data, model.predict(data))
+		fig.show()
+		# - Gaussian Mixture
 		model = create_gaussian_mixture(data, n=5)
 		fig = plot_mixture(data, model, title='Gaussian Mixture With Five Components')
 		fig.show()
+		# - Dirichlet Process Gaussian Mixture
 		model = create_bayesian_gaussian_mixture(data, n=5)
 		fig = plot_mixture(data, model,
 		                   title='Dirichlet Process Gaussian Mixture With Five Components')

@@ -346,7 +346,8 @@ __TIME_SERIES_FIGURE______________________________ = ''
 def plot_decomposition(trend, seasonal, residual,
                        fig=None, title='Seasonal-Trend Decomposition', title_x='Time', title_y=None,
                        name=None, color='black', trend_color='red', seasonal_color='gray',
-                       residual_color='lightgray', show_legend=False, width=2, yaxis=0):
+                       residual_color='lightgray', show_legend=False, width=DEFAULT_LINE_WIDTH,
+                       yaxis=0):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y)
 	fig.add_trace(draw(x=trend.index, y=get_col(trend), color=trend_color, fill='none',

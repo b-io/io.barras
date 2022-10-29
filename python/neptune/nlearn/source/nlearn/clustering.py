@@ -16,6 +16,7 @@
 
 from sklearn import mixture
 from sklearn.cluster import KMeans, MiniBatchKMeans
+from sklearn.metrics import silhouette_samples, silhouette_score
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
 from ngui.chart import *
@@ -38,7 +39,7 @@ DEFAULT_MAX_ITERATION_COUNT = 1000
 __CLUSTERING______________________________________ = ''
 
 
-def create_clustering(vectors, n=50, batch_size=1024,
+def create_clustering(points, n=50, batch_size=1024,
                       max_iteration_count=DEFAULT_MAX_ITERATION_COUNT, random_state=None,
                       use_mini_batch=False, verbose=VERBOSE):
 	if use_mini_batch:
@@ -47,65 +48,65 @@ def create_clustering(vectors, n=50, batch_size=1024,
 	else:
 		model = KMeans(n_clusters=n, max_iter=max_iteration_count, random_state=random_state,
 		               verbose=verbose)
-	return model.fit(vectors)
+	return model.fit(points)
 
 
 #########################
 
-def create_gaussian_mixture(data, n=1, covariance_type='full',
+def create_gaussian_mixture(points, n=1, covariance_type='full',
                             max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
 	'''Creates a Gaussian mixture with the specified number of components and fits the specified
-	data with the expectation-maximization (EM) algorithm. Note that the variational inference model
-	is using all the components.'''
+	points with the expectation-maximization (EM) algorithm. Note that the variational inference
+	model is using all the components.'''
 	model = mixture.GaussianMixture(n_components=n, covariance_type=covariance_type,
 	                                max_iter=max_iteration_count)
-	return model.fit(data)
+	return model.fit(points)
 
 
-def create_bayesian_gaussian_mixture(data, n=1, covariance_type='full',
+def create_bayesian_gaussian_mixture(points, n=1, covariance_type='full',
                                      max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
 	'''Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
-	the specified data with the expectation-maximization (EM) algorithm. Note that the Dirichlet
+	the specified points with the expectation-maximization (EM) algorithm. Note that the Dirichlet
 	process model adapts the number of components automatically.'''
 	model = mixture.BayesianGaussianMixture(n_components=n,
 	                                        covariance_type=covariance_type,
 	                                        max_iter=max_iteration_count)
-	return model.fit(data)
+	return model.fit(points)
 
 
 #########################
 
-def create_outlier_detector(data, n=1, covariance_type='full', init_params='kmeans',
+def create_outlier_detector(points, n=1, covariance_type='full', init_params='kmeans',
                             max_iteration_count=DEFAULT_MAX_ITERATION_COUNT, method='quantile',
                             threshold=DEFAULT_CONFIDENCE_LEVEL):
 	'''Creates a detector based on a Gaussian mixture with the specified number of components and
-	fits the specified data with the expectation-maximization (EM) algorithm. Note that the
+	fits the specified points with the expectation-maximization (EM) algorithm. Note that the
 	variational inference model is using all the components.'''
 	model = GMMOutlierDetector(n_components=n, covariance_type=covariance_type,
 	                           init_params=init_params, max_iter=max_iteration_count, method=method,
 	                           threshold=threshold)
-	return model.fit(data)
+	return model.fit(points)
 
 
-def create_bayesian_outlier_detector(data, n=1, covariance_type='full', init_params='kmeans',
+def create_bayesian_outlier_detector(points, n=1, covariance_type='full', init_params='kmeans',
                                      max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
                                      method='quantile', threshold=DEFAULT_CONFIDENCE_LEVEL):
 	'''Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
-	components and fits the specified data with the expectation-maximization (EM) algorithm. Note
+	components and fits the specified points with the expectation-maximization (EM) algorithm. Note
 	that the Dirichlet process model adapts the number of components automatically.'''
 	model = BayesianGMMOutlierDetector(n_components=n, covariance_type=covariance_type,
 	                                   init_params=init_params, max_iter=max_iteration_count,
 	                                   method=method, threshold=threshold)
-	return model.fit(data)
+	return model.fit(points)
 
 
 ##################################################
 
-def cluster(vectors, n=50, batch_size=1024, max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
+def cluster(points, n=50, batch_size=1024, max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
             random_state=None, use_mini_batch=False, verbose=VERBOSE):
-	return create_clustering(vectors, n=n, batch_size=batch_size,
+	return create_clustering(points, n=n, batch_size=batch_size,
 	                         max_iteration_count=max_iteration_count, random_state=random_state,
-	                         use_mini_batch=use_mini_batch, verbose=verbose).predict(vectors)
+	                         use_mini_batch=use_mini_batch, verbose=verbose).predict(points)
 
 
 # • CLUSTERING FIGURE ##############################################################################
@@ -113,20 +114,22 @@ def cluster(vectors, n=50, batch_size=1024, max_iteration_count=DEFAULT_MAX_ITER
 __CLUSTERING_FIGURE_______________________________ = ''
 
 
-def plot_clusters(data, classes, means=None, covariances=None, labels=None, std_count=1,
-                  fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75,
-                  precision=100, show_centers=True, show_ellipses=True, show_legend=True,
-                  show_points=True, size=4, width=2):
-	'''Plots the clusters of the specified data identified by the specified classes and encircles
+def plot_clusters(points, classes, means=None, covariances=None, labels=None, std_count=1,
+                  fig=None, title='Clusters', colors=DEFAULT_COLORS, dash='dot', index=None,
+                  opacity=0.75, precision=100, show_centers=True, show_ellipses=True,
+                  show_legend=True, show_points=True, size=DEFAULT_MARKER_SIZE,
+                  width=DEFAULT_LINE_WIDTH):
+	'''Plots the clusters of the specified points identified by the specified classes and encircles
 	them with ellipses using their specified means and covariances.'''
 	if is_null(fig):
-		if is_frame(data):
-			names = get_names(data)
+		if is_frame(points):
+			names = get_names(points)
 			fig = create_figure(title=title, title_x=names[0], title_y=names[1])
 		else:
 			fig = create_figure(title=title)
-	if is_null(index) and is_frame(data):
-		index = get_index(data)
+	if is_null(index) and is_frame(points):
+		index = get_index(points)
+
 	colors = get_iterator(to_list(colors), cycle=True)
 	for i, c in enumerate(sort(to_set(classes))):
 		# Skip the classes that are not present
@@ -136,22 +139,22 @@ def plot_clusters(data, classes, means=None, covariances=None, labels=None, std_
 		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
 		cluster_color = next(colors)
 
-		# Create the trace of the cluster points
+		# Draw the cluster points
 		if show_points:
-			cluster_data = data[class_filter]
+			cluster_points = points[class_filter]
 			cluster_index = index[class_filter] if not is_null(index) else None
-			fig.add_trace(draw(x=get_col(cluster_data, 0), y=get_col(cluster_data, 1),
+			fig.add_trace(draw(x=get_col(cluster_points), y=get_col(cluster_points, 1),
 			                   color=cluster_color, index=cluster_index, mode='markers',
 			                   name=cluster_name, show_legend=False, size=size))
 
-		# Create the annotation of the cluster center
+		# Draw the cluster center
 		if show_centers and not is_null(means):
 			cluster_center = means[c]
 			fig.add_annotation(x=cluster_center[0], y=cluster_center[1], text=web.b(cluster_name),
-			                   opacity=opacity, bordercolor='black', bgcolor='white', borderwidth=2,
-			                   borderpad=4, showarrow=True, arrowhead=6)
+			                   opacity=opacity, bordercolor='black', bgcolor='white',
+			                   borderwidth=width, borderpad=4, showarrow=True, arrowhead=6)
 
-		# Create the trace of an ellipse around the cluster
+		# Draw an ellipse around the cluster
 		if show_ellipses and not is_null(means) and not is_null(covariances):
 			cluster_mean = means[c]
 			cluster_covariance = covariances[c]
@@ -167,39 +170,79 @@ def plot_clusters(data, classes, means=None, covariances=None, labels=None, std_
 	return fig
 
 
+def plot_silhouettes(points, classes, labels=None,
+                     fig=None, title='Silhouette Coefficients', colors=DEFAULT_COLORS,
+                     line_color='black', show_legend=True, width=DEFAULT_LINE_WIDTH):
+	if is_null(fig):
+		if is_frame(points):
+			names = get_names(points)
+			fig = create_figure(title=title, title_x=names[0], title_y=names[1])
+		else:
+			fig = create_figure(title=title)
+
+	# Draw the mean silhouette coefficient for all the clusters
+	score = silhouette_score(points, classes)
+	fig.add_vline(score, annotation=dict(bordercolor='black', bgcolor='white', borderwidth=width,
+	                                     borderpad=4, text=format_number(score)),
+	              line=dict(color=line_color, dash='dash', width=width))
+
+	scores = silhouette_samples(points, classes)
+	colors = get_iterator(to_list(colors), cycle=True)
+	offset_y = 0
+	for i, c in enumerate(sort(to_set(classes))):
+		# Skip the classes that are not present
+		class_filter = classes == c
+		if not any_values(class_filter):
+			continue
+
+		# Draw the silhouette coefficients of the cluster
+		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
+		cluster_scores = to_array(sort(scores[class_filter]))
+		cluster_color = next(colors)
+		fig.add_trace(draw(x=cluster_scores, y=repeat(offset_y, len(cluster_scores)),
+		                   color=cluster_color, show_legend=False))
+		fig.add_trace(draw(x=cluster_scores, y=offset_y + to_array(range(len(cluster_scores))),
+		                   color=cluster_color, fill='tonexty', name=cluster_name,
+		                   show_legend=show_legend, width=width))
+		offset_y += len(cluster_scores)
+	return fig
+
+
 ##################################################
 
-def plot_mixture(data, model, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None,
-                 opacity=0.75, precision=100, show_centers=True, show_ellipses=True,
-                 show_legend=True, show_points=True, size=4, width=2):
-	'''Plots the clusters of the specified data identified by the specified model and encircles them
-	with ellipses.'''
-	return plot_clusters(data, model.predict(data), means=model.means_,
+def plot_mixture(points, model,
+                 fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75,
+                 precision=100, show_centers=True, show_ellipses=True, show_legend=True,
+                 show_points=True, size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+	'''Plots the clusters of the specified points identified by the specified model and encircles
+	them with ellipses.'''
+	return plot_clusters(points, model.predict(points), means=model.means_,
 	                     covariances=model.covariances_, fig=fig, title=title, colors=colors,
 	                     dash=dash, index=index, opacity=opacity, precision=precision,
 	                     show_centers=show_centers, show_ellipses=show_ellipses,
 	                     show_legend=show_legend, show_points=show_points, size=size, width=width)
 
 
-def plot_detector(data, detector, fig=None, title=None, colors=DEFAULT_COLORS, dash='dot',
-                  index=None, opacity=0.75, precision=100, show_ellipses=True, show_legend=True,
-                  show_points=True, size=4, width=2):
-	'''Plots the clusters of the specified data identified by the specified detector and encircles
+def plot_detector(points, detector,
+                  fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75,
+                  precision=100, show_ellipses=True, show_legend=True, show_points=True,
+                  size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+	'''Plots the clusters of the specified points identified by the specified detector and encircles
 	them with ellipses.'''
-	if is_null(index) and is_frame(data):
-		index = get_index(data)
+	if is_null(index) and is_frame(points):
+		index = get_index(points)
 
-	# Create the trace of the points
+	# Draw the cluster points
 	if show_points:
-		color = detector.score_samples(data)
+		color = detector.score_samples(points)
 		if is_null(fig):
 			fig = create_figure(title=title)
-		fig.add_trace(draw(x=get_col(data), y=get_col(data, 1), color=color, index=index,
+		fig.add_trace(draw(x=get_col(points), y=get_col(points, 1), color=color, index=index,
 		                   mode='markers', show_legend=False, size=size))
 
-	# Create the trace of an ellipse around each cluster
+	# Draw an ellipse around every cluster
 	if show_ellipses:
-		fig = plot_mixture(data, detector.gmm_, fig=fig, title=title, colors=colors, dash=dash,
+		fig = plot_mixture(points, detector.gmm_, fig=fig, title=title, colors=colors, dash=dash,
 		                   index=index, opacity=opacity, precision=precision,
 		                   show_legend=show_legend, show_points=False, size=size, width=width)
 	return fig

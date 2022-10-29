@@ -107,7 +107,7 @@ def plot_multi_histogram(df, bins=None, norm='probability',
 def draw_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                  color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                  show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
-                 stackgroup=None, width=2, yaxis=0):
+                 stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0):
 	return draw_series(series,
 	                   f=get_density, method=method, point_count=point_count, weights=weights,
 	                   color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
@@ -120,7 +120,7 @@ def plot_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                  fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
                  colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
                  opacity=1, show_date=False, show_legend=True, show_name=True,
-                 size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2, yaxis=0):
+                 size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0):
 	return plot_series(df,
 	                   f=get_density, method=method, point_count=point_count, weights=weights,
 	                   fig=fig, title=title, title_x=title_x, title_y=title_y, title_y2=title_y2,
@@ -135,7 +135,7 @@ def plot_multi_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights
                        title=None, subtitles=None, title_x=None, title_y=None,
                        colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines',
                        opacity=1, show_date=False, show_legend=False, show_name=True,
-                       size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2):
+                       size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH):
 	return plot_multi_series(df,
 	                         f=get_density, method=method, point_count=point_count, weights=weights,
 	                         fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,

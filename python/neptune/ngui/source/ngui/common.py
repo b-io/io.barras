@@ -40,6 +40,14 @@ DEFAULT_HEIGHT = 933
 DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
 DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.05)
 
+#########################
+
+# The default font size
+DEFAULT_FONT_SIZE = 12
+
+# The default line width
+DEFAULT_LINE_WIDTH = 2
+
 # The default marker size
 DEFAULT_MARKER_SIZE = 4
 
@@ -70,9 +78,6 @@ DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color
 DEFAULT_BG_COLOR = TRANSPARENT
-
-# The default font size
-DEFAULT_FONT_SIZE = 12
 
 
 ##################################################

@@ -260,7 +260,7 @@ def fig_to_webp_html(fig, encoding=DEFAULT_ENCODING, style=None,
 ##################################################
 
 def create_figure(auto_size=True,
-                  axis_color='black', axis_width=2,
+                  axis_color='black', axis_width=DEFAULT_LINE_WIDTH,
                   bar_mode=None,
                   bg_color=DEFAULT_BG_COLOR,
                   font_size=DEFAULT_FONT_SIZE,
@@ -278,7 +278,7 @@ def create_figure(auto_size=True,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
                   width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
-                  zero_line_color='darkgray', zero_line_width=2):
+                  zero_line_color='darkgray', zero_line_width=DEFAULT_LINE_WIDTH):
 	fig = go.Figure()
 	update_layout(fig,
 	              auto_size=auto_size,
@@ -309,7 +309,7 @@ def create_figure(auto_size=True,
 def create_figures(row_count, col_count,
                    share_x=False, share_y=False,
                    auto_size=True,
-                   axis_color='black', axis_width=2,
+                   axis_color='black', axis_width=DEFAULT_LINE_WIDTH,
                    bar_mode=None,
                    bg_color=DEFAULT_BG_COLOR,
                    font_size=DEFAULT_FONT_SIZE,
@@ -327,7 +327,7 @@ def create_figures(row_count, col_count,
                    tick_values_x=None, tick_values_y=None,
                    title=None, subtitles=None, title_x=None, title_y=None,
                    width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
-                   zero_line_color='darkgray', zero_line_width=2):
+                   zero_line_color='darkgray', zero_line_width=DEFAULT_LINE_WIDTH):
 	margin = get_margin(margin, has_title=not is_empty(title) or not is_empty(subtitles))
 	fig = sp.make_subplots(rows=row_count, cols=col_count,
 	                       shared_xaxes=share_x, shared_yaxes=share_y,
@@ -420,7 +420,7 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 def draw(x, y=None,
          color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
          show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
-         stackgroup=None, width=2, yaxis=0):
+         stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0):
 	data = x
 	if is_null(y):
 		x = to_array(get_index(data))
@@ -447,7 +447,7 @@ def draw(x, y=None,
 def draw_ellipse(center, a, b, angle=0, precision=100,
                  color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                  show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
-                 width=2, yaxis=0):
+                 width=DEFAULT_LINE_WIDTH, yaxis=0):
 	X, Y = create_ellipse(center, a, b, angle=angle, precision=precision)
 	return draw(x=X, y=Y,
 	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
@@ -458,7 +458,7 @@ def draw_ellipse(center, a, b, angle=0, precision=100,
 def draw_series(series, *args, f=None,
                 color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                 show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
-                stackgroup=None, width=2, yaxis=0, **kwargs):
+                stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0, **kwargs):
 	if not is_null(f):
 		series = f(series, *args, **kwargs)
 	return draw(series,
@@ -494,7 +494,8 @@ def plot_series(series, *args, f=None,
                 fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
                 colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
                 opacity=1, show_date=False, show_legend=True, show_name=True,
-                size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2, yaxis=0, **kwargs):
+                size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0,
+                **kwargs):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
@@ -513,7 +514,8 @@ def plot_multi_series(df, *args, f=None,
                       title=None, subtitles=None, title_x=None, title_y=None,
                       colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines',
                       opacity=1, show_date=False, show_legend=False, show_name=True,
-                      size=DEFAULT_MARKER_SIZE, stackgroup=None, width=2, **kwargs):
+                      size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH,
+                      **kwargs):
 	return plot_multi(df, draw_series,
 	                  *args, f=f,
 	                  fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,
@@ -528,7 +530,7 @@ def plot_ellipse(center, a, b, angle=0, precision=100,
                  fig=None, title=None, title_x='Time', title_y=None, title_y2=None, color=None,
                  dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                  show_axes=True, show_date=False, show_legend=True, show_name=True,
-                 size=DEFAULT_MARKER_SIZE, width=2, yaxis=0):
+                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH, yaxis=0):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	fig.add_trace(draw_ellipse(center, a, b, angle=angle, precision=precision, color=color,
@@ -551,7 +553,7 @@ def plot_ellipse(center, a, b, angle=0, precision=100,
 
 def update_layout(fig,
                   auto_size=True,
-                  axis_color='black', axis_width=2,
+                  axis_color='black', axis_width=DEFAULT_LINE_WIDTH,
                   bar_mode=None,
                   bg_color=DEFAULT_BG_COLOR,
                   font_size=DEFAULT_FONT_SIZE,
@@ -569,7 +571,7 @@ def update_layout(fig,
                   tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                   title=None, title_x=None, title_y=None, title_y2=None,
                   width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
-                  zero_line_color='darkgray', zero_line_width=2):
+                  zero_line_color='darkgray', zero_line_width=DEFAULT_LINE_WIDTH):
 	margin = get_margin(margin, has_title=not is_empty(title))
 	update_layout_plot(fig, auto_size=auto_size, bar_mode=bar_mode, bg_color=bg_color,
 	                   font_size=font_size, show_title=show_title, title=title)
@@ -619,7 +621,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 
 
 def update_layout_axes(fig,
-                       axis_color='black', axis_width=2,
+                       axis_color='black', axis_width=DEFAULT_LINE_WIDTH,
                        grid_color='lightgray', grid_width=1,
                        label_color='black', label_size=None,
                        range_to_zero_x=False, range_to_zero_y=False, range_to_zero_y2=False,
@@ -633,7 +635,7 @@ def update_layout_axes(fig,
                        tick_step_x=None, tick_step_y=None, tick_step_y2=None,
                        tick_values_x=None, tick_values_y=None, tick_values_y2=None,
                        title_x=None, title_y=None, title_y2=None,
-                       zero_line_color='darkgray', zero_line_width=2):
+                       zero_line_color='darkgray', zero_line_width=DEFAULT_LINE_WIDTH):
 	if is_matplot(fig):
 		for ax in fig.axes:
 			# Set the titles
