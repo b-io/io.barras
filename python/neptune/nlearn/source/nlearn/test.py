@@ -40,7 +40,7 @@ class TestLearn(Test):
 	def test_clustering(self):
 		test('Cluster')
 		data, classes, centers = make_blobs(n_samples=500, n_features=2, centers=4, cluster_std=1,
-		                                    center_box=(-10, 10), shuffle=True, random_state=1,
+		                                    center_box=(-10, 10), shuffle=True, random_state=0,
 		                                    return_centers=True)
 		fig = plot_clusters(data, classes, means=centers, title='Clusters')
 		fig.show()
