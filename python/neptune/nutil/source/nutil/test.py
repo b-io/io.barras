@@ -269,11 +269,13 @@ class TestDB(Test):
 class TestMath(Test):
 
 	def test(self):
-		v = [[1, 2], [3, 4], [5, 6]]
-		self.assert_equals(distance(v[1], v)[1], 0)
-		self.assert_equals(distance(v[1], v)[0], distance(v[1], v)[2])
-		self.assert_equals(min_distance(v[1], v), 0)
-		self.assert_equals(min_distance_index(v[1], v), 1)
+		vectors = [[1, 2], [3, 4], [5, 6]]
+		self.assert_equals(distance(vectors[1], vectors[1]), 0)
+		self.assert_equals(distances(vectors[1], vectors)[1], 0)
+		self.assert_equals(distances(vectors[1], vectors)[0], distances(vectors[1], vectors)[2])
+		self.assert_equals(distances(vectors[1], vectors), distances(vectors, vectors[1]))
+		self.assert_equals(min_distance(vectors[1], vectors), 0)
+		self.assert_equals(min_distance_index(vectors[1], vectors), 1)
 
 		vector = create_random_array(ROW_SIZE)
 		self.norm2(vector)

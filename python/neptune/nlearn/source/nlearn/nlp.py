@@ -229,8 +229,8 @@ class WordEmbeddings:
 	##############################################
 
 	def find_closest_words(self, vector, top=10):
-		distances = distance(vector, self.vectors, axis=1)
-		return [self.vocabulary[i] for _, i in sort(zip(distances, range(len(distances))))[:top]]
+		a = distances(vector, self.vectors)
+		return [self.vocabulary[i] for _, i in sort(zip(a, range(len(a))))[:top]]
 
 	#####################
 

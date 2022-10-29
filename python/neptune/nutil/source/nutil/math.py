@@ -376,24 +376,28 @@ def create_ellipse(center, a, b, angle=0, precision=100):
 
 ##################################################
 
-def distance(v1, v2, axis=0):
-	return norm2(np.subtract(v1, v2), axis=axis)
+def distance(v1, v2):
+	return norm2(np.subtract(v1, v2), axis=0)
+
+
+def distances(v1, v2):
+	return norm2(np.subtract(v1, v2), axis=1)
 
 
 def min_distance(v1, v2):
-	return np.min(distance(v1, v2, axis=1))
+	return np.min(distances(v1, v2))
 
 
 def min_distance_index(v1, v2):
-	return np.argmin(distance(v1, v2, axis=1))
+	return np.argmin(distances(v1, v2))
 
 
 def max_distance(v1, v2):
-	return np.max(distance(v1, v2, axis=1))
+	return np.max(distances(v1, v2))
 
 
 def max_distance_index(v1, v2):
-	return np.argmax(distance(v1, v2, axis=1))
+	return np.argmax(distances(v1, v2))
 
 
 #########################

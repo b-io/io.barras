@@ -48,7 +48,7 @@ class TestFin(Test):
 		             Frequency.SEMESTERS, Frequency.YEARS]:
 			for group in [Group.FIRST, Group.LAST]:
 				s = transform_series(series, freq=freq, group=group,
-				                     transformation=Transformation.LOG_RETURNS)
+				                     transformation=Transformation.DIFF)
 				if freq is Frequency.MONTHS:
 					if group is Group.FIRST:
 						test(get_first(get_index(s)), '=', get_next_month_start(date_from))
