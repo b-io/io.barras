@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions for clustering models
+#    <NAME> - contain machine learning utility functions for clustering
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,12 +14,13 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from ngui.chart import *
-from ngui.common import *
-from nmath.common import *
 from sklearn import mixture
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
+
+from ngui.chart import *
+from ngui.common import *
+from nmath.common import *
 
 ####################################################################################################
 # CLUSTERING CONSTANTS
