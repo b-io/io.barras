@@ -238,7 +238,7 @@ def get_complementary_color(*args, r=0, g=0, b=0, scale=None):
 
 
 def get_RYG(brightness='8'):
-	colors = ['#E.0.0.', '#E..00.', '#E.E.0.', '#.0E.00', '#0...0.']
+	colors = ('#E.0.0.', '#E..00.', '#E.E.0.', '#.0E.00', '#0...0.')
 	return [color.replace('.', brightness) for color in colors]
 
 

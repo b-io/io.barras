@@ -331,7 +331,7 @@ TIMESTAMP_TYPE = pd.Timestamp
 
 # The weekdays
 MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
-WEEKDAY_NAMES = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
+WEEKDAY_NAMES = ('MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN')
 
 #########################
 
