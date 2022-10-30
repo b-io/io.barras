@@ -16,12 +16,10 @@
 
 from sklearn import mixture
 from sklearn.cluster import KMeans, MiniBatchKMeans
-from sklearn.metrics import silhouette_samples, silhouette_score
+from sklearn.metrics import silhouette_samples
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
-from ngui.chart import *
-from ngui.common import *
-from nmath.common import *
+from nmath.descriptive import *
 
 ####################################################################################################
 # CLUSTERING CONSTANTS
@@ -136,8 +134,8 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 		class_filter = classes == c
 		if not any_values(class_filter):
 			continue
-		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
 		cluster_color = next(colors)
+		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
 
 		# Draw the cluster points
 		if show_points:
@@ -164,8 +162,8 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			a, b = 2 * std_count * sqrt(eigenvalues)
 			eigenvector = normalize(eigenvectors[0])
 			angle = atan2(eigenvector[1], eigenvector[0])
-			name = collapse(cluster_name, ' Tilted At ', round(angle * RAD_TO_DEG, 2), '°')
 			color = format_rgb_color(get_complementary_color(cluster_color))
+			name = collapse(cluster_name, ' Tilted At ', round(angle * RAD_TO_DEG, 2), '°')
 			plot_ellipse(cluster_mean, a, b, angle=angle, precision=precision,
 			             fig=fig, color=color, dash=dash, name=name, opacity=opacity,
 			             show_legend=show_legend,
@@ -178,53 +176,11 @@ def plot_silhouettes(points, classes, labels=None,
                      colors=DEFAULT_COLORS,
                      show_legend=True,
                      width=DEFAULT_LINE_WIDTH):
-	sorted_unique_classes = sort(to_set(classes))
-	if is_null(fig):
-		if is_frame(points):
-			names = get_names(points)
-			fig = create_figures(len(sorted_unique_classes), 1,
-			                     title=title, title_x=names[0], title_y=names[1], share_x=True)
-		else:
-			fig = create_figures(len(sorted_unique_classes), 1,
-			                     title=title, title_x=title_x, title_y=title_y, share_x=True)
-
-	# Draw the mean silhouette coefficient for all the clusters
-	score = silhouette_score(points, classes)
-
-	scores = silhouette_samples(points, classes)
-	colors = get_iterator(to_list(colors), cycle=True)
-	for i, c in enumerate(sorted_unique_classes):
-		# Skip the classes that are not present
-		class_filter = classes == c
-		if not any_values(class_filter):
-			continue
-
-		# Draw the silhouette coefficients of the cluster
-		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
-		cluster_scores = to_array(sort(scores[class_filter]))
-		cluster_score_count = len(cluster_scores)
-		cluster_score_mean = mean(cluster_scores)
-		cluster_score_range = to_array(range(cluster_score_count)) / (cluster_score_count - 1) * 100
-		cluster_color = next(colors)
-		fig.add_trace(draw(x=cluster_scores, y=cluster_score_range,
-		                   color=cluster_color, fill='tozeroy', name=cluster_name,
-		                   stackgroup=cluster_name,
-		                   show_legend=show_legend,
-		                   width=width),
-		              row=i + 1, col=1)
-		fig.add_vline(cluster_score_mean,
-		              annotation=dict(yanchor='top', bordercolor=cluster_color,
-		                              bgcolor='white', borderwidth=width, borderpad=4,
-		                              text=format_number(cluster_score_mean)),
-		              line=dict(color=cluster_color, dash='dash', width=width),
-		              row=i + 1, col=1)
-		fig.add_vline(score,
-		              annotation=dict(yanchor='bottom', bordercolor='black', bgcolor='white',
-		                              borderwidth=width, borderpad=4,
-		                              text=format_number(score)) if i == 0 else None,
-		              line=dict(color='black', dash='dash', width=width),
-		              row=i + 1, col=1)
-	return fig
+	return plot_cumulative_distribution(silhouette_samples(points, classes), classes, labels=labels,
+	                                    fig=fig, title=title, title_x=title_x, title_y=title_y,
+	                                    colors=colors,
+	                                    show_legend=show_legend,
+	                                    width=width)
 
 
 ##################################################

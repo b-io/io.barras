@@ -118,7 +118,7 @@ def draw_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=N
 
 
 def plot_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
-                 fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
+                 fig=None, title=None, title_x=None, title_y=None, title_y2=None,
                  colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
                  opacity=1, stackgroup=None, yaxis=0,
                  show_date=False, show_legend=True, show_name=True,
@@ -148,3 +148,62 @@ def plot_multi_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights
 	                         opacity=opacity, stackgroup=stackgroup,
 	                         show_date=show_date, show_legend=show_legend, show_name=show_name,
 	                         size=size, width=width)
+
+
+#########################
+
+def plot_cumulative_distribution(x, classes=None, labels=None,
+                                 fig=None, title='Cumulative Distribution', title_x=None, title_y='%',
+                                 colors=DEFAULT_COLORS,
+                                 show_legend=True,
+                                 width=DEFAULT_LINE_WIDTH):
+	sorted_unique_classes = sort(to_set(classes)) if not is_empty(classes) else [0]
+	if is_null(fig):
+		if is_frame(x):
+			names = get_names(x)
+			fig = create_figures(len(sorted_unique_classes), 1,
+			                     title=title, title_x=names[0], title_y=names[1], share_x=True)
+		else:
+			fig = create_figures(len(sorted_unique_classes), 1,
+			                     title=title, title_x=title_x, title_y=title_y, share_x=True)
+	colors = get_iterator(to_list(colors), cycle=True)
+
+	# Get the mean value for all the classes
+	mean_value = mean(x)
+
+	for i, c in enumerate(sorted_unique_classes):
+		# Skip the classes that are not present and get the class values
+		if not is_empty(classes):
+			class_filter = classes == c
+			if not any_values(class_filter):
+				continue
+			class_values = to_array(sort(x[class_filter]))
+		else:
+			class_values = to_array(sort(x))
+		class_value_count = len(class_values)
+
+		# Draw the cumulative distribution of the class values
+		class_value_range = to_array(range(class_value_count)) / (class_value_count - 1) * 100
+		class_color = next(colors)
+		class_name = paste('Class', labels[c] if not is_null(labels) else i + 1)
+		fig.add_trace(draw(x=class_values, y=class_value_range,
+		                   color=class_color, fill='tozeroy', name=class_name,
+		                   stackgroup=class_name,
+		                   show_legend=show_legend,
+		                   width=width),
+		              row=i + 1, col=1)
+		class_mean_value = mean(class_values)
+		fig.add_vline(class_mean_value,
+		              annotation=dict(yanchor='top', bordercolor=class_color,
+		                              bgcolor='white', borderwidth=width, borderpad=4,
+		                              text=format_number(class_mean_value)),
+		              line=dict(color=class_color, dash='dash', width=width),
+		              row=i + 1, col=1)
+		if not is_empty(classes):
+			fig.add_vline(mean_value,
+			              annotation=dict(yanchor='bottom', bordercolor='black', bgcolor='white',
+			                              borderwidth=width, borderpad=4,
+			                              text=format_number(mean_value)) if i == 0 else None,
+			              line=dict(color='black', dash='dash', width=width),
+			              row=i + 1, col=1)
+	return fig

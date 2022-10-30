@@ -508,7 +508,7 @@ def plot_multi(df, draw, *args,
 
 
 def plot_series(series, *args, f=None,
-                fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
+                fig=None, title=None, title_x=None, title_y=None, title_y2=None,
                 colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
                 opacity=1, stackgroup=None, yaxis=0,
                 show_date=False, show_legend=True, show_name=True,
@@ -545,7 +545,7 @@ def plot_multi_series(df, *args, f=None,
 
 
 def plot_ellipse(center, a, b, angle=0, precision=100,
-                 fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
+                 fig=None, title=None, title_x=None, title_y=None, title_y2=None,
                  color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
                  yaxis=0,
                  show_axes=True, show_date=False, show_legend=True, show_name=True,
