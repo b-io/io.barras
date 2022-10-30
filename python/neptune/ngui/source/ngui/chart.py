@@ -497,7 +497,10 @@ def plot_multi(df, draw, *args,
 		                     share_x=share_x, share_y=share_y,
 		                     title=title, subtitles=subtitles, title_x=title_x, title_y=title_y)
 	colors = get_iterator(to_list(colors), cycle=True)
+
+	# Get the number of series
 	series_count = count_cols(df)
+
 	for i in range(row_count):
 		for j in range(col_count):
 			series_index = i * col_count + j
@@ -516,6 +519,7 @@ def plot_series(series, *args, f=None,
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
+
 	for s in to_series(series) if is_frame(series) else [series]:
 		fig.add_trace(draw_series(s,
 		                          *args, f=f,

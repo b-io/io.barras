@@ -127,11 +127,11 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			fig = create_figure(title=title, title_x=title_x, title_y=title_y)
 	if is_null(index) and is_frame(points):
 		index = get_index(points)
-
 	colors = get_iterator(to_list(colors), cycle=True)
+
 	for i, c in enumerate(sort(to_set(classes))):
 		# Skip the classes that are not present
-		class_filter = classes == c
+		class_filter = to_array(classes) == c
 		if not any_values(class_filter):
 			continue
 		cluster_color = next(colors)

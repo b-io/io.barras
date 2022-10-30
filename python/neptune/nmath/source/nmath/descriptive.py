@@ -70,6 +70,7 @@ def plot_histogram(df, bins=None, norm='probability',
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
+
 	for s in to_series(df) if is_frame(df) else [df]:
 		color = next(colors)
 		fig.add_trace(draw_histogram(s,
@@ -157,6 +158,7 @@ def plot_cumulative_distribution(x, classes=None, labels=None,
                                  colors=DEFAULT_COLORS,
                                  show_legend=True,
                                  width=DEFAULT_LINE_WIDTH):
+	# Get the sorted unique classes
 	sorted_unique_classes = sort(to_set(classes)) if not is_empty(classes) else [0]
 	if is_null(fig):
 		if is_frame(x):
@@ -174,7 +176,7 @@ def plot_cumulative_distribution(x, classes=None, labels=None,
 	for i, c in enumerate(sorted_unique_classes):
 		# Skip the classes that are not present and get the class values
 		if not is_empty(classes):
-			class_filter = classes == c
+			class_filter = to_array(classes) == c
 			if not any_values(class_filter):
 				continue
 			class_values = to_array(sort(x[class_filter]))
