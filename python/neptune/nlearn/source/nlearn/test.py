@@ -42,16 +42,16 @@ class TestLearn(Test):
 		data, classes, centers = make_blobs(n_samples=500, n_features=2, centers=4, cluster_std=1,
 		                                    center_box=(-10, 10), shuffle=True, random_state=0,
 		                                    return_centers=True)
-		fig = plot_clusters(data, classes, means=centers, title='Clusters')
+		fig = plot_clusters(data, classes, means=centers)
 		fig.show()
 		# - K-Means
-		model = create_clustering(data, n=4, use_mini_batch=True)
+		model = create_clustering(data, n=4)
 		fig = plot_clusters(data, model.predict(data), means=model.cluster_centers_,
-		                    title='K-Means With Four Components')
+		                    title='K-Means With Four Components', title_x='X', title_y='Y')
 		fig.show()
 		fig = plot_silhouettes(data, model.predict(data))
 		fig.show()
-		model = create_clustering(data, n=5, use_mini_batch=True)
+		model = create_clustering(data, n=5)
 		fig = plot_clusters(data, model.predict(data), means=model.cluster_centers_,
 		                    title='K-Means With Five Components')
 		fig.show()

@@ -47,27 +47,26 @@ __DESCRIPTIVE_FIGURE______________________________ = ''
 
 
 def draw_histogram(series, bins=None, norm='probability',
-                   color=None, index=None, name=None, opacity=1, show_date=False, show_legend=True,
-                   show_name=True, yaxis=0):
+                   color=None, index=None, name=None, opacity=1, yaxis=0,
+                   show_date=False, show_legend=True, show_name=True):
 	if is_null(name):
 		name = get_name(series)
 		name = (name + ' ' if not is_empty(name) else '') + 'Histogram'
-	name = get_label(name, show_date=show_date, show_name=show_name, yaxis=yaxis)
+	name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
 	hover_template = get_hover_template(index)
 	marker = dict(color=color)
 	return go.Histogram(x=series,
 	                    histnorm=norm, xbins=bins,
-	                    name=name, customdata=index, hovertemplate=hover_template,
-	                    marker=marker, opacity=opacity,
-	                    showlegend=show_legend,
-	                    yaxis='y' + str(1 if yaxis == 0 else yaxis))
+	                    name=name, customdata=index, hovertemplate=hover_template, marker=marker,
+	                    opacity=opacity, yaxis='y' + str(1 if yaxis == 0 else yaxis),
+	                    showlegend=show_legend)
 
 
 def plot_histogram(df, bins=None, norm='probability',
                    method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                    fig=None, title=None, title_x=None, title_y=None, title_y2=None,
-                   colors=DEFAULT_COLORS, index=None, name=None, opacity=1, show_date=False,
-                   show_density=True, show_legend=True, show_name=True, yaxis=0):
+                   colors=DEFAULT_COLORS, index=None, name=None, opacity=1, yaxis=0,
+                   show_date=False, show_density=True, show_legend=True, show_name=True):
 	if is_null(fig):
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
 	colors = get_iterator(to_list(colors), cycle=True)
@@ -76,71 +75,76 @@ def plot_histogram(df, bins=None, norm='probability',
 		fig.add_trace(draw_histogram(s,
 		                             bins=bins, norm=norm,
 		                             color=color, index=index, name=name,
-		                             opacity=opacity / 2 if show_density else opacity,
+		                             opacity=opacity / 2 if show_density else opacity, yaxis=yaxis,
 		                             show_date=show_date, show_legend=show_legend,
-		                             show_name=show_name, yaxis=yaxis))
+		                             show_name=show_name))
 		if show_density:
 			fig.add_trace(draw_density(s,
 			                           method=method, point_count=point_count, weights=weights,
 			                           color=color, index=index, name=name, opacity=opacity,
+			                           yaxis=yaxis,
 			                           show_date=show_date, show_legend=show_legend,
-			                           show_name=show_name, yaxis=yaxis))
+			                           show_name=show_name))
 	return fig
 
 
 def plot_multi_histogram(df, bins=None, norm='probability',
                          fig=None, row_count=None, col_count=None, share_x=True, share_y=True,
                          title=None, subtitles=None, title_x=None, title_y=None,
-                         colors=DEFAULT_COLORS, index=None, opacity=1, show_date=False,
-                         show_legend=False, show_name=True):
+                         colors=DEFAULT_COLORS, index=None, opacity=1,
+                         show_date=False, show_legend=False, show_name=True):
 	return plot_multi(df, draw_histogram,
 	                  bins=bins, norm=norm,
-	                  fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,
-	                  share_y=share_y, title=title, subtitles=subtitles, title_x=title_x,
-	                  title_y=title_y,
-	                  colors=colors, index=index, opacity=opacity, show_date=show_date,
-	                  show_legend=show_legend, show_name=show_name)
+	                  fig=fig, row_count=row_count, col_count=col_count,
+	                  share_x=share_x, share_y=share_y,
+	                  title=title, subtitles=subtitles, title_x=title_x, title_y=title_y,
+	                  colors=colors, index=index, opacity=opacity,
+	                  show_date=show_date, show_legend=show_legend, show_name=show_name)
 
 
 #########################
 
 def draw_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                  color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
-                 show_date=False, show_legend=True, show_name=True, size=DEFAULT_MARKER_SIZE,
-                 stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0):
+                 stackgroup=None, yaxis=0,
+                 show_date=False, show_legend=True, show_name=True,
+                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
 	return draw_series(series,
 	                   f=get_density, method=method, point_count=point_count, weights=weights,
 	                   color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
-	                   opacity=opacity, show_date=show_date, show_legend=show_legend,
-	                   show_name=show_name, size=size, stackgroup=stackgroup, width=width,
-	                   yaxis=yaxis)
+	                   opacity=opacity, stackgroup=stackgroup, yaxis=yaxis,
+	                   show_date=show_date, show_legend=show_legend, show_name=show_name,
+	                   size=size, width=width)
 
 
 def plot_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                  fig=None, title=None, title_x='Time', title_y=None, title_y2=None,
                  colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
-                 opacity=1, show_date=False, show_legend=True, show_name=True,
-                 size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH, yaxis=0):
+                 opacity=1, stackgroup=None, yaxis=0,
+                 show_date=False, show_legend=True, show_name=True,
+                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
 	return plot_series(df,
 	                   f=get_density, method=method, point_count=point_count, weights=weights,
 	                   fig=fig, title=title, title_x=title_x, title_y=title_y, title_y2=title_y2,
 	                   colors=colors, dash=dash, fill=fill, index=index, mode=mode, name=name,
-	                   opacity=opacity, show_date=show_date, show_legend=show_legend,
-	                   show_name=show_name, size=size, stackgroup=stackgroup, width=width,
-	                   yaxis=yaxis)
+	                   opacity=opacity, stackgroup=stackgroup, yaxis=yaxis,
+	                   show_date=show_date, show_legend=show_legend, show_name=show_name,
+	                   size=size, width=width)
 
 
 def plot_multi_density(df, method=None, point_count=DEFAULT_POINT_COUNT, weights=None,
                        fig=None, row_count=None, col_count=None, share_x=True, share_y=True,
                        title=None, subtitles=None, title_x=None, title_y=None,
                        colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines',
-                       opacity=1, show_date=False, show_legend=False, show_name=True,
+                       opacity=1,
+                       show_date=False, show_legend=False, show_name=True,
                        size=DEFAULT_MARKER_SIZE, stackgroup=None, width=DEFAULT_LINE_WIDTH):
 	return plot_multi_series(df,
 	                         f=get_density, method=method, point_count=point_count, weights=weights,
-	                         fig=fig, row_count=row_count, col_count=col_count, share_x=share_x,
-	                         share_y=share_y, title=title, subtitles=subtitles, title_x=title_x,
-	                         title_y=title_y,
+	                         fig=fig, row_count=row_count, col_count=col_count,
+	                         share_x=share_x, share_y=share_y,
+	                         title=title, subtitles=subtitles, title_x=title_x, title_y=title_y,
 	                         colors=colors, dash=dash, fill=fill, index=index, mode=mode,
-	                         opacity=opacity, show_date=show_date, show_legend=show_legend,
-	                         show_name=show_name, size=size, stackgroup=stackgroup, width=width)
+	                         opacity=opacity, stackgroup=stackgroup,
+	                         show_date=show_date, show_legend=show_legend, show_name=show_name,
+	                         size=size, width=width)

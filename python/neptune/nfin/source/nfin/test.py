@@ -44,9 +44,9 @@ class TestFin(Test):
 		                          index=index), 'Random walk')
 
 		test('Test the time series transformations')
-		for freq in [Frequency.DAYS, Frequency.WEEKS, Frequency.MONTHS, Frequency.QUARTERS,
-		             Frequency.SEMESTERS, Frequency.YEARS]:
-			for group in [Group.FIRST, Group.LAST]:
+		for freq in (Frequency.DAYS, Frequency.WEEKS, Frequency.MONTHS, Frequency.QUARTERS,
+		             Frequency.SEMESTERS, Frequency.YEARS):
+			for group in (Group.FIRST, Group.LAST):
 				s = transform_series(series, freq=freq, group=group,
 				                     transformation=Transformation.DIFF)
 				if freq is Frequency.MONTHS:

@@ -115,10 +115,10 @@ __CLUSTERING_FIGURE_______________________________ = ''
 
 
 def plot_clusters(points, classes, means=None, covariances=None, labels=None, std_count=1,
-                  fig=None, title='Clusters', colors=DEFAULT_COLORS, dash='dot', index=None,
-                  opacity=0.75, precision=100, show_centers=True, show_ellipses=True,
-                  show_legend=True, show_points=True, size=DEFAULT_MARKER_SIZE,
-                  width=DEFAULT_LINE_WIDTH):
+                  fig=None, title='Clusters', title_x=None, title_y=None,
+                  colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75, precision=100,
+                  show_centers=True, show_ellipses=True, show_legend=True, show_points=True,
+                  size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
 	'''Plots the clusters of the specified points identified by the specified classes and encircles
 	them with ellipses using their specified means and covariances.'''
 	if is_null(fig):
@@ -126,7 +126,7 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			names = get_names(points)
 			fig = create_figure(title=title, title_x=names[0], title_y=names[1])
 		else:
-			fig = create_figure(title=title)
+			fig = create_figure(title=title, title_x=title_x, title_y=title_y)
 	if is_null(index) and is_frame(points):
 		index = get_index(points)
 
@@ -145,7 +145,9 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			cluster_index = index[class_filter] if not is_null(index) else None
 			fig.add_trace(draw(x=get_col(cluster_points), y=get_col(cluster_points, 1),
 			                   color=cluster_color, index=cluster_index, mode='markers',
-			                   name=cluster_name, show_legend=False, size=size))
+			                   name=cluster_name,
+			                   show_legend=False,
+			                   size=size))
 
 		# Draw the cluster center
 		if show_centers and not is_null(means):
@@ -164,32 +166,34 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			angle = atan2(eigenvector[1], eigenvector[0])
 			name = collapse(cluster_name, ' Tilted At ', round(angle * RAD_TO_DEG, 2), '°')
 			color = format_rgb_color(get_complementary_color(cluster_color))
-			plot_ellipse(cluster_mean, a, b, angle=angle, color=color, fig=fig, dash=dash,
-			             name=name, opacity=opacity, precision=precision, show_legend=show_legend,
+			plot_ellipse(cluster_mean, a, b, angle=angle, precision=precision,
+			             fig=fig, color=color, dash=dash, name=name, opacity=opacity,
+			             show_legend=show_legend,
 			             width=width)
 	return fig
 
 
 def plot_silhouettes(points, classes, labels=None,
-                     fig=None, title='Silhouette Coefficients', colors=DEFAULT_COLORS,
-                     line_color='black', show_legend=True, width=DEFAULT_LINE_WIDTH):
+                     fig=None, title='Silhouette Coefficients', title_x=None, title_y='%',
+                     colors=DEFAULT_COLORS, line_color='black',
+                     show_legend=True,
+                     width=DEFAULT_LINE_WIDTH):
+	sorted_unique_classes = sort(to_set(classes))
 	if is_null(fig):
 		if is_frame(points):
 			names = get_names(points)
-			fig = create_figure(title=title, title_x=names[0], title_y=names[1])
+			fig = create_figures(len(sorted_unique_classes), 1,
+			                     title=title, title_x=names[0], title_y=names[1], share_x=True)
 		else:
-			fig = create_figure(title=title)
+			fig = create_figures(len(sorted_unique_classes), 1,
+			                     title=title, title_x=title_x, title_y=title_y, share_x=True)
 
 	# Draw the mean silhouette coefficient for all the clusters
 	score = silhouette_score(points, classes)
-	fig.add_vline(score, annotation=dict(bordercolor='black', bgcolor='white', borderwidth=width,
-	                                     borderpad=4, text=format_number(score)),
-	              line=dict(color=line_color, dash='dash', width=width))
 
 	scores = silhouette_samples(points, classes)
 	colors = get_iterator(to_list(colors), cycle=True)
-	offset_y = 0
-	for i, c in enumerate(sort(to_set(classes))):
+	for i, c in enumerate(sorted_unique_classes):
 		# Skip the classes that are not present
 		class_filter = classes == c
 		if not any_values(class_filter):
@@ -198,51 +202,68 @@ def plot_silhouettes(points, classes, labels=None,
 		# Draw the silhouette coefficients of the cluster
 		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
 		cluster_scores = to_array(sort(scores[class_filter]))
+		cluster_score_count = len(cluster_scores)
+		cluster_score_range = to_array(range(cluster_score_count)) / (cluster_score_count - 1) * 100
 		cluster_color = next(colors)
-		fig.add_trace(draw(x=cluster_scores, y=repeat(offset_y, len(cluster_scores)),
-		                   color=cluster_color, show_legend=False, stackgroup=cluster_name))
-		fig.add_trace(draw(x=cluster_scores, y=offset_y + to_array(range(len(cluster_scores))),
-		                   color=cluster_color, fill='tonexty', name=cluster_name,
-		                   show_legend=show_legend, stackgroup=cluster_name, width=width))
-		offset_y += len(cluster_scores)
+		fig.add_trace(draw(x=cluster_scores, y=cluster_score_range,
+		                   color=cluster_color, fill='tozeroy', name=cluster_name,
+		                   stackgroup=cluster_name,
+		                   show_legend=show_legend,
+		                   width=width),
+		              row=i + 1, col=1)
+		annotation = dict(bordercolor='black', bgcolor='white', borderwidth=width, borderpad=4,
+		                  text=format_number(score)) if i == 0 else None
+		fig.add_vline(score, annotation=annotation,
+		              line=dict(color=line_color, dash='dash', width=width),
+		              row=i + 1, col=1)
 	return fig
 
 
 ##################################################
 
 def plot_mixture(points, model,
-                 fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75,
-                 precision=100, show_centers=True, show_ellipses=True, show_legend=True,
-                 show_points=True, size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+                 fig=None, title=None, title_x=None, title_y=None,
+                 colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75, precision=100,
+                 show_centers=True, show_ellipses=True, show_legend=True, show_points=True,
+                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
 	'''Plots the clusters of the specified points identified by the specified model and encircles
 	them with ellipses.'''
 	return plot_clusters(points, model.predict(points), means=model.means_,
-	                     covariances=model.covariances_, fig=fig, title=title, colors=colors,
-	                     dash=dash, index=index, opacity=opacity, precision=precision,
+	                     covariances=model.covariances_,
+	                     fig=fig, title=title, title_x=title_x, title_y=title_y,
+	                     colors=colors, dash=dash, index=index, opacity=opacity,
+	                     precision=precision,
 	                     show_centers=show_centers, show_ellipses=show_ellipses,
-	                     show_legend=show_legend, show_points=show_points, size=size, width=width)
+	                     show_legend=show_legend, show_points=show_points,
+	                     size=size, width=width)
 
 
 def plot_detector(points, detector,
-                  fig=None, title=None, colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75,
-                  precision=100, show_ellipses=True, show_legend=True, show_points=True,
+                  fig=None, title=None, title_x=None, title_y=None,
+                  colors=DEFAULT_COLORS, dash='dot', index=None, opacity=0.75, precision=100,
+                  show_ellipses=True, show_legend=True, show_points=True,
                   size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
 	'''Plots the clusters of the specified points identified by the specified detector and encircles
 	them with ellipses.'''
+	if is_null(fig):
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y)
 	if is_null(index) and is_frame(points):
 		index = get_index(points)
 
 	# Draw the cluster points
 	if show_points:
 		color = detector.score_samples(points)
-		if is_null(fig):
-			fig = create_figure(title=title)
-		fig.add_trace(draw(x=get_col(points), y=get_col(points, 1), color=color, index=index,
-		                   mode='markers', show_legend=False, size=size))
+		fig.add_trace(draw(x=get_col(points), y=get_col(points, 1),
+		                   color=color, index=index, mode='markers',
+		                   show_legend=False,
+		                   size=size))
 
 	# Draw an ellipse around every cluster
 	if show_ellipses:
-		fig = plot_mixture(points, detector.gmm_, fig=fig, title=title, colors=colors, dash=dash,
-		                   index=index, opacity=opacity, precision=precision,
-		                   show_legend=show_legend, show_points=False, size=size, width=width)
+		fig = plot_mixture(points, detector.gmm_,
+		                   fig=fig, title=title,
+		                   colors=colors, dash=dash, index=index, opacity=opacity,
+		                   precision=precision,
+		                   show_legend=show_legend, show_points=False,
+		                   size=size, width=width)
 	return fig

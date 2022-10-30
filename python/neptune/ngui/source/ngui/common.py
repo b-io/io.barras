@@ -38,7 +38,7 @@ DEFAULT_HEIGHT = 933
 
 # The default margin (left, right, bottom and top) defined by the ratio to the width or height
 DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
-DEFAULT_MARGIN_WITH_TITLE = dict(l=0, r=0, b=0, t=0.05)
+DEFAULT_MARGIN_WITH_TITLE = dict(l=0.05, r=0.05, b=0.05, t=0.05)
 
 #########################
 
