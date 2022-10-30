@@ -175,7 +175,7 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 
 def plot_silhouettes(points, classes, labels=None,
                      fig=None, title='Silhouette Coefficients', title_x=None, title_y='%',
-                     colors=DEFAULT_COLORS, line_color='black',
+                     colors=DEFAULT_COLORS,
                      show_legend=True,
                      width=DEFAULT_LINE_WIDTH):
 	sorted_unique_classes = sort(to_set(classes))
@@ -203,6 +203,7 @@ def plot_silhouettes(points, classes, labels=None,
 		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
 		cluster_scores = to_array(sort(scores[class_filter]))
 		cluster_score_count = len(cluster_scores)
+		cluster_score_mean = mean(cluster_scores)
 		cluster_score_range = to_array(range(cluster_score_count)) / (cluster_score_count - 1) * 100
 		cluster_color = next(colors)
 		fig.add_trace(draw(x=cluster_scores, y=cluster_score_range,
@@ -211,10 +212,17 @@ def plot_silhouettes(points, classes, labels=None,
 		                   show_legend=show_legend,
 		                   width=width),
 		              row=i + 1, col=1)
-		annotation = dict(bordercolor='black', bgcolor='white', borderwidth=width, borderpad=4,
-		                  text=format_number(score)) if i == 0 else None
-		fig.add_vline(score, annotation=annotation,
-		              line=dict(color=line_color, dash='dash', width=width),
+		fig.add_vline(cluster_score_mean,
+		              annotation=dict(yanchor='top', bordercolor=cluster_color,
+		                              bgcolor='white', borderwidth=width, borderpad=4,
+		                              text=format_number(cluster_score_mean)),
+		              line=dict(color=cluster_color, dash='dash', width=width),
+		              row=i + 1, col=1)
+		fig.add_vline(score,
+		              annotation=dict(yanchor='bottom', bordercolor='black', bgcolor='white',
+		                              borderwidth=width, borderpad=4,
+		                              text=format_number(score)) if i == 0 else None,
+		              line=dict(color='black', dash='dash', width=width),
 		              row=i + 1, col=1)
 	return fig
 
