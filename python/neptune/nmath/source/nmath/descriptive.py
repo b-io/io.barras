@@ -170,13 +170,17 @@ def plot_cumulative_distribution(x, classes=None, labels=None,
 			                     title=title, title_x=title_x, title_y=title_y, share_x=True)
 	colors = get_iterator(to_list(colors), cycle=True)
 
+	# Convert x and classes to arrays
+	x = to_array(x)
+	classes = to_array(classes)
+
 	# Get the mean value for all the classes
 	mean_value = mean(x)
 
 	for i, c in enumerate(sorted_unique_classes):
 		# Skip the classes that are not present and get the class values
 		if not is_empty(classes):
-			class_filter = to_array(classes) == c
+			class_filter = classes == c
 			if not any_values(class_filter):
 				continue
 			class_values = to_array(sort(x[class_filter]))
@@ -187,7 +191,7 @@ def plot_cumulative_distribution(x, classes=None, labels=None,
 		# Draw the cumulative distribution of the class values
 		class_value_range = to_array(range(class_value_count)) / (class_value_count - 1) * 100
 		class_color = next(colors)
-		class_name = paste('Class', labels[c] if not is_null(labels) else i + 1)
+		class_name = str(labels[c] if not is_null(labels) else c)
 		fig.add_trace(draw(x=class_values, y=class_value_range,
 		                   color=class_color, fill='tozeroy', name=class_name,
 		                   stackgroup=class_name,

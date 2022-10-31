@@ -129,13 +129,18 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 		index = get_index(points)
 	colors = get_iterator(to_list(colors), cycle=True)
 
+	# Convert the points, classes and index to arrays
+	points = to_array(points)
+	classes = to_array(classes)
+	index = to_array(index) if not is_null(index) else None
+
 	for i, c in enumerate(sort(to_set(classes))):
 		# Skip the classes that are not present
-		class_filter = to_array(classes) == c
+		class_filter = classes == c
 		if not any_values(class_filter):
 			continue
 		cluster_color = next(colors)
-		cluster_name = paste('Cluster', labels[c] if not is_null(labels) else i + 1)
+		cluster_name = str(labels[c] if not is_null(labels) else c)
 
 		# Draw the cluster points
 		if show_points:
