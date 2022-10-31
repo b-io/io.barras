@@ -597,11 +597,15 @@ def create_insert_table_query(table, cols, row, is_mssql=DEFAULT_IS_MSSQL, schem
 
 ##################################################
 
-def insert_table(engine, df, table, insert_id=None, is_mssql=DEFAULT_IS_MSSQL,
+def insert_table(engine, df, table, index=False, insert_id=None, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of inserted rows.'''
 	insert_count = 0
+
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
@@ -643,12 +647,16 @@ def insert_table(engine, df, table, insert_id=None, is_mssql=DEFAULT_IS_MSSQL,
 	return insert_count
 
 
-def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_id=None,
+def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, index=False, insert_id=None,
                       is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA, test=ASSERT,
                       verbose=VERBOSE):
 	'''Bulk-inserts the rows of the specified dataframe into the specified table (in the specified
 	schema) and returns the number of bulk-inserted rows.'''
 	insert_count = 0
+
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
 
 	# Get the metadata of the table
 	table_metadata = get_table_metadata(engine, table, schema=schema)
@@ -672,7 +680,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, insert_i
 			if verbose:
 				debug('Chunk the bulk-insert query from', index_from + 1, 'to', index_to, 'rows')
 			insert_count += bulk_insert_table(engine, df.iloc[index_from:index_to], table,
-			                                  chunk_size=chunk_size, insert_id=False,
+			                                  chunk_size=chunk_size, index=False, insert_id=False,
 			                                  is_mssql=is_mssql, schema=schema, test=False,
 			                                  verbose=verbose)
 		if insert_id:
@@ -835,24 +843,28 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 __DB_UPSERT_______________________________________ = ''
 
 
-def upsert_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL,
+def upsert_table(engine, df, table, filtering_cols=None, index=False, is_mssql=DEFAULT_IS_MSSQL,
                  schema=DEFAULT_SCHEMA, test=ASSERT, verbose=VERBOSE):
 	'''Updates/inserts the rows matching the rows of the specified dataframe at the specified
 	filtering columns of/into the specified table (in the specified schema) and returns the number
 	of updated/inserted rows.'''
 	upsert_count = 0
 
+	# Include the index in the columns
+	if index:
+		df = df.reset_index()
+
 	# Update the matching rows
-	update_count = update_table(engine, df, table, filtering_cols=filtering_cols, is_mssql=is_mssql,
-	                            schema=schema, test=test, verbose=False)
+	update_count = update_table(engine, df, table, filtering_cols=filtering_cols, index=False,
+	                            is_mssql=is_mssql, schema=schema, test=test, verbose=False)
 	upsert_count += update_count
 	if update_count > 0:
 		debug_query('update', upsert_count, table, verbose=verbose)
 
 	# Insert the non-matching rows
 	if update_count != len(df):
-		insert_count = insert_table(engine, df, table, is_mssql=is_mssql, schema=schema, test=test,
-		                            verbose=False)
+		insert_count = insert_table(engine, df, table, index=False, is_mssql=is_mssql,
+		                            schema=schema, test=test, verbose=False)
 		upsert_count += insert_count
 		if insert_count > 0:
 			debug_query('insert', insert_count, table, verbose=verbose)
@@ -862,7 +874,7 @@ def upsert_table(engine, df, table, filtering_cols=None, is_mssql=DEFAULT_IS_MSS
 	# Verify
 	if upsert_count != len(df):
 		if verbose:
-			t = select_table_where(engine, table, chunk_size=None, cols=get_names(df),
+			t = select_table_where(engine, table, chunk_size=None, cols=get_names(df), index=False,
 			                       is_mssql=is_mssql, schema=schema, verbose=verbose)
 			for index, row in df.iterrows():
 				if is_empty(filter_rows(t, row)):
