@@ -38,12 +38,12 @@ DEFAULT_SCHEMA = 'dbo'
 #########################
 
 # The default chunk size
-DEFAULT_CHUNK_SIZE = 1000
+DEFAULT_CHUNK_SIZE = 100
 
 #########################
 
-# The default debug frequency
-DEFAULT_DEBUG_FREQUENCY = 1000
+# The default debug interval
+DEFAULT_DEBUG_INTERVAL = 1000
 
 ####################################################################################################
 # DB FUNCTIONS
@@ -83,9 +83,11 @@ def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERB
 	if verbose:
 		prefix = ''
 		if not is_null(index_from):
-			prefix += 'from ' + str(index_from) + ' '
+			prefix += ' from ' + str(index_from)
 		if not is_null(index_to):
-			prefix += 'to ' + str(index_to) + ' '
+			prefix += ' to ' + str(index_to)
+		if not is_empty(prefix):
+			prefix = 'processing rows' + prefix + ', '
 		debug((prefix + get_query_message(verb, count, table)).capitalize())
 
 
@@ -407,7 +409,7 @@ def select_table(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, index=
 		return chunks
 	df = to_frame([])
 	for i, chunk in enumerate(chunks):
-		debug_query('select', chunk_size, table, index_from=i * chunk_size,
+		debug_query('select', chunk_size, table, index_from=i * chunk_size + 1,
 		            index_to=(i + 1) * chunk_size, verbose=verbose)
 		df = concat_rows(df, chunk)
 		if row_count >= 0 and len(df) >= row_count:
@@ -441,7 +443,7 @@ def select_table_where(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, 
 		return chunks
 	df = to_frame([])
 	for i, chunk in enumerate(chunks):
-		debug_query('select', chunk_size, table, index_from=i * chunk_size,
+		debug_query('select', chunk_size, table, index_from=i * chunk_size + 1,
 		            index_to=(i + 1) * chunk_size, verbose=verbose)
 		df = concat_rows(df, chunk)
 		if row_count >= 0 and len(df) >= row_count:
@@ -494,10 +496,6 @@ def delete_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 		query = create_delete_table_query(table, filtering_cols=filtering_cols, filtering_row=row,
 		                                  is_mssql=is_mssql, schema=schema)
 
-		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
-			debug_query('delete', delete_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
-			            index_to=index, verbose=verbose)
-
 		# Execute the query
 		try:
 			result = execute(engine, query)
@@ -509,6 +507,10 @@ def delete_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 				warn_row('delete', index, table, cols=filtering_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('delete', index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
+		if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+			debug_query('deleted', delete_count, table,
+			            index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+			            index_to=index + 1, verbose=verbose)
 	return delete_count
 
 
@@ -627,10 +629,6 @@ def insert_table(engine, df, table, index=False, insert_id=None, is_mssql=DEFAUL
 		# Build the query
 		query = create_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
-		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
-			debug_query('insert', insert_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
-			            index_to=index, verbose=verbose)
-
 		# Execute the query
 		try:
 			result = execute(engine, query)
@@ -642,6 +640,10 @@ def insert_table(engine, df, table, index=False, insert_id=None, is_mssql=DEFAUL
 				warn_row('insert', index, table, cols=primary_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('insert', index, table, ex=ex, cols=primary_cols, row=row, verbose=verbose)
+		if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+			debug_query('inserted', insert_count, table,
+			            index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+			            index_to=index + 1, verbose=verbose)
 	if insert_id:
 		set_id_insert(engine, table, 'OFF', is_mssql=is_mssql, schema=schema)
 	return insert_count
@@ -761,10 +763,6 @@ def update_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 		query = create_update_table_query(table, cols, row, filtering_cols=filtering_cols,
 		                                  is_mssql=is_mssql, schema=schema)
 
-		if index > 0 and index % DEFAULT_DEBUG_FREQUENCY == 0:
-			debug_query('update', update_count, table, index_from=index - DEFAULT_DEBUG_FREQUENCY,
-			            index_to=index, verbose=verbose)
-
 		# Execute the query
 		try:
 			result = execute(engine, query)
@@ -776,6 +774,10 @@ def update_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 				warn_row('update', index, table, cols=filtering_cols, row=row, verbose=verbose)
 		except Exception as ex:
 			error_row('update', index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
+		if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+			debug_query('updated', update_count, table,
+			            index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+			            index_to=index + 1, verbose=verbose)
 	return update_count
 
 
