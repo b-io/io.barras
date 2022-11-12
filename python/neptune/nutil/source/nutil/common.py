@@ -4374,14 +4374,10 @@ def fail(*args, level=0):
 ##################################################
 
 def print_table(table, format='grid', headers=None, show_index='default'):
-	if is_table(table):
-		print(table.to_markdown(tablefmt=format,
-		                        headers=headers if not is_null(headers) else get_names(table),
-		                        showindex=show_index))
-	else:
-		print(tabulate(table, tablefmt=format,
-		               headers=headers if not is_null(headers) else EMPTY,
-		               showindex=show_index))
+	print(tabulate(table, tablefmt=format,
+	               headers=(headers if not is_null(headers) else
+	                        get_names(table) if is_table(table) else EMPTY),
+	               showindex=show_index))
 
 
 # • DATAFRAME ######################################################################################
