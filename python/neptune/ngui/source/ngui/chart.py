@@ -430,64 +430,79 @@ def create_choropleth_map(df, loc_col, label_col, loc_mode='ISO-3', label_name=N
 ##################################################
 
 def draw(x, y=None,
-         color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
-         stackgroup=None, yaxis=0,
-         show_date=False, show_legend=True, show_name=True,
-         size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+         # Chart
+         color=None, dash=None, fill='none', index=None, line_width=DEFAULT_LINE_WIDTH,
+         marker_size=DEFAULT_MARKER_SIZE, mode='lines', name=None, opacity=1, stackgroup=None,
+         yaxis=0,
+         # Flags
+         show_date=False, show_legend=True, show_name=True):
 	data = x
 	if is_null(y):
 		x = to_array(get_index(data))
 		y = get_values(data)
+	elif is_null(index):
+		index = get_index(data)
 	if is_null(name):
 		name = get_name(data)
 	name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
 	hover_template = get_hover_template(index)
-	line = dict(color=color, dash=dash, width=width)
-	marker = dict(color=color, size=size)
+	line = dict(color=color, dash=dash, width=line_width)
+	marker = dict(color=color, size=marker_size)
 	if mode == 'lines':
 		marker = None
 	elif mode == 'markers':
 		line = None
 	return go.Scatter(x=x, y=y,
-	                  name=name, customdata=index, hovertemplate=hover_template, fill=fill,
-	                  mode=mode, line=line, marker=marker, opacity=opacity, stackgroup=stackgroup,
+	                  # Chart
+	                  customdata=index, hovertemplate=hover_template, fill=fill, line=line,
+	                  marker=marker, mode=mode, name=name, opacity=opacity, stackgroup=stackgroup,
 	                  yaxis='y' + str(1 if yaxis == 0 else yaxis),
+	                  # Flags
 	                  showlegend=show_legend)
 
 
 def draw_ellipse(center, a, b, angle=0, precision=100,
-                 color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
-                 yaxis=0,
-                 show_date=False, show_legend=True, show_name=True,
-                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+                 # Chart
+                 color=None, dash=None, fill='none', index=None, line_width=DEFAULT_LINE_WIDTH,
+                 marker_size=DEFAULT_MARKER_SIZE, mode='lines', name=None, opacity=1, yaxis=0,
+                 # Flags
+                 show_date=False, show_legend=True, show_name=True):
 	X, Y = create_ellipse(center, a, b, angle=angle, precision=precision)
 	return draw(x=X, y=Y,
-	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
-	            opacity=opacity, yaxis=yaxis,
-	            show_date=show_date, show_legend=show_legend, show_name=show_name,
-	            size=size, width=width)
+	            # Chart
+	            color=color, dash=dash, fill=fill, index=index, line_width=line_width,
+	            marker_size=marker_size, mode=mode, name=name, opacity=opacity, yaxis=yaxis,
+	            # Flags
+	            show_date=show_date, show_legend=show_legend, show_name=show_name)
 
 
 def draw_series(series, *args, f=None,
-                color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
+                # Chart
+                color=None, dash=None, fill='none', index=None, line_width=DEFAULT_LINE_WIDTH,
+                marker_size=DEFAULT_MARKER_SIZE, mode='lines', name=None, opacity=1,
                 stackgroup=None, yaxis=0,
-                show_date=False, show_legend=True, show_name=True,
-                size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH, **kwargs):
+                # Flags
+                show_date=False, show_legend=True, show_name=True, **kwargs):
 	if not is_null(f):
 		series = f(series, *args, **kwargs)
 	return draw(series,
-	            color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
-	            opacity=opacity, stackgroup=stackgroup, yaxis=yaxis,
-	            show_date=show_date, show_legend=show_legend, show_name=show_name,
-	            size=size, width=width)
+	            # Chart
+	            color=color, dash=dash, fill=fill, index=index, line_width=line_width,
+	            marker_size=marker_size, mode=mode, name=name, opacity=opacity,
+	            stackgroup=stackgroup, yaxis=yaxis,
+	            # Flags
+	            show_date=show_date, show_legend=show_legend, show_name=show_name)
 
 
 #########################
 
 def plot_multi(df, draw, *args,
+               # Figure
                fig=None, row_count=None, col_count=None,
                share_x=True, share_y=True,
                title=None, subtitles=None, title_x=None, title_y=None,
+               width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+               # Chart
                colors=DEFAULT_COLORS, **kwargs):
 	if is_null(fig):
 		row_count, col_count = get_grid_size(df, row_count=row_count, col_count=col_count)
@@ -495,7 +510,8 @@ def plot_multi(df, draw, *args,
 			subtitles = get_names(df)
 		fig = create_figures(row_count, col_count,
 		                     share_x=share_x, share_y=share_y,
-		                     title=title, subtitles=subtitles, title_x=title_x, title_y=title_y)
+		                     title=title, subtitles=subtitles, title_x=title_x, title_y=title_y,
+		                     width=width, height=height, margin=margin)
 	colors = get_iterator(to_list(colors), cycle=True)
 
 	# Get the number of series
@@ -511,67 +527,92 @@ def plot_multi(df, draw, *args,
 
 
 def plot_series(series, *args, f=None,
+                # Figure
                 fig=None, title=None, title_x=None, title_y=None, title_y2=None,
-                colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines', name=None,
-                opacity=1, stackgroup=None, yaxis=0,
-                show_date=False, show_legend=True, show_name=True,
-                size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH, **kwargs):
+                width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                # Chart
+                colors=DEFAULT_COLORS, dash=None, fill='none', index=None,
+                line_width=DEFAULT_LINE_WIDTH, marker_size=DEFAULT_MARKER_SIZE, mode='lines',
+                name=None, opacity=1, stackgroup=None, yaxis=0,
+                # Flags
+                show_date=False, show_legend=True, show_name=True, **kwargs):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2,
+		                    width=width, height=height, margin=margin)
 	colors = get_iterator(to_list(colors), cycle=True)
 
 	for s in to_series(series) if is_frame(series) else [series]:
 		fig.add_trace(draw_series(s,
 		                          *args, f=f,
-		                          color=next(colors), dash=dash, fill=fill, index=index, mode=mode,
+		                          # Chart
+		                          color=next(colors), dash=dash, fill=fill, index=index,
+		                          line_width=line_width, marker_size=marker_size, mode=mode,
 		                          name=name, opacity=opacity, stackgroup=stackgroup, yaxis=yaxis,
+		                          # Flags
 		                          show_date=show_date, show_legend=show_legend, show_name=show_name,
-		                          size=size, width=width, **kwargs))
+		                          **kwargs))
 	return fig
 
 
 def plot_multi_series(df, *args, f=None,
+                      # Figure
                       fig=None, row_count=None, col_count=None, share_x=True, share_y=True,
                       title=None, subtitles=None, title_x=None, title_y=None,
-                      colors=DEFAULT_COLORS, dash=None, fill='none', index=None, mode='lines',
+                      width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                      # Chart
+                      colors=DEFAULT_COLORS, dash=None, fill='none', index=None,
+                      line_width=DEFAULT_LINE_WIDTH, marker_size=DEFAULT_MARKER_SIZE, mode='lines',
                       opacity=1, stackgroup=None,
-                      show_date=False, show_legend=False, show_name=True,
-                      size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH, **kwargs):
+                      # Flags
+                      show_date=False, show_legend=False, show_name=True, **kwargs):
 	return plot_multi(df, draw_series,
 	                  *args, f=f,
+	                  # Figure
 	                  fig=fig, row_count=row_count, col_count=col_count,
 	                  share_x=share_x, share_y=share_y,
 	                  title=title, subtitles=subtitles, title_x=title_x, title_y=title_y,
-	                  colors=colors, dash=dash, fill=fill, index=index, mode=mode, opacity=opacity,
-	                  stackgroup=stackgroup,
-	                  show_date=show_date, show_legend=show_legend, show_name=show_name,
-	                  size=size, width=width, **kwargs)
+	                  width=width, height=height, margin=margin,
+	                  # Chart
+	                  colors=colors, dash=dash, fill=fill, index=index, line_width=line_width,
+	                  marker_size=marker_size, mode=mode, opacity=opacity, stackgroup=stackgroup,
+	                  # Flags
+	                  show_date=show_date, show_legend=show_legend, show_name=show_name, **kwargs)
 
 
 def plot_ellipse(center, a, b, angle=0, precision=100,
+                 # Figure
                  fig=None, title=None, title_x=None, title_y=None, title_y2=None,
-                 color=None, dash=None, fill='none', index=None, mode='lines', name=None, opacity=1,
-                 yaxis=0,
-                 show_axes=True, show_date=False, show_legend=True, show_name=True,
-                 size=DEFAULT_MARKER_SIZE, width=DEFAULT_LINE_WIDTH):
+                 width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                 # Chart
+                 color=None, dash=None, fill='none', index=None, line_width=DEFAULT_LINE_WIDTH,
+                 marker_size=DEFAULT_MARKER_SIZE, mode='lines', name=None, opacity=1, yaxis=0,
+                 # Flags
+                 show_axes=True, show_date=False, show_legend=True, show_name=True):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2)
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y, title_y2=title_y2,
+		                    width=width, height=height, margin=margin)
 	fig.add_trace(draw_ellipse(center, a, b, angle=angle, precision=precision,
-	                           color=color, dash=dash, fill=fill, index=index, mode=mode, name=name,
+	                           # Chart
+	                           color=color, dash=dash, fill=fill, index=index,
+	                           line_width=line_width, marker_size=marker_size, mode=mode, name=name,
 	                           opacity=opacity, yaxis=yaxis,
-	                           show_date=show_date, show_legend=show_legend, show_name=show_name,
-	                           size=size, width=width))
+	                           # Flags
+	                           show_date=show_date, show_legend=show_legend, show_name=show_name))
 	if show_axes:
 		fig.add_trace(draw([center[0] - a * cos(angle), center[0] + a * cos(angle)],
 		                   [center[1] - a * sin(angle), center[1] + a * sin(angle)],
-		                   color=color, dash=dash, name=name, opacity=opacity,
-		                   show_legend=False,
-		                   width=width))
+		                   # Chart
+		                   color=color, dash=dash, line_width=line_width, marker_size=marker_size,
+		                   name=name, opacity=opacity,
+		                   # Flags
+		                   show_legend=False))
 		fig.add_trace(draw([center[0] - b * sin(angle), center[0] + b * sin(angle)],
 		                   [center[1] + b * cos(angle), center[1] - b * cos(angle)],
-		                   color=color, dash=dash, name=name, opacity=opacity,
-		                   show_legend=False,
-		                   width=width))
+		                   # Chart
+		                   color=color, dash=dash, line_width=line_width, marker_size=marker_size,
+		                   name=name, opacity=opacity,
+		                   # Flags
+		                   show_legend=False))
 	return fig
 
 
@@ -641,10 +682,7 @@ def update_layout_plot(fig, auto_size=True, bar_mode=None, bg_color=DEFAULT_BG_C
 			fig.update_layout(title=web.b(title) if show_title else None)
 		if not is_null(bar_mode):
 			fig.update_layout(barmode=bar_mode)
-		fig.update_layout(
-			autosize=auto_size,
-			paper_bgcolor=bg_color,
-			plot_bgcolor=bg_color)
+		fig.update_layout(autosize=auto_size, paper_bgcolor=bg_color, plot_bgcolor=bg_color)
 
 
 def update_layout_axes(fig,
@@ -729,18 +767,18 @@ def update_layout_axes(fig,
 		# Set the titles
 		# - Horizontal axis
 		if not is_null(title_x):
-			fig.update_xaxes(title=dict(text=to_string(title_x), font_color=label_color,
-			                            font_size=label_size))
+			fig.update_xaxes(title=dict(font_color=label_color, font_size=label_size,
+			                            text=to_string(title_x)))
 		# - Primary vertical axis
 		if not is_null(title_y):
 			update_axis_y(fig, yaxis=1,
-			              title=dict(text=to_string(title_y), font_color=label_color,
-			                         font_size=label_size))
+			              title=dict(font_color=label_color, font_size=label_size,
+			                         text=to_string(title_y)))
 		# - Secondary vertical axis
 		if not is_null(title_y2):
 			update_axis_y(fig, yaxis=2,
-			              title=dict(text=to_string(title_y2), font_color=label_color,
-			                         font_size=label_size))
+			              title=dict(font_color=label_color, font_size=label_size,
+			                         text=to_string(title_y2)))
 		# Set the scale
 		if not is_null(scale_ratio_y):
 			update_axis_y(fig, yaxis=1,
@@ -826,11 +864,9 @@ def update_layout_legend(fig, bg_color=DEFAULT_BG_COLOR, x=0.01, y=0.99):
 				ax.legend(facecolor=bg_color, loc='upper left', bbox_to_anchor=(x, y))
 	elif is_plotly(fig):
 		bg_color = format_rgb_color(bg_color)
-		fig.update_layout(
-			legend=dict(
-				bgcolor=bg_color,
-				xanchor='left', x=x,
-				yanchor='top', y=y))
+		fig.update_layout(legend=dict(xanchor='left', x=x,
+		                              yanchor='top', y=y,
+		                              bgcolor=bg_color))
 
 
 def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):

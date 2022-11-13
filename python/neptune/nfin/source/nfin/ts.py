@@ -344,32 +344,44 @@ __TIME_SERIES_FIGURE______________________________ = ''
 
 
 def plot_decomposition(trend, seasonal, residual,
+                       # Figure
                        fig=None, title='Seasonal-Trend Decomposition', title_x='Time', title_y=None,
-                       name=None, color='black', trend_color='red', seasonal_color='gray',
-                       residual_color='lightgray', stackgroup=None, yaxis=0,
-                       show_legend=False,
-                       width=DEFAULT_LINE_WIDTH):
+                       width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
+                       # Chart
+                       color='black', trend_color='red', seasonal_color='gray',
+                       residual_color='lightgray', line_width=DEFAULT_LINE_WIDTH,
+                       marker_size=DEFAULT_MARKER_SIZE, name=None, stackgroup=None, yaxis=0,
+                       # Flags
+                       show_legend=False):
 	if is_null(fig):
-		fig = create_figure(title=title, title_x=title_x, title_y=title_y)
+		fig = create_figure(title=title, title_x=title_x, title_y=title_y,
+		                    width=width, height=height, margin=margin)
 	if is_null(stackgroup):
 		stackgroup = generate_string(10)
 	fig.add_trace(draw(x=trend.index, y=get_col(trend),
-	                   color=trend_color, name=paste(name, '(Trend Component)'),
+	                   # Chart
+	                   color=trend_color, fill='none', line_width=line_width,
+	                   marker_size=marker_size, name=paste(name, '(Trend Component)'),
 	                   stackgroup=stackgroup, yaxis=yaxis,
-	                   show_legend=show_legend,
-	                   width=width))
+	                   # Flags
+	                   show_legend=show_legend))
 	fig.add_trace(draw(x=seasonal.index, y=get_col(seasonal),
-	                   color=seasonal_color, fill='tonexty',
-	                   name=paste(name, '(Seasonal Component)'), stackgroup=stackgroup, yaxis=yaxis,
-	                   show_legend=show_legend,
-	                   width=width))
+	                   # Chart
+	                   color=seasonal_color, fill='tonexty', line_width=line_width,
+	                   marker_size=marker_size, name=paste(name, '(Seasonal Component)'),
+	                   stackgroup=stackgroup, yaxis=yaxis,
+	                   # Flags
+	                   show_legend=show_legend))
 	fig.add_trace(draw(x=residual.index, y=get_col(residual),
-	                   color=residual_color, fill='tonexty',
-	                   name=paste(name, '(Residual Component)'), stackgroup=stackgroup, yaxis=yaxis,
-	                   show_legend=show_legend,
-	                   width=width))
+	                   # Chart
+	                   color=residual_color, fill='tonexty', line_width=line_width,
+	                   marker_size=marker_size, name=paste(name, '(Residual Component)'),
+	                   stackgroup=stackgroup, yaxis=yaxis,
+	                   # Flags
+	                   show_legend=show_legend))
 	series = trend + seasonal + residual
 	fig.add_trace(draw(x=series.index, y=get_col(series),
-	                   color=color, name=name, yaxis=yaxis,
-	                   width=width))
+	                   # Chart
+	                   color=color, line_width=line_width, marker_size=marker_size, name=name,
+	                   yaxis=yaxis))
 	return fig

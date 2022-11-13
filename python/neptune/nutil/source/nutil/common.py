@@ -240,6 +240,7 @@ DEFAULT_VERBOSE = True
 ##################################################
 
 OBJECT_TYPE = object
+OBJECT_ELEMENT_TYPE = np.object_
 
 #########################
 
@@ -923,8 +924,7 @@ def read_csv(path, encoding=DEFAULT_ENCODING, delimiter=',', ignore=False, index
              index_name='index', na_values=[''], newline=None, type=None, **kwargs):
 	df = pd.read_csv(path, encoding=encoding, delimiter=delimiter, dtype=type,
 	                 error_bad_lines=not ignore, index_col=index_cols, lineterminator=newline,
-	                 na_values=na_values,
-	                 **kwargs)
+	                 na_values=na_values, **kwargs)
 	if is_null(index_cols):
 		set_index_name(df, index_name)
 	return df
