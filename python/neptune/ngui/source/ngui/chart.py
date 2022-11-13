@@ -129,9 +129,9 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
 	'''Returns the margin with the specified ratio to the width or height.'''
 	if not is_null(fig) and not is_empty(fig._layout_obj.annotations):
 		has_title |= (not is_empty(fig._layout_obj.title.text) or
-		              any(a.yanchor == 'top' for a in fig._layout_obj.annotations))
+		              any(a.yanchor in ('bottom', 'top') for a in fig._layout_obj.annotations))
 		has_title_x |= (not is_empty(fig._layout_obj.xaxis.title.text) or
-		                any(a.yanchor == 'bottom' for a in fig._layout_obj.annotations))
+		                any(a.yanchor in ('bottom', 'top') for a in fig._layout_obj.annotations))
 		has_title_y |= (not is_empty(fig._layout_obj.yaxis.title.text) or
 		                any(a.xanchor in ('left', 'right') for a in fig._layout_obj.annotations))
 	if is_null(x):
@@ -344,8 +344,7 @@ def create_figures(row_count, col_count,
 	fig = sp.make_subplots(rows=row_count, cols=col_count,
 	                       shared_xaxes=share_x, shared_yaxes=share_y,
 	                       subplot_titles=apply(subtitles, to_string),
-	                       row_titles=repeat(to_string(title_y), row_count),
-	                       column_titles=repeat(to_string(title_x), row_count))
+	                       x_title=title_x, y_title=title_y)
 	update_layout(fig,
 	              auto_size=auto_size,
 	              axis_color=axis_color, axis_width=axis_width,
