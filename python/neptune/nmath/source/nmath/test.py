@@ -45,9 +45,8 @@ class TestStats(Test):
 			to_series(poisson.generate(SIZE, lam=10), name='Poisson')
 		]
 		df = concat_cols(series)
-		fig = descriptive.plot_multi_histogram(df, share_x=False, share_y=False)
-		fig.show()
-		fig = descriptive.plot_multi_density(df, share_x=False, share_y=False)
+		fig = descriptive.plot_multi_histogram(df, share_x=False, share_y=False, opacity=0.5)
+		fig = descriptive.plot_multi_density(df, fig=fig, share_x=False, share_y=False)
 		fig.show()
 		fig = descriptive.plot_histogram(get_col(df))
 		fig.show()
@@ -126,7 +125,7 @@ class TestStats(Test):
 		test('- Mean (with series):', mean_s)
 		self.assert_equals(mean_a, mean_s)
 
-		std_a, std_s = dist_a.pdf(0), dist_s.pdf(0)
+		std_a, std_s = dist_a.std(), dist_s.std()
 		test('- Standard deviation (with arrays):', std_a)
 		test('- Standard deviation (with series):', std_s)
 		self.assert_equals(std_a, std_s)
@@ -156,14 +155,19 @@ class TestStats(Test):
 		test('- Margin (with series):', margin_s)
 		self.assert_equals(margin_a, margin_s)
 
-		interval_a, interval_s = dist_a.interval(mean=True), dist_s.interval(mean=True)
+		interval_a, interval_s = dist_a.interval(), dist_s.interval()
+		test('- Prediction interval (with arrays):', interval_a)
+		test('- Prediction interval (with series):', interval_s)
+		self.assert_equals(interval_a, interval_s)
+
+		interval_a, interval_s = dist_a.interval(is_mean=True), dist_s.interval(is_mean=True)
 		test('- Mean confidence interval (with arrays):', interval_a)
 		test('- Mean confidence interval (with series):', interval_s)
 		self.assert_equals(interval_a, interval_s)
 
-		interval_a, interval_s = dist_a.interval(), dist_s.interval()
-		test('- Confidence interval (with arrays):', interval_a)
-		test('- Confidence interval (with series):', interval_s)
+		interval_a, interval_s = dist_a.interval(is_std=True), dist_s.interval(is_std=True)
+		test('- Standard deviation confidence interval (with arrays):', interval_a)
+		test('- Standard deviation confidence interval (with series):', interval_s)
 		self.assert_equals(interval_a, interval_s)
 
 

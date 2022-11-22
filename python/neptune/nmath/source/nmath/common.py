@@ -100,11 +100,11 @@ class Distribution(ABC):
 		pass
 
 	@abstractmethod
-	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, is_mean=False, is_std=False):
 		pass
 
 	@abstractmethod
-	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, is_mean=False, is_std=False):
 		pass
 
 

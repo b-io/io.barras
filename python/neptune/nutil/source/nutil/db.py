@@ -161,7 +161,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAUL
 
 def escape(name):
 	'''Escapes the specified name (for either MSSQL or PostgreSQL).'''
-	return name.replace('\'', '\'\'').replace('%', '%%')
+	return str(name).replace('\'', '\'\'').replace('%', '%%')
 
 
 #########################
@@ -239,19 +239,27 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 
 
 def get_filtering_cols(engine, df, table, filtering_cols=None, metadata=None, schema=DEFAULT_SCHEMA,
-                       test=ASSERT):
+                       test=ASSERT, use_only_primary=True):
 	if is_null(filtering_cols):
-		filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
-		if test:
-			# Test the existence of the filtering columns in the dataframe
-			for col in filtering_cols:
-				if col not in df:
-					warn('The filtering column', quote(col), 'does not exist in the dataframe')
+		if use_only_primary:
+			filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
+			if test:
+				# Test the existence of the filtering columns in the dataframe
+				for col in filtering_cols:
+					if col not in df:
+						warn('The filtering column', quote(col), 'does not exist in the dataframe')
+		else:
+			filtering_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	filtering_cols = include_list(df, filtering_cols)
 	if test and is_empty(filtering_cols):
 		# Test the existence of any filtering column in the dataframe
 		warn('There is no filtering column')
 	return filtering_cols
+
+
+def get_cols(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
+	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	return [col.name for col in table_metadata.columns]
 
 
 def get_identity_cols(engine, table, is_mssql=DEFAULT_IS_MSSQL, verbose=VERBOSE):
@@ -480,10 +488,10 @@ def delete_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
-	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
-	                                    metadata=metadata, schema=schema, test=test)
-	table_cols = [col.name for col in table_metadata.columns]
+	                                    metadata=metadata, schema=schema, test=test,
+	                                    use_only_primary=False)
 
 	if test:
 		# Test the existence of the columns in the table
@@ -528,10 +536,10 @@ def bulk_delete_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
-	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
-	                                    metadata=metadata, schema=schema, test=test)
-	table_cols = [col.name for col in table_metadata.columns]
+	                                    metadata=metadata, schema=schema, test=test,
+	                                    use_only_primary=False)
 
 	if test:
 		# Test the existence of the columns in the table
@@ -611,9 +619,8 @@ def insert_table(engine, df, table, index=False, insert_id=None, is_mssql=DEFAUL
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
-	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	primary_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
-	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
@@ -661,8 +668,7 @@ def bulk_insert_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, index=Fa
 		df = df.reset_index()
 
 	# Get the metadata of the table
-	table_metadata = get_table_metadata(engine, table, schema=schema)
-	table_cols = [col.name for col in table_metadata.columns]
+	table_cols = get_cols(engine, table, schema=schema)
 
 	# Get the columns to insert
 	cols = get_common_cols(df, table, table_cols, test=test)
@@ -744,10 +750,9 @@ def update_table(engine, df, table, filtering_cols=None, index=False, is_mssql=D
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
-	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
 	                                    metadata=metadata, schema=schema, test=test)
-	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to update
 	cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
@@ -795,10 +800,9 @@ def bulk_update_table(engine, df, table, chunk_size=DEFAULT_CHUNK_SIZE, filterin
 
 	# Get the metadata of the table
 	metadata = create_metadata(engine, schema=schema)
-	table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
+	table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
 	filtering_cols = get_filtering_cols(engine, df, table, filtering_cols=filtering_cols,
 	                                    metadata=metadata, schema=schema, test=test)
-	table_cols = [col.name for col in table_metadata.columns]
 
 	# Get the columns to update
 	cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)

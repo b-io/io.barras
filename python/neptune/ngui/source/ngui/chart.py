@@ -503,8 +503,8 @@ def plot_multi(df, draw, *args,
                width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None,
                # Chart
                colors=DEFAULT_COLORS, **kwargs):
+	row_count, col_count = get_grid_size(df, row_count=row_count, col_count=col_count)
 	if is_null(fig):
-		row_count, col_count = get_grid_size(df, row_count=row_count, col_count=col_count)
 		if is_null(subtitles):
 			subtitles = get_names(df)
 		fig = create_figures(row_count, col_count,

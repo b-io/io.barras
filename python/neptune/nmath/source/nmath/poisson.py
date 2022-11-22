@@ -88,20 +88,20 @@ class Poisson(Distribution):
 	def inv_cdf(self, q):
 		return inv_cdf(q, lam=self.lam)
 
-	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
+	def margin(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, is_mean=False, is_std=False):
 		# Confidence interval
-		if mean or std:
-			q = normal.quantile(cl=cl, tail=tail, dof=self.size - 1, std=std)
-			if mean:
+		if is_mean or is_std:
+			q = normal.quantile(cl=cl, tail=tail, dof=self.size - 1, is_std=is_std)
+			if is_mean:
 				return multiply(q / sqrt(self.size), self.std())
-			elif std:
-				return multiply(sqrt((self.size - 1) / q), self.std())
+			elif is_std:
+				return sort(subtract(multiply(sqrt((self.size - 1) / q), self.std()), self.std()))
 		# Prediction interval
 		return subtract(interval(cl=cl, tail=tail, lam=self.lam), self.mean())
 
-	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, mean=False, std=False):
-		margin = self.margin(cl=cl, tail=tail, mean=mean, std=std)
-		if std:
+	def interval(self, cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, is_mean=False, is_std=False):
+		margin = self.margin(cl=cl, tail=tail, is_mean=is_mean, is_std=is_std)
+		if is_std:
 			return add(self.std(), margin)
 		return add(self.mean(), margin)
 
@@ -133,8 +133,8 @@ def inv_cdf(q, lam=1):
 
 #########################
 
-def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, lam=1, std=False):
-	if std:
+def quantile(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, dof=None, lam=1, is_std=False):
+	if is_std:
 		return normal.chi2(dof, cl=cl, tail=tail, sigma=sqrt(lam))
 	return interval(cl=cl, tail=tail, lam=lam)
 
