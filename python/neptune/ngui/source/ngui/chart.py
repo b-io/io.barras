@@ -90,7 +90,7 @@ def get_grid_size(n, row_count=None, col_count=None):
 
 
 def get_hover_template(index):
-	if not is_null(index):
+	if not is_empty(index):
 		return collapse('<b>%{customdata}</b><br />',
 		                '<b>x:</b> %{x}<br />',
 		                '<b>y:</b> %{y}')
@@ -439,8 +439,8 @@ def draw(x, y=None,
 	if is_null(y):
 		x = to_array(get_index(data))
 		y = get_values(data)
-	elif is_null(index):
-		index = get_index(data)
+	elif is_null(index) and is_frame(data):
+		index = to_array(get_index(data))
 	if is_null(name):
 		name = get_name(data)
 	name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)

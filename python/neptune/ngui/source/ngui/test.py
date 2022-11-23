@@ -39,14 +39,14 @@ class TestGui(Test):
 		rgb_buffer = rotate_anti_90(generate_image(300, 200, 3))
 		fig = px.imshow(rgb_buffer)
 
-		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_jpg(fig))))), 366623529)
-		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_png(fig))))), 523711948)
-		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_webp(fig))))), 366695046)
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_jpg(fig))))), 367126580)
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_png(fig))))), 524221335)
+		self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_webp(fig))))), 367221029)
 
-		self.assert_equals(fig_to_jpg_html(fig)[-42:-10], 'AFFFFABRRRQAUUUUAFFFFABRRRQAUUUU')
-		self.assert_equals(fig_to_png_html(fig)[-42:-10], 'EAAACQ0P8DbOWjMNOJ6o0AAAAASUVORK')
+		self.assert_equals(fig_to_jpg_html(fig)[-42:-10], 'FABRRRQAUUUUAFFFFABRRRQAUUUUAFFF')
+		self.assert_equals(fig_to_png_html(fig)[-42:-10], 'AAAAAg0v8FMImIFolHcksAAAAASUVORK')
 		self.assert_equals(fig_to_svg_html(fig)[-42:-10], 'g-xtitle"/><g class="g-ytitle"/>')
-		self.assert_equals(fig_to_webp_html(fig)[-42:-10], 'Mf5z/Of5z/OP9x/uP8x/mP8x/nP85/nP')
+		self.assert_equals(fig_to_webp_html(fig)[-42:-10], '5z/7n/3H/uP/ef+8/95/5z/7n/3H/uv8')
 
 	#####################
 

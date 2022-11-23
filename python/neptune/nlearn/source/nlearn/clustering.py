@@ -132,13 +132,12 @@ def plot_clusters(points, classes, means=None, covariances=None, labels=None, st
 			fig = create_figure(title=title, title_x=title_x, title_y=title_y,
 			                    width=width, height=height, margin=margin)
 	if is_null(index) and is_frame(points):
-		index = get_index(points)
+		index = to_array(get_index(points))
 	colors = get_iterator(to_list(colors), cycle=True)
 
 	# Convert the points, classes and index to arrays
 	points = to_array(points)
 	classes = to_array(classes)
-	index = to_array(index) if not is_null(index) else None
 
 	for i, c in enumerate(sort(to_set(classes))):
 		# Skip the classes that are not present
@@ -249,7 +248,7 @@ def plot_detector(points, detector,
 		fig = create_figure(title=title, title_x=title_x, title_y=title_y,
 		                    width=width, height=height, margin=margin)
 	if is_null(index) and is_frame(points):
-		index = get_index(points)
+		index = to_array(get_index(points))
 
 	# Draw the cluster points
 	if show_points:
