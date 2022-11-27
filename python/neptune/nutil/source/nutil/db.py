@@ -150,9 +150,9 @@ def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAUL
 		return ''
 	return paste('WHERE',
 	             collapse([collapse(format_name(col),
-	                                ' IS ' if is_null(filtering_row[col])
-	                                else ' IN ' if is_collection(filtering_row[col])
-	                                else '=',
+	                                ' IS ' if is_null(filtering_row[col]) else
+	                                ' IN ' if is_collection(filtering_row[col]) else
+	                                '=',
 	                                format(filtering_row[col], is_mssql=is_mssql)) for col in cols],
 	                      delimiter=' AND '))
 
@@ -173,10 +173,12 @@ def format_name(name):
 	return dquote(name)
 
 
-def format_cols(*cols):
+def format_cols(*cols, suffixes=None):
 	'''Formats the specified column names (for either MSSQL or PostgreSQL).'''
-	cols = remove_empty(to_collection(*cols))
-	return collist([format_name(col) for col in cols])
+	cols = [format_name(col) for col in remove_empty(to_collection(*cols))]
+	if not is_null(suffixes):
+		cols = [paste(col, suffix) for col, suffix in zip(cols, suffixes)]
+	return collist(cols)
 
 
 def format(value, is_mssql=DEFAULT_IS_MSSQL):
@@ -379,8 +381,8 @@ __DB_SELECT_______________________________________ = ''
 
 
 def create_select_table_where_query(table, cols=None, filtering_cols=None, filtering_row=None,
-                                    is_mssql=DEFAULT_IS_MSSQL, n=None, order='ASC',
-                                    schema=DEFAULT_SCHEMA):
+                                    is_mssql=DEFAULT_IS_MSSQL, n=None, order_cols=None,
+                                    order_directions=None, schema=DEFAULT_SCHEMA):
 	'''Creates the query to select the specified columns of the rows matching the specified
 	filtering row at the specified filtering columns from the specified table (in the specified
 	schema).'''
@@ -389,7 +391,8 @@ def create_select_table_where_query(table, cols=None, filtering_cols=None, filte
 	             'FROM', get_full_table_name(table, schema=schema),
 	             create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row,
 	                                 is_mssql=is_mssql),
-	             paste('ORDER BY', format_cols(cols), order) if not is_empty(cols) else '',
+	             paste('ORDER BY', format_cols(order_cols, suffixes=order_directions))
+	             if not is_empty(order_cols) else '',
 	             paste('LIMIT', n) if not is_null(n) and not is_mssql else '') + ';'
 
 
@@ -427,7 +430,8 @@ def select_table(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, index=
 
 def select_table_where(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, filtering_cols=None,
                        filtering_row=None, index=False, index_cols=None, is_mssql=DEFAULT_IS_MSSQL,
-                       n=None, order='ASC', row_count=-1, schema=DEFAULT_SCHEMA, verbose=VERBOSE):
+                       n=None, order_cols=None, order_directions=None, row_count=-1,
+                       schema=DEFAULT_SCHEMA, verbose=VERBOSE):
 	'''Selects the specified columns of the rows matching the specified filtering row at the
 	specified filtering columns from the specified table (in the specified schema) and returns them
 	in a dataframe.'''
@@ -442,7 +446,9 @@ def select_table_where(engine, table, chunk_size=DEFAULT_CHUNK_SIZE, cols=None, 
 	chunks = pd.read_sql(create_select_table_where_query(table, cols=cols,
 	                                                     filtering_cols=filtering_cols,
 	                                                     filtering_row=filtering_row,
-	                                                     is_mssql=is_mssql, n=n, order=order,
+	                                                     is_mssql=is_mssql, n=n,
+	                                                     order_cols=order_cols,
+	                                                     order_directions=order_directions,
 	                                                     schema=schema),
 	                     engine, chunksize=chunk_size, columns=cols, index_col=index_cols)
 	if is_null(chunk_size):
