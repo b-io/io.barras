@@ -26,7 +26,7 @@ from nlearn.common import *
 
 __NLP_PROPERTIES__________________________________ = ''
 
-WORD_VECTOR_PATH = LEARN_PROPS.get('wordVectorPath')
+WORD_VECTOR_PATH = CONFIG.get('nlp', 'wordVectorPath')
 
 ####################################################################################################
 # NLP CONSTANTS

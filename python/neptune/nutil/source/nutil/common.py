@@ -15,6 +15,7 @@
 ####################################################################################################
 
 import cProfile
+import configparser
 import csv
 import functools
 import inspect
@@ -41,7 +42,6 @@ from pstats import SortKey
 from typing import Iterable, MutableSet, OrderedDict, Sequence
 from urllib.request import urlopen
 
-import javaproperties as prop
 import numpy as np
 import pandas as pd
 import validators
@@ -217,6 +217,16 @@ class OrderedSet(MutableSet, Sequence):
 		self.elements.pop(element, None)
 
 
+##################################################
+
+class EnvInterpolation(configparser.BasicInterpolation):
+	'''Extends the basic property parser to handle environment variables.'''
+
+	def before_get(self, parser, section, option, value, defaults):
+		value = super().before_get(parser, section, option, value, defaults)
+		return os.path.expandvars(value)
+
+
 ####################################################################################################
 # COMMON CONSTANTS
 ####################################################################################################
@@ -236,6 +246,10 @@ DEFAULT_SEVERITY_LEVEL = 4
 
 # The default flag specifying whether to enable the verbose mode
 DEFAULT_VERBOSE = True
+
+##################################################
+
+CONFIG = configparser.ConfigParser(interpolation=EnvInterpolation())
 
 ##################################################
 
@@ -976,100 +990,81 @@ def write_json(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=Fa
 __COMMON_PROPERTIES_______________________________ = ''
 
 
-def load_props(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
-	'''Returns the properties with the specified filename in the specified directory.'''
-	with open(find_path(filename + '.properties', dir=dir, subdir=subdir), 'r') as f:
-		return prop.load(f)
+def get_config_path(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
+	'''Returns the path to the properties with the specified filename in the specified directory.'''
+	return find_path(filename + '.properties', dir=dir, subdir=subdir)
+
+
+def load_config(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
+	'''Loads the properties with the specified filename in the specified directory.'''
+	return CONFIG.read(get_config_path(filename, dir=dir, subdir=subdir))
+
+
+def escape_property(property):
+	return property.replace('%', '%%') if not is_null(property) else None
 
 
 #########################
 
-# The default properties
-DEFAULT_PROPS = {
-	# • COMMON
-	# Assert
-	'assert': DEFAULT_ASSERT,
-	# Environment (local, dev, test, model, prod)
-	'env': DEFAULT_ENV,
+# The default configuration
+DEFAULT_CONFIG = {
+	'common': {
+		# Assert
+		'assert': DEFAULT_ASSERT,
+		# Environment (local, dev, test, model, prod)
+		'env': DEFAULT_ENV
+	},
 
-	# • CONSOLE
-	# Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
-	'severityLevel': DEFAULT_SEVERITY_LEVEL,
-	# Verbose
-	'verbose': DEFAULT_VERBOSE,
+	'console': {
+		# Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
+		'severityLevel': DEFAULT_SEVERITY_LEVEL,
+		# Verbose
+		'verbose': DEFAULT_VERBOSE
+	},
 
-	# • DATE
-	# Date format
-	'dateFormat': DEFAULT_DATE_FORMAT,
-	# Time format
-	'timeFormat': DEFAULT_TIME_FORMAT,
-	# Frequency (D, W, M, Q, S, Y)
-	'frequency': DEFAULT_FREQUENCY.value,
-	# Group (count, first, last, min, max, mean, median, std, var, sum)
-	'group': DEFAULT_GROUP.value,
-	# Period
-	'period': DEFAULT_PERIOD
+	'date': {
+		# Date format
+		'dateFormat': escape_property(DEFAULT_DATE_FORMAT),
+		# Time format
+		'timeFormat': escape_property(DEFAULT_TIME_FORMAT),
+		# Frequency (D, W, M, Q, S, Y)
+		'frequency': DEFAULT_FREQUENCY.value,
+		# Group (count, first, last, min, max, mean, median, std, var, sum)
+		'group': DEFAULT_GROUP.value,
+		# Period
+		'period': DEFAULT_PERIOD
+	}
 }
-try:
-	PROPS = load_props('common')
-except FileNotFoundError as ex:
-	PROPS = DEFAULT_PROPS
-
-
-def get_bool_prop(name, default=None):
-	prop = PROPS.get(name, default)
-	if is_null(prop):
-		return prop
-	elif is_bool(prop):
-		return prop
-	return strtobool(str(prop))
-
-
-def get_float_prop(name, default=None):
-	prop = PROPS.get(name, default)
-	if is_null(prop):
-		return prop
-	elif is_float(prop):
-		return prop
-	return float(prop)
-
-
-def get_int_prop(name, default=None):
-	prop = PROPS.get(name, default)
-	if is_null(prop):
-		return prop
-	elif is_int(prop):
-		return prop
-	return int(prop)
-
+CONFIG.read_dict(DEFAULT_CONFIG)
+load_config('common')
 
 ##################################################
 
 # The flag specifying whether to assert
-ASSERT = get_bool_prop('assert', DEFAULT_ASSERT)
+ASSERT = CONFIG.getboolean('common', 'assert')
 
 # The environment
-ENV = Environment(PROPS.get('env', DEFAULT_ENV))
+ENV = Environment(CONFIG.get('common', 'env'))
 
 # • CONSOLE ########################################################################################
 
 __CONSOLE_PROPERTIES______________________________ = ''
 
 # The severity level
-SEVERITY_LEVEL = SeverityLevel(get_int_prop('severityLevel', DEFAULT_SEVERITY_LEVEL))
+SEVERITY_LEVEL = SeverityLevel(CONFIG.getint('console', 'severityLevel'))
 
 # The flag specifying whether to enable the verbose mode
-VERBOSE = get_bool_prop('verbose', DEFAULT_VERBOSE)
+VERBOSE = CONFIG.getboolean('console', 'verbose')
 
 # • DATE ###########################################################################################
 
 __DATE_PROPERTIES_________________________________ = ''
 
 # The date format
-DATE_FORMAT = PROPS.get('dateFormat', DEFAULT_DATE_FORMAT)
+DATE_FORMAT = CONFIG.get('date', 'dateFormat')
 
 # The time format
-TIME_FORMAT = PROPS.get('timeFormat', DEFAULT_TIME_FORMAT)
+TIME_FORMAT = CONFIG.get('date', 'timeFormat')
 
 # The date-time format
 DATE_TIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
@@ -1077,13 +1072,13 @@ DATE_TIME_FORMAT = DATE_FORMAT + ' ' + TIME_FORMAT
 #########################
 
 # The frequency
-FREQUENCY = Frequency(PROPS.get('frequency', DEFAULT_FREQUENCY.value))
+FREQUENCY = Frequency(CONFIG.get('date', 'frequency'))
 
 # The group
-GROUP = Group(PROPS.get('group', DEFAULT_GROUP.value))
+GROUP = Group(CONFIG.get('date', 'group'))
 
 # The period
-PERIOD = PROPS.get('period', DEFAULT_PERIOD)
+PERIOD = CONFIG.get('date', 'period')
 
 ####################################################################################################
 # COMMON ACCESSORS

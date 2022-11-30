@@ -38,8 +38,8 @@ LICENSE_FILES = ['LICENSE']
 URL = 'https://github.com/b-io/io.barras/tree/master/python/neptune/nutil'
 
 PACKAGES = [
-	'javaproperties', 'multiprocess', 'numpy', 'pandas', 'psutil', 'python-dateutil', 'requests',
-	'sqlalchemy', 'tabulate', 'validators'
+	'multiprocess', 'numpy', 'pandas', 'psutil', 'python-dateutil', 'requests', 'sqlalchemy',
+	'tabulate', 'validators'
 ]
 
 ####################################################################################################

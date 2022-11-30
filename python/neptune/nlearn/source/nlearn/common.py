@@ -23,16 +23,15 @@ from nutil.math import *
 
 __LEARN_PROPERTIES________________________________ = ''
 
-# The default LEARN properties
-DEFAULT_LEARN_PROPS = {
-	# • NLP
-	# Pre-trained word vector path
-	'wordVectorPath': None
+# The default LEARN configuration
+DEFAULT_LEARN_CONFIG = {
+	'nlp': {
+		# Pre-trained word vector path
+		'wordVectorPath': None
+	}
 }
-try:
-	LEARN_PROPS = load_props('learn')
-except FileNotFoundError as ex:
-	LEARN_PROPS = DEFAULT_LEARN_PROPS
+CONFIG.read_dict(DEFAULT_LEARN_CONFIG)
+load_config('learn')
 
 ####################################################################################################
 # LEARN COMMON FUNCTIONS
