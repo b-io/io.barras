@@ -1139,7 +1139,7 @@ def get_all_attributes(obj):
 __COLLECTION_ACCESSORS____________________________ = ''
 
 
-def get(c, index=0,
+def get(c, index,
         axis=0):
 	if is_empty(c) or not is_subscriptable_collection(c):
 		return c
@@ -1156,12 +1156,12 @@ def get(c, index=0,
 
 def get_first(c,
               axis=0):
-	return get(c, index=0, axis=axis)
+	return get(c, 0, axis=axis)
 
 
 def get_last(c,
              axis=0):
-	return get(c, index=-1, axis=axis)
+	return get(c, -1, axis=axis)
 
 
 def get_iterator(c, cycle=False):
