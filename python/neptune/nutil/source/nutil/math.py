@@ -73,10 +73,18 @@ def sqrt(x):
 
 #########################
 
+def normalize(x, axis=0):
+	return x / np.expand_dims(np.sum(x, axis=axis), axis)
+
+
 def scale(x, base=10):
 	if is_collection(x):
 		return apply(x, scale, axis=1, base=base)
 	return x / base ** floor(log(maximum(abs(x)) + EPS) / log(base))
+
+
+def softmax(x, axis=0):
+	return normalize(exp(x), axis=axis)
 
 
 # • MATH ARITHMETIC ################################################################################
