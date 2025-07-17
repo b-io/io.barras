@@ -49,6 +49,7 @@ import javax.mail.search.SearchTerm;
 import javax.mail.search.SubjectTerm;
 
 import jupiter.common.exception.IllegalTypeException;
+import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.properties.Properties;
 import jupiter.common.struct.list.ExtendedLinkedList;
@@ -367,13 +368,7 @@ public class MailHandler
 					}
 				}
 			} finally {
-				if (store != null) {
-					try {
-						store.close();
-					} catch (final MessagingException ex) {
-						IO.error(ex);
-					}
-				}
+				Resources.closeAuto(store);
 			}
 		} catch (final MessagingException ex) {
 			IO.error(ex);
