@@ -20,7 +20,7 @@
 	<properties>
 		<!-- Apache Commons and HTTP (for the file and web packages) -->
 		<apache.io.version>2.6</apache.io.version>
-		<apache.net.version>3.6</apache.net.version>
+		<apache.net.version>3.9.0</apache.net.version>
 		<apache.http.version>4.5.10</apache.http.version>
 		<!-- JCraft (for the ftp package) -->
 		<jcraft.jsch.version>0.1.55</jcraft.jsch.version>
