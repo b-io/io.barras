@@ -14,7 +14,21 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common.collections import *
+from nutil.common.collections import (
+    MutableSet,
+    OrderedDict,
+    Sequence,
+    configparser,
+    get_next,
+    has_filter,
+    is_collection,
+    is_dict,
+    is_empty,
+    is_null,
+    os,
+    to_collection,
+    to_list,
+)
 
 ####################################################################################################
 # COMMON SET CLASSES

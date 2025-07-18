@@ -7,13 +7,9 @@ from nutil import is_collection, quote
 class ErrorList(List[Any]):
     """A specialized list for grouping multiple error values."""
 
-    pass
-
 
 class ExpectedTypeList(List[type]):
     """A specialized list for grouping multiple expected types."""
-
-    pass
 
 
 def format_error_items(

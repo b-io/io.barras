@@ -102,6 +102,7 @@ NA_NAME = "N/A"
 
 __COMMON_VERIFIERS________________________________ = ""
 
+
 def is_null(x):
     return x is None or is_nan(x)
 

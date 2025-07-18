@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common.collections import *
+from nutil.common.collections import has_filter, is_collection, is_dict, is_empty, is_null, to_set
 
 ####################################################################################################
 # COMMON LIST CONSTANTS

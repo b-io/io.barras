@@ -28,14 +28,17 @@ TUPLE_TYPE = tuple
 
 __COMMON_TUPLE_VERIFIERS__________________________ = ""
 
+
 def is_tuple(x):
     return isinstance(x, TUPLE_TYPE)
+
 
 ####################################################################################################
 # COMMON TUPLE CONVERTERS
 ####################################################################################################
 
 __COMMON_TUPLE_CONVERTERS_________________________ = ""
+
 
 def to_tuple(*args):
     if len(args) == 1:
