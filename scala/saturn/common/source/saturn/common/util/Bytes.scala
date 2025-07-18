@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ object Bytes {
 	/**
 	 * Returns the {@link Array} of {@link Byte} of the specified hexadecimal representative
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @return the {@link Array} of {@link Byte} of the specified hexadecimal representative
 	 *         {@link String}
 	 */
@@ -60,7 +60,7 @@ object Bytes {
 
 	/**
 	 * Returns the hexadecimal representative {@link String} of the specified {@link Byte}.
-	 * <p>
+	 *
 	 * @return the hexadecimal representative {@link String} of the specified {@link Byte}
 	 */
 	def toString(byte: Byte): String = "%02X".format(byte & 0xff)
@@ -68,7 +68,7 @@ object Bytes {
 	/**
 	 * Returns the hexadecimal representative {@link String} of the specified {@link Array} of
 	 * {@link Byte}.
-	 * <p>
+	 *
 	 * @return the hexadecimal representative {@link String} of the specified {@link Array} of
 	 *         {@link Byte}
 	 */

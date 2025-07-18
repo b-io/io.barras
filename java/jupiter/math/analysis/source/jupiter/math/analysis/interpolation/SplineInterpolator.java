@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -79,7 +79,7 @@ public class SplineInterpolator
 	/**
 	 * Constructs a {@link SplineInterpolator} with the specified {@code XY}-coordinates of the
 	 * control points and tangents.
-	 * <p>
+	 *
 	 * @param X the {@code double} x-coordinates of the control points, strictly increasing
 	 * @param Y the {@code double} y-coordinates of the control points
 	 * @param M the {@code double} tangents
@@ -98,19 +98,17 @@ public class SplineInterpolator
 
 	/**
 	 * Creates a {@link SplineInterpolator} from the specified set of control points.
-	 * <p>
+	 *
 	 * The spline is guaranteed to pass through each control point exactly. Moreover, assuming the
 	 * control points are monotonic ({@code Y} is non-decreasing or non-increasing) then the
 	 * interpolated values are also monotonic.
-	 * <p>
+	 *
 	 * This function uses the Fritsch-Carlson method for computing the spline parameters.
 	 * http://en.wikipedia.org/wiki/Monotone_cubic_interpolation
-	 * <p>
+	 *
 	 * @param X the {@code double} x-coordinates of the control points, strictly increasing
 	 * @param Y the {@code double} y-coordinates of the control points
-	 * <p>
 	 * @return a monotone cubic spline from the specified set of control points
-	 * <p>
 	 * @throws IllegalArgumentException if {@code X} or {@code Y} is {@code null}, have different
 	 *                                  lengths or have less than two values
 	 */
@@ -167,9 +165,8 @@ public class SplineInterpolator
 	/**
 	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x} between
 	 * {@code fromPoint} and {@code toPoint}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 */
 	@Override
@@ -199,9 +196,8 @@ public class SplineInterpolator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -217,7 +213,7 @@ public class SplineInterpolator
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

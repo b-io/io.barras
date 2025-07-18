@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 
 /**
  * {@link JSONObject} is the {@link ExtendedHashMap} containing the JSON key-value mappings.
@@ -60,9 +60,8 @@ public class JSONObject
 
 	/**
 	 * Constructs an empty {@link JSONObject} with the specified initial capacity.
-	 * <p>
+	 *
 	 * @param initialCapacity the initial capacity
-	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public JSONObject(final int initialCapacity) {
@@ -74,12 +73,11 @@ public class JSONObject
 	/**
 	 * Constructs a {@link JSONObject} loaded from the specified key and value arrays containing the
 	 * key-value mappings.
-	 * <p>
+	 *
 	 * @param keys   the array of {@link String} containing the keys of the key-value mappings to
 	 *               load
 	 * @param values the array of {@link Object} containing the values of the key-value mappings to
 	 *               load
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public JSONObject(final String[] keys, final Object[] values) {
@@ -89,11 +87,10 @@ public class JSONObject
 	/**
 	 * Constructs a {@link JSONObject} loaded from the specified key array and value
 	 * {@link Collection} containing the key-value mappings.
-	 * <p>
+	 *
 	 * @param keys   the array of {@link String} containing the keys of the key-value mappings to
 	 *               load
 	 * @param values the {@link Collection} containing the values of the key-value mappings to load
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public JSONObject(final String[] keys, final Collection<?> values) {
@@ -103,11 +100,10 @@ public class JSONObject
 	/**
 	 * Constructs a {@link JSONObject} loaded from the specified key and value {@link Collection}
 	 * containing the key-value mappings.
-	 * <p>
+	 *
 	 * @param keys   the {@link Collection} of {@link String} containing the keys of the key-value
 	 *               mappings to load
 	 * @param values the {@link Collection} containing the values of the key-value mappings to load
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public JSONObject(final Collection<String> keys, final Collection<?> values) {
@@ -119,7 +115,7 @@ public class JSONObject
 	/**
 	 * Constructs a {@link JSONObject} loaded from the specified {@link Map} containing the
 	 * key-value mappings.
-	 * <p>
+	 *
 	 * @param map the {@link Map} containing the key-value mappings to load
 	 */
 	public JSONObject(final Map<String, ?> map) {
@@ -133,7 +129,7 @@ public class JSONObject
 
 	/**
 	 * Returns a JSON {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a JSON {@link String} of {@code this}
 	 */
 	public String stringify() {
@@ -142,10 +138,9 @@ public class JSONObject
 
 	/**
 	 * Returns a JSON {@link String} of the specified JSON key-value mappings.
-	 * <p>
+	 *
 	 * @param keys the array of key {@link String} of the key-value mappings to represent as a JSON
 	 *             {@link String} (may be {@code null})
-	 * <p>
 	 * @return a JSON {@link String} of the specified key-value mapping
 	 */
 	public String stringify(final String... keys) {
@@ -156,10 +151,9 @@ public class JSONObject
 
 	/**
 	 * Returns a JSON entry {@link String} of the specified key-value mapping.
-	 * <p>
+	 *
 	 * @param key the key {@link String} of the key-value mapping to represent as a JSON entry
 	 *            {@link String} (may be {@code null})
-	 * <p>
 	 * @return a JSON entry {@link String} of the specified key-value mapping
 	 */
 	public String stringifyNode(final String key) {
@@ -173,9 +167,8 @@ public class JSONObject
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -187,7 +180,7 @@ public class JSONObject
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

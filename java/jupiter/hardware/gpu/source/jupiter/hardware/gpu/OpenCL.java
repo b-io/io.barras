@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import java.lang.ref.WeakReference;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.test.StringArguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -166,7 +166,7 @@ public abstract class OpenCL
 
 	/**
 	 * Constructs an {@link OpenCL} with the specified source code {@link String}.
-	 * <p>
+	 *
 	 * @param sourceCode the source code {@link String}
 	 */
 	protected OpenCL(final String sourceCode) {
@@ -194,7 +194,7 @@ public abstract class OpenCL
 
 	/**
 	 * Returns the flag specifying whether {@code this} is active.
-	 * <p>
+	 *
 	 * @return the flag specifying whether {@code this} is active
 	 */
 	public boolean isActive() {
@@ -203,7 +203,7 @@ public abstract class OpenCL
 
 	/**
 	 * Returns the source code {@link String}.
-	 * <p>
+	 *
 	 * @return the source code {@link String}
 	 */
 	public String getSourceCode() {
@@ -212,7 +212,7 @@ public abstract class OpenCL
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of kernel names.
-	 * <p>
+	 *
 	 * @return the {@link ExtendedLinkedList} of kernel names
 	 */
 	public ExtendedLinkedList<String> getKernelNames() {
@@ -237,7 +237,7 @@ public abstract class OpenCL
 
 	/**
 	 * Sets the flag specifying whether {@code this} is active.
-	 * <p>
+	 *
 	 * @param isActive a {@code boolean} value
 	 */
 	public void setActive(final boolean isActive) {
@@ -291,14 +291,13 @@ public abstract class OpenCL
 
 	/**
 	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
-	 * <p>
+	 *
 	 * @param A                the {@code double} array to multiply
 	 * @param B                the {@code double} array to multiply
 	 * @param C                the {@code double} array to add
 	 * @param aColumnDimension the column dimension of {@code A}
 	 * @param bColumnDimension the column dimension of {@code B}
 	 * @param cColumnDimension the column dimension of {@code C}
-	 * <p>
 	 * @return {@code A . B + C}
 	 */
 	// @todo slice the matrices so that they fit into the local memory of the GPU
@@ -307,14 +306,13 @@ public abstract class OpenCL
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A       the {@code double} array to add
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 * @param length  the length of the iteration
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public abstract double[] arraySum(final double[] A, final double[] B, final double c,
@@ -342,9 +340,8 @@ public abstract class OpenCL
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -379,7 +376,7 @@ public abstract class OpenCL
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

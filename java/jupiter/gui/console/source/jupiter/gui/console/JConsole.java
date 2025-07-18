@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -75,16 +75,16 @@ import jupiter.common.io.InputOutput.SeverityLevel;
 import jupiter.common.io.console.ConsoleHandler;
 import jupiter.common.io.console.ConsoleHandler.Color;
 import jupiter.common.io.console.IConsole;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.list.Index;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.list.Index;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
 
 /**
  * {@link JConsole} is the extended JFC/Swing based console for the BeanShell desktop.
- * <p>
+ *
  * @author Florian Barras and Patrick Niemeyer (http://www.pat.net)
  */
 public class JConsole
@@ -174,7 +174,7 @@ public class JConsole
 	/**
 	 * Constructs a {@link JConsole} with the specified {@link InputStream} and
 	 * {@link OutputStream}.
-	 * <p>
+	 *
 	 * @param inputStream  the {@link InputStream} to read from
 	 * @param outputStream the {@link OutputStream} to write to
 	 */
@@ -250,7 +250,7 @@ public class JConsole
 
 	/**
 	 * Prints the {@link Icon} and terminates the line.
-	 * <p>
+	 *
 	 * @param icon the {@link Icon} to print
 	 */
 	public void println(final Icon icon) {
@@ -260,7 +260,7 @@ public class JConsole
 
 	/**
 	 * Prints the content {@link Object} and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 */
 	public void println(final Object content) {
@@ -341,7 +341,7 @@ public class JConsole
 
 	/**
 	 * Returns the {@link InputStream}.
-	 * <p>
+	 *
 	 * @return the {@link InputStream}
 	 */
 	public InputStream getIn() {
@@ -350,7 +350,7 @@ public class JConsole
 
 	/**
 	 * Returns the input line.
-	 * <p>
+	 *
 	 * @return the input line
 	 */
 	public String getInputLine() {
@@ -387,7 +387,7 @@ public class JConsole
 
 	/**
 	 * Returns the {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the {@link PrintStream}
 	 */
 	public PrintStream getOut() {
@@ -396,7 +396,7 @@ public class JConsole
 
 	/**
 	 * Returns the error {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the error {@link PrintStream}
 	 */
 	public PrintStream getErr() {
@@ -438,7 +438,7 @@ public class JConsole
 
 	/**
 	 * Sets the cursor image to the specified predefined cursor.
-	 * <p>
+	 *
 	 * @param type a type of a predefined cursor
 	 */
 	public void setCursor(final int type) {
@@ -623,7 +623,7 @@ public class JConsole
 
 	/**
 	 * Handles cut, copy and paste.
-	 * <p>
+	 *
 	 * @param event an {@link ActionEvent}
 	 */
 	public void actionPerformed(final ActionEvent event) {
@@ -903,7 +903,7 @@ public class JConsole
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

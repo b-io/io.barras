@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -639,10 +639,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code byte} value to the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param A a {@code byte} array
 	 * @param c the {@code byte} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static byte[] add(final byte[] A, final byte c) {
@@ -652,12 +651,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code byte} value to the specified {@code byte} array between the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param A         a {@code byte} array
 	 * @param c         the {@code byte} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static byte[] add(final byte[] A, final byte c, final int fromIndex,
@@ -670,10 +668,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code short} value to the specified {@code short} array.
-	 * <p>
+	 *
 	 * @param A a {@code short} array
 	 * @param c the {@code short} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static short[] add(final short[] A, final short c) {
@@ -683,12 +680,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code short} value to the specified {@code short} array between the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param A         a {@code short} array
 	 * @param c         the {@code short} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static short[] add(final short[] A, final short c, final int fromIndex,
@@ -701,10 +697,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code int} value to the specified {@code int} array.
-	 * <p>
+	 *
 	 * @param A an {@code int} array
 	 * @param c the {@code int} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static int[] add(final int[] A, final int c) {
@@ -714,12 +709,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code int} value to the specified {@code int} array between the specified
 	 * indices.
-	 * <p>
+	 *
 	 * @param A         an {@code int} array
 	 * @param c         the {@code int} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static int[] add(final int[] A, final int c, final int fromIndex,
@@ -732,10 +726,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code long} value to the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param A a {@code long} array
 	 * @param c the {@code long} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static long[] add(final long[] A, final long c) {
@@ -745,12 +738,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code long} value to the specified {@code long} array between the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param A         a {@code long} array
 	 * @param c         the {@code long} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static long[] add(final long[] A, final long c, final int fromIndex,
@@ -763,10 +755,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code float} value to the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param A a {@code float} array
 	 * @param c the {@code float} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static float[] add(final float[] A, final float c) {
@@ -776,12 +767,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code float} value to the specified {@code float} array between the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param A         a {@code float} array
 	 * @param c         the {@code float} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static float[] add(final float[] A, final float c, final int fromIndex,
@@ -794,10 +784,9 @@ public class Maths {
 
 	/**
 	 * Adds the specified {@code double} value to the specified {@code double} array.
-	 * <p>
+	 *
 	 * @param A a {@code double} array
 	 * @param c the {@code double} value to add
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static double[] add(final double[] A, final double c) {
@@ -807,12 +796,11 @@ public class Maths {
 	/**
 	 * Adds the specified {@code double} value to the specified {@code double} array between the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param A         a {@code double} array
 	 * @param c         the {@code double} value to add
 	 * @param fromIndex the index to start incrementing from (inclusive)
 	 * @param toIndex   the index to finish incrementing at (exclusive)
-	 * <p>
 	 * @return {@code A += c}
 	 */
 	public static double[] add(final double[] A, final double c, final int fromIndex,
@@ -827,11 +815,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code byte} array to add
 	 * @param B the {@code byte} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static byte[] arrayAdd(final byte[] A, final byte[] B, final byte c) {
@@ -840,13 +827,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code byte} array to add
 	 * @param B       the {@code byte} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static byte[] arrayAdd(final byte[] A, final byte[] B, final byte c, final int aOffset,
@@ -858,7 +844,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code byte} array to add
 	 * @param B         the {@code byte} array to multiply
 	 * @param c         the constant to multiply
@@ -866,7 +852,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static byte[] arrayAdd(final byte[] A, final byte[] B, final byte c, final int aOffset,
@@ -881,11 +866,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code short} array to add
 	 * @param B the {@code short} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static short[] arrayAdd(final short[] A, final short[] B, final short c) {
@@ -894,13 +878,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code short} array to add
 	 * @param B       the {@code short} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static short[] arrayAdd(final short[] A, final short[] B, final short c,
@@ -912,7 +895,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code short} array to add
 	 * @param B         the {@code short} array to multiply
 	 * @param c         the constant to multiply
@@ -920,7 +903,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static short[] arrayAdd(final short[] A, final short[] B, final short c,
@@ -935,11 +917,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code int} array to add
 	 * @param B the {@code int} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static int[] arrayAdd(final int[] A, final int[] B, final int c) {
@@ -948,13 +929,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code int} array to add
 	 * @param B       the {@code int} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static int[] arrayAdd(final int[] A, final int[] B, final int c, final int aOffset,
@@ -966,7 +946,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code int} array to add
 	 * @param B         the {@code int} array to multiply
 	 * @param c         the constant to multiply
@@ -974,7 +954,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static int[] arrayAdd(final int[] A, final int[] B, final int c, final int aOffset,
@@ -989,11 +968,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code long} array to add
 	 * @param B the {@code long} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static long[] arrayAdd(final long[] A, final long[] B, final long c) {
@@ -1002,13 +980,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code long} array to add
 	 * @param B       the {@code long} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static long[] arrayAdd(final long[] A, final long[] B, final long c, final int aOffset,
@@ -1020,7 +997,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code long} array to add
 	 * @param B         the {@code long} array to multiply
 	 * @param c         the constant to multiply
@@ -1028,7 +1005,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static long[] arrayAdd(final long[] A, final long[] B, final long c, final int aOffset,
@@ -1043,11 +1019,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code float} array to add
 	 * @param B the {@code float} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static float[] arrayAdd(final float[] A, final float[] B, final float c) {
@@ -1056,13 +1031,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code float} array to add
 	 * @param B       the {@code float} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static float[] arrayAdd(final float[] A, final float[] B, final float c,
@@ -1074,7 +1048,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code float} array to add
 	 * @param B         the {@code float} array to multiply
 	 * @param c         the constant to multiply
@@ -1082,7 +1056,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static float[] arrayAdd(final float[] A, final float[] B, final float c,
@@ -1097,11 +1070,10 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A the {@code double} array to add
 	 * @param B the {@code double} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static double[] arrayAdd(final double[] A, final double[] B, final double c) {
@@ -1110,13 +1082,12 @@ public class Maths {
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code double} array to add
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static double[] arrayAdd(final double[] A, final double[] B, final double c,
@@ -1128,7 +1099,7 @@ public class Maths {
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code double} array to add
 	 * @param B         the {@code double} array to multiply
 	 * @param c         the constant to multiply
@@ -1136,7 +1107,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	public static double[] arrayAdd(final double[] A, final double[] B, final double c,
@@ -1342,9 +1312,8 @@ public class Maths {
 
 	/**
 	 * Returns the natural logarithm of the factorial of {@code n}.
-	 * <p>
+	 *
 	 * @param n an {@code int} value
-	 * <p>
 	 * @return the natural logarithm of the factorial of {@code n}
 	 */
 	public static double factorialLog(final int n) {
@@ -1360,9 +1329,8 @@ public class Maths {
 
 	/**
 	 * Returns the Ramanujan approximation of the factorial of the specified {@code int} value.
-	 * <p>
+	 *
 	 * @param n an {@code int} value
-	 * <p>
 	 * @return the Ramanujan approximation of the factorial of the specified {@code int} value
 	 */
 	public static double factorialLimit(final int n) {
@@ -1376,10 +1344,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code byte} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static byte[] multiply(final byte[] A, final byte c) {
@@ -1388,12 +1355,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code byte} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static byte[] multiply(final byte[] A, final byte c, final int fromIndex,
@@ -1406,10 +1372,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code short} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static short[] multiply(final short[] A, final short c) {
@@ -1418,12 +1383,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code short} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static short[] multiply(final short[] A, final short c, final int fromIndex,
@@ -1436,10 +1400,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code int} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static int[] multiply(final int[] A, final int c) {
@@ -1448,12 +1411,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code int} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static int[] multiply(final int[] A, final int c, final int fromIndex,
@@ -1466,10 +1428,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code long} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static long[] multiply(final long[] A, final long c) {
@@ -1478,12 +1439,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code long} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static long[] multiply(final long[] A, final long c, final int fromIndex,
@@ -1496,10 +1456,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code float} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static float[] multiply(final float[] A, final float c) {
@@ -1508,12 +1467,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code float} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static float[] multiply(final float[] A, final float c, final int fromIndex,
@@ -1526,10 +1484,9 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c}.
-	 * <p>
+	 *
 	 * @param A the {@code double} array to add
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static double[] multiply(final double[] A, final double c) {
@@ -1538,12 +1495,11 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by {@code c} between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code double} array to add
 	 * @param c         the constant to multiply
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A *= c}
 	 */
 	public static double[] multiply(final double[] A, final double c, final int fromIndex,
@@ -1558,11 +1514,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code byte} array to add
 	 * @param B the {@code byte} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static byte[] arrayMultiply(final byte[] A, final byte[] B, final byte c) {
@@ -1572,13 +1527,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code byte} array to add
 	 * @param B       the {@code byte} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static byte[] arrayMultiply(final byte[] A, final byte[] B, final byte c,
@@ -1590,7 +1544,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code byte} array to add
 	 * @param B         the {@code byte} array to multiply
 	 * @param c         the constant to multiply
@@ -1598,7 +1552,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static byte[] arrayMultiply(final byte[] A, final byte[] B, final byte c,
@@ -1613,11 +1566,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code short} array to add
 	 * @param B the {@code short} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static short[] arrayMultiply(final short[] A, final short[] B, final short c) {
@@ -1627,13 +1579,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code short} array to add
 	 * @param B       the {@code short} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static short[] arrayMultiply(final short[] A, final short[] B, final short c,
@@ -1645,7 +1596,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code short} array to add
 	 * @param B         the {@code short} array to multiply
 	 * @param c         the constant to multiply
@@ -1653,7 +1604,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static short[] arrayMultiply(final short[] A, final short[] B, final short c,
@@ -1668,11 +1618,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code int} array to add
 	 * @param B the {@code int} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static int[] arrayMultiply(final int[] A, final int[] B, final int c) {
@@ -1682,13 +1631,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code int} array to add
 	 * @param B       the {@code int} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static int[] arrayMultiply(final int[] A, final int[] B, final int c, final int aOffset,
@@ -1700,7 +1648,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code int} array to add
 	 * @param B         the {@code int} array to multiply
 	 * @param c         the constant to multiply
@@ -1708,7 +1656,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static int[] arrayMultiply(final int[] A, final int[] B, final int c, final int aOffset,
@@ -1723,11 +1670,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code long} array to add
 	 * @param B the {@code long} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static long[] arrayMultiply(final long[] A, final long[] B, final long c) {
@@ -1737,13 +1683,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code long} array to add
 	 * @param B       the {@code long} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static long[] arrayMultiply(final long[] A, final long[] B, final long c,
@@ -1755,7 +1700,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code long} array to add
 	 * @param B         the {@code long} array to multiply
 	 * @param c         the constant to multiply
@@ -1763,7 +1708,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static long[] arrayMultiply(final long[] A, final long[] B, final long c,
@@ -1778,11 +1722,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code float} array to add
 	 * @param B the {@code float} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static float[] arrayMultiply(final float[] A, final float[] B, final float c) {
@@ -1792,13 +1735,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code float} array to add
 	 * @param B       the {@code float} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static float[] arrayMultiply(final float[] A, final float[] B, final float c,
@@ -1810,7 +1752,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code float} array to add
 	 * @param B         the {@code float} array to multiply
 	 * @param c         the constant to multiply
@@ -1818,7 +1760,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static float[] arrayMultiply(final float[] A, final float[] B, final float c,
@@ -1833,11 +1774,10 @@ public class Maths {
 
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element.
-	 * <p>
+	 *
 	 * @param A the {@code double} array to add
 	 * @param B the {@code double} array to multiply
 	 * @param c the constant to multiply
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static double[] arrayMultiply(final double[] A, final double[] B, final double c) {
@@ -1847,13 +1787,12 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets.
-	 * <p>
+	 *
 	 * @param A       the {@code double} array to add
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static double[] arrayMultiply(final double[] A, final double[] B, final double c,
@@ -1865,7 +1804,7 @@ public class Maths {
 	/**
 	 * Multiplies {@code A} by the multiplication of {@code B} by {@code c} element-by-element from
 	 * the specified offsets between the specified indices.
-	 * <p>
+	 *
 	 * @param A         the {@code double} array to add
 	 * @param B         the {@code double} array to multiply
 	 * @param c         the constant to multiply
@@ -1873,7 +1812,6 @@ public class Maths {
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code A .*= c * B}
 	 */
 	public static double[] arrayMultiply(final double[] A, final double[] B, final double c,
@@ -1903,9 +1841,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x a {@code byte} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static byte abs(final byte x) {
@@ -1914,9 +1851,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x a {@code short} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static short abs(final short x) {
@@ -1925,9 +1861,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x an {@code int} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static int abs(final int x) {
@@ -1937,9 +1872,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x a {@code long} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static long abs(final long x) {
@@ -1949,9 +1883,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x a {@code float} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static float abs(final float x) {
@@ -1960,9 +1893,8 @@ public class Maths {
 
 	/**
 	 * Returns the absolute value of {@code x}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
-	 * <p>
 	 * @return {@code abs(x)}
 	 */
 	public static double abs(final double x) {
@@ -2013,10 +1945,9 @@ public class Maths {
 
 	/**
 	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param base     an {@code int} value
 	 * @param exponent an {@code int} value
-	 * <p>
 	 * @return the value of the specified base raised to the power of the specified exponent
 	 */
 	public static int pow(final int base, final int exponent) {
@@ -2025,10 +1956,9 @@ public class Maths {
 
 	/**
 	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param base     a {@code long} value
 	 * @param exponent a {@code long} value
-	 * <p>
 	 * @return the value of the specified base raised to the power of the specified exponent
 	 */
 	public static long pow(final long base, final long exponent) {
@@ -2037,10 +1967,9 @@ public class Maths {
 
 	/**
 	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param base     a {@code float} value
 	 * @param exponent a {@code float} value
-	 * <p>
 	 * @return the value of the specified base raised to the power of the specified exponent
 	 */
 	public static float pow(final float base, final float exponent) {
@@ -2049,10 +1978,9 @@ public class Maths {
 
 	/**
 	 * Returns the value of the specified base raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param base     a {@code double} value
 	 * @param exponent a {@code double} value
-	 * <p>
 	 * @return the value of the specified base raised to the power of the specified exponent
 	 */
 	public static double pow(final double base, final double exponent) {
@@ -2063,9 +1991,8 @@ public class Maths {
 
 	/**
 	 * Returns {@code 2} raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param exponent an {@code int} value
-	 * <p>
 	 * @return {@code 2} raised to the power of the specified exponent
 	 */
 	public static int pow2(final int exponent) {
@@ -2074,9 +2001,8 @@ public class Maths {
 
 	/**
 	 * Returns {@code 2L} raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param exponent a {@code long} value
-	 * <p>
 	 * @return {@code 2L} raised to the power of the specified exponent
 	 */
 	public static long pow2(final long exponent) {
@@ -2114,9 +2040,8 @@ public class Maths {
 	/**
 	 * Returns the sign of {@code x}; {@code 0f} if {@code x} is equal to {@code 0f}, {@code 1f} if
 	 * {@code x} is greater than {@code 0f}, or {@code -1f} if {@code x} is less than {@code 0f}.
-	 * <p>
+	 *
 	 * @param x a {@code float} value
-	 * <p>
 	 * @return the sign of {@code x}; {@code 0f} if {@code x} is equal to {@code 0f}, {@code 1f} if
 	 *         {@code x} is greater than {@code 0f}, or {@code -1f} if {@code x} is less than
 	 *         {@code 0f}
@@ -2128,9 +2053,8 @@ public class Maths {
 	/**
 	 * Returns the sign of {@code x}; {@code 0.} if {@code x} is equal to {@code 0.}, {@code 1.} if
 	 * {@code x} is greater than {@code 0.}, or {@code -1.} if {@code x} is less than {@code 0.}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
-	 * <p>
 	 * @return the sign of {@code x}; {@code 0.} if {@code x} is equal to {@code 0.}, {@code 1.} if
 	 *         {@code x} is greater than {@code 0.}, or {@code -1.} if {@code x} is less than
 	 *         {@code 0.}
@@ -2174,10 +2098,9 @@ public class Maths {
 
 	/**
 	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
-	 * <p>
+	 *
 	 * @param a an {@code int} value
 	 * @param b another {@code int} value
-	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code a} and {@code b}
 	 */
 	public static int gcd(final int a, final int b) {
@@ -2192,10 +2115,9 @@ public class Maths {
 
 	/**
 	 * Returns the greatest common divisor (GCD) of {@code a} and {@code b}.
-	 * <p>
+	 *
 	 * @param a a {@code long} value
 	 * @param b another {@code long} value
-	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code a} and {@code b}
 	 */
 	public static long gcd(final long a, final long b) {
@@ -2212,10 +2134,9 @@ public class Maths {
 
 	/**
 	 * Returns the least common multiple (LCM) of {@code a} and {@code b}.
-	 * <p>
+	 *
 	 * @param a an {@code int} value
 	 * @param b another {@code int} value
-	 * <p>
 	 * @return the least common multiple (LCM) of {@code a} and {@code b}
 	 */
 	public static int lcm(final int a, final int b) {
@@ -2224,10 +2145,9 @@ public class Maths {
 
 	/**
 	 * Returns the least common multiple (LCM) of {@code a} and {@code b}.
-	 * <p>
+	 *
 	 * @param a a {@code long} value
 	 * @param b another {@code long} value
-	 * <p>
 	 * @return the least common multiple (LCM) of {@code a} and {@code b}
 	 */
 	public static long lcm(final long a, final long b) {
@@ -2239,11 +2159,10 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
-	 * <p>
+	 *
 	 * @param x    a {@code byte} value
 	 * @param from the {@code byte} lower bound of the domain (inclusive)
 	 * @param to   the {@code byte} upper bound of the domain (inclusive)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
@@ -2260,11 +2179,10 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
-	 * <p>
+	 *
 	 * @param x    a {@code short} value
 	 * @param from the {@code short} lower bound of the domain (inclusive)
 	 * @param to   the {@code short} upper bound of the domain (inclusive)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
@@ -2281,11 +2199,10 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
-	 * <p>
+	 *
 	 * @param x    an {@code int} value
 	 * @param from the {@code int} lower bound of the domain (inclusive)
 	 * @param to   the {@code int} upper bound of the domain (inclusive)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
@@ -2302,11 +2219,10 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}.
-	 * <p>
+	 *
 	 * @param x    a {@code long} value
 	 * @param from the {@code long} lower bound of the domain (inclusive)
 	 * @param to   the {@code long} upper bound of the domain (inclusive)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}
 	 */
@@ -2324,13 +2240,12 @@ public class Maths {
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}, {@code NaN}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param x    a {@code float} value
 	 * @param from the {@code float} lower bound of the domain (inclusive) (may be
 	 *             {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
 	 * @param to   the {@code float} upper bound of the domain (inclusive) (may be
 	 *             {@code Float.POSITIVE_INFINITY} if there is no upper bound)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to},
 	 *         {@code NaN} otherwise
@@ -2353,13 +2268,12 @@ public class Maths {
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to}, {@code NaN}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param x    a {@code double} value
 	 * @param from the {@code double} lower bound of the domain (inclusive) (may be
 	 *             {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
 	 * @param to   the {@code double} upper bound of the domain (inclusive) (may be
 	 *             {@code Double.POSITIVE_INFINITY} if there is no upper bound)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code from} if {@code x < from}, {@code to} if {@code x > to},
 	 *         {@code NaN} otherwise
@@ -2383,13 +2297,12 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x    a {@code float} value
 	 * @param from the {@code float} lower bound of the domain (inclusive) (may be
 	 *             {@code Float.NEGATIVE_INFINITY} if there is no lower bound)
 	 * @param to   the {@code float} upper bound of the domain (inclusive) (may be
 	 *             {@code Float.POSITIVE_INFINITY} if there is no upper bound)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code NaN} otherwise
 	 */
@@ -2415,13 +2328,12 @@ public class Maths {
 	/**
 	 * Returns {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 * {@code to}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x    a {@code double} value
 	 * @param from the {@code double} lower bound of the domain (inclusive) (may be
 	 *             {@code Double.NEGATIVE_INFINITY} if there is no lower bound)
 	 * @param to   the {@code double} upper bound of the domain (inclusive) (may be
 	 *             {@code Double.POSITIVE_INFINITY} if there is no upper bound)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside the domain determined by {@code from} and
 	 *         {@code to}, {@code NaN} otherwise
 	 */
@@ -2764,10 +2676,9 @@ public class Maths {
 
 	/**
 	 * Returns {@code x} rounded up to the nearest multiple of {@code unit}.
-	 * <p>
+	 *
 	 * @param value the {@code int} value to round up
 	 * @param unit  an {@code int} value
-	 * <p>
 	 * @return {@code x} rounded up to the nearest multiple of {@code unit}
 	 */
 	public static int roundUp(final int value, final int unit) {
@@ -2780,10 +2691,9 @@ public class Maths {
 
 	/**
 	 * Returns {@code x} rounded up to the nearest multiple of {@code unit}.
-	 * <p>
+	 *
 	 * @param value the {@code long} value to round up
 	 * @param unit  a {@code long} value
-	 * <p>
 	 * @return {@code x} rounded up to the nearest multiple of {@code unit}
 	 */
 	public static long roundUp(final long value, final long unit) {
@@ -2798,9 +2708,8 @@ public class Maths {
 
 	/**
 	 * Returns the least significant bit of the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value a {@code float} value
-	 * <p>
 	 * @return {@code ulp(x)}
 	 */
 	public static float ulp(final float value) {
@@ -2812,9 +2721,8 @@ public class Maths {
 
 	/**
 	 * Returns the least significant bit of the specified value.
-	 * <p>
+	 *
 	 * @param value a {@code double} value
-	 * <p>
 	 * @return {@code ulp(x)}
 	 */
 	public static double ulp(final double value) {
@@ -2832,9 +2740,8 @@ public class Maths {
 	/**
 	 * Returns the approximate edge length of the circumscribed square of the circle of the
 	 * specified radius.
-	 * <p>
+	 *
 	 * @param radius the radius of the circle
-	 * <p>
 	 * @return the approximate edge length of the circumscribed square of the circle of the
 	 *         specified radius
 	 */
@@ -2845,9 +2752,8 @@ public class Maths {
 	/**
 	 * Returns the approximate edge length of the inscribed square of the circle of the specified
 	 * radius.
-	 * <p>
+	 *
 	 * @param radius the radius of the circle
-	 * <p>
 	 * @return the approximate edge length of the inscribed square of the circle of the specified
 	 *         radius
 	 */
@@ -2858,9 +2764,8 @@ public class Maths {
 	/**
 	 * Returns the approximate edge length of the square that has the same area of the circle of the
 	 * specified radius.
-	 * <p>
+	 *
 	 * @param radius the radius of the circle
-	 * <p>
 	 * @return the approximate edge length of the square that has the same area of the circle of the
 	 *         specified radius
 	 */
@@ -2875,9 +2780,8 @@ public class Maths {
 
 	/**
 	 * Returns the sine of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the sine of the specified angle (in radians)
 	 */
 	public static double sin(final double angle) {
@@ -2886,9 +2790,8 @@ public class Maths {
 
 	/**
 	 * Returns the secant of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the secant of the specified angle (in radians)
 	 */
 	public static double sec(final double angle) {
@@ -2897,9 +2800,8 @@ public class Maths {
 
 	/**
 	 * Returns the cosine of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the cosine of the specified angle (in radians)
 	 */
 	public static double cos(final double angle) {
@@ -2908,9 +2810,8 @@ public class Maths {
 
 	/**
 	 * Returns the cosecant of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the cosecant of the specified angle (in radians)
 	 */
 	public static double cosec(final double angle) {
@@ -2919,9 +2820,8 @@ public class Maths {
 
 	/**
 	 * Returns the tangent of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the tangent of the specified angle (in radians)
 	 */
 	public static double tan(final double angle) {
@@ -2930,9 +2830,8 @@ public class Maths {
 
 	/**
 	 * Returns the cotangent of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the cotangent of the specified angle (in radians)
 	 */
 	public static double cot(final double angle) {
@@ -2941,10 +2840,9 @@ public class Maths {
 
 	/**
 	 * Returns the hypotenuse of the specified values.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
 	 * @param y another {@code double} value
-	 * <p>
 	 * @return the hypotenuse of the specified values
 	 */
 	public static double hypot(final double x, final double y) {
@@ -2955,9 +2853,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified sine value.
-	 * <p>
+	 *
 	 * @param value a sine value
-	 * <p>
 	 * @return the inverse (in radians) of the specified sine value
 	 */
 	public static double asin(final double value) {
@@ -2966,9 +2863,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified secant value.
-	 * <p>
+	 *
 	 * @param value a secant value
-	 * <p>
 	 * @return the inverse (in radians) of the specified secant value
 	 */
 	public static double asec(final double value) {
@@ -2977,9 +2873,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cosine value.
-	 * <p>
+	 *
 	 * @param value a cosine value
-	 * <p>
 	 * @return the inverse (in radians) of the specified cosine value
 	 */
 	public static double acos(final double value) {
@@ -2988,9 +2883,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cosecant value.
-	 * <p>
+	 *
 	 * @param value a cosecant value
-	 * <p>
 	 * @return the inverse (in radians) of the specified cosecant value
 	 */
 	public static double acosec(final double value) {
@@ -2999,9 +2893,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified tangent value.
-	 * <p>
+	 *
 	 * @param value a tangent value
-	 * <p>
 	 * @return the inverse (in radians) of the specified tangent value
 	 */
 	public static double atan(final double value) {
@@ -3010,9 +2903,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified cotangent value.
-	 * <p>
+	 *
 	 * @param value a cotangent value
-	 * <p>
 	 * @return the inverse (in radians) of the specified cotangent value
 	 */
 	public static double acot(final double value) {
@@ -3023,10 +2915,9 @@ public class Maths {
 	 * Returns the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
 	 * arc tangent of {@code y / x} in the range of {@code -π} to {@code π}.
-	 * <p>
+	 *
 	 * @param x a {@code double} x-coordinate
 	 * @param y a {@code double} y-coordinate
-	 * <p>
 	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by
 	 *         computing an arc tangent of {@code y / x} in the range of {@code -π} to {@code π}
@@ -3039,10 +2930,9 @@ public class Maths {
 	 * Returns the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 * ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by computing an
 	 * arc tangent of {@code y / x} in the range of {@code 0.} to {@code 2. * π}.
-	 * <p>
+	 *
 	 * @param x a {@code double} x-coordinate
 	 * @param y a {@code double} y-coordinate
-	 * <p>
 	 * @return the angle {@code theta} from the conversion of the specified rectangular coordinates
 	 *         ({@code x}, {@code y}) to the polar coordinates ({@code r}, {@code theta}) by
 	 *         computing an arc tangent of {@code y / x} in the range of {@code 0.} to
@@ -3060,9 +2950,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic sine of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic sine of the specified angle (in radians)
 	 */
 	public static double sinh(final double angle) {
@@ -3071,9 +2960,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic secant of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic secant of the specified angle (in radians)
 	 */
 	public static double sech(final double angle) {
@@ -3082,9 +2970,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic cosine of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic cosine of the specified angle (in radians)
 	 */
 	public static double cosh(final double angle) {
@@ -3093,9 +2980,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic cosecant of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic cosecant of the specified angle (in radians)
 	 */
 	public static double cosech(final double angle) {
@@ -3104,9 +2990,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic tangent of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic tangent of the specified angle (in radians)
 	 */
 	public static double tanh(final double angle) {
@@ -3115,9 +3000,8 @@ public class Maths {
 
 	/**
 	 * Returns the hyperbolic cotangent of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the hyperbolic cotangent of the specified angle (in radians)
 	 */
 	public static double coth(final double angle) {
@@ -3128,9 +3012,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic sine value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic sine value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic sine value
 	 */
 	public static double asinh(final double value) {
@@ -3139,9 +3022,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic secant value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic secant value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic secant value
 	 */
 	public static double asech(final double value) {
@@ -3150,9 +3032,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cosine value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic cosine value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cosine value
 	 */
 	public static double acosh(final double value) {
@@ -3161,9 +3042,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cosecant value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic cosecant value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cosecant value
 	 */
 	public static double acosech(final double value) {
@@ -3172,9 +3052,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic tangent value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic tangent value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic tangent value
 	 */
 	public static double atanh(final double value) {
@@ -3183,9 +3062,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified hyperbolic cotangent value.
-	 * <p>
+	 *
 	 * @param value a hyperbolic cotangent value
-	 * <p>
 	 * @return the inverse (in radians) of the specified hyperbolic cotangent value
 	 */
 	public static double acoth(final double value) {
@@ -3196,9 +3074,8 @@ public class Maths {
 
 	/**
 	 * Returns the haversine of the specified angle (in radians).
-	 * <p>
+	 *
 	 * @param angle an angle (in radians)
-	 * <p>
 	 * @return the haversine of the specified angle (in radians)
 	 */
 	public static double hav(final double angle) {
@@ -3207,9 +3084,8 @@ public class Maths {
 
 	/**
 	 * Returns the inverse (in radians) of the specified haversine value.
-	 * <p>
+	 *
 	 * @param value a haversine value
-	 * <p>
 	 * @return the inverse (in radians) of the specified haversine value
 	 */
 	public static double ahav(final double value) {
@@ -3222,13 +3098,12 @@ public class Maths {
 	 * Returns the great-circle distance or orthodromic distance (shortest distance) between the
 	 * points defined by their latitudes and longitudes (in radians) around the sphere of the
 	 * specified radius.
-	 * <p>
+	 *
 	 * @param radius     the radius of the sphere
 	 * @param latitude1  the latitude of the first point (in radians)
 	 * @param longitude1 the longitude of the first point (in radians)
 	 * @param latitude2  the latitude of the second point (in radians)
 	 * @param longitude2 the longitude of the second point (in radians)
-	 * <p>
 	 * @return the great-circle distance or orthodromic distance (shortest distance) between the
 	 *         points defined by their latitudes and longitudes (in radians) around the sphere of
 	 *         the specified radius

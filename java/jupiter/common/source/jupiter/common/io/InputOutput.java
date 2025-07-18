@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ import jupiter.common.io.log.LogHandler;
 import jupiter.common.model.ICloneable;
 import jupiter.common.properties.Jupiter;
 import jupiter.common.properties.Properties;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -166,7 +166,7 @@ public class InputOutput
 
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public InputOutput(final SeverityLevel severityLevel) {
@@ -175,7 +175,7 @@ public class InputOutput
 
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel} and stack index.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 */
@@ -186,7 +186,7 @@ public class InputOutput
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link ConsoleHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
@@ -199,7 +199,7 @@ public class InputOutput
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link LogHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param logHandler    the {@link LogHandler}
@@ -212,7 +212,7 @@ public class InputOutput
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index,
 	 * {@link ConsoleHandler} and {@link LogHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
@@ -226,7 +226,7 @@ public class InputOutput
 	/**
 	 * Constructs an {@link InputOutput} with the specified {@link SeverityLevel}, stack index and
 	 * {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param handlers      the {@link List} of {@link IOHandler}
@@ -245,7 +245,7 @@ public class InputOutput
 	/**
 	 * Constructs an {@link InputOutput} loaded from the specified {@link Properties} containing the
 	 * specified {@link SeverityLevel}, stack index and {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	public InputOutput(final Properties properties) {
@@ -263,7 +263,7 @@ public class InputOutput
 
 	/**
 	 * Returns the {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getSeverityLevel() {
@@ -272,7 +272,7 @@ public class InputOutput
 
 	/**
 	 * Returns the stack index.
-	 * <p>
+	 *
 	 * @return the stack index
 	 */
 	public int getStackIndex() {
@@ -283,7 +283,7 @@ public class InputOutput
 
 	/**
 	 * Returns the {@link ConsoleHandler}.
-	 * <p>
+	 *
 	 * @return the {@link ConsoleHandler}
 	 */
 	public ConsoleHandler getConsoleHandler() {
@@ -292,7 +292,7 @@ public class InputOutput
 
 	/**
 	 * Returns the {@link LogHandler}.
-	 * <p>
+	 *
 	 * @return the {@link LogHandler}
 	 */
 	public LogHandler getLogHandler() {
@@ -302,7 +302,7 @@ public class InputOutput
 	/**
 	 * Returns the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
 	 * {@link ConsoleHandler} and {@link LogHandler} by default).
-	 * <p>
+	 *
 	 * @return the {@link IOPrinter} containing the {@link List} of {@link IOHandler} (the
 	 *         {@link ConsoleHandler} and {@link LogHandler} by default)
 	 */
@@ -314,7 +314,7 @@ public class InputOutput
 
 	/**
 	 * Sets the {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @param severityLevel a {@link SeverityLevel}
 	 */
 	public void setSeverityLevel(final SeverityLevel severityLevel) {
@@ -323,7 +323,7 @@ public class InputOutput
 
 	/**
 	 * Sets the stack index.
-	 * <p>
+	 *
 	 * @param stackIndex an {@code int} value
 	 */
 	public void setStackIndex(final int stackIndex) {
@@ -334,7 +334,7 @@ public class InputOutput
 
 	/**
 	 * Sets the {@link IConsole} of the {@link ConsoleHandler}.
-	 * <p>
+	 *
 	 * @param console an {@link IConsole}
 	 */
 	public void setConsole(final IConsole console) {
@@ -344,7 +344,7 @@ public class InputOutput
 	/**
 	 * Sets the log directory {@link File} of the {@link LogHandler} with the specified directory
 	 * path.
-	 * <p>
+	 *
 	 * @param logDirPath a {@link String}
 	 */
 	public void setLogDir(final String logDirPath) {
@@ -353,7 +353,7 @@ public class InputOutput
 
 	/**
 	 * Sets the output log {@link File} of the {@link LogHandler} with the specified name.
-	 * <p>
+	 *
 	 * @param outputLogName a {@link String}
 	 */
 	public void setOutputLog(final String outputLogName) {
@@ -362,7 +362,7 @@ public class InputOutput
 
 	/**
 	 * Sets the error log {@link File} of the {@link LogHandler} with the specified name.
-	 * <p>
+	 *
 	 * @param errorLogName a {@link String}
 	 */
 	public void setErrorLog(final String errorLogName) {
@@ -382,7 +382,7 @@ public class InputOutput
 	/**
 	 * Sets the {@link ConsoleHandler}, {@link LogHandler}, {@link List} of {@link IOHandler} and
 	 * {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param handlers a {@link List} of {@link IOHandler}
 	 */
 	public void setHandlers(final List<IOHandler> handlers) {
@@ -420,7 +420,7 @@ public class InputOutput
 
 	/**
 	 * Loads {@code this} from the specified {@link Properties}.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -479,11 +479,10 @@ public class InputOutput
 	/**
 	 * Prints the specified content {@link Object} in the standard output (or standard error if
 	 * {@code isError}) with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean print(final Object content, final boolean isError) {
@@ -493,12 +492,11 @@ public class InputOutput
 	/**
 	 * Prints the specified number of times the specified content {@link Object} in the standard
 	 * output (or standard error if {@code isError}) with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean print(final Object content, final int n, final boolean isError) {
@@ -512,7 +510,7 @@ public class InputOutput
 
 	/**
 	 * Prints an empty line with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println() {
@@ -521,9 +519,8 @@ public class InputOutput
 
 	/**
 	 * Prints the specified {@link Message} and terminates the line with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param message the {@link Message} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println(final Message message) {
@@ -533,11 +530,10 @@ public class InputOutput
 	/**
 	 * Prints the specified content {@link Object} in the standard output (or standard error if
 	 * {@code isError}) and terminates the line with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println(final Object content, final boolean isError) {
@@ -548,12 +544,11 @@ public class InputOutput
 	 * Prints the specified number of times the specified content {@link Object} in the standard
 	 * output (or standard error if {@code isError}) and terminates the line with the
 	 * {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param n       the number of times to print the content
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean println(final Object content, final int n, final boolean isError) {
@@ -575,7 +570,7 @@ public class InputOutput
 
 	/**
 	 * Prints a bar line with the specified progress {@code char} symbol with the {@link IOPrinter}.
-	 * <p>
+	 *
 	 * @param progressSymbol the progress {@code char} symbol of the bar to print
 	 */
 	public void bar(final char progressSymbol) {
@@ -597,9 +592,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#TRACE}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message trace(final Object... content) {
@@ -615,9 +609,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#DEBUG}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message debug(final Object... content) {
@@ -633,9 +626,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#TEST}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message test(final Object... content) {
@@ -651,9 +643,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#INFO}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message info(final Object... content) {
@@ -669,9 +660,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#RESULT}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message result(final Object... content) {
@@ -689,9 +679,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message warn(final Object... content) {
@@ -707,9 +696,8 @@ public class InputOutput
 	/**
 	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
 	 * level {@link SeverityLevel#WARNING}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return a {@link Message} containing the specified {@link Exception}
 	 */
 	public Message warn(final Exception exception) {
@@ -725,10 +713,9 @@ public class InputOutput
 	/**
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#WARNING}.
-	 * <p>
+	 *
 	 * @param exception the {@link Exception} to print
 	 * @param content   the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
@@ -746,9 +733,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message error(final Object... content) {
@@ -764,9 +750,8 @@ public class InputOutput
 	/**
 	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
 	 * level {@link SeverityLevel#ERROR}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return a {@link Message} containing the specified {@link Exception}
 	 */
 	public Message error(final Exception exception) {
@@ -782,10 +767,9 @@ public class InputOutput
 	/**
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#ERROR}.
-	 * <p>
+	 *
 	 * @param exception the {@link Exception} to print
 	 * @param content   the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
@@ -803,9 +787,8 @@ public class InputOutput
 	/**
 	 * Prints the specified content array with the {@link IOPrinter} indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
-	 * <p>
+	 *
 	 * @param content the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content array
 	 */
 	public Message fail(final Object... content) {
@@ -822,9 +805,8 @@ public class InputOutput
 	/**
 	 * Prints the specified {@link Exception} with the {@link IOPrinter} indicating the severity
 	 * level {@link SeverityLevel#FAILURE}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return a {@link Message} containing the specified {@link Exception}
 	 */
 	public Message fail(final Exception exception) {
@@ -841,10 +823,9 @@ public class InputOutput
 	/**
 	 * Prints the specified content {@link Object} and {@link Exception} with the {@link IOPrinter}
 	 * indicating the severity level {@link SeverityLevel#FAILURE}.
-	 * <p>
+	 *
 	 * @param exception the {@link Exception} to print
 	 * @param content   the content array to print
-	 * <p>
 	 * @return a {@link Message} containing the specified content {@link Object} and
 	 *         {@link Exception}
 	 */
@@ -867,12 +848,10 @@ public class InputOutput
 	/**
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream}.
-	 * <p>
+	 *
 	 * @param input  the {@link InputStream} to copy from
 	 * @param output the {@link OutputStream} to copy to
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input} or writing to
 	 *                     {@code output}
 	 */
@@ -884,13 +863,11 @@ public class InputOutput
 	/**
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
-	 * <p>
+	 *
 	 * @param input  the {@link InputStream} to copy from
 	 * @param output the {@link OutputStream} to copy to
 	 * @param buffer the buffer {@code byte} array used for copying
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input} or writing to
 	 *                     {@code output}
 	 */
@@ -908,11 +885,10 @@ public class InputOutput
 	/**
 	 * Copies the data of the specified {@link BufferedReader} with the specified
 	 * {@link PrintWriter} from the specified line.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read with
 	 * @param writer        the {@link PrintWriter} to write with
 	 * @param fromLineIndex the line index to start copying from (inclusive)
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
 	 *                     {@code writer}
 	 */
@@ -925,12 +901,11 @@ public class InputOutput
 	/**
 	 * Copies the data of the specified {@link BufferedReader} with the specified
 	 * {@link PrintWriter} between the specified lines.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read with
 	 * @param writer        the {@link PrintWriter} to write with
 	 * @param fromLineIndex the line index to start copying from (inclusive)
 	 * @param toLineIndex   the line index to finish copying at (exclusive)
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader} or writing with
 	 *                     {@code writer}
 	 */
@@ -953,7 +928,7 @@ public class InputOutput
 	/**
 	 * Returns the input line of the {@link ConsoleHandler} and prints it with all the
 	 * {@link IOHandler} (except the {@link ConsoleHandler}).
-	 * <p>
+	 *
 	 * @return the input line of the {@link ConsoleHandler}
 	 */
 	public String getInputLine() {
@@ -970,13 +945,11 @@ public class InputOutput
 	/**
 	 * Returns the next line (or non-empty line if {@code skipEmptyLines}) of the specified
 	 * {@link BufferedReader}.
-	 * <p>
+	 *
 	 * @param reader         the {@link BufferedReader} to read with
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the next line (or non-empty line if {@code skipEmptyLines}) of the specified
 	 *         {@link BufferedReader}
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static String getNextLine(final BufferedReader reader, final boolean skipEmptyLines)
@@ -990,9 +963,8 @@ public class InputOutput
 
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link InputStream}.
-	 * <p>
+	 *
 	 * @param input the {@link InputStream} to read from
-	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link InputStream}
 	 */
 	public static BufferedReader createReader(final InputStream input) {
@@ -1002,10 +974,9 @@ public class InputOutput
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link InputStream} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param input   the {@link InputStream} to read from
 	 * @param charset the {@link Charset} of the data to read
-	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link InputStream} with the specified
 	 *         {@link Charset}
 	 */
@@ -1017,11 +988,9 @@ public class InputOutput
 
 	/**
 	 * Returns the {@link Content} of the specified {@link InputStream}.
-	 * <p>
+	 *
 	 * @param input the {@link InputStream} to read from
-	 * <p>
 	 * @return the {@link Content} of the specified {@link InputStream}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static Content read(final InputStream input)
@@ -1032,13 +1001,11 @@ public class InputOutput
 	/**
 	 * Returns the number of lines of the specified {@link InputStream} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param input   the {@link InputStream} to read from
 	 * @param charset the {@link Charset} of the data to read
-	 * <p>
 	 * @return the number of lines of the specified {@link InputStream} with the specified
 	 *         {@link Charset}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static Content read(final InputStream input, final Charset charset)
@@ -1065,11 +1032,9 @@ public class InputOutput
 
 	/**
 	 * Returns the number of lines of the specified {@link InputStream}.
-	 * <p>
+	 *
 	 * @param input the {@link InputStream} to count the lines from
-	 * <p>
 	 * @return the number of lines of the specified {@link InputStream}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input)
@@ -1080,13 +1045,11 @@ public class InputOutput
 	/**
 	 * Returns the number of lines of the specified {@link InputStream} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param input   the {@link InputStream} to count the lines from
 	 * @param charset the {@link Charset} of the lines to count
-	 * <p>
 	 * @return the number of lines of the specified {@link InputStream} with the specified
 	 *         {@link Charset}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final Charset charset)
@@ -1097,13 +1060,11 @@ public class InputOutput
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * {@link InputStream}.
-	 * <p>
+	 *
 	 * @param input          the {@link InputStream} to count the lines from
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link InputStream}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final boolean skipEmptyLines)
@@ -1114,14 +1075,12 @@ public class InputOutput
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * {@link InputStream} with the specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param input          the {@link InputStream} to count the lines from
 	 * @param charset        the {@link Charset} of the lines to count
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link InputStream} with the specified {@link Charset}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code input}
 	 */
 	public static int countLines(final InputStream input, final Charset charset,
@@ -1146,12 +1105,10 @@ public class InputOutput
 
 	/**
 	 * Skips the specified number of lines of the specified {@link BufferedReader}.
-	 * <p>
+	 *
 	 * @param reader    the {@link BufferedReader} to skip the lines from
 	 * @param skipCount the number of lines to skip
-	 * <p>
 	 * @return the number of skipped lines
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static int skipLines(final BufferedReader reader, final int skipCount)
@@ -1167,9 +1124,8 @@ public class InputOutput
 
 	/**
 	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream}.
-	 * <p>
+	 *
 	 * @param outputStream the {@link OutputStream} to write to
-	 * <p>
 	 * @return a {@link BufferedWriter} of the specified {@link OutputStream}
 	 */
 	public static BufferedWriter createWriter(final OutputStream outputStream) {
@@ -1179,10 +1135,9 @@ public class InputOutput
 	/**
 	 * Creates a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param outputStream the {@link OutputStream} to write to
 	 * @param charset      the {@link Charset} of the data to write
-	 * <p>
 	 * @return a {@link BufferedWriter} of the specified {@link OutputStream} with the specified
 	 *         {@link Charset}
 	 */
@@ -1210,9 +1165,8 @@ public class InputOutput
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -1258,11 +1212,9 @@ public class InputOutput
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -1286,9 +1238,8 @@ public class InputOutput
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -1327,7 +1278,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at most {@link SeverityLevel#TRACE}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at most {@link SeverityLevel#TRACE},
 		 *         {@code false} otherwise
 		 */
@@ -1337,7 +1288,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at most {@link SeverityLevel#DEBUG}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at most {@link SeverityLevel#DEBUG},
 		 *         {@code false} otherwise
 		 */
@@ -1347,7 +1298,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at most {@link SeverityLevel#TEST}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at most {@link SeverityLevel#TEST},
 		 *         {@code false} otherwise
 		 */
@@ -1357,7 +1308,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at least {@link SeverityLevel#INFO}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#INFO},
 		 *         {@code false} otherwise
 		 */
@@ -1367,7 +1318,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at least {@link SeverityLevel#RESULT}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#RESULT},
 		 *         {@code false} otherwise
 		 */
@@ -1377,7 +1328,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at least {@link SeverityLevel#WARNING}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#WARNING},
 		 *         {@code false} otherwise
 		 */
@@ -1387,7 +1338,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at least {@link SeverityLevel#ERROR}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#ERROR},
 		 *         {@code false} otherwise
 		 */
@@ -1397,7 +1348,7 @@ public class InputOutput
 
 		/**
 		 * Tests whether {@code this} is at least {@link SeverityLevel#FAILURE}.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} is at least {@link SeverityLevel#FAILURE},
 		 *         {@code false} otherwise
 		 */
@@ -1407,7 +1358,7 @@ public class InputOutput
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

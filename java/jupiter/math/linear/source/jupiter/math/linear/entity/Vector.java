@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ public class Vector
 
 	/**
 	 * Constructs a zero {@link Vector} with the specified number of elements.
-	 * <p>
+	 *
 	 * @param dimension the number of elements
 	 */
 	public Vector(final int dimension) {
@@ -72,7 +72,7 @@ public class Vector
 
 	/**
 	 * Constructs a zero {@link Vector} with the specified number of elements.
-	 * <p>
+	 *
 	 * @param dimension the number of elements
 	 * @param transpose the flag specifying whether to transpose
 	 */
@@ -85,7 +85,7 @@ public class Vector
 
 	/**
 	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
-	 * <p>
+	 *
 	 * @param dimension the number of elements
 	 * @param constant  the {@code double} constant
 	 */
@@ -95,7 +95,7 @@ public class Vector
 
 	/**
 	 * Constructs a constant {@link Vector} with the specified number of elements and constant.
-	 * <p>
+	 *
 	 * @param dimension the number of elements
 	 * @param constant  the {@code double} constant
 	 * @param transpose the flag specifying whether to transpose
@@ -109,7 +109,7 @@ public class Vector
 
 	/**
 	 * Constructs a {@link Vector} with the specified values.
-	 * <p>
+	 *
 	 * @param values the {@code double} values of the elements
 	 */
 	public Vector(final double... values) {
@@ -118,7 +118,7 @@ public class Vector
 
 	/**
 	 * Constructs a {@link Vector} with the specified values.
-	 * <p>
+	 *
 	 * @param values    the {@code double} values of the elements
 	 * @param transpose the flag specifying whether to transpose
 	 */
@@ -131,9 +131,8 @@ public class Vector
 
 	/**
 	 * Constructs a {@link Vector} with the specified values.
-	 * <p>
+	 *
 	 * @param values the values of the elements in a 2D {@code double} array
-	 * <p>
 	 * @throws IllegalArgumentException if {@code values} is not one-dimensional
 	 */
 	public Vector(final double[]... values) {
@@ -152,10 +151,9 @@ public class Vector
 
 	/**
 	 * Constructs a {@link Vector} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public Vector(final String path, final boolean hasHeader)
@@ -165,7 +163,7 @@ public class Vector
 
 	/**
 	 * Constructs a {@link Vector} with the specified {@link DoubleTable} containing the elements.
-	 * <p>
+	 *
 	 * @param table the {@link DoubleTable} containing the elements
 	 */
 	public Vector(final DoubleTable table) {
@@ -185,7 +183,7 @@ public class Vector
 
 	/**
 	 * Returns the dimension.
-	 * <p>
+	 *
 	 * @return the dimension
 	 */
 	public int getDimension() {
@@ -194,7 +192,7 @@ public class Vector
 
 	/**
 	 * Returns the flag specifying whether {@code this} is transposed.
-	 * <p>
+	 *
 	 * @return the flag specifying whether {@code this} is transposed
 	 */
 	public boolean isTransposed() {
@@ -205,11 +203,9 @@ public class Vector
 
 	/**
 	 * Returns the element at the specified row index.
-	 * <p>
+	 *
 	 * @param i the row index
-	 * <p>
 	 * @return the element at the specified row index
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double get(final int i) {
@@ -220,10 +216,9 @@ public class Vector
 
 	/**
 	 * Sets the element at the specified row index.
-	 * <p>
+	 *
 	 * @param i     the row index
 	 * @param value a {@code double} value
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final double value) {
@@ -232,10 +227,9 @@ public class Vector
 
 	/**
 	 * Sets the element at the specified row index.
-	 * <p>
+	 *
 	 * @param i     the row index
 	 * @param value a value {@link Object}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void set(final int i, final Object value) {
@@ -249,7 +243,7 @@ public class Vector
 
 	/**
 	 * Converts {@code this} to a {@link Vector}.
-	 * <p>
+	 *
 	 * @return a {@link Vector}
 	 */
 	@Override
@@ -259,7 +253,7 @@ public class Vector
 
 	/**
 	 * Converts {@code this} to a {@link Matrix}.
-	 * <p>
+	 *
 	 * @return a {@link Matrix}
 	 */
 	@Override
@@ -319,9 +313,8 @@ public class Vector
 
 	/**
 	 * Returns a random {@link Matrix} of the specified number of elements and columns.
-	 * <p>
+	 *
 	 * @param m the number of elements
-	 * <p>
 	 * @return {@code rand(size)}
 	 */
 	public static Vector random(final int m) {
@@ -339,11 +332,9 @@ public class Vector
 
 	/**
 	 * Creates a {@link Vector} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path the path to the file to load
-	 * <p>
 	 * @return a {@link Vector} loaded from the file denoted by the specified path
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Vector load(final String path)
@@ -353,12 +344,10 @@ public class Vector
 
 	/**
 	 * Creates a {@link Vector} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @return a {@link Vector} loaded from the file denoted by the specified path
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Vector load(final String path, final boolean transpose)
@@ -368,13 +357,11 @@ public class Vector
 
 	/**
 	 * Creates a {@link Vector} loaded from the specified reader.
-	 * <p>
+	 *
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param lineCount the number of lines to load
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @return a {@link Vector} loaded from the specified reader
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static Vector load(final BufferedReader reader, final int lineCount,
@@ -390,9 +377,8 @@ public class Vector
 
 	/**
 	 * Applies the specified {@link UnivariateFunction} to {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to apply
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
@@ -402,7 +388,7 @@ public class Vector
 
 	/**
 	 * Returns the negation of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code -this}
 	 */
 	@Override
@@ -418,7 +404,7 @@ public class Vector
 
 	/**
 	 * Returns the transpose of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code this'}
 	 */
 	@Override
@@ -433,7 +419,7 @@ public class Vector
 
 	/**
 	 * Fills {@code this} with the specified constant.
-	 * <p>
+	 *
 	 * @param constant the {@code double} constant to fill with
 	 */
 	@Override
@@ -448,9 +434,8 @@ public class Vector
 
 	/**
 	 * Parses the {@link Vector} encoded in the specified expression {@link String}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse
-	 * <p>
 	 * @return the {@link Vector} encoded in the specified expression {@link String}, or
 	 *         {@code null} if there is a problem with parsing
 	 */
@@ -465,9 +450,8 @@ public class Vector
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

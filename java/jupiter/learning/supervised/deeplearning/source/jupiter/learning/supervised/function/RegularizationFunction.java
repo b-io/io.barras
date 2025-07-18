@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ public abstract class RegularizationFunction
 
 	/**
 	 * Constructs a {@link RegularizationFunction} with the specified hyper-parameter {@code λ}.
-	 * <p>
+	 *
 	 * @param lambda the hyper-parameter {@code λ}
 	 */
 	protected RegularizationFunction(final double lambda) {
@@ -77,20 +77,18 @@ public abstract class RegularizationFunction
 
 	/**
 	 * Computes the regularization cost.
-	 * <p>
+	 *
 	 * @param m       the number of training examples
 	 * @param weights the array of weight {@link Matrix}
-	 * <p>
 	 * @return the regularization cost
 	 */
 	public abstract double computeCost(final int m, final Matrix... weights);
 
 	/**
 	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}.
-	 * <p>
+	 *
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
-	 * <p>
 	 * @return the resulting {@link Matrix}
 	 */
 	public abstract Entity derive(final int m, final Matrix W);
@@ -102,9 +100,8 @@ public abstract class RegularizationFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -107,7 +107,7 @@ public class XYCrosshairOverlay
 
 	/**
 	 * Maps the specified range {@link Crosshair} to the specified range axis.
-	 * <p>
+	 *
 	 * @param crosshairIndex the index of the {@link Crosshair} to map
 	 * @param rangeAxisIndex the range axis of the {@link Crosshair} to map
 	 */
@@ -120,7 +120,7 @@ public class XYCrosshairOverlay
 	/**
 	 * Paints {@code this} with the specified {@link Graphics2D} in the specified
 	 * {@link ChartPanel}.
-	 * <p>
+	 *
 	 * @param g2         the {@link Graphics2D} to paint with
 	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
 	 */

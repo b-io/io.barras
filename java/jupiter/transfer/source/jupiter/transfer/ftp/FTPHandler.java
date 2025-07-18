@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -136,7 +136,7 @@ public class FTPHandler
 	/**
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
 	 * password, path to the remote directory and path to the local directory.
-	 * <p>
+	 *
 	 * @param protocol      the {@link Protocol}
 	 * @param hostName      the host name
 	 * @param userName      the user name
@@ -153,7 +153,7 @@ public class FTPHandler
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
 	 * password, path to the remote directory, path to the local directory and file name filter
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param protocol       the {@link Protocol}
 	 * @param hostName       the host name
 	 * @param userName       the user name
@@ -173,7 +173,7 @@ public class FTPHandler
 	 * Constructs a {@link FTPHandler} with the specified {@link Protocol}, host name, user name,
 	 * password, path to the remote directory, path to the local directory, file name filter
 	 * {@link String} and array of file names.
-	 * <p>
+	 *
 	 * @param protocol       the {@link Protocol}
 	 * @param hostName       the host name
 	 * @param userName       the user name
@@ -202,7 +202,7 @@ public class FTPHandler
 	 * Constructs a {@link FTPHandler} loaded from the specified {@link Properties} containing the
 	 * {@link Protocol}, host name, port, user name, password, path to the remote directory, path to
 	 * the local directory, file name filter {@link String} and array of file names.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	public FTPHandler(final Properties properties) {
@@ -216,7 +216,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the {@link Protocol}.
-	 * <p>
+	 *
 	 * @return the {@link Protocol}
 	 */
 	public Protocol getProtocol() {
@@ -225,7 +225,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the host name.
-	 * <p>
+	 *
 	 * @return the host name
 	 */
 	public String getHostName() {
@@ -234,7 +234,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the port.
-	 * <p>
+	 *
 	 * @return the port
 	 */
 	public int getPort() {
@@ -243,7 +243,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the user name.
-	 * <p>
+	 *
 	 * @return the user name
 	 */
 	public String getUserName() {
@@ -252,7 +252,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the password.
-	 * <p>
+	 *
 	 * @return the password
 	 */
 	public String getPassword() {
@@ -261,7 +261,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the path to the remote directory.
-	 * <p>
+	 *
 	 * @return the path to the remote directory
 	 */
 	public String getRemoteDirPath() {
@@ -270,7 +270,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the path to the local directory.
-	 * <p>
+	 *
 	 * @return the path to the local directory
 	 */
 	public String getLocalDirPath() {
@@ -279,7 +279,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the file name filter {@link String}.
-	 * <p>
+	 *
 	 * @return the file name filter {@link String}
 	 */
 	public String getFileNameFilter() {
@@ -288,7 +288,7 @@ public class FTPHandler
 
 	/**
 	 * Returns the array of file names.
-	 * <p>
+	 *
 	 * @return the array of file names
 	 */
 	public String[] getFileNames() {
@@ -299,7 +299,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the {@link Protocol}.
-	 * <p>
+	 *
 	 * @param protocol a {@link Protocol}
 	 */
 	public void setProtocol(final Protocol protocol) {
@@ -308,7 +308,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the host name.
-	 * <p>
+	 *
 	 * @param hostName a {@link String}
 	 */
 	public void setHostName(final String hostName) {
@@ -317,7 +317,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the port.
-	 * <p>
+	 *
 	 * @param port an {@code int} value
 	 */
 	public void setPort(final int port) {
@@ -326,7 +326,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the user name.
-	 * <p>
+	 *
 	 * @param userName a {@link String}
 	 */
 	public void setUserName(final String userName) {
@@ -335,7 +335,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the password.
-	 * <p>
+	 *
 	 * @param password a {@link String}
 	 */
 	public void setPassword(final String password) {
@@ -344,7 +344,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the path to the remote directory.
-	 * <p>
+	 *
 	 * @param remoteDirPath a {@link String}
 	 */
 	public void setRemoteDirPath(final String remoteDirPath) {
@@ -353,7 +353,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the path to the local directory.
-	 * <p>
+	 *
 	 * @param localDirPath a {@link String}
 	 */
 	public void setLocalDirPath(final String localDirPath) {
@@ -362,7 +362,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the file name filter {@link String}.
-	 * <p>
+	 *
 	 * @param fileNameFilter a {@link String}
 	 */
 	public void setFileNameFilter(final String fileNameFilter) {
@@ -371,7 +371,7 @@ public class FTPHandler
 
 	/**
 	 * Sets the array of file names.
-	 * <p>
+	 *
 	 * @param fileNames an array of {@link String}
 	 */
 	public void setFileNames(final String... fileNames) {
@@ -386,7 +386,7 @@ public class FTPHandler
 	/**
 	 * Downloads the files from the {@link Protocol#FTP}, {@link Protocol#FTPS} or
 	 * {@link Protocol#SFTP} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of downloaded files
 	 */
 	public int download() {
@@ -429,7 +429,7 @@ public class FTPHandler
 
 	/**
 	 * Downloads the files from the {@link Protocol#FTP} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of downloaded files
 	 */
 	protected int downloadFTP() {
@@ -505,7 +505,7 @@ public class FTPHandler
 
 	/**
 	 * Downloads the files from the {@link Protocol#FTPS} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of downloaded files
 	 */
 	protected int downloadFTPS() {
@@ -583,7 +583,7 @@ public class FTPHandler
 
 	/**
 	 * Downloads the files from the {@link Protocol#SFTP} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of downloaded files
 	 */
 	@SuppressWarnings({"conversion", "unchecked"})
@@ -643,7 +643,7 @@ public class FTPHandler
 	/**
 	 * Uploads the files to the {@link Protocol#FTP}, {@link Protocol#FTPS} or {@link Protocol#SFTP}
 	 * with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of uploaded files
 	 */
 	public int upload() {
@@ -684,7 +684,7 @@ public class FTPHandler
 
 	/**
 	 * Uploads the files to the {@link Protocol#FTP} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of uploaded files
 	 */
 	protected int uploadFTP() {
@@ -755,7 +755,7 @@ public class FTPHandler
 
 	/**
 	 * Uploads the files to the {@link Protocol#FTPS} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of uploaded files
 	 */
 	protected int uploadFTPS() {
@@ -828,7 +828,7 @@ public class FTPHandler
 
 	/**
 	 * Uploads the files to the {@link Protocol#SFTP} with {@code this} parameters.
-	 * <p>
+	 *
 	 * @return the number of uploaded files
 	 */
 	protected int uploadSFTP() {
@@ -892,7 +892,7 @@ public class FTPHandler
 
 	/**
 	 * Loads {@code this} from the specified {@link Properties}.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	public void load(final Properties properties) {
@@ -918,9 +918,8 @@ public class FTPHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -985,7 +984,7 @@ public class FTPHandler
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

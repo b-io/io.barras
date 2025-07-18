@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ public abstract class Integrator
 
 	/**
 	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to integrate
 	 */
 	public Integrator(final UnivariateFunction f) {
@@ -79,7 +79,7 @@ public abstract class Integrator
 	/**
 	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction} and
 	 * integration {@link DoubleInterval}.
-	 * <p>
+	 *
 	 * @param f        the {@link UnivariateFunction} to integrate
 	 * @param interval the integration {@link DoubleInterval}
 	 */
@@ -92,7 +92,7 @@ public abstract class Integrator
 	/**
 	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction} and
 	 * integration order.
-	 * <p>
+	 *
 	 * @param f     the {@link UnivariateFunction} to integrate
 	 * @param order the integration order
 	 */
@@ -104,7 +104,7 @@ public abstract class Integrator
 	/**
 	 * Constructs an {@link Integrator} with the specified {@link UnivariateFunction}, integration
 	 * {@link DoubleInterval} and integration order.
-	 * <p>
+	 *
 	 * @param f        the {@link UnivariateFunction} to integrate
 	 * @param interval the integration {@link DoubleInterval}
 	 * @param order    the integration order
@@ -130,7 +130,7 @@ public abstract class Integrator
 
 	/**
 	 * Returns the {@link UnivariateFunction} to integrate.
-	 * <p>
+	 *
 	 * @return the {@link UnivariateFunction} to integrate
 	 */
 	public UnivariateFunction getFunction() {
@@ -139,7 +139,7 @@ public abstract class Integrator
 
 	/**
 	 * Returns the integration order.
-	 * <p>
+	 *
 	 * @return the integration order
 	 */
 	public int getIntegrationOrder() {
@@ -153,11 +153,9 @@ public abstract class Integrator
 
 	/**
 	 * Applies the integration function to the specified value.
-	 * <p>
-	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code Y = F(x)} for {@code x} defined in {@code domain}
 	 *
+	 * @param x a {@code double} value (on the abscissa)
+	 * @return {@code Y = F(x)} for {@code x} defined in {@code domain}
 	 * @see #integrate(double)
 	 */
 	@Override
@@ -168,9 +166,8 @@ public abstract class Integrator
 	/**
 	 * Returns the integrated {@code double} value {@code Y = F(x)} for {@code x} defined in
 	 * {@code domain}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code Y = F(x)} for {@code x} defined in {@code domain}
 	 */
 	protected abstract double integrate(final double x);
@@ -179,12 +176,10 @@ public abstract class Integrator
 
 	/**
 	 * Applies the integration function to the specified integration interval.
-	 * <p>
+	 *
 	 * @param a the {@code double} lower bound (on the abscissa) of the integration interval
 	 * @param b the {@code double} upper bound (on the abscissa) of the integration interval
-	 * <p>
 	 * @return {@code Y = F(b) - F(a)} for {@code a} and {@code b} defined in {@code domain}
-	 *
 	 * @see #integrate(double, double)
 	 */
 	@Override
@@ -195,10 +190,9 @@ public abstract class Integrator
 	/**
 	 * Returns the integrated {@code double} value {@code Y = F(b) - F(a)} for {@code a} and
 	 * {@code b} defined in {@code domain}.
-	 * <p>
+	 *
 	 * @param a the {@code double} lower bound (on the abscissa) of the integration interval
 	 * @param b the {@code double} upper bound (on the abscissa) of the integration interval
-	 * <p>
 	 * @return {@code Y = F(b) - F(a)} for {@code a} and {@code b} defined in {@code domain}
 	 */
 	protected abstract double integrate(final double a, final double b);
@@ -209,9 +203,8 @@ public abstract class Integrator
 	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #integrate(double, double)} to retrieve {@code Y = F(b) - F(a)} for {@code a} and
 	 * {@code b} defined in {@code domain}.
-	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
+	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 * @see #integrate(double, double)
 	 */
 	public abstract boolean integrateAll();
@@ -223,9 +216,8 @@ public abstract class Integrator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

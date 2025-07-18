@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,7 +83,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -93,7 +93,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.
@@ -107,14 +107,13 @@ extern "C"
 
 	/**
 	 * Constructs a Comparable.
-	 * <p>
+	 *
 	 * @param functionRelease   the release function to set
 	 * @param functionClone     the clone function to set
 	 * @param functionEquals    the equals function to set
 	 * @param functionHash      the hash function to set
 	 * @param functionToString  the to_string function to set
 	 * @param functionCompareTo the compare_to function to set
-	 * <p>
 	 * @return the statically constructed Comparable
 	 */
 	Comparable Comparable_create(function_release functionRelease, function_clone functionClone, function_equals functionEquals, function_hash functionHash, function_to_string functionToString, function_compare_to functionCompareTo);
@@ -137,7 +136,7 @@ extern "C"
 
 	/**
 	 * Releases the specified Structure.
-	 * <p>
+	 *
 	 * @param structure the Structure to be released
 	 */
 	void release(Structure* structure);
@@ -177,10 +176,9 @@ extern "C"
 
 	/**
 	 * Constructs a Structure statically.
-	 * <p>
+	 *
 	 * @param type  the type to set
 	 * @param value the value to set
-	 * <p>
 	 * @return the statically constructed Structure
 	 */
 	Structure Structure_create(const type type, void* value);
@@ -192,12 +190,11 @@ extern "C"
 
 	/**
 	 * Constructs a Core statically.
-	 * <p>
+	 *
 	 * @param isBasic      the is Basic boolean to set
 	 * @param isComparable the is Comparable boolean to set
 	 * @param isDynamic    the is dynamic boolean to set
 	 * @param isElement    the is element boolean to set
-	 * <p>
 	 * @return the statically constructed Core
 	 */
 	Core Core_create(const boolean isBasic, const boolean isComparable, const boolean isDynamic, const boolean isElement);

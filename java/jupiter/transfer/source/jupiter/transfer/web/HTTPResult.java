@@ -84,7 +84,7 @@ public class HTTPResult
 	/**
 	 * Constructs a {@link HTTPResult} with the specified {@link HttpEntity}, array of
 	 * {@link Header}, {@link Locale}, {@link ProtocolVersion} and {@link StatusLine}.
-	 * <p>
+	 *
 	 * @param entity          the {@link HttpEntity}
 	 * @param headers         the array of {@link Header}
 	 * @param locale          the {@link Locale}
@@ -104,7 +104,7 @@ public class HTTPResult
 
 	/**
 	 * Constructs a {@link HTTPResult} with the specified {@link CloseableHttpResponse}.
-	 * <p>
+	 *
 	 * @param response the {@link CloseableHttpResponse}
 	 */
 	public HTTPResult(final CloseableHttpResponse response) {
@@ -119,7 +119,7 @@ public class HTTPResult
 
 	/**
 	 * Returns the {@link HttpEntity}.
-	 * <p>
+	 *
 	 * @return the {@link HttpEntity}
 	 */
 	public HttpEntity getEntity() {
@@ -128,7 +128,7 @@ public class HTTPResult
 
 	/**
 	 * Returns the array of {@link Header}.
-	 * <p>
+	 *
 	 * @return the array of {@link Header}
 	 */
 	public Header[] getHeaders() {
@@ -137,7 +137,7 @@ public class HTTPResult
 
 	/**
 	 * Returns the {@link Locale}.
-	 * <p>
+	 *
 	 * @return the {@link Locale}
 	 */
 	public Locale getLocale() {
@@ -146,7 +146,7 @@ public class HTTPResult
 
 	/**
 	 * Returns the {@link ProtocolVersion}.
-	 * <p>
+	 *
 	 * @return the {@link ProtocolVersion}
 	 */
 	public ProtocolVersion getProtocolVersion() {
@@ -155,7 +155,7 @@ public class HTTPResult
 
 	/**
 	 * Returns the {@link StatusLine}.
-	 * <p>
+	 *
 	 * @return the {@link StatusLine}
 	 */
 	public StatusLine getStatusLine() {
@@ -169,9 +169,8 @@ public class HTTPResult
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -187,7 +186,7 @@ public class HTTPResult
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

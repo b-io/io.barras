@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,13 +46,12 @@ public class Intervals {
 	 * Creates an enlarged {@link DoubleInterval} from the specified {@link DoubleInterval} in the
 	 * specified {@link Domain} with the specified enlargement factor, sample size and interval
 	 * between the sampling points.
-	 * <p>
+	 *
 	 * @param interval   the {@link DoubleInterval} to enlarge
 	 * @param domain     the {@link Domain}
 	 * @param factor     the enlargement factor
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * <p>
 	 * @return an enlarged {@link DoubleInterval} from the specified {@link DoubleInterval} in the
 	 *         specified {@link Domain} with the specified enlargement factor, sample size and
 	 *         interval between the sampling points
@@ -78,10 +77,9 @@ public class Intervals {
 	 * Returns {@code value} if {@code value} is inside the specified {@link IDoubleInterval}, the
 	 * value of the closest {@link Bound} if {@code value} is non-{@code null} and not {@code NaN},
 	 * {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param interval an {@link IDoubleInterval}
 	 * @param value    the {@link Double} to bound (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside the specified {@link IDoubleInterval}, the
 	 *         value of the closest {@link Bound} if {@code value} is non-{@code null} and not
 	 *         {@code NaN}, {@code NaN} otherwise
@@ -118,10 +116,9 @@ public class Intervals {
 	/**
 	 * Returns {@code value} if {@code value} is inside the specified
 	 * {@link IDoubleInterval}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param interval an {@link IDoubleInterval}
 	 * @param value    the {@link Double} to constrain (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside the specified
 	 *         {@link IDoubleInterval}, {@code NaN} otherwise
 	 */

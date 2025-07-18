@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,7 @@ public class SCrypto
 
 	/**
 	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod}.
-	 * <p>
+	 *
 	 * @param method the {@link CipherMethod}
 	 */
 	public SCrypto(final CipherMethod method) {
@@ -85,7 +85,7 @@ public class SCrypto
 
 	/**
 	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod} and {@link CipherMode}.
-	 * <p>
+	 *
 	 * @param method the {@link CipherMethod}
 	 * @param mode   the {@link CipherMode}
 	 */
@@ -96,7 +96,7 @@ public class SCrypto
 	/**
 	 * Constructs a {@link SCrypto} with the specified {@link CipherMethod}, {@link CipherMode} and
 	 * {@link CipherPadding}.
-	 * <p>
+	 *
 	 * @param method  the {@link CipherMethod}
 	 * @param mode    the {@link CipherMode}
 	 * @param padding the {@link CipherPadding}
@@ -112,7 +112,7 @@ public class SCrypto
 
 	/**
 	 * Returns the default size of the {@link SecretKey}.
-	 * <p>
+	 *
 	 * @return the default size of the {@link SecretKey}
 	 */
 	@Override
@@ -130,7 +130,7 @@ public class SCrypto
 
 	/**
 	 * Returns the size of the {@link SecretKey}.
-	 * <p>
+	 *
 	 * @return the size of the {@link SecretKey}
 	 */
 	@Override
@@ -143,7 +143,7 @@ public class SCrypto
 	/**
 	 * Returns the primary encoded key of the {@link SecretKey}, or {@code null} if the
 	 * {@link SecretKey} does not support encoding.
-	 * <p>
+	 *
 	 * @return the primary encoded key of the {@link SecretKey}, or {@code null} if the
 	 *         {@link SecretKey} does not support encoding
 	 */
@@ -153,7 +153,7 @@ public class SCrypto
 
 	/**
 	 * Returns the primary encoded initialization vector of the {@link IvParameterSpec}.
-	 * <p>
+	 *
 	 * @return the primary encoded initialization vector of the {@link IvParameterSpec}
 	 */
 	public byte[] getIV() {
@@ -172,7 +172,7 @@ public class SCrypto
 
 	/**
 	 * Sets the size of the {@link SecretKey}.
-	 * <p>
+	 *
 	 * @param secretKeySize a size of the {@link SecretKey}
 	 */
 	@Override
@@ -184,7 +184,7 @@ public class SCrypto
 
 	/**
 	 * Sets the {@link SecretKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param secretKey a primary encoded key
 	 */
 	public void setSecretKey(final byte[] secretKey) {
@@ -193,7 +193,7 @@ public class SCrypto
 
 	/**
 	 * Sets the {@link IvParameterSpec} with the specified primary encoded initialization vector.
-	 * <p>
+	 *
 	 * @param iv a primary encoded initialization vector
 	 */
 	public void setIV(final byte[] iv) {
@@ -207,7 +207,7 @@ public class SCrypto
 
 	/**
 	 * Combines the primary encoded data.
-	 * <p>
+	 *
 	 * @return the primary encoded combination
 	 */
 	@Override
@@ -228,7 +228,7 @@ public class SCrypto
 
 	/**
 	 * Uncombines the specified primary encoded combination.
-	 * <p>
+	 *
 	 * @param combination the primary encoded combination to uncombine
 	 */
 	@Override
@@ -264,7 +264,7 @@ public class SCrypto
 
 	/**
 	 * Creates a {@link SecretKey} of the specified size.
-	 * <p>
+	 *
 	 * @param secretKeySize the size of the {@link SecretKey} to create
 	 */
 	@Override
@@ -283,9 +283,8 @@ public class SCrypto
 
 	/**
 	 * Creates a {@link SecretKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param secretKey the primary encoded key of the {@link SecretKey} to create
-	 * <p>
 	 * @return a {@link SecretKey} with the specified primary encoded key
 	 */
 	public SecretKey createSecretKey(final byte[] secretKey) {
@@ -294,9 +293,8 @@ public class SCrypto
 
 	/**
 	 * Creates an {@link IvParameterSpec} with the specified primary encoded initialization vector.
-	 * <p>
+	 *
 	 * @param iv the primary encoded initialization vector of the {@link IvParameterSpec} to create
-	 * <p>
 	 * @return an {@link IvParameterSpec} with the specified primary encoded initialization vector
 	 */
 	public IvParameterSpec createIV(final byte[] iv) {
@@ -307,7 +305,7 @@ public class SCrypto
 
 	/**
 	 * Creates an encrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return an encrypting {@link Cipher}
 	 */
 	@Override
@@ -336,7 +334,7 @@ public class SCrypto
 
 	/**
 	 * Creates a decrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return a decrypting {@link Cipher}
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@ extern "C"
 
 	/**
 	 * The {@code if} control statement of the checks.
-	 * <p>
+	 *
 	 * @param CONDITION a boolean condition
 	 */
 #ifdef _CHECK_MODE
@@ -53,7 +53,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified argument is correct.
-	 * <p>
+	 *
 	 * @param ARGUMENT the argument to be checked
 	 * @param NAME     the name of the argument to be checked
 	 */
@@ -61,7 +61,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified arguments are correct.
-	 * <p>
+	 *
 	 * @param T1 the type of the first argument to be checked
 	 * @param V1 the value of the first argument to be checked
 	 * @param T2 the type of the second argument to be checked
@@ -71,7 +71,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified type is correct.
-	 * <p>
+	 *
 	 * @param T1 the specified type
 	 * @param T2 the expected type
 	 */
@@ -79,14 +79,14 @@ extern "C"
 
 	/**
 	 * Checks if the specified Structure is correct.
-	 * <p>
+	 *
 	 * @param S the Structure to be checked
 	 */
 #define _STRUCTURE_CHECK(S)					(((S) && (S)->value) || Structure_check(S))
 
 	/**
 	 * Checks if the specified Structures are correct.
-	 * <p>
+	 *
 	 * @param S1 the first Structure to be checked
 	 * @param S2 the second Structure to be checked
 	 */
@@ -94,7 +94,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified array is correct (and nonempty).
-	 * <p>
+	 *
 	 * @param ARRAY the array to be checked
 	 * @param SIZE  the size of the array to be checked
 	 * @param NAME  the name of the array to be checked
@@ -103,7 +103,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified source and target are correct.
-	 * <p>
+	 *
 	 * @param S the source to be checked
 	 * @param T the target to be checked
 	 */
@@ -111,7 +111,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified source and target array are correct.
-	 * <p>
+	 *
 	 * @param S  the source to be checked
 	 * @param T  the target array to be checked
 	 * @param TS the size of the target array to be checked
@@ -120,7 +120,7 @@ extern "C"
 
 	/**
 	 * Checks if the specified source and target arrays are correct.
-	 * <p>
+	 *
 	 * @param S  the source array to be checked
 	 * @param SS the size of the source array to be checked
 	 * @param T  the target array to be checked
@@ -131,10 +131,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified array of characters size is
 	 * correct, {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param string the array of characters to be checked
 	 * @param size   the size of the array of characters to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified array of characters size is
 	 *         correct, {@code _FALSE} otherwise
 	 */
@@ -219,9 +218,8 @@ extern "C"
 
 	/**
 	 * Copies the unknown type string into the specified target.
-	 * <p>
+	 *
 	 * @param TARGET the output string
-	 * <p>
 	 * @return {@code _TRUE} if the specified target is not full,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -234,7 +232,7 @@ extern "C"
 
 	/**
 	 * Get the encapsulated value.
-	 * <p>
+	 *
 	 * @param EXPECTED_TYPE the expected type
 	 * @param TYPE          the type of the value
 	 * @param VALUE         the value
@@ -243,10 +241,9 @@ extern "C"
 
 	/**
 	 * Defines the comparison for order between the specified values.
-	 * <p>
+	 *
 	 * @param V1 the value to be compared for order
 	 * @param V2 the value with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */

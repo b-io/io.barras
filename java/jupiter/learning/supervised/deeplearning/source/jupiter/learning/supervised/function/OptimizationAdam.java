@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@ public class OptimizationAdam
 	 * Constructs an {@link OptimizationAdam} with the specified number of layers {@code L} and
 	 * initializes the arrays of momentum {@link Entity} {@code V} and RMSprop
 	 * {@link Entity} {@code S} with the specified array of model {@link Vector}.
-	 * <p>
+	 *
 	 * @param layerCount the number of layers {@code L}
 	 * @param models     the array of model {@link Vector} for the arrays of momentum {@link Entity}
 	 *                   {@code V} and RMSprop {@link Entity} {@code S}
@@ -105,7 +105,7 @@ public class OptimizationAdam
 	 * Constructs an {@link OptimizationAdam} with the specified number of layers {@code L} and
 	 * initializes the arrays of momentum {@link Entity} {@code V} and RMSprop
 	 * {@link Entity} {@code S} with the specified array of model {@link Matrix}.
-	 * <p>
+	 *
 	 * @param layerCount the number of layers {@code L}
 	 * @param models     the array of model {@link Matrix} for the arrays of momentum {@link Entity}
 	 *                   {@code V} and RMSprop {@link Entity} {@code S}
@@ -128,7 +128,7 @@ public class OptimizationAdam
 
 	/**
 	 * Returns the hyper-parameter {@code β1} for the momentum exponentially weighted average.
-	 * <p>
+	 *
 	 * @return the hyper-parameter {@code β1} for the momentum exponentially weighted average
 	 */
 	public double getBeta1() {
@@ -137,7 +137,7 @@ public class OptimizationAdam
 
 	/**
 	 * Returns the hyper-parameter {@code β2} for the RMSprop.
-	 * <p>
+	 *
 	 * @return the hyper-parameter {@code β2} for the RMSprop
 	 */
 	public double getBeta2() {
@@ -146,7 +146,7 @@ public class OptimizationAdam
 
 	/**
 	 * Returns the hyper-parameter {@code t} for the number of steps (used for the bias correction).
-	 * <p>
+	 *
 	 * @return the hyper-parameter {@code t} for the number of steps (used for the bias correction)
 	 */
 	public int getT() {
@@ -164,7 +164,7 @@ public class OptimizationAdam
 
 	/**
 	 * Sets the hyper-parameters {@code β1}, {@code β2} and {@code t}.
-	 * <p>
+	 *
 	 * @param beta1 the hyper-parameter {@code β1} for the momentum exponentially weighted average
 	 * @param beta2 the hyper-parameter {@code β2} for the RMSprop
 	 * @param t     the hyper-parameter {@code t} for the number of steps
@@ -179,7 +179,7 @@ public class OptimizationAdam
 
 	/**
 	 * Sets the hyper-parameter {@code β1}.
-	 * <p>
+	 *
 	 * @param beta1 the hyper-parameter {@code β1} for the momentum exponentially weighted average
 	 */
 	public void setBeta1(final double beta1) {
@@ -188,7 +188,7 @@ public class OptimizationAdam
 
 	/**
 	 * Sets the hyper-parameter {@code β2}.
-	 * <p>
+	 *
 	 * @param beta2 the hyper-parameter {@code β2} for the RMSprop
 	 */
 	public void setBeta2(final double beta2) {
@@ -197,7 +197,7 @@ public class OptimizationAdam
 
 	/**
 	 * Sets the hyper-parameter {@code t}.
-	 * <p>
+	 *
 	 * @param t the hyper-parameter {@code t} for the number of steps
 	 */
 	public void setT(final int t) {
@@ -211,10 +211,9 @@ public class OptimizationAdam
 
 	/**
 	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer.
-	 * <p>
+	 *
 	 * @param layer    the layer of the descent gradient {@link Matrix} to optimize
 	 * @param gradient the descent gradient {@link Matrix} to optimize
-	 * <p>
 	 * @return the optimized descent gradient {@link Matrix}
 	 */
 	@Override
@@ -237,9 +236,8 @@ public class OptimizationAdam
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

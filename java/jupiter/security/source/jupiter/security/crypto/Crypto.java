@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ public abstract class Crypto {
 	/**
 	 * Constructs a {@link Crypto} with the specified {@link CipherMethod}, {@link CipherMode} and
 	 * {@link CipherPadding}.
-	 * <p>
+	 *
 	 * @param method  the {@link CipherMethod}
 	 * @param mode    the {@link CipherMode}
 	 * @param padding the {@link CipherPadding}
@@ -76,7 +76,7 @@ public abstract class Crypto {
 
 	/**
 	 * Returns the {@link CipherMethod}.
-	 * <p>
+	 *
 	 * @return the {@link CipherMethod}
 	 */
 	public CipherMethod getMethod() {
@@ -85,7 +85,7 @@ public abstract class Crypto {
 
 	/**
 	 * Returns the {@link CipherMode}.
-	 * <p>
+	 *
 	 * @return the {@link CipherMode}
 	 */
 	public CipherMode getMode() {
@@ -94,7 +94,7 @@ public abstract class Crypto {
 
 	/**
 	 * Returns the {@link CipherPadding}.
-	 * <p>
+	 *
 	 * @return the {@link CipherPadding}
 	 */
 	public CipherPadding getPadding() {
@@ -105,14 +105,14 @@ public abstract class Crypto {
 
 	/**
 	 * Returns the default key size.
-	 * <p>
+	 *
 	 * @return the default key size
 	 */
 	public abstract int getDefaultKeySize();
 
 	/**
 	 * Returns the key size.
-	 * <p>
+	 *
 	 * @return the key size
 	 */
 	public abstract int getKeySize();
@@ -126,7 +126,7 @@ public abstract class Crypto {
 
 	/**
 	 * Sets the key size.
-	 * <p>
+	 *
 	 * @param keySize a key size
 	 */
 	public abstract void setKeySize(final int keySize);
@@ -138,7 +138,7 @@ public abstract class Crypto {
 
 	/**
 	 * Combines the primary encoded data.
-	 * <p>
+	 *
 	 * @return the primary encoded combination
 	 */
 	public abstract byte[] combine();
@@ -147,7 +147,7 @@ public abstract class Crypto {
 
 	/**
 	 * Uncombines the specified primary encoded combination.
-	 * <p>
+	 *
 	 * @param combination the primary encoded combination to uncombine
 	 */
 	public abstract void uncombine(final byte[] combination);
@@ -166,7 +166,7 @@ public abstract class Crypto {
 
 	/**
 	 * Creates a key of the specified size.
-	 * <p>
+	 *
 	 * @param keySize the size of the key to create
 	 */
 	public abstract void createKey(final int keySize);
@@ -175,7 +175,7 @@ public abstract class Crypto {
 
 	/**
 	 * Creates an encrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return an encrypting {@link Cipher}
 	 */
 	public abstract Cipher createEncryptingCipher();
@@ -184,7 +184,7 @@ public abstract class Crypto {
 
 	/**
 	 * Creates a decrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return a decrypting {@link Cipher}
 	 */
 	public abstract Cipher createDecryptingCipher();
@@ -196,11 +196,9 @@ public abstract class Crypto {
 
 	/**
 	 * Encrypts the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param bytes the {@code byte} array to encrypt
-	 * <p>
 	 * @return the encrypted {@code byte} array
-	 * <p>
 	 * @throws BadPaddingException       if there is a problem with the padding
 	 * @throws IllegalBlockSizeException if there is a problem with the block size
 	 */
@@ -211,11 +209,9 @@ public abstract class Crypto {
 
 	/**
 	 * Decrypts the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param bytes the {@code byte} array to decrypt
-	 * <p>
 	 * @return the decrypted {@code byte} array
-	 * <p>
 	 * @throws BadPaddingException       if there is a problem with the padding
 	 * @throws IllegalBlockSizeException if there is a problem with the block size
 	 */
@@ -231,9 +227,8 @@ public abstract class Crypto {
 
 	/**
 	 * Returns {@code true} if the specified key size is valid, {@code false} otherwise.
-	 * <p>
+	 *
 	 * @param keySize the key size to test
-	 * <p>
 	 * @return {@code true} if the specified key size is valid, {@code false} otherwise
 	 */
 	public boolean isValidKeySize(final int keySize) {
@@ -251,7 +246,7 @@ public abstract class Crypto {
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
@@ -278,7 +273,7 @@ public abstract class Crypto {
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override
@@ -299,7 +294,7 @@ public abstract class Crypto {
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override
@@ -323,7 +318,7 @@ public abstract class Crypto {
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

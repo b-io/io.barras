@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -82,13 +82,11 @@ public class Comparables {
 	 * Compares the specified {@link Comparable} with the specified {@link Object} for order.
 	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Comparable} to compare (may be {@code null})
 	 * @param b the other {@link Object} to compare against (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
@@ -100,13 +98,11 @@ public class Comparables {
 	 * Compares the specified {@link Object} for order. Returns a negative integer, {@code 0} or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Object} to compare (may be {@code null})
 	 * @param b the other {@link Object} to compare against (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static int compareCast(final Object a, final Object b) {
@@ -116,15 +112,13 @@ public class Comparables {
 	/**
 	 * Returns {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 * otherwise (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>        the type of the objects to compare for order
 	 * @param a          the {@code T} object to compare (may be {@code null})
 	 * @param b          the other {@code T} object to compare against (may be {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
-	 * <p>
 	 * @return {@code 0} if {@code a} and {@code b} are identical, {@code comparator.compare(a, b)}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b} using
 	 *                            {@code comparator}
 	 */
@@ -137,14 +131,12 @@ public class Comparables {
 	/**
 	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
 	 * value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessThan(final T a, final T b) {
@@ -154,14 +146,12 @@ public class Comparables {
 	/**
 	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isLessOrEqualTo(final T a, final T b) {
@@ -173,14 +163,12 @@ public class Comparables {
 	/**
 	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isGreaterThan(final T a, final T b) {
@@ -190,14 +178,12 @@ public class Comparables {
 	/**
 	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean isGreaterOrEqualTo(final T a,
@@ -210,14 +196,12 @@ public class Comparables {
 	/**
 	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> T getMin(final T a, final T b) {
@@ -227,14 +211,12 @@ public class Comparables {
 	/**
 	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare
 	 * @param a   the {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> T getMax(final T a, final T b) {
@@ -271,9 +253,8 @@ public class Comparables {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Comparable}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Comparable},
 	 *         {@code false} otherwise
 	 */
@@ -283,9 +264,8 @@ public class Comparables {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Comparable}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Comparable},
 	 *         {@code false} otherwise
 	 */
@@ -298,15 +278,13 @@ public class Comparables {
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>    the type of the object to test
 	 * @param object the {@code T} object to test (may be {@code null})
 	 * @param from   the {@code T} lower bound to test against (inclusive) (may be {@code null})
 	 * @param to     the {@code T} upper bound to test against (exclusive) (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to) {
@@ -316,17 +294,15 @@ public class Comparables {
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the type of the object to test
 	 * @param object           the {@code T} object to test (may be {@code null})
 	 * @param from             the {@code T} lower bound to test against (inclusive) (may be
 	 *                         {@code null})
 	 * @param to               the {@code T} upper bound to test against (may be {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
@@ -337,17 +313,15 @@ public class Comparables {
 	/**
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the type of the object to test
 	 * @param object           the {@code T} object to test (may be {@code null})
 	 * @param from             the {@code T} lower bound to test against (may be {@code null})
 	 * @param to               the {@code T} upper bound to test against (may be {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 */
 	public static <T> boolean isBetween(final T object, final T from, final T to,
@@ -362,17 +336,15 @@ public class Comparables {
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>        the type of the object to test
 	 * @param object     the {@code T} object to test (may be {@code null})
 	 * @param from       the {@code T} lower bound to test against (inclusive) (may be {@code null})
 	 * @param to         the {@code T} upper bound to test against (exclusive) (may be {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 *                            using {@code comparator}
 	 */
@@ -385,7 +357,7 @@ public class Comparables {
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the type of the object to test
 	 * @param object           the {@code T} object to test (may be {@code null})
 	 * @param from             the {@code T} lower bound to test against (inclusive) (may be
@@ -393,11 +365,9 @@ public class Comparables {
 	 * @param to               the {@code T} upper bound to test against (may be {@code null})
 	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 *                            using {@code comparator}
 	 */
@@ -410,7 +380,7 @@ public class Comparables {
 	 * Tests whether the specified {@code T} object is between the specified {@code T} lower and
 	 * upper bounds using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the type of the object to test
 	 * @param object           the {@code T} object to test (may be {@code null})
 	 * @param from             the {@code T} lower bound to test against (may be {@code null})
@@ -418,11 +388,9 @@ public class Comparables {
 	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is between the specified {@code T}
 	 *         lower and upper bounds using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code object} cannot be compared to {@code from} or {@code to}
 	 *                            using {@code comparator}
 	 */
@@ -444,15 +412,13 @@ public class Comparables {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} type of the objects to compare for equality
 	 * @param a   the {@link Comparable} of {@code T} type to compare for equality (may be
 	 *            {@code null})
 	 * @param b   the other {@link Comparable} of {@code T} type to compare against for equality
 	 *            (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code a} cannot be compared to {@code b}
 	 */
 	public static <T extends Comparable<? super T>> boolean equals(final T a, final T b) {

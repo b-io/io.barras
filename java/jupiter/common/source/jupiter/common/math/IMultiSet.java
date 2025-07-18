@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@ package jupiter.common.math;
 /**
  * {@link IMultiSet} is an {@link ISet} of {@code T} type in which the objects may occur more than
  * once.
- * <p>
+ *
  * @param <T> the self {@link Comparable} type of the {@link IMultiSet}
  */
 public interface IMultiSet<T extends Comparable<? super T>>
@@ -38,16 +38,15 @@ public interface IMultiSet<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the underlying {@link ISet} of {@code T} type.
-	 * <p>
+	 *
 	 * @return the underlying {@link ISet} of {@code T} type
 	 */
 	public ISet<T> getUnderlyingSet();
 
 	/**
 	 * Returns the multiplicity of the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param object a {@code T} object
-	 * <p>
 	 * @return the multiplicity of the specified {@code T} object
 	 */
 	public int getMultiplicity(final T object);

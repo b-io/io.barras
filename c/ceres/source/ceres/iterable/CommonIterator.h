@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,26 +62,24 @@ extern "C"
 
 	/**
 	 * Constructs an Iterator statically.
-	 * <p>
+	 *
 	 * @param length      the length to set
 	 * @param elementType the element type to set
 	 * @param elementSize the element size to set
 	 * @param node        the node to set
 	 * @param next        the function next to set
-	 * <p>
 	 * @return the statically constructed Iterator
 	 */
 	Iterator Iterator_create(const natural length, const type elementType, const natural elementSize, void* node, void* (*next)(struct Iterator* iterator));
 
 	/**
 	 * Constructs an Iterator dynamically.
-	 * <p>
+	 *
 	 * @param length      the length to set
 	 * @param elementType the element type to set
 	 * @param elementSize the element size to set
 	 * @param node        the node to set
 	 * @param next        the function next to set
-	 * <p>
 	 * @return the dynamically constructed Iterator
 	 */
 	Iterator* Iterator_new(const natural length, const type elementType, const natural elementSize, void* node, void* (*next)(struct Iterator* iterator));
@@ -93,7 +91,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Iterator.
-	 * <p>
+	 *
 	 * @param iterator    the Iterator to be reset
 	 * @param length      the length to set
 	 * @param elementType the element type to set
@@ -117,7 +115,7 @@ extern "C"
 
 	/**
 	 * Releases the specified structure and frees it if requested.
-	 * <p>
+	 *
 	 * @param structure the structure to be released
 	 */
 	void Iterator_release(void* structure);
@@ -126,9 +124,8 @@ extern "C"
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be cloned
-	 * <p>
 	 * @return a dynamic copy of the specified structure
 	 */
 	void* Iterator_clone(const void* structure);
@@ -138,11 +135,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -152,9 +148,8 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer Iterator_hash(const void* structure);
@@ -164,7 +159,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -174,7 +169,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.

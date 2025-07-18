@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package jupiter.common.math;
 
 /**
  * {@link IComparable} is the extended {@link Comparable} of {@code T} type.
- * <p>
+ *
  * @param <T> the self {@link Comparable} type of the {@link IComparable}
  */
 public interface IComparable<T extends Comparable<? super T>>
@@ -39,12 +39,10 @@ public interface IComparable<T extends Comparable<? super T>>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public int compareTo(final T other);
@@ -54,11 +52,9 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isLessThan(final T other);
@@ -66,12 +62,10 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
 	 * the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isLessOrEqualTo(final T other);
@@ -81,11 +75,9 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isGreaterThan(final T other);
@@ -93,12 +85,10 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
 	 * as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public boolean isGreaterOrEqualTo(final T other);
@@ -108,11 +98,9 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public Comparable<? super T> getMin(final T other);
@@ -120,11 +108,9 @@ public interface IComparable<T extends Comparable<? super T>>
 	/**
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@code T} object to compare against (may be {@code null})
-	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
-	 * <p>
 	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 */
 	public Comparable<? super T> getMax(final T other);
@@ -136,22 +122,18 @@ public interface IComparable<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@code T} object to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 * <p>
-	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 *
+	 * @param other the other {@code T} object to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
+	 * @throws ClassCastException if {@code other} cannot be compared to {@code this}
 	 * @see #hashCode()
 	 */
 	public boolean equals(final T other);
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Comparable)
 	 * @see System#identityHashCode(Object)
 	 */

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +82,7 @@ public class Domain
 
 	/**
 	 * Constructs a {@link Domain} with the specified elements.
-	 * <p>
+	 *
 	 * @param elements an array of {@link DoubleInterval}
 	 */
 	public Domain(final DoubleInterval... elements) {
@@ -91,7 +91,7 @@ public class Domain
 
 	/**
 	 * Constructs a {@link Domain} with the elements of the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param elements a {@link Collection} of {@link DoubleInterval}
 	 */
 	public Domain(final Collection<? extends DoubleInterval> elements) {
@@ -106,9 +106,8 @@ public class Domain
 	/**
 	 * Returns the closest {@link LowerBound} or {@link UpperBound} to the specified value, or
 	 * {@code null} if {@code this} does not contain any finite {@link Bound}.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the closest {@link LowerBound} or {@link UpperBound} to the specified value, or
 	 *         {@code null} if {@code this} does not contain any finite {@link Bound}
 	 */
@@ -120,9 +119,8 @@ public class Domain
 	/**
 	 * Returns the closest {@link DoubleInterval} to the specified value, or {@code null} if
 	 * {@code this} does not contain any finite {@link DoubleInterval}.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the closest {@link DoubleInterval} to the specified value, or {@code null} if
 	 *         {@code this} does not contain any finite {@link DoubleInterval}
 	 */
@@ -143,9 +141,8 @@ public class Domain
 
 	/**
 	 * Returns the distance to the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance to the specified value
 	 */
 	public double getDistance(final Double value) {
@@ -155,9 +152,8 @@ public class Domain
 
 	/**
 	 * Returns the distance between the {@link LowerBound} and the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance between the {@link LowerBound} and the specified value
 	 */
 	public double getLowerDistance(final Double value) {
@@ -168,9 +164,8 @@ public class Domain
 
 	/**
 	 * Returns the distance between the {@link UpperBound} and the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance between the {@link UpperBound} and the specified value
 	 */
 	public double getUpperDistance(final Double value) {
@@ -183,7 +178,7 @@ public class Domain
 
 	/**
 	 * Returns the {@code double} value of the {@link LowerBound}.
-	 * <p>
+	 *
 	 * @return the {@code double} value of the {@link LowerBound}
 	 */
 	public double getLowerBoundValue() {
@@ -195,9 +190,8 @@ public class Domain
 	/**
 	 * Returns the {@code double} value of the {@link LowerBound} using the specified minimal
 	 * interval.
-	 * <p>
+	 *
 	 * @param step the {@code double} minimal interval
-	 * <p>
 	 * @return the {@code double} value of the {@link LowerBound} using the specified minimal
 	 *         interval
 	 */
@@ -211,7 +205,7 @@ public class Domain
 
 	/**
 	 * Returns the {@code double} value of the {@link UpperBound}.
-	 * <p>
+	 *
 	 * @return the {@code double} value of the {@link UpperBound}
 	 */
 	public double getUpperBoundValue() {
@@ -223,9 +217,8 @@ public class Domain
 	/**
 	 * Returns the {@code double} value of the {@link UpperBound} using the specified minimal
 	 * interval.
-	 * <p>
+	 *
 	 * @param step the {@code double} minimal interval
-	 * <p>
 	 * @return the {@code double} value of the {@link UpperBound} using the specified minimal
 	 *         interval
 	 */
@@ -253,9 +246,8 @@ public class Domain
 	 * Returns {@code value} if {@code value} is inside {@code this}, the value of the closest
 	 * {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param value the {@link Double} to bound (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, the value of the closest
 	 *         {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 *         otherwise
@@ -266,9 +258,8 @@ public class Domain
 
 	/**
 	 * Returns {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param value the {@link Double} to constrain (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code NaN} otherwise
 	 */
 	@Override
@@ -283,7 +274,7 @@ public class Domain
 
 	/**
 	 * Tests whether {@code this} is finite.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is finite, {@code false} otherwise
 	 */
 	public boolean isFinite() {
@@ -302,9 +293,8 @@ public class Domain
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

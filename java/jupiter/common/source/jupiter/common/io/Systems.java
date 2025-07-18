@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -84,11 +84,9 @@ public class Systems {
 
 	/**
 	 * Executes the specified command on the system.
-	 * <p>
+	 *
 	 * @param command the command to execute
-	 * <p>
 	 * @return the exit value of the specified command executed on the system
-	 * <p>
 	 * @throws InterruptedException if {@code command} is interrupted
 	 * @throws IOException          if there is a problem with querying the system
 	 */
@@ -100,12 +98,10 @@ public class Systems {
 	/**
 	 * Executes the specified command on the system, prints the output with the specified printer
 	 * {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the command to execute
-	 * <p>
 	 * @return the exit value of the specified command executed on the system
-	 * <p>
 	 * @throws InterruptedException if {@code command} is interrupted
 	 * @throws IOException          if there is a problem with querying the system
 	 */
@@ -145,7 +141,7 @@ public class Systems {
 
 	/**
 	 * Tests whether the system is {@link OS#LINUX} or {@link OS#MACOS}.
-	 * <p>
+	 *
 	 * @return {@code true} if the system is {@link OS#LINUX} or {@link OS#MACOS}, {@code false}
 	 *         otherwise
 	 */
@@ -155,7 +151,7 @@ public class Systems {
 
 	/**
 	 * Tests whether the system is {@link OS#WINDOWS}.
-	 * <p>
+	 *
 	 * @return {@code true} if the system is {@link OS#WINDOWS}, {@code false} otherwise
 	 */
 	public static boolean isWindows() {

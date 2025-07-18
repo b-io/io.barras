@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import jupiter.common.util.Arrays;
 
 /**
  * {@link Reducer} is the {@link Worker} reducing an {@code I} input array to an {@code O} output.
- * <p>
+ *
  * @param <I> the input type
  * @param <O> the output type
  */
@@ -71,7 +71,7 @@ public abstract class Reducer<I, O>
 	/**
 	 * Constructs a {@link Reducer} of {@code I} and {@code O} types with the specified output
 	 * {@link Class}.
-	 * <p>
+	 *
 	 * @param c the output {@link Class} of {@code O} type
 	 */
 	protected Reducer(final Class<O> c) {
@@ -91,7 +91,7 @@ public abstract class Reducer<I, O>
 
 	/**
 	 * Returns the output {@link Class} of {@code O} type.
-	 * <p>
+	 *
 	 * @return the output {@link Class} of {@code O} type
 	 */
 	public Class<O> getOutputClass() {
@@ -137,9 +137,8 @@ public abstract class Reducer<I, O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

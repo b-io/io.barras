@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -266,9 +266,8 @@ public class R {
 
 	/**
 	 * Executes the specified R script on the R engine.
-	 * <p>
+	 *
 	 * @param script the R script to execute
-	 * <p>
 	 * @return the exit value of the specified R script executed on the R engine
 	 */
 	public static int executeScript(final String... script) {
@@ -278,10 +277,9 @@ public class R {
 	/**
 	 * Executes the specified R script on the R engine, prints the output with the specified printer
 	 * {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param printer the printer {@link IOHandler}
 	 * @param script  the R script to execute
-	 * <p>
 	 * @return the exit value of the specified R script executed on the R engine
 	 */
 	public static int executeScript(final IOHandler printer, final String... script) {
@@ -300,9 +298,8 @@ public class R {
 
 	/**
 	 * Executes the specified R command on the R engine.
-	 * <p>
+	 *
 	 * @param command the R command to execute
-	 * <p>
 	 * @return the exit value of the specified R command executed on the R engine
 	 */
 	public static int execute(final String... command) {
@@ -312,10 +309,9 @@ public class R {
 	/**
 	 * Executes the specified R command on the R engine, prints the output with the specified
 	 * printer {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the R command to execute
-	 * <p>
 	 * @return the exit value of the specified R command executed on the R engine
 	 */
 	public static int execute(final IOHandler printer, final String... command) {
@@ -343,7 +339,7 @@ public class R {
 
 	/**
 	 * Tests whether the local Rserve instance is running on the default port.
-	 * <p>
+	 *
 	 * @return {@code true} if the local Rserve instance is running on the default port,
 	 *         {@code false} otherwise
 	 */
@@ -396,7 +392,7 @@ public class R {
 
 		/**
 		 * Constructs a {@link RPrinter} with the specified printer {@link IOHandler}.
-		 * <p>
+		 *
 		 * @param printer the printer {@link IOHandler}
 		 */
 		protected RPrinter(final IOHandler printer) {
@@ -447,9 +443,8 @@ public class R {
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

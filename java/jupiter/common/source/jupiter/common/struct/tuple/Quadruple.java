@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ public class Quadruple<T1, T2, T3, T4>
 	/**
 	 * Constructs a {@link Quadruple} with the specified {@code T1}, {@code T2}, {@code T3} and
 	 * {@code T4} components.
-	 * <p>
+	 *
 	 * @param first  the {@code T1} component
 	 * @param second the {@code T2} component
 	 * @param third  the {@code T3} component
@@ -98,7 +98,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the {@code T1} component.
-	 * <p>
+	 *
 	 * @return the {@code T1} component
 	 */
 	public T1 getFirst() {
@@ -107,7 +107,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the {@code T2} component.
-	 * <p>
+	 *
 	 * @return the {@code T2} component
 	 */
 	public T2 getSecond() {
@@ -116,7 +116,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the {@code T3} component.
-	 * <p>
+	 *
 	 * @return the {@code T3} component
 	 */
 	public T3 getThird() {
@@ -125,7 +125,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the {@code T4} component.
-	 * <p>
+	 *
 	 * @return the {@code T4} component
 	 */
 	public T4 getFourth() {
@@ -136,7 +136,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the size of {@code this}.
-	 * <p>
+	 *
 	 * @return the size of {@code this}
 	 */
 	@Override
@@ -148,7 +148,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Sets the {@code T1} component.
-	 * <p>
+	 *
 	 * @param first a {@code T1} object
 	 */
 	public void setFirst(final T1 first) {
@@ -157,7 +157,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Sets the {@code T2} component.
-	 * <p>
+	 *
 	 * @param second a {@code T2} object
 	 */
 	public void setSecond(final T2 second) {
@@ -166,7 +166,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Sets the {@code T3} component.
-	 * <p>
+	 *
 	 * @param third a {@code T3} object
 	 */
 	public void setThird(final T3 third) {
@@ -175,7 +175,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Sets the {@code T4} component.
-	 * <p>
+	 *
 	 * @param fourth a {@code T4} object
 	 */
 	public void setFourth(final T4 fourth) {
@@ -189,9 +189,8 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -213,11 +212,9 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -239,9 +236,8 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -254,7 +250,7 @@ public class Quadruple<T1, T2, T3, T4>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

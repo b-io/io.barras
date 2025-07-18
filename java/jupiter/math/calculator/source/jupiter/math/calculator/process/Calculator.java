@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,6 @@
 package jupiter.math.calculator.process;
 
 import static jupiter.common.io.InputOutput.IO;
-import static jupiter.common.util.Characters.SPACE;
 import static jupiter.common.util.Strings.EMPTY;
 
 import java.io.Serializable;
@@ -34,8 +33,8 @@ import java.util.Map;
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.thread.Result;
 import jupiter.common.thread.SynchronizedWorkQueue;
@@ -155,9 +154,8 @@ public class Calculator
 	/**
 	 * Parses the specified expression {@link String} (assignment or simple evaluation) and
 	 * evaluates it to an {@link Entity}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse and evaluate
-	 * <p>
 	 * @return the {@link Entity} evaluated from the specified expression {@link String}
 	 */
 	public Result<Entity> process(final String expression) {
@@ -215,10 +213,9 @@ public class Calculator
 	/**
 	 * Parses the specified expression {@link String} to a tree of operations and numbers with the
 	 * specified context {@link Map} and evaluates it to an {@link Entity}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse and evaluate
 	 * @param context    the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return the {@link Entity} evaluated from the specified expression {@link String} with the
 	 *         specified context {@link Map}
 	 */
@@ -234,10 +231,9 @@ public class Calculator
 	/**
 	 * Evaluates the specified tree {@link Element} of operations and numbers with the specified
 	 * context {@link Map} to an {@link Entity}.
-	 * <p>
+	 *
 	 * @param tree    the root {@link Element} of the tree to evaluate
 	 * @param context the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return the {@link Entity} evaluated from the specified tree {@link Element} of operations
 	 *         and numbers with the specified context {@link Map}
 	 */
@@ -258,10 +254,9 @@ public class Calculator
 	/**
 	 * Evaluates the specified {@link UnaryOperation} with the specified context {@link Map} to an
 	 * {@link Entity}.
-	 * <p>
+	 *
 	 * @param unaryOperation the {@link UnaryOperation} to evaluate
 	 * @param context        the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link UnaryOperation} with the
 	 *         specified context {@link Map}
 	 */
@@ -309,10 +304,9 @@ public class Calculator
 	/**
 	 * Evaluates the specified {@link BinaryOperation} with the specified context {@link Map} to an
 	 * {@link Entity}.
-	 * <p>
+	 *
 	 * @param binaryOperation the {@link BinaryOperation} to evaluate
 	 * @param context         the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return the {@link Entity} evaluated from the specified {@link BinaryOperation} with the
 	 *         specified context {@link Map}
 	 */
@@ -416,9 +410,8 @@ public class Calculator
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

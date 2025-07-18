@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,7 +61,7 @@ public class StringJoiner
 
 	/**
 	 * Constructs a {@link StringJoiner} with the specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param delimiter the delimiting {@link String}
 	 */
 	protected StringJoiner(final String delimiter) {
@@ -91,9 +91,8 @@ public class StringJoiner
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

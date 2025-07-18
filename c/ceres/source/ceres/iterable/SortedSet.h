@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -65,12 +65,11 @@ extern "C"
 
 	/**
 	 * Constructs a Sorted Set dynamically.
-	 * <p>
+	 *
 	 * @param elementType the element type of the Sorted Set to be constructed
 	 * @param elementSize the element size of the Sorted Set to be constructed
 	 * @param initialSize the initial size of the Sorted Set to be constructed
 	 * @param comparator  the element comparator of the Sorted Set to be constructed
-	 * <p>
 	 * @return the dynamically constructed Sorted Set
 	 */
 	SortedSet* SortedSet_new(const type elementType, const natural elementSize, const natural initialSize, const Comparable comparator);
@@ -82,7 +81,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Sorted Set.
-	 * <p>
+	 *
 	 * @param sortedSet   the Sorted Set to be reset
 	 * @param elementType the element type to set
 	 * @param elementSize the element size to set
@@ -98,11 +97,10 @@ extern "C"
 
 	/**
 	 * Adds the specified value to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param type       the type of the value to be added
 	 * @param value      the value to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -110,10 +108,9 @@ extern "C"
 
 	/**
 	 * Adds the specified value to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param value      the value to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -121,10 +118,9 @@ extern "C"
 
 	/**
 	 * Adds the specified Structure to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param structure  the Structure to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -137,9 +133,8 @@ extern "C"
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be cloned
-	 * <p>
 	 * @return a dynamic copy of the specified structure
 	 */
 	void* SortedSet_clone(const void* structure);

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,10 +44,9 @@ public class Norms {
 
 	/**
 	 * Returns the Euclidean norm of {@code a} and {@code b} without under/overflow.
-	 * <p>
+	 *
 	 * @param a a {@code double} value
 	 * @param b another {@code double} value
-	 * <p>
 	 * @return the Euclidean norm of {@code a} and {@code b}
 	 */
 	public static double euclideanNorm(final double a, final double b) {

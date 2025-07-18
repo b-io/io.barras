@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import jupiter.common.io.Resources;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.util.Arrays;
@@ -64,14 +64,12 @@ public class StandardSQL
 	/**
 	 * Returns the SQL types of the specified columns of the specified table using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the columns to get the SQL types from
 	 * @param columns    the columns of the table to get the SQL types from (may be {@code null})
-	 * <p>
 	 * @return the SQL types of the specified columns of the specified table using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -111,13 +109,11 @@ public class StandardSQL
 	/**
 	 * Returns the SQL types of all the parameters of the specified SQL procedure using the
 	 * specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param procedure  the SQL procedure containing the parameters to get the SQL types from
-	 * <p>
 	 * @return the SQL types of all the parameters of the specified SQL procedure using the
 	 *         specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -111,7 +111,7 @@ public class LogHandler
 
 	/**
 	 * Constructs a {@link LogHandler} with the specified path to the log directory.
-	 * <p>
+	 *
 	 * @param logDirPath the path to the log directory
 	 */
 	public LogHandler(final String logDirPath) {
@@ -121,7 +121,7 @@ public class LogHandler
 	/**
 	 * Constructs a {@link LogHandler} with the specified path to the log directory, output log and
 	 * error log.
-	 * <p>
+	 *
 	 * @param logDirPath    the path to the log directory
 	 * @param outputLogName the name to the output log to handle
 	 * @param errorLogName  the name to the error log to handle
@@ -141,9 +141,8 @@ public class LogHandler
 
 	/**
 	 * Returns the path to the specified log.
-	 * <p>
+	 *
 	 * @param logName the name of the log
-	 * <p>
 	 * @return the path to the specified log
 	 */
 	protected String getPath(final String logName) {
@@ -154,7 +153,7 @@ public class LogHandler
 
 	/**
 	 * Sets the log directory {@link File} with the specified directory path.
-	 * <p>
+	 *
 	 * @param logDirPath a {@link String}
 	 */
 	public void setLogDir(final String logDirPath) {
@@ -173,7 +172,7 @@ public class LogHandler
 
 	/**
 	 * Sets the output log {@link File} with the specified name.
-	 * <p>
+	 *
 	 * @param outputLogName a {@link String}
 	 */
 	public void setOutputLog(final String outputLogName) {
@@ -187,7 +186,7 @@ public class LogHandler
 
 	/**
 	 * Sets the error log {@link File} with the specified name.
-	 * <p>
+	 *
 	 * @param errorLogName a {@link String}
 	 */
 	public void setErrorLog(final String errorLogName) {
@@ -261,7 +260,7 @@ public class LogHandler
 
 	/**
 	 * Creates all the directories of the log directory.
-	 * <p>
+	 *
 	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -277,10 +276,9 @@ public class LogHandler
 
 	/**
 	 * Prints the specified content {@link Object} to the output log (error log if {@code isError}).
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -320,10 +318,9 @@ public class LogHandler
 	/**
 	 * Prints the specified content {@link Object} to the output log (error log if {@code isError})
 	 * and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the error log or in the output log
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -379,9 +376,8 @@ public class LogHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -394,11 +390,9 @@ public class LogHandler
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -419,9 +413,8 @@ public class LogHandler
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

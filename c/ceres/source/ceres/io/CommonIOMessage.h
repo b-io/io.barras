@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -65,28 +65,26 @@ extern "C"
 
 	/**
 	 * Constructs an I/O Message statically.
-	 * <p>
+	 *
 	 * @param type         the I/O type to set
 	 * @param level        the Severity Level to set
 	 * @param filePath     the file path to set
 	 * @param functionName the function name to set
 	 * @param lineNumber   the line number to set
 	 * @param content      the content to set
-	 * <p>
 	 * @return the statically constructed I/O Message
 	 */
 	IOMessage IOMessage_create(const IOType type, const SeverityLevel level, const string filePath, const string functionName, const natural lineNumber, const string content);
 
 	/**
 	 * Constructs an I/O Message dynamically.
-	 * <p>
+	 *
 	 * @param type         the I/O type to set
 	 * @param level        the Severity Level to set
 	 * @param filePath     the file path to set
 	 * @param functionName the function name to set
 	 * @param lineNumber   the line number to set
 	 * @param content      the content to set
-	 * <p>
 	 * @return the dynamically constructed I/O Message
 	 */
 	IOMessage* IOMessage_new(const IOType type, const SeverityLevel level, const string filePath, const string functionName, const natural lineNumber, const string content);
@@ -98,7 +96,7 @@ extern "C"
 
 	/**
 	 * Resets the specified I/O Message.
-	 * <p>
+	 *
 	 * @param message the I/O Message to be reset
 	 */
 	void IOMessage_reset(void* message);
@@ -110,7 +108,7 @@ extern "C"
 
 	/**
 	 * Sets the attributes of the specified I/O Message.
-	 * <p>
+	 *
 	 * @param message      the I/O Message to be set
 	 * @param type         the I/O type to set
 	 * @param level        the Severity Level to set
@@ -142,7 +140,7 @@ extern "C"
 
 	/**
 	 * Releases the specified structure and frees it if requested.
-	 * <p>
+	 *
 	 * @param structure the structure to be released
 	 */
 	void IOMessage_release(void* structure);
@@ -151,9 +149,8 @@ extern "C"
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be cloned
-	 * <p>
 	 * @return a dynamic copy of the specified structure
 	 */
 	void* IOMessage_clone(const void* structure);
@@ -163,11 +160,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -177,9 +173,8 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer IOMessage_hash(const void* structure);
@@ -189,7 +184,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -199,7 +194,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -209,7 +204,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -219,7 +214,7 @@ extern "C"
 	/**
 	 * Creates the label with {@code source} and appends it to the end of
 	 * {@code target} (of size {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of the label is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.

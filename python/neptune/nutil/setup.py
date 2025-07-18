@@ -10,7 +10,7 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
@@ -110,9 +110,6 @@ setup(
 
 		# The project audience
 		'Intended Audience :: Developers',
-
-		# The project license
-		'License :: OSI Approved :: MIT License',
 
 		# The project platform
 		'Operating System :: OS Independent',

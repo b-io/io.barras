@@ -3,9 +3,11 @@
 **NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
 
 * nfin,
+* nformat,
 * ngui,
 * nlearn,
-* nmath and
+* nmath,
+* nserve, and
 * nutil.
 
 The library **nmath** contains mathematical utility functions; among them:

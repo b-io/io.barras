@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,14 +34,14 @@ public interface IConsole {
 
 	/**
 	 * Returns the {@link InputStream}.
-	 * <p>
+	 *
 	 * @return the {@link InputStream}
 	 */
 	public InputStream getIn();
 
 	/**
 	 * Returns the input line.
-	 * <p>
+	 *
 	 * @return the input line
 	 */
 	public String getInputLine();
@@ -50,14 +50,14 @@ public interface IConsole {
 
 	/**
 	 * Returns the {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the {@link PrintStream}
 	 */
 	public PrintStream getOut();
 
 	/**
 	 * Returns the error {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the error {@link PrintStream}
 	 */
 	public PrintStream getErr();

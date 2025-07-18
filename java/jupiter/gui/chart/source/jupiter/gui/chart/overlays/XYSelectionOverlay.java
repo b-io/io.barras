@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.util.Objects;
 
@@ -90,7 +90,7 @@ public class XYSelectionOverlay
 	/**
 	 * Appends the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all the
 	 * registered listeners.
-	 * <p>
+	 *
 	 * @param selection the {@link XYSelection} to add
 	 */
 	public void addSelection(final XYSelection selection) {
@@ -108,7 +108,7 @@ public class XYSelectionOverlay
 	/**
 	 * Removes the specified {@link XYSelection} and sends an {@link OverlayChangeEvent} to all the
 	 * registered listeners.
-	 * <p>
+	 *
 	 * @param selection the {@link XYSelection} to remove
 	 */
 	public void removeSelection(final XYSelection selection) {
@@ -139,7 +139,7 @@ public class XYSelectionOverlay
 
 	/**
 	 * Receives a property change event (typically a change in a {@link XYSelection}).
-	 * <p>
+	 *
 	 * @param event a {@link PropertyChangeEvent}
 	 */
 	@Override
@@ -151,7 +151,7 @@ public class XYSelectionOverlay
 
 	/**
 	 * Paints the {@link List} of {@link XYSelection} in the specified {@link Graphics2D}.
-	 * <p>
+	 *
 	 * @param g          the {@link Graphics2D} to paint with
 	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
 	 */
@@ -179,9 +179,8 @@ public class XYSelectionOverlay
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -199,11 +198,9 @@ public class XYSelectionOverlay
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -222,9 +219,8 @@ public class XYSelectionOverlay
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

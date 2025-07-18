@@ -46,7 +46,6 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-
 				<configuration>
 					<libraries>
 						<library>

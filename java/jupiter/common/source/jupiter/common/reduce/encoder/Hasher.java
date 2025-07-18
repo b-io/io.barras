@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import jupiter.common.util.Objects;
 /**
  * {@link Hasher} is the {@link Reducer} hashing an {@code I} input array to an output
  * {@link Integer}.
- * <p>
+ *
  * @param <I> the component type of the input array to hash
  */
 public class Hasher<I>
@@ -74,9 +74,8 @@ public class Hasher<I>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

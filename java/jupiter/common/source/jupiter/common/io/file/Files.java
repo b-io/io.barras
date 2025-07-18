@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,8 +60,8 @@ import jupiter.common.io.Content;
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.Index;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.Index;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.FileArguments;
@@ -127,7 +127,7 @@ public class Files {
 
 	/**
 	 * Returns the current path.
-	 * <p>
+	 *
 	 * @return the current path
 	 */
 	public static String getPath() {
@@ -136,9 +136,8 @@ public class Files {
 
 	/**
 	 * Returns the path to the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the path to the specified {@link File}
 	 */
 	public static String getPath(final File file) {
@@ -147,11 +146,9 @@ public class Files {
 
 	/**
 	 * Returns the canonical path to the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the canonical path to the specified {@link File}
-	 * <p>
 	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -163,10 +160,9 @@ public class Files {
 	/**
 	 * Returns the relative path to the specified path {@link File} against the specified base
 	 * {@link File}.
-	 * <p>
+	 *
 	 * @param base the base {@link File} of the path to relativize
 	 * @param path the path {@link File} to relativize
-	 * <p>
 	 * @return the relative path to the specified path {@link File} against the specified base
 	 *         {@link File}
 	 */
@@ -179,9 +175,8 @@ public class Files {
 	/**
 	 * Returns the path to the parent directory of the specified {@link File}, or {@code null} if it
 	 * is the root.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the path to the parent directory of the specified {@link File}, or {@code null} if it
 	 *         is the root
 	 */
@@ -197,9 +192,8 @@ public class Files {
 	/**
 	 * Returns the parent directory {@link File} of the specified {@link File}, or {@code null} if
 	 * it is the root.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the parent directory {@link File} of the specified {@link File}, or {@code null} if
 	 *         it is the root
 	 */
@@ -214,12 +208,10 @@ public class Files {
 	/**
 	 * Returns the canonical path to the parent directory of the specified {@link File}, or
 	 * {@code null} if it is the root.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the canonical path to the parent directory of the specified {@link File}, or
 	 *         {@code null} if it is the root
-	 * <p>
 	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -236,12 +228,10 @@ public class Files {
 	/**
 	 * Returns the canonical parent directory {@link File} of the specified {@link File}, or
 	 * {@code null} if it is the root.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return the canonical parent directory {@link File} of the specified {@link File}, or
 	 *         {@code null} if it is the root
-	 * <p>
 	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -258,9 +248,8 @@ public class Files {
 
 	/**
 	 * Returns the file name of the specified path.
-	 * <p>
+	 *
 	 * @param path a {@link String}
-	 * <p>
 	 * @return the file name of the specified path
 	 */
 	public static String getName(final String path) {
@@ -269,9 +258,8 @@ public class Files {
 
 	/**
 	 * Returns the file name without the extension of the specified path.
-	 * <p>
+	 *
 	 * @param path a {@link String}
-	 * <p>
 	 * @return the file name without the extension of the specified path
 	 */
 	public static String getNameWithoutExtension(final String path) {
@@ -281,9 +269,8 @@ public class Files {
 
 	/**
 	 * Returns the file extension of the specified path.
-	 * <p>
+	 *
 	 * @param path a {@link String}
-	 * <p>
 	 * @return the file extension of the specified path
 	 */
 	public static String getExtension(final String path) {
@@ -295,7 +282,7 @@ public class Files {
 
 	/**
 	 * Sets the last-modified time of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file      the {@link File} to set
 	 * @param timestamp a length of time (in milliseconds) since the epoch (January 1, 1970,
 	 *                  00:00:00 GMT)
@@ -356,9 +343,8 @@ public class Files {
 
 	/**
 	 * Creates all the directories of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -371,9 +357,8 @@ public class Files {
 
 	/**
 	 * Creates all the parent directories of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -386,7 +371,7 @@ public class Files {
 
 	/**
 	 * Creates a temporary {@link File}.
-	 * <p>
+	 *
 	 * @return a temporary {@link File}
 	 */
 	public static File createTempFile() {
@@ -398,11 +383,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedInputStream} of the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path a {@link String}
-	 * <p>
 	 * @return a {@link BufferedInputStream} of the file denoted by the specified path
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening the file denoted by
 	 *                               {@code path}
 	 */
@@ -413,11 +396,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedInputStream} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return a {@link BufferedInputStream} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public static BufferedInputStream createInputStream(final File file)
@@ -429,11 +410,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedOutputStream} of the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path a {@link String}
-	 * <p>
 	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
 	 */
@@ -444,12 +423,10 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedOutputStream} of the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path   a {@link String}
 	 * @param append the flag specifying whether to append
-	 * <p>
 	 * @return a {@link BufferedOutputStream} of the file denoted by the specified path
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
 	 */
@@ -460,11 +437,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedOutputStream} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file a {@link File}
-	 * <p>
 	 * @return a {@link BufferedOutputStream} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedOutputStream createOutputStream(final File file)
@@ -474,12 +449,10 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedOutputStream} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file   a {@link File}
 	 * @param append the flag specifying whether to append
-	 * <p>
 	 * @return a {@link BufferedOutputStream} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedOutputStream createOutputStream(final File file, final boolean append)
@@ -495,13 +468,11 @@ public class Files {
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
-	 * <p>
+	 *
 	 * @param source the source {@link File} to copy from
 	 * @param target the target {@link File} to copy to
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean copy(final File source, final File target)
@@ -512,14 +483,12 @@ public class Files {
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
-	 * <p>
+	 *
 	 * @param source the source {@link File} to copy from
 	 * @param target the target {@link File} to copy to
 	 * @param force  the flag specifying whether to delete the target {@link File} before copying
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean copy(final File source, final File target, final boolean force)
@@ -608,16 +577,14 @@ public class Files {
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} from the
 	 * specified line (without necessary preserving the file dates).
-	 * <p>
+	 *
 	 * @param sourceFile    the source {@link File} to copy from
 	 * @param targetFile    the target {@link File} to copy to
 	 * @param force         the flag specifying whether to delete the target {@link File} before
 	 *                      copying
 	 * @param fromLineIndex the line index to start copying from (inclusive)
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} from the specified line, {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code sourceFile} to
 	 *                           {@code targetFile}
 	 */
@@ -630,17 +597,15 @@ public class Files {
 	/**
 	 * Copies the specified source {@link File} to the specified target {@link File} between the
 	 * specified lines (without necessary preserving the file dates).
-	 * <p>
+	 *
 	 * @param sourceFile    the source {@link File} to copy from
 	 * @param targetFile    the target {@link File} to copy to
 	 * @param force         the flag specifying whether to delete the target {@link File} before
 	 *                      copying
 	 * @param fromLineIndex the line index to start copying from (inclusive)
 	 * @param toLineIndex   the line index to finish copying at (exclusive)
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is copied to the specified target
 	 *         {@link File} between the specified lines, {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code sourceFile} to
 	 *                           {@code targetFile}
 	 */
@@ -680,12 +645,10 @@ public class Files {
 	/**
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream}.
-	 * <p>
+	 *
 	 * @param sourceFile the source {@link File} to copy from
 	 * @param output     the {@link OutputStream} to copy to
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code sourceFile} or writing to
 	 *                     {@code output}
 	 */
@@ -697,13 +660,11 @@ public class Files {
 	/**
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link OutputStream} with the specified buffer.
-	 * <p>
+	 *
 	 * @param sourceFile the source {@link File} to copy from
 	 * @param output     the {@link OutputStream} to copy to
 	 * @param buffer     the buffer {@code byte} array used for copying
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code sourceFile}
 	 * @throws IOException           if there is a problem with reading {@code sourceFile} or
 	 *                               writing to {@code output}
@@ -722,12 +683,10 @@ public class Files {
 	/**
 	 * Reads the data from the specified source {@link File} and writes it to the specified
 	 * {@link FileChannel}.
-	 * <p>
+	 *
 	 * @param sourceFile the source {@link File} to copy from
 	 * @param output     the {@link FileChannel} to copy to
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code sourceFile} or writing to
 	 *                     {@code output}
 	 */
@@ -747,12 +706,10 @@ public class Files {
 	/**
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File}.
-	 * <p>
+	 *
 	 * @param input      the {@link InputStream} to copy from
 	 * @param targetFile the target {@link File} to copy to
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening
 	 *                               {@code targetFile}
 	 * @throws IOException           if there is a problem with reading {@code input} or writing to
@@ -766,13 +723,11 @@ public class Files {
 	/**
 	 * Reads the data from the specified {@link InputStream} and writes it to the specified target
 	 * {@link File} with the specified buffer.
-	 * <p>
+	 *
 	 * @param input      the {@link InputStream} to copy from
 	 * @param targetFile the target {@link File} to copy to
 	 * @param buffer     the buffer {@code byte} array used for copying
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening
 	 *                               {@code targetFile}
 	 * @throws IOException           if there is a problem with reading {@code input} or writing to
@@ -792,12 +747,10 @@ public class Files {
 	/**
 	 * Reads the data from the specified {@link ReadableByteChannel} and writes it to the specified
 	 * target {@link File}.
-	 * <p>
+	 *
 	 * @param input      the {@link ReadableByteChannel} to copy from
 	 * @param targetFile the target {@link File} to copy to
-	 * <p>
 	 * @return the number of copied {@code byte}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening
 	 *                               {@code targetFile}
 	 * @throws IOException           if there is a problem with reading {@code input} or writing to
@@ -818,9 +771,8 @@ public class Files {
 
 	/**
 	 * Deletes the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to delete
-	 * <p>
 	 * @return {@code true} if the specified {@link File} is deleted, {@code false} otherwise
 	 */
 	public static boolean delete(final File file) {
@@ -829,10 +781,9 @@ public class Files {
 
 	/**
 	 * Deletes the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file  the {@link File} to delete
 	 * @param force the flag specifying whether to force deleting
-	 * <p>
 	 * @return {@code true} if the specified {@link File} is deleted, {@code false} otherwise
 	 */
 	public static boolean delete(final File file, final boolean force) {
@@ -876,13 +827,11 @@ public class Files {
 	/**
 	 * Moves the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
-	 * <p>
+	 *
 	 * @param source the source {@link File} to move from
 	 * @param target the target {@link File} to move to
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is moved to the specified target
 	 *         {@link File} (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean move(final File source, final File target)
@@ -893,14 +842,12 @@ public class Files {
 	/**
 	 * Moves the specified source {@link File} to the specified target {@link File} (preserving the
 	 * file dates).
-	 * <p>
+	 *
 	 * @param source the source {@link File} to move from
 	 * @param target the target {@link File} to move to
 	 * @param force  the flag specifying whether to delete the target {@link File} before moving
-	 * <p>
 	 * @return {@code true} if the specified source {@link File} is moved to the specified target
 	 *         {@link File} (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code source} to {@code target}
 	 */
 	public static boolean move(final File source, final File target, final boolean force)
@@ -913,9 +860,8 @@ public class Files {
 	/**
 	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
 	 * in an {@link ExtendedLinkedList}.
-	 * <p>
+	 *
 	 * @param dir the directory {@link File} of the {@link File} to list
-	 * <p>
 	 * @return all the {@link File} that are contained in the specified directory or subdirectories
 	 *         in an {@link ExtendedLinkedList}
 	 */
@@ -938,10 +884,9 @@ public class Files {
 	/**
 	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
 	 * and matching the specified name filter {@link String} in an {@link ExtendedLinkedList}.
-	 * <p>
+	 *
 	 * @param dir        the directory {@link File} of the {@link File} to list
 	 * @param nameFilter the name filter {@link String} of the {@link File} to list
-	 * <p>
 	 * @return all the {@link File} that are contained in the specified directory or subdirectories
 	 *         and matching the specified name filter {@link String} in an
 	 *         {@link ExtendedLinkedList}
@@ -953,10 +898,9 @@ public class Files {
 	/**
 	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
 	 * and matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}.
-	 * <p>
+	 *
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
-	 * <p>
 	 * @return all the {@link File} that are contained in the specified directory or subdirectories
 	 *         and matching the specified name {@link Pattern} in an {@link ExtendedLinkedList}
 	 */
@@ -968,11 +912,10 @@ public class Files {
 	 * Returns all the {@link File} that are contained in the specified directory or subdirectories
 	 * and matching the specified name {@link Pattern} until the specified depth in an
 	 * {@link ExtendedLinkedList}.
-	 * <p>
+	 *
 	 * @param dir         the directory {@link File} of the {@link File} to list
 	 * @param namePattern the name {@link Pattern} of the {@link File} to list
 	 * @param depth       the number of subdirectories under the specified directory to search in
-	 * <p>
 	 * @return all the {@link File} that are contained in the specified directory or subdirectories
 	 *         and matching the specified name {@link Pattern} until the specified depth in an
 	 *         {@link ExtendedLinkedList}
@@ -1001,10 +944,9 @@ public class Files {
 
 	/**
 	 * Removes the specified line from the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file      a {@link File}
 	 * @param lineIndex the index of the line to remove
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean remove(final File file, final int lineIndex) {
@@ -1015,10 +957,9 @@ public class Files {
 
 	/**
 	 * Removes all the lines from the specified {@link File} from the specified line.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param fromLineIndex the line index to start removing from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean removeAll(final File file, final int fromLineIndex) {
@@ -1027,11 +968,10 @@ public class Files {
 
 	/**
 	 * Removes all the lines from the specified {@link File} between the specified lines.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param fromLineIndex the line index to start removing from (inclusive)
 	 * @param toLineIndex   the line index to finish removing at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean removeAll(final File file, final int fromLineIndex,
@@ -1049,12 +989,11 @@ public class Files {
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * specified {@link File} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param file        a {@link File}
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean replaceAll(final File file, final String regex,
@@ -1065,13 +1004,12 @@ public class Files {
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * specified {@link File} by the specified {@link String} from the specified line.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param regex         the regular expression {@link String} to identify and replace (may be
 	 *                      {@code null})
 	 * @param replacement   the {@link String} to replace by (may be {@code null})
 	 * @param fromLineIndex the line index to start replacing from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean replaceAll(final File file, final String regex, final String replacement,
@@ -1082,14 +1020,13 @@ public class Files {
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * specified {@link File} by the specified {@link String} between the specified lines.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param regex         the regular expression {@link String} to identify and replace (may be
 	 *                      {@code null})
 	 * @param replacement   the {@link String} to replace by (may be {@code null})
 	 * @param fromLineIndex the line index to start replacing from (inclusive)
 	 * @param toLineIndex   the line index to finish replacing at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean replaceAll(final File file, final String regex, final String replacement,
@@ -1106,9 +1043,8 @@ public class Files {
 
 	/**
 	 * Touches the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to touch
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static void touch(final File file)
@@ -1123,10 +1059,9 @@ public class Files {
 
 	/**
 	 * Truncates the specified {@link File} from the specified line.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param fromLineIndex the line index to start truncating from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean truncate(final File file, final int fromLineIndex) {
@@ -1135,11 +1070,10 @@ public class Files {
 
 	/**
 	 * Truncates the specified {@link File} between the specified lines.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param fromLineIndex the line index to start truncating from (inclusive)
 	 * @param toLineIndex   the line index to finish truncating at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public static boolean truncate(final File file, final int fromLineIndex,
@@ -1156,9 +1090,8 @@ public class Files {
 
 	/**
 	 * Zips the specified directory (preserving the file dates).
-	 * <p>
+	 *
 	 * @param sourceDir the source directory {@link File}
-	 * <p>
 	 * @return the number of zipped files
 	 */
 	public static int zipDir(final File sourceDir) {
@@ -1167,10 +1100,9 @@ public class Files {
 
 	/**
 	 * Zips the specified directory (preserving the file dates).
-	 * <p>
+	 *
 	 * @param sourceDir  the source directory {@link File}
 	 * @param targetFile the target ZIP {@link File}
-	 * <p>
 	 * @return the number of zipped files
 	 */
 	public static int zipDir(final File sourceDir, final File targetFile) {
@@ -1223,9 +1155,8 @@ public class Files {
 
 	/**
 	 * Unzips the specified ZIP {@link File} (preserving the file dates).
-	 * <p>
+	 *
 	 * @param sourceFile the source ZIP {@link File}
-	 * <p>
 	 * @return the number of unzipped files
 	 */
 	public static int unzipDir(final File sourceFile) {
@@ -1234,10 +1165,9 @@ public class Files {
 
 	/**
 	 * Unzips the specified ZIP {@link File} (preserving the file dates) to the specified directory.
-	 * <p>
+	 *
 	 * @param sourceFile the source ZIP {@link File}
 	 * @param targetDir  the target directory {@link File}
-	 * <p>
 	 * @return the number of unzipped files
 	 */
 	public static int unzipDir(final File sourceFile, final File targetDir) {
@@ -1303,11 +1233,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to read
-	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file)
@@ -1318,13 +1246,11 @@ public class Files {
 	/**
 	 * Creates a {@link BufferedReader} of the specified {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to read
 	 * @param charset the {@link Charset} of the {@link File} to read
-	 * <p>
 	 * @return a {@link BufferedReader} of the specified {@link File} with the specified
 	 *         {@link Charset}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public static BufferedReader createReader(final File file, final Charset charset)
@@ -1334,11 +1260,9 @@ public class Files {
 
 	/**
 	 * Creates a {@link ReversedFileReader} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to read
-	 * <p>
 	 * @return a {@link ReversedFileReader} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -1351,13 +1275,11 @@ public class Files {
 	/**
 	 * Creates a {@link ReversedFileReader} of the specified {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to read
 	 * @param charset the {@link Charset} of the {@link File} to read
-	 * <p>
 	 * @return a {@link ReversedFileReader} of the specified {@link File} with the specified
 	 *         {@link Charset}
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -1371,9 +1293,8 @@ public class Files {
 
 	/**
 	 * Returns the {@link Content} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to read
-	 * <p>
 	 * @return the {@link Content} of the specified {@link File}
 	 */
 	public static Content read(final File file) {
@@ -1382,10 +1303,9 @@ public class Files {
 
 	/**
 	 * Returns the {@link Content} of the specified {@link File} with the specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to read
 	 * @param charset the {@link Charset} of the {@link File} to read
-	 * <p>
 	 * @return the {@link Content} of the specified {@link File} with the specified {@link Charset}
 	 */
 	public static Content read(final File file, final Charset charset) {
@@ -1403,9 +1323,8 @@ public class Files {
 
 	/**
 	 * Returns the unzipped {@link Content} of the specified ZIP {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to unzip
-	 * <p>
 	 * @return the unzipped {@link Content} of the specified ZIP {@link File}
 	 */
 	public static Content unzip(final File file) {
@@ -1415,10 +1334,9 @@ public class Files {
 	/**
 	 * Returns the unzipped {@link Content} of the specified ZIP {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to unzip
 	 * @param charset the {@link Charset} of the {@link File} to unzip
-	 * <p>
 	 * @return the unzipped {@link Content} of the specified ZIP {@link File} with the specified
 	 *         {@link Charset}
 	 */
@@ -1437,9 +1355,8 @@ public class Files {
 
 	/**
 	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to ungzip
-	 * <p>
 	 * @return the ungzipped {@link Content} of the specified GZIP {@link File}
 	 */
 	public static Content ungzip(final File file) {
@@ -1449,10 +1366,9 @@ public class Files {
 	/**
 	 * Returns the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to ungzip
 	 * @param charset the {@link Charset} of the {@link File} to ungzip
-	 * <p>
 	 * @return the ungzipped {@link Content} of the specified GZIP {@link File} with the specified
 	 *         {@link Charset}
 	 */
@@ -1471,9 +1387,8 @@ public class Files {
 
 	/**
 	 * Returns the number of lines of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to count the lines from
-	 * <p>
 	 * @return the number of lines of the specified {@link File}
 	 */
 	public static int countLines(final File file) {
@@ -1482,10 +1397,9 @@ public class Files {
 
 	/**
 	 * Returns the number of lines of the specified {@link File} with the specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to count the lines from
 	 * @param charset the {@link Charset} of the {@link File} to count the lines from
-	 * <p>
 	 * @return the number of lines of the specified {@link File} with the specified {@link Charset}
 	 */
 	public static int countLines(final File file, final Charset charset) {
@@ -1495,10 +1409,9 @@ public class Files {
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * {@link File}.
-	 * <p>
+	 *
 	 * @param file           the {@link File} to count the lines from
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link File}
 	 */
@@ -1509,11 +1422,10 @@ public class Files {
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 * {@link File} with the specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param file           the {@link File} to count the lines from
 	 * @param charset        the {@link Charset} of the {@link File} to count the lines from
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines}) of the specified
 	 *         {@link File} with the specified {@link Charset}
 	 */
@@ -1533,12 +1445,10 @@ public class Files {
 
 	/**
 	 * Skips the specified number of lines of the specified {@link ReversedFileReader}.
-	 * <p>
+	 *
 	 * @param reader    the {@link ReversedFileReader} to skip the lines from
 	 * @param skipCount the number of lines to skip
-	 * <p>
 	 * @return the number of skipped lines
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static int skipLines(final ReversedFileReader reader, final int skipCount)
@@ -1554,12 +1464,10 @@ public class Files {
 
 	/**
 	 * Creates a {@link BufferedWriter} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file   the {@link File} to write to
 	 * @param append the flag specifying whether to append
-	 * <p>
 	 * @return a {@link BufferedWriter} of the specified {@link File}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedWriter createWriter(final File file, final boolean append)
@@ -1570,14 +1478,12 @@ public class Files {
 	/**
 	 * Creates a {@link BufferedWriter} of the specified {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to write to
 	 * @param charset the {@link Charset} of the {@link File} to write to
 	 * @param append  the flag specifying whether to append
-	 * <p>
 	 * @return a {@link BufferedWriter} of the specified {@link File} with the specified
 	 *         {@link Charset}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public static BufferedWriter createWriter(final File file, final Charset charset,
@@ -1590,10 +1496,9 @@ public class Files {
 
 	/**
 	 * Writes the specified content {@link String} to the specified {@link File}.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
-	 * <p>
 	 * @return {@code true} if the specified content {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
@@ -1604,12 +1509,11 @@ public class Files {
 	/**
 	 * Writes or appends the specified content {@link String} to the specified {@link File} with the
 	 * specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
-	 * <p>
 	 * @return {@code true} if the specified content {@link String} is written to the specified
 	 *         {@link File} with the specified {@link Charset}, {@code false} otherwise
 	 */
@@ -1638,10 +1542,9 @@ public class Files {
 	/**
 	 * Writes the specified content {@link String} to the specified {@link File} and terminates the
 	 * line.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
-	 * <p>
 	 * @return {@code true} if the specified content {@link String} is written to the specified
 	 *         {@link File}, {@code false} otherwise
 	 */
@@ -1652,12 +1555,11 @@ public class Files {
 	/**
 	 * Writes or appends the specified content {@link String} to the specified {@link File} with the
 	 * specified {@link Charset} and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param file    the {@link File} to write to
 	 * @param append  the flag specifying whether to append
 	 * @param charset the {@link Charset} of the {@link File} to write to
-	 * <p>
 	 * @return {@code true} if the specified content {@link String} is written to the specified
 	 *         {@link File} with the specified {@link Charset}, {@code false} otherwise
 	 */
@@ -1675,10 +1577,9 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param file   a {@link File}
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
 	 *         there is no such occurrence
@@ -1691,11 +1592,10 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking forward from the
 	 * specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking forward from
 	 *         the specified index, or {@code null} if there is no such occurrence
@@ -1709,12 +1609,11 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking forward from the
 	 * specified index to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking forward from
 	 *         the specified index to the specified index, or {@code null} if there is no such
@@ -1734,10 +1633,9 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param file   a {@link File}
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
 	 *         there is no such occurrence
@@ -1751,12 +1649,11 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking forward from the
 	 * specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking forward from
 	 *         the specified index, or {@code null} if there is no such occurrence
@@ -1770,13 +1667,12 @@ public class Files {
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking forward from the
 	 * specified index to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking forward from
 	 *         the specified index to the specified index, or {@code null} if there is no such
@@ -1798,10 +1694,9 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param file   a {@link File}
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
 	 *         there is no such occurrence
@@ -1814,11 +1709,10 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking backward from the
 	 * specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking backward from
 	 *         the specified index, or {@code null} if there is no such occurrence
@@ -1832,12 +1726,11 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking backward from the
 	 * specified index to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking backward from
 	 *         the specified index to the specified index, or {@code null} if there is no such
@@ -1857,10 +1750,9 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, or {@code null} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param file   a {@link File}
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, or {@code null} if
 	 *         there is no such occurrence
@@ -1874,12 +1766,11 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking backward from the
 	 * specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking backward from
 	 *         the specified index, or {@code null} if there is no such occurrence
@@ -1893,13 +1784,12 @@ public class Files {
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the specified {@link File}, seeking backward from the
 	 * specified index to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param file          a {@link File}
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the specified {@link File}, seeking backward from
 	 *         the specified index to the specified index, or {@code null} if there is no such
@@ -1922,9 +1812,8 @@ public class Files {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link File}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link File},
 	 *         {@code false} otherwise
 	 */
@@ -1934,9 +1823,8 @@ public class Files {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link File}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link File},
 	 *         {@code false} otherwise
 	 */
@@ -1948,11 +1836,9 @@ public class Files {
 
 	/**
 	 * Tests whether the specified {@link File} exists.
-	 * <p>
+	 *
 	 * @param file the {@link File} to test for presence (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link File} exists, {@code false} otherwise
-	 * <p>
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public static boolean exists(final File file)
@@ -1992,9 +1878,8 @@ public class Files {
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

@@ -19,13 +19,9 @@
 	<url>https://github.com/b-io/io.barras/tree/master/scala</url>
 
 	<properties>
-		<!-- Project -->
-		<project.build.source>1.8</project.build.source>
-		<project.build.target>1.8</project.build.target>
 		<!-- Scala -->
-		<scala.version>2.13.1</scala.version>
-		<scala.minor.version>2.13</scala.minor.version>
-		<scala.plugin.version>2.15.2</scala.plugin.version>
+		<scala.version>2.13.16</scala.version>
+		<scala.plugin.version>4.9.5</scala.plugin.version>
 	</properties>
 
 	<!-- Project Settings -->
@@ -40,23 +36,6 @@
 			<artifactId>scala-library</artifactId>
 			<version>${scala.version}</version>
 		</dependency>
-		<!--
-		<dependency>
-			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-parser-combinators_${scala.minor.version}</artifactId>
-			<version>1.1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-swing_${scala.minor.version}</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang.modules</groupId>
-			<artifactId>scala-xml_${scala.minor.version}</artifactId>
-			<version>1.3.0</version>
-		</dependency>
-		-->
 	</dependencies>
 
 	<!-- Build Settings -->
@@ -64,25 +43,19 @@
 		<plugins>
 			<!-- Compile Scala -->
 			<plugin>
-				<groupId>org.scala-tools</groupId>
-				<artifactId>maven-scala-plugin</artifactId>
+				<groupId>net.alchim31.maven</groupId>
+				<artifactId>scala-maven-plugin</artifactId>
 				<version>${scala.plugin.version}</version>
-
 				<configuration>
-					<source>${project.build.source}</source>
-					<testSource>${project.build.source}</testSource>
-
-					<target>${project.build.target}</target>
-					<testTarget>${project.build.target}</testTarget>
-
+					<source>${maven.compiler.release}</source>
+					<target>${maven.compiler.release}</target>
+					<testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
 					<encoding>${project.build.sourceEncoding}</encoding>
-
-					<compilerArgs>
-						<!--<arg>-Xlint:deprecation</arg>-->
-						<!--<arg>-Xlint:unchecked</arg>-->
-					</compilerArgs>
+					<args>
+						<arg>-deprecation</arg>
+						<arg>-feature</arg>
+					</args>
 				</configuration>
-
 				<executions>
 					<execution>
 						<goals>

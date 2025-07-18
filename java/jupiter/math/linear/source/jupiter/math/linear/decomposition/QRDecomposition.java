@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,16 +32,16 @@ import jupiter.math.linear.test.MatrixArguments;
 
 /**
  * {@link QRDecomposition} performs a QR decomposition on a {@link Matrix}.
- * <p>
+ *
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the QR decomposition is a
  * {@code m x n} orthogonal matrix {@code Q} and a {@code n x n} upper triangular matrix {@code R}
  * so that {@code A = Q R}.
- * <p>
+ *
  * The QR decomposition always exists, even if the matrix does not have full rank, so the
  * constructor never fails. The primary use of the QR decomposition is in the least squares solution
  * of non-square systems of simultaneous linear equations. This fails if the method
  * {@link #isFullRank} returns {@code false}.
- * <p>
+ *
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -87,7 +87,7 @@ public class QRDecomposition
 	/**
 	 * Constructs a {@link QRDecomposition} of the specified rectangular {@link Matrix}, computed by
 	 * Householder reflections. Sets {@code R} and the Householder vectors and computes {@code Q}.
-	 * <p>
+	 *
 	 * @param A the rectangular {@link Matrix} to decompose
 	 */
 	public QRDecomposition(final Matrix A) {
@@ -141,7 +141,7 @@ public class QRDecomposition
 
 	/**
 	 * Tests whether {@code R} (and hence {@code A}) is full rank.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code R} (and hence {@code A}) is full rank, {@code false} otherwise
 	 */
 	public boolean isFullRank() {
@@ -155,7 +155,7 @@ public class QRDecomposition
 
 	/**
 	 * Returns the Householder vectors.
-	 * <p>
+	 *
 	 * @return the lower trapezoidal matrix whose columns define the reflections
 	 */
 	public Matrix getH() {
@@ -174,7 +174,7 @@ public class QRDecomposition
 
 	/**
 	 * Returns the upper triangular factor {@code R}.
-	 * <p>
+	 *
 	 * @return the upper triangular factor {@code R}
 	 */
 	public Matrix getR() {
@@ -195,7 +195,7 @@ public class QRDecomposition
 
 	/**
 	 * Returns the (economy-sized) orthogonal factor {@code Q}.
-	 * <p>
+	 *
 	 * @return the (economy-sized) orthogonal factor {@code Q}
 	 */
 	public Matrix getQ() {
@@ -228,11 +228,9 @@ public class QRDecomposition
 
 	/**
 	 * Returns the least squares solution of {@code A X = B}.
-	 * <p>
+	 *
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
-	 * <p>
 	 * @return {@code X} that minimizes the two norm of {@code Q R X - B}
-	 * <p>
 	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {

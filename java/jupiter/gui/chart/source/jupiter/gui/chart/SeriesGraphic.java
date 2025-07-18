@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ public class SeriesGraphic
 
 	/**
 	 * Constructs a {@link SeriesGraphic} with the specified title and domain label.
-	 * <p>
+	 *
 	 * @param title  the title
 	 * @param xLabel the domain label
 	 */
@@ -65,7 +65,7 @@ public class SeriesGraphic
 
 	/**
 	 * Constructs a {@link SeriesGraphic} with the specified title, domain label and range labels.
-	 * <p>
+	 *
 	 * @param title   the title
 	 * @param xLabel  the domain label
 	 * @param yLabels the range labels
@@ -82,11 +82,10 @@ public class SeriesGraphic
 	/**
 	 * Returns the {@link XYSeries} at the specified index in the {@link XYSeriesCollection} of the
 	 * specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} of the {@link XYSeries} to get
 	 * @param seriesIndex      the index of the {@link XYSeries} to get
-	 * <p>
 	 * @return the {@link XYSeries} at the specified index in the {@link XYSeriesCollection} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -98,10 +97,9 @@ public class SeriesGraphic
 	/**
 	 * Returns the number of {@link XYSeries} in the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} of the {@link XYSeries} to count
-	 * <p>
 	 * @return the number of {@link XYSeries} in the {@link XYSeriesCollection} of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -117,7 +115,7 @@ public class SeriesGraphic
 
 	/**
 	 * Creates a series chart.
-	 * <p>
+	 *
 	 * @return a series chart
 	 */
 	@Override
@@ -132,7 +130,7 @@ public class SeriesGraphic
 
 	/**
 	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label.
-	 * <p>
+	 *
 	 * @param yLabel the range label of the {@link XYRangeAxisDataset} to append
 	 */
 	@Override
@@ -146,11 +144,10 @@ public class SeriesGraphic
 	/**
 	 * Appends a {@link XYSeries} constructed with the specified name to the
 	 * {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to append to
 	 * @param name             the name of the {@link XYSeries} to append
-	 * <p>
 	 * @return the index of the {@link XYSeries} appended to the {@link XYSeriesCollection} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -162,11 +159,10 @@ public class SeriesGraphic
 	/**
 	 * Appends the specified {@link XYSeries} to the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to append to
 	 * @param series           the {@link XYSeries} to append
-	 * <p>
 	 * @return the index of the specified {@link XYSeries} appended to the
 	 *         {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}
 	 */
@@ -180,7 +176,7 @@ public class SeriesGraphic
 	/**
 	 * Appends a {@link XYSeries} constructed with the specified name, {@link SeriesStyle} and
 	 * points to the {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to append to
 	 * @param name             the name of the {@link XYSeries} to append
@@ -189,7 +185,6 @@ public class SeriesGraphic
 	 *                         {@link XYSeries} to append
 	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link XYSeries} to append
-	 * <p>
 	 * @return the index of the {@link XYSeries} appended to the {@link XYSeriesCollection} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -201,7 +196,7 @@ public class SeriesGraphic
 	/**
 	 * Appends the specified {@link XYSeries} with the specified {@link SeriesStyle} and points to
 	 * the {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to append to
 	 * @param series           the {@link XYSeries} to append
@@ -210,7 +205,6 @@ public class SeriesGraphic
 	 *                         {@link XYSeries} to append
 	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link XYSeries} to append
-	 * <p>
 	 * @return the index of the specified {@link XYSeries} appended to the
 	 *         {@link XYSeriesCollection} of the specified {@link XYRangeAxisDataset}
 	 */
@@ -233,7 +227,7 @@ public class SeriesGraphic
 	/**
 	 * Removes the {@link XYSeries} at the specified index from the {@link XYSeriesCollection} of
 	 * the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to remove from
 	 * @param seriesIndex      the index of the {@link XYSeries} to remove
@@ -246,7 +240,7 @@ public class SeriesGraphic
 	/**
 	 * Removes the specified {@link XYSeries} from the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to remove from
 	 * @param series           the {@link XYSeries} to remove
@@ -259,7 +253,7 @@ public class SeriesGraphic
 	/**
 	 * Removes all the {@link XYSeries} from the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link XYSeriesCollection} to remove from
 	 */
@@ -274,7 +268,7 @@ public class SeriesGraphic
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link XYSeries} of the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link XYSeriesCollection} containing the {@link XYSeries} to append
 	 *                         to
@@ -292,7 +286,7 @@ public class SeriesGraphic
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link XYSeries} of the {@link XYSeriesCollection} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link XYSeriesCollection} containing the {@link XYSeries} to append
 	 *                         to
@@ -312,9 +306,8 @@ public class SeriesGraphic
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

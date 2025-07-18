@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -98,7 +98,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified content {@link Object}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
 	 */
 	public Message(final Object content) {
@@ -109,7 +109,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified IO {@link Type} and content {@link Object}.
-	 * <p>
+	 *
 	 * @param type    the IO {@link Type}
 	 * @param content the content {@link Object}
 	 */
@@ -120,7 +120,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and content
 	 * {@link Object}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param content       the content {@link Object}
 	 */
@@ -130,7 +130,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified stack index and content {@link Object}.
-	 * <p>
+	 *
 	 * @param stackIndex the stack index
 	 * @param content    the content {@link Object}
 	 */
@@ -143,7 +143,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, stack index and
 	 * content {@link Object}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param content       the content {@link Object}
@@ -155,7 +155,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified IO {@link Type}, stack index and content
 	 * {@link Object}.
-	 * <p>
+	 *
 	 * @param type       the IO {@link Type}
 	 * @param stackIndex the stack index
 	 * @param content    the content {@link Object}
@@ -167,7 +167,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified IO {@link Type}, {@link SeverityLevel} and
 	 * content {@link Object}.
-	 * <p>
+	 *
 	 * @param type          the IO {@link Type}
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param content       the content {@link Object}
@@ -181,7 +181,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified IO {@link Type}, {@link SeverityLevel}, stack
 	 * index and content {@link Object}.
-	 * <p>
+	 *
 	 * @param type          the IO {@link Type}
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
@@ -200,7 +200,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified {@link Exception}.
-	 * <p>
+	 *
 	 * @param exception the {@link Exception}
 	 */
 	public Message(final Exception exception) {
@@ -211,7 +211,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified {@link SeverityLevel} and {@link Exception}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param exception     the {@link Exception}
 	 */
@@ -221,7 +221,7 @@ public class Message
 
 	/**
 	 * Constructs a {@link Message} with the specified stack index and {@link Exception}.
-	 * <p>
+	 *
 	 * @param stackIndex the stack index
 	 * @param exception  the {@link Exception}
 	 */
@@ -234,7 +234,7 @@ public class Message
 	/**
 	 * Constructs a {@link Message} with the specified {@link SeverityLevel}, stack index and
 	 * {@link Exception}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param exception     the {@link Exception}
@@ -255,7 +255,7 @@ public class Message
 
 	/**
 	 * Returns the IO {@link Type}.
-	 * <p>
+	 *
 	 * @return the IO {@link Type}
 	 */
 	public Type getType() {
@@ -264,7 +264,7 @@ public class Message
 
 	/**
 	 * Returns the {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @return the {@link SeverityLevel}
 	 */
 	public SeverityLevel getSeverityLevel() {
@@ -273,7 +273,7 @@ public class Message
 
 	/**
 	 * Returns the prefix {@link String}.
-	 * <p>
+	 *
 	 * @return the prefix {@link String}
 	 */
 	public String getPrefix() {
@@ -282,7 +282,7 @@ public class Message
 
 	/**
 	 * Returns the content {@link String}.
-	 * <p>
+	 *
 	 * @return the content {@link String}
 	 */
 	public String getContent() {
@@ -291,7 +291,7 @@ public class Message
 
 	/**
 	 * Returns the {@link Exception}.
-	 * <p>
+	 *
 	 * @return the {@link Exception}
 	 */
 	public Exception getException() {
@@ -305,9 +305,8 @@ public class Message
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -323,11 +322,9 @@ public class Message
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -350,9 +347,8 @@ public class Message
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -365,7 +361,7 @@ public class Message
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

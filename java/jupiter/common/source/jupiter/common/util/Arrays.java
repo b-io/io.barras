@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,21 +28,18 @@ import static jupiter.common.util.Collections.DEFAULT_CAPACITY;
 import static jupiter.common.util.Strings.NULL;
 
 import java.lang.reflect.Array;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import jupiter.common.exception.IllegalClassException;
-import jupiter.common.map.ObjectToStringMapper;
+import jupiter.common.transform.ObjectToStringMapper;
 import jupiter.common.math.Comparables;
-import jupiter.common.struct.list.ComparableSort;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.list.Sort;
-import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.struct.collection.list.ComparableSort;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.list.Sort;
+import jupiter.common.struct.collection.set.ExtendedHashSet;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.test.Arguments;
@@ -91,9 +88,8 @@ public class Arrays {
 
 	/**
 	 * Returns the element {@link Class} of the specified array.
-	 * <p>
+	 *
 	 * @param array an array of {@link Object} (may be {@code null})
-	 * <p>
 	 * @return the element {@link Class} of the specified array
 	 */
 	public static Class<?> getElementClass(final Object... array) {
@@ -119,15 +115,13 @@ public class Arrays {
 	 * Compares the specified arrays of {@link Comparable} for order. Returns a negative integer,
 	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the self {@link Comparable} component type of the arrays to compare
 	 * @param a   the array of {@link Comparable} of {@code T} type to compare (may be {@code null})
 	 * @param b   the other array of {@link Comparable} of {@code T} type to compare against (may be
 	 *            {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
-	 * <p>
 	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b}
 	 */
@@ -139,14 +133,12 @@ public class Arrays {
 	 * Compares the specified {@code T} arrays for order. Returns a negative integer, {@code 0} or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the component type of the arrays to compare
 	 * @param a   the {@code T} array to compare (may be {@code null})
 	 * @param b   the other {@code T} array to compare against (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
-	 * <p>
 	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b}
 	 */
@@ -158,16 +150,14 @@ public class Arrays {
 	 * Compares the specified arrays for order using the specified {@link Comparator}. Returns a
 	 * negative integer, {@code 0} or a positive integer as {@code a} is less than, equal to or
 	 * greater than {@code b} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>        the component type of the arrays to compare for order
 	 * @param a          the {@code T} array to compare for order (may be {@code null})
 	 * @param b          the other {@code T} array to compare against for order (may be
 	 *                   {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
-	 * <p>
 	 * @throws ClassCastException if {@code a} contains elements that cannot be compared to the
 	 *                            elements of {@code b} using {@code comparator}
 	 */
@@ -202,9 +192,8 @@ public class Arrays {
 
 	/**
 	 * Returns an array converted from the specified primitive array.
-	 * <p>
+	 *
 	 * @param primitiveArray the primitive array to convert
-	 * <p>
 	 * @return an array converted from the specified primitive array
 	 */
 	public static Object[] toArray(final Object primitiveArray) {
@@ -237,9 +226,8 @@ public class Arrays {
 	/**
 	 * Returns a primitive array converted from the specified array, or {@code null} if the array is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array the array to convert (may be {@code null})
-	 * <p>
 	 * @return a primitive array converted from the specified array, or {@code null} if the array is
 	 *         {@code null}
 	 */
@@ -254,10 +242,9 @@ public class Arrays {
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
 	 * array, or {@code null} if any of them is {@code null} or {@code c} is equal to
 	 * {@link Classes#OBJECT_CLASS}.
-	 * <p>
+	 *
 	 * @param c     the element {@link Class} of the array to convert (may be {@code null})
 	 * @param array the array to convert (may be {@code null})
-	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
 	 *         array, or {@code null} if any of them is {@code null} or {@code c} is equal to
 	 *         {@link Classes#OBJECT_CLASS}
@@ -627,9 +614,8 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array the array of {@link Object} to join (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
 	 *         {@code null}
 	 */
@@ -641,11 +627,10 @@ public class Arrays {
 
 	/**
 	 * Creates a {@code T} array of the specified length with the specified {@code T} element.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to create
 	 * @param element the {@code T} element of the {@code T} array to create
 	 * @param length  the length of the {@code T} array to create
-	 * <p>
 	 * @return a {@code T} array of the specified length with the specified {@code T} element
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -660,13 +645,11 @@ public class Arrays {
 
 	/**
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
-	 * <p>
+	 *
 	 * @param <T> the component type of the arrays to concatenate
 	 * @param a   the {@code T} array to concatenate (may be {@code null})
 	 * @param b   the other {@code T} array to concatenate with (may be {@code null})
-	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
-	 * <p>
 	 * @throws IllegalArgumentException if the type of {@code a} is neither the same as, nor is a
 	 *                                  superclass or superinterface of, the type of {@code b}
 	 */
@@ -694,12 +677,10 @@ public class Arrays {
 
 	/**
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} arrays.
-	 * <p>
+	 *
 	 * @param <T>    the component type of the arrays to concatenate
 	 * @param arrays the {@code T} arrays to concatenate (may be {@code null})
-	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} arrays
-	 * <p>
 	 * @throws IllegalArgumentException if the type of any {@code arrays} is neither the same as,
 	 *                                  nor is a superclass or superinterface of, the type of any
 	 *                                  other {@code arrays}
@@ -733,10 +714,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of elements in the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 2D {@code T} array
 	 */
 	public static <T> int count(final T[][] array2D) {
@@ -751,10 +731,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of elements in the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 3D {@code T} array
 	 */
 	public static <T> int count(final T[][][] array3D) {
@@ -772,11 +751,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} token in the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to count from
 	 * @param array the {@code T} array to count from (may be {@code null})
 	 * @param token the {@code T} token to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} token in the specified {@code T}
 	 *         array
 	 */
@@ -794,11 +772,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} token in the specified 2D
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
 	 * @param token   the {@code T} token to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} token in the specified 2D
 	 *         {@code T} array
 	 */
@@ -815,11 +792,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} token in the specified 3D
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
 	 * @param token   the {@code T} token to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} token in the specified 3D
 	 *         {@code T} array
 	 */
@@ -838,11 +814,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} tokens in the specified
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>    the component type of the array to count from
 	 * @param array  the {@code T} array to count from (may be {@code null})
 	 * @param tokens the {@code T} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} tokens in the specified
 	 *         {@code T} array
 	 */
@@ -859,11 +834,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} tokens in the specified 2D
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
 	 * @param tokens  the {@code T} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} tokens in the specified 2D
 	 *         {@code T} array
 	 */
@@ -880,11 +854,10 @@ public class Arrays {
 	/**
 	 * Returns the number of occurrences of the specified {@code T} tokens in the specified 3D
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
 	 * @param tokens  the {@code T} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code T} tokens in the specified 3D
 	 *         {@code T} array
 	 */
@@ -902,10 +875,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of {@code null} elements in the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to count from
 	 * @param array the {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of {@code null} elements in the specified {@code T} array
 	 */
 	public static <T> int countNull(final T[] array) {
@@ -914,10 +886,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of {@code null} elements in the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of {@code null} elements in the specified 2D {@code T} array
 	 */
 	public static <T> int countNull(final T[][] array2D) {
@@ -926,10 +897,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of {@code null} elements in the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of {@code null} elements in the specified 3D {@code T} array
 	 */
 	public static <T> int countNull(final T[][][] array3D) {
@@ -940,10 +910,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of non-{@code null} elements in the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to count from
 	 * @param array the {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of non-{@code null} elements in the specified {@code T} array
 	 */
 	public static <T> int countNonNull(final T[] array) {
@@ -952,10 +921,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of non-{@code null} elements in the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to count from
 	 * @param array2D the 2D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of non-{@code null} elements in the specified 2D {@code T} array
 	 */
 	public static <T> int countNonNull(final T[][] array2D) {
@@ -964,10 +932,9 @@ public class Arrays {
 
 	/**
 	 * Returns the number of non-{@code null} elements in the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to count from
 	 * @param array3D the 3D {@code T} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of non-{@code null} elements in the specified 3D {@code T} array
 	 */
 	public static <T> int countNonNull(final T[][][] array3D) {
@@ -1002,11 +969,10 @@ public class Arrays {
 	/**
 	 * Returns a {@code T} array containing all the elements of the specified {@code T} array at the
 	 * specified indices.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
 	 * @param indices the indices to filter
-	 * <p>
 	 * @return a {@code T} array containing all the elements of the specified {@code T} array at the
 	 *         specified indices
 	 */
@@ -1022,11 +988,10 @@ public class Arrays {
 	/**
 	 * Returns a 2D {@code T} array containing all the elements of the specified {@code T} array at
 	 * all the specified indices.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to filter from
 	 * @param array   the {@code T} array to filter from
 	 * @param indices the array of indices to filter
-	 * <p>
 	 * @return a 2D {@code T} array containing all the elements of the specified {@code T} array at
 	 *         all the specified indices
 	 */
@@ -1043,11 +1008,10 @@ public class Arrays {
 
 	/**
 	 * Removes the element at the specified index from the specified array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to remove from
 	 * @param array the {@code T} array to remove from
 	 * @param index the index of the element to remove
-	 * <p>
 	 * @return the specified array without the element at the specified index
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1064,11 +1028,10 @@ public class Arrays {
 
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from the specified array.
-	 * <p>
+	 *
 	 * @param <T>    the component type of the array to remove from
 	 * @param array  the {@code T} array to remove from
 	 * @param object the {@link Object} to remove (may be {@code null})
-	 * <p>
 	 * @return the specified array without the specified {@link Object}
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1105,7 +1068,7 @@ public class Arrays {
 
 	/**
 	 * Shuffles the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to shuffle
 	 * @param array the {@code T} array to shuffle
 	 */
@@ -1115,7 +1078,7 @@ public class Arrays {
 
 	/**
 	 * Shuffles the specified {@code T} array between the specified indices.
-	 * <p>
+	 *
 	 * @param <T>       the component type of the array to shuffle
 	 * @param array     the {@code T} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)
@@ -1135,7 +1098,7 @@ public class Arrays {
 	 * implement the {@link Comparable} interface. Furthermore, all elements in the array must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
 	 * {@link ClassCastException} for any {@code e1} and {@code e2} elements in the array).
-	 * <p>
+	 *
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <dl>
@@ -1146,21 +1109,20 @@ public class Arrays {
 	 * input array is nearly sorted, the implementation requires approximately {@code n}
 	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
 	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
-	 * <p>
+	 *
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
 	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
 	 * and sort the resulting array.
-	 * <p>
+	 *
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param array the array to sort
-	 * <p>
 	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
 	 *                                  (e.g. a {@link String} and an {@link Integer})
 	 * @throws IllegalArgumentException (optional) if the natural ordering of the {@code array}
@@ -1178,7 +1140,7 @@ public class Arrays {
 	 * implement the {@link Comparable} interface. Furthermore, all elements in this range must be
 	 * <i>mutually comparable</i> (that is, {@code e1.compareTo(e2)} must not throw a
 	 * {@link ClassCastException} for any {@code e1} and {@code e2} elements in the array).
-	 * <p>
+	 *
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <dl>
@@ -1189,23 +1151,22 @@ public class Arrays {
 	 * input array is nearly sorted, the implementation requires approximately {@code n}
 	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
 	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
-	 * <p>
+	 *
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
 	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
 	 * and sort the resulting array.
-	 * <p>
+	 *
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param array     the array to sort
 	 * @param fromIndex the index of the first element to sort (inclusive)
 	 * @param toIndex   the index of the last element to sort (exclusive)
-	 * <p>
 	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
 	 *                                  (e.g. a {@link String} and an {@link Integer})
 	 * @throws IllegalArgumentException if {@code fromIndex} or {@code toIndex} is out of bounds or
@@ -1228,7 +1189,7 @@ public class Arrays {
 	 * All the elements in the array must be <i>mutually comparable</i> by the specified
 	 * {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
 	 * {@link ClassCastException} for any {@code e1} and {@code e2} elements in the array).
-	 * <p>
+	 *
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <dl>
@@ -1239,25 +1200,24 @@ public class Arrays {
 	 * input array is nearly sorted, the implementation requires approximately {@code n}
 	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
 	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
-	 * <p>
+	 *
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
 	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
 	 * and sort the resulting array.
-	 * <p>
+	 *
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
-	 * <p>
 	 * @throws ClassCastException       if any {@code array} elements cannot be mutually compared
 	 *                                  using {@code comparator}
 	 * @throws IllegalArgumentException (optional) if {@code comparator} is found to violate the
@@ -1278,7 +1238,7 @@ public class Arrays {
 	 * be sorted is empty.) All elements in the range must be <i>mutually comparable</i> by the
 	 * specified {@link Comparator} (that is, {@code c.compare(e1, e2)} must not throw a
 	 * {@link ClassCastException} for any {@code e1} and {@code e2} elements in the range).
-	 * <p>
+	 *
 	 * This sort is guaranteed to be <i>stable</i>: equal elements will not be reordered as a result
 	 * of the sort.
 	 * <dl>
@@ -1289,19 +1249,19 @@ public class Arrays {
 	 * input array is nearly sorted, the implementation requires approximately {@code n}
 	 * comparisons. Temporary storage requirements vary from a small constant for nearly sorted
 	 * input arrays to {@code n / 2} object references for randomly ordered input arrays.
-	 * <p>
+	 *
 	 * The implementation takes equal advantage of ascending and descending order in its input array
 	 * and can take advantage of ascending and descending order in different parts of the same input
 	 * array. It is well-suited to merging two or more sorted arrays: simply concatenate the arrays
 	 * and sort the resulting array.
-	 * <p>
+	 *
 	 * The implementation was adapted from Tim Peters's list sort for Python
 	 * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
 	 * TimSort</a>). It uses techniques from Peter McIlroy's "Optimistic Sorting and Information
 	 * Theoretic Complexity", in Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete
 	 * Algorithms, pp 467-474, January 1993.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param <T>        the component type of the array to sort
 	 * @param array      the {@code T} array to sort
 	 * @param fromIndex  the index of the first element to sort (inclusive)
@@ -1309,7 +1269,6 @@ public class Arrays {
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
 	 *                   ({@code null} indicates that {@linkplain Comparable natural ordering} of
 	 *                   the elements should be used)
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromIndex < 0} or {@code toIndex > a.length}
 	 * @throws ClassCastException             if any {@code array} elements cannot be mutually
 	 *                                        compared using {@code comparator}
@@ -1454,10 +1413,9 @@ public class Arrays {
 	/**
 	 * Returns a {@code T} array containing all the distinct elements of the specified {@code T}
 	 * array in the same order.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to filter from
 	 * @param array the {@code T} array to filter from
-	 * <p>
 	 * @return a {@code T} array containing all the distinct elements of the specified {@code T}
 	 *         array in the same order
 	 */
@@ -1589,9 +1547,8 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of array.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of array, {@code false}
 	 *         otherwise
 	 */
@@ -1601,9 +1558,8 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to an array.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to an array, {@code false}
 	 *         otherwise
 	 */
@@ -1615,10 +1571,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is {@code null} or empty, {@code false}
 	 *         otherwise
 	 */
@@ -1628,10 +1583,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -1641,10 +1595,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -1656,11 +1609,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test against
 	 * @param index the index to test
 	 * @param array the {@code T} array to test against
-	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
 	 *         array, {@code false} otherwise
 	 */
@@ -1670,10 +1622,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified index is in the bounds of the specified array length.
-	 * <p>
+	 *
 	 * @param index  the index to test
 	 * @param length the array length to test against
-	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified array length,
 	 *         {@code false} otherwise
 	 */
@@ -1683,12 +1634,11 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified index is in the bounds of the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>              the component type of the array to test against
 	 * @param index            the index to test
 	 * @param array            the {@code T} array to test against
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified {@code T}
 	 *         array, {@code false} otherwise
 	 */
@@ -1699,11 +1649,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified index is in the bounds of the specified array length.
-	 * <p>
+	 *
 	 * @param index            the index to test
 	 * @param length           the array length to test against
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified index is in the bounds of the specified array length,
 	 *         {@code false} otherwise
 	 */
@@ -1717,17 +1666,15 @@ public class Arrays {
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>   the component type of the arrays to test
 	 * @param array the {@code T} array to test (may be {@code null})
 	 * @param from  the lower bound {@code T} array to test against (inclusive) (may be
 	 *              {@code null})
 	 * @param to    the upper bound {@code T} array to test against (exclusive) (may be
 	 *              {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to}
 	 */
@@ -1738,17 +1685,15 @@ public class Arrays {
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the component type of the arrays to test
 	 * @param array            the {@code T} array to test (may be {@code null})
 	 * @param from             the lower bound {@code T} array to test against (inclusive) (may be
 	 *                         {@code null})
 	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to}
 	 */
@@ -1760,17 +1705,15 @@ public class Arrays {
 	/**
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the component type of the arrays to test
 	 * @param array            the {@code T} array to test (may be {@code null})
 	 * @param from             the lower bound {@code T} array to test against (may be {@code null})
 	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays, {@code false} otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to}
 	 */
@@ -1786,7 +1729,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>        the component type of the arrays to test
 	 * @param array      the {@code T} array to test (may be {@code null})
 	 * @param from       the lower bound {@code T} array to test against (inclusive) (may be
@@ -1794,11 +1737,9 @@ public class Arrays {
 	 * @param to         the upper bound {@code T} array to test against (exclusive) (may be
 	 *                   {@code null})
 	 * @param comparator the {@link Comparator} of {@code T} supertype to determine the order
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
@@ -1811,7 +1752,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the component type of the arrays to test
 	 * @param array            the {@code T} array to test (may be {@code null})
 	 * @param from             the lower bound {@code T} array to test against (inclusive) (may be
@@ -1819,11 +1760,9 @@ public class Arrays {
 	 * @param to               the upper bound {@code T} array to test against (may be {@code null})
 	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
@@ -1836,7 +1775,7 @@ public class Arrays {
 	 * Tests whether the specified {@code T} array is between the specified lower and upper bound
 	 * {@code T} arrays using the specified {@link Comparator} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param <T>              the component type of the arrays to test
 	 * @param array            the {@code T} array to test (may be {@code null})
 	 * @param from             the lower bound {@code T} array to test against (may be {@code null})
@@ -1844,11 +1783,9 @@ public class Arrays {
 	 * @param comparator       the {@link Comparator} of {@code T} supertype to determine the order
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array is between the specified lower and
 	 *         upper bound {@code T} arrays using the specified {@link Comparator}, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws ClassCastException if any {@code array} elements cannot be compared to the elements
 	 *                            of {@code from} or {@code to} using {@code comparator}
 	 */
@@ -1867,10 +1804,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array has any element different from {@code null}.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
 	 */
@@ -1887,10 +1823,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified 2D {@code T} array has any element different from {@code null}.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to test
 	 * @param array2D the 2D {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified 2D {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
 	 */
@@ -1907,10 +1842,9 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified 3D {@code T} array has any element different from {@code null}.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to test
 	 * @param array3D the 3D {@code T} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified 3D {@code T} array has any element different from
 	 *         {@code null}, {@code false} otherwise
 	 */
@@ -1929,11 +1863,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array contains the specified {@code T} token.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to test
 	 * @param array the {@code T} array to test (may be {@code null})
 	 * @param token the {@code T} token to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array contains the specified {@code T} token,
 	 *         {@code false} otherwise
 	 */
@@ -1943,11 +1876,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether the specified {@code T} array contains any of the specified {@code T} tokens.
-	 * <p>
+	 *
 	 * @param <T>    the component type of the array to test
 	 * @param array  the {@code T} array to test (may be {@code null})
 	 * @param tokens the {@code T} tokens to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code T} array contains any of the specified {@code T}
 	 *         tokens, {@code false} otherwise
 	 */
@@ -1969,10 +1901,9 @@ public class Arrays {
 
 	/**
 	 * Clones the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to clone
 	 * @param array the {@code T} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified {@code T} array, or {@code null} if it is {@code null} or
 	 *         not cloneable
 	 */
@@ -1993,10 +1924,9 @@ public class Arrays {
 
 	/**
 	 * Clones the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 2D array to clone
 	 * @param array2D the 2D {@code T} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 2D {@code T} array, or {@code null} if it is {@code null} or
 	 *         not cloneable
 	 */
@@ -2018,10 +1948,9 @@ public class Arrays {
 
 	/**
 	 * Clones the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the 3D array to clone
 	 * @param array3D the 3D {@code T} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 3D {@code T} array, or {@code null} if it is {@code null} or
 	 *         not cloneable
 	 */
@@ -2046,11 +1975,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the array of {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other array of {@link Object} to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object[] a, final Object[] b) {
@@ -2071,11 +1999,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 2D array of {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other 2D array of {@link Object} to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object[][] a, final Object[][] b) {
@@ -2096,11 +2023,10 @@ public class Arrays {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 3D array of {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other 3D array of {@link Object} to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object[][][] a, final Object[][][] b) {
@@ -2124,9 +2050,8 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array an array of {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
 	 *         {@code null}
 	 */
@@ -2137,10 +2062,9 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * {@code char} delimiter, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
@@ -2154,10 +2078,9 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * delimiting {@link String}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
@@ -2171,10 +2094,9 @@ public class Arrays {
 	/**
 	 * Returns a representative {@link String} of the specified array wrapped by {@code wrapper}, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array wrapped by {@code wrapper}, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -2189,11 +2111,10 @@ public class Arrays {
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 *         {@code null}

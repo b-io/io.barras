@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,16 +56,15 @@ extern "C"
 
 	/**
 	 * Constructs an array of characters dynamically.
-	 * <p>
+	 *
 	 * @param size the size of the array of characters to be constructed
-	 * <p>
 	 * @return the constructed array of characters
 	 */
 	character* chars_new(const natural size);
 
 	/**
 	 * Constructs a string dynamically.
-	 * <p>
+	 *
 	 * @return the constructed string
 	 */
 	character* string_new(void);
@@ -77,7 +76,7 @@ extern "C"
 
 	/**
 	 * Sets the first character of {@code string} to {@code _STRING_END}.
-	 * <p>
+	 *
 	 * @param string the array of characters to be reset
 	 * @param size   the size of the array of characters to be reset
 	 */
@@ -85,7 +84,7 @@ extern "C"
 
 	/**
 	 * Sets the first character of {@code string} to {@code _STRING_END}.
-	 * <p>
+	 *
 	 * @param string the string to be reset
 	 */
 	void string_reset(string string);
@@ -94,7 +93,7 @@ extern "C"
 
 	/**
 	 * Sets all the characters of {@code string} to {@code _STRING_END}.
-	 * <p>
+	 *
 	 * @param string the array of characters to be fully reset
 	 * @param size   the size of the array of characters to be fully reset
 	 */
@@ -102,7 +101,7 @@ extern "C"
 
 	/**
 	 * Sets all the characters of {@code string} to {@code _STRING_END}.
-	 * <p>
+	 *
 	 * @param string the string to be fully reset
 	 */
 	void string_reset_all(string string);
@@ -115,10 +114,9 @@ extern "C"
 	/**
 	 * Returns the length of {@code string}, or {@code 0} if {@code string} is
 	 * {@code NULL}.
-	 * <p>
+	 *
 	 * @param string the input array of characters
 	 * @param size   the size of the input array of characters
-	 * <p>
 	 * @return the length of {@code string}, or {@code 0} if {@code string} is
 	 *         {@code NULL}
 	 */
@@ -127,9 +125,8 @@ extern "C"
 	/**
 	 * Returns the length of {@code string}, or {@code 0} if {@code string} is
 	 * {@code NULL}.
-	 * <p>
+	 *
 	 * @param string the input string
-	 * <p>
 	 * @return the length of {@code string}, or {@code 0} if {@code string} is
 	 *         {@code NULL}
 	 */
@@ -140,10 +137,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if {@code string} is empty or {@code NULL},
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param string the input array of characters
 	 * @param size   the size of the input array of characters
-	 * <p>
 	 * @return {@code _TRUE} if {@code string} is empty or {@code NULL},
 	 *         {@code _FALSE} otherwise
 	 */
@@ -152,9 +148,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if {@code string} is empty or {@code NULL},
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param string the input string
-	 * <p>
 	 * @return {@code _TRUE} if {@code string} is empty or {@code NULL},
 	 *         {@code _FALSE} otherwise
 	 */
@@ -165,11 +160,11 @@ extern "C"
 	/**
 	 * Sets all the characters of {@code string} of size {@code size} to
 	 * {@code character}.
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - If the size of {@code string} is smaller than {@code size}, there is a
 	 *   buffer overflow.
-	 * <p>
+	 *
 	 * @param string the array of characters to be filled
 	 * @param size   the size of the array of characters to be filled
 	 * @param c      the character to fill with
@@ -179,11 +174,11 @@ extern "C"
 	/**
 	 * Sets all the characters of {@code string} of size
 	 * {@code _STRING_SIZE} to {@code character}.
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - If the size of {@code string} is smaller than {@code size}, there is a
 	 *   buffer overflow.
-	 * <p>
+	 *
 	 * @param string the string to be filled
 	 * @param c      the character to fill with
 	 */
@@ -194,11 +189,11 @@ extern "C"
 	/**
 	 * Sets all the characters of {@code string} of size {@code size} to
 	 * {@code _STRING_END}.
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - If the size of {@code string} is smaller than {@code size}, there is a
 	 *   buffer overflow.
-	 * <p>
+	 *
 	 * @param string the array of characters to be cleared
 	 * @param size   the size of the array of characters to be cleared
 	 */
@@ -207,7 +202,7 @@ extern "C"
 	/**
 	 * Sets all the characters of {@code string} (of size
 	 * {@code _STRING_SIZE}) to {@code _STRING_END}.
-	 * <p>
+	 *
 	 * @param string the string to be cleared
 	 */
 	void string_clear(string string);
@@ -219,13 +214,12 @@ extern "C"
 
 	/**
 	 * Copies {@code source} into {@code target}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param length     the length of the copy
 	 * @param target     the output array of characters
 	 * @param targetSize the size of the output array
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} has been fully copied into
 	 *         {@code target}, {@code _FALSE} otherwise
 	 */
@@ -233,12 +227,11 @@ extern "C"
 
 	/**
 	 * Copies {@code source} into {@code target}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param length     the length of the copy
 	 * @param target     the output array of characters
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} has been fully copied into
 	 *         {@code target}, {@code _FALSE} otherwise
 	 */
@@ -248,11 +241,10 @@ extern "C"
 
 	/**
 	 * Copies {@code source} into {@code target}.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param length the length of the copy
 	 * @param target the output array of characters
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} has been fully copied into
 	 *         {@code target}, {@code _FALSE} otherwise
 	 */
@@ -260,12 +252,11 @@ extern "C"
 
 	/**
 	 * Copies {@code source} into {@code target}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param length     the length of the copy
 	 * @param target     the output array of characters
 	 * @param targetSize the size of the output array
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} has been fully copied into
 	 *         {@code target}, {@code _FALSE} otherwise
 	 */
@@ -276,7 +267,7 @@ extern "C"
 	/**
 	 * Returns a new array of characters that is a substring of {@code string}.
 	 * The substring begins at {@code startIndex}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param startIndex the starting index (inclusive)
@@ -288,7 +279,7 @@ extern "C"
 	/**
 	 * Returns a new string that is a substring of {@code string}. The substring
 	 * begins at {@code startIndex}.
-	 * <p>
+	 *
 	 * @param source     the input string
 	 * @param startIndex the starting index (inclusive)
 	 * @param target     the output string
@@ -301,7 +292,7 @@ extern "C"
 	 * Returns a new array of characters that is a substring of {@code string}.
 	 * The substring begins at {@code startIndex} and extends to the character
 	 * at index {@code min(endIndex - 1, size - 1)}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param startIndex the starting index (inclusive)
@@ -315,7 +306,7 @@ extern "C"
 	 * Returns a new string that is a substring of {@code string}. The substring
 	 * begins at {@code startIndex} and extends to the character at index
 	 * {@code min(endIndex - 1, _STRING_SIZE - 1)}.
-	 * <p>
+	 *
 	 * @param source     the input string
 	 * @param startIndex the starting index (inclusive)
 	 * @param endIndex   the ending index (exclusive)
@@ -331,11 +322,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if {@code source} contains {@code c}, {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param c      the character to be searched
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} contains {@code c}, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -344,10 +334,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if {@code source} contains {@code c}, {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param c      the character to be searched
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} contains {@code c}, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -358,11 +347,10 @@ extern "C"
 	/**
 	 * Returns the first character of {@code source} that is in {@code set}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the first character of {@code source} that is in {@code set}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -371,10 +359,9 @@ extern "C"
 	/**
 	 * Returns the first character of {@code source} that is in {@code set}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the first character of {@code source} that is in {@code set}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -385,11 +372,10 @@ extern "C"
 	/**
 	 * Returns the index of the first character of {@code source} that is in
 	 * {@code set}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the index of the first character of {@code source} that is in
 	 *         {@code set}, or {@code -1} if there is no such occurrence
 	 */
@@ -398,10 +384,9 @@ extern "C"
 	/**
 	 * Returns the index of the first character of {@code source} that is in
 	 * {@code set}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the index of the first character of {@code source} that is in
 	 *         {@code set}, or {@code -1} if there is no such occurrence
 	 */
@@ -412,11 +397,10 @@ extern "C"
 	/**
 	 * Returns the last character of {@code source} that is in {@code set}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the last character of {@code source} that is in {@code set}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -425,10 +409,9 @@ extern "C"
 	/**
 	 * Returns the last character of {@code source} that is in {@code set}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the last character of {@code source} that is in {@code set}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -439,11 +422,10 @@ extern "C"
 	/**
 	 * Returns the index of the last character of {@code source} that is in
 	 * {@code set}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the index of the last character of {@code source} that is in
 	 *         {@code set}, or {@code -1} if there is no such occurrence
 	 */
@@ -452,11 +434,10 @@ extern "C"
 	/**
 	 * Returns the index of the last character of {@code source} that is in
 	 * {@code set}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return the index of the last character of {@code source} that is in
 	 *         {@code set}, or {@code -1} if there is no such occurrence
 	 */
@@ -467,11 +448,10 @@ extern "C"
 	/**
 	 * Returns an Array containing all the characters of {@code source} that are
 	 * in {@code set}.
-	 * <p>
+	 *
 	 * @param source the input array of characters
 	 * @param size   the size of the input array of characters
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return an Array containing all the characters of {@code source} that are
 	 *         in {@code set}
 	 */
@@ -480,10 +460,9 @@ extern "C"
 	/**
 	 * Returns an Array containing all the characters of {@code source} that are
 	 * in {@code set}.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param set    the set of characters to be searched
-	 * <p>
 	 * @return an Array containing all the characters of {@code source} that are
 	 *         in {@code set}
 	 */
@@ -494,12 +473,11 @@ extern "C"
 	/**
 	 * Returns the first occurrence of {@code text} within {@code source}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param text       the array of characters to be searched
 	 * @param textSize   the size of the array of characters to be searched
-	 * <p>
 	 * @return the first occurrence of {@code text} within {@code source}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -508,10 +486,9 @@ extern "C"
 	/**
 	 * Returns the first occurrence of {@code text} within {@code source}, or
 	 * {@code NULL} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param source the input string
 	 * @param text   the string to be searched
-	 * <p>
 	 * @return the first occurrence of {@code text} within {@code source}, or
 	 *         {@code NULL} if there is no such occurrence
 	 */
@@ -537,11 +514,10 @@ extern "C"
 	/**
 	 * Returns an Array of arrays of characters computed by splitting
 	 * {@code source} around {@code delimiters}.
-	 * <p>
+	 *
 	 * @param source     the array of characters to be split
 	 * @param size       the size of the array of characters to be split
 	 * @param delimiters the delimiting characters
-	 * <p>
 	 * @return an Array of arrays of characters computed by splitting
 	 *         {@code source} around {@code delimiters}
 	 */
@@ -550,10 +526,9 @@ extern "C"
 	/**
 	 * Returns an Array of strings computed by splitting {@code source} around
 	 * {@code delimiters}.
-	 * <p>
+	 *
 	 * @param source     the string to be split
 	 * @param delimiters the delimiting characters
-	 * <p>
 	 * @return an Array of strings computed by splitting {@code source} around
 	 *         {@code delimiters}
 	 */
@@ -566,13 +541,12 @@ extern "C"
 
 	/**
 	 * Concatenate {@code source} to {@code target}.
-	 * <p>
+	 *
 	 * @param source     the input array of characters
 	 * @param sourceSize the size of the input array of characters
 	 * @param length     the length of the concatenation
 	 * @param target     the output array of characters
 	 * @param targetSize the size of the output array
-	 * <p>
 	 * @return {@code _TRUE} if {@code source} has been fully concatenated into
 	 *         {@code target}, {@code _FALSE} otherwise
 	 */
@@ -588,14 +562,13 @@ extern "C"
 	 * {@code source} includes format specifiers (subsequences beginning with
 	 * {@code _FORMAT_SPECIFIER}), the additional arguments are formatted and
 	 * inserted in the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param target     the target array of characters
 	 * @param targetSize the size of the target array of characters
 	 * @param format     the C string that contains the text to be written and
 	 *                   optionally embedded format specifiers
 	 * @param ...        the additional arguments to be formatted as requested
 	 *                   and that replace the format specifiers
-	 * <p>
 	 * @return {@code _TRUE} if the replacement of the format specifiers is
 	 *         performed, {@code _FALSE} otherwise
 	 */
@@ -606,13 +579,12 @@ extern "C"
 	 * {@code source} includes format specifiers (subsequences beginning with
 	 * {@code _FORMAT_SPECIFIER}), the additional arguments are formatted and
 	 * inserted in the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param target the target array of characters
 	 * @param format the C string that contains the text to be written and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested
 	 *               and that replace the format specifiers
-	 * <p>
 	 * @return {@code _TRUE} if the replacement of the format specifiers is
 	 *         performed, {@code _FALSE} otherwise
 	 */
@@ -623,12 +595,11 @@ extern "C"
 	 * includes format specifiers (subsequences beginning with
 	 * {@code _FORMAT_SPECIFIER}), the additional arguments are formatted and
 	 * inserted in the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param format the C string that contains the text to be written and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested and
 	 *               that replace the format specifiers
-	 * <p>
 	 * @return the C string pointed by {@code source}
 	 */
 	character* string_format_new(const character* format, ...);
@@ -640,9 +611,8 @@ extern "C"
 
 	/**
 	 * Returns the next element in the iteration.
-	 * <p>
+	 *
 	 * @param iterator the Iterator of the iteration
-	 * <p>
 	 * @return the next element in the iteration
 	 */
 	void* string_Iterator_next(Iterator* iterator);
@@ -656,12 +626,11 @@ extern "C"
 	 * Compares the specified array of characters for order. Returns a negative
 	 * integer, zero, or a positive integer as the first argument is less than,
 	 * equal to, or greater than the second.
-	 * <p>
+	 *
 	 * @param first      the array of characters to be compared for order
 	 * @param firstSize  the size of the array of characters to be compared for order
 	 * @param second     the array of characters with which to compare
 	 * @param secondSize the size of the array of characters with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */
@@ -669,7 +638,7 @@ extern "C"
 
 	/**
 	 * Constructs a Comparable.
-	 * <p>
+	 *
 	 * @return the statically constructed Comparable
 	 */
 	Comparable string_create_Comparable(void);
@@ -678,11 +647,10 @@ extern "C"
 	 * Compares the specified structures for order. Returns a negative integer,
 	 * zero, or a positive integer as the first argument is less than, equal to,
 	 * or greater than the second.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for order
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */
@@ -695,14 +663,14 @@ extern "C"
 
 	/**
 	 * Releases the specified array of characters.
-	 * <p>
+	 *
 	 * @param string the array of characters to be released
 	 */
 	void chars_release(character* string);
 
 	/**
 	 * Releases the specified string.
-	 * <p>
+	 *
 	 * @param string the string to be released
 	 */
 	void string_release(string string);
@@ -712,12 +680,11 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified arrays of characters are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param first      the array of characters to be compared for equality
 	 * @param firstSize  the size of the array of characters to be compared for equality
 	 * @param second     the array of characters with which to compare
 	 * @param secondSize the size of the array of characters with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified arrays of characters are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -726,11 +693,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -740,19 +706,17 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified array.
-	 * <p>
+	 *
 	 * @param structure the array to be hashed
 	 * @param size      the size of the array to be hashed
-	 * <p>
 	 * @return the hash code of the specified array
 	 */
 	integer chars_hash(const character* structure, const natural size);
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer string_hash(const void* structure);
@@ -761,7 +725,7 @@ extern "C"
 
 	/**
 	 * Copies {@code source} into {@code target} of size {@code size}.
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - If the size of {@code target} is smaller than {@code size}, there
 	 *   is a buffer overflow.
@@ -773,7 +737,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} of size
 	 * {@code size}.
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - If the size of {@code target} is smaller than {@code size}, there
 	 *   is a buffer overflow.
@@ -787,7 +751,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -797,7 +761,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.
@@ -809,7 +773,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -819,7 +783,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.
@@ -831,7 +795,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -841,7 +805,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.

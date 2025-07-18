@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -80,7 +80,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
-	 * <p>
+	 *
 	 * @param poolSize the pool size
 	 */
 	public ReservedThreadPoolExecutor(final int poolSize) {
@@ -89,7 +89,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
-	 * <p>
+	 *
 	 * @param poolSize      the pool size
 	 * @param maxPoolSize   the maximum pool size
 	 * @param keepAliveTime the keep alive time
@@ -107,7 +107,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
-	 * <p>
+	 *
 	 * @param poolSize      the pool size
 	 * @param maxPoolSize   the maximum pool size
 	 * @param keepAliveTime the keep alive time
@@ -124,7 +124,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
-	 * <p>
+	 *
 	 * @param poolSize      the pool size
 	 * @param maxPoolSize   the maximum pool size
 	 * @param keepAliveTime the keep alive time
@@ -141,7 +141,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Constructs a {@link ReservedThreadPoolExecutor} with the specified pool size.
-	 * <p>
+	 *
 	 * @param poolSize      the pool size
 	 * @param maxPoolSize   the maximum pool size
 	 * @param keepAliveTime the keep alive time
@@ -164,7 +164,7 @@ public class ReservedThreadPoolExecutor
 
 	/**
 	 * Returns the maximum pool size.
-	 * <p>
+	 *
 	 * @return the maximum pool size
 	 */
 	public int getMaxPoolSize() {
@@ -183,13 +183,11 @@ public class ReservedThreadPoolExecutor
 	 * <dt><b>Note:</b></dt>
 	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param task the {@link Runnable} task to submit
-	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
 	 *         {@link Runnable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
-	 * <p>
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
@@ -213,15 +211,13 @@ public class ReservedThreadPoolExecutor
 	 * <dd>The {@link Future#get} method will return the specified default {@code T} result upon
 	 * successful completion.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param <T>           the type of the {@link Future} to return
 	 * @param task          the {@link Runnable} task to submit
 	 * @param defaultResult the default {@code T} result (may be {@code null})
-	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
 	 *         {@link Runnable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
-	 * <p>
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override
@@ -244,14 +240,12 @@ public class ReservedThreadPoolExecutor
 	 * <dt><b>Note:</b></dt>
 	 * <dd>The {@link Future#get} method will return {@code null} upon successful completion.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param <T>  the type of the {@link Future} to return
 	 * @param task the {@link Callable} task of {@code T} type to submit
-	 * <p>
 	 * @return a {@link Future} representing the pending completion of the specified
 	 *         {@link Callable} task if there is at least one thread that is not actively executing
 	 *         tasks, {@code null} otherwise
-	 * <p>
 	 * @throws RejectedExecutionException if {@code task} is rejected
 	 */
 	@Override

@@ -20,16 +20,16 @@
 	<url>https://github.com/b-io/io.barras/tree/master/java</url>
 
 	<properties>
-		<!-- Project -->
-		<project.build.source>1.8</project.build.source>
-		<project.build.target>1.8</project.build.target>
 		<!-- Maven -->
-		<maven.compiler.version>3.8.1</maven.compiler.version>
-		<maven.helper.version>3.1.0</maven.helper.version>
+		<maven.compiler.release>8</maven.compiler.release>
+		<maven.compiler.version>3.14.0</maven.compiler.version>
+		<maven.helper.version>3.6.1</maven.helper.version>
 		<!-- Compilation -->
 		<standard.option>-std=c99</standard.option>
+		<!-- Formatting -->
+		<spotless.maven.version>2.17.5</spotless.maven.version>
 		<!-- JUnit -->
-		<junit.verison>3.8.1</junit.verison>
+		<junit.verison>3.8.2</junit.verison>
 	</properties>
 
 	<!-- Project Settings -->
@@ -55,16 +55,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.version}</version>
-
 				<configuration>
-					<source>${project.build.source}</source>
-					<testSource>${project.build.source}</testSource>
-
-					<target>${project.build.target}</target>
-					<testTarget>${project.build.target}</testTarget>
-
+					<release>${maven.compiler.release}</release>
 					<encoding>${project.build.sourceEncoding}</encoding>
-
 					<compilerArgs>
 						<arg>-Xlint:deprecation</arg>
 						<arg>-Xlint:unchecked</arg>
@@ -76,46 +69,39 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-
 				<configuration>
 					<c>
 						<name>gcc</name>
 						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-
 						<includePaths>
 							<includePath>${project.build.sourceDirectory}</includePath>
 						</includePaths>
-
 						<includes>
 							<include>**/*.h</include>
 							<include>**/*.c</include>
 						</includes>
-
 						<options>
 							<option>-D__int64=int64_t</option>
 							<option>-I${JAVA_HOME}/include</option>
 							<option>-I${JAVA_HOME}/include/win32</option>
-							<option>${stack.protector.option}</option>
 							<option>${architecture.option}</option>
-							<option>${subsystem.option}</option>
-							<option>${standard.option}</option>
-							<option>${optimization.option}</option>
-							<option>${math.option}</option>
 							<option>${debug.option}</option>
+							<option>${math.option}</option>
+							<option>${optimization.option}</option>
+							<option>${stack.protector.option}</option>
+							<option>${standard.option}</option>
+							<option>${subsystem.option}</option>
 							<option>${warning.option}</option>
 						</options>
 					</c>
-
 					<linker>
 						<name>gcc</name>
-
 						<options>
 							<option>${architecture.option}</option>
 							<option>${subsystem.option}</option>
 						</options>
 					</linker>
 				</configuration>
-
 				<executions>
 					<execution>
 						<id>nar-download</id>
@@ -138,23 +124,46 @@
 				</executions>
 			</plugin>
 
+			<!-- Validate the code format -->
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>${spotless.maven.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<phase>validate</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<java>
+						<googleJavaFormat>
+							<version>1.15.0</version>
+						</googleJavaFormat>
+						<removeUnusedImports />
+						<importOrder>
+							<order>java,javax,org,com,io</order>
+						</importOrder>
+					</java>
+				</configuration>
+			</plugin>
+
 			<!-- Add the generated sources -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
 				<version>${maven.helper.version}</version>
-
 				<executions>
 					<execution>
 						<id>add-source</id>
 						<phase>generate-sources</phase>
-
 						<configuration>
 							<sources>
 								<source>${project.build.directory}/nar/nar-generated</source>
 							</sources>
 						</configuration>
-
 						<goals>
 							<goal>add-source</goal>
 						</goals>

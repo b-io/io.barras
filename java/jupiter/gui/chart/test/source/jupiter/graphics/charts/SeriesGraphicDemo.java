@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import jupiter.common.io.ProgressBar;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
-import jupiter.common.struct.map.tree.AvlTreeMap;
-import jupiter.common.struct.map.tree.ComparableAvlTreeMap;
-import jupiter.common.struct.map.tree.ComparableRedBlackTreeMap;
-import jupiter.common.struct.map.tree.RedBlackTreeMap;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.map.tree.AvlTreeMap;
+import jupiter.common.struct.collection.map.tree.ComparableAvlTreeMap;
+import jupiter.common.struct.collection.map.tree.ComparableRedBlackTreeMap;
+import jupiter.common.struct.collection.map.tree.RedBlackTreeMap;
 import jupiter.common.test.Tests;
 import jupiter.common.time.Chronometer;
 import jupiter.common.util.Objects;
@@ -67,7 +67,7 @@ public class SeriesGraphicDemo {
 
 	/**
 	 * Demonstrates {@link SeriesGraphic}.
-	 * <p>
+	 *
 	 * @param args ignored
 	 */
 	public static void main(final String[] args) {

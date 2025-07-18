@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ import jupiter.common.struct.tuple.Pair;
 
 /**
  * A {@link Pair} containing the {@code T} xy-coordinates.
- * <p>
+ *
  * @param <T> the type of the xy-coordinates
  */
 public class XY<T>
@@ -57,7 +57,7 @@ public class XY<T>
 
 	/**
 	 * Constructs a {@link XY} with the specified {@code T} xy-coordinates.
-	 * <p>
+	 *
 	 * @param x the x {@code T} x-coordinate
 	 * @param y the y {@code T} y-coordinate
 	 */
@@ -72,7 +72,7 @@ public class XY<T>
 
 	/**
 	 * Returns the {@code T} x-coordinate.
-	 * <p>
+	 *
 	 * @return the {@code T} x-coordinate
 	 */
 	public T getX() {
@@ -81,7 +81,7 @@ public class XY<T>
 
 	/**
 	 * Returns the {@code T} y-coordinate.
-	 * <p>
+	 *
 	 * @return the {@code T} y-coordinate
 	 */
 	public T getY() {
@@ -92,7 +92,7 @@ public class XY<T>
 
 	/**
 	 * Sets the {@code T} x-coordinate.
-	 * <p>
+	 *
 	 * @param x a {@code T} object (on the abscissa)
 	 */
 	public void setX(final T x) {
@@ -101,7 +101,7 @@ public class XY<T>
 
 	/**
 	 * Sets the {@code T} y-coordinate.
-	 * <p>
+	 *
 	 * @param y a {@code T} object (on the ordinate)
 	 */
 	public void setY(final T y) {
@@ -115,9 +115,8 @@ public class XY<T>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

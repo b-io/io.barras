@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ public abstract class SQLRow {
 
 	/**
 	 * Constructs a {@link SQLRow} with the specified {@link ResultSet}.
-	 * <p>
+	 *
 	 * @param resultSet the {@link ResultSet} whose cursor is pointing to the row of data to load
 	 */
 	protected SQLRow(final ResultSet resultSet) {
@@ -91,9 +91,8 @@ public abstract class SQLRow {
 
 	/**
 	 * Returns the database column name of the specified field name.
-	 * <p>
+	 *
 	 * @param fieldName the field name
-	 * <p>
 	 * @return the database column name of the specified field name
 	 */
 	protected String getColumnName(final String fieldName) {
@@ -107,7 +106,7 @@ public abstract class SQLRow {
 
 	/**
 	 * Loads {@code this} from the specified {@link ResultSet}.
-	 * <p>
+	 *
 	 * @param resultSet the {@link ResultSet} to load
 	 */
 	protected void load(final ResultSet resultSet) {
@@ -175,7 +174,7 @@ public abstract class SQLRow {
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

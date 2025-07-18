@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,10 +62,9 @@ public abstract class ComparableNumber
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against for order (may be
 	 *              {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -79,9 +78,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 */
 	public boolean isLessThan(final ComparableNumber other) {
@@ -91,9 +89,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
 	 * the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 */
@@ -106,9 +103,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 */
 	public boolean isGreaterThan(final ComparableNumber other) {
@@ -118,9 +114,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
 	 * as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 */
@@ -133,9 +128,8 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public ComparableNumber getMin(final ComparableNumber other) {
@@ -145,9 +139,8 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against (may be {@code null})
-	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public ComparableNumber getMax(final ComparableNumber other) {
@@ -163,9 +156,8 @@ public abstract class ComparableNumber
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -178,9 +170,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less than {@code other}, {@code false} otherwise
 	 */
 	public boolean isLessThan(final Number other) {
@@ -190,9 +181,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is less or equal to {@code other} (with {@code null} considered as
 	 * the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is less or equal to {@code other}, {@code false}
 	 *         otherwise
 	 */
@@ -205,9 +195,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater than {@code other} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater than {@code other}, {@code false} otherwise
 	 */
 	public boolean isGreaterThan(final Number other) {
@@ -217,9 +206,8 @@ public abstract class ComparableNumber
 	/**
 	 * Tests whether {@code this} is greater or equal to {@code other} (with {@code null} considered
 	 * as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is greater or equal to {@code other}, {@code false}
 	 *         otherwise
 	 */
@@ -232,9 +220,8 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return the smaller of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public Number getMin(final Number other) {
@@ -244,9 +231,8 @@ public abstract class ComparableNumber
 	/**
 	 * Returns the larger of {@code this} and {@code other}, or {@code this} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return the larger of {@code this} and {@code other}, or {@code this} if they are equal
 	 */
 	public Number getMax(final Number other) {
@@ -260,9 +246,8 @@ public abstract class ComparableNumber
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -278,11 +263,9 @@ public abstract class ComparableNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -298,11 +281,9 @@ public abstract class ComparableNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Number} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Number} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	public boolean equals(final Number other) {
@@ -311,11 +292,10 @@ public abstract class ComparableNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link Number} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -327,12 +307,10 @@ public abstract class ComparableNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against for equality (may be
 	 *              {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
-	 *
 	 * @see #hashCode()
 	 */
 	public boolean equals(final ComparableNumber other) {
@@ -341,11 +319,10 @@ public abstract class ComparableNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link ComparableNumber} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -359,9 +336,8 @@ public abstract class ComparableNumber
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -374,7 +350,7 @@ public abstract class ComparableNumber
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

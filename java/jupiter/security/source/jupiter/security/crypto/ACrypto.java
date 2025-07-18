@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ public class ACrypto
 
 	/**
 	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod}.
-	 * <p>
+	 *
 	 * @param method the {@link CipherMethod}
 	 */
 	public ACrypto(final CipherMethod method) {
@@ -87,7 +87,7 @@ public class ACrypto
 
 	/**
 	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod} and {@link CipherMode}.
-	 * <p>
+	 *
 	 * @param method the {@link CipherMethod}
 	 * @param mode   the {@link CipherMode}
 	 */
@@ -98,7 +98,7 @@ public class ACrypto
 	/**
 	 * Constructs an {@link ACrypto} with the specified {@link CipherMethod}, {@link CipherMode} and
 	 * {@link CipherPadding}.
-	 * <p>
+	 *
 	 * @param method  the {@link CipherMethod}
 	 * @param mode    the {@link CipherMode}
 	 * @param padding the {@link CipherPadding}
@@ -114,7 +114,7 @@ public class ACrypto
 
 	/**
 	 * Returns the default size of the {@link PublicKey}.
-	 * <p>
+	 *
 	 * @return the default size of the {@link PublicKey}
 	 */
 	@Override
@@ -124,7 +124,7 @@ public class ACrypto
 
 	/**
 	 * Returns the size of the {@link PublicKey}.
-	 * <p>
+	 *
 	 * @return the size of the {@link PublicKey}
 	 */
 	@Override
@@ -137,7 +137,7 @@ public class ACrypto
 	/**
 	 * Returns the primary encoded key of the {@link PrivateKey}, or {@code null} if the
 	 * {@link PrivateKey} does not support encoding.
-	 * <p>
+	 *
 	 * @return the primary encoded key of the {@link PrivateKey}, or {@code null} if the
 	 *         {@link PrivateKey} does not support encoding
 	 */
@@ -148,7 +148,7 @@ public class ACrypto
 	/**
 	 * Returns the primary encoded key of the {@link PublicKey}, or {@code null} if the
 	 * {@link PublicKey} does not support encoding.
-	 * <p>
+	 *
 	 * @return the primary encoded key of the {@link PublicKey}, or {@code null} if the
 	 *         {@link PublicKey} does not support encoding
 	 */
@@ -168,7 +168,7 @@ public class ACrypto
 
 	/**
 	 * Sets the size of the {@link PublicKey}.
-	 * <p>
+	 *
 	 * @param publicKeySize a size of the {@link PublicKey}
 	 */
 	@Override
@@ -180,7 +180,7 @@ public class ACrypto
 
 	/**
 	 * Sets the {@link PrivateKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param privateKey a primary encoded key
 	 */
 	public void setPrivateKey(final byte[] privateKey) {
@@ -189,7 +189,7 @@ public class ACrypto
 
 	/**
 	 * Sets the {@link PublicKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param publicKey a primary encoded key
 	 */
 	public void setPublicKey(final byte[] publicKey) {
@@ -203,7 +203,7 @@ public class ACrypto
 
 	/**
 	 * Combines the primary encoded data.
-	 * <p>
+	 *
 	 * @return the primary encoded combination
 	 */
 	@Override
@@ -215,7 +215,7 @@ public class ACrypto
 
 	/**
 	 * Uncombines the specified primary encoded combination.
-	 * <p>
+	 *
 	 * @param combination the primary encoded combination to uncombine
 	 */
 	@Override
@@ -231,7 +231,7 @@ public class ACrypto
 
 	/**
 	 * Creates a {@link PrivateKey} and a {@link PublicKey} of the specified size.
-	 * <p>
+	 *
 	 * @param publicKeySize the size of the {@link PublicKey} to create
 	 */
 	@Override
@@ -252,9 +252,8 @@ public class ACrypto
 
 	/**
 	 * Creates a {@link PrivateKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param privateKey the primary encoded key of the {@link PrivateKey} to create
-	 * <p>
 	 * @return a {@link PrivateKey} with the specified primary encoded key
 	 */
 	public PrivateKey createPrivateKey(final byte[] privateKey) {
@@ -270,9 +269,8 @@ public class ACrypto
 
 	/**
 	 * Creates a {@link PublicKey} with the specified primary encoded key.
-	 * <p>
+	 *
 	 * @param publicKey the primary encoded key of the {@link PublicKey} to create
-	 * <p>
 	 * @return a {@link PublicKey} with the specified primary encoded key
 	 */
 	public PublicKey createPublicKey(final byte[] publicKey) {
@@ -290,7 +288,7 @@ public class ACrypto
 
 	/**
 	 * Creates an encrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return an encrypting {@link Cipher}
 	 */
 	@Override
@@ -315,7 +313,7 @@ public class ACrypto
 
 	/**
 	 * Creates a decrypting {@link Cipher}.
-	 * <p>
+	 *
 	 * @return a decrypting {@link Cipher}
 	 */
 	@Override

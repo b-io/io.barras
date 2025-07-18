@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,14 +61,14 @@ extern "C"
 
 	/**
 	 * Checks if the specified Vector is correct.
-	 * <p>
+	 *
 	 * @param V the Vector to be checked
 	 */
 #define _VECTOR_CHECK(V)						((V) && (V)->dimension > 0 || Vector_check(V))
 
 	/**
 	 * Checks if the specified Vectors are correct.
-	 * <p>
+	 *
 	 * @param V1 the first Vector to be checked
 	 * @param V2 the second Vector to be checked
 	 */
@@ -139,9 +139,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified Vector is not {@code NULL} and its
 	 * dimension is greater than zero, {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param vector  the Vector to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified Vector is not {@code NULL} and its
 	 *         dimension is greater than zero, {@code _FALSE} otherwise
 	 */
@@ -151,10 +150,9 @@ extern "C"
 	 * Returns {@code _TRUE} if the specified Vectors are not {@code NULL} and
 	 * their dimensions are equal (and greater than zero), {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param first  the first Vector to be checked
 	 * @param second the second Vector to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified Vectors are not {@code NULL} and
 	 *         their dimensions are equal (and greater than zero),
 	 *         {@code _FALSE} otherwise
@@ -168,9 +166,8 @@ extern "C"
 
 	/**
 	 * Constructs a Vector dynamically.
-	 * <p>
+	 *
 	 * @param dimension the dimension of the Vector to be constructed
-	 * <p>
 	 * @return the dynamically constructed Vector
 	 */
 	Vector* Vector_new(const natural dimension);
@@ -180,10 +177,9 @@ extern "C"
 	/**
 	 * Constructs a Vector from {@code startingPoint} to {@code endingPoint}
 	 * dynamically.
-	 * <p>
+	 *
 	 * @param startingPoint the starting point of the Vector to be constructed
 	 * @param endingPoint   the ending point of the Vector to be constructed
-	 * <p>
 	 * @return the dynamically constructed Vector
 	 */
 	Vector* Vector_from_to_new(const Vector* startingPoint, const Vector* endingPoint);
@@ -195,7 +191,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Vector.
-	 * <p>
+	 *
 	 * @param vector    the Vector to be reset
 	 * @param dimension the dimension to set
 	 */
@@ -208,14 +204,14 @@ extern "C"
 
 	/**
 	 * Resets the specified Vector to the origin.
-	 * <p>
+	 *
 	 * @param vector the Vector to be cleared
 	 */
 	void Vector_clear(Vector* vector);
 
 	/**
 	 * Sets the specified Vector with the specified values.
-	 * <p>
+	 *
 	 * @param vector the Vector to be set
 	 * @param values the values to set
 	 * @param size   the number of values to set
@@ -225,7 +221,7 @@ extern "C"
 	/**
 	 * Sets the specified Vector with the specified values from the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param vector the Vector to be set
 	 * @param from   the index from which to start the assignment
 	 * @param values the values to set
@@ -235,7 +231,7 @@ extern "C"
 
 	/**
 	 * Sets the values of {@code first} to the values of {@code second}.
-	 * <p>
+	 *
 	 * @param first  the Vector to be set
 	 * @param second the Vector to set
 	 */
@@ -243,7 +239,7 @@ extern "C"
 
 	/**
 	 * Sets the values of the specified Vector to zero.
-	 * <p>
+	 *
 	 * @param vector the Vector to be set
 	 */
 	void Vector_set_zero(Vector* vector);
@@ -252,28 +248,25 @@ extern "C"
 
 	/**
 	 * Returns the norm of the specified Vector.
-	 * <p>
+	 *
 	 * @param vector the Vector
-	 * <p>
 	 * @return the norm of the specified Vector
 	 */
 	real Vector_norm(const Vector* vector);
 
 	/**
 	 * Normalize the specified Vector.
-	 * <p>
+	 *
 	 * @param vector the Vector to be normalized
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_normalize(Vector* vector);
 
 	/**
 	 * Scale the specified Vector.
-	 * <p>
+	 *
 	 * @param vector      the Vector to be scaled
 	 * @param scaleFactor the scale factor
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_scale(Vector* vector, const real scaleFactor);
@@ -282,30 +275,27 @@ extern "C"
 
 	/**
 	 * Add {@code second} to {@code first}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_plus(Vector* first, const Vector* second);
 
 	/**
 	 * Subtract {@code second} to {@code first}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_minus(Vector* first, const Vector* second);
 
 	/**
 	 * Multiply {@code first} by {@code second}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_times(Vector* first, const Vector* second);
@@ -314,10 +304,9 @@ extern "C"
 
 	/**
 	 * Returns the dot value between {@code first} and {@code second}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
-	 * <p>
 	 * @return the dot value between {@code first} and {@code second}
 	 */
 	real Vector_dot(const Vector* first, const Vector* second);
@@ -325,11 +314,10 @@ extern "C"
 	/**
 	 * Computes the cross value between {@code first} and {@code second} and
 	 * stores the result in {@code result}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
 	 * @param result       the output Vector
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_cross(const Vector* first, const Vector* second, Vector* result);
@@ -339,12 +327,11 @@ extern "C"
 	/**
 	 * Rotates {@code vector} around {@code axis} of {@code angle} radians and
 	 * stores the result in {@code result}.
-	 * <p>
+	 *
 	 * @param vector the Vector to be rotated
 	 * @param axis   the axis of the rotation
 	 * @param angle  the angle of the rotation
 	 * @param result the output Vector
-	 * <p>
 	 * @return the resulting Vector if there is no error, {@code NULL} otherwise
 	 */
 	Vector* Vector_rotate(const Vector* vector, const Vector* axis, const real angle, Vector* result);
@@ -353,10 +340,9 @@ extern "C"
 
 	/**
 	 * Returns the angle between {@code first} and {@code second}.
-	 * <p>
+	 *
 	 * @param first  the first Vector
 	 * @param second the second Vector
-	 * <p>
 	 * @return the angle between {@code first} and {@code second}
 	 */
 	real Vector_angle(const Vector* first, const Vector* second);
@@ -365,12 +351,11 @@ extern "C"
 	 * Returns the oriented angle between the first face defined by
 	 * {@code firstPoint} and {@code firstNormal} and the second face defined by
 	 * {@code secondPoint} and {@code secondNormal}.
-	 * <p>
+	 *
 	 * @param firstPoint   a point of the first face
 	 * @param firstNormal  the normal of the first face
 	 * @param secondPoint  a point of the second face
 	 * @param secondNormal the normal of the second face
-	 * <p>
 	 * @return the oriented angle between the first face defined by
 	 *         {@code firstPoint} and {@code firstNormal} and the second face
 	 *         defined by {@code secondPoint} and {@code secondNormal}
@@ -384,7 +369,7 @@ extern "C"
 
 	/**
 	 * Constructs a Comparable.
-	 * <p>
+	 *
 	 * @return the statically constructed Comparable
 	 */
 	Comparable Vector_create_Comparable(void);
@@ -393,11 +378,10 @@ extern "C"
 	 * Compares the specified structures for order. Returns a negative integer,
 	 * zero, or a positive integer as the first argument is less than, equal to,
 	 * or greater than the second.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for order
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */
@@ -410,7 +394,7 @@ extern "C"
 
 	/**
 	 * Releases the specified structure and frees it if requested.
-	 * <p>
+	 *
 	 * @param structure the structure to be released
 	 */
 	void Vector_release(void* structure);
@@ -419,9 +403,8 @@ extern "C"
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be cloned
-	 * <p>
 	 * @return a dynamic copy of the specified structure
 	 */
 	void* Vector_clone(const void* structure);
@@ -431,11 +414,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -445,9 +427,8 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer Vector_hash(const void* structure);
@@ -457,7 +438,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -467,7 +448,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.

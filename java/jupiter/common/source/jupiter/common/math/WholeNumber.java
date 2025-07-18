@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,7 +60,7 @@ public class WholeNumber
 
 	/**
 	 * Constructs a {@link WholeNumber} with the specified value.
-	 * <p>
+	 *
 	 * @param value the {@code long} value
 	 */
 	public WholeNumber(final long value) {
@@ -75,7 +75,7 @@ public class WholeNumber
 
 	/**
 	 * Returns the {@code long} value.
-	 * <p>
+	 *
 	 * @return the {@code long} value
 	 */
 	public long get() {
@@ -86,7 +86,7 @@ public class WholeNumber
 
 	/**
 	 * Sets the {@code long} value.
-	 * <p>
+	 *
 	 * @param value a {@code long} value
 	 */
 	public void set(final long value) {
@@ -102,10 +102,9 @@ public class WholeNumber
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparableNumber} to compare against for order (may be
 	 *              {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -124,7 +123,7 @@ public class WholeNumber
 
 	/**
 	 * Returns the middle of {@code this} rounded down.
-	 * <p>
+	 *
 	 * @return the middle of {@code this} rounded down
 	 */
 	public long middle() {
@@ -135,9 +134,8 @@ public class WholeNumber
 
 	/**
 	 * Returns the greatest common divisor (GCD) of {@code this} and the specified {@link Number}.
-	 * <p>
+	 *
 	 * @param number a {@link Number}
-	 * <p>
 	 * @return the greatest common divisor (GCD) of {@code this} and the specified {@link Number}
 	 */
 	public long gcd(final Number number) {
@@ -146,9 +144,8 @@ public class WholeNumber
 
 	/**
 	 * Returns the least common multiple (LCM) of {@code this} and the specified {@link Number}.
-	 * <p>
+	 *
 	 * @param number a {@link Number}
-	 * <p>
 	 * @return the least common multiple (LCM) of {@code this} and the specified {@link Number}
 	 */
 	public long lcm(final Number number) {
@@ -197,9 +194,8 @@ public class WholeNumber
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -211,11 +207,9 @@ public class WholeNumber
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -227,9 +221,8 @@ public class WholeNumber
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -242,7 +235,7 @@ public class WholeNumber
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

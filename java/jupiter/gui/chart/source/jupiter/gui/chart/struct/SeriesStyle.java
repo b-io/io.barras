@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ public class SeriesStyle
 	/**
 	 * Constructs a {@link SeriesStyle} with the specified {@link Color}, {@link Shape} and
 	 * {@link Stroke}.
-	 * <p>
+	 *
 	 * @param color  the {@link Color}
 	 * @param shape  the {@link Shape}
 	 * @param stroke the {@link Stroke}
@@ -76,7 +76,7 @@ public class SeriesStyle
 
 	/**
 	 * Returns the {@link Color}.
-	 * <p>
+	 *
 	 * @return the {@link Color}
 	 */
 	public Color getColor() {
@@ -85,7 +85,7 @@ public class SeriesStyle
 
 	/**
 	 * Returns the {@link Shape}.
-	 * <p>
+	 *
 	 * @return the {@link Shape}
 	 */
 	public Shape getShape() {
@@ -94,7 +94,7 @@ public class SeriesStyle
 
 	/**
 	 * Returns the {@link Stroke}.
-	 * <p>
+	 *
 	 * @return the {@link Stroke}
 	 */
 	public Stroke getStroke() {
@@ -108,9 +108,8 @@ public class SeriesStyle
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

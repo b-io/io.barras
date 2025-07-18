@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.util.Objects;
 
 public class IOPrinter
@@ -59,7 +59,7 @@ public class IOPrinter
 
 	/**
 	 * Constructs an {@link IOPrinter} with the specified array of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param handlers the array of {@link IOHandler}
 	 */
 	public IOPrinter(final IOHandler... handlers) {
@@ -69,7 +69,7 @@ public class IOPrinter
 
 	/**
 	 * Constructs an {@link IOPrinter} with the specified {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param handlers the {@link List} of {@link IOHandler}
 	 */
 	public IOPrinter(final List<IOHandler> handlers) {
@@ -85,11 +85,10 @@ public class IOPrinter
 	/**
 	 * Prints the specified content {@link Object} in the standard output (or standard error if
 	 * {@code isError}) with the {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -105,9 +104,8 @@ public class IOPrinter
 
 	/**
 	 * Prints the specified {@link Message} and terminates the line.
-	 * <p>
+	 *
 	 * @param message the {@link Message} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -122,11 +120,10 @@ public class IOPrinter
 	/**
 	 * Prints the specified content {@link Object} in the standard output (or standard error if
 	 * {@code isError}) and terminates the line with the {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -160,9 +157,8 @@ public class IOPrinter
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -174,11 +170,9 @@ public class IOPrinter
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -197,9 +191,8 @@ public class IOPrinter
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

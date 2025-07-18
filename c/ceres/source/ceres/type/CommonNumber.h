@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,14 +64,14 @@ extern "C"
 
 	/**
 	 * Checks if the specified Number is correct.
-	 * <p>
+	 *
 	 * @param N the Number to be checked
 	 */
 #define _NUMBER_CHECK(N)						((N) && (N)->base >= 2 && (N)->base <= _NUMBER_BASE_MAX || Number_check(N))
 
 	/**
 	 * Checks if the specified base is correct.
-	 * <p>
+	 *
 	 * @param B the base to be checked
 	 */
 #define _BASE_CHECK(B)							(B >= 2 && B <= _NUMBER_BASE_MAX || base_check(B))
@@ -84,9 +84,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified Number is correct, {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param number the Number to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified Number is correct, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -95,9 +94,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified base is correct, {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param base the base to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified base is correct, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -110,20 +108,18 @@ extern "C"
 
 	/**
 	 * Constructs a Number statically.
-	 * <p>
+	 *
 	 * @param n    the natural number to set
 	 * @param base the base to set
-	 * <p>
 	 * @return the statically constructed Number
 	 */
 	Number Number_create(const natural n, const natural base);
 
 	/**
 	 * Constructs a Number dynamically.
-	 * <p>
+	 *
 	 * @param n    the natural number to set
 	 * @param base the base to set
-	 * <p>
 	 * @return the dynamically constructed Number
 	 */
 	Number* Number_new(const natural n, const natural base);
@@ -135,7 +131,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Number.
-	 * <p>
+	 *
 	 * @param structure the Number to be reset
 	 * @param n         the natural number to set
 	 * @param base      the base to set
@@ -149,7 +145,7 @@ extern "C"
 
 	/**
 	 * Changes the base of the specified Number to the specified base.
-	 * <p>
+	 *
 	 * @param number the Number to be changed
 	 * @param toBase the base to set
 	 */
@@ -157,18 +153,16 @@ extern "C"
 
 	/**
 	 * Converts the specified Number to a decimal number.
-	 * <p>
+	 *
 	 * @param number the Number to be converted
-	 * <p>
 	 * @return the resulting decimal number
 	 */
 	natural Number_to_decimal(const void* number);
 
 	/**
 	 * Converts the specified Number to a natural number.
-	 * <p>
+	 *
 	 * @param number the Number to be converted
-	 * <p>
 	 * @return the resulting natural number
 	 */
 	natural Number_to_natural(const void* number);
@@ -176,7 +170,7 @@ extern "C"
 
 	/**
 	 * Sets the specified Number to zero.
-	 * <p>
+	 *
 	 * @param number the Number to be set
 	 */
 	void Number_to_zero(void* number);
@@ -188,10 +182,9 @@ extern "C"
 
 	/**
 	 * Converts the specified decimal number to the specified Number.
-	 * <p>
+	 *
 	 * @param decimal the decimal number to be converted
 	 * @param number  the output Number
-	 * <p>
 	 * @return {@code _TRUE} if there is no error, {@code _FALSE} otherwise
 	 */
 	boolean decimal_to_Number(const natural decimal, Number* number);
@@ -201,11 +194,10 @@ extern "C"
 	/**
 	 * Converts the specified natural number with the specified base to the
 	 * specified Number.
-	 * <p>
+	 *
 	 * @param n      the natural number to be converted
 	 * @param base   the base of the natural number to be converted
 	 * @param number the output Number
-	 * <p>
 	 * @return {@code _TRUE} if there is no error, {@code _FALSE} otherwise
 	 */
 	boolean natural_to_Number(const natural n, const natural base, Number* number);
@@ -217,9 +209,8 @@ extern "C"
 
 	/**
 	 * Returns the next element in the iteration.
-	 * <p>
+	 *
 	 * @param iterator the Iterator of the iteration
-	 * <p>
 	 * @return the next element in the iteration
 	 */
 	void* Number_Iterator_next(Iterator* iterator);
@@ -231,7 +222,7 @@ extern "C"
 
 	/**
 	 * Constructs a Comparable.
-	 * <p>
+	 *
 	 * @return the statically constructed Comparable
 	 */
 	Comparable Number_create_Comparable(void);
@@ -240,11 +231,10 @@ extern "C"
 	 * Compares the specified structures for order. Returns a negative integer,
 	 * zero, or a positive integer as the first argument is less than, equal to,
 	 * or greater than the second.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for order
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */
@@ -257,7 +247,7 @@ extern "C"
 
 	/**
 	 * Releases the specified structure and frees it if requested.
-	 * <p>
+	 *
 	 * @param structure the structure to be released
 	 */
 	void Number_release(void* structure);
@@ -266,9 +256,8 @@ extern "C"
 
 	/**
 	 * Constructs a dynamic copy of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be cloned
-	 * <p>
 	 * @return a dynamic copy of the specified structure
 	 */
 	void* Number_clone(const void* structure);
@@ -278,11 +267,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -292,9 +280,8 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer Number_hash(const void* structure);
@@ -304,7 +291,7 @@ extern "C"
 	/**
 	 * Copies {@code source} into {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX}.
@@ -314,7 +301,7 @@ extern "C"
 	/**
 	 * Appends {@code source} to the end of {@code target} (of size
 	 * {@code _STRING_SIZE}).
-	 * <p>
+	 *
 	 * Warning(s):
 	 * - The {@code target} is truncated if the length of {@code source} is
 	 *   greater than {@code _STRING_LENGTH_MAX-strlen(target)}.

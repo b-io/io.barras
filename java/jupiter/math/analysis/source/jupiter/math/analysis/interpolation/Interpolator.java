@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,7 +67,7 @@ public abstract class Interpolator
 	/**
 	 * Constructs an {@link Interpolator} with the interpolant of {@code y = f(x)} between the
 	 * specified endpoints.
-	 * <p>
+	 *
 	 * @param fromPoint the leading endpoint {@link XY} of {@link Double} of the interpolant
 	 *                  (inclusive)
 	 * @param toPoint   the tailing endpoint {@link XY} of {@link Double} of the interpolant
@@ -86,11 +86,9 @@ public abstract class Interpolator
 
 	/**
 	 * Applies the interpolation function to the specified value.
-	 * <p>
-	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 *
+	 * @param x a {@code double} value (on the abscissa)
+	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 * @see #interpolate(double)
 	 */
 	@Override
@@ -101,9 +99,8 @@ public abstract class Interpolator
 	/**
 	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x} between
 	 * {@code fromPoint} and {@code toPoint}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 */
 	protected abstract double interpolate(final double x);
@@ -115,9 +112,8 @@ public abstract class Interpolator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.TargetDataLine;
 
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.util.Strings;
 
 public class Audio {
@@ -92,7 +92,7 @@ public class Audio {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of {@link AudioSourceInterface}.
-	 * <p>
+	 *
 	 * @return the {@link ExtendedLinkedList} of {@link AudioSourceInterface}
 	 */
 	public static ExtendedLinkedList<AudioSourceInterface> getSourceInterfaces() {
@@ -102,9 +102,8 @@ public class Audio {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of {@link AudioSourceInterface} with the specified
 	 * mixer name.
-	 * <p>
+	 *
 	 * @param mixerName a {@link String}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of {@link AudioSourceInterface} with the specified
 	 *         mixer name
 	 */
@@ -135,7 +134,7 @@ public class Audio {
 
 	/**
 	 * Returns the {@link ExtendedLinkedList} of {@link AudioTargetInterface}.
-	 * <p>
+	 *
 	 * @return the {@link ExtendedLinkedList} of {@link AudioTargetInterface}
 	 */
 	public static ExtendedLinkedList<AudioTargetInterface> getTargetInterfaces() {
@@ -145,9 +144,8 @@ public class Audio {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of {@link AudioTargetInterface} with the specified
 	 * mixer name.
-	 * <p>
+	 *
 	 * @param mixerName a {@link String}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of {@link AudioTargetInterface} with the specified
 	 *         mixer name
 	 */

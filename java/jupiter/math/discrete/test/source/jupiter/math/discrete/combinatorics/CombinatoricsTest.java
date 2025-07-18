@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,8 +27,8 @@ import static jupiter.common.io.InputOutput.IO;
 import static jupiter.common.util.Characters.BULLET;
 import static jupiter.common.util.Characters.SEMICOLON;
 
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.test.Test;
 import jupiter.common.util.Doubles;
 import jupiter.common.util.Integers;

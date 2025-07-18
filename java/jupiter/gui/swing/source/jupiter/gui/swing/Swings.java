@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@ public class Swings {
 
 	/**
 	 * Sets the parameters of the specified {@link Component} by default.
-	 * <p>
+	 *
 	 * @param component the {@link Component} to set
 	 */
 	public static void setDefaultParameters(final Component component) {
@@ -94,7 +94,7 @@ public class Swings {
 
 	/**
 	 * Sets the minimum and preferred sizes of the specified {@link Component} by default.
-	 * <p>
+	 *
 	 * @param component the {@link Component} to set
 	 */
 	public static void setSizes(final Component component) {
@@ -103,7 +103,7 @@ public class Swings {
 
 	/**
 	 * Sets the minimum and preferred sizes of the specified {@link Component}.
-	 * <p>
+	 *
 	 * @param component     the {@link Component} to set
 	 * @param minSize       a minimum {@link Dimension}
 	 * @param preferredSize a preferred {@link Dimension}
@@ -262,7 +262,7 @@ public class Swings {
 	/**
 	 * Sizes the specified {@link Window} to fit the preferred size and layouts of its subcomponents
 	 * and shows it in the center of the screen.
-	 * <p>
+	 *
 	 * @param window the {@link Window} to show
 	 */
 	public static void show(final Window window) {
@@ -273,7 +273,7 @@ public class Swings {
 
 	/**
 	 * Hides the specified {@link Window}.
-	 * <p>
+	 *
 	 * @param window the {@link Window} to hide
 	 */
 	public static void hide(final Window window) {
@@ -283,7 +283,7 @@ public class Swings {
 	/**
 	 * Closes the specified {@link Window} and releases all the native screen resources used by it,
 	 * its subcomponents and all its owned children.
-	 * <p>
+	 *
 	 * @param window the {@link Window} to close
 	 */
 	public static void close(final Window window) {
@@ -295,7 +295,7 @@ public class Swings {
 
 	/**
 	 * Shows the specified message {@link String} in the specified {@link JPanel}.
-	 * <p>
+	 *
 	 * @param panel   the {@link JPanel} in which the message {@link String} is showed
 	 * @param message the message {@link String} to show
 	 */
@@ -307,7 +307,7 @@ public class Swings {
 
 	/**
 	 * Shows the progress bar for the specified length of time (in milliseconds).
-	 * <p>
+	 *
 	 * @param title the title of the progress bar
 	 * @param time  the length of time to show the progress bar (in milliseconds)
 	 */
@@ -318,7 +318,7 @@ public class Swings {
 	/**
 	 * Shows the progress bar for the specified length of time (in milliseconds) with the specified
 	 * time interval between each refresh (in milliseconds).
-	 * <p>
+	 *
 	 * @param title the title of the progress bar
 	 * @param time  the length of time to show the progress bar (in milliseconds)
 	 * @param step  the time interval between each refresh (in milliseconds)

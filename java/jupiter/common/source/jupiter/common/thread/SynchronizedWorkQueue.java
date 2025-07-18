@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} by
 	 * default.
-	 * <p>
+	 *
 	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	public SynchronizedWorkQueue(final Worker<I, O> model) {
@@ -56,7 +56,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Constructs a {@link SynchronizedWorkQueue} with the specified model {@link Worker} and
 	 * minimum and maximum numbers of {@link Worker}.
-	 * <p>
+	 *
 	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
@@ -74,7 +74,7 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Shutdowns {@code this}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force shutdowning
 	 */
 	@Override
@@ -106,9 +106,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Creates a {@link Worker} according to the model.
-	 * <p>
+	 *
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
-	 * <p>
 	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */
 	@Override
@@ -123,9 +122,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Reserves the specified number of {@link Worker}.
-	 * <p>
+	 *
 	 * @param workerToReserveCount the number of {@link Worker} to reserve
-	 * <p>
 	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
 	 */
 	@Override
@@ -137,9 +135,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Reserves the specified maximum number of {@link Worker}.
-	 * <p>
+	 *
 	 * @param maxWorkerToReserveCount the maximum number of {@link Worker} to reserve
-	 * <p>
 	 * @return the number of reserved {@link Worker}
 	 */
 	@Override
@@ -153,7 +150,7 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Removes the specified {@link Worker}.
-	 * <p>
+	 *
 	 * @param worker the {@link Worker} of {@code I} and {@code O} types to remove
 	 */
 	@Override
@@ -171,9 +168,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Submits a {@link Task} with the specified {@code I} input for execution.
-	 * <p>
+	 *
 	 * @param input the {@code I} input of the {@link Task} to submit
-	 * <p>
 	 * @return the identifier of the submitted {@link Task}
 	 */
 	@Override
@@ -191,7 +187,7 @@ public class SynchronizedWorkQueue<I, O>
 	/**
 	 * Returns the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @return the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 *         otherwise
 	 */
@@ -215,7 +211,7 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Adds the specified {@code O} result of the {@link Task} with the specified identifier.
-	 * <p>
+	 *
 	 * @param id     the identifier of the {@link Task}
 	 * @param result the {@code O} result of the {@link Task}
 	 */
@@ -229,9 +225,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Returns the {@code O} result of the {@link Task} with the specified identifier.
-	 * <p>
+	 *
 	 * @param id the identifier of the {@link Task}
-	 * <p>
 	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
 	@Override
@@ -254,9 +249,8 @@ public class SynchronizedWorkQueue<I, O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

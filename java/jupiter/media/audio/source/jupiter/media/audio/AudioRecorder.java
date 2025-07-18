@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JOptionPane;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Objects;
 import jupiter.common.util.Strings;
@@ -100,7 +100,7 @@ public class AudioRecorder
 
 	/**
 	 * Constructs an {@link AudioRecorder} with the specified {@link AudioFormat}.
-	 * <p>
+	 *
 	 * @param format the {@link AudioFormat}
 	 */
 	public AudioRecorder(final AudioFormat format) {
@@ -114,7 +114,7 @@ public class AudioRecorder
 
 	/**
 	 * Sets the {@link AudioTargetInterface}.
-	 * <p>
+	 *
 	 * @param targetInterface an {@link AudioTargetInterface}
 	 */
 	public void setTargetInterface(final AudioTargetInterface targetInterface) {
@@ -123,7 +123,7 @@ public class AudioRecorder
 
 	/**
 	 * Sets the {@link AudioTargetInterface} with the specified mixer name.
-	 * <p>
+	 *
 	 * @param mixerName a {@link String}
 	 */
 	public void setTargetInterface(final String mixerName) {
@@ -149,7 +149,7 @@ public class AudioRecorder
 
 	/**
 	 * Captures the audio.
-	 * <p>
+	 *
 	 * @return the WAV {@link File} containing the recording
 	 */
 	public File capture() {
@@ -224,7 +224,7 @@ public class AudioRecorder
 
 	/**
 	 * Records the audio.
-	 * <p>
+	 *
 	 * @return the WAV {@link File} containing the recording
 	 */
 	protected File record() {
@@ -253,9 +253,8 @@ public class AudioRecorder
 
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface}.
-	 * <p>
+	 *
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
-	 * <p>
 	 * @return the WAV {@link File} containing the recording
 	 */
 	public static File record(final AudioTargetInterface targetInterface) {
@@ -267,10 +266,9 @@ public class AudioRecorder
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} in the specified
 	 * {@link AudioFormat}.
-	 * <p>
+	 *
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * @param format          the {@link AudioFormat} to record in
-	 * <p>
 	 * @return the WAV {@link File} containing the recording
 	 */
 	public static File record(final AudioTargetInterface targetInterface,
@@ -283,7 +281,7 @@ public class AudioRecorder
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} to the specified WAV
 	 * {@link File}.
-	 * <p>
+	 *
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * @param targetFile      the WAV {@link File} to record to
 	 */
@@ -294,7 +292,7 @@ public class AudioRecorder
 	/**
 	 * Records the audio with the specified {@link AudioTargetInterface} to the specified WAV
 	 * {@link File} and in the specified {@link AudioFormat}.
-	 * <p>
+	 *
 	 * @param targetInterface the {@link AudioTargetInterface} to record with
 	 * @param targetFile      the WAV {@link File} to record to
 	 * @param format          the {@link AudioFormat} to record in
@@ -354,9 +352,8 @@ public class AudioRecorder
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

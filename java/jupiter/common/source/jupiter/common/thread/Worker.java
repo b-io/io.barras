@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ import jupiter.common.util.Strings;
 /**
  * {@link Worker} is the working {@link Thread} processing an {@code I} input and returning an
  * {@code O} output.
- * <p>
+ *
  * @param <I> the input type
  * @param <O> the output type
  */
@@ -100,7 +100,7 @@ public abstract class Worker<I, O>
 	/**
 	 * Constructs a {@link Worker} of {@code I} and {@code O} types with the specified {@code I}
 	 * input.
-	 * <p>
+	 *
 	 * @param input the {@code I} input
 	 */
 	protected Worker(final I input) {
@@ -121,7 +121,7 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Sets the {@code I} input.
-	 * <p>
+	 *
 	 * @param input an {@code I} input
 	 */
 	public void setInput(final I input) {
@@ -130,7 +130,7 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Sets the {@link WorkQueue}.
-	 * <p>
+	 *
 	 * @param workQueue a {@link WorkQueue} of {@code I} and {@code O} types
 	 */
 	public void setWorkQueue(final WorkQueue<I, O> workQueue) {
@@ -144,7 +144,7 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Processes the {@code I} input.
-	 * <p>
+	 *
 	 * @return an {@code O} output
 	 */
 	public O call() {
@@ -153,9 +153,8 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Processes the specified {@code I} input.
-	 * <p>
+	 *
 	 * @param input the {@code I} input to process
-	 * <p>
 	 * @return an {@code O} output
 	 */
 	public abstract O call(final I input);
@@ -195,9 +194,8 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -228,7 +226,7 @@ public abstract class Worker<I, O>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

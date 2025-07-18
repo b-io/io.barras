@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,7 +60,7 @@ import java.util.Collection;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -110,7 +110,7 @@ public class JOCL
 
 	/**
 	 * Constructs a {@link JOCL} with the specified source code {@link String}.
-	 * <p>
+	 *
 	 * @param sourceCode the source code {@link String}
 	 */
 	@SuppressWarnings("deprecation")
@@ -202,7 +202,7 @@ public class JOCL
 
 	/**
 	 * Returns the context.
-	 * <p>
+	 *
 	 * @return the context
 	 */
 	public cl_context getContext() {
@@ -211,7 +211,7 @@ public class JOCL
 
 	/**
 	 * Returns the command-queue.
-	 * <p>
+	 *
 	 * @return the command-queue
 	 */
 	public cl_command_queue getCommandQueue() {
@@ -220,7 +220,7 @@ public class JOCL
 
 	/**
 	 * Returns the program.
-	 * <p>
+	 *
 	 * @return the program
 	 */
 	public cl_program getProgram() {
@@ -229,9 +229,8 @@ public class JOCL
 
 	/**
 	 * Returns the specified kernel.
-	 * <p>
+	 *
 	 * @param name the kernel name
-	 * <p>
 	 * @return the specified kernel
 	 */
 	public cl_kernel getKernel(final String name) {
@@ -342,7 +341,7 @@ public class JOCL
 
 	/**
 	 * Releases the specified memory buffers.
-	 * <p>
+	 *
 	 * @param buffers the array of {@link cl_mem} to release
 	 */
 	public void release(final cl_mem[] buffers) {
@@ -431,14 +430,13 @@ public class JOCL
 
 	/**
 	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
-	 * <p>
+	 *
 	 * @param A                the {@code double} array to multiply
 	 * @param B                the {@code double} array to multiply
 	 * @param C                the {@code double} array to add
 	 * @param aColumnDimension the column dimension of {@code A}
 	 * @param bColumnDimension the column dimension of {@code B}
 	 * @param cColumnDimension the column dimension of {@code C}
-	 * <p>
 	 * @return {@code A . B + C}
 	 */
 	@Override
@@ -480,14 +478,13 @@ public class JOCL
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A       the {@code double} array to add
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 * @param length  the length of the iteration
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	@Override
@@ -534,9 +531,8 @@ public class JOCL
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

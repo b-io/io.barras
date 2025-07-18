@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,8 +43,8 @@ import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
-import jupiter.common.map.parser.IParser;
-import jupiter.common.map.replacer.StringReplacer;
+import jupiter.common.transform.converter.IConverter;
+import jupiter.common.transform.replacer.StringReplacer;
 import jupiter.common.model.ICloneable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -56,7 +56,7 @@ import jupiter.common.util.Strings;
 
 /**
  * {@link Table} is a wrapper around a 2D {@code E} array.
- * <p>
+ *
  * @param <E> the element type of the {@link Table}
  */
 public class Table<E>
@@ -123,7 +123,7 @@ public class Table<E>
 
 	/**
 	 * Constructs an empty {@link Table} of {@code E} element type.
-	 * <p>
+	 *
 	 * @param c the {@link Class} of {@code E} element type
 	 */
 	public Table(final Class<E> c) {
@@ -135,7 +135,7 @@ public class Table<E>
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified numbers of rows and
 	 * columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -147,7 +147,7 @@ public class Table<E>
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified header and numbers of
 	 * rows and columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
@@ -161,7 +161,7 @@ public class Table<E>
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified index, header and
 	 * numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param index       an array of {@link Object} (may be {@code null})
 	 * @param header      an array of {@link String} (may be {@code null})
@@ -194,7 +194,7 @@ public class Table<E>
 
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param elements a 2D {@code E} array
 	 */
@@ -217,7 +217,7 @@ public class Table<E>
 
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified header and elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D {@code E} array
@@ -229,7 +229,7 @@ public class Table<E>
 	/**
 	 * Constructs a {@link Table} of {@code E} element type with the specified index, header and
 	 * elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param index    an array of {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
@@ -255,23 +255,22 @@ public class Table<E>
 	/**
 	 * Constructs a {@link Table} of {@code E} element type loaded from the file denoted by the
 	 * specified path.
-	 * <p>
-	 * @param parser    an {@link IParser} of {@code E} element type
+	 *
+	 * @param converter    an {@link IConverter} of {@code E} element type
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public Table(final IParser<E> parser, final String path, final boolean hasHeader)
+	public Table(final IConverter<E> converter, final String path, final boolean hasHeader)
 			throws IOException {
 		// Check the arguments
-		Arguments.requireNonNull(parser, "parser");
+		Arguments.requireNonNull(converter, "converter");
 
 		// Set the attributes
-		c = parser.getOutputClass();
+		c = converter.getOutputClass();
 
 		// Load the file
-		load(parser, path, hasHeader);
+		load(converter, path, hasHeader);
 	}
 
 
@@ -281,7 +280,7 @@ public class Table<E>
 
 	/**
 	 * Returns the number of rows.
-	 * <p>
+	 *
 	 * @return the number of rows
 	 */
 	public int getRowCount() {
@@ -290,7 +289,7 @@ public class Table<E>
 
 	/**
 	 * Returns the number of columns.
-	 * <p>
+	 *
 	 * @return the number of columns
 	 */
 	public int getColumnCount() {
@@ -301,7 +300,7 @@ public class Table<E>
 
 	/**
 	 * Returns the row names.
-	 * <p>
+	 *
 	 * @return the row names
 	 */
 	public Object[] getIndex() {
@@ -310,11 +309,9 @@ public class Table<E>
 
 	/**
 	 * Returns the name of the specified row.
-	 * <p>
+	 *
 	 * @param i the row index
-	 * <p>
 	 * @return the name of the specified row
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalOperationException      if there is no index
 	 */
@@ -332,11 +329,9 @@ public class Table<E>
 
 	/**
 	 * Returns the index of the specified row, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param name the row name
-	 * <p>
 	 * @return the index of the specified row, or {@code -1} if there is no such occurrence
-	 * <p>
 	 * @throws IllegalArgumentException  if {@code name} is not present
 	 * @throws IllegalOperationException if there is no index
 	 */
@@ -358,7 +353,7 @@ public class Table<E>
 
 	/**
 	 * Returns the column names.
-	 * <p>
+	 *
 	 * @return the column names
 	 */
 	public String[] getHeader() {
@@ -367,11 +362,9 @@ public class Table<E>
 
 	/**
 	 * Returns the name of the specified column.
-	 * <p>
+	 *
 	 * @param j the column index
-	 * <p>
 	 * @return the name of the specified column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 * @throws IllegalOperationException      if there is no header
 	 */
@@ -389,11 +382,9 @@ public class Table<E>
 
 	/**
 	 * Returns the index of the specified column, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param name the column name
-	 * <p>
 	 * @return the index of the specified column, or {@code -1} if there is no such occurrence
-	 * <p>
 	 * @throws IllegalArgumentException  if {@code name} is not present
 	 * @throws IllegalOperationException if there is no header
 	 */
@@ -415,7 +406,7 @@ public class Table<E>
 
 	/**
 	 * Returns the element {@link Class}.
-	 * <p>
+	 *
 	 * @return the element {@link Class}
 	 */
 	public Class<E> getElementClass() {
@@ -424,11 +415,9 @@ public class Table<E>
 
 	/**
 	 * Returns the element {@link Class} of the specified row.
-	 * <p>
+	 *
 	 * @param i the row index
-	 * <p>
 	 * @return the element {@link Class} of the specified row
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public Class<?> getRowClass(final int i) {
@@ -448,11 +437,9 @@ public class Table<E>
 
 	/**
 	 * Returns the element {@link Class} of the specified column.
-	 * <p>
+	 *
 	 * @param j the column index
-	 * <p>
 	 * @return the element {@link Class} of the specified column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public Class<?> getColumnClass(final int j) {
@@ -474,12 +461,10 @@ public class Table<E>
 
 	/**
 	 * Returns the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i the row index
 	 * @param j the column index
-	 * <p>
 	 * @return the element at the specified row and column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public E get(final int i, final int j) {
@@ -495,12 +480,10 @@ public class Table<E>
 
 	/**
 	 * Returns the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param name the row name
 	 * @param j    the column index
-	 * <p>
 	 * @return the element at the specified row and column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no index
@@ -511,12 +494,10 @@ public class Table<E>
 
 	/**
 	 * Returns the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i    the row index
 	 * @param name the column name
-	 * <p>
 	 * @return the element at the specified row and column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
@@ -527,12 +508,10 @@ public class Table<E>
 
 	/**
 	 * Returns the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param rowName    the row name
 	 * @param columnName the column name
-	 * <p>
 	 * @return the element at the specified row and column
-	 * <p>
 	 * @throws IllegalArgumentException  if {@code rowName} or {@code columnName} is not present
 	 * @throws IllegalOperationException if there is no index or header
 	 */
@@ -544,11 +523,9 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i the row index
-	 * <p>
 	 * @return the elements of the specified row
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public E[] getRow(final int i) {
@@ -557,11 +534,9 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified row.
-	 * <p>
+	 *
 	 * @param name the row name
-	 * <p>
 	 * @return the elements of the specified row
-	 * <p>
 	 * @throws IllegalArgumentException  if {@code name} is not present
 	 * @throws IllegalOperationException if there is no index
 	 */
@@ -571,12 +546,10 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
-	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public E[] getRow(final int i, final int fromColumn) {
@@ -585,12 +558,10 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index.
-	 * <p>
+	 *
 	 * @param name       the row name
 	 * @param fromColumn the initial column index (inclusive)
-	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no index
@@ -602,14 +573,12 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to get
-	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index to the
 	 *         specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public E[] getRow(final int i, final int fromColumn, final int length) {
@@ -635,14 +604,12 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param name       the row name
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to get
-	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index to the
 	 *         specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromColumn} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no index
@@ -655,11 +622,9 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j the column index
-	 * <p>
 	 * @return the elements of the specified column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public E[] getColumn(final int j) {
@@ -668,11 +633,9 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified column.
-	 * <p>
+	 *
 	 * @param name the column name
-	 * <p>
 	 * @return the elements of the specified column
-	 * <p>
 	 * @throws IllegalArgumentException  if {@code name} is not present
 	 * @throws IllegalOperationException if there is no header
 	 */
@@ -682,12 +645,10 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
-	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public E[] getColumn(final int j, final int fromRow) {
@@ -696,12 +657,10 @@ public class Table<E>
 
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index.
-	 * <p>
+	 *
 	 * @param name    the column name
 	 * @param fromRow the initial row index (inclusive)
-	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
@@ -713,14 +672,12 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to get
-	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
 	 *         specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public E[] getColumn(final int j, final int fromRow, final int length) {
@@ -748,14 +705,12 @@ public class Table<E>
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param name    the column name
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to get
-	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index to the
 	 *         specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code fromRow} is out of bounds
 	 * @throws IllegalArgumentException       if {@code name} is not present
 	 * @throws IllegalOperationException      if there is no header
@@ -768,7 +723,7 @@ public class Table<E>
 
 	/**
 	 * Returns the elements.
-	 * <p>
+	 *
 	 * @return the elements
 	 */
 	public E[][] getElements() {
@@ -779,7 +734,7 @@ public class Table<E>
 
 	/**
 	 * Sets the index.
-	 * <p>
+	 *
 	 * @param index an array of {@link Object}
 	 */
 	public void setIndex(final Object... index) {
@@ -792,7 +747,7 @@ public class Table<E>
 
 	/**
 	 * Sets the header.
-	 * <p>
+	 *
 	 * @param header an array of {@link String}
 	 */
 	public void setHeader(final String... header) {
@@ -807,11 +762,10 @@ public class Table<E>
 
 	/**
 	 * Sets the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i     the row index
 	 * @param j     the column index
 	 * @param value an {@code E} value (may be {@code null})
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final E value) {
@@ -829,10 +783,9 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i      the row index
 	 * @param values an {@code E} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final E[] values) {
@@ -841,11 +794,10 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified row from the specified column index.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param values     an {@code E} array
 	 * @param fromColumn the initial column index (inclusive)
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public void setRow(final int i, final E[] values, final int fromColumn) {
@@ -855,12 +807,11 @@ public class Table<E>
 	/**
 	 * Sets the elements of the specified row from the specified column index to the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param values     an {@code E} array
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to set
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public void setRow(final int i, final E[] values, final int fromColumn, final int length) {
@@ -885,10 +836,9 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i      the row index
 	 * @param values a {@link Collection} of {@code E} element subtype
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final Collection<? extends E> values) {
@@ -899,10 +849,9 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j      the column index
 	 * @param values an {@code E} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final E[] values) {
@@ -911,11 +860,10 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified column from the specified row index.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param values  an {@code E} array
 	 * @param fromRow the initial row index (inclusive)
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public void setColumn(final int j, final E[] values, final int fromRow) {
@@ -925,12 +873,11 @@ public class Table<E>
 	/**
 	 * Sets the elements of the specified column from the specified row index to the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param values  an {@code E} array
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to set
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public void setColumn(final int j, final E[] values, final int fromRow, final int length) {
@@ -957,10 +904,9 @@ public class Table<E>
 
 	/**
 	 * Sets the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j      the column index
 	 * @param values a {@link Collection} of {@code E} element subtype
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<? extends E> values) {
@@ -971,9 +917,8 @@ public class Table<E>
 
 	/**
 	 * Sets all the elements.
-	 * <p>
+	 *
 	 * @param values an {@code E} array
-	 * <p>
 	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final E[] values) {
@@ -984,9 +929,8 @@ public class Table<E>
 
 	/**
 	 * Sets all the elements.
-	 * <p>
+	 *
 	 * @param values a 2D {@code E} array
-	 * <p>
 	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final E[][] values) {
@@ -1015,7 +959,7 @@ public class Table<E>
 	/**
 	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
 	 * an empty array if {@code this} is empty.
-	 * <p>
+	 *
 	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
 	 *         an empty array if {@code this} is empty
 	 *
@@ -1028,7 +972,7 @@ public class Table<E>
 	/**
 	 * Returns a 2D {@code E} array containing all the elements of {@code this} in the same order,
 	 * or an empty array if {@code this} is empty.
-	 * <p>
+	 *
 	 * @return a 2D {@code E} array containing all the elements of {@code this} in the same order,
 	 *         or an empty array if {@code this} is empty
 	 *
@@ -1045,9 +989,8 @@ public class Table<E>
 
 	/**
 	 * Creates an {@code E} array of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the array to create
-	 * <p>
 	 * @return an {@code E} array of the specified length
 	 */
 	protected E[] createArray(final int length) {
@@ -1056,12 +999,10 @@ public class Table<E>
 
 	/**
 	 * Creates an array of the element {@link Class} of the specified row of the specified length.
-	 * <p>
+	 *
 	 * @param i      the row index
 	 * @param length the length of the array to create
-	 * <p>
 	 * @return an array of the element {@link Class} of the specified row of the specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1072,12 +1013,10 @@ public class Table<E>
 	/**
 	 * Creates an array of the element {@link Class} of the specified column of the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param j      the column index
 	 * @param length the length of the array to create
-	 * <p>
 	 * @return an array of the element {@link Class} of the specified column of the specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	@SuppressWarnings({"cast", "unchecked"})
@@ -1089,10 +1028,9 @@ public class Table<E>
 
 	/**
 	 * Creates a 2D {@code E} array of the specified row and column lengths.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows of the array to create
 	 * @param columnCount the number of columns of the array to create
-	 * <p>
 	 * @return a 2D {@code E} array of the specified row and column lengths
 	 */
 	protected E[][] createArray2D(final int rowCount, final int columnCount) {
@@ -1103,9 +1041,8 @@ public class Table<E>
 
 	/**
 	 * Creates a header of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the header
-	 * <p>
 	 * @return a header of the specified length
 	 */
 	protected static String[] createHeader(final int length) {
@@ -1123,18 +1060,17 @@ public class Table<E>
 
 	/**
 	 * Loads {@code this} from the file denoted by the specified path.
-	 * <p>
-	 * @param parser    the {@link IParser} of {@code E} element type of the file to load
+	 *
+	 * @param converter    the {@link IConverter} of {@code E} element type of the file to load
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public void load(final IParser<E> parser, final String path, final boolean hasHeader)
+	public void load(final IConverter<E> converter, final String path, final boolean hasHeader)
 			throws IOException {
 		final FileHandler fileHandler = new FileHandler(path);
 		try {
-			load(parser, fileHandler.createReader(),
+			load(converter, fileHandler.createReader(),
 					fileHandler.countLines(true) - (hasHeader ? 1 : 0), hasHeader);
 		} finally {
 			Resources.close(fileHandler);
@@ -1143,15 +1079,14 @@ public class Table<E>
 
 	/**
 	 * Loads {@code this} from the specified {@link BufferedReader}.
-	 * <p>
-	 * @param parser    the {@link IParser} of {@code E} element type of the lines to load
+	 *
+	 * @param converter    the {@link IConverter} of {@code E} element type of the lines to load
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param rowCount  the number of lines to load
 	 * @param hasHeader the flag specifying whether the first line is a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
-	public void load(final IParser<E> parser, final BufferedReader reader, final int rowCount,
+	public void load(final IConverter<E> converter, final BufferedReader reader, final int rowCount,
 			final boolean hasHeader)
 			throws ClassCastException, IOException {
 		m = rowCount;
@@ -1192,7 +1127,7 @@ public class Table<E>
 				header = values;
 			} else {
 				header = createHeader(n);
-				setRow(i++, parser.parseToArray(values));
+				setRow(i++, converter.toArray(values));
 			}
 			while ((line = InputOutput.getNextLine(reader, true)) != null) {
 				values = loadLine(line, delimiter, replacer);
@@ -1206,7 +1141,7 @@ public class Table<E>
 						IO.warn("There are too many elements at line", i,
 								Arguments.expectedButFound(values.length, n));
 					}
-					setRow(i++, parser.parseToArray(values));
+					setRow(i++, converter.toArray(values));
 				}
 			}
 			// Resize if there are any empty rows or columns
@@ -1226,10 +1161,9 @@ public class Table<E>
 
 	/**
 	 * Saves {@code this} to the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path       the path to the file to save to
 	 * @param saveHeader the flag specifying whether to save the header
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
 	 * @throws IOException           if there is a problem with writing to the file denoted by
@@ -1260,7 +1194,7 @@ public class Table<E>
 
 	/**
 	 * Concatenates with the specified {@link Table}.
-	 * <p>
+	 *
 	 * @param table the {@link Table} of {@code E} element type to concatenate with
 	 */
 	public void concat(final Table<E> table) {
@@ -1269,7 +1203,7 @@ public class Table<E>
 
 	/**
 	 * Concatenates with the specified {@link Table}.
-	 * <p>
+	 *
 	 * @param table      the {@link Table} of {@code E} element type to concatenate with
 	 * @param concatRows the flag specifying whether to concatenate the rows or the columns
 	 */
@@ -1305,7 +1239,7 @@ public class Table<E>
 
 	/**
 	 * Fills {@code this} with the specified {@code E} value.
-	 * <p>
+	 *
 	 * @param value the {@code E} value to fill with (may be {@code null})
 	 */
 	public void fill(final E value) {
@@ -1352,7 +1286,7 @@ public class Table<E>
 
 	/**
 	 * Resizes the rows and columns to the specified lengths.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows to resize to
 	 * @param columnCount the number of columns to resize to
 	 */
@@ -1387,7 +1321,7 @@ public class Table<E>
 
 	/**
 	 * Shifts the rows by the specified offset.
-	 * <p>
+	 *
 	 * @param offset the offset to shift the rows by
 	 */
 	public void shiftRows(final int offset) {
@@ -1396,7 +1330,7 @@ public class Table<E>
 
 	/**
 	 * Shifts the columns by the specified offset.
-	 * <p>
+	 *
 	 * @param offset the offset to shift the columns by
 	 */
 	public void shiftColumns(final int offset) {
@@ -1405,7 +1339,7 @@ public class Table<E>
 
 	/**
 	 * Shifts the rows and columns by the specified offsets.
-	 * <p>
+	 *
 	 * @param rowOffset    the offset to shift the rows by
 	 * @param columnOffset the offset to shift the columns by
 	 */
@@ -1469,7 +1403,7 @@ public class Table<E>
 
 	/**
 	 * Tests whether {@code this} is empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
 	 */
 	public boolean isEmpty() {
@@ -1478,7 +1412,7 @@ public class Table<E>
 
 	/**
 	 * Tests whether {@code this} is non-empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
 	 */
 	public boolean isNonEmpty() {
@@ -1492,7 +1426,7 @@ public class Table<E>
 
 	/**
 	 * Returns an {@link Iterator} over the rows of {@code this}.
-	 * <p>
+	 *
 	 * @return an {@link Iterator} over the rows of {@code this}
 	 */
 	public Iterator<E[]> iterator() {
@@ -1518,7 +1452,7 @@ public class Table<E>
 
 		/**
 		 * Tests whether {@code this} has next.
-		 * <p>
+		 *
 		 * @return {@code true} if {@code this} has next, {@code false} otherwise
 		 */
 		public boolean hasNext() {
@@ -1564,9 +1498,8 @@ public class Table<E>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -1588,11 +1521,9 @@ public class Table<E>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -1616,9 +1547,8 @@ public class Table<E>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -1631,7 +1561,7 @@ public class Table<E>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

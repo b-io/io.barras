@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,7 +60,7 @@ public class BayesianInferenceOverModel
 	/**
 	 * Constructs a {@link BayesianInferenceOverModel} with the specified number of
 	 * {@link StatisticalModel} (hypotheses).
-	 * <p>
+	 *
 	 * @param modelCount the number of {@link StatisticalModel} (hypotheses)
 	 */
 	public BayesianInferenceOverModel(final int modelCount) {
@@ -71,7 +71,7 @@ public class BayesianInferenceOverModel
 	/**
 	 * Constructs a {@link BayesianInferenceOverModel} with the specified array of
 	 * {@link StatisticalModel} (hypotheses).
-	 * <p>
+	 *
 	 * @param models the array of {@link StatisticalModel} (hypotheses)
 	 */
 	public BayesianInferenceOverModel(final StatisticalModel[] models) {
@@ -88,10 +88,9 @@ public class BayesianInferenceOverModel
 	 * Returns the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
 	 * the specified evidence {@code E} given the specified {@link StatisticalModel} (hypothesis
 	 * {@code H}).
-	 * <p>
+	 *
 	 * @param hypothesisIndex the index of the {@link StatisticalModel} (hypothesis {@code H})
 	 * @param evidence        a {@code double} value
-	 * <p>
 	 * @return the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
 	 *         the specified evidence {@code E} given the specified {@link StatisticalModel}
 	 *         (hypothesis {@code H})
@@ -109,7 +108,7 @@ public class BayesianInferenceOverModel
 
 	/**
 	 * Sets the {@link StatisticalModel} at the specified index.
-	 * <p>
+	 *
 	 * @param index the index of the {@link StatisticalModel} to set
 	 * @param model a {@link StatisticalModel}
 	 */

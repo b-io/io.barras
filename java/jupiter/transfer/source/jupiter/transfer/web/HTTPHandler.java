@@ -136,7 +136,7 @@ public class HTTPHandler
 
 	/**
 	 * Returns the {@link CloseableHttpClient}.
-	 * <p>
+	 *
 	 * @return the {@link CloseableHttpClient}
 	 */
 	public CloseableHttpClient getClient() {
@@ -163,15 +163,13 @@ public class HTTPHandler
 	/**
 	 * Sends a HTTP GET request to the specified URL {@link String} with the specified {@link Map}
 	 * containing the headers.
-	 * <p>
+	 *
 	 * @param url     the URL {@link String} to send to
 	 * @param headers the {@link Map} containing the headers (may be {@code null})
-	 * <p>
 	 * @return the {@link HTTPResult}
-	 * <p>
 	 * @throws ClientProtocolException if there is a problem with the HTTP protocol
 	 * @throws IOException             if there is a problem with executing the HTTP GET request
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public HTTPResult get(final String url, final Map<String, String> headers)
@@ -202,16 +200,14 @@ public class HTTPHandler
 	/**
 	 * Sends a HTTP POST request to the specified URL {@link String} with the specified {@link Map}
 	 * containing the headers and {@link HttpEntity}.
-	 * <p>
+	 *
 	 * @param url     the URL {@link String} to send to
 	 * @param headers the {@link Map} containing the headers (may be {@code null})
 	 * @param entity  the {@link HttpEntity}
-	 * <p>
 	 * @return the {@link HTTPResult}
-	 * <p>
 	 * @throws ClientProtocolException if there is a problem with the HTTP protocol
 	 * @throws IOException             if there is a problem with executing the HTTP POST request
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public HTTPResult post(final String url, final Map<String, String> headers,
@@ -246,16 +242,14 @@ public class HTTPHandler
 	/**
 	 * Sends a HTTP POST request to the specified URL {@link String} with the specified {@link Map}
 	 * containing the headers and JSON {@link String}.
-	 * <p>
+	 *
 	 * @param url     the URL {@link String} to send to
 	 * @param headers the {@link Map} containing the headers (may be {@code null})
 	 * @param json    the JSON {@link String}
-	 * <p>
 	 * @return the {@link HTTPResult}
-	 * <p>
 	 * @throws ClientProtocolException if there is a problem with the HTTP protocol
 	 * @throws IOException             if there is a problem with executing the HTTP POST request
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public HTTPResult postJSON(final String url, final Map<String, String> headers,
@@ -271,16 +265,14 @@ public class HTTPHandler
 	/**
 	 * Sends a HTTP POST request to the specified URL {@link String} with the specified {@link Map}
 	 * containing the headers and {@link List} of parameter {@link NameValuePair}.
-	 * <p>
+	 *
 	 * @param url        the URL {@link String} to send to
 	 * @param headers    the {@link Map} containing the headers (may be {@code null})
 	 * @param parameters the {@link List} of parameter {@link NameValuePair}
-	 * <p>
 	 * @return the {@link HTTPResult}
-	 * <p>
 	 * @throws ClientProtocolException if there is a problem with the HTTP protocol
 	 * @throws IOException             if there is a problem with executing the HTTP POST request
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public HTTPResult postParameters(final String url, final Map<String, String> headers,
@@ -296,9 +288,8 @@ public class HTTPHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

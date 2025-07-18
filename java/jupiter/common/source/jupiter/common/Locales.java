@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,16 +60,14 @@ public class Locales {
 	 * <dd>This method validates the input strictly. The language code must be lower case. The
 	 * country code must be upper case. The separator must be an underscore. The length must be
 	 * correct.
-	 * <p>
+	 *
 	 * (#) The behavior of the JDK variant constructor changed between JDK1.3 and JDK1.4. In JDK1.3,
 	 * the constructor upper cases the variant, in JDK1.4, it does not. Thus, the result from
 	 * {@link Locale#getVariant} may vary depending on your JDK.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param name the name of the {@link Locale}
-	 * <p>
 	 * @return the {@link Locale} with the specified name
-	 * <p>
 	 * @throws IllegalArgumentException if {@code name} is an invalid format
 	 */
 	public static Locale get(final String name) {
@@ -122,9 +120,7 @@ public class Locales {
 	 * Parses the {@link Locale} encoded in the specified name.
 	 *
 	 * @param name the name of the {@link Locale}
-	 *
 	 * @return the {@link Locale} encoded in the specified name
-	 *
 	 * @throws IllegalArgumentException if the given String can not be parsed.
 	 */
 	protected static Locale parseLocale(final String name) {
@@ -163,9 +159,8 @@ public class Locales {
 
 	/**
 	 * Tests whether the specified {@link String} is an ISO 639 compliant language code.
-	 * <p>
+	 *
 	 * @param language the {@link String} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is an ISO 639 compliant language code,
 	 *         {@code false} otherwise
 	 */
@@ -175,9 +170,8 @@ public class Locales {
 
 	/**
 	 * Tests whether the specified {@link String} is an ISO 3166 alpha-2 compliant country code.
-	 * <p>
+	 *
 	 * @param country the {@link String} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is an ISO 3166 alpha-2 compliant country
 	 *         code, {@code false} otherwise
 	 */
@@ -187,9 +181,8 @@ public class Locales {
 
 	/**
 	 * Tests whether the specified {@link String} is an UN M.49 numeric area code.
-	 * <p>
+	 *
 	 * @param area the {@link String} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is an UN M.49 numeric area code,
 	 *         {@code false} otherwise
 	 */

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -78,7 +78,7 @@ public abstract class BivariateFunction
 
 	/**
 	 * Constructs a {@link BivariateFunction} with the specified initial value.
-	 * <p>
+	 *
 	 * @param initialValue the initial {@code double} value
 	 */
 	public BivariateFunction(final double initialValue) {
@@ -91,7 +91,7 @@ public abstract class BivariateFunction
 
 	/**
 	 * Constructs a {@link BivariateFunction} with the specified {@link Domain} for both variables.
-	 * <p>
+	 *
 	 * @param domain the {@link Domain} for both variables
 	 */
 	protected BivariateFunction(final Domain domain) {
@@ -101,7 +101,7 @@ public abstract class BivariateFunction
 	/**
 	 * Constructs a {@link BivariateFunction} with the specified {@link Domain} for both variables
 	 * and initial value.
-	 * <p>
+	 *
 	 * @param domain       the {@link Domain} for both variables
 	 * @param initialValue the initial {@code double} value
 	 */
@@ -116,7 +116,7 @@ public abstract class BivariateFunction
 	/**
 	 * Constructs a {@link BivariateFunction} with the specified {@link Domain} of the first
 	 * variable and {@link Domain} of the second variable.
-	 * <p>
+	 *
 	 * @param firstDomain  the {@link Domain} of the first variable
 	 * @param secondDomain the {@link Domain} of the second variable
 	 */
@@ -127,7 +127,7 @@ public abstract class BivariateFunction
 	/**
 	 * Constructs a {@link BivariateFunction} with the specified {@link Domain} of the first
 	 * variable, {@link Domain} of the second variable and initial value.
-	 * <p>
+	 *
 	 * @param firstDomain  the {@link Domain} of the first variable
 	 * @param secondDomain the {@link Domain} of the second variable
 	 * @param initialValue the initial {@code double} value
@@ -151,7 +151,7 @@ public abstract class BivariateFunction
 
 	/**
 	 * Returns the {@link Domain} of the first variable.
-	 * <p>
+	 *
 	 * @return the {@link Domain} of the first variable
 	 */
 	public Domain getFirstDomain() {
@@ -160,7 +160,7 @@ public abstract class BivariateFunction
 
 	/**
 	 * Returns the {@link Domain} of the second variable.
-	 * <p>
+	 *
 	 * @return the {@link Domain} of the second variable
 	 */
 	public Domain getSecondDomain() {
@@ -171,7 +171,7 @@ public abstract class BivariateFunction
 
 	/**
 	 * Returns the initial {@code double} value.
-	 * <p>
+	 *
 	 * @return the initial {@code double} value
 	 */
 	public double getInitialValue() {
@@ -187,9 +187,8 @@ public abstract class BivariateFunction
 	 * Returns {@code x2} if {@code x2} is inside {@code secondDomain}, {@code secondLowerBound} if
 	 * {@code x2 < secondLowerBound}, {@code secondUpperBound} if {@code x2 > secondUpperBound},
 	 * {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x2 a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code x2} if {@code x2} is inside {@code secondDomain}, {@code secondLowerBound} if
 	 *         {@code x2 < secondLowerBound}, {@code secondUpperBound} if
 	 *         {@code x2 > secondUpperBound}, {@code NaN} otherwise
@@ -200,9 +199,8 @@ public abstract class BivariateFunction
 
 	/**
 	 * Returns {@code x2} if {@code x2} is inside {@code secondDomain}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x2 a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code x2} if {@code x2} is inside {@code secondDomain}, {@code NaN} otherwise
 	 */
 	public double constrainSecond(final double x2) {
@@ -213,11 +211,9 @@ public abstract class BivariateFunction
 
 	/**
 	 * Applies the bivariate function to the initial value and the specified value.
-	 * <p>
-	 * @param x2 a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code f(initialValue, x2)}
 	 *
+	 * @param x2 a {@code double} value (on the abscissa)
+	 * @return {@code f(initialValue, x2)}
 	 * @see #a(double, double)
 	 */
 	@Override
@@ -227,10 +223,9 @@ public abstract class BivariateFunction
 
 	/**
 	 * Applies the bivariate function to the specified values.
-	 * <p>
+	 *
 	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code f(x1, x2)}
 	 */
 	protected abstract double a(final double x1, final double x2);
@@ -239,12 +234,10 @@ public abstract class BivariateFunction
 
 	/**
 	 * Applies the bivariate function to the specified values.
-	 * <p>
+	 *
 	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code f(x1, x2)}
-	 *
 	 * @see #a(double, double)
 	 */
 	public double apply(final double x1, final double x2) {
@@ -253,12 +246,10 @@ public abstract class BivariateFunction
 
 	/**
 	 * Applies the bivariate function to the specified {@link Number}.
-	 * <p>
+	 *
 	 * @param x1 a {@link Number} (on the abscissa)
 	 * @param x2 another {@link Number} (on the abscissa)
-	 * <p>
 	 * @return {@code f(x1, x2)}
-	 *
 	 * @see #apply(double, double)
 	 */
 	public double apply(final Number x1, final Number x2) {
@@ -516,9 +507,8 @@ public abstract class BivariateFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -68,7 +68,7 @@ public abstract class Differentiator
 
 	/**
 	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to differentiate
 	 */
 	public Differentiator(final UnivariateFunction f) {
@@ -78,7 +78,7 @@ public abstract class Differentiator
 	/**
 	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction} and
 	 * differentiation {@link DoubleInterval}.
-	 * <p>
+	 *
 	 * @param f        the {@link UnivariateFunction} to differentiate
 	 * @param interval the differentiation {@link DoubleInterval}
 	 */
@@ -91,7 +91,7 @@ public abstract class Differentiator
 	/**
 	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction} and
 	 * derivation order.
-	 * <p>
+	 *
 	 * @param f     the {@link UnivariateFunction} to differentiate
 	 * @param order the derivation order
 	 */
@@ -102,7 +102,7 @@ public abstract class Differentiator
 	/**
 	 * Constructs a {@link Differentiator} with the specified {@link UnivariateFunction},
 	 * differentiation {@link DoubleInterval} and derivation order.
-	 * <p>
+	 *
 	 * @param f        the {@link UnivariateFunction} to differentiate
 	 * @param interval the differentiation {@link DoubleInterval}
 	 * @param order    the derivation order
@@ -129,7 +129,7 @@ public abstract class Differentiator
 
 	/**
 	 * Returns the {@link UnivariateFunction} to differentiate.
-	 * <p>
+	 *
 	 * @return the {@link UnivariateFunction} to differentiate
 	 */
 	public UnivariateFunction getFunction() {
@@ -138,7 +138,7 @@ public abstract class Differentiator
 
 	/**
 	 * Returns the derivation order.
-	 * <p>
+	 *
 	 * @return the derivation order
 	 */
 	public int getDerivationOrder() {
@@ -152,11 +152,9 @@ public abstract class Differentiator
 
 	/**
 	 * Applies the differentiation function to the specified value.
-	 * <p>
-	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 *
+	 * @param x a {@code double} value (on the abscissa)
+	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 * @see #differentiate(double)
 	 */
 	@Override
@@ -167,9 +165,8 @@ public abstract class Differentiator
 	/**
 	 * Returns the differentiated {@code double} value {@code y' = f'(x)} for {@code x} defined in
 	 * {@code domain}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code y' = f'(x)} for {@code x} defined in {@code domain}
 	 */
 	protected abstract double differentiate(final double x);
@@ -179,9 +176,8 @@ public abstract class Differentiator
 	/**
 	 * Differentiates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #differentiate(double)} to retrieve {@code y' = f'(x)}.
-	 * <p>
-	 * @return {@code true} if the differentiation is done, {@code false} otherwise
 	 *
+	 * @return {@code true} if the differentiation is done, {@code false} otherwise
 	 * @see #differentiate(double)
 	 */
 	public abstract boolean differentiateAll();
@@ -239,9 +235,8 @@ public abstract class Differentiator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

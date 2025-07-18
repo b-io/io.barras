@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,10 +60,9 @@ public abstract class OptimizationFunction
 
 	/**
 	 * Optimizes the specified descent gradient {@link Matrix} at the specified layer.
-	 * <p>
+	 *
 	 * @param layer    the layer of the descent gradient {@link Matrix} to optimize
 	 * @param gradient the descent gradient {@link Matrix} to optimize
-	 * <p>
 	 * @return the optimized descent gradient {@link Matrix}
 	 */
 	public abstract Entity optimize(final int layer, final Matrix gradient);
@@ -75,9 +74,8 @@ public abstract class OptimizationFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

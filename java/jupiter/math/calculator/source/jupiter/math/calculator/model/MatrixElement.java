@@ -2,7 +2,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ public class MatrixElement
 	/**
 	 * Constructs a {@link MatrixElement} with the specified parent {@link Element} and expression
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 */
@@ -57,7 +57,7 @@ public class MatrixElement
 	/**
 	 * Constructs a {@link MatrixElement} with the specified parent {@link Element}, expression
 	 * {@link String} and {@link Matrix}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 * @param matrix     the {@link Matrix}

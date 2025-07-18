@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,9 +31,8 @@ object Colors {
 
 	/**
 	 * Creates a {@link RGB} color from the specified hexadecimal representative {@link String}.
-	 * <p>
+	 *
 	 * @param hex the hexadecimal representative {@link String} of the {@link RGB} color to create
-	 * <p>
 	 * @return a {@link RGB} color from the specified hexadecimal representative {@link String}
 	 */
 	def toRGB(hex: String): RGB = hex.length match {
@@ -52,7 +51,7 @@ object Colors {
 
 	/**
 	 * The {@link RGB} color.
-	 * <p>
+	 *
 	 * @param rc the red intensity
 	 * @param gc the green intensity
 	 * @param bc the blue intensity
@@ -74,21 +73,21 @@ object Colors {
 
 		/**
 		 * Returns the representative {@link String} of the color.
-		 * <p>
+		 *
 		 * @return the representative {@link String} of the color
 		 */
 		override def toString(): String = hex()
 
 		/**
 		 * Returns the decimal representative {@link String} of the color.
-		 * <p>
+		 *
 		 * @return the decimal representative {@link String} of the color
 		 */
 		def dec(): String = "(" + r + "," + g + "," + b + ")"
 
 		/**
 		 * Returns the hexadecimal representative {@link String} of the color.
-		 * <p>
+		 *
 		 * @return the hexadecimal representative {@link String} of the color
 		 */
 		def hex(): String = "#" + Numbers.decToHex(r) + Numbers.decToHex(g) + Numbers.decToHex(g)

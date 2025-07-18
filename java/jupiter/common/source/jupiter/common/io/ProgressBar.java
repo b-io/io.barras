@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,7 +97,7 @@ public class ProgressBar
 
 	/**
 	 * Constructs a {@link ProgressBar} with the specified length.
-	 * <p>
+	 *
 	 * @param length the maximum number of symbols (excluding the wrapping symbols)
 	 */
 	public ProgressBar(final int length) {
@@ -107,7 +107,7 @@ public class ProgressBar
 	/**
 	 * Constructs a {@link ProgressBar} with the specified length and flag specifying whether to
 	 * print in the standard error or in the standard output.
-	 * <p>
+	 *
 	 * @param length  the maximum number of symbols (excluding the wrapping symbols)
 	 * @param isError the flag specifying whether to print in the standard error or in the standard
 	 *                output
@@ -124,7 +124,7 @@ public class ProgressBar
 
 	/**
 	 * Prints a progress bar until {@code i / n * length} symbols.
-	 * <p>
+	 *
 	 * @param i a {@code double} value
 	 * @param n the upper bound of {@code i}
 	 */
@@ -145,7 +145,7 @@ public class ProgressBar
 
 	/**
 	 * Prints a progress bar of {@code i / n * length} symbols and terminates the line.
-	 * <p>
+	 *
 	 * @param i a {@code double} value
 	 * @param n the upper bound of {@code i}
 	 */
@@ -178,10 +178,9 @@ public class ProgressBar
 
 	/**
 	 * Returns the number of symbols to print.
-	 * <p>
+	 *
 	 * @param i a {@code double} value
 	 * @param n the upper bound of {@code i}
-	 * <p>
 	 * @return the number of symbols to print
 	 */
 	protected int countSymbols(final double i, final double n) {
@@ -197,7 +196,7 @@ public class ProgressBar
 
 	/**
 	 * Prints the specified number of symbols.
-	 * <p>
+	 *
 	 * @param n the number of symbols to print
 	 */
 	public synchronized void printSymbols(final int n) {
@@ -218,7 +217,7 @@ public class ProgressBar
 
 	/**
 	 * Prints the specified number of spaces.
-	 * <p>
+	 *
 	 * @param n the number of spaces to print
 	 */
 	protected synchronized void printSpaces(final int n) {

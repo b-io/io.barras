@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -73,7 +73,7 @@ public abstract class AudioInterface
 	/**
 	 * Constructs an {@link AudioInterface} with the specified name of the {@link Mixer},
 	 * {@link Mixer}, name of the {@link Line} and {@link Line}.
-	 * <p>
+	 *
 	 * @param mixerName the name of the {@link Mixer}
 	 * @param mixer     the {@link Mixer}
 	 * @param lineName  the name of the {@link Line}
@@ -91,7 +91,7 @@ public abstract class AudioInterface
 
 	/**
 	 * Returns the name of the {@link Mixer}.
-	 * <p>
+	 *
 	 * @return the name of the {@link Mixer}
 	 */
 	public String getMixerName() {
@@ -100,7 +100,7 @@ public abstract class AudioInterface
 
 	/**
 	 * Returns the {@link Mixer}.
-	 * <p>
+	 *
 	 * @return the {@link Mixer}
 	 */
 	public Mixer getMixer() {
@@ -111,7 +111,7 @@ public abstract class AudioInterface
 
 	/**
 	 * Returns the name of the {@link Line}.
-	 * <p>
+	 *
 	 * @return the name of the {@link Line}
 	 */
 	public String getLineName() {
@@ -120,7 +120,7 @@ public abstract class AudioInterface
 
 	/**
 	 * Returns the {@link Line}.
-	 * <p>
+	 *
 	 * @return the {@link Line}
 	 */
 	public abstract Line getLine();
@@ -132,9 +132,8 @@ public abstract class AudioInterface
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -150,7 +149,7 @@ public abstract class AudioInterface
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

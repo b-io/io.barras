@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,17 +30,17 @@ import jupiter.math.linear.entity.Matrix;
 
 /**
  * {@link SingularValueDecomposition} performs a singular value decomposition on a {@link Matrix}.
- * <p>
+ *
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the singular value
  * decomposition is a {@code m x n} orthogonal matrix {@code U}, a {@code n x n} diagonal matrix
  * {@code S} and a {@code n x n} orthogonal matrix {@code V} so that {@code A = U S V'}.
- * <p>
+ *
  * The singular values, {@code sigma[k] = S[k][k]}, are ordered so that
  * {@code sigma[0] {@literal >}= sigma[1] {@literal >}= ... {@literal >}= sigma[n-1]}.
- * <p>
+ *
  * The singular value decomposition always exists, so the constructor never fails. The matrix
  * condition number and the effective numerical rank can be computed from this decomposition.
- * <p>
+ *
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -86,9 +86,9 @@ public class SingularValueDecomposition
 	/**
 	 * Constructs a {@link SingularValueDecomposition} of the specified rectangular {@link Matrix}.
 	 * Sets the decomposition {@code U} and {@code V} and the singular values {@code sigma}.
-	 * <p>
+	 *
 	 * See LINPACK code.
-	 * <p>
+	 *
 	 * @param A the rectangular {@link Matrix} to decompose
 	 */
 	public SingularValueDecomposition(final Matrix A) {
@@ -483,7 +483,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the {@link Matrix} containing the left singular vectors {@code U}.
-	 * <p>
+	 *
 	 * @return the {@link Matrix} containing the left singular vectors {@code U}
 	 */
 	public Matrix getU() {
@@ -492,7 +492,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the {@link Matrix} containing the right singular vectors {@code V}.
-	 * <p>
+	 *
 	 * @return the {@link Matrix} containing the right singular vectors {@code V}
 	 */
 	public Matrix getV() {
@@ -501,7 +501,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the array of singular values {@code sigma}.
-	 * <p>
+	 *
 	 * @return the array of singular values {@code sigma}
 	 */
 	public double[] getSingularValues() {
@@ -510,7 +510,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the diagonal {@link Matrix} of the singular values {@code sigma}.
-	 * <p>
+	 *
 	 * @return the diagonal {@link Matrix} of the singular values {@code sigma}
 	 */
 	public Matrix getS() {
@@ -526,7 +526,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the two norms.
-	 * <p>
+	 *
 	 * @return {@code max(s)}
 	 */
 	public double norm2() {
@@ -535,7 +535,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the two norms condition number.
-	 * <p>
+	 *
 	 * @return {@code max(s) / min(s)}
 	 */
 	public double cond() {
@@ -544,7 +544,7 @@ public class SingularValueDecomposition
 
 	/**
 	 * Returns the effective numerical matrix rank.
-	 * <p>
+	 *
 	 * @return the number of non-negligible singular values
 	 */
 	public int rank() {

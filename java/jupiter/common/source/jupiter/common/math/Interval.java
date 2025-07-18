@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,7 +36,7 @@ import jupiter.common.util.Strings;
 
 /**
  * {@link Interval} is an {@link ISet} of {@code T} type.
- * <p>
+ *
  * @param <T> the self {@link Comparable} type of the {@link Interval}
  */
 public class Interval<T extends Comparable<? super T>>
@@ -82,7 +82,7 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Constructs an {@link Interval} of {@code T} type with the specified values of the
 	 * {@link LowerBound} and {@link UpperBound}.
-	 * <p>
+	 *
 	 * @param from the {@code T} value of the {@link LowerBound} (inclusive) (may be {@code null})
 	 * @param to   the {@code T} value of the {@link UpperBound} (inclusive) (may be {@code null})
 	 */
@@ -93,7 +93,7 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Constructs an {@link Interval} of {@code T} type with the specified {@link LowerBound} and
 	 * {@link UpperBound}.
-	 * <p>
+	 *
 	 * @param lowerBound the {@link LowerBound} of {@code T} type
 	 * @param upperBound the {@link UpperBound} of {@code T} type
 	 */
@@ -111,7 +111,7 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Constructs an {@link Interval} of {@code T} type with the specified {@link Pair} of
 	 * {@link LowerBound} and {@link UpperBound}.
-	 * <p>
+	 *
 	 * @param pair the {@link Pair} of {@link LowerBound} and {@link UpperBound} of {@code T} type
 	 */
 	public Interval(final Pair<LowerBound<T>, UpperBound<T>> pair) {
@@ -126,7 +126,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the {@link LowerBound} of {@code T} type.
-	 * <p>
+	 *
 	 * @return the {@link LowerBound} of {@code T} type
 	 */
 	public LowerBound<T> getLowerBound() {
@@ -135,7 +135,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the {@link UpperBound} of {@code T} type.
-	 * <p>
+	 *
 	 * @return the {@link UpperBound} of {@code T} type
 	 */
 	public UpperBound<T> getUpperBound() {
@@ -146,7 +146,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Sets the {@link LowerBound}.
-	 * <p>
+	 *
 	 * @param lowerBound a {@link LowerBound} of {@code T} type
 	 */
 	public void setLowerBound(final LowerBound<T> lowerBound) {
@@ -160,7 +160,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Sets the {@link UpperBound}.
-	 * <p>
+	 *
 	 * @param upperBound an {@link UpperBound} of {@code T} type
 	 */
 	public void setUpperBound(final UpperBound<T> upperBound) {
@@ -192,10 +192,9 @@ public class Interval<T extends Comparable<? super T>>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Interval} of {@code T} type to compare against for order (may
 	 *              be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -224,9 +223,8 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Returns {@code value} if {@code value} is inside {@code this}, {@code null} otherwise.
-	 * <p>
+	 *
 	 * @param value the {@code T} value to constrain (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, {@code null} otherwise
 	 */
 	public T constrain(final T value) {
@@ -249,9 +247,8 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Merges the specified {@link Interval} with {@code this}.
-	 * <p>
+	 *
 	 * @param other the other {@link Interval} of {@code T} type to merge with
-	 * <p>
 	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
 	 *         otherwise
 	 */
@@ -298,7 +295,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
 	 */
 	public boolean isEmpty() {
@@ -308,11 +305,10 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
 	 * {@link UpperBound} is empty.
-	 * <p>
+	 *
 	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
 	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
 	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
-	 * <p>
 	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
 	 *         {@link UpperBound} is empty, {@code false} otherwise
 	 */
@@ -326,7 +322,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is non-empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
 	 */
 	public boolean isNonEmpty() {
@@ -336,11 +332,10 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
 	 * {@link UpperBound} is non-empty.
-	 * <p>
+	 *
 	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
 	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
 	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
-	 * <p>
 	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
 	 *         {@link UpperBound} is non-empty, {@code false} otherwise
 	 */
@@ -353,9 +348,8 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} contains the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param object the {@code T} object to test for membership (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} contains the specified {@code T} object, {@code false}
 	 *         otherwise
 	 */
@@ -366,12 +360,11 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Tests whether the specified {@code T} object is inside the {@link Interval} with the
 	 * specified {@link LowerBound} and {@link UpperBound}.
-	 * <p>
+	 *
 	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
 	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
 	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
 	 * @param object     the {@code T} object to test for membership (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code T} object is inside the {@link Interval} with
 	 *         the specified {@link LowerBound} and {@link UpperBound}, {@code false} otherwise
 	 */
@@ -386,10 +379,9 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} contains the specified {@link Interval}.
-	 * <p>
+	 *
 	 * @param interval the {@link Interval} of {@code T} type to test for membership (may be
 	 *                 {@code null})
-	 * <p>
 	 * @return {@code true} if {@code this} contains the specified {@link Interval}, {@code false}
 	 *         otherwise
 	 */
@@ -403,7 +395,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is valid.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is valid, {@code false} otherwise
 	 */
 	public boolean isValid() {
@@ -413,11 +405,10 @@ public class Interval<T extends Comparable<? super T>>
 	/**
 	 * Tests whether the {@link Interval} with the specified {@link LowerBound} and
 	 * {@link UpperBound} is valid.
-	 * <p>
+	 *
 	 * @param <T>        the self {@link Comparable} type of the {@link Interval} to test
 	 * @param lowerBound the {@link LowerBound} of {@code T} type of the {@link Interval} to test
 	 * @param upperBound the {@link UpperBound} of {@code T} type of the {@link Interval} to test
-	 * <p>
 	 * @return {@code true} if the {@link Interval} with the specified {@link LowerBound} and
 	 *         {@link UpperBound} is valid, {@code false} otherwise
 	 */
@@ -434,9 +425,8 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -456,11 +446,9 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -480,9 +468,8 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -495,7 +482,7 @@ public class Interval<T extends Comparable<? super T>>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

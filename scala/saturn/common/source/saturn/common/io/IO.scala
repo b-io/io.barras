@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ object IO {
 
 	/**
 	 * Prints the specified {@link Sequence}.
-	 * <p>
+	 *
 	 * @param content the {@link Sequence} to print
 	 */
 	def print(content: Object*) = {
@@ -44,7 +44,7 @@ object IO {
 
 	/**
 	 * Prints the specified {@link Sequence} and terminates the line.
-	 * <p>
+	 *
 	 * @param content the {@link Sequence} to print
 	 */
 	def println(content: Object*) = {

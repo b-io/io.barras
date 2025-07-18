@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import jupiter.common.util.Objects;
 
 /**
  * {@link IntervalList} is the {@link GenericIntervalList} of {@link Interval} of {@code T} type.
- * <p>
+ *
  * @param <T> the self {@link Comparable} type of the {@link Interval}
  */
 public class IntervalList<T extends Comparable<? super T>>
@@ -61,7 +61,7 @@ public class IntervalList<T extends Comparable<? super T>>
 
 	/**
 	 * Constructs an {@link IntervalList} of {@code T} type with the specified elements.
-	 * <p>
+	 *
 	 * @param elements an array of {@link Interval} of {@code T} type
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -72,7 +72,7 @@ public class IntervalList<T extends Comparable<? super T>>
 	/**
 	 * Constructs an {@link IntervalList} of {@code T} type with the elements of the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param elements a {@link Collection} of {@link Interval} of {@code T} type
 	 */
 	public IntervalList(final Collection<? extends Interval<T>> elements) {
@@ -98,9 +98,8 @@ public class IntervalList<T extends Comparable<? super T>>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

@@ -12,9 +12,11 @@ repository = "https://github.com/b-io/io.barras/tree/master/python/neptune"
 # Define multiple packages located under different 'source' folders
 packages = [
     { include = "nfin", from = "nfin/source" },
+    { include = "nformat", from = "nformat/source" },
     { include = "ngui", from = "ngui/source" },
     { include = "nlearn", from = "nlearn/source" },
     { include = "nmath", from = "nmath/source" },
+    { include = "nserve ", from = "nserve/source" },
     { include = "nutil", from = "nutil/source" },
 ]
 
@@ -129,10 +131,10 @@ extend-ignore = ["E203", "W503"]
 max-line-length = 100
 
 [tool.isort]
-known_first_party = ["nfin", "ngui", "nlearn", "nmath", "nutil"]
+known_first_party = ["nfin", "nformat", "ngui", "nlearn", "nmath", "nserve", "nutil"]
 line_length = 100
 profile = "black"
-src_paths = ["nfin/source", "ngui/source", "nlearn/source", "nmath/source", "nutil/source"]
+src_paths = ["nfin/source", "nformat/source", "ngui/source", "nlearn/source", "nmath/source", "nserve/source", "nutil/source"]
 
 [tool.mypy]
 python_version = "3.9"
@@ -158,6 +160,7 @@ filterwarnings = [
 markers = [
     "integration_test: identifies tests that are part of the integration testing.",
 ]
+testpaths = ["tests"]
 
 [tool.coverage.report]
 omit = [
@@ -166,4 +169,4 @@ omit = [
 
 [tool.coverage.run]
 branch = true
-source = ["nfin", "ngui", "nlearn", "nmath", "nutil"]
+source = ["nfin", "nformat", "ngui", "nlearn", "nmath", "nserve", "nutil"]

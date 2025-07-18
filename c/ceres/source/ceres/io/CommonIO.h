@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested
@@ -83,7 +83,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested
@@ -96,7 +96,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param file   pointer to a file where the resulting C-string is stored
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
@@ -113,7 +113,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested
@@ -127,7 +127,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
 	 * @param ...    the additional arguments to be formatted as requested
@@ -141,7 +141,7 @@ extern "C"
 	 * {@code format} includes format specifiers (subsequences beginning with %),
 	 * the additional arguments following format are formatted and inserted in
 	 * the resulting string replacing their respective specifiers.
-	 * <p>
+	 *
 	 * @param file   pointer to a file where the resulting C-string is stored
 	 * @param format the C string that contains the text to be printed and
 	 *               optionally embedded format specifiers
@@ -155,7 +155,7 @@ extern "C"
 	/**
 	 * Prints the specified I/O Message to {@code stdout} and terminates the
 	 * current line by printing the line separator string.
-	 * <p>
+	 *
 	 * @param message the I/O Message to be printed
 	 */
 	void IOMessage_print(const IOMessage message);
@@ -166,12 +166,11 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _TRACE}).
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param lineNumber   the line number
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_trace(const string filePath, const string functionName, const natural lineNumber, const string content);
@@ -180,11 +179,10 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _DEBUG}).
-	 * <p>
+	 *
 	 * @param filePath   the file path
 	 * @param lineNumber the line number
 	 * @param content    the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_debug(const string filePath, const natural lineNumber, const string content);
@@ -193,10 +191,9 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _TEST}).
-	 * <p>
+	 *
 	 * @param filePath the file path
 	 * @param content  the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_test(const string filePath, const string content);
@@ -205,9 +202,8 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _INFO}).
-	 * <p>
+	 *
 	 * @param content the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_info(const string content);
@@ -216,9 +212,8 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _RESULT}).
-	 * <p>
+	 *
 	 * @param content the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_result(const string content);
@@ -229,10 +224,9 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _WARNING}).
-	 * <p>
+	 *
 	 * @param filePath the file path
 	 * @param content  the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_warning(const string filePath, const string content);
@@ -241,11 +235,10 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _ERROR}).
-	 * <p>
+	 *
 	 * @param filePath   the file path
 	 * @param lineNumber the line number
 	 * @param content    the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	IOMessage print_error(const string filePath, const natural lineNumber, const string content);
@@ -254,12 +247,11 @@ extern "C"
 	 * Constructs an {@code IOMessage} from the specified parameter(s), prints
 	 * it in the console and in the log file (indicating the Severity Level
 	 * {@code _FAILURE}).
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param lineNumber   the line number
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return an {@code IOMessage} containing the specified parameter(s)
 	 */
 	void print_failure(const string filePath, const string functionName, const natural lineNumber, const string content);

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@ public class IllegalClassException
 
 	/**
 	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class}.
-	 * <p>
+	 *
 	 * @param c the illegal {@link Class}
 	 */
 	public IllegalClassException(final Class<?> c) {
@@ -52,7 +52,7 @@ public class IllegalClassException
 	/**
 	 * Constructs an {@link IllegalClassException} with the specified illegal {@link Class} and
 	 * {@link Throwable} cause (which is saved for later retrieval by the method {@link #getCause}).
-	 * <p>
+	 *
 	 * @param c     the illegal {@link Class}
 	 * @param cause the {@link Throwable} cause (which is saved for later retrieval by the method
 	 *              {@link #getCause})

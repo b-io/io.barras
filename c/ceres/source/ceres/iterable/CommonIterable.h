@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Iterable structure.
-	 * <p>
+	 *
 	 * @param iterable    the Iterable structure to be reset
 	 * @param length      the length to set
 	 * @param elementType the element type to set
@@ -70,9 +70,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified Iterable structure is empty,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param iterable the Iterable structure
-	 * <p>
 	 * @return {@code _TRUE} if the specified Iterable structure is empty,
 	 *         {@code _FALSE} otherwise
 	 */

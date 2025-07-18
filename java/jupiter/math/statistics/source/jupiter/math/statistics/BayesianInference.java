@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ public abstract class BayesianInference
 
 	/**
 	 * Constructs a {@link BayesianInference} with the specified number of hypotheses.
-	 * <p>
+	 *
 	 * @param hypothesisCount the number of hypotheses
 	 */
 	public BayesianInference(final int hypothesisCount) {
@@ -72,7 +72,7 @@ public abstract class BayesianInference
 
 	/**
 	 * Returns the array of hypothesis probability {@code P(H)} for all hypothesis {@code H}.
-	 * <p>
+	 *
 	 * @return the array of hypothesis probability {@code P(H)} for all hypothesis {@code H}
 	 */
 	public double[] getHypothesesProbabilities() {
@@ -82,10 +82,9 @@ public abstract class BayesianInference
 	/**
 	 * Returns the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
 	 * the specified evidence {@code E} given the specified hypothesis {@code H}.
-	 * <p>
+	 *
 	 * @param hypothesisIndex the index of the hypothesis {@code H}
 	 * @param evidence        a {@code double} value
-	 * <p>
 	 * @return the evidence conditional probability {@code P(E|H)} (called likelihood) of observing
 	 *         the specified evidence {@code E} given the specified hypothesis {@code H}
 	 */
@@ -100,7 +99,7 @@ public abstract class BayesianInference
 	 * Updates the likelihood {@code P(E|H)} for all hypothesis {@code H} with the specified
 	 * evidence {@code E}, computes the marginal likelihood {@code P(E)} (also called model
 	 * evidence) and updates the hypothesis probability {@code P(H)} for all hypothesis {@code H}.
-	 * <p>
+	 *
 	 * @param evidence the evidence {@code E} that is not yet used in the inference
 	 */
 	@Override
@@ -117,7 +116,7 @@ public abstract class BayesianInference
 	/**
 	 * Updates the likelihood {@code P(E|H)} for all hypothesis {@code H} with the specified
 	 * evidence {@code E}.
-	 * <p>
+	 *
 	 * @param evidence the evidence {@code E} that is not yet used for updating the likelihood
 	 *                 {@code P(E|H)} for all hypothesis {@code H}
 	 */
@@ -130,7 +129,7 @@ public abstract class BayesianInference
 	/**
 	 * Computes the marginal likelihood {@code P(E)} (also called model evidence) and updates the
 	 * hypothesis probability {@code P(H)} for all hypothesis {@code H}.
-	 * <p>
+	 *
 	 * @param evidence the evidence {@code E} that is not yet used for updating the hypothesis
 	 *                 probability {@code P(H)} for all hypothesis {@code H}
 	 */

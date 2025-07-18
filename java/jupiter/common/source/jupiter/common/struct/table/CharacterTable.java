@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.IParsers;
+import jupiter.common.transform.converter.IConverters;
 import jupiter.common.model.ICloneable;
 import jupiter.common.util.Characters;
 
@@ -51,7 +51,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with the specified numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -62,7 +62,7 @@ public class CharacterTable
 	/**
 	 * Constructs a {@link CharacterTable} with the specified header and numbers of rows and
 	 * columns.
-	 * <p>
+	 *
 	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -74,7 +74,7 @@ public class CharacterTable
 	/**
 	 * Constructs a {@link CharacterTable} with the specified index, header and numbers of rows and
 	 * columns.
-	 * <p>
+	 *
 	 * @param index       an array of {@link Object} (may be {@code null})
 	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
@@ -89,7 +89,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with the specified {@code char} values.
-	 * <p>
+	 *
 	 * @param values a 2D {@code char} array
 	 */
 	public CharacterTable(final char[]... values) {
@@ -98,7 +98,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with the specified elements.
-	 * <p>
+	 *
 	 * @param elements a 2D array of {@link Character}
 	 */
 	public CharacterTable(final Character[]... elements) {
@@ -107,7 +107,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with the specified header and values.
-	 * <p>
+	 *
 	 * @param header an array of {@link String}
 	 * @param values a 2D {@code char} array
 	 */
@@ -117,7 +117,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with specified header and elements.
-	 * <p>
+	 *
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Character}
 	 */
@@ -127,7 +127,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with the specified index, header and values.
-	 * <p>
+	 *
 	 * @param index  an array of {@link Object} (may be {@code null})
 	 * @param header an array of {@link String}
 	 * @param values a 2D {@code char} array
@@ -138,7 +138,7 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} with specified index, header and elements.
-	 * <p>
+	 *
 	 * @param index    an array of {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D array of {@link Character}
@@ -152,15 +152,14 @@ public class CharacterTable
 
 	/**
 	 * Constructs a {@link CharacterTable} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public CharacterTable(final String path, final boolean hasHeader)
 			throws IOException {
-		super(IParsers.CHARACTER_PARSER, path, hasHeader);
+		super(IConverters.CHARACTER_CONVERTER, path, hasHeader);
 	}
 
 
@@ -171,7 +170,7 @@ public class CharacterTable
 	/**
 	 * Returns a {@code char} array containing all the elements of {@code this} in the same order,
 	 * or {@code null} if {@code this} is empty.
-	 * <p>
+	 *
 	 * @return a {@code char} array containing all the elements of {@code this} in the same order,
 	 *         or {@code null} if {@code this} is empty
 	 *
@@ -184,7 +183,7 @@ public class CharacterTable
 	/**
 	 * Returns a 2D {@code char} array containing all the elements of {@code this} in the same
 	 * order, or {@code null} if {@code this} is empty.
-	 * <p>
+	 *
 	 * @return a 2D {@code char} array containing all the elements of {@code this} in the same
 	 *         order, or {@code null} if {@code this} is empty
 	 *
@@ -201,9 +200,8 @@ public class CharacterTable
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

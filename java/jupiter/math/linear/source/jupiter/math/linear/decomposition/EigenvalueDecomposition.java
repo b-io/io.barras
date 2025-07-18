@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,17 +30,17 @@ import jupiter.math.linear.entity.Matrix;
 
 /**
  * Eigenvalues and eigenvectors of a real matrix.
- * <p>
+ *
  * If {@code A} is symmetric, then {@code A = V D V'} where the eigenvalue matrix {@code D} is
  * diagonal and the eigenvector matrix {@code V} is orthogonal, i.e. {@code V' V = V V' = I}.
- * <p>
+ *
  * If {@code A} is not symmetric, then the eigenvalue matrix {@code D} is block diagonal with the
  * real eigenvalues in {@code 1 x 1} blocks and any complex eigenvalues, {@code lambda + i * mu}, in
  * {@code 2 x 2} blocks, {@code [lambda, mu; -mu, lambda]}. The columns of {@code V} represent the
  * eigenvectors in the sense that {@code A V = V D}. The matrix {@code V} may be badly conditioned
  * or even singular, so the validity of the equation {@code A = V D inv(V)} depends upon
  * {@code V.cond()}.
- * <p>
+ *
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -98,7 +98,7 @@ public class EigenvalueDecomposition
 	/**
 	 * Constructs an {@link EigenvalueDecomposition} of the specified square {@link Matrix}. Tests
 	 * for symmetry, then constructs the eigenvalue decomposition. Sets {@code D} and {@code V}.
-	 * <p>
+	 *
 	 * @param A the square {@link Matrix} to decompose
 	 */
 	public EigenvalueDecomposition(final Matrix A) {
@@ -146,7 +146,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Returns the eigenvector matrix {@code V}.
-	 * <p>
+	 *
 	 * @return the eigenvector matrix {@code V}
 	 */
 	public Matrix getV() {
@@ -155,7 +155,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Returns the real parts of the eigenvalues {@code D}.
-	 * <p>
+	 *
 	 * @return {@code real(diag(D))}
 	 */
 	public double[] getRealEigenvalues() {
@@ -164,7 +164,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Returns the imaginary parts of the eigenvalues {@code D}.
-	 * <p>
+	 *
 	 * @return {@code imag(diag(D))}
 	 */
 	public double[] getImaginaryEigenvalues() {
@@ -173,7 +173,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Returns the block diagonal {@link Matrix} of the eigenvalues {@code D}.
-	 * <p>
+	 *
 	 * @return the block diagonal {@link Matrix} of the eigenvalues {@code D}
 	 */
 	public Matrix getD() {
@@ -199,7 +199,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Performs the symmetric Householder reduction to the tridiagonal form.
-	 * <p>
+	 *
 	 * See the Algol procedures tred2 by Bowdler, Martin, Reinsch and Wilkinson, Handbook for
 	 * Automatic Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutine in
 	 * EISPACK.
@@ -306,7 +306,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Performs the symmetric tridiagonal QL algorithm.
-	 * <p>
+	 *
 	 * See the Algol procedures tql2 by Bowdler, Martin, Reinsch and Wilkinson, Handbook for
 	 * Automatic Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutine in
 	 * EISPACK.
@@ -409,7 +409,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Performs the non-symmetric reduction to the Hessenberg form.
-	 * <p>
+	 *
 	 * See the Algol procedures orthes and ortran by Martin and Wilkinson, Handbook for Automatic
 	 * Computation, Vol.ii-Linear Algebra and the corresponding Fortran subroutines in EISPACK.
 	 */
@@ -493,7 +493,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Performs the complex scalar division.
-	 * <p>
+	 *
 	 * @param xr the real part of the dividend
 	 * @param xi the imaginary part of the dividend
 	 * @param yr the real part of the divisor
@@ -516,7 +516,7 @@ public class EigenvalueDecomposition
 
 	/**
 	 * Performs the non-symmetric reduction from the Hessenberg form to the real Schur form.
-	 * <p>
+	 *
 	 * See the Algol procedure hqr2 by Martin and Wilkinson, Handbook for Automatic Computation,
 	 * Vol.ii-Linear Algebra and the corresponding Fortran subroutine in EISPACK.
 	 */

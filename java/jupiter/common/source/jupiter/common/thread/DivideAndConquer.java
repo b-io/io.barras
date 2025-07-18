@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ public abstract class DivideAndConquer<I>
 	/**
 	 * Constructs a {@link DivideAndConquer} of {@code I} type with the specified minimum and
 	 * maximum numbers of {@link Worker}.
-	 * <p>
+	 *
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 */
@@ -82,7 +82,7 @@ public abstract class DivideAndConquer<I>
 	/**
 	 * Constructs a {@link DivideAndConquer} of {@code I} type with the specified minimum and
 	 * maximum numbers of {@link Worker} and fairness policy.
-	 * <p>
+	 *
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
 	 * @param isFair         the flag specifying whether to use a fair ordering policy
@@ -107,7 +107,7 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Shutdowns the {@link WorkQueue}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force shutdowning
 	 */
 	public void shutdown(final boolean force) {
@@ -125,7 +125,7 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Restarts the {@link WorkQueue}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force restarting
 	 */
 	public void restart(final boolean force) {
@@ -139,11 +139,10 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Divides the execution between the specified indices into execution slices and conquers them.
-	 * <p>
+	 *
 	 * @param input     the {@code I} input to process
 	 * @param fromIndex the index to start dividing from (inclusive)
 	 * @param toIndex   the index to finish dividing at (exclusive)
-	 * <p>
 	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise for each of them
 	 */
@@ -153,12 +152,11 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Divides the execution between the specified indices into execution slices and conquers them.
-	 * <p>
+	 *
 	 * @param input        the {@code I} input to process
 	 * @param fromIndex    the index to start dividing from (inclusive)
 	 * @param toIndex      the index to finish dividing at (exclusive)
 	 * @param minSliceSize the minimum execution slice size
-	 * <p>
 	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise for each of them
 	 */
@@ -188,12 +186,11 @@ public abstract class DivideAndConquer<I>
 	/**
 	 * Divides the execution between the specified indices into the specified number of execution
 	 * slices.
-	 * <p>
+	 *
 	 * @param input      the {@code I} input to process
 	 * @param fromIndex  the index to start dividing from (inclusive)
 	 * @param toIndex    the index to finish dividing at (exclusive)
 	 * @param sliceCount the number of execution slices to create
-	 * <p>
 	 * @return the identifier of each execution slice
 	 */
 	protected long[] divide(final I input, final int fromIndex, final int toIndex,
@@ -214,9 +211,8 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Conquers the execution slices with the specified identifiers.
-	 * <p>
+	 *
 	 * @param ids the identifiers of the execution slices to conquer
-	 * <p>
 	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise for each of them
 	 */
@@ -231,11 +227,10 @@ public abstract class DivideAndConquer<I>
 	/**
 	 * Conquers the execution slice between the specified indices with the specified {@code I}
 	 * input.
-	 * <p>
+	 *
 	 * @param input     the {@code I} input to process
 	 * @param fromIndex the index to start conquering from (inclusive)
 	 * @param toIndex   the index to finish conquering at (exclusive)
-	 * <p>
 	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
@@ -245,10 +240,9 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Conquers the execution slice with the specified {@code I} input and {@link Interval}.
-	 * <p>
+	 *
 	 * @param input    the {@code I} input to process
 	 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
-	 * <p>
 	 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 	 *         {@link InputOutput#EXIT_FAILURE} otherwise
 	 */
@@ -261,7 +255,7 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Tests whether the {@link WorkQueue} is running.
-	 * <p>
+	 *
 	 * @return {@code true} if the {@link WorkQueue} is running, {@code false} otherwise
 	 */
 	public boolean isRunning() {
@@ -275,9 +269,8 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -294,11 +287,9 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -317,9 +308,8 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -332,7 +322,7 @@ public abstract class DivideAndConquer<I>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
@@ -367,9 +357,8 @@ public abstract class DivideAndConquer<I>
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

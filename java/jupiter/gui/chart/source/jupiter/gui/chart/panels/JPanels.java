@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ public class JPanels {
 
 	/**
 	 * Shows the specified message {@link String} in the specified {@link JPanel}.
-	 * <p>
+	 *
 	 * @param panel   the {@link JPanel} in which the message {@link String} is showed
 	 * @param message the message {@link String} to show
 	 */
@@ -69,7 +69,7 @@ public class JPanels {
 
 	/**
 	 * Adds the scroll zoom to the specified {@link JPanel}.
-	 * <p>
+	 *
 	 * @param panel the {@link JPanel} to modify
 	 */
 	public static void addScrollZoom(final JPanel panel) {

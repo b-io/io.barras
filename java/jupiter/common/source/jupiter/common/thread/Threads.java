@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,9 +76,8 @@ public class Threads {
 	 * Causes the currently executing thread to sleep (temporarily cease execution) for the
 	 * specified length of time (in milliseconds), subject to the precision and accuracy of system
 	 * timers and schedulers. The thread does not lose ownership of any monitors.
-	 * <p>
+	 *
 	 * @param time the length of time to sleep (in milliseconds)
-	 * <p>
 	 * @throws IllegalArgumentException if {@code time} is negative
 	 */
 	public static void sleep(final long time) {
@@ -96,9 +95,8 @@ public class Threads {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Thread}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Thread},
 	 *         {@code false} otherwise
 	 */
@@ -108,9 +106,8 @@ public class Threads {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Thread}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Thread},
 	 *         {@code false} otherwise
 	 */

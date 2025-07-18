@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -232,9 +232,8 @@ public class Statistics {
 
 	/**
 	 * Returns phi(x) = standard Gaussian PDF.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
-	 * <p>
 	 * @return phi(x) = standard Gaussian PDF
 	 */
 	public static double normalPDF(final double x) {
@@ -244,11 +243,10 @@ public class Statistics {
 	/**
 	 * Returns phi(x, mu, signma) = Gaussian PDF with mean {@code mu} and standard deviation
 	 * {@code sigma}.
-	 * <p>
+	 *
 	 * @param x     a {@code double} value
 	 * @param mu    the mean of the distribution
 	 * @param sigma the standard deviation of the distribution
-	 * <p>
 	 * @return phi(x, mu, signma) = Gaussian PDF with mean {@code mu} and standard deviation
 	 *         {@code sigma}
 	 */
@@ -258,9 +256,8 @@ public class Statistics {
 
 	/**
 	 * Returns Phi(z) = standard Gaussian CDF using Taylor approximation.
-	 * <p>
+	 *
 	 * @param z a {@code double} value
-	 * <p>
 	 * @return Phi(z) = standard Gaussian CDF using Taylor approximation
 	 */
 	public static double normalCDF(final double z) {
@@ -270,10 +267,9 @@ public class Statistics {
 	/**
 	 * Returns Phi(z) = standard Gaussian CDF using Taylor approximation within the specified
 	 * tolerance level.
-	 * <p>
+	 *
 	 * @param z         a {@code double} value
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return Phi(z) = standard Gaussian CDF using Taylor approximation within the specified
 	 *         tolerance level
 	 */
@@ -298,11 +294,10 @@ public class Statistics {
 	/**
 	 * Returns Phi(z, mu, sigma) = Gaussian CDF with mean {@code mu} and standard deviation
 	 * {@code sigma}.
-	 * <p>
+	 *
 	 * @param z     a {@code double} value
 	 * @param mu    the mean of the distribution
 	 * @param sigma the standard deviation of the distribution
-	 * <p>
 	 * @return Phi(z, mu, sigma) = Gaussian CDF with mean {@code mu} and standard deviation
 	 *         {@code sigma}
 	 */
@@ -312,9 +307,8 @@ public class Statistics {
 
 	/**
 	 * Returns {@code z} such that {@code Phi(z) = alpha} via bisection search.
-	 * <p>
+	 *
 	 * @param alpha a {@code double} value
-	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search
 	 */
 	public static double normalCDFInverse(final double alpha) {
@@ -324,12 +318,11 @@ public class Statistics {
 	/**
 	 * Returns {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
 	 * tolerance level.
-	 * <p>
+	 *
 	 * @param alpha     a {@code double} value
 	 * @param tolerance the tolerance level
 	 * @param from      the {@code double} lower bound of the bisection search
 	 * @param to        the {@code double} upper bound of the bisection search
-	 * <p>
 	 * @return {@code z} such that {@code Phi(z) = alpha} via bisection search within the specified
 	 *         tolerance level
 	 */

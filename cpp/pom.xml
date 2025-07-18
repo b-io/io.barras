@@ -19,9 +19,6 @@
 	<url>https://github.com/b-io/io.barras/tree/master/cpp</url>
 
 	<properties>
-		<!-- Project -->
-		<project.build.source>1.8</project.build.source>
-		<project.build.target>1.8</project.build.target>
 		<!-- Compilation -->
 		<standard.option>-std=c++11</standard.option>
 	</properties>
@@ -38,21 +35,17 @@
 			<plugin>
 				<groupId>com.github.maven-nar</groupId>
 				<artifactId>nar-maven-plugin</artifactId>
-
 				<configuration>
 					<cpp>
 						<name>g++</name>
 						<sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-
 						<includePaths>
 							<includePath>${project.build.sourceDirectory}</includePath>
 						</includePaths>
-
 						<includes>
 							<include>**/*.h</include>
 							<include>**/*.cpp</include>
 						</includes>
-
 						<options>
 							<option>${stack.protector.option}</option>
 							<option>${architecture.option}</option>
@@ -64,10 +57,8 @@
 							<option>${warning.option}</option>
 						</options>
 					</cpp>
-
 					<linker>
 						<name>g++</name>
-
 						<options>
 							<option>${architecture.option}</option>
 							<option>${subsystem.option}</option>

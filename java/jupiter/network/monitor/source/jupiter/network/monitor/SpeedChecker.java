@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,8 +44,8 @@ import jupiter.common.io.Resources;
 import jupiter.common.io.file.FileHandler;
 import jupiter.common.io.file.Files;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.thread.Result;
 import jupiter.common.thread.SynchronizedWorkQueue;
@@ -105,7 +105,7 @@ public class SpeedChecker {
 
 	/**
 	 * Starts the {@link SpeedChecker}.
-	 * <p>
+	 *
 	 * @param args the array of command line arguments
 	 */
 	public static void main(final String[] args) {
@@ -142,9 +142,8 @@ public class SpeedChecker {
 
 	/**
 	 * Returns the name of the file pointed by the specified {@link URL}.
-	 * <p>
+	 *
 	 * @param url an {@link URL}
-	 * <p>
 	 * @return the name of the file pointed by the specified {@link URL}
 	 */
 	public static String getURLFileName(final URL url) {
@@ -154,9 +153,8 @@ public class SpeedChecker {
 	/**
 	 * Returns the path to the data file storing the downloading speeds (in Mbits/s) of the
 	 * specified {@link URL}.
-	 * <p>
+	 *
 	 * @param url an {@link URL}
-	 * <p>
 	 * @return the path to the data file storing the downloading speeds (in Mbits/s) of the
 	 *         specified {@link URL}
 	 */
@@ -328,9 +326,8 @@ public class SpeedChecker {
 
 	/**
 	 * Downloads the file pointed by the URL denoted by the specified name.
-	 * <p>
+	 *
 	 * @param urlName the name of the URL pointing to the file to download
-	 * <p>
 	 * @return the downloading speed (in Mbits/s)
 	 */
 	protected static Result<Double> download(final String urlName) {
@@ -447,9 +444,8 @@ public class SpeedChecker {
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

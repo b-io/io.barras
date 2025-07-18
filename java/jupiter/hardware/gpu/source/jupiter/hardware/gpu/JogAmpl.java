@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ import java.util.Collection;
 
 import jupiter.common.math.Maths;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.DoubleArguments;
 import jupiter.common.util.Strings;
@@ -79,7 +79,7 @@ public class JogAmpl
 
 	/**
 	 * Constructs a {@link JogAmpl} with the specified source code {@link String}.
-	 * <p>
+	 *
 	 * @param sourceCode the source code {@link String}
 	 */
 	public JogAmpl(final String sourceCode) {
@@ -120,7 +120,7 @@ public class JogAmpl
 
 	/**
 	 * Returns the context.
-	 * <p>
+	 *
 	 * @return the context
 	 */
 	public CLContext getContext() {
@@ -129,7 +129,7 @@ public class JogAmpl
 
 	/**
 	 * Returns the command-queue.
-	 * <p>
+	 *
 	 * @return the command-queue
 	 */
 	public CLCommandQueue getCommandQueue() {
@@ -138,7 +138,7 @@ public class JogAmpl
 
 	/**
 	 * Returns the program.
-	 * <p>
+	 *
 	 * @return the program
 	 */
 	public CLProgram getProgram() {
@@ -147,9 +147,8 @@ public class JogAmpl
 
 	/**
 	 * Returns the specified kernel.
-	 * <p>
+	 *
 	 * @param name the kernel name
-	 * <p>
 	 * @return the specified kernel
 	 */
 	public CLKernel getKernel(final String name) {
@@ -322,14 +321,13 @@ public class JogAmpl
 
 	/**
 	 * Returns the multiplication of {@code A} by {@code B} followed by the addition of {@code C}.
-	 * <p>
+	 *
 	 * @param A                the {@code double} array to multiply
 	 * @param B                the {@code double} array to multiply
 	 * @param C                the {@code double} array to add
 	 * @param aColumnDimension the column dimension of {@code A}
 	 * @param bColumnDimension the column dimension of {@code B}
 	 * @param cColumnDimension the column dimension of {@code C}
-	 * <p>
 	 * @return {@code A . B + C}
 	 */
 	@Override
@@ -376,14 +374,13 @@ public class JogAmpl
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code A}.
-	 * <p>
+	 *
 	 * @param A       the {@code double} array to add
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
 	 * @param aOffset the offset of {@code A}
 	 * @param bOffset the offset of {@code B}
 	 * @param length  the length of the iteration
-	 * <p>
 	 * @return {@code A += c * B}
 	 */
 	@Override
@@ -432,9 +429,8 @@ public class JogAmpl
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

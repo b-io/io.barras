@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.map.parser.ByteParser;
-import jupiter.common.map.parser.IParsers;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.transform.ObjectToStringMapper;
+import jupiter.common.transform.converter.ByteConverter;
+import jupiter.common.transform.converter.IConverters;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.set.ExtendedHashSet;
 
 public class Bytes {
 
@@ -53,7 +53,7 @@ public class Bytes {
 	public static final Byte[][] EMPTY_ARRAY_2D = new Byte[][] {};
 	public static final Byte[][][] EMPTY_ARRAY_3D = new Byte[][][] {};
 
-	protected static final ByteParser PARSER = IParsers.BYTE_PARSER;
+	protected static final ByteConverter CONVERTER = IConverters.BYTE_CONVERTER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -94,10 +94,9 @@ public class Bytes {
 	/**
 	 * Compares the specified {@code byte} values for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code byte} value to compare for order
 	 * @param b the other {@code byte} value to compare against for order
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -111,10 +110,9 @@ public class Bytes {
 	 * Compares the specified {@code byte} arrays for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@code byte} array to compare for order (may be {@code null})
 	 * @param b the other {@code byte} array to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -148,9 +146,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code short} value.
-	 * <p>
+	 *
 	 * @param value the {@code short} value to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code short} value
 	 */
 	public static byte convert(final short value) {
@@ -162,9 +159,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code int} value.
-	 * <p>
+	 *
 	 * @param value the {@code int} value to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code int} value
 	 */
 	public static byte convert(final int value) {
@@ -176,9 +172,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code long} value.
-	 * <p>
+	 *
 	 * @param value the {@code long} value to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code long} value
 	 */
 	public static byte convert(final long value) {
@@ -190,9 +185,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value the {@code float} value to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code float} value
 	 */
 	public static byte convert(final float value) {
@@ -204,9 +198,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code double} value.
-	 * <p>
+	 *
 	 * @param value the {@code double} value to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code double} value
 	 */
 	public static byte convert(final double value) {
@@ -218,13 +211,12 @@ public class Bytes {
 
 	/**
 	 * Returns a {@link Byte} converted from the specified {@link Object}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to convert (may be {@code null})
-	 * <p>
 	 * @return a {@link Byte} converted from the specified {@link Object}
 	 */
 	public static Byte convert(final Object object) {
-		return PARSER.call(object);
+		return CONVERTER.call(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,13 +224,12 @@ public class Bytes {
 	/**
 	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
 	 * value written to the specified target {@code char} buffer.
-	 * <p>
+	 *
 	 * @param source the source {@code byte} value
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
 	 * @param target the target {@code char} buffer
 	 * @param offset the offset in the target {@code char} buffer to start at
 	 * @param length the number of digits to write
-	 * <p>
 	 * @return the lowest index of the specified target {@code char} buffer used
 	 */
 	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
@@ -249,14 +240,13 @@ public class Bytes {
 	/**
 	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
 	 * value written to the specified target {@code char} buffer.
-	 * <p>
+	 *
 	 * @param source       the source {@code byte} value
 	 * @param shift        the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
 	 * @param target       the target {@code char} buffer
 	 * @param offset       the offset in the target {@code char} buffer to start at
 	 * @param length       the number of digits to write
 	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
-	 * <p>
 	 * @return the lowest index of the specified target {@code char} buffer used
 	 */
 	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
@@ -268,14 +258,13 @@ public class Bytes {
 	/**
 	 * Converts the specified source {@code byte} value to a representative unsigned {@code int}
 	 * value written to the specified target {@code char} buffer.
-	 * <p>
+	 *
 	 * @param source the source {@code byte} value
 	 * @param shift  the log2 of the base to format in (4 for hex, 3 for octal, 1 for binary)
 	 * @param target the target {@code char} buffer
 	 * @param offset the offset in the target {@code char} buffer to start at
 	 * @param length the number of digits to write
 	 * @param digits the digits to use
-	 * <p>
 	 * @return the lowest index of the specified target {@code char} buffer used
 	 */
 	public static int toUnsignedInt(final byte source, final int shift, final char[] target,
@@ -287,9 +276,8 @@ public class Bytes {
 
 	/**
 	 * Returns a binary representative {@link String} of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return a binary representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toBinaryString(final byte... array) {
@@ -299,10 +287,9 @@ public class Bytes {
 	/**
 	 * Returns a binary representative {@link String} of the specified {@code byte} array using the
 	 * specified digits.
-	 * <p>
+	 *
 	 * @param array  the {@code byte} array to convert
 	 * @param digits the digits to use
-	 * <p>
 	 * @return a binary representative {@link String} of the specified {@code byte} array using the
 	 *         specified digits
 	 */
@@ -322,9 +309,8 @@ public class Bytes {
 
 	/**
 	 * Returns an octal representative {@link String} of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an octal representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toOctalString(final byte... array) {
@@ -334,10 +320,9 @@ public class Bytes {
 	/**
 	 * Returns an octal representative {@link String} of the specified {@code byte} array using the
 	 * specified digits.
-	 * <p>
+	 *
 	 * @param array  the {@code byte} array to convert
 	 * @param digits the digits to use
-	 * <p>
 	 * @return an octal representative {@link String} of the specified {@code byte} array using the
 	 *         specified digits
 	 */
@@ -357,9 +342,8 @@ public class Bytes {
 
 	/**
 	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toHexString(final byte... array) {
@@ -368,10 +352,9 @@ public class Bytes {
 
 	/**
 	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array        the {@code byte} array to convert
 	 * @param useLowerCase the flag specifying whether to use lower or upper case digits
-	 * <p>
 	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toHexString(final byte[] array, final boolean useLowerCase) {
@@ -381,10 +364,9 @@ public class Bytes {
 	/**
 	 * Returns a hexadecimal representative {@link String} of the specified {@code byte} array using
 	 * the specified digits.
-	 * <p>
+	 *
 	 * @param array  the {@code byte} array to convert
 	 * @param digits the digits to use
-	 * <p>
 	 * @return a hexadecimal representative {@link String} of the specified {@code byte} array using
 	 *         the specified digits
 	 */
@@ -404,23 +386,21 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} value converted from the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
-	 * <p>
 	 * @return a {@code byte} value converted from the specified {@code T} object
 	 */
 	public static <T> byte toPrimitive(final T object) {
-		return PARSER.callToPrimitive(object);
+		return CONVERTER.callToPrimitive(object);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code byte} array converted from the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte... array) {
@@ -440,9 +420,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 2D {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte[]... array2D) {
@@ -466,9 +445,8 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 3D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 3D {@code byte} array
 	 */
 	public static byte[] toPrimitiveArray(final byte[][]... array3D) {
@@ -498,22 +476,20 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[] array) {
-		return PARSER.callToPrimitiveArray(array);
+		return CONVERTER.callToPrimitiveArray(array);
 	}
 
 	/**
 	 * Returns a {@code byte} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -523,22 +499,20 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray(array2D);
+		return CONVERTER.callToPrimitiveArray(array2D);
 	}
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -548,22 +522,20 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> byte[] toPrimitiveArray(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray(array3D);
+		return CONVERTER.callToPrimitiveArray(array3D);
 	}
 
 	/**
 	 * Returns a {@code byte} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -636,22 +608,20 @@ public class Bytes {
 
 	/**
 	 * Returns a 2D {@code byte} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> byte[][] toPrimitiveArray2D(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray2D(array2D);
+		return CONVERTER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
 	 * Returns a 2D {@code byte} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code byte} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -731,22 +701,20 @@ public class Bytes {
 
 	/**
 	 * Returns a 3D {@code byte} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> byte[][][] toPrimitiveArray3D(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray3D(array3D);
+		return CONVERTER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
 	 * Returns a 3D {@code byte} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code byte} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -758,22 +726,20 @@ public class Bytes {
 
 	/**
 	 * Returns a {@code byte} array converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return a {@code byte} array converted from the specified {@link Collection}
 	 */
 	public static byte[] collectionToPrimitiveArray(final Collection<?> collection) {
-		return PARSER.callCollectionToPrimitiveArray(collection);
+		return CONVERTER.callCollectionToPrimitiveArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Byte} converted from the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an array of {@link Byte} converted from the specified {@code byte} array
 	 */
 	public static Byte[] toArray(final byte[] array) {
@@ -786,9 +752,8 @@ public class Bytes {
 
 	/**
 	 * Returns an array of {@link Byte} converted from the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an array of {@link Byte} converted from the specified {@code byte} array
 	 */
 	public static Byte[] asArray(final byte... array) {
@@ -799,9 +764,8 @@ public class Bytes {
 
 	/**
 	 * Returns a 2D array of {@link Byte} converted from the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Byte} converted from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] toArray2D(final byte[][] array2D) {
@@ -814,9 +778,8 @@ public class Bytes {
 
 	/**
 	 * Returns a 2D array of {@link Byte} converted from the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Byte} converted from the specified 2D {@code byte} array
 	 */
 	public static Byte[][] asArray2D(final byte[]... array2D) {
@@ -827,9 +790,8 @@ public class Bytes {
 
 	/**
 	 * Returns a 3D array of {@link Byte} converted from the specified 3D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Byte} converted from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] toArray3D(final byte[][][] array3D) {
@@ -842,9 +804,8 @@ public class Bytes {
 
 	/**
 	 * Returns a 3D array of {@link Byte} converted from the specified 3D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Byte} converted from the specified 3D {@code byte} array
 	 */
 	public static Byte[][][] asArray3D(final byte[][]... array3D) {
@@ -855,13 +816,12 @@ public class Bytes {
 
 	/**
 	 * Returns an array of {@link Byte} converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an array of {@link Byte} converted from the specified {@link Collection}
 	 */
 	public static Byte[] collectionToArray(final Collection<?> collection) {
-		return PARSER.callCollectionToArray(collection);
+		return CONVERTER.callCollectionToArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -869,22 +829,20 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
 	 *         array
 	 */
 	public static ExtendedList<Byte> toList(final byte[] array) {
-		return PARSER.callToList(toArray(array));
+		return CONVERTER.callToList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code byte}
 	 *         array
 	 */
@@ -895,22 +853,20 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 *         {@code byte} array
 	 */
 	public static ExtendedLinkedList<Byte> toLinkedList(final byte[] array) {
-		return PARSER.callToLinkedList(toArray(array));
+		return CONVERTER.callToLinkedList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 *         {@code byte} array
 	 */
@@ -922,22 +878,20 @@ public class Bytes {
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Byte> toList(final T[] array) {
-		return PARSER.callToList(array);
+		return CONVERTER.callToList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -948,24 +902,22 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Byte> toLinkedList(final T[] array) {
-		return PARSER.callToLinkedList(array);
+		return CONVERTER.callToLinkedList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified {@code T}
 	 *         array
 	 */
@@ -979,28 +931,26 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Byte} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Byte} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedList<Byte> collectionToList(final Collection<?> collection) {
-		return PARSER.callCollectionToList(collection);
+		return CONVERTER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Byte} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Byte> collectionToLinkedList(
 			final Collection<?> collection) {
-		return PARSER.callCollectionToLinkedList(collection);
+		return CONVERTER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1008,22 +958,20 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
 	 *         array
 	 */
 	public static ExtendedHashSet<Byte> toSet(final byte[] array) {
-		return PARSER.callToSet(toArray(array));
+		return CONVERTER.callToSet(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code byte}
 	 *         array
 	 */
@@ -1036,24 +984,22 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedHashSet<Byte> toSet(final T[] array) {
-		return PARSER.callToSet(array);
+		return CONVERTER.callToSet(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified {@code T}
 	 *         array
 	 */
@@ -1067,14 +1013,13 @@ public class Bytes {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Byte} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Byte} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Byte> collectionToSet(final Collection<?> collection) {
-		return PARSER.callCollectionToSet(collection);
+		return CONVERTER.callCollectionToSet(collection);
 	}
 
 
@@ -1085,9 +1030,8 @@ public class Bytes {
 	/**
 	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
 	 * starting with {@code 0} and spaced by {@code 1}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
-	 * <p>
 	 * @return a {@code byte} array of the specified length containing the sequence of numbers
 	 *         starting with {@code 0} and spaced by {@code 1}
 	 */
@@ -1098,10 +1042,9 @@ public class Bytes {
 	/**
 	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code 1}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
-	 * <p>
 	 * @return a {@code byte} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code 1}
 	 */
@@ -1112,11 +1055,10 @@ public class Bytes {
 	/**
 	 * Creates a {@code byte} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code step}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
-	 * <p>
 	 * @return a {@code byte} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code step}
 	 */
@@ -1133,9 +1075,8 @@ public class Bytes {
 
 	/**
 	 * Creates a random {@code byte} array of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
-	 * <p>
 	 * @return a random {@code byte} array of the specified length
 	 */
 	public static byte[] createRandomSequence(final int length) {
@@ -1149,11 +1090,10 @@ public class Bytes {
 	/**
 	 * Creates a {@code byte} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code byte} values between the specified bounds.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
 	 * @param from   the {@code byte} lower bound of the random sequence to create (inclusive)
 	 * @param to     the {@code byte} upper bound of the random sequence to create (exclusive)
-	 * <p>
 	 * @return a {@code byte} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code byte} values between the specified bounds
 	 */
@@ -1169,7 +1109,7 @@ public class Bytes {
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code byte} value.
-	 * <p>
+	 *
 	 * @return a pseudorandom, uniformly distributed {@code byte} value
 	 */
 	public static byte random() {
@@ -1179,10 +1119,9 @@ public class Bytes {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code byte} value between the specified
 	 * bounds.
-	 * <p>
+	 *
 	 * @param from the {@code byte} lower bound of the value to generate (inclusive)
 	 * @param to   the {@code byte} upper bound of the value to generate (exclusive)
-	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code byte} value between the specified bounds
 	 */
 	public static byte random(final byte from, final byte to) {
@@ -1193,10 +1132,9 @@ public class Bytes {
 
 	/**
 	 * Creates a {@code byte} array of the specified length with the specified {@code byte} element.
-	 * <p>
+	 *
 	 * @param element the {@code byte} element of the {@code byte} array to create
 	 * @param length  the length of the {@code byte} array to create
-	 * <p>
 	 * @return a {@code byte} array of the specified length with the specified {@code byte} element
 	 */
 	public static byte[] repeat(final byte element, final int length) {
@@ -1211,9 +1149,8 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array converted from the specified binary representative
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param binaryString the binary representative {@link String} to parse
-	 * <p>
 	 * @return a {@code byte} array converted from the specified binary representative
 	 *         {@link String}
 	 */
@@ -1228,9 +1165,8 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array converted from the specified octal representative
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param octalString the octal representative {@link String} to parse
-	 * <p>
 	 * @return a {@code byte} array converted from the specified octal representative {@link String}
 	 */
 	public static byte[] parseOctalString(final String octalString) {
@@ -1244,9 +1180,8 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array converted from the specified hexadecimal representative
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param hexString the hexadecimal representative {@link String} to parse
-	 * <p>
 	 * @return a {@code byte} array converted from the specified hexadecimal representative
 	 *         {@link String}
 	 */
@@ -1266,10 +1201,9 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array containing the specified {@code byte} value and all the elements
 	 * of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param a a {@code byte} value
 	 * @param b another {@code byte} array (may be {@code null})
-	 * <p>
 	 * @return a {@code byte} array containing the specified {@code byte} value and all the elements
 	 *         of the specified {@code byte} array
 	 */
@@ -1280,10 +1214,9 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array containing all the elements of the specified {@code byte}
 	 * arrays.
-	 * <p>
+	 *
 	 * @param a a {@code byte} array (may be {@code null})
 	 * @param b another {@code byte} array (may be {@code null})
-	 * <p>
 	 * @return a {@code byte} array containing all the elements of the specified {@code byte} arrays
 	 */
 	public static byte[] concat(final byte[] a, final byte... b) {
@@ -1305,9 +1238,8 @@ public class Bytes {
 
 	/**
 	 * Returns the number of elements in the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 2D {@code byte} array
 	 */
 	public static int count(final byte[][] array2D) {
@@ -1322,9 +1254,8 @@ public class Bytes {
 
 	/**
 	 * Returns the number of elements in the specified 3D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 3D {@code byte} array
 	 */
 	public static int count(final byte[][][] array3D) {
@@ -1342,10 +1273,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} token in the specified
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to count from (may be {@code null})
 	 * @param token the {@code byte} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} token in the specified
 	 *         {@code byte} array
 	 */
@@ -1363,10 +1293,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} token in the specified 2D
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
 	 * @param token   the {@code byte} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} token in the specified 2D
 	 *         {@code byte} array
 	 */
@@ -1383,10 +1312,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} token in the specified 3D
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
 	 * @param token   the {@code byte} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} token in the specified 3D
 	 *         {@code byte} array
 	 */
@@ -1405,10 +1333,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array  the {@code byte} array to count from (may be {@code null})
 	 * @param tokens the {@code byte} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified
 	 *         {@code byte} array
 	 */
@@ -1425,10 +1352,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified 2D
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to count from (may be {@code null})
 	 * @param tokens  the {@code byte} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 2D
 	 *         {@code byte} array
 	 */
@@ -1445,10 +1371,9 @@ public class Bytes {
 	/**
 	 * Returns the number of occurrences of the specified {@code byte} tokens in the specified 3D
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to count from (may be {@code null})
 	 * @param tokens  the {@code byte} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code byte} tokens in the specified 3D
 	 *         {@code byte} array
 	 */
@@ -1490,10 +1415,9 @@ public class Bytes {
 	/**
 	 * Returns a {@code byte} array containing all the elements of the specified {@code byte} array
 	 * at the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code byte} array to filter from
 	 * @param indices the indices to filter
-	 * <p>
 	 * @return a {@code byte} array containing all the elements of the specified {@code byte} array
 	 *         at the specified indices
 	 */
@@ -1508,10 +1432,9 @@ public class Bytes {
 	/**
 	 * Returns a 2D {@code byte} array containing all the elements of the specified {@code byte}
 	 * array at all the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code byte} array to filter from
 	 * @param indices the array of indices to filter
-	 * <p>
 	 * @return a 2D {@code byte} array containing all the elements of the specified {@code byte}
 	 *         array at all the specified indices
 	 */
@@ -1527,9 +1450,8 @@ public class Bytes {
 
 	/**
 	 * Returns the middle of the specified {@code byte} value rounded down.
-	 * <p>
+	 *
 	 * @param value a {@code byte} value
-	 * <p>
 	 * @return the middle of the specified {@code byte} value rounded down
 	 */
 	public static byte middle(final byte value) {
@@ -1538,10 +1460,9 @@ public class Bytes {
 
 	/**
 	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded down.
-	 * <p>
+	 *
 	 * @param from a {@code byte} value
 	 * @param to   another {@code byte} value
-	 * <p>
 	 * @return the middle of the specified {@code byte} lower and upper bounds rounded down
 	 */
 	public static byte middle(final byte from, final byte to) {
@@ -1552,9 +1473,8 @@ public class Bytes {
 
 	/**
 	 * Returns the middle of the specified {@code byte} value rounded up.
-	 * <p>
+	 *
 	 * @param value a {@code byte} value
-	 * <p>
 	 * @return the middle of the specified {@code byte} value rounded up
 	 */
 	public static byte middleUp(final byte value) {
@@ -1563,10 +1483,9 @@ public class Bytes {
 
 	/**
 	 * Returns the middle of the specified {@code byte} lower and upper bounds rounded up.
-	 * <p>
+	 *
 	 * @param from a {@code byte} value
 	 * @param to   another {@code byte} value
-	 * <p>
 	 * @return the middle of the specified {@code byte} lower and upper bounds rounded up
 	 */
 	public static byte middleUp(final byte from, final byte to) {
@@ -1577,10 +1496,9 @@ public class Bytes {
 
 	/**
 	 * Removes the element at the specified index from the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to remove from
 	 * @param index the index of the element to remove
-	 * <p>
 	 * @return the specified {@code byte} array without the element at the specified index
 	 */
 	public static byte[] remove(final byte[] array, final int index) {
@@ -1593,10 +1511,9 @@ public class Bytes {
 	/**
 	 * Removes all the occurrences of the specified {@code byte} value from the specified
 	 * {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to remove from
 	 * @param value the {@code byte} value to remove (may be {@code null})
-	 * <p>
 	 * @return the specified {@code byte} array without the specified {@code byte} value
 	 */
 	public static byte[] removeAll(final byte[] array, final byte value) {
@@ -1627,7 +1544,7 @@ public class Bytes {
 
 	/**
 	 * Shuffles the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to shuffle
 	 */
 	public static void shuffle(final byte... array) {
@@ -1636,7 +1553,7 @@ public class Bytes {
 
 	/**
 	 * Shuffles the specified {@code byte} array between the specified indices.
-	 * <p>
+	 *
 	 * @param array     the {@code byte} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)
 	 * @param toIndex   the index to finish shuffling at (exclusive)
@@ -1739,10 +1656,9 @@ public class Bytes {
 
 	/**
 	 * Returns the transpose of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param rowCount the number of rows of the {@code byte} array
 	 * @param array    a {@code byte} array
-	 * <p>
 	 * @return the transpose of the specified {@code byte} array
 	 */
 	public static byte[] transpose(final int rowCount, final byte... array) {
@@ -1759,9 +1675,8 @@ public class Bytes {
 
 	/**
 	 * Returns the transpose of the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to convert
-	 * <p>
 	 * @return the transpose of the specified 2D {@code byte} array
 	 */
 	public static byte[][] transpose(final byte[]... array2D) {
@@ -1842,9 +1757,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Byte}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Byte},
 	 *         {@code false} otherwise
 	 */
@@ -1855,9 +1769,8 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code byte} value or a
 	 * {@link Byte}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} value or
 	 *         a {@link Byte}, {@code false} otherwise
 	 */
@@ -1867,9 +1780,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code byte} value.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} value,
 	 *         {@code false} otherwise
 	 */
@@ -1879,9 +1791,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@code byte} array.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@code byte} array,
 	 *         {@code false} otherwise
 	 */
@@ -1891,9 +1802,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code byte} array.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code byte} array,
 	 *         {@code false} otherwise
 	 */
@@ -1905,9 +1815,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@code byte} array is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is {@code null} or empty,
 	 *         {@code false} otherwise
 	 */
@@ -1917,9 +1826,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@code byte} array is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -1929,9 +1837,8 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@code byte} array is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -1944,11 +1851,10 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value the {@code byte} value to test
 	 * @param from  the {@code byte} lower bound to test against (inclusive)
 	 * @param to    the {@code byte} upper bound to test against (exclusive)
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} value is between the specified
 	 *         {@code byte} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1959,12 +1865,11 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code byte} value to test
 	 * @param from             the {@code byte} lower bound to test against (inclusive)
 	 * @param to               the {@code byte} upper bound to test against
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} value is between the specified
 	 *         {@code byte} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1976,13 +1881,12 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} value is between the specified {@code byte} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code byte} value to test
 	 * @param from             the {@code byte} lower bound to test against
 	 * @param to               the {@code byte} upper bound to test against
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} value is between the specified
 	 *         {@code byte} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1997,13 +1901,12 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
 	 * {@code byte} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to test (may be {@code null})
 	 * @param from  the lower bound {@code byte} array to test against (inclusive) (may be
 	 *              {@code null})
 	 * @param to    the upper bound {@code byte} array to test against (exclusive) (may be
 	 *              {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
 	 *         upper bound {@code byte} arrays, {@code false} otherwise
 	 */
@@ -2014,14 +1917,13 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
 	 * {@code byte} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code byte} array to test (may be {@code null})
 	 * @param from             the lower bound {@code byte} array to test against (inclusive) (may
 	 *                         be {@code null})
 	 * @param to               the upper bound {@code byte} array to test against (may be
 	 *                         {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
 	 *         upper bound {@code byte} arrays, {@code false} otherwise
 	 */
@@ -2033,7 +1935,7 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array is between the specified lower and upper bound
 	 * {@code byte} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code byte} array to test (may be {@code null})
 	 * @param from             the lower bound {@code byte} array to test against (may be
 	 *                         {@code null})
@@ -2041,7 +1943,6 @@ public class Bytes {
 	 *                         {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array is between the specified lower and
 	 *         upper bound {@code byte} arrays, {@code false} otherwise
 	 */
@@ -2055,10 +1956,9 @@ public class Bytes {
 
 	/**
 	 * Tests whether the specified {@code byte} array contains the specified {@code byte} token.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to test (may be {@code null})
 	 * @param token the {@code byte} token to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array contains the specified {@code byte}
 	 *         token, {@code false} otherwise
 	 */
@@ -2069,10 +1969,9 @@ public class Bytes {
 	/**
 	 * Tests whether the specified {@code byte} array contains any of the specified {@code byte}
 	 * tokens.
-	 * <p>
+	 *
 	 * @param array  the {@code byte} array to test (may be {@code null})
 	 * @param tokens the {@code byte} tokens to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code byte} array contains any of the specified
 	 *         {@code byte} tokens, {@code false} otherwise
 	 */
@@ -2094,9 +1993,8 @@ public class Bytes {
 
 	/**
 	 * Returns a clone of the specified {@code byte} array, or {@code null} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified {@code byte} array, or {@code null} if it is {@code null}
 	 */
 	public static byte[] clone(final byte... array) {
@@ -2111,9 +2009,8 @@ public class Bytes {
 
 	/**
 	 * Clones the specified 2D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code byte} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 2D {@code byte} array, or {@code null} if it is {@code null}
 	 */
 	public static byte[][] clone(final byte[]... array2D) {
@@ -2133,9 +2030,8 @@ public class Bytes {
 
 	/**
 	 * Clones the specified 3D {@code byte} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code byte} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 3D {@code byte} array, or {@code null} if it is {@code null}
 	 */
 	public static byte[][][] clone(final byte[][][] array3D) {
@@ -2158,10 +2054,9 @@ public class Bytes {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code byte} array to compare for equality (may be {@code null})
 	 * @param b the other {@code byte} array to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final byte[] a, final byte[] b) {
@@ -2182,11 +2077,10 @@ public class Bytes {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 2D {@code byte} array to compare for equality (may be {@code null})
 	 * @param b the other 2D {@code byte} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final byte[][] a, final byte[][] b) {
@@ -2207,11 +2101,10 @@ public class Bytes {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 3D {@code byte} array to compare for equality (may be {@code null})
 	 * @param b the other 3D {@code byte} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final byte[][][] a, final byte[][][] b) {
@@ -2234,9 +2127,8 @@ public class Bytes {
 
 	/**
 	 * Returns the hash code value for the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code byte} array
 	 */
 	public static int hashCode(final byte... array) {
@@ -2245,10 +2137,9 @@ public class Bytes {
 
 	/**
 	 * Returns the hash code value for the specified {@code byte} array at the specified depth.
-	 * <p>
+	 *
 	 * @param depth the depth to hash at
 	 * @param array the {@code byte} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code byte} array at the specified depth
 	 */
 	public static int hashCodeWith(final int depth, final byte... array) {
@@ -2275,9 +2166,8 @@ public class Bytes {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array.
-	 * <p>
+	 *
 	 * @param array the {@code byte} array to convert
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code byte} array
 	 */
 	public static String toString(final byte... array) {
@@ -2287,10 +2177,9 @@ public class Bytes {
 	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array joined with the
 	 * specified {@code char} delimiter.
-	 * <p>
+	 *
 	 * @param array     a {@code byte} array
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code byte} array joined with the
 	 *         specified {@code char} delimiter
 	 */
@@ -2301,10 +2190,9 @@ public class Bytes {
 	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array joined with the
 	 * specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code byte} array joined with the
 	 *         specified delimiting {@link String}
 	 */
@@ -2315,10 +2203,9 @@ public class Bytes {
 	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array wrapped by
 	 * {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array   a {@code byte} array
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code byte} array wrapped by
 	 *         {@code wrapper}
 	 */
@@ -2329,11 +2216,10 @@ public class Bytes {
 	/**
 	 * Returns a representative {@link String} of the specified {@code byte} array joined with the
 	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array     a {@code byte} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code byte} array joined with the
 	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */

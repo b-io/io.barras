@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,22 +31,20 @@ public interface Stringifier {
 
 	/**
 	 * Returns a {@link String} of the fields of the specified content {@link Object}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} containing the fields to represent as a
 	 *                {@link String} (may be {@code null})
-	 * <p>
 	 * @return a {@link String} of the fields of the specified content {@link Object}
 	 */
 	public String stringify(final Object content);
 
 	/**
 	 * Returns a {@link String} of the specified key-value mapping.
-	 * <p>
+	 *
 	 * @param key   the key {@link String} of the key-value mapping to represent as a {@link String}
 	 *              (may be {@code null})
 	 * @param value the value of the key-value mapping to represent as a {@link String} (may be
 	 *              {@code null})
-	 * <p>
 	 * @return a {@link String} of the specified key-value mapping
 	 */
 	public String stringify(final String key, final Object value);
@@ -55,22 +53,20 @@ public interface Stringifier {
 
 	/**
 	 * Returns an entry {@link String} of the specified node value {@link Object}.
-	 * <p>
+	 *
 	 * @param value the node value {@link Object} to represent as an entry {@link String} (may be
 	 *              {@code null})
-	 * <p>
 	 * @return an entry {@link String} of the specified node value {@link Object}
 	 */
 	public String stringifyNode(final Object value);
 
 	/**
 	 * Returns an entry {@link String} of the specified node key-value mapping.
-	 * <p>
+	 *
 	 * @param key   the key {@link String} of the node key-value mapping to represent as an entry
 	 *              {@link String} (may be {@code null})
 	 * @param value the value {@link Object} of the node key-value mapping to represent as an entry
 	 *              {@link String} (may be {@code null})
-	 * <p>
 	 * @return an entry {@link String} of the specified node key-value mapping
 	 */
 	public String stringifyNode(final String key, final Object value);
@@ -79,10 +75,9 @@ public interface Stringifier {
 
 	/**
 	 * Returns an entry {@link String} of the specified leaf value {@link Object}.
-	 * <p>
+	 *
 	 * @param value the leaf value {@link Object} to represent as an entry {@link String} (may be
 	 *              {@code null})
-	 * <p>
 	 * @return an entry {@link String} of the specified leaf value {@link Object}
 	 */
 	public String stringifyLeaf(final Object value);

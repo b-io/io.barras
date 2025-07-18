@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,9 +62,8 @@ public class Objects {
 	/**
 	 * Returns the name of the {@link Class} of the specified {@link Object}, {@code null}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
 	 * @return the name of the {@link Class} of the specified {@link Object}, {@code null} otherwise
 	 */
 	public static String getName(final Object object) {
@@ -73,9 +72,8 @@ public class Objects {
 
 	/**
 	 * Returns the name of the specified {@link Class}, {@code null} otherwise.
-	 * <p>
+	 *
 	 * @param c a {@link Class} (may be {@code null})
-	 * <p>
 	 * @return the name of the specified {@link Class}, {@code null} otherwise
 	 */
 	public static String getName(final Class<?> c) {
@@ -142,9 +140,8 @@ public class Objects {
 	/**
 	 * Tests whether the specified {@link Object} is {@code null} or its representative
 	 * {@link String} is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is {@code null} or its representative
 	 *         {@link String} is {@code null} or empty, {@code false} otherwise
 	 */
@@ -155,9 +152,8 @@ public class Objects {
 	/**
 	 * Tests whether the specified {@link Object} is non-{@code null} and its representative
 	 * {@link String} is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is non-{@code null} and its
 	 *         representative {@link String} is non-{@code null} and empty, {@code false} otherwise
 	 */
@@ -168,9 +164,8 @@ public class Objects {
 	/**
 	 * Tests whether the specified {@link Object} is non-{@code null} and its representative
 	 * {@link String} is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is non-{@code null} and its
 	 *         representative {@link String} is non-{@code null} and non-empty, {@code false}
 	 *         otherwise
@@ -198,10 +193,9 @@ public class Objects {
 
 	/**
 	 * Clones the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param <T>    the type of the object to clone
 	 * @param object the {@code T} object to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified {@code T} object, or {@code null} if it is {@code null} or
 	 *         not cloneable
 	 */
@@ -247,10 +241,9 @@ public class Objects {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Object a, final Object b) {
@@ -261,9 +254,8 @@ public class Objects {
 
 	/**
 	 * Returns the hash code value for the specified array.
-	 * <p>
+	 *
 	 * @param array the array of {@link Object} to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified array
 	 */
 	public static int hashCode(final Object... array) {
@@ -272,10 +264,9 @@ public class Objects {
 
 	/**
 	 * Returns the hash code value for the specified array at the specified depth.
-	 * <p>
+	 *
 	 * @param depth the depth to hash at
 	 * @param array the array of {@link Object} to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified array at the specified depth
 	 */
 	public static int hashCodeWith(final int depth, final Object... array) {
@@ -330,9 +321,8 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
 	 * it is {@code null}.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
 	 *         it is {@code null}
 	 */
@@ -377,10 +367,9 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code "null"} if
 	 * it is {@code null}, truncated to the specified length.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
 	 * @param length the length of the representative {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code "null"} if
 	 *         it is {@code null}, truncated to the specified length
 	 */
@@ -391,9 +380,8 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 * it is {@code null} or {@code "null"}.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 *         it is {@code null} or {@code "null"}
 	 */
@@ -405,10 +393,9 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 * it is {@code null} or {@code "null"}, truncated to the specified length.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
 	 * @param length the length of the representative {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or {@code null} if
 	 *         it is {@code null} or {@code "null"}, truncated to the specified length
 	 */
@@ -421,10 +408,9 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null}
 	 */
@@ -435,11 +421,10 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null}, truncated to the specified length.
-	 * <p>
+	 *
 	 * @param object        an {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
 	 * @param length        the length of the representative {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null}, truncated to the specified length
 	 */
@@ -451,10 +436,9 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null} or {@code "null"}.
-	 * <p>
+	 *
 	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null} or {@code "null"}
 	 */
@@ -467,11 +451,10 @@ public class Objects {
 	 * Returns a representative {@link String} of the specified {@link Object}, or
 	 * {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param object        the {@link Object} (may be {@code null})
 	 * @param defaultString the default {@link String} (may be {@code null})
 	 * @param length        the length of the representative {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Object}, or
 	 *         {@code defaultString} if it is {@code null} or {@code "null"}, truncated to the
 	 *         specified length
@@ -486,9 +469,8 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Exception}, or {@code "null"}
 	 * if it is {@code null}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Exception}, or {@code "null"}
 	 *         if it is {@code null}
 	 */
@@ -499,10 +481,9 @@ public class Objects {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Exception} with the specified
 	 * number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param exception              an {@link Exception} (may be {@code null})
 	 * @param stackTraceElementCount the number of {@link StackTraceElement} to add
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Exception} with the specified
 	 *         number of {@link StackTraceElement}, or {@code "null"} if it is {@code null}
 	 */

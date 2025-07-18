@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,7 +35,7 @@ import jupiter.common.util.Strings;
 
 /**
  * {@link Result} is a wrapper around an {@code O} output.
- * <p>
+ *
  * @param <O> the output type
  */
 public class Result<O>
@@ -78,7 +78,7 @@ public class Result<O>
 
 	/**
 	 * Constructs a {@link Result} with the specified {@code O} output.
-	 * <p>
+	 *
 	 * @param output the {@code O} output
 	 */
 	public Result(final O output) {
@@ -88,7 +88,7 @@ public class Result<O>
 
 	/**
 	 * Constructs a {@link Result} with the specified {@link Message}.
-	 * <p>
+	 *
 	 * @param message the {@link Message}
 	 */
 	public Result(final Message message) {
@@ -98,7 +98,7 @@ public class Result<O>
 
 	/**
 	 * Constructs a {@link Result} with the specified {@code O} output and {@link Message}.
-	 * <p>
+	 *
 	 * @param output  the {@code O} output
 	 * @param message the {@link Message}
 	 */
@@ -109,7 +109,7 @@ public class Result<O>
 
 	/**
 	 * Constructs a {@link Result} with the specified {@link Exception}.
-	 * <p>
+	 *
 	 * @param exception the {@link Exception}
 	 */
 	public Result(final Exception exception) {
@@ -124,7 +124,7 @@ public class Result<O>
 
 	/**
 	 * Returns the {@code O} output.
-	 * <p>
+	 *
 	 * @return the {@code O} output
 	 */
 	public O getOutput() {
@@ -133,7 +133,7 @@ public class Result<O>
 
 	/**
 	 * Returns the {@link Message}.
-	 * <p>
+	 *
 	 * @return the {@link Message}
 	 */
 	public Message getMessage() {
@@ -144,7 +144,7 @@ public class Result<O>
 
 	/**
 	 * Sets the {@code O} output.
-	 * <p>
+	 *
 	 * @param output an {@code O} output
 	 */
 	public void setOutput(final O output) {
@@ -153,7 +153,7 @@ public class Result<O>
 
 	/**
 	 * Sets the {@link Message}.
-	 * <p>
+	 *
 	 * @param message a {@link Message}
 	 */
 	public void setMessage(final Message message) {
@@ -167,9 +167,8 @@ public class Result<O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -189,11 +188,9 @@ public class Result<O>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -213,9 +210,8 @@ public class Result<O>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -228,7 +224,7 @@ public class Result<O>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

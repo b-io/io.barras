@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -130,7 +130,7 @@ public class KalmanFilter
 	/**
 	 * Updates the estimation {@code x}, the Kalman gain {@code K} and the state variance matrix
 	 * {@code P} (a posteriori).
-	 * <p>
+	 *
 	 * @param y the measurement {@link Entity}
 	 */
 	public void update(final Entity y) {

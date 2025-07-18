@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import jupiter.common.exception.IllegalClassException;
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.transform.ObjectToStringMapper;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.test.Arguments;
 
 public class Collections {
@@ -71,9 +71,8 @@ public class Collections {
 
 	/**
 	 * Returns the element {@link Class} of the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * <p>
 	 * @return the element {@link Class} of the specified {@link Collection}
 	 */
 	public static Class<?> getElementClass(final Collection<?> collection) {
@@ -95,13 +94,11 @@ public class Collections {
 
 	/**
 	 * Returns the element at the specified index in the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param <E>        the type of the element to return
 	 * @param collection a {@link Collection} of {@code E} element subtype
 	 * @param index      the index of the element to return
-	 * <p>
 	 * @return the element at the specified index in the specified {@link Collection}
-	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
 	public static <E> E get(final Collection<? extends E> collection, final int index)
@@ -123,11 +120,10 @@ public class Collections {
 	/**
 	 * Returns the first occurrence of the specified {@link Object} in the specified
 	 * {@link Collection}, {@code null} otherwise.
-	 * <p>
+	 *
 	 * @param <E>        the type of the element to return
 	 * @param collection a {@link Collection} of {@code E} element subtype
 	 * @param object     the {@link Object} to get (may be {@code null})
-	 * <p>
 	 * @return the first occurrence of the specified {@link Object} in the specified
 	 *         {@link Collection}, {@code null} otherwise
 	 */
@@ -148,11 +144,10 @@ public class Collections {
 	/**
 	 * Returns all the occurrences of the specified {@link Object} in the specified
 	 * {@link Collection} in an {@link ExtendedLinkedList}.
-	 * <p>
+	 *
 	 * @param <E>        the element type of the {@link ExtendedLinkedList} to return
 	 * @param collection a {@link Collection} of {@code E} element subtype
 	 * @param object     the {@link Object} to get (may be {@code null})
-	 * <p>
 	 * @return all the occurrences of the specified {@link Object} in the specified
 	 *         {@link Collection} in an {@link ExtendedLinkedList}
 	 */
@@ -181,11 +176,10 @@ public class Collections {
 	 * Returns an {@code E} array containing all the elements of the specified {@link Collection} in
 	 * the same order, or an empty array if the specified {@link Collection} is {@code null} or
 	 * empty.
-	 * <p>
+	 *
 	 * @param <E>        the element type of the array to return
 	 * @param collection the {@link Collection} of {@code E} element subtype to convert (may be
 	 *                   {@code null})
-	 * <p>
 	 * @return an {@code E} array containing all the elements of the specified {@link Collection} in
 	 *         the same order, or an empty array if the specified {@link Collection} is {@code null}
 	 *         or empty
@@ -201,9 +195,8 @@ public class Collections {
 	/**
 	 * Returns a primitive array converted from the specified {@link Collection}, or {@code null} if
 	 * the specified {@link Collection} is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert (may be {@code null})
-	 * <p>
 	 * @return a primitive array converted from the specified {@link Collection}, or {@code null} if
 	 *         the specified {@link Collection} is {@code null} or empty
 	 */
@@ -215,11 +208,10 @@ public class Collections {
 	 * Returns a primitive array of the specified element {@link Class} converted from the specified
 	 * {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is equal to
 	 * {@link Classes#OBJECT_CLASS}.
-	 * <p>
+	 *
 	 * @param c          the element {@link Class} of the {@link Collection} to convert (may be
 	 *                   {@code null})
 	 * @param collection the {@link Collection} to convert (may be {@code null})
-	 * <p>
 	 * @return a primitive array of the specified element {@link Class} converted from the specified
 	 *         {@link Collection}, or {@code null} if any of them is {@code null} or {@code c} is
 	 *         equal to {@link Classes#OBJECT_CLASS}
@@ -259,9 +251,8 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection}, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -276,11 +267,10 @@ public class Collections {
 
 	/**
 	 * Adds all the specified elements to the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param <T>        the type of the elements to add
 	 * @param collection a {@link Collection} of {@code T} element supertype
 	 * @param elements   the {@code T} elements to add
-	 * <p>
 	 * @return {@code true} if the specified {@link Collection} has changed as a result of the call,
 	 *         {@code false} otherwise
 	 */
@@ -301,10 +291,9 @@ public class Collections {
 
 	/**
 	 * Removes the element at the specified index from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection}
 	 * @param index      the index of the element to remove
-	 * <p>
 	 * @throws NoSuchElementException if the iteration has no more elements
 	 */
 	public static void remove(final Collection<?> collection, final int index) {
@@ -326,10 +315,9 @@ public class Collections {
 	/**
 	 * Removes the first occurrence of the specified {@link Object} from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection}
 	 * @param object     the {@link Object} to remove (may be {@code null})
-	 * <p>
 	 * @return the index of the removed element, or {@code -1} if it is not present
 	 */
 	public static int removeFirst(final Collection<?> collection, final Object object) {
@@ -352,10 +340,9 @@ public class Collections {
 	/**
 	 * Removes all the occurrences of the specified {@link Object} from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection}
 	 * @param object     the {@link Object} to remove (may be {@code null})
-	 * <p>
 	 * @return the indices of the removed elements
 	 */
 	public static int[] removeAll(final Collection<?> collection, final Object object) {
@@ -383,9 +370,8 @@ public class Collections {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Collection}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Collection},
 	 *         {@code false} otherwise
 	 */
@@ -395,9 +381,8 @@ public class Collections {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Collection}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Collection},
 	 *         {@code false} otherwise
 	 */
@@ -409,9 +394,8 @@ public class Collections {
 
 	/**
 	 * Tests whether the specified {@link Collection} is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is {@code null} or empty,
 	 *         {@code false} otherwise
 	 */
@@ -421,9 +405,8 @@ public class Collections {
 
 	/**
 	 * Tests whether the specified {@link Collection} is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -433,9 +416,8 @@ public class Collections {
 
 	/**
 	 * Tests whether the specified {@link Collection} is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -450,10 +432,9 @@ public class Collections {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Collection} to compare for equality (may be {@code null})
 	 * @param b the other{@link Collection} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Collection<?> a, final Collection<?> b) {
@@ -478,9 +459,8 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection}, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -491,10 +471,9 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified {@code char} delimiter, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
@@ -508,10 +487,9 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified delimiting {@link String}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
@@ -525,10 +503,9 @@ public class Collections {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
 	 * {@code wrapper}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
 	 *         {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
@@ -544,11 +521,10 @@ public class Collections {
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it
 	 * is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"}
 	 *         if it is {@code null}

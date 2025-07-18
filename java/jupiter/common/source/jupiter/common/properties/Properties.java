@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,7 +67,7 @@ public class Properties
 
 	/**
 	 * Constructs a {@link Properties} with the specified default {@link Properties}.
-	 * <p>
+	 *
 	 * @param defaultProperties the default {@link Properties} (may be {@code null})
 	 */
 	public Properties(final java.util.Properties defaultProperties) {
@@ -79,9 +79,8 @@ public class Properties
 
 	/**
 	 * Constructs a {@link Properties} loaded from the file denoted by the specified name.
-	 * <p>
+	 *
 	 * @param fileName the name of the file to load
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code fileName}
 	 */
 	public Properties(final String fileName)
@@ -92,7 +91,7 @@ public class Properties
 	/**
 	 * Constructs a {@link Properties} loaded from the file denoted by the specified name with the
 	 * specified default value {@link String}.
-	 * <p>
+	 *
 	 * @param fileName     the name of the file to load
 	 * @param defaultValue the default value {@link String} (may be {@code null})
 	 */
@@ -113,9 +112,8 @@ public class Properties
 	/**
 	 * Returns the property {@link String} (or default property {@link String} if it is not present)
 	 * associated to the specified key {@link String}, the default value {@link String} otherwise.
-	 * <p>
+	 *
 	 * @param key the key {@link String}
-	 * <p>
 	 * @return the property {@link String} (or default property {@link String} if it is not present)
 	 *         associated to the specified key {@link String}, the default value {@link String}
 	 *         otherwise
@@ -183,9 +181,8 @@ public class Properties
 	 * Returns the property array of {@link String} (or default property array of {@link String} if
 	 * it is not present) associated to the specified key {@link String}, the property array of
 	 * {@link String} of the default value {@link String} otherwise.
-	 * <p>
+	 *
 	 * @param key the key {@link String}
-	 * <p>
 	 * @return the property array of {@link String} (or default property array of {@link String} if
 	 *         it is not present) associated to the specified key {@link String}, the property array
 	 *         of {@link String} of the default value {@link String} otherwise
@@ -201,10 +198,9 @@ public class Properties
 	 * Returns the property array of {@link String} (or default property array of {@link String} if
 	 * it is not present) associated to the specified key {@link String}, the property array of
 	 * {@link String} of the specified default value {@link String} otherwise.
-	 * <p>
+	 *
 	 * @param key          the key {@link String}
 	 * @param defaultValue the default value {@link String} (may be {@code null})
-	 * <p>
 	 * @return the property array of {@link String} (or default property array of {@link String} if
 	 *         it is not present) associated to the specified key {@link String}, the property array
 	 *         of {@link String} of the specified default value {@link String} otherwise
@@ -234,9 +230,8 @@ public class Properties
 	 * Returns all the property {@link String} (or default property {@link String} if it is not
 	 * present) associated to the specified key {@link String} or the default value {@link String}
 	 * if it is not present in an array of {@link String}.
-	 * <p>
+	 *
 	 * @param keys the array of key {@link String}
-	 * <p>
 	 * @return all the property {@link String} (or default property {@link String} if it is not
 	 *         present) associated to the specified key {@link String} or the default value
 	 *         {@link String} if it is not present in an array of {@link String}
@@ -260,10 +255,9 @@ public class Properties
 	 * Returns all the property {@link String} associated to the specified key {@link String} and
 	 * the specified corresponding default value {@link String} for those that are not present in an
 	 * array of {@link String}.
-	 * <p>
+	 *
 	 * @param keys          the array of key {@link String}
 	 * @param defaultValues the array of corresponding default value {@link String}
-	 * <p>
 	 * @return all the property {@link String} associated to the specified key {@link String} and
 	 *         the specified corresponding default value {@link String} for those that are not
 	 *         present in an array of {@link String}
@@ -290,9 +284,8 @@ public class Properties
 
 	/**
 	 * Loads {@code this} from the file denoted by the specified name.
-	 * <p>
+	 *
 	 * @param fileName the name of the file to load
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code fileName}
 	 */
 	public void load(final String fileName)
@@ -307,9 +300,8 @@ public class Properties
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

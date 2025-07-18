@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -81,7 +81,7 @@ public class LogisticRegression
 
 	/**
 	 * Constructs a {@link LogisticRegression} with the specified number of features {@code n}.
-	 * <p>
+	 *
 	 * @param featureCount the number of features {@code n}
 	 */
 	public LogisticRegression(final int featureCount) {
@@ -91,11 +91,10 @@ public class LogisticRegression
 	/**
 	 * Constructs a {@link LogisticRegression} with the files denoted by the specified paths
 	 * containing the feature vectors and classes.
-	 * <p>
+	 *
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m}
 	 * @param classesPath        the path to the file containing the classes of size {@code m}
-	 * <p>
 	 * @throws IOException if there is a problem with reading the files denoted by
 	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
@@ -107,13 +106,12 @@ public class LogisticRegression
 	/**
 	 * Constructs a {@link LogisticRegression} with the files denoted by the specified paths
 	 * containing the feature vectors and classes.
-	 * <p>
+	 *
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
 	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
-	 * <p>
 	 * @throws IOException if there is a problem with reading the files denoted by
 	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
@@ -130,7 +128,7 @@ public class LogisticRegression
 
 	/**
 	 * Returns the {@link Vector} {@code W} containing the weights.
-	 * <p>
+	 *
 	 * @return the {@link Vector} {@code W} containing the weights
 	 */
 	public Vector getWeights() {
@@ -139,7 +137,7 @@ public class LogisticRegression
 
 	/**
 	 * Returns the {@link Scalar} {@code b} containing the bias.
-	 * <p>
+	 *
 	 * @return the {@link Scalar} {@code b} containing the bias
 	 */
 	public Scalar getBias() {
@@ -171,13 +169,12 @@ public class LogisticRegression
 
 	/**
 	 * Trains the model with the specified hyper-parameters.
-	 * <p>
+	 *
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
 	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
-	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
@@ -238,7 +235,7 @@ public class LogisticRegression
 
 	/**
 	 * Computes the cost.
-	 * <p>
+	 *
 	 * @return the cost
 	 */
 	@Override
@@ -254,9 +251,8 @@ public class LogisticRegression
 	/**
 	 * Returns the estimated probability of the binary response for all feature vector in {@code X}.
 	 * Computes the sigmoid of {@code Z = W X + b}.
-	 * <p>
+	 *
 	 * @param X the feature vectors of size {@code n x m}
-	 * <p>
 	 * @return the estimated probability of the binary response for all feature vector in {@code X}
 	 */
 	@Override
@@ -271,9 +267,8 @@ public class LogisticRegression
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

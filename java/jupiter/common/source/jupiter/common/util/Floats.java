@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,13 +31,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.map.parser.FloatParser;
-import jupiter.common.map.parser.IParsers;
+import jupiter.common.transform.ObjectToStringMapper;
+import jupiter.common.transform.converter.FloatConverter;
+import jupiter.common.transform.converter.IConverters;
 import jupiter.common.math.Maths;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.set.ExtendedHashSet;
 
 public class Floats {
 
@@ -53,7 +53,7 @@ public class Floats {
 	public static final Float[][] EMPTY_ARRAY_2D = new Float[][] {};
 	public static final Float[][][] EMPTY_ARRAY_3D = new Float[][][] {};
 
-	protected static final FloatParser PARSER = IParsers.FLOAT_PARSER;
+	protected static final FloatConverter CONVERTER = IConverters.FLOAT_CONVERTER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -103,10 +103,9 @@ public class Floats {
 	/**
 	 * Compares the specified {@code float} values for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code float} value to compare for order
 	 * @param b the other {@code float} value to compare against for order
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -131,10 +130,9 @@ public class Floats {
 	 * Compares the specified {@code float} arrays for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@code float} array to compare for order (may be {@code null})
 	 * @param b the other {@code float} array to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -168,9 +166,8 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} value converted from the specified {@code double} value.
-	 * <p>
+	 *
 	 * @param value the {@code double} value to convert
-	 * <p>
 	 * @return a {@code float} value converted from the specified {@code double} value
 	 */
 	public static float convert(final double value) {
@@ -182,36 +179,33 @@ public class Floats {
 
 	/**
 	 * Returns a {@link Float} converted from the specified {@link Object}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to convert (may be {@code null})
-	 * <p>
 	 * @return a {@link Float} converted from the specified {@link Object}
 	 */
 	public static Float convert(final Object object) {
-		return PARSER.call(object);
+		return CONVERTER.call(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code float} value converted from the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
-	 * <p>
 	 * @return a {@code float} value converted from the specified {@code T} object
 	 */
 	public static <T> float toPrimitive(final T object) {
-		return PARSER.callToPrimitive(object);
+		return CONVERTER.callToPrimitive(object);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code float} array converted from the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float... array) {
@@ -231,9 +225,8 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 2D {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float[]... array2D) {
@@ -257,9 +250,8 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified 3D {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 3D {@code float} array
 	 */
 	public static float[] toPrimitiveArray(final float[][]... array3D) {
@@ -289,22 +281,20 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[] array) {
-		return PARSER.callToPrimitiveArray(array);
+		return CONVERTER.callToPrimitiveArray(array);
 	}
 
 	/**
 	 * Returns a {@code float} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -314,22 +304,20 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray(array2D);
+		return CONVERTER.callToPrimitiveArray(array2D);
 	}
 
 	/**
 	 * Returns a {@code float} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -339,22 +327,20 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> float[] toPrimitiveArray(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray(array3D);
+		return CONVERTER.callToPrimitiveArray(array3D);
 	}
 
 	/**
 	 * Returns a {@code float} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -427,22 +413,20 @@ public class Floats {
 
 	/**
 	 * Returns a 2D {@code float} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code float} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> float[][] toPrimitiveArray2D(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray2D(array2D);
+		return CONVERTER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
 	 * Returns a 2D {@code float} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code float} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -522,22 +506,20 @@ public class Floats {
 
 	/**
 	 * Returns a 3D {@code float} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code float} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> float[][][] toPrimitiveArray3D(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray3D(array3D);
+		return CONVERTER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
 	 * Returns a 3D {@code float} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code float} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -549,22 +531,20 @@ public class Floats {
 
 	/**
 	 * Returns a {@code float} array converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return a {@code float} array converted from the specified {@link Collection}
 	 */
 	public static float[] collectionToPrimitiveArray(final Collection<?> collection) {
-		return PARSER.callCollectionToPrimitiveArray(collection);
+		return CONVERTER.callCollectionToPrimitiveArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Float} converted from the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an array of {@link Float} converted from the specified {@code float} array
 	 */
 	public static Float[] toArray(final float[] array) {
@@ -577,9 +557,8 @@ public class Floats {
 
 	/**
 	 * Returns an array of {@link Float} converted from the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an array of {@link Float} converted from the specified {@code float} array
 	 */
 	public static Float[] asArray(final float... array) {
@@ -590,9 +569,8 @@ public class Floats {
 
 	/**
 	 * Returns a 2D array of {@link Float} converted from the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Float} converted from the specified 2D {@code float} array
 	 */
 	public static Float[][] toArray2D(final float[][] array2D) {
@@ -605,9 +583,8 @@ public class Floats {
 
 	/**
 	 * Returns a 2D array of {@link Float} converted from the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Float} converted from the specified 2D {@code float} array
 	 */
 	public static Float[][] asArray2D(final float[]... array2D) {
@@ -618,9 +595,8 @@ public class Floats {
 
 	/**
 	 * Returns a 3D array of {@link Float} converted from the specified 3D {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Float} converted from the specified 3D {@code float} array
 	 */
 	public static Float[][][] toArray3D(final float[][][] array3D) {
@@ -633,9 +609,8 @@ public class Floats {
 
 	/**
 	 * Returns a 3D array of {@link Float} converted from the specified 3D {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Float} converted from the specified 3D {@code float} array
 	 */
 	public static Float[][][] asArray3D(final float[][]... array3D) {
@@ -646,13 +621,12 @@ public class Floats {
 
 	/**
 	 * Returns an array of {@link Float} converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an array of {@link Float} converted from the specified {@link Collection}
 	 */
 	public static Float[] collectionToArray(final Collection<?> collection) {
-		return PARSER.callCollectionToArray(collection);
+		return CONVERTER.callCollectionToArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -660,22 +634,20 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
 	 *         array
 	 */
 	public static ExtendedList<Float> toList(final float[] array) {
-		return PARSER.callToList(toArray(array));
+		return CONVERTER.callToList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code float}
 	 *         array
 	 */
@@ -686,22 +658,20 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 *         {@code float} array
 	 */
 	public static ExtendedLinkedList<Float> toLinkedList(final float[] array) {
-		return PARSER.callToLinkedList(toArray(array));
+		return CONVERTER.callToLinkedList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 *         {@code float} array
 	 */
@@ -714,23 +684,21 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Float> toList(final T[] array) {
-		return PARSER.callToList(array);
+		return CONVERTER.callToList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -741,24 +709,22 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Float> toLinkedList(final T[] array) {
-		return PARSER.callToLinkedList(array);
+		return CONVERTER.callToLinkedList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified {@code T}
 	 *         array
 	 */
@@ -772,28 +738,26 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Float} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Float} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedList<Float> collectionToList(final Collection<?> collection) {
-		return PARSER.callCollectionToList(collection);
+		return CONVERTER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Float} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Float> collectionToLinkedList(
 			final Collection<?> collection) {
-		return PARSER.callCollectionToLinkedList(collection);
+		return CONVERTER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -801,22 +765,20 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 *         {@code float} array
 	 */
 	public static ExtendedHashSet<Float> toSet(final float[] array) {
-		return PARSER.callToSet(toArray(array));
+		return CONVERTER.callToSet(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 *         {@code float} array
 	 */
@@ -829,24 +791,22 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedHashSet<Float> toSet(final T[] array) {
-		return PARSER.callToSet(array);
+		return CONVERTER.callToSet(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified {@code T}
 	 *         array
 	 */
@@ -860,14 +820,13 @@ public class Floats {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Float} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Float> collectionToSet(final Collection<?> collection) {
-		return PARSER.callCollectionToSet(collection);
+		return CONVERTER.callCollectionToSet(collection);
 	}
 
 
@@ -877,9 +836,8 @@ public class Floats {
 
 	/**
 	 * Returns the formatted representative {@link String} of the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value a {@code float} value
-	 * <p>
 	 * @return the formatted representative {@link String} of the specified {@code float} value
 	 */
 	public static String format(final float value) {
@@ -890,9 +848,8 @@ public class Floats {
 
 	/**
 	 * Returns the percentage representative {@link String} of the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value a {@code float} value
-	 * <p>
 	 * @return the percentage representative {@link String} of the specified {@code float} value
 	 */
 	public static String formatPercent(final float value) {
@@ -907,9 +864,8 @@ public class Floats {
 	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
 	 * starting with {@code 0f} and spaced by {@code 1f}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
-	 * <p>
 	 * @return a {@code float} array of the specified length containing the sequence of numbers
 	 *         starting with {@code 0f} and spaced by {@code 1f}
 	 */
@@ -920,10 +876,9 @@ public class Floats {
 	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code 1f}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
-	 * <p>
 	 * @return a {@code float} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code 1f}
 	 */
@@ -934,11 +889,10 @@ public class Floats {
 	/**
 	 * Creates a {@code float} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code step}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
-	 * <p>
 	 * @return a {@code float} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code step}
 	 */
@@ -955,9 +909,8 @@ public class Floats {
 
 	/**
 	 * Creates a random {@code float} array of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
-	 * <p>
 	 * @return a random {@code float} array of the specified length
 	 */
 	public static float[] createRandomSequence(final int length) {
@@ -971,11 +924,10 @@ public class Floats {
 	/**
 	 * Creates a {@code float} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code float} values between the specified bounds.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
 	 * @param from   the {@code float} lower bound of the random sequence to create (inclusive)
 	 * @param to     the {@code float} upper bound of the random sequence to create (exclusive)
-	 * <p>
 	 * @return a {@code float} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code float} values between the specified bounds
 	 */
@@ -992,7 +944,7 @@ public class Floats {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
 	 * {@code 1f}.
-	 * <p>
+	 *
 	 * @return a pseudorandom, uniformly distributed {@code float} value between {@code 0f} and
 	 *         {@code 1f}
 	 */
@@ -1003,10 +955,9 @@ public class Floats {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code float} value between the specified
 	 * bounds.
-	 * <p>
+	 *
 	 * @param from the {@code float} lower bound of the value to generate (inclusive)
 	 * @param to   the {@code float} upper bound of the value to generate (exclusive)
-	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code float} value between the specified
 	 *         bounds
 	 */
@@ -1019,10 +970,9 @@ public class Floats {
 	/**
 	 * Creates a {@code float} array of the specified length with the specified {@code float}
 	 * element.
-	 * <p>
+	 *
 	 * @param element the {@code float} element of the {@code float} array to create
 	 * @param length  the length of the {@code float} array to create
-	 * <p>
 	 * @return a {@code float} array of the specified length with the specified {@code float}
 	 *         element
 	 */
@@ -1038,10 +988,9 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array containing the specified {@code float} value and all the
 	 * elements of the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param a a {@code float} value
 	 * @param b another {@code float} array (may be {@code null})
-	 * <p>
 	 * @return a {@code float} array containing the specified {@code float} value and all the
 	 *         elements of the specified {@code float} array
 	 */
@@ -1052,10 +1001,9 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array containing all the elements of the specified {@code float}
 	 * arrays.
-	 * <p>
+	 *
 	 * @param a a {@code float} array (may be {@code null})
 	 * @param b another {@code float} array (may be {@code null})
-	 * <p>
 	 * @return a {@code float} array containing all the elements of the specified {@code float}
 	 *         arrays
 	 */
@@ -1078,9 +1026,8 @@ public class Floats {
 
 	/**
 	 * Returns the number of elements in the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 2D {@code float} array
 	 */
 	public static int count(final float[][] array2D) {
@@ -1095,9 +1042,8 @@ public class Floats {
 
 	/**
 	 * Returns the number of elements in the specified 3D {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 3D {@code float} array
 	 */
 	public static int count(final float[][][] array3D) {
@@ -1115,10 +1061,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} token in the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to count from (may be {@code null})
 	 * @param token the {@code float} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified
 	 *         {@code float} array
 	 */
@@ -1136,10 +1081,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} token in the specified 2D
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
 	 * @param token   the {@code float} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified 2D
 	 *         {@code float} array
 	 */
@@ -1156,10 +1100,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} token in the specified 3D
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
 	 * @param token   the {@code float} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} token in the specified 3D
 	 *         {@code float} array
 	 */
@@ -1178,10 +1121,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} tokens in the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array  the {@code float} array to count from (may be {@code null})
 	 * @param tokens the {@code float} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified
 	 *         {@code float} array
 	 */
@@ -1198,10 +1140,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} tokens in the specified 2D
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to count from (may be {@code null})
 	 * @param tokens  the {@code float} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified 2D
 	 *         {@code float} array
 	 */
@@ -1218,10 +1159,9 @@ public class Floats {
 	/**
 	 * Returns the number of occurrences of the specified {@code float} tokens in the specified 3D
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to count from (may be {@code null})
 	 * @param tokens  the {@code float} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code float} tokens in the specified 3D
 	 *         {@code float} array
 	 */
@@ -1263,10 +1203,9 @@ public class Floats {
 	/**
 	 * Returns a {@code float} array containing all the elements of the specified {@code float}
 	 * array at the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code float} array to filter from
 	 * @param indices the indices to filter
-	 * <p>
 	 * @return a {@code float} array containing all the elements of the specified {@code float}
 	 *         array at the specified indices
 	 */
@@ -1281,10 +1220,9 @@ public class Floats {
 	/**
 	 * Returns a 2D {@code float} array containing all the elements of the specified {@code float}
 	 * array at all the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code float} array to filter from
 	 * @param indices the array of indices to filter
-	 * <p>
 	 * @return a 2D {@code float} array containing all the elements of the specified {@code float}
 	 *         array at all the specified indices
 	 */
@@ -1300,9 +1238,8 @@ public class Floats {
 
 	/**
 	 * Returns the middle of the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value a {@code float} value
-	 * <p>
 	 * @return the middle of the specified {@code float} value
 	 */
 	public static float middle(final float value) {
@@ -1311,10 +1248,9 @@ public class Floats {
 
 	/**
 	 * Returns the middle of the specified {@code float} lower and upper bounds.
-	 * <p>
+	 *
 	 * @param from a {@code float} value
 	 * @param to   another {@code float} value
-	 * <p>
 	 * @return the middle of the specified {@code float} lower and upper bounds
 	 */
 	public static float middle(final float from, final float to) {
@@ -1325,10 +1261,9 @@ public class Floats {
 
 	/**
 	 * Removes the element at the specified index from the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to remove from
 	 * @param index the index of the element to remove
-	 * <p>
 	 * @return the specified {@code float} array without the element at the specified index
 	 */
 	public static float[] remove(final float[] array, final int index) {
@@ -1341,10 +1276,9 @@ public class Floats {
 	/**
 	 * Removes all the occurrences of the specified {@code float} value from the specified
 	 * {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to remove from
 	 * @param value the {@code float} value to remove (may be {@code null})
-	 * <p>
 	 * @return the specified {@code float} array without the specified {@code float} value
 	 */
 	public static float[] removeAll(final float[] array, final float value) {
@@ -1375,7 +1309,7 @@ public class Floats {
 
 	/**
 	 * Shuffles the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to shuffle
 	 */
 	public static void shuffle(final float... array) {
@@ -1384,7 +1318,7 @@ public class Floats {
 
 	/**
 	 * Shuffles the specified {@code float} array between the specified indices.
-	 * <p>
+	 *
 	 * @param array     the {@code float} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)
 	 * @param toIndex   the index to finish shuffling at (exclusive)
@@ -1487,10 +1421,9 @@ public class Floats {
 
 	/**
 	 * Returns the transpose of the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param rowCount the number of rows of the {@code float} array
 	 * @param array    a {@code float} array
-	 * <p>
 	 * @return the transpose of the specified {@code float} array
 	 */
 	public static float[] transpose(final int rowCount, final float... array) {
@@ -1507,9 +1440,8 @@ public class Floats {
 
 	/**
 	 * Returns the transpose of the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to convert
-	 * <p>
 	 * @return the transpose of the specified 2D {@code float} array
 	 */
 	public static float[][] transpose(final float[]... array2D) {
@@ -1590,9 +1522,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Float}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Float},
 	 *         {@code false} otherwise
 	 */
@@ -1603,9 +1534,8 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code float} value or a
 	 * {@link Float}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value or
 	 *         a {@link Float}, {@code false} otherwise
 	 */
@@ -1615,9 +1545,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code float} value.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} value,
 	 *         {@code false} otherwise
 	 */
@@ -1627,9 +1556,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@code float} array.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@code float} array,
 	 *         {@code false} otherwise
 	 */
@@ -1639,9 +1567,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code float} array.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code float} array,
 	 *         {@code false} otherwise
 	 */
@@ -1653,9 +1580,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@code float} value is finite.
-	 * <p>
+	 *
 	 * @param value the {@code float} value to test
-	 * <p>
 	 * @return {@code true} if the specified {@code float} value is finite, {@code false} otherwise
 	 */
 	public static boolean isFinite(final float value) {
@@ -1666,9 +1592,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@code float} array is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is {@code null} or empty,
 	 *         {@code false} otherwise
 	 */
@@ -1678,9 +1603,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@code float} array is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -1690,9 +1614,8 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@code float} array is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -1705,11 +1628,10 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value the {@code float} value to test
 	 * @param from  the {@code float} lower bound to test against (inclusive)
 	 * @param to    the {@code float} upper bound to test against (exclusive)
-	 * <p>
 	 * @return {@code true} if the specified {@code float} value is between the specified
 	 *         {@code float} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1720,12 +1642,11 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code float} value to test
 	 * @param from             the {@code float} lower bound to test against (inclusive)
 	 * @param to               the {@code float} upper bound to test against
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code float} value is between the specified
 	 *         {@code float} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1737,13 +1658,12 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} value is between the specified {@code float} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code float} value to test
 	 * @param from             the {@code float} lower bound to test against
 	 * @param to               the {@code float} upper bound to test against
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code float} value is between the specified
 	 *         {@code float} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1758,13 +1678,12 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is between the specified lower and upper
 	 * bound {@code float} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array the {@code float} array to test (may be {@code null})
 	 * @param from  the lower bound {@code float} array to test against (inclusive) (may be
 	 *              {@code null})
 	 * @param to    the upper bound {@code float} array to test against (exclusive) (may be
 	 *              {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is between the specified lower and
 	 *         upper bound {@code float} arrays, {@code false} otherwise
 	 */
@@ -1775,14 +1694,13 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is between the specified lower and upper
 	 * bound {@code float} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code float} array to test (may be {@code null})
 	 * @param from             the lower bound {@code float} array to test against (inclusive) (may
 	 *                         be {@code null})
 	 * @param to               the upper bound {@code float} array to test against (may be
 	 *                         {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is between the specified lower and
 	 *         upper bound {@code float} arrays, {@code false} otherwise
 	 */
@@ -1794,7 +1712,7 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array is between the specified lower and upper
 	 * bound {@code float} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code float} array to test (may be {@code null})
 	 * @param from             the lower bound {@code float} array to test against (may be
 	 *                         {@code null})
@@ -1802,7 +1720,6 @@ public class Floats {
 	 *                         {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array is between the specified lower and
 	 *         upper bound {@code float} arrays, {@code false} otherwise
 	 */
@@ -1816,10 +1733,9 @@ public class Floats {
 
 	/**
 	 * Tests whether the specified {@code float} array contains the specified {@code float} token.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to test (may be {@code null})
 	 * @param token the {@code float} token to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array contains the specified
 	 *         {@code float} token, {@code false} otherwise
 	 */
@@ -1830,10 +1746,9 @@ public class Floats {
 	/**
 	 * Tests whether the specified {@code float} array contains any of the specified {@code float}
 	 * tokens.
-	 * <p>
+	 *
 	 * @param array  the {@code float} array to test (may be {@code null})
 	 * @param tokens the {@code float} tokens to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code float} array contains any of the specified
 	 *         {@code float} tokens, {@code false} otherwise
 	 */
@@ -1855,9 +1770,8 @@ public class Floats {
 
 	/**
 	 * Returns a clone of the specified {@code float} array, or {@code null} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified {@code float} array, or {@code null} if it is {@code null}
 	 */
 	public static float[] clone(final float... array) {
@@ -1872,9 +1786,8 @@ public class Floats {
 
 	/**
 	 * Clones the specified 2D {@code float} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code float} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 2D {@code float} array, or {@code null} if it is
 	 *         {@code null}
 	 */
@@ -1895,9 +1808,8 @@ public class Floats {
 
 	/**
 	 * Clones the specified 3D {@code float} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code float} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 3D {@code float} array, or {@code null} if it is
 	 *         {@code null}
 	 */
@@ -1921,10 +1833,9 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code float} value to compare for equality
 	 * @param b the other {@code float} value to compare against for equality
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final float a, final float b) {
@@ -1933,11 +1844,10 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param a         the {@code float} value to compare for equality
 	 * @param b         the other {@code float} value to compare against for equality
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
@@ -1949,10 +1859,9 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code float} array to compare for equality (may be {@code null})
 	 * @param b the other {@code float} array to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final float[] a, final float[] b) {
@@ -1973,12 +1882,11 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param a         the {@code float} array to compare for equality (may be {@code null})
 	 * @param b         the other {@code float} array to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
@@ -2000,11 +1908,10 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 2D {@code float} array to compare for equality (may be {@code null})
 	 * @param b the other 2D {@code float} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final float[][] a, final float[][] b) {
@@ -2025,12 +1932,11 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param a         the 2D {@code float} array to compare for equality (may be {@code null})
 	 * @param b         the other 2D {@code float} array to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
@@ -2053,11 +1959,10 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 3D {@code float} array to compare for equality (may be {@code null})
 	 * @param b the other 3D {@code float} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final float[][][] a, final float[][][] b) {
@@ -2078,12 +1983,11 @@ public class Floats {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param a         the 3D {@code float} array to compare for equality (may be {@code null})
 	 * @param b         the other 3D {@code float} array to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
@@ -2108,9 +2012,8 @@ public class Floats {
 
 	/**
 	 * Returns the hash code value for the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code float} array
 	 */
 	public static int hashCode(final float... array) {
@@ -2119,10 +2022,9 @@ public class Floats {
 
 	/**
 	 * Returns the hash code value for the specified {@code float} array at the specified depth.
-	 * <p>
+	 *
 	 * @param depth the depth to hash at
 	 * @param array the {@code float} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code float} array at the specified depth
 	 */
 	public static int hashCodeWith(final int depth, final float... array) {
@@ -2149,9 +2051,8 @@ public class Floats {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array.
-	 * <p>
+	 *
 	 * @param array the {@code float} array to convert
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array
 	 */
 	public static String toString(final float... array) {
@@ -2161,10 +2062,9 @@ public class Floats {
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array joined with the
 	 * specified {@code char} delimiter.
-	 * <p>
+	 *
 	 * @param array     a {@code float} array
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array joined with the
 	 *         specified {@code char} delimiter
 	 */
@@ -2175,10 +2075,9 @@ public class Floats {
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array joined with the
 	 * specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array joined with the
 	 *         specified delimiting {@link String}
 	 */
@@ -2189,10 +2088,9 @@ public class Floats {
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array wrapped by
 	 * {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array   a {@code float} array
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array wrapped by
 	 *         {@code wrapper}
 	 */
@@ -2203,11 +2101,10 @@ public class Floats {
 	/**
 	 * Returns a representative {@link String} of the specified {@code float} array joined with the
 	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array     a {@code float} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code float} array joined with the
 	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */

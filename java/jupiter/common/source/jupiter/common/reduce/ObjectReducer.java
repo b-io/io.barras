@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ import jupiter.common.model.ICloneable;
 
 /**
  * {@link ObjectReducer} is the {@link Reducer} reducing an input array to an {@code O} output.
- * <p>
+ *
  * @param <O> the output type
  */
 public abstract class ObjectReducer<O>
@@ -57,7 +57,7 @@ public abstract class ObjectReducer<O>
 	/**
 	 * Constructs an {@link ObjectReducer} of {@code O} type with the specified output
 	 * {@link Class}.
-	 * <p>
+	 *
 	 * @param c the output {@link Class} of {@code O} type
 	 */
 	protected ObjectReducer(final Class<O> c) {
@@ -79,9 +79,8 @@ public abstract class ObjectReducer<O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

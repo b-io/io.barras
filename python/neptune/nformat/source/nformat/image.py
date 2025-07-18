@@ -10,31 +10,12 @@
 #    Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2022 Florian Barras <https://barras.io>.
+#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 import base64
-
-from nutil.math import (
-    DEFAULT_ENCODING,
-    DEFAULT_HEIGHT,
-    DEFAULT_WIDTH,
-    SHORT_ELEMENT_TYPE,
-    collapse,
-    create_random_short_array,
-    cv2,
-    is_empty,
-    is_null,
-    is_string,
-    mean,
-    np,
-    paste,
-    read_bytes,
-    rgb_to_hsv,
-    simplify,
-    to_float,
-)
+import cv2
 
 ####################################################################################################
 # IMAGE CONSTANTS

@@ -1,0 +1,284 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package jupiter.common.struct.collection.list;
+
+import java.util.Collection;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.util.Objects;
+
+/**
+ * {@link SynchronizedList} is the synchronized {@link ExtendedList} of {@code E} element type.
+ *
+ * @param <E> the element type of the {@link SynchronizedList}
+ */
+public class SynchronizedList<E>
+		extends ExtendedList<E> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an empty {@link SynchronizedList} of {@code E} element type by default.
+	 */
+	public SynchronizedList() {
+		super();
+	}
+
+	/**
+	 * Constructs an empty {@link SynchronizedList} of {@code E} element type with the specified
+	 * initial capacity.
+	 *
+	 * @param initialCapacity the initial capacity
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public SynchronizedList(final int initialCapacity) {
+		super(initialCapacity);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs a {@link SynchronizedList} of {@code E} element type with the specified elements.
+	 *
+	 * @param elements an {@code E} array
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	public SynchronizedList(final E... elements) {
+		super(elements);
+	}
+
+	/**
+	 * Constructs a {@link SynchronizedList} of {@code E} element type with the elements of the
+	 * specified {@link Collection}.
+	 *
+	 * @param elements a {@link Collection} of {@code E} element subtype
+	 */
+	public SynchronizedList(final Collection<? extends E> elements) {
+		super(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements from {@code this}.
+	 */
+	@Override
+	public synchronized void clear() {
+		super.clear();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Appends the specified element to the end of {@code this}.
+	 *
+	 * @param element the {@code E} element to append
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean add(final E element) {
+		return super.add(element);
+	}
+
+	/**
+	 * Inserts the specified element at the specified index into {@code this}. Shifts the element
+	 * currently at that position (if any) and any subsequent elements to the right (adds one to
+	 * their indices).
+	 *
+	 * @param index   the index to insert at
+	 * @param element the {@code E} element to insert
+	 */
+	@Override
+	public synchronized void add(final int index, final E element) {
+		super.add(index, element);
+	}
+
+	/**
+	 * Appends all the specified elements to the end of {@code this}.
+	 *
+	 * @param <T>      the type of the elements to append ({@code E} subtype)
+	 * @param elements the {@code T} elements to append
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized <T extends E> boolean addAll(final T[] elements) {
+		return super.<T>addAll(elements);
+	}
+
+	/**
+	 * Appends all the elements of the specified {@link Collection} to the end of {@code this}.
+	 *
+	 * @param elements the {@link Collection} containing the {@code E} elements to append
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean addAll(final Collection<? extends E> elements) {
+		return super.addAll(elements);
+	}
+
+	/**
+	 * Inserts all the elements of the specified {@link Collection} into {@code this}, starting from
+	 * the specified index. Shifts the element currently at that position (if any) and any
+	 * subsequent elements to the right (increases their indices).
+	 *
+	 * @param index    the index to insert at
+	 * @param elements the {@link Collection} containing the {@code E} elements to insert
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean addAll(final int index, final Collection<? extends E> elements) {
+		return super.addAll(index, elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the element at the specified index from {@code this}.
+	 *
+	 * @param index the index of the element to remove (may be {@code null})
+	 * @return the removed element
+	 * @throws IndexOutOfBoundsException if {@code index} is out of bounds
+	 */
+	@Override
+	public synchronized E remove(final int index) {
+		return super.remove(index);
+	}
+
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean remove(final Object object) {
+		return super.remove(object);
+	}
+
+	/**
+	 * Removes all the elements that are contained in the specified {@link Collection} from
+	 * {@code this}.
+	 *
+	 * @param collection the {@link Collection} to remove (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean removeAll(final Collection<?> collection) {
+		return super.removeAll(collection);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	@Override
+	public synchronized int removeFirst(final Object object) {
+		return super.removeFirst(object);
+	}
+
+	/**
+	 * Removes the last occurrence of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	@Override
+	public synchronized int removeLast(final Object object) {
+		return super.removeLast(object);
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return the indices of the removed elements
+	 */
+	@Override
+	public synchronized int[] removeAll(final Object object) {
+		return super.removeAll(object);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements that are not contained in the specified {@link Collection} from
+	 * {@code this}.
+	 *
+	 * @param collection the {@link Collection} to retain (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public synchronized boolean retainAll(final Collection<?> collection) {
+		return super.retainAll(collection);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 *
+	 * @return a clone of {@code this}
+	 * @see ICloneable
+	 */
+	@Override
+	public SynchronizedList<E> clone() {
+		final SynchronizedList<E> clone = new SynchronizedList<E>(size());
+		for (final E element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
+	}
+}

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,7 @@ import org.jfree.data.xy.XYDataset;
 /**
  * {@link XYRangeAxisDataset} is the {@code D} dataset (subtype of {@link XYDataset}) associated to
  * a range {@link ValueAxis}.
- * <p>
+ *
  * @param <D> the type of the dataset (subtype of {@link XYDataset})
  */
 public class XYRangeAxisDataset<D extends XYDataset>
@@ -75,7 +75,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 	/**
 	 * Constructs a {@link XYRangeAxisDataset} of {@code D} type with the specified range label and
 	 * {@code D} dataset.
-	 * <p>
+	 *
 	 * @param yLabel  the range label
 	 * @param dataset the {@code D} dataset
 	 */
@@ -86,7 +86,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 	/**
 	 * Constructs a {@link XYRangeAxisDataset} of {@code D} type with the specified range
 	 * {@link ValueAxis} and {@code D} dataset.
-	 * <p>
+	 *
 	 * @param yAxis   the range {@link ValueAxis}
 	 * @param dataset the {@code D} dataset
 	 */
@@ -102,7 +102,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Returns the range {@link ValueAxis}.
-	 * <p>
+	 *
 	 * @return the range {@link ValueAxis}
 	 */
 	public ValueAxis getRangeAxis() {
@@ -111,7 +111,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Returns the {@code D} dataset.
-	 * <p>
+	 *
 	 * @return the {@code D} dataset
 	 */
 	public D getDataset() {
@@ -122,7 +122,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Returns the range label.
-	 * <p>
+	 *
 	 * @return the range label
 	 */
 	public String getLabel() {
@@ -136,9 +136,8 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -155,11 +154,9 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -180,9 +177,8 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -195,7 +191,7 @@ public class XYRangeAxisDataset<D extends XYDataset>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

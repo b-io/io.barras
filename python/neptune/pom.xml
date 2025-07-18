@@ -21,9 +21,11 @@
 	<!-- Project Settings -->
 	<modules>
 		<module>nfin</module>
+		<module>nformat</module>
 		<module>ngui</module>
 		<module>nlearn</module>
 		<module>nmath</module>
+		<module>nserve</module>
 		<module>nutil</module>
 	</modules>
 </project>

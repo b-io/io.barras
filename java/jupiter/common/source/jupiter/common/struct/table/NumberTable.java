@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,7 @@ package jupiter.common.struct.table;
 
 import java.io.IOException;
 
-import jupiter.common.map.parser.IParser;
+import jupiter.common.transform.converter.IConverter;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.model.ICloneable;
@@ -35,7 +35,7 @@ import jupiter.common.util.Objects;
 
 /**
  * {@link NumberTable} is the {@link Table} of {@code E} element type (subtype of {@link Number}).
- * <p>
+ *
  * @param <E> the element type of the {@link Table} (subtype of {@link Number})
  */
 public class NumberTable<E extends Number>
@@ -58,7 +58,7 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with the specified numbers of rows
 	 * and columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
@@ -70,7 +70,7 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header and
 	 * numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param header      an array of {@link String} (may be {@code null})
 	 * @param rowCount    the number of rows
@@ -84,7 +84,7 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with the specified index, header
 	 * and numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param c           the {@link Class} of {@code E} element type
 	 * @param index       an array of {@link Object} (may be {@code null})
 	 * @param header      an array of {@link String} (may be {@code null})
@@ -100,7 +100,7 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with the specified elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param elements a 2D {@code E} array
 	 */
@@ -111,7 +111,7 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with the specified header and
 	 * elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param header   an array of {@link String}
 	 * @param elements a 2D {@code E} array
@@ -123,7 +123,7 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type with specified index, header and
 	 * elements.
-	 * <p>
+	 *
 	 * @param c        the {@link Class} of {@code E} element type
 	 * @param index    an array of {@link Object} (may be {@code null})
 	 * @param header   an array of {@link String}
@@ -139,16 +139,15 @@ public class NumberTable<E extends Number>
 	/**
 	 * Constructs a {@link NumberTable} of {@code E} element type loaded from the file denoted by
 	 * the specified path.
-	 * <p>
-	 * @param parser    an {@link IParser} of {@code E} element type
+	 *
+	 * @param converter    an {@link IConverter} of {@code E} element type
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
-	public NumberTable(final IParser<E> parser, final String path, final boolean hasHeader)
+	public NumberTable(final IConverter<E> converter, final String path, final boolean hasHeader)
 			throws IOException {
-		super(parser, path, hasHeader);
+		super(converter, path, hasHeader);
 	}
 
 
@@ -158,7 +157,7 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Returns the means computed for each row.
-	 * <p>
+	 *
 	 * @return the means computed for each row
 	 */
 	public double[] getRowMeans() {
@@ -171,7 +170,7 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Returns the means computed for each column.
-	 * <p>
+	 *
 	 * @return the means computed for each column
 	 */
 	public double[] getColumnMeans() {
@@ -189,9 +188,8 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -203,11 +201,9 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -217,11 +213,10 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link Object} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -256,9 +251,8 @@ public class NumberTable<E extends Number>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

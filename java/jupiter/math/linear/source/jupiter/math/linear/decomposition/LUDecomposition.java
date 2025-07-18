@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,18 +34,18 @@ import jupiter.math.linear.test.MatrixArguments;
 
 /**
  * {@link LUDecomposition} performs a LU decomposition on a {@link Matrix}.
- * <p>
+ *
  * For a {@code m x n} matrix {@code A} with {@code m {@literal >}= n}, the LU decomposition is a
  * {@code m x n} unit lower triangular matrix {@code L}, a {@code n x n} upper triangular matrix
  * {@code U} and a permutation vector {@code pivot} of length {@code m} so that
  * {@code A(pivot, :) = L U}. If {@code m {@literal <} n}, then {@code L} is {@code m x m} and
  * {@code U} is {@code m x n}.
- * <p>
+ *
  * The LU decomposition with pivoting always exists, even if the matrix is singular, so the
  * constructor never fails. The primary use of the LU decomposition is in the solution of square
  * systems of simultaneous linear equations. This fails if the method {@link #isSingular} returns
  * {@code true}.
- * <p>
+ *
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -96,9 +96,8 @@ public class LUDecomposition
 	 * Constructs a {@link LUDecomposition} of the specified rectangular {@link Matrix}. Performs
 	 * the "left-looking", dot product, Crout/Doolittle algorithm and sets {@code LU} and
 	 * {@code pivot}.
-	 * <p>
+	 *
 	 * @param A the rectangular {@link Matrix} to decompose
-	 * <p>
 	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public LUDecomposition(final Matrix A) {
@@ -175,7 +174,7 @@ public class LUDecomposition
 
 	/**
 	 * Tests whether {@code U} (and hence {@code A}) is singular.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code U} (and hence {@code A}) is singular, {@code false} otherwise
 	 */
 	public boolean isSingular() {
@@ -189,7 +188,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the lower triangular factor {@code L}.
-	 * <p>
+	 *
 	 * @return the lower triangular factor {@code L}
 	 */
 	public Matrix getL() {
@@ -210,7 +209,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the unpivoted lower triangular factor.
-	 * <p>
+	 *
 	 * @return the unpivoted lower triangular factor
 	 */
 	public Matrix getUnpivotedL() {
@@ -219,7 +218,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the upper triangular factor {@code U}.
-	 * <p>
+	 *
 	 * @return the upper triangular factor {@code U}
 	 */
 	public Matrix getU() {
@@ -238,7 +237,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the pivot permutation vector {@code pivot}.
-	 * <p>
+	 *
 	 * @return the pivot permutation vector {@code pivot}
 	 */
 	public int[] getPivot() {
@@ -249,7 +248,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the pivot permutation vector {@code pivot} as a {@code double} array.
-	 * <p>
+	 *
 	 * @return the pivot permutation vector {@code pivot} as a {@code double} array
 	 */
 	public double[] getDoublePivot() {
@@ -262,7 +261,7 @@ public class LUDecomposition
 
 	/**
 	 * Returns the determinant of {@code A}.
-	 * <p>
+	 *
 	 * @return the determinant of {@code A}
 	 */
 	public double det() {
@@ -280,11 +279,9 @@ public class LUDecomposition
 
 	/**
 	 * Returns the solution of {@code A X = B}.
-	 * <p>
+	 *
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
-	 * <p>
 	 * @return {@code X} so that {@code L U X = B(pivot, :)}
-	 * <p>
 	 * @throws IllegalArgumentException if the matrix row dimensions do not agree
 	 */
 	public Matrix solve(final Matrix B) {

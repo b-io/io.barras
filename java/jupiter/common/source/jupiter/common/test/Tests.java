@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -140,9 +140,8 @@ public class Tests {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Test}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Test},
 	 *         {@code false} otherwise
 	 */
@@ -152,9 +151,8 @@ public class Tests {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Test}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Test},
 	 *         {@code false} otherwise
 	 */

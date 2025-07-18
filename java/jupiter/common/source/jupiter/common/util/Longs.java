@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,12 +30,12 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Random;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.map.parser.IParsers;
-import jupiter.common.map.parser.LongParser;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.transform.ObjectToStringMapper;
+import jupiter.common.transform.converter.IConverters;
+import jupiter.common.transform.converter.LongConverter;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.set.ExtendedHashSet;
 
 public class Longs {
 
@@ -51,7 +51,7 @@ public class Longs {
 	public static final Long[][] EMPTY_ARRAY_2D = new Long[][] {};
 	public static final Long[][][] EMPTY_ARRAY_3D = new Long[][][] {};
 
-	protected static final LongParser PARSER = IParsers.LONG_PARSER;
+	protected static final LongConverter CONVERTER = IConverters.LONG_CONVERTER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -92,10 +92,9 @@ public class Longs {
 	/**
 	 * Compares the specified {@code long} values for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code long} value to compare for order
 	 * @param b the other {@code long} value to compare against for order
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -109,10 +108,9 @@ public class Longs {
 	 * Compares the specified {@code long} arrays for order. Returns a negative integer, {@code 0}
 	 * or a positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@code long} array to compare for order (may be {@code null})
 	 * @param b the other {@code long} array to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -146,9 +144,8 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} value converted from the specified {@code float} value.
-	 * <p>
+	 *
 	 * @param value the {@code float} value to convert
-	 * <p>
 	 * @return a {@code long} value converted from the specified {@code float} value
 	 */
 	public static long convert(final float value) {
@@ -160,9 +157,8 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} value converted from the specified {@code double} value.
-	 * <p>
+	 *
 	 * @param value the {@code double} value to convert
-	 * <p>
 	 * @return a {@code long} value converted from the specified {@code double} value
 	 */
 	public static long convert(final double value) {
@@ -174,36 +170,33 @@ public class Longs {
 
 	/**
 	 * Returns a {@link Long} converted from the specified {@link Object}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to convert (may be {@code null})
-	 * <p>
 	 * @return a {@link Long} converted from the specified {@link Object}
 	 */
 	public static Long convert(final Object object) {
-		return PARSER.call(object);
+		return CONVERTER.call(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code long} value converted from the specified {@code T} object.
-	 * <p>
+	 *
 	 * @param <T>    the type of the object to convert
 	 * @param object the {@code T} object to convert
-	 * <p>
 	 * @return a {@code long} value converted from the specified {@code T} object
 	 */
 	public static <T> long toPrimitive(final T object) {
-		return PARSER.callToPrimitive(object);
+		return CONVERTER.callToPrimitive(object);
 	}
 
 	//////////////////////////////////////////////
 
 	/**
 	 * Returns a {@code long} array converted from the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long... array) {
@@ -223,9 +216,8 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 2D {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long[]... array2D) {
@@ -249,9 +241,8 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified 3D {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 3D {@code long} array
 	 */
 	public static long[] toPrimitiveArray(final long[][]... array3D) {
@@ -281,22 +272,20 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[] array) {
-		return PARSER.callToPrimitiveArray(array);
+		return CONVERTER.callToPrimitiveArray(array);
 	}
 
 	/**
 	 * Returns a {@code long} array converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -306,22 +295,20 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray(array2D);
+		return CONVERTER.callToPrimitiveArray(array2D);
 	}
 
 	/**
 	 * Returns a {@code long} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -331,22 +318,20 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> long[] toPrimitiveArray(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray(array3D);
+		return CONVERTER.callToPrimitiveArray(array3D);
 	}
 
 	/**
 	 * Returns a {@code long} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -419,22 +404,20 @@ public class Longs {
 
 	/**
 	 * Returns a 2D {@code long} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code long} array converted from the specified 2D {@code T} array
 	 */
 	public static <T> long[][] toPrimitiveArray2D(final T[][] array2D) {
-		return PARSER.callToPrimitiveArray2D(array2D);
+		return CONVERTER.callToPrimitiveArray2D(array2D);
 	}
 
 	/**
 	 * Returns a 2D {@code long} array converted from the specified 2D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array2D the 2D {@code T} array to convert
-	 * <p>
 	 * @return a 2D {@code long} array converted from the specified 2D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -514,22 +497,20 @@ public class Longs {
 
 	/**
 	 * Returns a 3D {@code long} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code long} array converted from the specified 3D {@code T} array
 	 */
 	public static <T> long[][][] toPrimitiveArray3D(final T[][][] array3D) {
-		return PARSER.callToPrimitiveArray3D(array3D);
+		return CONVERTER.callToPrimitiveArray3D(array3D);
 	}
 
 	/**
 	 * Returns a 3D {@code long} array converted from the specified 3D {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>     the component type of the array to convert
 	 * @param array3D the 3D {@code T} array to convert
-	 * <p>
 	 * @return a 3D {@code long} array converted from the specified 3D {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -541,22 +522,20 @@ public class Longs {
 
 	/**
 	 * Returns a {@code long} array converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return a {@code long} array converted from the specified {@link Collection}
 	 */
 	public static long[] collectionToPrimitiveArray(final Collection<?> collection) {
-		return PARSER.callCollectionToPrimitiveArray(collection);
+		return CONVERTER.callCollectionToPrimitiveArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns an array of {@link Long} converted from the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an array of {@link Long} converted from the specified {@code long} array
 	 */
 	public static Long[] toArray(final long[] array) {
@@ -569,9 +548,8 @@ public class Longs {
 
 	/**
 	 * Returns an array of {@link Long} converted from the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an array of {@link Long} converted from the specified {@code long} array
 	 */
 	public static Long[] asArray(final long... array) {
@@ -582,9 +560,8 @@ public class Longs {
 
 	/**
 	 * Returns a 2D array of {@link Long} converted from the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Long} converted from the specified 2D {@code long} array
 	 */
 	public static Long[][] toArray2D(final long[][] array2D) {
@@ -597,9 +574,8 @@ public class Longs {
 
 	/**
 	 * Returns a 2D array of {@link Long} converted from the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to convert
-	 * <p>
 	 * @return a 2D array of {@link Long} converted from the specified 2D {@code long} array
 	 */
 	public static Long[][] asArray2D(final long[]... array2D) {
@@ -610,9 +586,8 @@ public class Longs {
 
 	/**
 	 * Returns a 3D array of {@link Long} converted from the specified 3D {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Long} converted from the specified 3D {@code long} array
 	 */
 	public static Long[][][] toArray3D(final long[][][] array3D) {
@@ -625,9 +600,8 @@ public class Longs {
 
 	/**
 	 * Returns a 3D array of {@link Long} converted from the specified 3D {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to convert
-	 * <p>
 	 * @return a 3D array of {@link Long} converted from the specified 3D {@code long} array
 	 */
 	public static Long[][][] asArray3D(final long[][]... array3D) {
@@ -638,13 +612,12 @@ public class Longs {
 
 	/**
 	 * Returns an array of {@link Long} converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an array of {@link Long} converted from the specified {@link Collection}
 	 */
 	public static Long[] collectionToArray(final Collection<?> collection) {
-		return PARSER.callCollectionToArray(collection);
+		return CONVERTER.callCollectionToArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -652,22 +625,20 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
 	 *         array
 	 */
 	public static ExtendedList<Long> toList(final long[] array) {
-		return PARSER.callToList(toArray(array));
+		return CONVERTER.callToList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code long}
 	 *         array
 	 */
@@ -678,22 +649,20 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 *         {@code long} array
 	 */
 	public static ExtendedLinkedList<Long> toLinkedList(final long[] array) {
-		return PARSER.callToLinkedList(toArray(array));
+		return CONVERTER.callToLinkedList(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 *         {@code long} array
 	 */
@@ -705,22 +674,20 @@ public class Longs {
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array
 	 */
 	public static <T> ExtendedList<Long> toList(final T[] array) {
-		return PARSER.callToList(array);
+		return CONVERTER.callToList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} converted from the specified {@code T} array
 	 */
 	@SuppressWarnings({"unchecked", "varargs"})
@@ -731,24 +698,22 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedLinkedList<Long> toLinkedList(final T[] array) {
-		return PARSER.callToLinkedList(array);
+		return CONVERTER.callToLinkedList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified {@code T}
 	 *         array
 	 */
@@ -762,28 +727,26 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedList} of {@link Long} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link Long} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedList<Long> collectionToList(final Collection<?> collection) {
-		return PARSER.callCollectionToList(collection);
+		return CONVERTER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link Long} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<Long> collectionToLinkedList(
 			final Collection<?> collection) {
-		return PARSER.callCollectionToLinkedList(collection);
+		return CONVERTER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -791,22 +754,20 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
 	 *         array
 	 */
 	public static ExtendedHashSet<Long> toSet(final long[] array) {
-		return PARSER.callToSet(toArray(array));
+		return CONVERTER.callToSet(toArray(array));
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
 	 * array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code long}
 	 *         array
 	 */
@@ -819,24 +780,22 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedHashSet<Long> toSet(final T[] array) {
-		return PARSER.callToSet(array);
+		return CONVERTER.callToSet(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified {@code T}
 	 *         array
 	 */
@@ -850,14 +809,13 @@ public class Longs {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link Long} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link Long} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<Long> collectionToSet(final Collection<?> collection) {
-		return PARSER.callCollectionToSet(collection);
+		return CONVERTER.callCollectionToSet(collection);
 	}
 
 
@@ -868,9 +826,8 @@ public class Longs {
 	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
 	 * starting with {@code 0L} and spaced by {@code 1L}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
-	 * <p>
 	 * @return a {@code long} array of the specified length containing the sequence of numbers
 	 *         starting with {@code 0L} and spaced by {@code 1L}
 	 */
@@ -881,10 +838,9 @@ public class Longs {
 	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code 1L}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
-	 * <p>
 	 * @return a {@code long} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code 1L}
 	 */
@@ -895,11 +851,10 @@ public class Longs {
 	/**
 	 * Creates a {@code long} array of the specified length containing the sequence of numbers
 	 * starting with {@code from} and spaced by {@code step}.
-	 * <p>
+	 *
 	 * @param length the length of the sequence to create
 	 * @param from   the first value of the sequence to create
 	 * @param step   the interval between the values of the sequence to create
-	 * <p>
 	 * @return a {@code long} array of the specified length containing the sequence of numbers
 	 *         starting with {@code from} and spaced by {@code step}
 	 */
@@ -916,9 +871,8 @@ public class Longs {
 
 	/**
 	 * Creates a random {@code long} array of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
-	 * <p>
 	 * @return a random {@code long} array of the specified length
 	 */
 	public static long[] createRandomSequence(final int length) {
@@ -932,11 +886,10 @@ public class Longs {
 	/**
 	 * Creates a {@code long} array of the specified length containing pseudorandom, uniformly
 	 * distributed {@code long} values between the specified bounds.
-	 * <p>
+	 *
 	 * @param length the length of the random sequence to create
 	 * @param from   the {@code long} lower bound of the random sequence to create (inclusive)
 	 * @param to     the {@code long} upper bound of the random sequence to create (exclusive)
-	 * <p>
 	 * @return a {@code long} array of the specified length containing pseudorandom, uniformly
 	 *         distributed {@code long} values between the specified bounds
 	 */
@@ -952,7 +905,7 @@ public class Longs {
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code long} value.
-	 * <p>
+	 *
 	 * @return a pseudorandom, uniformly distributed {@code long} value
 	 */
 	public static long random() {
@@ -962,10 +915,9 @@ public class Longs {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@code long} value between the specified
 	 * bounds.
-	 * <p>
+	 *
 	 * @param from the {@code long} lower bound of the value to generate (inclusive)
 	 * @param to   the {@code long} upper bound of the value to generate (exclusive)
-	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@code long} value between the specified bounds
 	 */
 	public static long random(final long from, final long to) {
@@ -976,10 +928,9 @@ public class Longs {
 
 	/**
 	 * Creates a {@code long} array of the specified length with the specified {@code long} element.
-	 * <p>
+	 *
 	 * @param element the {@code long} element of the {@code long} array to create
 	 * @param length  the length of the {@code long} array to create
-	 * <p>
 	 * @return a {@code long} array of the specified length with the specified {@code long} element
 	 */
 	public static long[] repeat(final long element, final int length) {
@@ -994,10 +945,9 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array containing the specified {@code long} value and all the elements
 	 * of the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param a a {@code long} value
 	 * @param b another {@code long} array (may be {@code null})
-	 * <p>
 	 * @return a {@code long} array containing the specified {@code long} value and all the elements
 	 *         of the specified {@code long} array
 	 */
@@ -1008,10 +958,9 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array containing all the elements of the specified {@code long}
 	 * arrays.
-	 * <p>
+	 *
 	 * @param a a {@code long} array (may be {@code null})
 	 * @param b another {@code long} array (may be {@code null})
-	 * <p>
 	 * @return a {@code long} array containing all the elements of the specified {@code long} arrays
 	 */
 	public static long[] concat(final long[] a, final long... b) {
@@ -1033,9 +982,8 @@ public class Longs {
 
 	/**
 	 * Returns the number of elements in the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 2D {@code long} array
 	 */
 	public static int count(final long[][] array2D) {
@@ -1050,9 +998,8 @@ public class Longs {
 
 	/**
 	 * Returns the number of elements in the specified 3D {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to count from (may be {@code null})
-	 * <p>
 	 * @return the number of elements in the specified 3D {@code long} array
 	 */
 	public static int count(final long[][][] array3D) {
@@ -1070,10 +1017,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} token in the specified
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to count from (may be {@code null})
 	 * @param token the {@code long} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} token in the specified
 	 *         {@code long} array
 	 */
@@ -1091,10 +1037,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} token in the specified 2D
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to count from (may be {@code null})
 	 * @param token   the {@code long} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} token in the specified 2D
 	 *         {@code long} array
 	 */
@@ -1111,10 +1056,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} token in the specified 3D
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to count from (may be {@code null})
 	 * @param token   the {@code long} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} token in the specified 3D
 	 *         {@code long} array
 	 */
@@ -1133,10 +1077,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} tokens in the specified
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array  the {@code long} array to count from (may be {@code null})
 	 * @param tokens the {@code long} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified
 	 *         {@code long} array
 	 */
@@ -1153,10 +1096,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} tokens in the specified 2D
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to count from (may be {@code null})
 	 * @param tokens  the {@code long} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified 2D
 	 *         {@code long} array
 	 */
@@ -1173,10 +1115,9 @@ public class Longs {
 	/**
 	 * Returns the number of occurrences of the specified {@code long} tokens in the specified 3D
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to count from (may be {@code null})
 	 * @param tokens  the {@code long} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code long} tokens in the specified 3D
 	 *         {@code long} array
 	 */
@@ -1218,10 +1159,9 @@ public class Longs {
 	/**
 	 * Returns a {@code long} array containing all the elements of the specified {@code long} array
 	 * at the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code long} array to filter from
 	 * @param indices the indices to filter
-	 * <p>
 	 * @return a {@code long} array containing all the elements of the specified {@code long} array
 	 *         at the specified indices
 	 */
@@ -1236,10 +1176,9 @@ public class Longs {
 	/**
 	 * Returns a 2D {@code long} array containing all the elements of the specified {@code long}
 	 * array at all the specified indices.
-	 * <p>
+	 *
 	 * @param array   the {@code long} array to filter from
 	 * @param indices the array of indices to filter
-	 * <p>
 	 * @return a 2D {@code long} array containing all the elements of the specified {@code long}
 	 *         array at all the specified indices
 	 */
@@ -1255,9 +1194,8 @@ public class Longs {
 
 	/**
 	 * Returns the middle of the specified {@code long} value rounded down.
-	 * <p>
+	 *
 	 * @param value a {@code long} value
-	 * <p>
 	 * @return the middle of the specified {@code long} value rounded down
 	 */
 	public static long middle(final long value) {
@@ -1266,10 +1204,9 @@ public class Longs {
 
 	/**
 	 * Returns the middle of the specified {@code long} lower and upper bounds rounded down.
-	 * <p>
+	 *
 	 * @param from a {@code long} value
 	 * @param to   another {@code long} value
-	 * <p>
 	 * @return the middle of the specified {@code long} lower and upper bounds rounded down
 	 */
 	public static long middle(final long from, final long to) {
@@ -1280,9 +1217,8 @@ public class Longs {
 
 	/**
 	 * Returns the middle of the specified {@code long} value rounded up.
-	 * <p>
+	 *
 	 * @param value a {@code long} value
-	 * <p>
 	 * @return the middle of the specified {@code long} value rounded up
 	 */
 	public static long middleUp(final long value) {
@@ -1291,10 +1227,9 @@ public class Longs {
 
 	/**
 	 * Returns the middle of the specified {@code long} lower and upper bounds rounded up.
-	 * <p>
+	 *
 	 * @param from a {@code long} value
 	 * @param to   another {@code long} value
-	 * <p>
 	 * @return the middle of the specified {@code long} lower and upper bounds rounded up
 	 */
 	public static long middleUp(final long from, final long to) {
@@ -1305,10 +1240,9 @@ public class Longs {
 
 	/**
 	 * Removes the element at the specified index from the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to remove from
 	 * @param index the index of the element to remove
-	 * <p>
 	 * @return the specified {@code long} array without the element at the specified index
 	 */
 	public static long[] remove(final long[] array, final int index) {
@@ -1321,10 +1255,9 @@ public class Longs {
 	/**
 	 * Removes all the occurrences of the specified {@code long} value from the specified
 	 * {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to remove from
 	 * @param value the {@code long} value to remove (may be {@code null})
-	 * <p>
 	 * @return the specified {@code long} array without the specified {@code long} value
 	 */
 	public static long[] removeAll(final long[] array, final long value) {
@@ -1355,7 +1288,7 @@ public class Longs {
 
 	/**
 	 * Shuffles the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to shuffle
 	 */
 	public static void shuffle(final long... array) {
@@ -1364,7 +1297,7 @@ public class Longs {
 
 	/**
 	 * Shuffles the specified {@code long} array between the specified indices.
-	 * <p>
+	 *
 	 * @param array     the {@code long} array to shuffle
 	 * @param fromIndex the index to start shuffling from (inclusive)
 	 * @param toIndex   the index to finish shuffling at (exclusive)
@@ -1467,10 +1400,9 @@ public class Longs {
 
 	/**
 	 * Returns the transpose of the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param rowCount the number of rows of the {@code long} array
 	 * @param array    a {@code long} array
-	 * <p>
 	 * @return the transpose of the specified {@code long} array
 	 */
 	public static long[] transpose(final int rowCount, final long... array) {
@@ -1487,9 +1419,8 @@ public class Longs {
 
 	/**
 	 * Returns the transpose of the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to convert
-	 * <p>
 	 * @return the transpose of the specified 2D {@code long} array
 	 */
 	public static long[][] transpose(final long[]... array2D) {
@@ -1570,9 +1501,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Long}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Long},
 	 *         {@code false} otherwise
 	 */
@@ -1583,9 +1513,8 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code long} value or a
 	 * {@link Long}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value or
 	 *         a {@link Long}, {@code false} otherwise
 	 */
@@ -1595,9 +1524,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code long} value.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} value,
 	 *         {@code false} otherwise
 	 */
@@ -1607,9 +1535,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@code long} array.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@code long} array,
 	 *         {@code false} otherwise
 	 */
@@ -1619,9 +1546,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@code long} array.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@code long} array,
 	 *         {@code false} otherwise
 	 */
@@ -1633,9 +1559,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@code long} array is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is {@code null} or empty,
 	 *         {@code false} otherwise
 	 */
@@ -1645,9 +1570,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@code long} array is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -1657,9 +1581,8 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@code long} array is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -1672,11 +1595,10 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} value is between the specified {@code long} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value the {@code long} value to test
 	 * @param from  the {@code long} lower bound to test against (inclusive)
 	 * @param to    the {@code long} upper bound to test against (exclusive)
-	 * <p>
 	 * @return {@code true} if the specified {@code long} value is between the specified
 	 *         {@code long} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1687,12 +1609,11 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} value is between the specified {@code long} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code long} value to test
 	 * @param from             the {@code long} lower bound to test against (inclusive)
 	 * @param to               the {@code long} upper bound to test against
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code long} value is between the specified
 	 *         {@code long} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1704,13 +1625,12 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} value is between the specified {@code long} lower
 	 * and upper bounds.
-	 * <p>
+	 *
 	 * @param value            the {@code long} value to test
 	 * @param from             the {@code long} lower bound to test against
 	 * @param to               the {@code long} upper bound to test against
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code long} value is between the specified
 	 *         {@code long} lower and upper bounds, {@code false} otherwise
 	 */
@@ -1725,13 +1645,12 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is between the specified lower and upper bound
 	 * {@code long} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array the {@code long} array to test (may be {@code null})
 	 * @param from  the lower bound {@code long} array to test against (inclusive) (may be
 	 *              {@code null})
 	 * @param to    the upper bound {@code long} array to test against (exclusive) (may be
 	 *              {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is between the specified lower and
 	 *         upper bound {@code long} arrays, {@code false} otherwise
 	 */
@@ -1742,14 +1661,13 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is between the specified lower and upper bound
 	 * {@code long} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code long} array to test (may be {@code null})
 	 * @param from             the lower bound {@code long} array to test against (inclusive) (may
 	 *                         be {@code null})
 	 * @param to               the upper bound {@code long} array to test against (may be
 	 *                         {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is between the specified lower and
 	 *         upper bound {@code long} arrays, {@code false} otherwise
 	 */
@@ -1761,7 +1679,7 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array is between the specified lower and upper bound
 	 * {@code long} arrays (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param array            the {@code long} array to test (may be {@code null})
 	 * @param from             the lower bound {@code long} array to test against (may be
 	 *                         {@code null})
@@ -1769,7 +1687,6 @@ public class Longs {
 	 *                         {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array is between the specified lower and
 	 *         upper bound {@code long} arrays, {@code false} otherwise
 	 */
@@ -1783,10 +1700,9 @@ public class Longs {
 
 	/**
 	 * Tests whether the specified {@code long} array contains the specified {@code long} token.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to test (may be {@code null})
 	 * @param token the {@code long} token to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array contains the specified {@code long}
 	 *         token, {@code false} otherwise
 	 */
@@ -1797,10 +1713,9 @@ public class Longs {
 	/**
 	 * Tests whether the specified {@code long} array contains any of the specified {@code long}
 	 * tokens.
-	 * <p>
+	 *
 	 * @param array  the {@code long} array to test (may be {@code null})
 	 * @param tokens the {@code long} tokens to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@code long} array contains any of the specified
 	 *         {@code long} tokens, {@code false} otherwise
 	 */
@@ -1822,9 +1737,8 @@ public class Longs {
 
 	/**
 	 * Returns a clone of the specified {@code long} array, or {@code null} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified {@code long} array, or {@code null} if it is {@code null}
 	 */
 	public static long[] clone(final long... array) {
@@ -1839,9 +1753,8 @@ public class Longs {
 
 	/**
 	 * Clones the specified 2D {@code long} array.
-	 * <p>
+	 *
 	 * @param array2D the 2D {@code long} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 2D {@code long} array, or {@code null} if it is {@code null}
 	 */
 	public static long[][] clone(final long[]... array2D) {
@@ -1861,9 +1774,8 @@ public class Longs {
 
 	/**
 	 * Clones the specified 3D {@code long} array.
-	 * <p>
+	 *
 	 * @param array3D the 3D {@code long} array to clone (may be {@code null})
-	 * <p>
 	 * @return a clone of the specified 3D {@code long} array, or {@code null} if it is {@code null}
 	 */
 	public static long[][][] clone(final long[][][] array3D) {
@@ -1886,10 +1798,9 @@ public class Longs {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@code long} array to compare for equality (may be {@code null})
 	 * @param b the other {@code long} array to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final long[] a, final long[] b) {
@@ -1910,11 +1821,10 @@ public class Longs {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 2D {@code long} array to compare for equality (may be {@code null})
 	 * @param b the other 2D {@code long} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final long[][] a, final long[][] b) {
@@ -1935,11 +1845,10 @@ public class Longs {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the 3D {@code long} array to compare for equality (may be {@code null})
 	 * @param b the other 3D {@code long} array to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final long[][][] a, final long[][][] b) {
@@ -1962,9 +1871,8 @@ public class Longs {
 
 	/**
 	 * Returns the hash code value for the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code long} array
 	 */
 	public static int hashCode(final long... array) {
@@ -1973,10 +1881,9 @@ public class Longs {
 
 	/**
 	 * Returns the hash code value for the specified {@code long} array at the specified depth.
-	 * <p>
+	 *
 	 * @param depth the depth to hash at
 	 * @param array the {@code long} array to hash (may be {@code null})
-	 * <p>
 	 * @return the hash code value for the specified {@code long} array at the specified depth
 	 */
 	public static int hashCodeWith(final int depth, final long... array) {
@@ -2003,9 +1910,8 @@ public class Longs {
 
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array.
-	 * <p>
+	 *
 	 * @param array the {@code long} array to convert
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code long} array
 	 */
 	public static String toString(final long... array) {
@@ -2015,10 +1921,9 @@ public class Longs {
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array joined with the
 	 * specified {@code char} delimiter.
-	 * <p>
+	 *
 	 * @param array     a {@code long} array
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code long} array joined with the
 	 *         specified {@code char} delimiter
 	 */
@@ -2029,10 +1934,9 @@ public class Longs {
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array joined with the
 	 * specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code long} array joined with the
 	 *         specified delimiting {@link String}
 	 */
@@ -2043,10 +1947,9 @@ public class Longs {
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array wrapped by
 	 * {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array   a {@code long} array
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code long} array wrapped by
 	 *         {@code wrapper}
 	 */
@@ -2057,11 +1960,10 @@ public class Longs {
 	/**
 	 * Returns a representative {@link String} of the specified {@code long} array joined with the
 	 * specified delimiting {@link String} and wrapped by {@code wrapper}.
-	 * <p>
+	 *
 	 * @param array     a {@code long} array
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@code long} array joined with the
 	 *         specified delimiting {@link String} and wrapped by {@code wrapper}
 	 */

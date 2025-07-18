@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -84,7 +84,7 @@ public class DynamicSample
 
 	/**
 	 * Constructs a {@link DynamicSample} with the specified minimum sample size.
-	 * <p>
+	 *
 	 * @param minSampleSize the minimum sample size
 	 */
 	public DynamicSample(final int minSampleSize) {
@@ -93,7 +93,7 @@ public class DynamicSample
 
 	/**
 	 * Constructs a {@link DynamicSample} with the specified minimum and maximum sample sizes.
-	 * <p>
+	 *
 	 * @param minSampleSize the minimum sample size
 	 * @param maxSampleSize the maximum sample size
 	 */
@@ -118,7 +118,7 @@ public class DynamicSample
 
 	/**
 	 * Returns the sample mean.
-	 * <p>
+	 *
 	 * @return the sample mean
 	 */
 	@Override
@@ -133,7 +133,7 @@ public class DynamicSample
 
 	/**
 	 * Sets the minimum sample size.
-	 * <p>
+	 *
 	 * @param minSampleSize an {@code int} value
 	 */
 	public void setMinSampleSize(final int minSampleSize) {
@@ -142,7 +142,7 @@ public class DynamicSample
 
 	/**
 	 * Sets the maximum sample size.
-	 * <p>
+	 *
 	 * @param maxSampleSize an {@code int} value
 	 */
 	public void setMaxSampleSize(final int maxSampleSize) {
@@ -170,7 +170,7 @@ public class DynamicSample
 
 	/**
 	 * Updates the sample mean and variance with the specified value.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
 	 */
 	public void sample(final double x) {
@@ -184,7 +184,7 @@ public class DynamicSample
 
 	/**
 	 * Resamples.
-	 * <p>
+	 *
 	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */
@@ -205,7 +205,7 @@ public class DynamicSample
 	/**
 	 * Tests whether the dynamic sample size is greater or equal to the lower bound and the
 	 * precision is decreasing.
-	 * <p>
+	 *
 	 * @return {@code true} if the dynamic sample size is greater or equal to the lower bound and
 	 *         the precision is decreasing, {@code false} otherwise
 	 */
@@ -220,7 +220,7 @@ public class DynamicSample
 	/**
 	 * Tests whether the sample size is greater than {@code maxSampleSize} or the precision is
 	 * decreasing.
-	 * <p>
+	 *
 	 * @return {@code true} if the sample size is greater than {@code maxSampleSize} or the
 	 *         precision is decreasing, {@code false} otherwise
 	 */

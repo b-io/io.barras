@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -94,11 +94,10 @@ public class FiniteIntegrator
 	 * results, especially for high integration orders. Using a very small interval between the
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param f          the {@link UnivariateFunction} to integrate
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2} or {@code step}
 	 *                                  is negative
 	 */
@@ -110,7 +109,7 @@ public class FiniteIntegrator
 	/**
 	 * Constructs a {@link FiniteIntegrator} with the specified {@link UnivariateFunction},
 	 * integration {@link DoubleInterval}, sample size and interval between the sampling points.
-	 * <p>
+	 *
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for integration will be adapted to ensure the constraint holds even near the
 	 * boundaries. This means the sample will not be centered anymore in these cases. At an extreme
@@ -122,12 +121,11 @@ public class FiniteIntegrator
 	 * results, especially for high integration orders. Using a very small interval between the
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param f          the {@link UnivariateFunction} to integrate
 	 * @param interval   the integration {@link DoubleInterval}
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2}, {@code step}
 	 *                                  is negative or {@code (sampleSize - 1) * step} is greater or
 	 *                                  equal to {@code upperBound - lowerBound}
@@ -148,12 +146,11 @@ public class FiniteIntegrator
 	 * results, especially for high integration orders. Using a very small interval between the
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param f          the {@link UnivariateFunction} to integrate
 	 * @param order      the integration order
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2} or {@code step}
 	 *                                  is negative
 	 */
@@ -166,7 +163,7 @@ public class FiniteIntegrator
 	 * Constructs a {@link FiniteIntegrator} with the specified {@link UnivariateFunction},
 	 * integration {@link DoubleInterval}, integration order, sample size and interval between the
 	 * sampling points.
-	 * <p>
+	 *
 	 * When the independent variable is bounded ({@code lowerBound < t < upperBound}), the sampling
 	 * points used for integration will be adapted to ensure the constraint holds even near the
 	 * boundaries. This means the sample will not be centered anymore in these cases. At an extreme
@@ -178,13 +175,12 @@ public class FiniteIntegrator
 	 * results, especially for high integration orders. Using a very small interval between the
 	 * sampling points is often a <em>bad</em> idea.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param f          the {@link UnivariateFunction} to integrate
 	 * @param interval   the integration {@link DoubleInterval}
 	 * @param order      the integration order
 	 * @param sampleSize the sample size
 	 * @param step       the interval between the sampling points
-	 * <p>
 	 * @throws IllegalArgumentException if {@code sampleSize} is less than {@code 2}, {@code step}
 	 *                                  is negative or {@code (sampleSize - 1) * step} is greater or
 	 *                                  equal to {@code upperBound - lowerBound}
@@ -212,7 +208,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the sample size.
-	 * <p>
+	 *
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
@@ -221,7 +217,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the interval between the sampling points.
-	 * <p>
+	 *
 	 * @return the interval between the sampling points
 	 */
 	public double getStep() {
@@ -232,7 +228,7 @@ public class FiniteIntegrator
 
 	/**
 	 * Returns the initial value (on the abscissa).
-	 * <p>
+	 *
 	 * @return the initial value (on the abscissa)
 	 */
 	@Override
@@ -275,9 +271,8 @@ public class FiniteIntegrator
 	 * <dd>The finite integral approximation is computed using the midpoint rule and interpolated by
 	 * a {@link SplineInterpolator}.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code Y = F(x) + C} for {@code x} defined in {@code domain}
 	 */
 	@Override
@@ -293,9 +288,8 @@ public class FiniteIntegrator
 	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #integrate(double)} to retrieve {@code Y = F(x)} with the constant value (on the
 	 * ordinate).
-	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
+	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 * @see #integrate(double)
 	 */
 	public boolean integrateAllWith() {
@@ -337,11 +331,9 @@ public class FiniteIntegrator
 	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #integrate(double)} to retrieve {@code Y = F(x) + C} with the constant value (on the
 	 * ordinate).
-	 * <p>
-	 * @param C the constant {@code double} value value (on the ordinate)
-	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
+	 * @param C the constant {@code double} value value (on the ordinate)
+	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 * @see #integrate(double)
 	 */
 	public boolean integrateAllWith(final double C) {
@@ -411,10 +403,9 @@ public class FiniteIntegrator
 	 * <dd>The finite integral approximation is computed using the midpoint rule and interpolated by
 	 * a {@link SplineInterpolator}.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param a the {@code double} lower bound (on the abscissa) of the integration interval
 	 * @param b the {@code double} upper bound (on the abscissa) of the integration interval
-	 * <p>
 	 * @return {@code Y = F(b) - F(a)} for {@code a} and {@code b} defined in {@code domain}
 	 */
 	@Override
@@ -444,9 +435,8 @@ public class FiniteIntegrator
 	 * Integrates {@code y = f(x)} for all {@code x} defined in {@code domain} and then use
 	 * {@link #integrate(double, double)} to retrieve {@code Y = F(b) - F(a)} for {@code a} and
 	 * {@code b} defined in {@code domain}.
-	 * <p>
-	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 *
+	 * @return {@code true} if the integration is done, {@code false} otherwise
 	 * @see #integrate(double, double)
 	 */
 	@Override
@@ -507,9 +497,8 @@ public class FiniteIntegrator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

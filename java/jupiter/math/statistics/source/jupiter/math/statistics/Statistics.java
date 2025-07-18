@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,12 +48,11 @@ public class Statistics {
 	/**
 	 * Returns the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 * event {@code E} using Baye's theorem.
-	 * <p>
+	 *
 	 * @param peh the conditional probability {@code P(E|H)} of the event {@code E} given the
 	 *            hypothesis {@code H}
 	 * @param ph  the probability {@code P(H)} of the hypothesis {@code H}
 	 * @param pe  the probability {@code P(E)} of the event {@code E}
-	 * <p>
 	 * @return the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 *         event {@code E} using Baye's theorem
 	 */
@@ -66,14 +65,13 @@ public class Statistics {
 	 * Returns the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 * event {@code E} using Baye's theorem and the law of total probability where
 	 * {@code P(E) = Σ[P(H) * P(E|H)]} over {@code H}.
-	 * <p>
+	 *
 	 * @param peh  the conditional probability {@code P(E|H)} of the event {@code E} given the
 	 *             hypothesis {@code H}
 	 * @param ph   the probability {@code P(H)} of the hypothesis {@code H}
 	 * @param pehs the array of conditional probability {@code P(H|E)} of the hypothesis {@code H}
 	 *             given all event {@code E}
 	 * @param phs  the array of probability {@code P(H)} for all hypothesis {@code H}
-	 * <p>
 	 * @return the conditional probability {@code P(H|E)} of the hypothesis {@code H} given the
 	 *         event {@code E} using Baye's theorem and the law of total probability where
 	 *         {@code P(E) = Σ[P(H) * P(E|H)]} over {@code H}

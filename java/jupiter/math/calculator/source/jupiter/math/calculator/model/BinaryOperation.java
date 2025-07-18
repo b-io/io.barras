@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,7 @@ public class BinaryOperation
 	/**
 	 * Constructs a {@link BinaryOperation} with the specified parent {@link Element}, expression
 	 * {@link String}, operation {@link Type}, left {@link Element} and right {@link Element}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 * @param type       the operation {@link Type}
@@ -86,7 +86,7 @@ public class BinaryOperation
 
 	/**
 	 * Returns the operation {@link Type}.
-	 * <p>
+	 *
 	 * @return the operation {@link Type}
 	 */
 	public Type getType() {
@@ -95,7 +95,7 @@ public class BinaryOperation
 
 	/**
 	 * Returns the left {@link Element}.
-	 * <p>
+	 *
 	 * @return the left {@link Element}
 	 */
 	public Element getLeft() {
@@ -104,7 +104,7 @@ public class BinaryOperation
 
 	/**
 	 * Returns the right {@link Element}.
-	 * <p>
+	 *
 	 * @return the right {@link Element}
 	 */
 	public Element getRight() {
@@ -115,7 +115,7 @@ public class BinaryOperation
 
 	/**
 	 * Sets the operation {@link Type}.
-	 * <p>
+	 *
 	 * @param type a {@link Type}
 	 */
 	public void setType(final Type type) {
@@ -124,7 +124,7 @@ public class BinaryOperation
 
 	/**
 	 * Sets the left {@link Element}.
-	 * <p>
+	 *
 	 * @param left an {@link Element}
 	 */
 	public void setLeft(final Element left) {
@@ -133,7 +133,7 @@ public class BinaryOperation
 
 	/**
 	 * Sets the right {@link Element}.
-	 * <p>
+	 *
 	 * @param right an {@link Element}
 	 */
 	public void setRight(final Element right) {
@@ -147,7 +147,7 @@ public class BinaryOperation
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

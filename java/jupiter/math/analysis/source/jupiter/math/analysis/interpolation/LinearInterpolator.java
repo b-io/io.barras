@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ public class LinearInterpolator
 	/**
 	 * Constructs a {@link LinearInterpolator} with the linear interpolant of {@code y = f(x)}
 	 * between the specified endpoints.
-	 * <p>
+	 *
 	 * @param fromPoint the leading endpoint {@link XY} of {@link Double} of the linear interpolant
 	 *                  (inclusive)
 	 * @param toPoint   the tailing endpoint {@link XY} of {@link Double} of the linear interpolant
@@ -93,9 +93,8 @@ public class LinearInterpolator
 	/**
 	 * Returns the interpolated {@code double} value of {@code y = f(x)} for {@code x} between
 	 * {@code fromPoint} and {@code toPoint}.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code y = f(x)} for {@code x} between {@code fromPoint} and {@code toPoint}
 	 */
 	@Override
@@ -110,9 +109,8 @@ public class LinearInterpolator
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

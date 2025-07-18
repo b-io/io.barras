@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -110,7 +110,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
 	 * labels.
-	 * <p>
+	 *
 	 * @param formats the {@link Format} of the domain and range labels
 	 */
 	public XYSelection(final XY<Format> formats) {
@@ -120,7 +120,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
 	 * labels and radius.
-	 * <p>
+	 *
 	 * @param formats the {@link Format} of the domain and range labels
 	 * @param radius  the radius
 	 */
@@ -131,7 +131,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified {@link Format} of the domain and range
 	 * labels, radius and flag specifying whether {@code this} is visible.
-	 * <p>
+	 *
 	 * @param formats   the {@link Format} of the domain and range labels
 	 * @param radius    the radius
 	 * @param isVisible the flag specifying whether {@code this} is visible
@@ -146,7 +146,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified index of the range axis and
 	 * {@link Format} of the domain and range labels.
-	 * <p>
+	 *
 	 * @param rangeAxisIndex the index of the range axis
 	 * @param formats        the {@link Format} of the domain and range labels
 	 */
@@ -157,7 +157,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified index of the range axis, {@link Format}
 	 * of the domain and range labels and radius.
-	 * <p>
+	 *
 	 * @param rangeAxisIndex the index of the range axis
 	 * @param formats        the {@link Format} of the domain and range labels
 	 * @param radius         the radius
@@ -169,7 +169,7 @@ public class XYSelection
 	/**
 	 * Constructs a {@link XYSelection} with the specified index of the range axis, {@link Format}
 	 * of the domain and range labels, radius and flag specifying whether {@code this} is visible.
-	 * <p>
+	 *
 	 * @param rangeAxisIndex the index of the range axis
 	 * @param formats        the {@link Format} of the domain and range labels
 	 * @param radius         the radius
@@ -190,7 +190,7 @@ public class XYSelection
 
 	/**
 	 * Returns the mouse position.
-	 * <p>
+	 *
 	 * @return the mouse position
 	 */
 	public Point getMousePosition() {
@@ -201,7 +201,7 @@ public class XYSelection
 
 	/**
 	 * Returns the {@link XY}-coordinates.
-	 * <p>
+	 *
 	 * @return the {@link XY}-coordinates
 	 */
 	public XY<Double> getCoordinates() {
@@ -210,7 +210,7 @@ public class XYSelection
 
 	/**
 	 * Returns the domain coordinate.
-	 * <p>
+	 *
 	 * @return the domain coordinate
 	 */
 	public double getX() {
@@ -219,7 +219,7 @@ public class XYSelection
 
 	/**
 	 * Returns the range coordinate.
-	 * <p>
+	 *
 	 * @return the range coordinate
 	 */
 	public double getY() {
@@ -230,7 +230,7 @@ public class XYSelection
 
 	/**
 	 * Returns the flag specifying whether {@code this} is visible.
-	 * <p>
+	 *
 	 * @return the flag specifying whether {@code this} is visible
 	 */
 	public boolean isVisible() {
@@ -241,7 +241,7 @@ public class XYSelection
 
 	/**
 	 * Sets the mouse position.
-	 * <p>
+	 *
 	 * @param mousePosition a {@link Point}
 	 */
 	public void setMousePosition(final Point mousePosition) {
@@ -253,7 +253,7 @@ public class XYSelection
 	/**
 	 * Sets the {@link XY}-coordinates and sends a property change event to all the registered
 	 * listeners.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
 	 * @param y a {@code double} value
 	 */
@@ -269,7 +269,7 @@ public class XYSelection
 	/**
 	 * Sets the flag specifying whether {@code this} is visible and sends a property change event to
 	 * all the registered listeners.
-	 * <p>
+	 *
 	 * @param isVisible a {@code boolean} value
 	 */
 	public void setVisible(final boolean isVisible) {
@@ -285,9 +285,8 @@ public class XYSelection
 
 	/**
 	 * Adds the specified {@link PropertyChangeListener}.
-	 * <p>
-	 * @param propertyChangeListener a {@link PropertyChangeListener}
 	 *
+	 * @param propertyChangeListener a {@link PropertyChangeListener}
 	 * @see #removePropertyChangeListener(PropertyChangeListener)
 	 */
 	public void addPropertyChangeListener(final PropertyChangeListener propertyChangeListener) {
@@ -298,9 +297,8 @@ public class XYSelection
 
 	/**
 	 * Removes the specified {@link PropertyChangeListener}.
-	 * <p>
-	 * @param propertyChangeListener a {@link PropertyChangeListener}
 	 *
+	 * @param propertyChangeListener a {@link PropertyChangeListener}
 	 * @see #addPropertyChangeListener(PropertyChangeListener)
 	 */
 	public void removePropertyChangeListener(final PropertyChangeListener propertyChangeListener) {
@@ -312,7 +310,7 @@ public class XYSelection
 	/**
 	 * Paints {@code this} with the specified {@link Graphics2D} in the specified
 	 * {@link ChartPanel}.
-	 * <p>
+	 *
 	 * @param g          the {@link Graphics2D} to paint with
 	 * @param chartPanel the {@link ChartPanel} containing the overlay to paint
 	 */
@@ -333,9 +331,8 @@ public class XYSelection
 
 	/**
 	 * Formats the specified {@link XY}-coordinates.
-	 * <p>
+	 *
 	 * @param coordinates the {@link XY}-coordinates of {@link Double} to format
-	 * <p>
 	 * @return the formatted {@link XY}-coordinates in an array of {@link String}
 	 */
 	protected String[] formatCoordinates(final XY<Double> coordinates) {
@@ -352,9 +349,8 @@ public class XYSelection
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -375,11 +371,9 @@ public class XYSelection
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -404,9 +398,8 @@ public class XYSelection
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

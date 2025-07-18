@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,7 +62,7 @@ public class UnaryOperation
 	/**
 	 * Constructs an {@link UnaryOperation} with the specified parent {@link Element}, expression
 	 * {@link String}, operation {@link Type} and {@link Element}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 * @param type       the operation {@link Type}
@@ -82,7 +82,7 @@ public class UnaryOperation
 
 	/**
 	 * Returns the operation {@link Type}.
-	 * <p>
+	 *
 	 * @return the operation {@link Type}
 	 */
 	public Type getType() {
@@ -91,7 +91,7 @@ public class UnaryOperation
 
 	/**
 	 * Returns the {@link Element}.
-	 * <p>
+	 *
 	 * @return the {@link Element}
 	 */
 	public Element getElement() {
@@ -102,7 +102,7 @@ public class UnaryOperation
 
 	/**
 	 * Sets the operation {@link Type}.
-	 * <p>
+	 *
 	 * @param type a {@link Type}
 	 */
 	public void setType(final Type type) {
@@ -111,7 +111,7 @@ public class UnaryOperation
 
 	/**
 	 * Sets the {@link Element}.
-	 * <p>
+	 *
 	 * @param element an {@link Element}
 	 */
 	public void setElement(final Element element) {
@@ -125,7 +125,7 @@ public class UnaryOperation
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

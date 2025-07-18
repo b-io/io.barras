@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,10 +48,10 @@ import java.sql.Types;
 
 import jupiter.common.exception.IllegalClassException;
 import jupiter.common.io.Resources;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.list.row.Row;
-import jupiter.common.struct.list.row.RowList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.list.row.Row;
+import jupiter.common.struct.collection.list.row.RowList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.time.Dates;
@@ -110,13 +110,11 @@ public class SQL {
 	/**
 	 * Returns the SQL types of all the columns of the specified table using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the columns to get the SQL types from
-	 * <p>
 	 * @return the SQL types of all the columns of the specified table using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -128,14 +126,12 @@ public class SQL {
 	/**
 	 * Returns the SQL types of the specified columns of the specified table using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the columns to get the SQL types from
 	 * @param columns    the columns of the table to get the SQL types from (may be {@code null})
-	 * <p>
 	 * @return the SQL types of the specified columns of the specified table using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -153,13 +149,11 @@ public class SQL {
 	/**
 	 * Returns the SQL types of all the parameters of the specified SQL procedure using the
 	 * specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param procedure  the SQL procedure containing the parameters to get the SQL types from
-	 * <p>
 	 * @return the SQL types of all the parameters of the specified SQL procedure using the
 	 *         specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -177,11 +171,10 @@ public class SQL {
 	/**
 	 * Sets the parameter at the specified index in the specified {@link PreparedStatement} to the
 	 * specified value.
-	 * <p>
+	 *
 	 * @param statement the {@link PreparedStatement} containing the parameter to set
 	 * @param index     the index of the parameter to set
 	 * @param value     an {@link Object}
-	 * <p>
 	 * @throws SQLException if {@code index} does not correspond to a parameter marker in
 	 *                      {@code statement}, if a database access error occurs or if this method
 	 *                      is called on a closed {@link PreparedStatement}
@@ -195,12 +188,11 @@ public class SQL {
 	/**
 	 * Sets the parameter at the specified index in the specified {@link PreparedStatement} to the
 	 * specified value with the specified SQL type.
-	 * <p>
+	 *
 	 * @param statement the {@link PreparedStatement} containing the parameter to set
 	 * @param index     the index of the parameter to set
 	 * @param type      the SQL type of the parameter to set
 	 * @param value     an {@link Object}
-	 * <p>
 	 * @throws SQLException if {@code index} does not correspond to a parameter marker in
 	 *                      {@code statement}, if a database access error occurs or if this method
 	 *                      is called on a closed {@link PreparedStatement}
@@ -263,10 +255,9 @@ public class SQL {
 
 	/**
 	 * Sets the parameters of the specified {@link PreparedStatement} to the specified values.
-	 * <p>
+	 *
 	 * @param statement the {@link PreparedStatement} containing the parameters to set
 	 * @param values    an array of {@link Object}
-	 * <p>
 	 * @throws SQLException if the {@code values} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
 	 *                      this method is called on a closed {@link PreparedStatement}
@@ -279,12 +270,11 @@ public class SQL {
 	/**
 	 * Sets the parameters of the specified {@link PreparedStatement} to the specified values with
 	 * the specified SQL types.
-	 * <p>
+	 *
 	 * @param statement the {@link PreparedStatement} containing the parameters to set
 	 * @param types     the {@code int} array containing the SQL types of the parameters to set (may
 	 *                  be {@code null})
 	 * @param values    an array of {@link Object}
-	 * <p>
 	 * @throws SQLException if the {@code values} length is greater than the number of parameter
 	 *                      markers in {@code statement}, if a database access error occurs or if
 	 *                      this method is called on a closed {@link PreparedStatement}
@@ -317,10 +307,9 @@ public class SQL {
 	/**
 	 * Returns an {@link Object} of the specified SQL {@link Class} converted from the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param c    the SQL {@link Class} of the {@link Object} to convert to
 	 * @param text the {@link String} to convert
-	 * <p>
 	 * @return an {@link Object} of the specified SQL {@link Class} converted from the specified
 	 *         {@link String}
 	 */
@@ -360,9 +349,8 @@ public class SQL {
 	/**
 	 * Returns a SQL {@link Date} converted from the specified {@link java.util.Date}, or
 	 * {@code null} if the {@link java.util.Date} is {@code null}.
-	 * <p>
+	 *
 	 * @param date the {@link java.util.Date} to convert (may be {@code null})
-	 * <p>
 	 * @return a SQL {@link Date} converted from the specified {@link java.util.Date}, or
 	 *         {@code null} if the {@link java.util.Date} is {@code null}
 	 */
@@ -373,9 +361,8 @@ public class SQL {
 	/**
 	 * Returns a SQL {@link Timestamp} converted from the specified {@link java.util.Date}, or
 	 * {@code null} if the {@link java.util.Date} is {@code null}.
-	 * <p>
+	 *
 	 * @param date the {@link java.util.Date} to convert (may be {@code null})
-	 * <p>
 	 * @return a SQL {@link Timestamp} converted from the specified {@link java.util.Date}, or
 	 *         {@code null} if the {@link java.util.Date} is {@code null}
 	 */
@@ -548,13 +535,11 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query using
 	 *         the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -566,13 +551,11 @@ public class SQL {
 	/**
 	 * Returns the rows of the specified table in a {@link RowList} using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to select
-	 * <p>
 	 * @return the rows of the specified table in a {@link RowList} using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -585,14 +568,12 @@ public class SQL {
 	/**
 	 * Returns the specified columns of the rows of the specified table in a {@link RowList} using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to select
 	 * @param columns    the columns of the rows to select (may be {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table in a {@link RowList} using
 	 *         the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -607,18 +588,16 @@ public class SQL {
 	 * Returns the specified columns of the rows of the specified table where the specified
 	 * conditional columns are equal to the specified conditional values in a {@link RowList} using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to select
 	 * @param columns            the columns of the rows to select (may be {@code null})
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the specified conditional values in a
 	 *         {@link RowList} using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -634,7 +613,7 @@ public class SQL {
 	 * Returns the specified columns of the rows of the specified table where the specified
 	 * conditional columns are equal to the specified conditional values with the specified SQL
 	 * types in a {@link RowList} using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to select
 	 * @param columns            the columns of the rows to select (may be {@code null})
@@ -643,11 +622,9 @@ public class SQL {
 	 *                           columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the specified conditional values with the specified
 	 *         SQL types in a {@link RowList} using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -667,15 +644,13 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query with
 	 * the specified parameter values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the {@code SELECT} query to execute
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query with
 	 *         the specified parameter values using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -688,17 +663,15 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} query with
 	 * the specified parameter SQL types and values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the {@code SELECT} query to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
 	 *                        the {@code SELECT} query to execute (may be {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} query with
 	 *         the specified parameter SQL types and values using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -725,13 +698,11 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
 	 * {@link PreparedStatement}.
-	 * <p>
+	 *
 	 * @param statement the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                  {@link PreparedStatement} to execute
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
 	 *         {@link PreparedStatement}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -743,15 +714,13 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
 	 * {@link PreparedStatement} with the specified parameter values.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
 	 *         {@link PreparedStatement} with the specified parameter values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -764,7 +733,7 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT}
 	 * {@link PreparedStatement} with the specified parameter SQL types and values.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
@@ -772,10 +741,8 @@ public class SQL {
 	 *                        {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT}
 	 *         {@link PreparedStatement} with the specified parameter SQL types and values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -816,16 +783,14 @@ public class SQL {
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} query using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
 	 *                   {@link SQLRow})
 	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code SELECT} query to execute
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} query using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -839,16 +804,14 @@ public class SQL {
 	/**
 	 * Returns the rows of the specified table in an {@link ExtendedList} of the specified row
 	 * {@link Class} type using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
 	 *                   {@link SQLRow})
 	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to select
-	 * <p>
 	 * @return the rows of the specified table in an {@link ExtendedList} of the specified row
 	 *         {@link Class} type using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -862,17 +825,15 @@ public class SQL {
 	/**
 	 * Returns the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 * of the specified row {@link Class} type using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>        the element type of the {@link ExtendedList} to return (subtype of
 	 *                   {@link SQLRow})
 	 * @param c          the row {@link Class} of {@code E} type
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to select
 	 * @param columns    the columns of the rows to select (may be {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table in an {@link ExtendedList}
 	 *         of the specified row {@link Class} type using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -887,7 +848,7 @@ public class SQL {
 	 * Returns the specified columns of the rows of the specified table where the specified
 	 * conditional columns are equal to the specified conditional values in an {@link ExtendedList}
 	 * of the specified row {@link Class} type using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>                the element type of the {@link ExtendedList} to return (subtype of
 	 *                           {@link SQLRow})
 	 * @param c                  the row {@link Class} of {@code E} type
@@ -897,12 +858,10 @@ public class SQL {
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the specified conditional values in an
 	 *         {@link ExtendedList} of the specified row {@link Class} type using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -919,7 +878,7 @@ public class SQL {
 	 * conditional columns are equal to the specified conditional values with the specified SQL
 	 * types in an {@link ExtendedList} of the specified row {@link Class} type using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>                the element type of the {@link ExtendedList} to return (subtype of
 	 *                           {@link SQLRow})
 	 * @param c                  the row {@link Class} of {@code E} type
@@ -931,12 +890,10 @@ public class SQL {
 	 *                           columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the specified columns of the rows of the specified table where the specified
 	 *         conditional columns are equal to the specified conditional values with the specified
 	 *         SQL types in an {@link ExtendedList} of the specified row {@link Class} type using
 	 *         the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -958,7 +915,7 @@ public class SQL {
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} query with the specified parameter values using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
 	 *                        {@link SQLRow})
 	 * @param c               the row {@link Class} of {@code E} type
@@ -966,11 +923,9 @@ public class SQL {
 	 * @param query           the {@code SELECT} query to execute
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} query with the specified parameter values using the
 	 *         specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -984,7 +939,7 @@ public class SQL {
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} query with the specified parameter SQL types and values using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
 	 *                        {@link SQLRow})
 	 * @param c               the row {@link Class} of {@code E} type
@@ -994,11 +949,9 @@ public class SQL {
 	 *                        the {@code SELECT} query to execute (may be {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} query with the specified parameter SQL types and values
 	 *         using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1027,16 +980,14 @@ public class SQL {
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} {@link PreparedStatement}.
-	 * <p>
+	 *
 	 * @param <E>       the element type of the {@link ExtendedList} to return (subtype of
 	 *                  {@link SQLRow})
 	 * @param c         the row {@link Class} of {@code E} type
 	 * @param statement the SQL Data Manipulation Language (DML) {@code SELECT}
 	 *                  {@link PreparedStatement} to execute
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} {@link PreparedStatement}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1049,7 +1000,7 @@ public class SQL {
 	/**
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} {@link PreparedStatement} with the specified parameter values.
-	 * <p>
+	 *
 	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
 	 *                        {@link SQLRow})
 	 * @param c               the row {@link Class} of {@code E} type
@@ -1057,11 +1008,9 @@ public class SQL {
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} {@link PreparedStatement} with the specified parameter
 	 *         values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1075,7 +1024,7 @@ public class SQL {
 	 * Returns an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 * the specified {@code SELECT} {@link PreparedStatement} with the specified parameter SQL types
 	 * and values.
-	 * <p>
+	 *
 	 * @param <E>             the element type of the {@link ExtendedList} to return (subtype of
 	 *                        {@link SQLRow})
 	 * @param c               the row {@link Class} of {@code E} type
@@ -1086,11 +1035,9 @@ public class SQL {
 	 *                        {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return an {@link ExtendedList} of the specified row {@link Class} constructed by executing
 	 *         the specified {@code SELECT} {@link PreparedStatement} with the specified parameter
 	 *         SQL types and values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1138,15 +1085,13 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} procedure
 	 * with the specified parameter values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param procedure       the {@code SELECT} procedure to execute
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} procedure
 	 *                        to execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} procedure
 	 *         with the specified parameter values using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1160,18 +1105,16 @@ public class SQL {
 	/**
 	 * Returns a {@link RowList} constructed by executing the specified {@code SELECT} procedure
 	 * with the specified parameter SQL types and values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param procedure       the {@code SELECT} procedure to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
 	 *                        the {@code SELECT} procedure to execute (may be {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code SELECT} procedure
 	 *                        to execute (may be {@code null})
-	 * <p>
 	 * @return a {@link RowList} constructed by executing the specified {@code SELECT} procedure
 	 *         with the specified parameter SQL types and values using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1191,13 +1134,11 @@ public class SQL {
 	/**
 	 * Returns the number of rows deleted by executing the specified {@code DELETE} query using the
 	 * specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code DELETE} query to execute
-	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE} query using the
 	 *         specified {@link Connection}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1208,12 +1149,10 @@ public class SQL {
 
 	/**
 	 * Deletes the rows from the specified table using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table containing the rows to delete
-	 * <p>
 	 * @return the number of deleted rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1226,15 +1165,13 @@ public class SQL {
 	/**
 	 * Deletes the rows from the specified table where the specified conditional columns are equal
 	 * to the specified conditional values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to delete
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of deleted rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1250,7 +1187,7 @@ public class SQL {
 	 * Deletes the rows from the specified table where the specified conditional columns are equal
 	 * to the specified conditional values with the specified SQL types using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table containing the rows to delete
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
@@ -1258,9 +1195,7 @@ public class SQL {
 	 *                           columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of deleted rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1281,16 +1216,14 @@ public class SQL {
 	 * Returns the number of rows deleted by executing the specified {@code DELETE} query with the
 	 * specified parameter values using the specified {@link Connection}, or {@code 0} if nothing is
 	 * returned.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the {@code DELETE} query to execute
 	 * @param parameterValues the array of values of the parameters of the {@code DELETE} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE} query with the
 	 *         specified parameter values using the specified {@link Connection}, or {@code 0} if
 	 *         nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1305,13 +1238,11 @@ public class SQL {
 	/**
 	 * Returns the number of rows deleted by executing the specified {@code DELETE}
 	 * {@link PreparedStatement}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param statement the SQL Data Manipulation Language (DML) {@code DELETE}
 	 *                  {@link PreparedStatement} to execute
-	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE}
 	 *         {@link PreparedStatement}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1324,16 +1255,14 @@ public class SQL {
 	 * Returns the number of rows deleted by executing the specified {@code DELETE}
 	 * {@link PreparedStatement} with the specified parameter values, or {@code 0} if nothing is
 	 * returned.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code DELETE}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterValues the array of values of the parameters of the {@code DELETE}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE}
 	 *         {@link PreparedStatement} with the specified parameter values, or {@code 0} if
 	 *         nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1346,18 +1275,16 @@ public class SQL {
 	 * Returns the number of rows deleted by executing the specified {@code DELETE}
 	 * {@link PreparedStatement} with the specified parameter SQL types and values, or {@code 0} if
 	 * nothing is returned.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code DELETE}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters (may
 	 *                        be {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code DELETE}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return the number of rows deleted by executing the specified {@code DELETE}
 	 *         {@link PreparedStatement} with the specified parameter SQL types and values, or
 	 *         {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1372,13 +1299,11 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the {@code INSERT} query to execute
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT} query using
 	 *         the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1391,16 +1316,14 @@ public class SQL {
 	 * Returns any auto-generated keys created by inserting the row with the specified columns
 	 * containing the specified values into the specified table using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table to insert into
 	 * @param columns    the columns of the row to insert
 	 * @param values     the values of the row to insert
-	 * <p>
 	 * @return any auto-generated keys created by inserting the row with the specified columns
 	 *         containing the specified values into the specified table using the specified
 	 *         {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1415,18 +1338,16 @@ public class SQL {
 	 * Returns any auto-generated keys created by inserting the row with the specified columns
 	 * containing the specified values with the specified SQL types into the specified table using
 	 * the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table to insert into
 	 * @param columns    the columns of the row to insert
 	 * @param types      the {@code int} array containing the SQL types of the row to insert (may be
 	 *                   {@code null})
 	 * @param values     the values of the row to insert
-	 * <p>
 	 * @return any auto-generated keys created by inserting the row with the specified columns
 	 *         containing the specified values with the specified SQL types into the specified table
 	 *         using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1443,15 +1364,13 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query with
 	 * the specified parameter values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the {@code INSERT} query to execute
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT} query with
 	 *         the specified parameter values using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1464,17 +1383,15 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT} query with
 	 * the specified parameter SQL types and values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the {@code INSERT} query to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
 	 *                        the {@code INSERT} query to execute (may be {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT} query to
 	 *                        execute (may be {@code null})
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT} query with
 	 *         the specified parameter SQL types and values using the specified {@link Connection}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1501,13 +1418,11 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
 	 * {@link PreparedStatement}.
-	 * <p>
+	 *
 	 * @param statement the SQL Data Manipulation Language (DML) {@code INSERT}
 	 *                  {@link PreparedStatement} to execute
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT}
 	 *         {@link PreparedStatement}
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1519,15 +1434,13 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
 	 * {@link PreparedStatement} with the specified parameter values.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code INSERT}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT}
 	 *         {@link PreparedStatement} with the specified parameter values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1540,7 +1453,7 @@ public class SQL {
 	/**
 	 * Returns any auto-generated keys created by executing the specified {@code INSERT}
 	 * {@link PreparedStatement} with the specified parameter SQL types and values.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@code INSERT}
 	 *                        {@link PreparedStatement} to execute
 	 * @param parameterTypes  the {@code int} array containing the SQL types of the parameters of
@@ -1548,10 +1461,8 @@ public class SQL {
 	 *                        {@code null})
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return any auto-generated keys created by executing the specified {@code INSERT}
 	 *         {@link PreparedStatement} with the specified parameter SQL types and values
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1582,16 +1493,14 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 * or {@code DELETE} or {@code DDL} query using the specified {@link Connection}, or {@code 0}
 	 * if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param query      the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
 	 *                   {@code DELETE}; or a SQL statement that returns nothing, such as a
 	 *                   {@code DDL} statement
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 *         or {@code DELETE} or {@code DDL} query using the specified {@link Connection}, or
 	 *         {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1603,14 +1512,12 @@ public class SQL {
 	/**
 	 * Updates the rows of the specified table by setting the specified columns to the specified
 	 * values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection a {@link Connection} (session) to a database
 	 * @param table      the table to update
 	 * @param columns    the columns of the rows to update
 	 * @param values     the values of the rows to update to
-	 * <p>
 	 * @return the number of updated rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1625,7 +1532,7 @@ public class SQL {
 	 * Updates the rows of the specified table by setting the specified columns to the specified
 	 * values where the specified conditional columns are equal to the specified conditional values
 	 * using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table to update
 	 * @param columns            the columns of the rows to update
@@ -1633,9 +1540,7 @@ public class SQL {
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of updated rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1652,7 +1557,7 @@ public class SQL {
 	 * Updates the rows of the specified table by setting the specified columns to the specified
 	 * values where the specified conditional columns are equal to the specified conditional values
 	 * with the specified SQL types using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table to update
 	 * @param columns            the columns of the rows to update
@@ -1662,9 +1567,7 @@ public class SQL {
 	 *                           columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of updated rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1686,7 +1589,7 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 * or {@code DELETE} or {@code DDL} query with the specified parameter values using the
 	 * specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
 	 *                        {@code DELETE}; or a SQL statement that returns nothing, such as a
@@ -1694,11 +1597,9 @@ public class SQL {
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE} or {@code DELETE} or {@code DDL} query to execute (may
 	 *                        be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 *         or {@code DELETE} or {@code DDL} query with the specified parameter values using the
 	 *         specified {@link Connection}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1712,7 +1613,7 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 * or {@code DELETE} or {@code DDL} query with the specified parameter SQL types and values
 	 * using the specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param query           the SQL query to execute, such as {@code INSERT}, {@code UPDATE} or
 	 *                        {@code DELETE}; or a SQL statement that returns nothing, such as a
@@ -1723,11 +1624,9 @@ public class SQL {
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE} or {@code DELETE} or {@code DDL} query to execute (may
 	 *                        be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE}
 	 *         or {@code DELETE} or {@code DDL} query with the specified parameter SQL types and
 	 *         values using the specified {@link Connection}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1754,15 +1653,13 @@ public class SQL {
 	/**
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 * {@code DELETE} or {@code DDL} {@link PreparedStatement}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param statement the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
 	 *                  execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or a SQL
 	 *                  statement that returns nothing, such as a {@code DDL} statement
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement}, or {@code 0} if nothing is
 	 *         returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1775,18 +1672,16 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 * {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter values,
 	 * or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
 	 *                        execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or
 	 *                        a SQL statement that returns nothing, such as a {@code DDL} statement
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter
 	 *         values, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1799,7 +1694,7 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 * {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter SQL
 	 * types and values, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param statement       the SQL Data Manipulation Language (DML) {@link PreparedStatement} to
 	 *                        execute, such as {@code INSERT}, {@code UPDATE} or {@code DELETE}; or
 	 *                        a SQL statement that returns nothing, such as a {@code DDL} statement
@@ -1809,11 +1704,9 @@ public class SQL {
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL}
 	 *                        {@link PreparedStatement} to execute (may be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 *         {@code DELETE} or {@code DDL} {@link PreparedStatement} with the specified parameter
 	 *         SQL types and values, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link PreparedStatement}
 	 */
@@ -1837,7 +1730,7 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 * {@code DELETE} or {@code DDL} procedure with the specified parameter values using the
 	 * specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param procedure       the SQL procedure to execute, such as {@code INSERT}, {@code UPDATE}
 	 *                        or {@code DELETE}; or a SQL statement that returns nothing, such as a
@@ -1845,11 +1738,9 @@ public class SQL {
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} procedure to execute
 	 *                        (may be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 *         {@code DELETE} or {@code DDL} procedure with the specified parameter values using the
 	 *         specified {@link Connection}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1868,7 +1759,7 @@ public class SQL {
 	 * Returns the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 * {@code DELETE} or {@code DDL} procedure with the specified parameter SQL types and values
 	 * using the specified {@link Connection}, or {@code 0} if nothing is returned.
-	 * <p>
+	 *
 	 * @param connection      a {@link Connection} (session) to a database
 	 * @param procedure       the SQL procedure to execute, such as {@code INSERT}, {@code UPDATE}
 	 *                        or {@code DELETE}; or a SQL statement that returns nothing, such as a
@@ -1879,11 +1770,9 @@ public class SQL {
 	 * @param parameterValues the array of values of the parameters of the {@code INSERT},
 	 *                        {@code UPDATE}, {@code DELETE} or {@code DDL} procedure to execute
 	 *                        (may be {@code null})
-	 * <p>
 	 * @return the number of rows updated by executing the specified {@code INSERT}, {@code UPDATE},
 	 *         {@code DELETE} or {@code DDL} procedure with the specified parameter SQL types and
 	 *         values using the specified {@link Connection}, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1904,7 +1793,7 @@ public class SQL {
 	 * Updates/inserts the rows/row with the specified columns containing the specified values
 	 * of/into the specified table where the specified conditional columns are equal to the
 	 * specified conditional values using the specified {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table to update/insert into
 	 * @param columns            the columns of the rows/row to update/insert
@@ -1912,9 +1801,7 @@ public class SQL {
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of updated/inserted rows/row, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1931,7 +1818,7 @@ public class SQL {
 	 * of/into the specified table where the specified conditional columns are equal to the
 	 * specified conditional values with the specified SQL types using the specified
 	 * {@link Connection}.
-	 * <p>
+	 *
 	 * @param connection         a {@link Connection} (session) to a database
 	 * @param table              the table to update/insert into
 	 * @param columns            the columns of the rows/row to update/insert
@@ -1941,9 +1828,7 @@ public class SQL {
 	 * @param conditionalColumns the conditional columns to filter (may be {@code null})
 	 * @param conditionalValues  the values of the conditional columns to filter (may be
 	 *                           {@code null})
-	 * <p>
 	 * @return the number of updated/inserted rows, or {@code 0} if nothing is returned
-	 * <p>
 	 * @throws SQLException if a database access error occurs or if this method is called on a
 	 *                      closed {@link Connection}
 	 */
@@ -1968,9 +1853,8 @@ public class SQL {
 
 	/**
 	 * Tests whether the specified {@link Object} is {@code null} or {@code "NULL"}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is {@code null} or {@code "NULL"},
 	 *         {@code false} otherwise
 	 */
@@ -1980,9 +1864,8 @@ public class SQL {
 
 	/**
 	 * Tests whether the specified {@link String} is {@code null} or {@code "NULL"}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is {@code null} or {@code "NULL"},
 	 *         {@code false} otherwise
 	 */

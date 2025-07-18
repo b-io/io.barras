@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ public class CopyFileException
 	/**
 	 * Constructs a {@link CopyFileException} with the specified message {@link String} (which is
 	 * saved for later retrieval by the method {@link #getMessage}).
-	 * <p>
+	 *
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
 	 *                {@link #getMessage})
 	 */
@@ -64,7 +64,7 @@ public class CopyFileException
 	 * Constructs a {@link CopyFileException} with the specified message {@link String} (which is
 	 * saved for later retrieval by the method {@link #getMessage}) and {@link Throwable} cause
 	 * (which is saved for later retrieval by the method {@link #getCause}).
-	 * <p>
+	 *
 	 * @param message the message {@link String} (which is saved for later retrieval by the method
 	 *                {@link #getMessage})
 	 * @param cause   the {@link Throwable} cause (which is saved for later retrieval by the method

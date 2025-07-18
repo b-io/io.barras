@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import jupiter.common.util.Objects;
 
 /**
  * {@link Bound} is the inclusive or exclusive {@code T} value (inclusive by default).
- * <p>
+ *
  * @param <T> the self {@link Comparable} type of the {@link Bound}
  */
 public abstract class Bound<T extends Comparable<? super T>>
@@ -66,7 +66,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Constructs a {@link Bound} of {@code T} type with the specified {@code T} value.
-	 * <p>
+	 *
 	 * @param value       the {@code T} value
 	 * @param isInclusive the flag specifying whether {@code this} is inclusive
 	 */
@@ -82,7 +82,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the {@code T} value.
-	 * <p>
+	 *
 	 * @return the {@code T} value
 	 */
 	public T getValue() {
@@ -91,7 +91,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the flag specifying whether {@code this} is inclusive.
-	 * <p>
+	 *
 	 * @return the flag specifying whether {@code this} is inclusive
 	 */
 	public boolean isInclusive() {
@@ -102,7 +102,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Sets the {@code T} value.
-	 * <p>
+	 *
 	 * @param value a {@code T} value
 	 */
 	public void setValue(final T value) {
@@ -111,7 +111,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Sets the flag specifying whether {@code this} is inclusive.
-	 * <p>
+	 *
 	 * @param isInclusive a {@code boolean} value
 	 */
 	public void setInclusive(final boolean isInclusive) {
@@ -127,10 +127,9 @@ public abstract class Bound<T extends Comparable<? super T>>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link Bound} of {@code T} type to compare against for order (may be
 	 *              {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -144,9 +143,8 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -165,11 +163,9 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -189,9 +185,8 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -204,7 +199,7 @@ public abstract class Bound<T extends Comparable<? super T>>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

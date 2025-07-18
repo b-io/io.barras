@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ public class SimpleWorker
 
 	/**
 	 * Constructs a {@link SimpleWorker} with the specified input {@link Integer}.
-	 * <p>
+	 *
 	 * @param input the input {@link Integer}
 	 */
 	public SimpleWorker(final Integer input) {
@@ -75,9 +75,8 @@ public class SimpleWorker
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

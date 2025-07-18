@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,17 +46,17 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jupiter.common.map.ObjectToStringMapper;
-import jupiter.common.map.parser.IParsers;
-import jupiter.common.map.parser.StringParser;
-import jupiter.common.map.remover.StringRemover;
-import jupiter.common.map.wrapper.StringWrapper;
+import jupiter.common.transform.ObjectToStringMapper;
+import jupiter.common.transform.converter.IConverters;
+import jupiter.common.transform.converter.StringConverter;
+import jupiter.common.transform.remover.StringRemover;
+import jupiter.common.transform.wrapper.StringWrapper;
 import jupiter.common.math.Comparables;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.list.Index;
-import jupiter.common.struct.list.SortedList;
-import jupiter.common.struct.set.ExtendedHashSet;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.list.Index;
+import jupiter.common.struct.collection.list.SortedList;
+import jupiter.common.struct.collection.set.ExtendedHashSet;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.IntegerArguments;
@@ -73,7 +73,7 @@ public class Strings {
 	public static final String[][] EMPTY_ARRAY_2D = new String[][] {};
 	public static final String[][][] EMPTY_ARRAY_3D = new String[][][] {};
 
-	protected static final StringParser PARSER = IParsers.STRING_PARSER;
+	protected static final StringConverter CONVERTER = IConverters.STRING_CONVERTER;
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -178,11 +178,10 @@ public class Strings {
 	 * Compares the specified {@link String} for lexicographic order. Returns a negative integer,
 	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
 	 * @param b the other {@link String} to compare against for lexicographic order (may be
 	 *          {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -194,11 +193,10 @@ public class Strings {
 	 * Compares the specified {@link String} for lexicographic order, ignoring case differences.
 	 * Returns a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 * to or greater than {@code b} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link String} to compare for lexicographic order (may be {@code null})
 	 * @param b the other {@link String} to compare against for lexicographic order (may be
 	 *          {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -225,22 +223,20 @@ public class Strings {
 
 	/**
 	 * Returns a {@link String} converted from the specified {@link Object}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to convert (may be {@code null})
-	 * <p>
 	 * @return a {@link String} converted from the specified {@link Object}
 	 */
 	public static String convert(final Object object) {
-		return PARSER.call(object);
+		return CONVERTER.call(object);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Returns a Unicode {@link String} converted from the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to convert
-	 * <p>
 	 * @return a Unicode {@link String} converted from the specified {@link String}
 	 */
 	public static String toUnicode(final String text) {
@@ -299,20 +295,18 @@ public class Strings {
 
 	/**
 	 * Returns an array of {@link String} converted from the specified array.
-	 * <p>
+	 *
 	 * @param array the array to convert
-	 * <p>
 	 * @return an array of {@link String} converted from the specified array
 	 */
 	public static String[] toArray(final Object[] array) {
-		return PARSER.callToArray(array);
+		return CONVERTER.callToArray(array);
 	}
 
 	/**
 	 * Returns an array of {@link String} converted from the specified array.
-	 * <p>
+	 *
 	 * @param array the array to convert
-	 * <p>
 	 * @return an array of {@link String} converted from the specified array
 	 */
 	public static String[] asArray(final Object... array) {
@@ -323,20 +317,18 @@ public class Strings {
 
 	/**
 	 * Returns a 2D array of {@link String} converted from the specified 2D array.
-	 * <p>
+	 *
 	 * @param array2D the 2D array to convert
-	 * <p>
 	 * @return a 2D array of {@link String} converted from the specified 2D array
 	 */
 	public static String[][] toArray2D(final Object[][] array2D) {
-		return PARSER.callToArray2D(array2D);
+		return CONVERTER.callToArray2D(array2D);
 	}
 
 	/**
 	 * Returns a 2D array of {@link String} converted from the specified 2D array.
-	 * <p>
+	 *
 	 * @param array2D the 2D array to convert
-	 * <p>
 	 * @return a 2D array of {@link String} converted from the specified 2D array
 	 */
 	public static String[][] asArray2D(final Object[]... array2D) {
@@ -347,20 +339,18 @@ public class Strings {
 
 	/**
 	 * Returns a 3D array of {@link String} converted from the specified 3D array.
-	 * <p>
+	 *
 	 * @param array3D the 3D array to convert
-	 * <p>
 	 * @return a 3D array of {@link String} converted from the specified 3D array
 	 */
 	public static String[][][] toArray3D(final Object[][][] array3D) {
-		return PARSER.callToArray3D(array3D);
+		return CONVERTER.callToArray3D(array3D);
 	}
 
 	/**
 	 * Returns a 3D array of {@link String} converted from the specified 3D array.
-	 * <p>
+	 *
 	 * @param array3D the 3D array to convert
-	 * <p>
 	 * @return a 3D array of {@link String} converted from the specified 3D array
 	 */
 	public static String[][][] asArray3D(final Object[][]... array3D) {
@@ -371,13 +361,12 @@ public class Strings {
 
 	/**
 	 * Returns an array of {@link String} converted from the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an array of {@link String} converted from the specified {@link Collection}
 	 */
 	public static String[] collectionToArray(final Collection<?> collection) {
-		return PARSER.callCollectionToArray(collection);
+		return CONVERTER.callCollectionToArray(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -385,24 +374,22 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedList<String> toList(final T[] array) {
-		return PARSER.callToList(array);
+		return CONVERTER.callToList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} converted from the specified {@code T}
 	 *         array
 	 */
@@ -414,24 +401,22 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 *         {@code T} array
 	 */
 	public static <T> ExtendedLinkedList<String> toLinkedList(final T[] array) {
-		return PARSER.callToLinkedList(array);
+		return CONVERTER.callToLinkedList(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 * {@code T} array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 *         {@code T} array
 	 */
@@ -445,28 +430,26 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedList} of {@link String} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedList} of {@link String} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedList<String> collectionToList(final Collection<?> collection) {
-		return PARSER.callCollectionToList(collection);
+		return CONVERTER.callCollectionToList(collection);
 	}
 
 	/**
 	 * Returns an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedLinkedList} of {@link String} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedLinkedList<String> collectionToLinkedList(
 			final Collection<?> collection) {
-		return PARSER.callCollectionToLinkedList(collection);
+		return CONVERTER.callCollectionToLinkedList(collection);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -474,24 +457,22 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
 	 *         array
 	 */
 	public static <T> ExtendedHashSet<String> toSet(final T[] array) {
-		return PARSER.callToSet(array);
+		return CONVERTER.callToSet(array);
 	}
 
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
 	 * array.
-	 * <p>
+	 *
 	 * @param <T>   the component type of the array to convert
 	 * @param array the {@code T} array to convert to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified {@code T}
 	 *         array
 	 */
@@ -505,14 +486,13 @@ public class Strings {
 	/**
 	 * Returns an {@link ExtendedHashSet} of {@link String} converted from the specified
 	 * {@link Collection}.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to convert
-	 * <p>
 	 * @return an {@link ExtendedHashSet} of {@link String} converted from the specified
 	 *         {@link Collection}
 	 */
 	public static ExtendedHashSet<String> collectionToSet(final Collection<?> collection) {
-		return PARSER.callCollectionToSet(collection);
+		return CONVERTER.callCollectionToSet(collection);
 	}
 
 
@@ -522,7 +502,7 @@ public class Strings {
 
 	/**
 	 * Creates a {@link String} bar by default.
-	 * <p>
+	 *
 	 * @return a {@link String} bar by default
 	 */
 	public static String createBar() {
@@ -532,9 +512,8 @@ public class Strings {
 	/**
 	 * Creates a {@link String} bar of the specified length with the default progress {@code char}
 	 * symbol.
-	 * <p>
+	 *
 	 * @param length the length of the bar to create
-	 * <p>
 	 * @return a {@link String} bar of the specified length with the default progress {@code char}
 	 *         symbol
 	 */
@@ -545,9 +524,8 @@ public class Strings {
 	/**
 	 * Creates a {@link String} bar of the default length with the specified progress {@code char}
 	 * symbol.
-	 * <p>
+	 *
 	 * @param progressSymbol the progress {@code char} symbol of the bar to create
-	 * <p>
 	 * @return a {@link String} bar of the default length with the specified progress {@code char}
 	 *         symbol
 	 */
@@ -558,10 +536,9 @@ public class Strings {
 	/**
 	 * Creates a {@link String} bar of the specified length with the specified progress {@code char}
 	 * symbol.
-	 * <p>
+	 *
 	 * @param length         the length of the bar to create
 	 * @param progressSymbol the progress {@code char} symbol of the bar to create
-	 * <p>
 	 * @return a {@link String} bar of the specified length with the specified progress {@code char}
 	 *         symbol
 	 */
@@ -583,9 +560,8 @@ public class Strings {
 
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the random {@link String} to generate
-	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
 	 */
 	public static String random(final int length) {
@@ -603,11 +579,10 @@ public class Strings {
 	/**
 	 * Returns a pseudorandom, uniformly distributed {@link String} of the specified length
 	 * generated with {@code char} values between the specified bounds.
-	 * <p>
+	 *
 	 * @param length the length of the random {@link String} to generate
 	 * @param from   the {@code char} lower bound of the value to generate (inclusive)
 	 * @param to     the {@code char} upper bound of the value to generate (exclusive)
-	 * <p>
 	 * @return a pseudorandom, uniformly distributed {@link String} of the specified length
 	 *         generated with {@code char} values between the specified bounds
 	 */
@@ -654,9 +629,8 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by capitalizing the first character of the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to capitalize (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by capitalizing the first character of the specified
 	 *         {@link String}
 	 */
@@ -680,9 +654,8 @@ public class Strings {
 	 * <dd>To also convert the remaining characters to lower case, use
 	 * {@link #capitalizeStrictly(String)}.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param text the {@link String} to capitalize (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 *         the specified {@link String}
 	 *
@@ -701,10 +674,9 @@ public class Strings {
 	 * <dd>To also convert the remaining characters to lower case, use
 	 * {@link #capitalizeStrictly(String, char...)}.</dd>
 	 * </dl>
-	 * <p>
+	 *
 	 * @param text       the {@link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters
 	 *
@@ -737,9 +709,8 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 * the specified {@link String} and converting the remaining characters to lower case.
-	 * <p>
+	 *
 	 * @param text the {@link String} to capitalize (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the whitespace-separated words of
 	 *         the specified {@link String} and converting the remaining characters to lower case
 	 *
@@ -753,10 +724,9 @@ public class Strings {
 	 * Returns the {@link String} constructed by capitalizing all the words of the specified
 	 * {@link String} separated by the specified {@code char} delimiters and converting the
 	 * remaining characters to lower case.
-	 * <p>
+	 *
 	 * @param text       the {@link String} to capitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by capitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters and converting the
 	 *         remaining characters to lower case
@@ -779,9 +749,8 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by uncapitalizing all the whitespace-separated words
 	 * of the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to uncapitalize (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the whitespace-separated words
 	 *         of the specified {@link String}
 	 *
@@ -794,10 +763,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by uncapitalizing all the words of the specified
 	 * {@link String} separated by the specified {@code char} delimiters.
-	 * <p>
+	 *
 	 * @param text       the {@link String} to uncapitalize (may be {@code null})
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by uncapitalizing all the words of the specified
 	 *         {@link String} separated by the specified {@code char} delimiters
 	 *
@@ -829,10 +797,9 @@ public class Strings {
 	/**
 	 * Returns the number of occurrences of the specified {@code char} token in the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text  the {@link String} to count from (may be {@code null})
 	 * @param token the {@code char} token to count
-	 * <p>
 	 * @return the number of occurrences of the specified {@code char} token in the specified
 	 *         {@link String}
 	 */
@@ -849,10 +816,9 @@ public class Strings {
 	/**
 	 * Returns the number of occurrences of the specified {@code char} tokens in the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text   the {@link String} to count from (may be {@code null})
 	 * @param tokens the {@code char} tokens to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified {@code char} tokens in the specified
 	 *         {@link String}
 	 */
@@ -871,10 +837,9 @@ public class Strings {
 	/**
 	 * Returns the number of occurrences of the specified token {@link String} in the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text  the {@link String} to count from (may be {@code null})
 	 * @param token the token {@link String} to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified token {@link String} in the specified
 	 *         {@link String}
 	 */
@@ -892,10 +857,9 @@ public class Strings {
 	/**
 	 * Returns the number of occurrences of the specified token {@link String} in the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text   the {@link String} to count from (may be {@code null})
 	 * @param tokens the array of token {@link String} to count (may be {@code null})
-	 * <p>
 	 * @return the number of occurrences of the specified token {@link String} in the specified
 	 *         {@link String}
 	 */
@@ -913,9 +877,8 @@ public class Strings {
 
 	/**
 	 * Returns the number of lines of the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text a {@link String}
-	 * <p>
 	 * @return the number of lines of the specified {@link String}
 	 */
 	public static int countLines(final String text) {
@@ -924,10 +887,9 @@ public class Strings {
 
 	/**
 	 * Returns the number of lines of the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text           a {@link String} (may be {@code null})
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines of the specified {@link String}
 	 */
 	public static int countLines(final String text, final boolean skipEmptyLines) {
@@ -966,9 +928,8 @@ public class Strings {
 
 	/**
 	 * Returns the number of lower case characters in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
 	 * @return the number of lower case characters in the specified {@link String}
 	 */
 	public static int countLowerCase(final String text) {
@@ -983,9 +944,8 @@ public class Strings {
 
 	/**
 	 * Returns the number of upper case characters in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
 	 * @return the number of upper case characters in the specified {@link String}
 	 */
 	public static int countUpperCase(final String text) {
@@ -1000,9 +960,8 @@ public class Strings {
 
 	/**
 	 * Returns the number of title case characters in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to count from (may be {@code null})
-	 * <p>
 	 * @return the number of title case characters in the specified {@link String}
 	 */
 	public static int countTitleCase(final String text) {
@@ -1020,9 +979,8 @@ public class Strings {
 	/**
 	 * Returns the escaped representative {@link String} of the specified unescaped content (i.e.
 	 * without traces of offending characters that can prevent parsing).
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to escape
-	 * <p>
 	 * @return the escaped representative {@link String} of the specified unescaped content (i.e.
 	 *         without traces of offending characters that can prevent parsing)
 	 */
@@ -1040,9 +998,8 @@ public class Strings {
 	/**
 	 * Returns the unescaped representative {@link String} of the specified escaped content (i.e.
 	 * with traces of offending characters that can prevent parsing).
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to unescape
-	 * <p>
 	 * @return the unescaped representative {@link String} of the specified escaped content (i.e.
 	 *         with traces of offending characters that can prevent parsing)
 	 */
@@ -1063,9 +1020,8 @@ public class Strings {
 	 * Returns the escaped representative {@link String} of the specified unescaped content for
 	 * regular expressions (i.e. without traces of offending characters that can prevent parsing a
 	 * regular expression).
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to escape
-	 * <p>
 	 * @return the escaped representative {@link String} of the specified unescaped content for
 	 *         regular expressions (i.e. without traces of offending characters that can prevent
 	 *         parsing a regular expression)
@@ -1079,9 +1035,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array of {@link String}, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array an array of {@link String} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array of {@link String}, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -1104,9 +1059,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array an array of {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array, or {@code "null"} if it is
 	 *         {@code null}
 	 */
@@ -1129,9 +1083,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection}, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection}, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -1156,9 +1109,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with
 	 * {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array the array of {@link Object} to join (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with
 	 *         {@link Arrays#DELIMITER}, or {@code "null"} if it is {@code null}
 	 */
@@ -1169,10 +1121,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * {@code char} delimiter, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array     the array of {@link Object} to join (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
@@ -1183,10 +1134,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * delimiting {@link String}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
@@ -1216,10 +1166,9 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined with
 	 * {@link Arrays#DELIMITER} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with
 	 *         {@link Arrays#DELIMITER} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 *         {@code null}
@@ -1232,11 +1181,10 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the {@code char} delimiter
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 *         {@code null}
@@ -1250,11 +1198,10 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified array joined with the specified
 	 * delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param array     an array of {@link Object} (may be {@code null})
 	 * @param delimiter the delimiting {@link String}
 	 * @param wrapper   an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with the specified
 	 *         delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 *         {@code null}
@@ -1288,10 +1235,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified {@code char} delimiter, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the {@code char} delimiter
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified {@code char} delimiter, or {@code "null"} if it is {@code null}
 	 */
@@ -1302,10 +1248,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified delimiting {@link String}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified delimiting {@link String}, or {@code "null"} if it is {@code null}
 	 */
@@ -1335,11 +1280,10 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the {@code char} delimiter
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified {@code char} delimiter and wrapped by {@code wrapper}, or {@code "null"} if
 	 *         it is {@code null}
@@ -1352,10 +1296,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} wrapped by
 	 * {@code wrapper}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} wrapped by
 	 *         {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
@@ -1368,11 +1311,10 @@ public class Strings {
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with the
 	 * specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"} if it
 	 * is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param delimiter  the delimiting {@link String}
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with the
 	 *         specified delimiting {@link String} and wrapped by {@code wrapper}, or {@code "null"}
 	 *         if it is {@code null}
@@ -1406,9 +1348,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array of {@link String} joined with
 	 * a space, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array an array of {@link String} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array of {@link String} joined with
 	 *         a space, or {@code "null"} if it is {@code null}
 	 */
@@ -1419,9 +1360,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with a space, or
 	 * {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array an array of {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with a space, or
 	 *         {@code "null"} if it is {@code null}
 	 */
@@ -1432,9 +1372,8 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with a
 	 * space, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with a
 	 *         space, or {@code "null"} if it is {@code null}
 	 */
@@ -1447,10 +1386,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array of {@link String} joined with
 	 * a space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array   an array of {@link String} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array of {@link String} joined with
 	 *         a space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
@@ -1461,10 +1399,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified array joined with a space and
 	 * wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param array   an array of {@link Object} (may be {@code null})
 	 * @param wrapper an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified array joined with a space and
 	 *         wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
@@ -1475,10 +1412,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Collection} joined with a
 	 * space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}.
-	 * <p>
+	 *
 	 * @param collection a {@link Collection} (may be {@code null})
 	 * @param wrapper    an {@link ObjectToStringMapper}
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Collection} joined with a
 	 *         space and wrapped by {@code wrapper}, or {@code "null"} if it is {@code null}
 	 */
@@ -1492,10 +1428,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by left-padding the specified {@link String} to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param text   a {@link String}
 	 * @param length the length to pad to
-	 * <p>
 	 * @return the {@link String} constructed by left-padding the specified {@link String} to the
 	 *         specified length
 	 */
@@ -1506,11 +1441,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by left-padding the specified {@link String} to the
 	 * specified length with the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param length the length to pad to
 	 * @param token  the {@code char} token to pad with
-	 * <p>
 	 * @return the {@link String} constructed by left-padding the specified {@link String} to the
 	 *         specified length with the specified {@code char} token
 	 */
@@ -1529,10 +1463,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by right-padding the specified {@link String} to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param text   a {@link String}
 	 * @param length the length to pad to
-	 * <p>
 	 * @return the {@link String} constructed by right-padding the specified {@link String} to the
 	 *         specified length
 	 */
@@ -1543,11 +1476,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by right-padding the specified {@link String} to the
 	 * specified length with the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param length the length to pad to
 	 * @param token  the {@code char} token to pad with
-	 * <p>
 	 * @return the {@link String} constructed by right-padding the specified {@link String} to the
 	 *         specified length with the specified {@code char} token
 	 */
@@ -1566,10 +1498,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by center-padding the specified {@link String} to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param text   a {@link String}
 	 * @param length the length to pad to
-	 * <p>
 	 * @return the {@link String} constructed by center-padding the specified {@link String} to the
 	 *         specified length
 	 */
@@ -1580,11 +1511,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by center-padding the specified {@link String} to the
 	 * specified length with the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param length the length to pad to
 	 * @param token  the {@code char} token to pad with
-	 * <p>
 	 * @return the {@link String} constructed by center-padding the specified {@link String} to the
 	 *         specified length with the specified {@code char} token
 	 */
@@ -1603,10 +1533,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by removing the character at the specified index in
 	 * the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param index the index of the character to remove
-	 * <p>
 	 * @return the {@link String} constructed by removing the character at the specified index in
 	 *         the specified {@link String}
 	 */
@@ -1624,10 +1553,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by removing the characters at the specified distinct
 	 * sorted indices in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param indices the distinct sorted indices of the characters to remove (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by removing the characters at the specified distinct
 	 *         sorted indices in the specified {@link String}
 	 */
@@ -1656,11 +1584,10 @@ public class Strings {
 	 * Returns the {@link String} constructed by removing the first occurrence of any of the
 	 * {@code char} tokens that are contained in the specified {@link String} from the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link String} containing the {@code char} tokens to remove (may be
 	 *               {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by removing the first occurrence of any of the
 	 *         {@code char} tokens that are contained in the specified {@link String} from the
 	 *         specified {@link String}
@@ -1679,11 +1606,10 @@ public class Strings {
 	 * Returns the {@link String} constructed by removing the last occurrence of any of the
 	 * {@code char} tokens that are contained in the specified {@link String} from the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link String} containing the {@code char} tokens to remove (may be
 	 *               {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by removing the last occurrence of any of the
 	 *         {@code char} tokens that are contained in the specified {@link String} from the
 	 *         specified {@link String}
@@ -1701,11 +1627,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by removing all the occurrences of the {@code char}
 	 * tokens that are contained in the specified {@link String} from the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link String} containing the {@code char} tokens to remove (may be
 	 *               {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by removing all the occurrences of the {@code char}
 	 *         tokens that are contained in the specified {@link String} from the specified
 	 *         {@link String}
@@ -1724,9 +1649,8 @@ public class Strings {
 
 	/**
 	 * Returns the specified array of {@link String} without the empty {@link String}.
-	 * <p>
+	 *
 	 * @param array an array of {@link String} (may be {@code null})
-	 * <p>
 	 * @return the specified array of {@link String} without the empty {@link String}
 	 */
 	public static String[] removeEmpty(final String... array) {
@@ -1735,10 +1659,9 @@ public class Strings {
 
 	/**
 	 * Returns the specified {@link Collection} without the empty {@link String}.
-	 * <p>
+	 *
 	 * @param <C>        the {@link Collection} type
 	 * @param collection a {@link Collection}
-	 * <p>
 	 * @return the specified {@link Collection} without the empty {@link String}
 	 */
 	public static <C extends Collection<?>> C removeEmpty(final C collection) {
@@ -1751,11 +1674,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the character at the specified index in
 	 * the specified {@link String} by the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param index       the index of the character to replace
 	 * @param replacement the {@code char} token to replace by
-	 * <p>
 	 * @return the {@link String} constructed by replacing the character at the specified index in
 	 *         the specified {@link String} by the specified {@code char} token
 	 */
@@ -1775,11 +1697,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the characters at the specified indices
 	 * in the specified {@link String} respectively by the specified {@code char} tokens.
-	 * <p>
+	 *
 	 * @param text         a {@link String} (may be {@code null})
 	 * @param indices      the indices of the characters to replace (may be {@code null})
 	 * @param replacements the {@code char} tokens to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing the characters at the specified indices
 	 *         in the specified {@link String} respectively by the specified {@code char} tokens
 	 */
@@ -1807,11 +1728,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the substring at the specified index in
 	 * the specified {@link String} by the specified {@link String} of the same length.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param fromIndex   the index to start replacing from (inclusive)
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing the substring at the specified index in
 	 *         the specified {@link String} by the specified {@link String} of the same length
 	 */
@@ -1828,12 +1748,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the substring between the specified
 	 * indices in the specified {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param fromIndex   the index to start replacing from (inclusive)
 	 * @param toIndex     the index to finish replacing at (exclusive)
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing the substring between the specified
 	 *         indices in the specified {@link String} by the specified {@link String}
 	 */
@@ -1859,11 +1778,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing all the characters matching the specified
 	 * {@code char} tokens in the specified {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing all the characters matching the specified
 	 *         {@code char} tokens in the specified {@link String} by the specified {@link String}
 	 */
@@ -1891,12 +1809,11 @@ public class Strings {
 	 * Returns the {@link String} constructed by replacing all the characters matching the specified
 	 * {@code char} tokens inside the specified {@code char} delimiters in the specified
 	 * {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param delimiters  the {@code char} delimiters (may be {@code null})
 	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing all the characters matching the specified
 	 *         {@code char} tokens inside the specified {@code char} delimiters in the specified
 	 *         {@link String} by the specified {@link String}
@@ -1929,12 +1846,11 @@ public class Strings {
 	 * Returns the {@link String} constructed by replacing all the characters matching the specified
 	 * {@code char} tokens outside the specified {@code char} delimiters in the specified
 	 * {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param delimiters  the {@code char} delimiters (may be {@code null})
 	 * @param tokens      the {@code char} tokens to replace (may be {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing all the characters matching the specified
 	 *         {@code char} tokens outside the specified {@code char} delimiters in the specified
 	 *         {@link String} by the specified {@link String}
@@ -1968,12 +1884,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the first substring matching the
 	 * specified regular expression {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing the first substring matching the
 	 *         specified regular expression {@link String} by the specified {@link String}
 	 */
@@ -1991,12 +1906,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing the last substring matching the specified
 	 * regular expression {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing the last substring matching the specified
 	 *         regular expression {@link String} by the specified {@link String}
 	 */
@@ -2025,12 +1939,11 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by replacing all the substrings matching the specified
 	 * regular expression {@link String} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text        a {@link String} (may be {@code null})
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by replacing all the substrings matching the specified
 	 *         regular expression {@link String} by the specified {@link String}
 	 */
@@ -2049,9 +1962,8 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by reversing the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text a {@link String} (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by reversing the specified {@link String}
 	 */
 	public static String reverse(final String text) {
@@ -2068,7 +1980,7 @@ public class Strings {
 
 	/**
 	 * Sorts the specified {@link List} of {@link Index}.
-	 * <p>
+	 *
 	 * @param indices a {@link List} of {@link Index}
 	 */
 	public static void sortStringIndices(final List<Index<String>> indices) {
@@ -2079,9 +1991,8 @@ public class Strings {
 
 	/**
 	 * Returns the {@link String} constructed by stripping the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to trim (may be {@code null})
-	 * <p>
 	 * @return the {@link String} constructed by stripping the specified {@link String}
 	 */
 	public static String trim(final String text) {
@@ -2091,11 +2002,10 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by stripping the specified {@link String} (and
 	 * replacing recursively the adjacent spaces if {@code replaceSpace} to a single space).
-	 * <p>
+	 *
 	 * @param text         the {@link String} to trim (may be {@code null})
 	 * @param replaceSpace the flag specifying whether to replace recursively the adjacent spaces to
 	 *                     a single space
-	 * <p>
 	 * @return the {@link String} constructed by stripping the specified {@link String} (and
 	 *         replacing recursively the adjacent spaces if {@code replaceSpace} to a single space)
 	 */
@@ -2107,13 +2017,12 @@ public class Strings {
 	 * Returns the {@link String} constructed by stripping the specified {@link String} (and
 	 * replacing recursively the adjacent spaces if {@code replaceSpace} and/or special characters
 	 * if {@code replaceSpecial} to a single space).
-	 * <p>
+	 *
 	 * @param text           the {@link String} to trim (may be {@code null})
 	 * @param replaceSpace   the flag specifying whether to replace recursively the adjacent spaces
 	 *                       to a single space
 	 * @param replaceSpecial the flag specifying whether to replace recursively the adjacent special
 	 *                       characters to a single space
-	 * <p>
 	 * @return the {@link String} constructed by stripping the specified {@link String} (and
 	 *         replacing recursively the adjacent spaces if {@code replaceSpace} and/or special
 	 *         characters if {@code replaceSpecial} to a single space)
@@ -2141,10 +2050,9 @@ public class Strings {
 	/**
 	 * Returns the {@link String} constructed by truncating the specified {@link String} to the
 	 * specified length.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param length the length to truncate to
-	 * <p>
 	 * @return the {@link String} constructed by truncating the specified {@link String} to the
 	 *         specified length
 	 */
@@ -2164,10 +2072,9 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified content wrapped with
 	 * {@code wrapper}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} (may be {@code null})
 	 * @param wrapper the {@link String} to wrap with (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified content wrapped with {@code wrapper}
 	 */
 	public static String wrap(final Object content, final String wrapper) {
@@ -2187,11 +2094,10 @@ public class Strings {
 	/**
 	 * Returns a representative {@link String} of the specified content wrapped with {@code left}
 	 * and {@code right}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} (may be {@code null})
 	 * @param left    the {@link String} to wrap with on the left
 	 * @param right   right {@link String} to wrap with on the right
-	 * <p>
 	 * @return a representative {@link String} of the specified content wrapped with {@code left}
 	 *         and {@code right}
 	 */
@@ -2216,9 +2122,8 @@ public class Strings {
 
 	/**
 	 * Returns the quoted representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the quoted representative {@link String} of the specified content
 	 */
 	public static String quote(final Object content) {
@@ -2227,9 +2132,8 @@ public class Strings {
 
 	/**
 	 * Returns the unquoted representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the unquoted representative {@link String} of the specified content
 	 */
 	public static String unquote(final Object content) {
@@ -2240,9 +2144,8 @@ public class Strings {
 
 	/**
 	 * Returns the single-quoted representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the single-quoted representative {@link String} of the specified content
 	 */
 	public static String singleQuote(final Object content) {
@@ -2251,9 +2154,8 @@ public class Strings {
 
 	/**
 	 * Returns the double-quoted representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the double-quoted representative {@link String} of the specified content
 	 */
 	public static String doubleQuote(final Object content) {
@@ -2264,9 +2166,8 @@ public class Strings {
 
 	/**
 	 * Returns the parenthesized representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the parenthesized representative {@link String} of the specified content
 	 */
 	public static String parenthesize(final Object content) {
@@ -2275,9 +2176,8 @@ public class Strings {
 
 	/**
 	 * Returns the bracketized representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the bracketized representative {@link String} of the specified content
 	 */
 	public static String bracketize(final Object content) {
@@ -2286,9 +2186,8 @@ public class Strings {
 
 	/**
 	 * Returns the braced representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the braced representative {@link String} of the specified content
 	 */
 	public static String brace(final Object content) {
@@ -2303,10 +2202,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first occurrence of any of the specified {@code char} tokens in the
 	 * specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@code char} tokens to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified {@code char} tokens in the
 	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2318,11 +2216,10 @@ public class Strings {
 	 * Returns the index of the first occurrence of any of the specified {@code char} tokens in the
 	 * specified {@link String}, seeking forward from the specified index, or {@code -1} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@code char} tokens to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified {@code char} tokens in the
 	 *         specified {@link String}, seeking forward from the specified index, or {@code -1} if
 	 *         there is no such occurrence
@@ -2342,10 +2239,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first occurrence of any of the specified token {@link Character} in
 	 * the specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link Character} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link Character} in
 	 *         the specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2357,12 +2253,11 @@ public class Strings {
 	 * Returns the index of the first occurrence of any of the specified token {@link Character} in
 	 * the specified {@link String}, seeking forward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link Character} to find (may be
 	 *                  {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link Character} in
 	 *         the specified {@link String}, seeking forward from the specified index, or {@code -1}
 	 *         if there is no such occurrence
@@ -2386,10 +2281,9 @@ public class Strings {
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
 	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
 	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
 	 *         occurrence
@@ -2402,11 +2296,10 @@ public class Strings {
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
 	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
 	 * {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
 	 *         {@link String} in the specified {@link String}, seeking forward from the specified
 	 *         index, or {@code null} if there is no such occurrence
@@ -2430,10 +2323,9 @@ public class Strings {
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
 	 * {@link String} in the specified {@link String}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
 	 *         {@link String} in the specified {@link String}, or {@code null} if there is no such
 	 *         occurrence
@@ -2447,11 +2339,10 @@ public class Strings {
 	 * Returns the {@link Index} of the first occurrence of any of the specified token
 	 * {@link String} in the specified {@link String}, seeking forward from the specified index, or
 	 * {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first occurrence of any of the specified token
 	 *         {@link String} in the specified {@link String}, seeking forward from the specified
 	 *         index, or {@code null} if there is no such occurrence
@@ -2476,10 +2367,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last occurrence of any of the specified {@code char} tokens in the
 	 * specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@code char} tokens to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified {@code char} tokens in the
 	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2494,11 +2384,10 @@ public class Strings {
 	 * Returns the index of the last occurrence of any of the specified {@code char} tokens in the
 	 * specified {@link String}, seeking backward from the specified index, or {@code -1} if there
 	 * is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@code char} tokens to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified {@code char} tokens in the
 	 *         specified {@link String}, seeking backward from the specified index, or {@code -1} if
 	 *         there is no such occurrence
@@ -2518,10 +2407,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last occurrence of any of the specified token {@link Character} in
 	 * the specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link Character} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link Character} in
 	 *         the specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2536,12 +2424,11 @@ public class Strings {
 	 * Returns the index of the last occurrence of any of the specified token {@link Character} in
 	 * the specified {@link String}, seeking backward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link Character} to find (may be
 	 *                  {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link Character} in
 	 *         the specified {@link String}, seeking backward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2564,10 +2451,9 @@ public class Strings {
 	/**
 	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 * in the specified {@link String}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
@@ -2582,11 +2468,10 @@ public class Strings {
 	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 * in the specified {@link String}, seeking backward from the specified index, or {@code null}
 	 * if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 *         in the specified {@link String}, seeking backward from the specified index, or
 	 *         {@code null} if there is no such occurrence
@@ -2609,10 +2494,9 @@ public class Strings {
 	/**
 	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 * in the specified {@link String}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 *         in the specified {@link String}, or {@code null} if there is no such occurrence
 	 */
@@ -2627,11 +2511,10 @@ public class Strings {
 	 * Returns the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 * in the specified {@link String}, seeking backward from the specified index, or {@code null}
 	 * if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last occurrence of any of the specified token {@link String}
 	 *         in the specified {@link String}, seeking backward from the specified index, or
 	 *         {@code null} if there is no such occurrence
@@ -2656,10 +2539,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first character in the specified {@link String} that is not equal to
 	 * the specified {@code char} token, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@code char} token to find
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not equal to
 	 *         the specified {@code char} token, or {@code -1} if there is no such occurrence
 	 */
@@ -2671,11 +2553,10 @@ public class Strings {
 	 * Returns the index of the first character in the specified {@link String} that is not equal to
 	 * the specified {@code char} token, seeking forward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@code char} token to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not equal to
 	 *         the specified {@code char} token, seeking forward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2697,10 +2578,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first substring in the specified {@link String} that is not equal to
 	 * the specified token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not equal to
 	 *         the specified token {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2712,11 +2592,10 @@ public class Strings {
 	 * Returns the index of the first substring in the specified {@link String} that is not equal to
 	 * the specified token {@link String}, seeking forward from the specified index, or {@code -1}
 	 * if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not equal to
 	 *         the specified token {@link String}, seeking forward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2738,10 +2617,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last character in the specified {@link String} that is not equal to
 	 * the specified {@code char} token, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@code char} token to find
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not equal to
 	 *         the specified {@code char} token, or {@code -1} if there is no such occurrence
 	 */
@@ -2756,11 +2634,10 @@ public class Strings {
 	 * Returns the index of the last character in the specified {@link String} that is not equal to
 	 * the specified {@code char} token, seeking backward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@code char} token to find
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not equal to
 	 *         the specified {@code char} token, seeking backward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2781,10 +2658,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last substring in the specified {@link String} that is not equal to
 	 * the specified token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not equal to
 	 *         the specified token {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2799,11 +2675,10 @@ public class Strings {
 	 * Returns the index of the last substring in the specified {@link String} that is not equal to
 	 * the specified token {@link String}, seeking backward from the specified index, or {@code -1}
 	 * if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not equal to
 	 *         the specified token {@link String}, seeking backward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2825,10 +2700,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first character in the specified {@link String} that is not in the
 	 * {@code char} tokens, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@code char} tokens to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not in the
 	 *         {@code char} tokens, or {@code -1} if there is no such occurrence
 	 */
@@ -2840,11 +2714,10 @@ public class Strings {
 	 * Returns the index of the first character in the specified {@link String} that is not in the
 	 * {@code char} tokens, seeking forward from the specified index, or {@code -1} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@code char} tokens to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not in the
 	 *         {@code char} tokens, seeking forward from the specified index, or {@code -1} if there
 	 *         is no such occurrence
@@ -2864,10 +2737,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first character in the specified {@link String} that is not in the
 	 * {@link Collection} of token {@link Character}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link Character} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not in the
 	 *         {@link Collection} of token {@link Character}, or {@code -1} if there is no such
 	 *         occurrence
@@ -2880,12 +2752,11 @@ public class Strings {
 	 * Returns the index of the first character in the specified {@link String} that is not in the
 	 * {@link Collection} of token {@link Character}, seeking forward from the specified index, or
 	 * {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link Character} to find (may be
 	 *                  {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first character in the specified {@link String} that is not in the
 	 *         {@link Collection} of token {@link Character}, seeking forward from the specified
 	 *         index, or {@code -1} if there is no such occurrence
@@ -2908,10 +2779,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first substring in the specified {@link String} that is not in the
 	 * array of token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not in the
 	 *         array of token {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -2923,11 +2793,10 @@ public class Strings {
 	 * Returns the index of the first substring in the specified {@link String} that is not in the
 	 * array of token {@link String}, seeking forward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not in the
 	 *         array of token {@link String}, seeking forward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -2952,10 +2821,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first substring in the specified {@link String} that is not in the
 	 * specified {@link List} of token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link List} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not in the
 	 *         specified {@link List} of token {@link String}, or {@code -1} if there is no such
 	 *         occurrence
@@ -2968,11 +2836,10 @@ public class Strings {
 	 * Returns the index of the first substring in the specified {@link String} that is not in the
 	 * specified {@link List} of token {@link String}, seeking forward from the specified index, or
 	 * {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link List} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first substring in the specified {@link String} that is not in the
 	 *         specified {@link List} of token {@link String}, seeking forward from the specified
 	 *         index, or {@code -1} if there is no such occurrence
@@ -3026,10 +2893,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last character in the specified {@link String} that is not in the
 	 * {@code char} tokens, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@code char} tokens to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not in the
 	 *         {@code char} tokens, or {@code -1} if there is no such occurrence
 	 */
@@ -3044,11 +2910,10 @@ public class Strings {
 	 * Returns the index of the last character in the specified {@link String} that is not in the
 	 * {@code char} tokens, seeking backward from the specified index, or {@code -1} if there is no
 	 * such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@code char} tokens to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not in the
 	 *         {@code char} tokens, seeking backward from the specified index, or {@code -1} if
 	 *         there is no such occurrence
@@ -3068,10 +2933,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last character in the specified {@link String} that is not in the
 	 * {@link Collection} of token {@link Character}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link Character} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not in the
 	 *         {@link Collection} of token {@link Character}, or {@code -1} if there is no such
 	 *         occurrence
@@ -3087,12 +2951,11 @@ public class Strings {
 	 * Returns the index of the last character in the specified {@link String} that is not in the
 	 * {@link Collection} of token {@link Character}, seeking backward from the specified index, or
 	 * {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link Character} to find (may be
 	 *                  {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last character in the specified {@link String} that is not in the
 	 *         {@link Collection} of token {@link Character}, seeking backward from the specified
 	 *         index, or {@code -1} if there is no such occurrence
@@ -3115,10 +2978,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last substring in the specified {@link String} that is not in the
 	 * array of token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not in the
 	 *         array of token {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -3133,11 +2995,10 @@ public class Strings {
 	 * Returns the index of the last substring in the specified {@link String} that is not in the
 	 * array of token {@link String}, seeking backward from the specified index, or {@code -1} if
 	 * there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not in the
 	 *         array of token {@link String}, seeking backward from the specified index, or
 	 *         {@code -1} if there is no such occurrence
@@ -3162,10 +3023,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last substring in the specified {@link String} that is not in the
 	 * specified {@link List} of token {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link List} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not in the
 	 *         specified {@link List} of token {@link String}, or {@code -1} if there is no such
 	 *         occurrence
@@ -3181,11 +3041,10 @@ public class Strings {
 	 * Returns the index of the last substring in the specified {@link String} that is not in the
 	 * specified {@link List} of token {@link String}, seeking backward from the specified index, or
 	 * {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link List} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last substring in the specified {@link String} that is not in the
 	 *         specified {@link List} of token {@link String}, seeking backward from the specified
 	 *         index, or {@code -1} if there is no such occurrence
@@ -3239,10 +3098,9 @@ public class Strings {
 
 	/**
 	 * Returns the indices of the specified {@code char} token in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@code char} token to find
-	 * <p>
 	 * @return the indices of the specified {@code char} token in the specified {@link String}
 	 */
 	public static ExtendedLinkedList<Integer> getIndices(final String text, final char token) {
@@ -3252,11 +3110,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@code char} token in the specified {@link String},
 	 * seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@code char} token to find
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the indices of the specified {@code char} token in the specified {@link String},
 	 *         seeking forward from the specified index
 	 */
@@ -3278,11 +3135,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@code char} token in the specified {@link String},
 	 * seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param token   the {@code char} token to find
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the indices of the specified {@code char} token in the specified {@link String},
 	 *         seeking forward to the specified index
 	 */
@@ -3306,10 +3162,9 @@ public class Strings {
 
 	/**
 	 * Returns the indices of the specified {@code char} tokens in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@code char} tokens to find (may be {@code null})
-	 * <p>
 	 * @return the indices of the specified {@code char} tokens in the specified {@link String}
 	 */
 	public static ExtendedLinkedList<Integer> getIndices(final String text, final char... tokens) {
@@ -3319,11 +3174,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@code char} tokens in the specified {@link String},
 	 * seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@code char} tokens to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the indices of the specified {@code char} tokens in the specified {@link String},
 	 *         seeking forward from the specified index
 	 */
@@ -3348,11 +3202,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@code char} tokens in the specified {@link String},
 	 * seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the {@code char} tokens to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the indices of the specified {@code char} tokens in the specified {@link String},
 	 *         seeking forward to the specified index
 	 */
@@ -3379,10 +3232,9 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@link Collection} of token {@link Character} in the
 	 * specified {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link Character} to find (may be {@code null})
-	 * <p>
 	 * @return the indices of the specified {@link Collection} of token {@link Character} in the
 	 *         specified {@link String}
 	 */
@@ -3394,12 +3246,11 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@link Collection} of token {@link Character} in the
 	 * specified {@link String}, seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link Character} to find (may be
 	 *                  {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the indices of the specified {@link Collection} of token {@link Character} in the
 	 *         specified {@link String}, seeking forward from the specified index
 	 */
@@ -3424,12 +3275,11 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified {@link Collection} of token {@link Character} in the
 	 * specified {@link String}, seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the {@link Collection} of token {@link Character} to find (may be
 	 *                {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the indices of the specified {@link Collection} of token {@link Character} in the
 	 *         specified {@link String}, seeking forward to the specified index
 	 */
@@ -3456,10 +3306,9 @@ public class Strings {
 	/**
 	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
 	 * specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -3471,11 +3320,10 @@ public class Strings {
 	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
 	 * specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param text       a {@link String} (may be {@code null})
 	 * @param token      the {@link String} to find (may be {@code null})
 	 * @param ignoreCase the flag specifying whether to ignore case
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if
 	 *         there is no such occurrence
@@ -3489,11 +3337,10 @@ public class Strings {
 	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
 	 * specified {@link String}, seeking forward from the specified index, or {@code -1} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String}, seeking forward from the specified index, or {@code -1} if
 	 *         there is no such occurrence
@@ -3507,12 +3354,11 @@ public class Strings {
 	 * Returns the index of the first occurrence of any of the specified token {@link String} in the
 	 * specified {@link String} (ignoring the case if {@code ignoreCase}), seeking forward from the
 	 * specified index, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text       a {@link String} (may be {@code null})
 	 * @param token      the {@link String} to find (may be {@code null})
 	 * @param fromIndex  the index to start seeking forward from (inclusive)
 	 * @param ignoreCase the flag specifying whether to ignore case
-	 * <p>
 	 * @return the index of the first occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), seeking forward
 	 *         from the specified index, or {@code -1} if there is no such occurrence
@@ -3533,10 +3379,9 @@ public class Strings {
 	/**
 	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
 	 * specified {@link String}, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String}, or {@code -1} if there is no such occurrence
 	 */
@@ -3548,11 +3393,10 @@ public class Strings {
 	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
 	 * specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param text       a {@link String} (may be {@code null})
 	 * @param token      the {@link String} to find (may be {@code null})
 	 * @param ignoreCase the flag specifying whether to ignore case
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), or {@code -1} if
 	 *         there is no such occurrence
@@ -3566,11 +3410,10 @@ public class Strings {
 	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
 	 * specified {@link String}, seeking backward from the specified index, or {@code -1} if there
 	 * is no such occurrence.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String}, seeking backward from the specified index, or {@code -1} if
 	 *         there is no such occurrence
@@ -3584,12 +3427,11 @@ public class Strings {
 	 * Returns the index of the last occurrence of any of the specified token {@link String} in the
 	 * specified {@link String} (ignoring the case if {@code ignoreCase}), seeking backward from the
 	 * specified index, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param text       a {@link String} (may be {@code null})
 	 * @param token      the {@link String} to find (may be {@code null})
 	 * @param fromIndex  the index to start seeking backward from (inclusive)
 	 * @param ignoreCase the flag specifying whether to ignore case
-	 * <p>
 	 * @return the index of the last occurrence of any of the specified token {@link String} in the
 	 *         specified {@link String} (ignoring the case if {@code ignoreCase}), seeking backward
 	 *         from the specified index, or {@code -1} if there is no such occurrence
@@ -3609,10 +3451,9 @@ public class Strings {
 
 	/**
 	 * Returns the indices of the specified token {@link String} in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text  a {@link String} (may be {@code null})
 	 * @param token the {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the indices of the specified token {@link String} in the specified {@link String}
 	 */
 	public static ExtendedLinkedList<Integer> getStringIndices(final String text,
@@ -3623,11 +3464,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified token {@link String} in the specified {@link String},
 	 * seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param token     the {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the indices of the specified token {@link String} in the specified {@link String},
 	 *         seeking forward from the specified index
 	 */
@@ -3649,11 +3489,10 @@ public class Strings {
 	/**
 	 * Returns the indices of the specified token {@link String} in the specified {@link String},
 	 * seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param token   the {@link String} to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the indices of the specified token {@link String} in the specified {@link String},
 	 *         seeking forward to the specified index
 	 */
@@ -3679,10 +3518,9 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 * specified {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 *         specified {@link String}
 	 */
@@ -3694,11 +3532,10 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 * specified {@link String}, seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the array of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 *         specified {@link String}, seeking forward from the specified index
 	 */
@@ -3723,11 +3560,10 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 * specified {@link String}, seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the array of token {@link String} to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified token {@link String} in the
 	 *         specified {@link String}, seeking forward to the specified index
 	 */
@@ -3754,10 +3590,9 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 * {@link String} in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text   a {@link String} (may be {@code null})
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 *         {@link String} in the specified {@link String}
 	 */
@@ -3769,11 +3604,10 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 * {@link String} in the specified {@link String}, seeking forward from the specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String} (may be {@code null})
 	 * @param tokens    the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 *         {@link String} in the specified {@link String}, seeking forward from the specified
 	 *         index
@@ -3799,11 +3633,10 @@ public class Strings {
 	/**
 	 * Returns the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 * {@link String} in the specified {@link String}, seeking forward to the specified index.
-	 * <p>
+	 *
 	 * @param text    a {@link String} (may be {@code null})
 	 * @param tokens  the {@link Collection} of token {@link String} to find (may be {@code null})
 	 * @param toIndex the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link SortedList} of {@link Index} of the specified {@link Collection} of token
 	 *         {@link String} in the specified {@link String}, seeking forward to the specified
 	 *         index
@@ -3831,10 +3664,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting indices.
-	 * <p>
+	 *
 	 * @param text             a {@link String}
 	 * @param delimiterIndices an {@code int} array
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting indices
 	 */
@@ -3850,11 +3682,10 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting indices until the specified index.
-	 * <p>
+	 *
 	 * @param text             a {@link String}
 	 * @param delimiterIndices an {@code int} array
 	 * @param toIndex          the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting indices until the specified
 	 *         index
@@ -3887,10 +3718,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting indices.
-	 * <p>
+	 *
 	 * @param text             a {@link String}
 	 * @param delimiterIndices a {@link Collection} of {@link Integer}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting indices
 	 */
@@ -3906,11 +3736,10 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting indices until the specified index.
-	 * <p>
+	 *
 	 * @param text             a {@link String}
 	 * @param delimiterIndices a {@link Collection} of {@link Integer}
 	 * @param toIndex          the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting indices until the specified
 	 *         index
@@ -3945,10 +3774,9 @@ public class Strings {
 	 * Returns the index of the first occurrence of the specified token {@link String} in the
 	 * specified array of {@link String} ignoring the case, or {@code -1} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param array an array of {@link String} (may be {@code null})
 	 * @param token the token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the first occurrence of the specified token {@link String} in the
 	 *         specified array of {@link String} ignoring the case, or {@code -1} if there is no
 	 *         such occurrence
@@ -3961,11 +3789,10 @@ public class Strings {
 	 * Returns the index of the first occurrence of the specified token {@link String} in the
 	 * specified array of {@link String} ignoring the case, seeking forward from the specified
 	 * index, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param array     an array of {@link String} (may be {@code null})
 	 * @param token     the token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the index of the first occurrence of the specified token {@link String} in the
 	 *         specified array of {@link String} ignoring the case, seeking forward from the
 	 *         specified index, or {@code -1} if there is no such occurrence
@@ -3988,10 +3815,9 @@ public class Strings {
 	 * Returns the index of the last occurrence of the specified token {@link String} in the
 	 * specified array of {@link String} ignoring the case, or {@code -1} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param array an array of {@link String} (may be {@code null})
 	 * @param token the token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the index of the last occurrence of the specified token {@link String} in the
 	 *         specified array of {@link String} ignoring the case, or {@code -1} if there is no
 	 *         such occurrence
@@ -4004,11 +3830,10 @@ public class Strings {
 	 * Returns the index of the last occurrence of the specified token {@link String} in the
 	 * specified array of {@link String} ignoring the case, seeking backward from the specified
 	 * index, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param array     an array of {@link String} (may be {@code null})
 	 * @param token     the token {@link String} to find (may be {@code null})
 	 * @param fromIndex the index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the index of the last occurrence of the specified token {@link String} in the
 	 *         specified array of {@link String} ignoring the case, seeking backward from the
 	 *         specified index, or {@code -1} if there is no such occurrence
@@ -4033,9 +3858,8 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around {@link Arrays#DELIMITER}.
-	 * <p>
+	 *
 	 * @param text a {@link String}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around {@link Arrays#DELIMITER}
 	 */
@@ -4050,10 +3874,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified {@code char} delimiter.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the {@code char} delimiter
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified {@code char} delimiter
 	 */
@@ -4069,11 +3892,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified {@code char} delimiter until the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the {@code char} delimiter
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified {@code char} delimiter until the
 	 *         specified index
@@ -4088,10 +3910,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link Character}.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link Character} (may be {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link Character}
 	 */
@@ -4107,11 +3928,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link Character} until the
 	 * specified index.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link Character} (may be {@code null})
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link Character} until the
 	 *         specified index
@@ -4134,10 +3954,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified {@code char} delimiters.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified {@code char} delimiters
 	 */
@@ -4153,11 +3972,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified {@code char} delimiters until the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@code char} delimiters (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified {@code char} delimiters until the
 	 *         specified index
@@ -4172,11 +3990,10 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link Character}.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character} (may be
 	 *                   {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link Character}
 	 */
@@ -4193,12 +4010,11 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link Character} until the
 	 * specified index.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link Collection} of delimiting {@link Character} (may be
 	 *                   {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link Character} until the
 	 *         specified index
@@ -4213,10 +4029,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String} (may be {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
@@ -4233,11 +4048,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String} until the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param text      a {@link String}
 	 * @param delimiter the delimiting {@link String} (may be {@code null})
 	 * @param toIndex   the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String} until the
 	 *         specified index
@@ -4274,10 +4088,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String} (may be {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
@@ -4294,11 +4107,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String} until the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the array of delimiting {@link String} (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String} until the
 	 *         specified index
@@ -4335,10 +4147,9 @@ public class Strings {
 	/**
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String}.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String} (may be {@code null})
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String}
 	 */
@@ -4355,11 +4166,10 @@ public class Strings {
 	 * Returns the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 * specified {@link String} around the specified delimiting {@link String} until the specified
 	 * index.
-	 * <p>
+	 *
 	 * @param text       a {@link String}
 	 * @param delimiters the {@link List} of delimiting {@link String} (may be {@code null})
 	 * @param toIndex    the index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of token {@link String} computed by splitting the
 	 *         specified {@link String} around the specified delimiting {@link String} until the
 	 *         specified index
@@ -4393,9 +4203,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link String}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link String},
 	 *         {@code false} otherwise
 	 */
@@ -4405,9 +4214,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link String}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link String},
 	 *         {@code false} otherwise
 	 */
@@ -4419,9 +4227,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is {@code null} or empty, {@code false}
 	 *         otherwise
 	 */
@@ -4431,9 +4238,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -4443,9 +4249,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -4457,9 +4262,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is lower case.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is lower case, {@code false} otherwise
 	 */
 	public static boolean isLowerCase(final String text) {
@@ -4479,9 +4283,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is upper case.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is upper case, {@code false} otherwise
 	 */
 	public static boolean isUpperCase(final String text) {
@@ -4503,9 +4306,8 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} is numeric.
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is numeric, {@code false} otherwise
 	 */
 	public static boolean isNumeric(final String text) {
@@ -4538,11 +4340,10 @@ public class Strings {
 	/**
 	 * Tests whether the specified {@link String} is between the specified lower and upper bound
 	 * {@link String} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param text the {@link String} to test (may be {@code null})
 	 * @param from the lower bound {@link String} to test against (inclusive) (may be {@code null})
 	 * @param to   the upper bound {@link String} to test against (exclusive) (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
 	 *         bound {@link String}, {@code false} otherwise
 	 */
@@ -4553,14 +4354,13 @@ public class Strings {
 	/**
 	 * Tests whether the specified {@link String} is between the specified lower and upper bound
 	 * {@link String} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param text             the {@link String} to test (may be {@code null})
 	 * @param from             the lower bound {@link String} to test against (inclusive) (may be
 	 *                         {@code null})
 	 * @param to               the upper bound {@link String} to test against (exclusive) (may be
 	 *                         {@code null})
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
 	 *         bound {@link String}, {@code false} otherwise
 	 */
@@ -4572,7 +4372,7 @@ public class Strings {
 	/**
 	 * Tests whether the specified {@link String} is between the specified lower and upper bound
 	 * {@link String} (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param text             the {@link String} to test (may be {@code null})
 	 * @param from             the lower bound {@link String} to test against (inclusive) (may be
 	 *                         {@code null})
@@ -4580,7 +4380,6 @@ public class Strings {
 	 *                         {@code null})
 	 * @param isLowerInclusive the flag specifying whether the lower bound is inclusive
 	 * @param isUpperInclusive the flag specifying whether the upper bound is inclusive
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is between the specified lower and upper
 	 *         bound {@link String}, {@code false} otherwise
 	 */
@@ -4594,10 +4393,9 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} contains the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param text  the {@link String} to test (may be {@code null})
 	 * @param token the {@code char} token to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} contains the specified {@code char}
 	 *         token, {@code false} otherwise
 	 */
@@ -4607,10 +4405,9 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} contains any of the specified {@code char} tokens.
-	 * <p>
+	 *
 	 * @param text   the {@link String} to test (may be {@code null})
 	 * @param tokens the {@code char} tokens to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} contains any of the specified
 	 *         {@code char} tokens, {@code false} otherwise
 	 */
@@ -4629,10 +4426,9 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} contains the specified token {@link String}.
-	 * <p>
+	 *
 	 * @param text  the {@link String} to test (may be {@code null})
 	 * @param token the token {@link String} to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} contains the specified token
 	 *         {@link String}, {@code false} otherwise
 	 */
@@ -4643,10 +4439,9 @@ public class Strings {
 	/**
 	 * Tests whether the specified {@link String} contains any of the specified token
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param text   the {@link String} to test (may be {@code null})
 	 * @param tokens the array of token {@link String} to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} contains any of the specified token
 	 *         {@link String}, {@code false} otherwise
 	 */
@@ -4665,10 +4460,9 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} matches {@code expression}.
-	 * <p>
+	 *
 	 * @param text       the {@link String} to test (may be {@code null})
 	 * @param expression the expression {@link String} to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} matches {@code expression},
 	 *         {@code false} otherwise
 	 */
@@ -4678,10 +4472,9 @@ public class Strings {
 
 	/**
 	 * Tests whether the specified {@link String} matches any {@code expressions}.
-	 * <p>
+	 *
 	 * @param text        the {@link String} to test (may be {@code null})
 	 * @param expressions the array of expression {@link String} to test for presence
-	 * <p>
 	 * @return {@code true} if the specified {@link String} matches any {@code expressions},
 	 *         {@code false} otherwise
 	 */
@@ -4704,10 +4497,9 @@ public class Strings {
 	/**
 	 * Tests whether the representative {@link String} of {@code a} is equal to the representative
 	 * {@link String} of {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the representative {@link String} of {@code a} is equal to the
 	 *         representative {@link String} of {@code b}, {@code false} otherwise
 	 */
@@ -4717,10 +4509,9 @@ public class Strings {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} ignoring the case.
-	 * <p>
+	 *
 	 * @param a the {@link Object} to compare for equality (may be {@code null})
 	 * @param b the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} ignoring the case, {@code false}
 	 *         otherwise
 	 */

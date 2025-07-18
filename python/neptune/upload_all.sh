@@ -5,6 +5,13 @@ sh install
 #twine upload dist/*
 cd ..
 
+cd nformat/
+rm -rf dist
+rm -rf target
+sh install
+#twine upload dist/*
+cd ..
+
 cd ngui/
 rm -rf dist
 rm -rf target
@@ -22,6 +29,13 @@ cd ..
 cd nmath/
 rm -rf dist
 #rm -rf target
+sh install
+#twine upload dist/*
+cd ..
+
+cd nserve/
+rm -rf dist
+rm -rf target
 sh install
 #twine upload dist/*
 cd ..

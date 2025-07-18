@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -60,9 +60,8 @@ public abstract class IOAppender
 
 	/**
 	 * Prints the specified {@link Message} and terminates the line.
-	 * <p>
+	 *
 	 * @param message the {@link Message} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -94,9 +93,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#TRACE}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean trace(final Object content);
@@ -104,9 +102,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#DEBUG}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean debug(final Object content);
@@ -114,9 +111,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#TEST}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean test(final Object content);
@@ -124,9 +120,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#INFO}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean info(final Object content);
@@ -134,9 +129,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#RESULT}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean result(final Object content);
@@ -146,9 +140,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean warn(final Object content);
@@ -156,9 +149,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#WARNING}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean warn(final Exception exception);
@@ -168,9 +160,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean error(final Object content);
@@ -178,9 +169,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#ERROR}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean error(final Exception exception);
@@ -190,9 +180,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified content {@link Object} indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean fail(final Object content);
@@ -200,9 +189,8 @@ public abstract class IOAppender
 	/**
 	 * Prints the specified {@link Exception} indicating the severity level
 	 * {@link SeverityLevel#FAILURE}.
-	 * <p>
+	 *
 	 * @param exception an {@link Exception}
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public abstract boolean fail(final Exception exception);
@@ -214,9 +202,8 @@ public abstract class IOAppender
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

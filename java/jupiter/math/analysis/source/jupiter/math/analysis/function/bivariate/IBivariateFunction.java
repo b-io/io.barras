@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,9 @@ public interface IBivariateFunction {
 
 	/**
 	 * Applies the bivariate function to the specified values.
-	 * <p>
+	 *
 	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value
-	 * <p>
 	 * @return {@code f(x1, x2)}
 	 */
 	public double apply(final double x1, final double x2);

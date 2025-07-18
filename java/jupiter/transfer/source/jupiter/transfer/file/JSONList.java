@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.util.Objects;
 
 /**
@@ -61,9 +61,8 @@ public class JSONList
 
 	/**
 	 * Constructs an empty {@link JSONList} with the specified initial capacity.
-	 * <p>
+	 *
 	 * @param initialCapacity the initial capacity
-	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public JSONList(final int initialCapacity) {
@@ -74,7 +73,7 @@ public class JSONList
 
 	/**
 	 * Constructs a {@link JSONList} with the specified elements.
-	 * <p>
+	 *
 	 * @param elements an array of {@link JSONObject}
 	 */
 	public JSONList(final JSONObject... elements) {
@@ -83,7 +82,7 @@ public class JSONList
 
 	/**
 	 * Constructs a {@link JSONList} with the elements of the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param elements a {@link Collection} of {@link JSONObject}
 	 */
 	public JSONList(final Collection<? extends JSONObject> elements) {
@@ -98,14 +97,12 @@ public class JSONList
 	/**
 	 * Appends the {@link JSONObject} loaded from the specified key and value arrays containing the
 	 * key-value mappings to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param keys   the array of {@link String} containing the keys of the key-value mappings of
 	 *               the {@link JSONObject} to append
 	 * @param values the array of {@link Object} containing the values of the key-value mappings of
 	 *               the {@link JSONObject} to append
-	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add}
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public boolean add(final String[] keys, final Object[] values) {
@@ -115,14 +112,12 @@ public class JSONList
 	/**
 	 * Appends the {@link JSONObject} loaded from the specified key array and value
 	 * {@link Collection} containing the key-value mappings to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param keys   the array of {@link String} containing the keys of the key-value mappings of
 	 *               the {@link JSONObject} to append
 	 * @param values the {@link Collection} containing the values of the key-value mappings of the
 	 *               {@link JSONObject} to append
-	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add}
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public boolean add(final String[] keys, final Collection<?> values) {
@@ -132,14 +127,12 @@ public class JSONList
 	/**
 	 * Appends the {@link JSONObject} loaded from the specified key and value {@link Collection}
 	 * containing the key-value mappings to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param keys   the {@link Collection} of {@link String} containing the keys of the key-value
 	 *               mappings of the {@link JSONObject} to append
 	 * @param values the {@link Collection} containing the values of the key-value mappings of the
 	 *               {@link JSONObject} to append
-	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add}
-	 * <p>
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
 	public boolean add(final Collection<String> keys, final Collection<?> values) {
@@ -151,10 +144,9 @@ public class JSONList
 	/**
 	 * Appends the {@link JSONObject} loaded from the specified {@link Map} containing the key-value
 	 * mappings to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param map the {@link Map} containing the key-value mappings of the {@link JSONObject} to
 	 *            append
-	 * <p>
 	 * @return {@code true} (as specified by {@link Collection#add})
 	 */
 	public boolean add(final Map<String, ?> map) {
@@ -165,7 +157,7 @@ public class JSONList
 
 	/**
 	 * Returns a JSON {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a JSON {@link String} of {@code this}
 	 */
 	public String stringify() {
@@ -179,9 +171,8 @@ public class JSONList
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -197,7 +188,7 @@ public class JSONList
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

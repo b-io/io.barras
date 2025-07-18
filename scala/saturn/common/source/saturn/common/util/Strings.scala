@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,9 +38,8 @@ object Strings {
 
 	/**
 	 * Returns the quoted representative {@link String} of the specified content.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
-	 * <p>
 	 * @return the quoted representative {@link String} of the specified content
 	 */
 	def quote(content: Object) = "'" + String.valueOf(content) + "'"

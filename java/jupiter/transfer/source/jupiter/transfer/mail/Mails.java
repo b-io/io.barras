@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -56,11 +56,9 @@ public class Mails {
 
 	/**
 	 * Returns the array of {@link BodyPart} of the specified {@link MimeMessage}.
-	 * <p>
+	 *
 	 * @param mail a {@link MimeMessage}
-	 * <p>
 	 * @return the array of {@link BodyPart} of the specified {@link MimeMessage}
-	 * <p>
 	 * @throws IOException        if there is a problem with querying the file system
 	 * @throws MessagingException if there is a problem with accessing {@code mail}
 	 */
@@ -87,16 +85,14 @@ public class Mails {
 	/**
 	 * Creates a {@link MimeMessage} with the specified {@link Session}, sender, recipients, subject
 	 * and content {@link Multipart}.
-	 * <p>
+	 *
 	 * @param session    the {@link Session} of the mail to create
 	 * @param sender     the sender {@link String}
 	 * @param recipients the comma-separated recipients {@link String}
 	 * @param subject    the subject {@link String} of the mail to create
 	 * @param content    the content {@link Multipart} of the mail to create
-	 * <p>
 	 * @return a {@link MimeMessage} with the specified {@link Session}, sender, recipients, subject
 	 *         and content {@link Multipart}
-	 * <p>
 	 * @throws AddressException   if there is a problem with the sender
 	 * @throws MessagingException if there is a problem with creating the mail
 	 */
@@ -119,9 +115,8 @@ public class Mails {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link MimeMessage}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link MimeMessage},
 	 *         {@code false} otherwise
 	 */
@@ -131,9 +126,8 @@ public class Mails {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link MimeMessage}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link MimeMessage},
 	 *         {@code false} otherwise
 	 */
@@ -145,12 +139,10 @@ public class Mails {
 
 	/**
 	 * Tests whether the specified {@link BodyPart} is an attachment.
-	 * <p>
+	 *
 	 * @param bodyPart the {@link BodyPart} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link BodyPart} is an attachment, {@code false}
 	 *         otherwise
-	 * <p>
 	 * @throws MessagingException if there is a problem with accessing {@code bodyPart}
 	 */
 	public static boolean isAttachment(final BodyPart bodyPart)

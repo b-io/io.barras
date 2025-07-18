@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -48,7 +48,7 @@ import jupiter.common.math.Interval;
 import jupiter.common.math.Maths;
 import jupiter.common.math.Statistics;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.struct.table.DoubleTable;
 import jupiter.common.struct.table.Table;
 import jupiter.common.struct.tuple.Triple;
@@ -74,10 +74,10 @@ import jupiter.math.linear.test.MatrixArguments;
 
 /**
  * {@link Matrix} extends the Java Matrix Class (JAMA).
- * <p>
+ *
  * This extension provides especially the possibilities to multiply a {@link Matrix} with a
  * {@link Vector} or a {@link Scalar} and to parse a {@link Matrix} from an input {@link String}.
- * <p>
+ *
  * The Java Matrix Class provides the fundamental operations of numerical linear algebra. Various
  * constructors create a {@link Matrix} from 2D {@code double} arrays. Various "gets" and "sets"
  * provide access to elements and sub-{@link Matrix}. Several methods implement basic matrix
@@ -85,7 +85,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * array operations. Methods for reading and printing matrices are also included. All the operations
  * in this version of the Java Matrix Class involve real matrices. Complex matrices may be handled
  * in a future version.
- * <p>
+ *
  * Five fundamental matrix decompositions, which consist of pairs or triples of matrices,
  * permutation vectors and the like, produce results in five decomposition classes. These
  * decompositions are accessed by the Java Matrix Class to compute solutions of simultaneous linear
@@ -101,7 +101,7 @@ import jupiter.math.linear.test.MatrixArguments;
  * <dt><b>Example:</b></dt>
  * <dd>Solve a linear system A x = b and compute the residual norm, ||b - A x||.</dd>
  * </dl>
- * <p>
+ *
  * @author Florian Barras and JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -164,7 +164,7 @@ public class Matrix
 
 	/**
 	 * Constructs a square {@link Matrix} of zeros with the specified number of rows and columns.
-	 * <p>
+	 *
 	 * @param size the number of rows and columns
 	 */
 	public Matrix(final int size) {
@@ -173,7 +173,7 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} of zeros with the specified {@link Dimensions}.
-	 * <p>
+	 *
 	 * @param dimensions the {@link Dimensions}
 	 */
 	public Matrix(final Dimensions dimensions) {
@@ -182,7 +182,7 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} of zeros with the specified numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 */
@@ -206,7 +206,7 @@ public class Matrix
 	/**
 	 * Constructs a constant {@link Matrix} with the specified numbers of rows and columns and
 	 * constant.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 * @param constant    the {@code double} constant
@@ -235,11 +235,10 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} with the specified values.
-	 * <p>
+	 *
 	 * @param rowCount  the number of rows
 	 * @param values    the {@code double} values of the elements
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @throws IllegalArgumentException if the {@code values} length is not a multiple of
 	 *                                  {@code rowCount}
 	 */
@@ -276,9 +275,8 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} with the specified values.
-	 * <p>
+	 *
 	 * @param values the values of the elements in a 2D {@code double} array
-	 * <p>
 	 * @throws IllegalArgumentException if {@code values} has different row lengths
 	 */
 	public Matrix(final double[][] values) {
@@ -288,11 +286,10 @@ public class Matrix
 	/**
 	 * Constructs a {@link Matrix} with the specified numbers of rows and columns with the specified
 	 * values.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
 	 * @param values      the values of the elements in a 2D {@code double} array
-	 * <p>
 	 * @throws IllegalArgumentException if the {@code values} rows have not the same length
 	 */
 	public Matrix(final int rowCount, final int columnCount, final double[][] values) {
@@ -326,10 +323,9 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path      the path to the file to load
 	 * @param hasHeader the flag specifying whether the file has a header
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public Matrix(final String path, final boolean hasHeader)
@@ -339,7 +335,7 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} with the specified {@link DoubleTable} containing the elements.
-	 * <p>
+	 *
 	 * @param table the {@link DoubleTable} containing the elements
 	 */
 	public Matrix(final DoubleTable table) {
@@ -348,10 +344,9 @@ public class Matrix
 
 	/**
 	 * Constructs a {@link Matrix} with the specified number of rows and elements.
-	 * <p>
+	 *
 	 * @param rowCount the number of rows
 	 * @param elements a {@code double} array
-	 * <p>
 	 * @throws IllegalArgumentException if the {@code elements} length is not a multiple of
 	 *                                  {@code rowCount}
 	 */
@@ -382,7 +377,7 @@ public class Matrix
 
 	/**
 	 * Returns the name.
-	 * <p>
+	 *
 	 * @return the name
 	 */
 	@Override
@@ -392,7 +387,7 @@ public class Matrix
 
 	/**
 	 * Returns the row dimension.
-	 * <p>
+	 *
 	 * @return the row dimension
 	 */
 	public int getRowDimension() {
@@ -401,7 +396,7 @@ public class Matrix
 
 	/**
 	 * Returns the column dimension.
-	 * <p>
+	 *
 	 * @return the column dimension
 	 */
 	public int getColumnDimension() {
@@ -410,7 +405,7 @@ public class Matrix
 
 	/**
 	 * Returns the {@link Dimensions}.
-	 * <p>
+	 *
 	 * @return the {@link Dimensions}
 	 */
 	@Override
@@ -420,7 +415,7 @@ public class Matrix
 
 	/**
 	 * Returns the {@code double} elements.
-	 * <p>
+	 *
 	 * @return the {@code double} elements
 	 */
 	public double[] getElements() {
@@ -431,12 +426,10 @@ public class Matrix
 
 	/**
 	 * Returns the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i the row index
 	 * @param j the column index
-	 * <p>
 	 * @return the element at the specified row and column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public double get(final int i, final int j) {
@@ -447,11 +440,9 @@ public class Matrix
 
 	/**
 	 * Returns the {@code double} values of the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i the row index
-	 * <p>
 	 * @return the {@code double} values of the elements of the specified row
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public double[] getRow(final int i) {
@@ -461,13 +452,11 @@ public class Matrix
 	/**
 	 * Returns the elements of the specified row truncated from the specified column index in a
 	 * {@code double} array.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
-	 * <p>
 	 * @return the elements of the specified row truncated from the specified column index in a
 	 *         {@code double} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public double[] getRow(final int i, final int fromColumn) {
@@ -477,14 +466,12 @@ public class Matrix
 	/**
 	 * Returns the {@code double} values of the elements of the specified row truncated from the
 	 * specified column index to the specified length.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to get
-	 * <p>
 	 * @return the {@code double} values of the elements of the specified row truncated from the
 	 *         specified column index to the specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public double[] getRow(final int i, final int fromColumn, final int length) {
@@ -497,11 +484,9 @@ public class Matrix
 
 	/**
 	 * Returns the {@code double} values of the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j the column index
-	 * <p>
 	 * @return the {@code double} values of the elements of the specified column
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public double[] getColumn(final int j) {
@@ -511,13 +496,11 @@ public class Matrix
 	/**
 	 * Returns the elements of the specified column truncated from the specified row index in a
 	 * {@code double} array.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
-	 * <p>
 	 * @return the elements of the specified column truncated from the specified row index in a
 	 *         {@code double} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int fromRow) {
@@ -527,14 +510,12 @@ public class Matrix
 	/**
 	 * Returns the {@code double} values of the elements of the specified column truncated from the
 	 * specified row index to the specified length.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to get
-	 * <p>
 	 * @return the {@code double} values of the elements of the specified column truncated from the
 	 *         specified row index to the specified length
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public double[] getColumn(final int j, final int fromRow, final int length) {
@@ -549,14 +530,12 @@ public class Matrix
 
 	/**
 	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
-	 * <p>
+	 *
 	 * @param rowStart    the initial row index (inclusive)
 	 * @param rowEnd      the final row index (exclusive)
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
-	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
@@ -578,13 +557,11 @@ public class Matrix
 
 	/**
 	 * Returns the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}.
-	 * <p>
+	 *
 	 * @param rowIndices  an array of row indices
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
-	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd) {
@@ -605,13 +582,11 @@ public class Matrix
 
 	/**
 	 * Returns the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}.
-	 * <p>
+	 *
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
 	 * @param columnIndices an array of column indices
-	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices) {
@@ -634,12 +609,10 @@ public class Matrix
 
 	/**
 	 * Returns the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}.
-	 * <p>
+	 *
 	 * @param rowIndices    an array of row indices
 	 * @param columnIndices an array of column indices
-	 * <p>
 	 * @return the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public Matrix getSubmatrix(final int[] rowIndices, final int[] columnIndices) {
@@ -665,11 +638,10 @@ public class Matrix
 
 	/**
 	 * Sets the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i     the row index
 	 * @param j     the column index
 	 * @param value a {@code double} value
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final double value) {
@@ -678,11 +650,10 @@ public class Matrix
 
 	/**
 	 * Sets the element at the specified row and column.
-	 * <p>
+	 *
 	 * @param i     the row index
 	 * @param j     the column index
 	 * @param value a value {@link Object}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code j} is out of bounds
 	 */
 	public void set(final int i, final int j, final Object value) {
@@ -693,10 +664,9 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i      the row index
 	 * @param values a {@code double} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final double... values) {
@@ -705,11 +675,10 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified row from the specified column index.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param values     a {@code double} array
 	 * @param fromColumn the initial column index (inclusive)
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int fromColumn) {
@@ -719,12 +688,11 @@ public class Matrix
 	/**
 	 * Sets the elements of the specified row from the specified column index to the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param i          the row index
 	 * @param values     a {@code double} array
 	 * @param fromColumn the initial column index (inclusive)
 	 * @param length     the number of row elements to set
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} or {@code fromColumn} is out of bounds
 	 */
 	public void setRow(final int i, final double[] values, final int fromColumn, final int length) {
@@ -733,10 +701,9 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified row.
-	 * <p>
+	 *
 	 * @param i      the row index
 	 * @param values a {@link Collection} of {@link Double}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code i} is out of bounds
 	 */
 	public void setRow(final int i, final Collection<Double> values) {
@@ -747,10 +714,9 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j      the column index
 	 * @param values a {@code double} array
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final double... values) {
@@ -759,11 +725,10 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified column from the specified row index.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param values  a {@code double} array
 	 * @param fromRow the initial row index (inclusive)
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int fromRow) {
@@ -773,12 +738,11 @@ public class Matrix
 	/**
 	 * Sets the elements of the specified column from the specified row index to the specified
 	 * length.
-	 * <p>
+	 *
 	 * @param j       the column index
 	 * @param values  a {@code double} array
 	 * @param fromRow the initial row index (inclusive)
 	 * @param length  the number of column elements to set
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} or {@code fromRow} is out of bounds
 	 */
 	public void setColumn(final int j, final double[] values, final int fromRow, final int length) {
@@ -790,10 +754,9 @@ public class Matrix
 
 	/**
 	 * Sets the elements of the specified column.
-	 * <p>
+	 *
 	 * @param j      the column index
 	 * @param values a {@link Collection} of {@link Double}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code j} is out of bounds
 	 */
 	public void setColumn(final int j, final Collection<Double> values) {
@@ -804,9 +767,8 @@ public class Matrix
 
 	/**
 	 * Sets all the elements.
-	 * <p>
+	 *
 	 * @param values a {@code double} array
-	 * <p>
 	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final double... values) {
@@ -815,9 +777,8 @@ public class Matrix
 
 	/**
 	 * Sets all the elements.
-	 * <p>
+	 *
 	 * @param values a 2D {@code double} array
-	 * <p>
 	 * @throws IndexOutOfBoundsException if {@code values} is not of the same length as {@code this}
 	 */
 	public void setAll(final double[]... values) {
@@ -830,13 +791,12 @@ public class Matrix
 
 	/**
 	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnStart:columnEnd)}.
-	 * <p>
+	 *
 	 * @param rowStart    the initial row index (inclusive)
 	 * @param rowEnd      the final row index (exclusive)
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int columnStart,
@@ -855,12 +815,11 @@ public class Matrix
 
 	/**
 	 * Sets the sub-{@link Matrix} {@code this(rowIndices(:), columnStart:columnEnd)}.
-	 * <p>
+	 *
 	 * @param rowIndices  an array of row indices
 	 * @param columnStart the initial column index (inclusive)
 	 * @param columnEnd   the final column index (exclusive)
 	 * @param submatrix   a {@link Matrix}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndices, final int columnStart, final int columnEnd,
@@ -879,12 +838,11 @@ public class Matrix
 
 	/**
 	 * Sets the sub-{@link Matrix} {@code this(rowStart:rowEnd, columnIndices(:))}.
-	 * <p>
+	 *
 	 * @param rowStart      the initial row index (inclusive)
 	 * @param rowEnd        the final row index (exclusive)
 	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int rowStart, final int rowEnd, final int[] columnIndices,
@@ -905,11 +863,10 @@ public class Matrix
 
 	/**
 	 * Sets the sub-{@link Matrix} {@code this(rowIndices(:), columnIndices(:))}.
-	 * <p>
+	 *
 	 * @param rowIndices    an array of row indices
 	 * @param columnIndices an array of column indices
 	 * @param submatrix     a {@link Matrix}
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if the {@code submatrix} indices are out of bounds
 	 */
 	public void setSubmatrix(final int[] rowIndices, final int[] columnIndices,
@@ -977,7 +934,7 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a {@code double} array.
-	 * <p>
+	 *
 	 * @return a {@code double} array
 	 */
 	@Override
@@ -987,7 +944,7 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a 2D {@code double} array.
-	 * <p>
+	 *
 	 * @return a 2D {@code double} array
 	 */
 	public double[][] toPrimitiveArray2D() {
@@ -996,9 +953,8 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a {@link Scalar}.
-	 * <p>
+	 *
 	 * @return a {@link Scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be converted to a {@link Scalar}
 	 */
 	@Override
@@ -1012,9 +968,8 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a {@link Vector}.
-	 * <p>
+	 *
 	 * @return a {@link Vector}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be converted to a {@link Vector}
 	 */
 	@Override
@@ -1028,7 +983,7 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a {@link Matrix}.
-	 * <p>
+	 *
 	 * @return a {@link Matrix}
 	 */
 	@Override
@@ -1038,7 +993,7 @@ public class Matrix
 
 	/**
 	 * Converts {@code this} to a {@link Table}.
-	 * <p>
+	 *
 	 * @return a {@link Table}
 	 */
 	public DoubleTable toTable() {
@@ -1052,7 +1007,7 @@ public class Matrix
 
 	/**
 	 * Returns the mean of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code mean(this)}
 	 */
 	@Override
@@ -1062,9 +1017,8 @@ public class Matrix
 
 	/**
 	 * Returns the mean of {@code this}.
-	 * <p>
+	 *
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @return {@code mean(this)}
 	 */
 	public Vector mean(final boolean transpose) {
@@ -1087,7 +1041,7 @@ public class Matrix
 
 	/**
 	 * Returns the size of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code size(this)}
 	 */
 	@Override
@@ -1099,7 +1053,7 @@ public class Matrix
 
 	/**
 	 * Returns the identity of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code eye(size(this))}
 	 */
 	@Override
@@ -1109,9 +1063,8 @@ public class Matrix
 
 	/**
 	 * Returns the identity {@link Matrix} of the specified number of rows and columns.
-	 * <p>
+	 *
 	 * @param size the number of rows and columns
-	 * <p>
 	 * @return {@code eye(size)}
 	 */
 	public static Matrix identity(final int size) {
@@ -1120,10 +1073,9 @@ public class Matrix
 
 	/**
 	 * Returns the identity {@link Matrix} of the specified numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * <p>
 	 * @return {@code eye(m, n)}
 	 */
 	public static Matrix identity(final int rowCount, final int columnCount) {
@@ -1140,9 +1092,8 @@ public class Matrix
 
 	/**
 	 * Returns the magic square {@link Matrix} of the specified size.
-	 * <p>
+	 *
 	 * @param size the number of rows and columns
-	 * <p>
 	 * @return the magic square {@link Matrix} of the specified size
 	 */
 	public static Matrix magic(final int size) {
@@ -1207,7 +1158,7 @@ public class Matrix
 
 	/**
 	 * Returns the randomization of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code rand(size(this))}
 	 */
 	@Override
@@ -1217,9 +1168,8 @@ public class Matrix
 
 	/**
 	 * Returns a random {@link Matrix} of the specified number of rows and columns.
-	 * <p>
+	 *
 	 * @param size the number of rows and columns
-	 * <p>
 	 * @return {@code rand(size)}
 	 */
 	public static Matrix random(final int size) {
@@ -1228,10 +1178,9 @@ public class Matrix
 
 	/**
 	 * Returns a random {@link Matrix} of the specified numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * <p>
 	 * @return {@code rand(m, n)}
 	 */
 	public static Matrix random(final int rowCount, final int columnCount) {
@@ -1248,7 +1197,7 @@ public class Matrix
 
 	/**
 	 * Returns the sequence of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code reshape(1:prod(size(this)), size(this))'}
 	 */
 	@Override
@@ -1258,9 +1207,8 @@ public class Matrix
 
 	/**
 	 * Returns a sequence {@link Matrix} of the specified number of rows and columns.
-	 * <p>
+	 *
 	 * @param size the number of rows and columns
-	 * <p>
 	 * @return {@code reshape(1:(size * size), size, size)'}
 	 */
 	public static Matrix sequence(final int size) {
@@ -1269,10 +1217,9 @@ public class Matrix
 
 	/**
 	 * Returns a sequence {@link Matrix} of the specified numbers of rows and columns.
-	 * <p>
+	 *
 	 * @param rowCount    the number of rows
 	 * @param columnCount the number of columns
-	 * <p>
 	 * @return {@code reshape(1:(m * n), m, n)'}
 	 */
 	public static Matrix sequence(final int rowCount, final int columnCount) {
@@ -1285,11 +1232,9 @@ public class Matrix
 
 	/**
 	 * Returns the pivot rows at the specified row indices.
-	 * <p>
+	 *
 	 * @param rowIndices an array of row indices
-	 * <p>
 	 * @return the pivot rows at the specified row indices
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
 	public Matrix pivot(final int... rowIndices) {
@@ -1298,11 +1243,9 @@ public class Matrix
 
 	/**
 	 * Returns the unpivot rows at the specified row indices.
-	 * <p>
+	 *
 	 * @param rowIndices an array of row indices
-	 * <p>
 	 * @return the unpivot rows at the specified row indices
-	 * <p>
 	 * @throws ArrayIndexOutOfBoundsException if {@code rowIndices} are out of bounds
 	 */
 	public Matrix unpivot(final int... rowIndices) {
@@ -1316,7 +1259,7 @@ public class Matrix
 
 	/**
 	 * Returns the one norm.
-	 * <p>
+	 *
 	 * @return the maximum absolute column sum
 	 */
 	public double norm1() {
@@ -1333,7 +1276,7 @@ public class Matrix
 
 	/**
 	 * Returns the two norm.
-	 * <p>
+	 *
 	 * @return the maximum singular value
 	 */
 	public double norm2() {
@@ -1342,7 +1285,7 @@ public class Matrix
 
 	/**
 	 * Returns the infinity norm.
-	 * <p>
+	 *
 	 * @return the maximum absolute row sum
 	 */
 	public double normInf() {
@@ -1360,7 +1303,7 @@ public class Matrix
 	/**
 	 * Returns the Frobenius norm, i.e. the square root of the sum of the squares of all the values
 	 * of the elements.
-	 * <p>
+	 *
 	 * @return the square root of the sum of the squares of all the values of the elements
 	 */
 	public double normF() {
@@ -1380,11 +1323,9 @@ public class Matrix
 
 	/**
 	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path the path to the file to load
-	 * <p>
 	 * @return a {@link Matrix} loaded from the file denoted by the specified path
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Matrix load(final String path)
@@ -1394,12 +1335,10 @@ public class Matrix
 
 	/**
 	 * Creates a {@link Matrix} loaded from the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path      the path to the file to load
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @return a {@link Matrix} loaded from the file denoted by the specified path
-	 * <p>
 	 * @throws IOException if there is a problem with reading the file denoted by {@code path}
 	 */
 	public static Matrix load(final String path, final boolean transpose)
@@ -1414,13 +1353,11 @@ public class Matrix
 
 	/**
 	 * Creates a {@link Matrix} loaded from the specified reader.
-	 * <p>
+	 *
 	 * @param reader    the {@link BufferedReader} of the lines to load
 	 * @param lineCount the number of lines to load
 	 * @param transpose the flag specifying whether to transpose
-	 * <p>
 	 * @return a {@link Matrix} loaded from the specified reader
-	 * <p>
 	 * @throws IOException if there is a problem with reading with {@code reader}
 	 */
 	public static Matrix load(final BufferedReader reader, final int lineCount,
@@ -1495,9 +1432,8 @@ public class Matrix
 
 	/**
 	 * Saves {@code this} to the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path the path to the file to save to
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening the file denoted
 	 *                               by {@code path}
 	 * @throws IOException           if there is a problem with writing to the file denoted by
@@ -1515,9 +1451,8 @@ public class Matrix
 
 	/**
 	 * Applies the specified {@link UnivariateFunction} to {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to apply
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
@@ -1527,9 +1462,8 @@ public class Matrix
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply column-wise
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
@@ -1557,9 +1491,8 @@ public class Matrix
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply row-wise
-	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
@@ -1587,7 +1520,7 @@ public class Matrix
 
 	/**
 	 * Returns the negation of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code -this}
 	 */
 	@Override
@@ -1603,7 +1536,7 @@ public class Matrix
 
 	/**
 	 * Returns the sum of the elements.
-	 * <p>
+	 *
 	 * @return {@code sum(sum(this))}
 	 */
 	@Override
@@ -1619,7 +1552,7 @@ public class Matrix
 
 	/**
 	 * Returns the transpose of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code this'}
 	 */
 	@Override
@@ -1634,9 +1567,8 @@ public class Matrix
 
 	/**
 	 * Returns the addition of the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this + scalar}
 	 */
 	@Override
@@ -1652,9 +1584,8 @@ public class Matrix
 
 	/**
 	 * Returns the addition of the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this + matrix}
 	 */
 	@Override
@@ -1684,9 +1615,8 @@ public class Matrix
 
 	/**
 	 * Adds the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this += scalar}
 	 */
 	@Override
@@ -1703,9 +1633,8 @@ public class Matrix
 
 	/**
 	 * Adds the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this += matrix}
 	 */
 	@Override
@@ -1732,12 +1661,11 @@ public class Matrix
 
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets.
-	 * <p>
+	 *
 	 * @param B       the {@code double} array to multiply
 	 * @param c       the constant {@code c} to multiply
 	 * @param offset  the offset of {@code this}
 	 * @param bOffset the offset of {@code B}
-	 * <p>
 	 * @return {@code this += c * B}
 	 */
 	public Matrix arrayAdd(final double[] B, final double c, final int offset, final int bOffset) {
@@ -1748,14 +1676,13 @@ public class Matrix
 	/**
 	 * Adds the multiplication of {@code B} by {@code c} to {@code this} from the specified offsets
 	 * between the specified indices.
-	 * <p>
+	 *
 	 * @param B         the {@code double} array to multiply
 	 * @param c         the constant {@code c} to multiply
 	 * @param offset    the offset of {@code this}
 	 * @param bOffset   the offset of {@code B}
 	 * @param fromIndex the index to start summing from (inclusive)
 	 * @param toIndex   the index to finish summing at (exclusive)
-	 * <p>
 	 * @return {@code this += c * B}
 	 */
 	public Matrix arrayAdd(final double[] B, final double c, final int offset, final int bOffset,
@@ -1768,9 +1695,8 @@ public class Matrix
 
 	/**
 	 * Returns the subtraction of the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this - scalar}
 	 */
 	@Override
@@ -1786,9 +1712,8 @@ public class Matrix
 
 	/**
 	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this - matrix}
 	 */
 	@Override
@@ -1818,9 +1743,8 @@ public class Matrix
 
 	/**
 	 * Subtracts the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this -= scalar}
 	 */
 	@Override
@@ -1837,9 +1761,8 @@ public class Matrix
 
 	/**
 	 * Subtracts the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this -= matrix}
 	 */
 	@Override
@@ -1868,9 +1791,8 @@ public class Matrix
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this * scalar}
 	 */
 	@Override
@@ -1886,11 +1808,9 @@ public class Matrix
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this * matrix}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -1932,11 +1852,9 @@ public class Matrix
 
 	/**
 	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code diag(this * matrix)}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -1982,9 +1900,8 @@ public class Matrix
 	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .* matrix}
 	 */
 	@Override
@@ -2014,9 +1931,8 @@ public class Matrix
 
 	/**
 	 * Multiplies {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this *= scalar}
 	 */
 	@Override
@@ -2033,9 +1949,8 @@ public class Matrix
 
 	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .*= matrix}
 	 */
 	@Override
@@ -2064,9 +1979,8 @@ public class Matrix
 
 	/**
 	 * Returns the division of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this / scalar}
 	 */
 	@Override
@@ -2082,9 +1996,8 @@ public class Matrix
 
 	/**
 	 * Returns the division of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this / matrix}
 	 */
 	@Override
@@ -2103,9 +2016,8 @@ public class Matrix
 
 	/**
 	 * Returns the element-by-element division of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
 	@Override
@@ -2136,9 +2048,8 @@ public class Matrix
 
 	/**
 	 * Divides {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this /= scalar}
 	 */
 	@Override
@@ -2155,9 +2066,8 @@ public class Matrix
 
 	/**
 	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
 	@Override
@@ -2188,9 +2098,8 @@ public class Matrix
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified scalar
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^ scalar}
 	 */
 	@Override
@@ -2207,9 +2116,8 @@ public class Matrix
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^ matrix}
 	 */
 	@Override
@@ -2240,9 +2148,8 @@ public class Matrix
 
 	/**
 	 * Raises {@code this} to the power of the specified scalar element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^= scalar}
 	 */
 	@Override
@@ -2259,9 +2166,8 @@ public class Matrix
 
 	/**
 	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^= matrix}
 	 */
 	@Override
@@ -2292,10 +2198,9 @@ public class Matrix
 	/**
 	 * Returns the multiplication of {@code this} by {@code A} followed by the addition of
 	 * {@code B}.
-	 * <p>
+	 *
 	 * @param A the {@link Entity} to multiply
 	 * @param B the {@link Entity} to add
-	 * <p>
 	 * @return {@code this * A + B}
 	 */
 	public Entity forward(final Entity A, final Entity B) {
@@ -2316,9 +2221,8 @@ public class Matrix
 
 	/**
 	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse
-	 * <p>
 	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
 	 *         {@code null} if there is a problem with parsing
 	 */
@@ -2328,10 +2232,9 @@ public class Matrix
 
 	/**
 	 * Parses the {@link Matrix} encoded in the specified expression {@link String}.
-	 * <p>
+	 *
 	 * @param expression       the expression {@link String} to parse
 	 * @param useMultipleLines the flag specifying whether to use multiple lines
-	 * <p>
 	 * @return the {@link Matrix} encoded in the specified expression {@link String}, or
 	 *         {@code null} if there is a problem with parsing
 	 */
@@ -2394,7 +2297,7 @@ public class Matrix
 
 	/**
 	 * Fills {@code this} with the specified constant.
-	 * <p>
+	 *
 	 * @param constant the {@code double} constant to fill with
 	 */
 	@Override
@@ -2409,7 +2312,7 @@ public class Matrix
 
 	/**
 	 * Tests whether {@code this} is square.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is square, {@code false} otherwise
 	 */
 	public boolean isSquare() {
@@ -2420,9 +2323,8 @@ public class Matrix
 
 	/**
 	 * Tests whether the specified {@link String} is parsable to a {@link Matrix}.
-	 * <p>
+	 *
 	 * @param text a {@link String}
-	 * <p>
 	 * @return {@code true} if the specified {@link String} is parsable to a {@link Matrix},
 	 *         {@code false} otherwise
 	 */
@@ -2444,9 +2346,8 @@ public class Matrix
 
 	/**
 	 * Requires the specified {@link Matrix} to have the same dimensions as {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @throws IllegalArgumentException if the dimensions of {@code this} and {@code matrix} do not
 	 *                                  agree
 	 */
@@ -2457,9 +2358,8 @@ public class Matrix
 	/**
 	 * Requires the specified {@link Matrix} to have the row dimension equals to the column
 	 * dimension of {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -2474,9 +2374,8 @@ public class Matrix
 
 	/**
 	 * Returns the LU decomposition.
-	 * <p>
-	 * @return the LU decomposition
 	 *
+	 * @return the LU decomposition
 	 * @see LUDecomposition
 	 */
 	public LUDecomposition lu() {
@@ -2485,9 +2384,8 @@ public class Matrix
 
 	/**
 	 * Returns the QR decomposition.
-	 * <p>
-	 * @return the QR decomposition
 	 *
+	 * @return the QR decomposition
 	 * @see QRDecomposition
 	 */
 	public QRDecomposition qr() {
@@ -2496,9 +2394,8 @@ public class Matrix
 
 	/**
 	 * Returns the Cholesky decomposition.
-	 * <p>
-	 * @return the Cholesky decomposition
 	 *
+	 * @return the Cholesky decomposition
 	 * @see CholeskyDecomposition
 	 */
 	public CholeskyDecomposition chol() {
@@ -2507,9 +2404,8 @@ public class Matrix
 
 	/**
 	 * Returns the singular value decomposition.
-	 * <p>
-	 * @return the singular value decomposition
 	 *
+	 * @return the singular value decomposition
 	 * @see SingularValueDecomposition
 	 */
 	public SingularValueDecomposition svd() {
@@ -2518,9 +2414,8 @@ public class Matrix
 
 	/**
 	 * Returns the eigenvalue decomposition.
-	 * <p>
-	 * @return the eigenvalue decomposition
 	 *
+	 * @return the eigenvalue decomposition
 	 * @see EigenvalueDecomposition
 	 */
 	public EigenvalueDecomposition eig() {
@@ -2534,11 +2429,9 @@ public class Matrix
 
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return the solution X of {@code this * X = entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be solved with {@code entity}
 	 */
 	@Override
@@ -2553,9 +2446,8 @@ public class Matrix
 
 	/**
 	 * Returns the solution X of {@code this * X = B}.
-	 * <p>
+	 *
 	 * @param B the right hand side of the equation
-	 * <p>
 	 * @return the solution if {@code this} is square, the least squares solution otherwise
 	 */
 	public Matrix solve(final Matrix B) {
@@ -2564,9 +2456,8 @@ public class Matrix
 
 	/**
 	 * Returns the solution X of {@code X * this = B}, which is also {@code this' * X' = B'}.
-	 * <p>
+	 *
 	 * @param B the right hand side of the equation
-	 * <p>
 	 * @return the solution if {@code this} is square, the least squares solution otherwise
 	 */
 	public Matrix solveTranspose(final Matrix B) {
@@ -2576,7 +2467,7 @@ public class Matrix
 	/**
 	 * Returns the condition (2 norm) of {@code this}, i.e. the ratio of the largest singular value
 	 * to the smallest singular value.
-	 * <p>
+	 *
 	 * @return {@code cond(this)}
 	 */
 	public double cond() {
@@ -2585,7 +2476,7 @@ public class Matrix
 
 	/**
 	 * Returns the determinant of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code det(this)}
 	 */
 	public double det() {
@@ -2594,7 +2485,7 @@ public class Matrix
 
 	/**
 	 * Returns the inverse of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code inv(this)}
 	 */
 	@Override
@@ -2604,7 +2495,7 @@ public class Matrix
 
 	/**
 	 * Returns the effective numerical rank of {@code this}, obtained from SVD.
-	 * <p>
+	 *
 	 * @return {@code rank(this)}
 	 */
 	public int rank() {
@@ -2613,7 +2504,7 @@ public class Matrix
 
 	/**
 	 * Returns the trace of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code trace(this)}
 	 */
 	public double trace() {
@@ -2632,9 +2523,8 @@ public class Matrix
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -2648,11 +2538,9 @@ public class Matrix
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -2662,11 +2550,10 @@ public class Matrix
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link Object} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -2699,9 +2586,8 @@ public class Matrix
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -2720,7 +2606,7 @@ public class Matrix
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
@@ -2731,10 +2617,9 @@ public class Matrix
 	/**
 	 * Returns a representative {@link String} of {@code this} with the specified column width and
 	 * flag specifying whether to use multiple lines.
-	 * <p>
+	 *
 	 * @param columnWidth      the width of the representative {@link String} to create
 	 * @param useMultipleLines the flag specifying whether to use multiple lines
-	 * <p>
 	 * @return a representative {@link String} of {@code this} with the specified column width and
 	 *         flag specifying whether to use multiple lines
 	 */
@@ -2783,11 +2668,10 @@ public class Matrix
 		/**
 		 * Divides the multiplication of the specified input {@link Triple} into execution slices
 		 * and conquers them. Returns the exit code for each of them.
-		 * <p>
+		 *
 		 * @param input the input {@link Triple} containing the result {@link Matrix}, the left-hand
 		 *              side operand {@link Matrix} and the right-hand side operand {@link Matrix}
 		 *              to process
-		 * <p>
 		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
 		 *         {@link InputOutput#EXIT_FAILURE} otherwise for each execution slice
 		 */
@@ -2798,12 +2682,11 @@ public class Matrix
 		/**
 		 * Conquers the execution slice with the specified input {@link Triple} and
 		 * {@link Interval}.
-		 * <p>
+		 *
 		 * @param input    the input {@link Triple} containing the result {@link Matrix}, the
 		 *                 left-hand side operand {@link Matrix} and the right-hand side operand
 		 *                 {@link Matrix} to process
 		 * @param interval the {@link Interval} of {@link Integer} of the execution slice to conquer
-		 * <p>
 		 * @return {@link InputOutput#EXIT_SUCCESS} if conquering the execution slice succeeds,
 		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
@@ -2817,11 +2700,10 @@ public class Matrix
 		/**
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
 		 * operand {@link Matrix} and right-hand side operand {@link Matrix}.
-		 * <p>
+		 *
 		 * @param result the result {@link Matrix}
 		 * @param left   the left-hand side operand {@link Matrix}
 		 * @param right  the right-hand side operand {@link Matrix}
-		 * <p>
 		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
 		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
@@ -2833,13 +2715,12 @@ public class Matrix
 		 * Processes the multiplication with the specified result {@link Matrix}, left-hand side
 		 * operand {@link Matrix} and right-hand side operand {@link Matrix} between the specified
 		 * indices.
-		 * <p>
+		 *
 		 * @param result    the result {@link Matrix}
 		 * @param left      the left-hand side operand {@link Matrix}
 		 * @param right     the right-hand side operand {@link Matrix}
 		 * @param fromIndex the index to start multiplying from (inclusive)
 		 * @param toIndex   the index to finish multiplying at (exclusive)
-		 * <p>
 		 * @return {@link InputOutput#EXIT_SUCCESS} if the multiplication succeeds,
 		 *         {@link InputOutput#EXIT_FAILURE} otherwise
 		 */
@@ -2857,9 +2738,8 @@ public class Matrix
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

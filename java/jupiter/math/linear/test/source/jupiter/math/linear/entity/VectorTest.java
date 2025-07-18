@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,7 @@ public class VectorTest
 
 	/**
 	 * Tests {@link Vector#load} from a file.
-	 * <p>
+	 *
 	 * @throws IOException if there is a problem with reading the file
 	 */
 	public void testLoad()

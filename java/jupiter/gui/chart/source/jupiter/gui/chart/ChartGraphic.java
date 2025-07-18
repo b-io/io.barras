@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,8 +28,8 @@ import static jupiter.common.io.InputOutput.IO;
 import java.awt.EventQueue;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.struct.tuple.Pair;
 import jupiter.common.test.Arguments;
@@ -50,7 +50,7 @@ import org.jfree.data.xy.XYDataset;
 
 /**
  * {@link ChartGraphic} is a 2D chart graphic.
- * <p>
+ *
  * @param <D> the dataset type of the {@link ChartGraphic} (subtype of {@link XYDataset})
  * @param <S> the series type of the {@link ChartGraphic} (subtype of {@link Series})
  */
@@ -94,7 +94,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Constructs a {@link ChartGraphic} of {@code D} and {@code S} types with the specified title
 	 * and domain label.
-	 * <p>
+	 *
 	 * @param title  the title
 	 * @param xLabel the domain label
 	 */
@@ -105,7 +105,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Constructs a {@link ChartGraphic} of {@code D} and {@code S} types with the specified title,
 	 * domain label and range labels.
-	 * <p>
+	 *
 	 * @param title   the title
 	 * @param xLabel  the domain label
 	 * @param yLabels the range labels
@@ -125,10 +125,9 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Returns the {@code D} dataset of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to get
-	 * <p>
 	 * @return the {@code D} dataset of the specified {@link XYRangeAxisDataset}
 	 */
 	public D getDataset(final int axisDatasetIndex) {
@@ -140,11 +139,10 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Returns the {@code S} series at the specified index in the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset of the {@code S} series to get
 	 * @param seriesIndex      the index of the {@code S} series to get
-	 * <p>
 	 * @return the {@code S} series at the specified index in the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -153,10 +151,9 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Returns the number of {@code S} series in the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset of the {@code S} series to count
-	 * <p>
 	 * @return the number of {@code S} series in the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -165,11 +162,10 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Returns the size of the {@code S} series at the specified index in the {@code D} dataset of
 	 * the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset of the {@code S} series to get the size from
 	 * @param seriesIndex      the index of the {@code S} series to get the size from
-	 * <p>
 	 * @return the size of the {@code S} series at the specified index in the {@code D} dataset of
 	 *         the specified {@link XYRangeAxisDataset}
 	 */
@@ -184,7 +180,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Creates a chart.
-	 * <p>
+	 *
 	 * @return a chart
 	 */
 	public abstract JFreeChart createChart();
@@ -193,9 +189,8 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Creates a {@link ChartPanel} for the specified chart.
-	 * <p>
+	 *
 	 * @param chart the {@link JFreeChart} to create for
-	 * <p>
 	 * @return a {@link ChartPanel} for the specified chart
 	 */
 	public ChartPanel createChartPanel(final JFreeChart chart) {
@@ -206,7 +201,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Creates a {@link XYItemRenderer} for each {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @return a {@link XYItemRenderer} for each {@link XYRangeAxisDataset}
 	 */
 	public XYItemRenderer[] createAllRenderers() {
@@ -219,9 +214,8 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Creates a {@link XYItemRenderer} for the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} to create for
-	 * <p>
 	 * @return a {@link XYItemRenderer} for the specified {@link XYRangeAxisDataset}
 	 */
 	public XYItemRenderer createRenderer(final int axisDatasetIndex) {
@@ -250,7 +244,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Loads the {@code S} series from the specified {@link StringTable} to the {@code D} dataset of
 	 * the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to load to
 	 * @param coordinates      the {@link StringTable} containing the coordinates to load
@@ -295,7 +289,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label.
-	 * <p>
+	 *
 	 * @param yLabel the range label of the {@link XYRangeAxisDataset} to append
 	 */
 	public abstract void addAxisDataset(final String yLabel);
@@ -303,7 +297,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label and {@code D}
 	 * dataset.
-	 * <p>
+	 *
 	 * @param yLabel  the range label of the {@link XYRangeAxisDataset} to append
 	 * @param dataset the {@code D} dataset of the {@link XYRangeAxisDataset} to append
 	 */
@@ -313,7 +307,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Appends the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDataset the {@link XYRangeAxisDataset} to append
 	 */
 	public void addAxisDataset(final XYRangeAxisDataset<D> axisDataset) {
@@ -324,7 +318,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Removes the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} to remove
 	 */
 	public void removeAxisDataset(final int axisDatasetIndex) {
@@ -333,7 +327,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Removes the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDataset the {@link XYRangeAxisDataset} to remove
 	 */
 	public void removeAxisDataset(final XYRangeAxisDataset<D> axisDataset) {
@@ -352,10 +346,9 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends a {@code S} series to the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
-	 * <p>
 	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -366,11 +359,10 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends a {@code S} series constructed with the specified name to the {@code D} dataset of
 	 * the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
 	 * @param name             the name of the {@code S} series to append
-	 * <p>
 	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -379,11 +371,10 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends the specified {@code S} series to the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
 	 * @param series           the {@code S} series to append
-	 * <p>
 	 * @return the index of the specified {@code S} series appended to the {@code D} dataset of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -392,12 +383,11 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends a {@code S} series constructed with the specified name and {@link SeriesStyle} to the
 	 * {@code D} dataset of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
 	 * @param name             the name of the {@code S} series to append
 	 * @param style            the {@link SeriesStyle} of the {@code S} series to append
-	 * <p>
 	 * @return the index of the {@code S} series appended to the {@code D} dataset of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -410,12 +400,11 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends the specified {@code S} series with the specified {@link SeriesStyle} to the
 	 * {@code D} dataset of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to append to
 	 * @param series           the {@code S} series to append
 	 * @param style            the {@link SeriesStyle} of the {@code S} series to append
-	 * <p>
 	 * @return the index of the specified {@code S} series appended to the {@code D} dataset of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -430,7 +419,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Removes the {@code S} series at the specified index from the {@code D} dataset of the
 	 * specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to remove from
 	 * @param seriesIndex      the index of the {@code S} series to remove
@@ -440,7 +429,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Removes the specified {@code S} series from the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to remove from
 	 * @param series           the {@code S} series to remove
@@ -450,7 +439,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Removes all the {@code S} series from the {@code D} dataset of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the {@code D}
 	 *                         dataset to remove from
 	 */
@@ -461,7 +450,7 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified {@code S}
 	 * series of the {@code D} dataset of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the {@code D} dataset
 	 *                         containing the {@code S} series to append to
 	 * @param seriesIndex      the index of the {@code S} series to append to
@@ -500,9 +489,8 @@ public abstract class ChartGraphic<D extends XYDataset, S extends Series>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

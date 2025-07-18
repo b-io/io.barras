@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,9 +97,8 @@ public class ReversedFileReader
 
 	/**
 	 * Constructs a {@link ReversedFileReader} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to read
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -112,10 +111,9 @@ public class ReversedFileReader
 	/**
 	 * Constructs a {@link ReversedFileReader} of the specified {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the file to read
 	 * @param charset the {@link Charset} to use
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -127,12 +125,11 @@ public class ReversedFileReader
 
 	/**
 	 * Constructs a {@link ReversedFileReader} with the given block size and {@link Charset}.
-	 * <p>
+	 *
 	 * @param file       the file to read
 	 * @param bufferSize the size of the internal buffer (ideally this should match with the block
 	 *                   size of the file system)
 	 * @param charset    the {@link Charset} of the file
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -175,7 +172,7 @@ public class ReversedFileReader
 
 	/**
 	 * Closes {@code this}.
-	 * <p>
+	 *
 	 * @throws IOException if there is a problem with closing {@code randomAccessFile}
 	 */
 	public void close()
@@ -191,10 +188,9 @@ public class ReversedFileReader
 	/**
 	 * Returns the next line of the {@link File} from bottom to top, or {@code null} if the start of
 	 * the {@link File} is reached.
-	 * <p>
+	 *
 	 * @return the next line of the {@link File} from bottom to top, or {@code null} if the start of
 	 *         the {@link File} is reached
-	 * <p>
 	 * @throws IOException if there is a problem with reading {@code randomAccessFile}
 	 */
 	public String readLine()
@@ -241,11 +237,10 @@ public class ReversedFileReader
 		/**
 		 * Constructs a {@link FilePart} with the specified part number, length and buffer
 		 * {@code byte} array remaining from the previous part.
-		 * <p>
+		 *
 		 * @param partNumber      the part number
 		 * @param length          the length
 		 * @param remainingBuffer the buffer {@code byte} array remaining from the previous part
-		 * <p>
 		 * @throws IOException if there is a problem with reading {@code randomAccessFile}
 		 */
 		protected FilePart(final long partNumber, final int length, final byte[] remainingBuffer)
@@ -276,9 +271,8 @@ public class ReversedFileReader
 
 		/**
 		 * Returns the next {@link FilePart}, or {@code null} if there is none.
-		 * <p>
+		 *
 		 * @return the next {@link FilePart}, or {@code null} if there is none
-		 * <p>
 		 * @throws IOException if there was a problem with reading {@code randomAccessFile}
 		 */
 		protected FilePart rollOver()
@@ -303,10 +297,9 @@ public class ReversedFileReader
 		/**
 		 * Returns the next line of the {@link File} from bottom to top, or {@code null} if the
 		 * start of the part is reached and the part is not last.
-		 * <p>
+		 *
 		 * @return the next line of the {@link File} from bottom to top, or {@code null} if the
 		 *         start of the part is reached and the part is not last
-		 * <p>
 		 * @throws IOException if there is a problem with reading {@code randomAccessFile}
 		 */
 		protected String readLine()
@@ -371,11 +364,10 @@ public class ReversedFileReader
 		/**
 		 * Returns the number of bytes of the first newline in the specified buffer {@code byte}
 		 * array, or {@code 0} if there is no such occurrence.
-		 * <p>
+		 *
 		 * @param buffer    the buffer {@code byte} array to read
 		 * @param fromIndex the index to start reading the buffer {@code byte} array from
 		 *                  (inclusive)
-		 * <p>
 		 * @return the number of bytes of the first newline in the specified buffer {@code byte}
 		 *         array, or {@code 0} if there is no such occurrence
 		 */

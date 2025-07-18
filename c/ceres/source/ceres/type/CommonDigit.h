@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -85,7 +85,7 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified character is numeric ('0'-'9'),
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @return {@code _TRUE} if the specified character is numeric ('0'-'9'),
 	 *         {@code _FALSE} otherwise
 	 */
@@ -108,9 +108,8 @@ extern "C"
 
 	/**
 	 * Returns the next element in the iteration.
-	 * <p>
+	 *
 	 * @param iterator the Iterator of the iteration
-	 * <p>
 	 * @return the next element in the iteration
 	 */
 	void* digit_Iterator_next(Iterator* iterator);
@@ -122,7 +121,7 @@ extern "C"
 
 	/**
 	 * Constructs a Comparable.
-	 * <p>
+	 *
 	 * @return the statically constructed Comparable
 	 */
 	Comparable digit_create_Comparable(void);
@@ -131,11 +130,10 @@ extern "C"
 	 * Compares the specified structures for order. Returns a negative integer,
 	 * zero, or a positive integer as the first argument is less than, equal to,
 	 * or greater than the second.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for order
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return a negative integer, zero, or a positive integer as the first
 	 *         argument is less than, equal to, or greater than the second
 	 */
@@ -149,11 +147,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified structures are equal,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the structure to be compared for equality
 	 * @param type      the type of the structure with which to compare
 	 * @param value     the value of the structure with which to compare
-	 * <p>
 	 * @return {@code _TRUE} if the specified structures are equal,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -163,9 +160,8 @@ extern "C"
 
 	/**
 	 * Returns the hash code of the specified structure.
-	 * <p>
+	 *
 	 * @param structure the structure to be hashed
-	 * <p>
 	 * @return the hash code of the specified structure
 	 */
 	integer digit_hash(const void* structure);

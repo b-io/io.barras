@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ public class IllegalTypeException
 
 	/**
 	 * Constructs an {@link IllegalTypeException} with the specified illegal type {@link Object}.
-	 * <p>
+	 *
 	 * @param type the illegal type {@link Object}
 	 */
 	public IllegalTypeException(final Object type) {
@@ -54,7 +54,7 @@ public class IllegalTypeException
 	/**
 	 * Constructs an {@link IllegalTypeException} with the specified illegal type {@link Object} and
 	 * {@link Throwable} cause (which is saved for later retrieval by the method {@link #getCause}).
-	 * <p>
+	 *
 	 * @param type  the illegal type {@link Object}
 	 * @param cause the {@link Throwable} cause (which is saved for later retrieval by the method
 	 *              {@link #getCause})

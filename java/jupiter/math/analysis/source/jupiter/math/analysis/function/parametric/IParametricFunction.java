@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,10 +31,9 @@ public interface IParametricFunction {
 
 	/**
 	 * Applies the parametric function to the specified value with the specified parameters.
-	 * <p>
+	 *
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
-	 * <p>
 	 * @return {@code f(x, parameters)}
 	 */
 	public double apply(final double x, final double... parameters);

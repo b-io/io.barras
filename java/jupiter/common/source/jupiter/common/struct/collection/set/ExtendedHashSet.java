@@ -1,0 +1,307 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+package jupiter.common.struct.collection.set;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+import jupiter.common.model.ICloneable;
+import jupiter.common.test.Arguments;
+import jupiter.common.util.Objects;
+import jupiter.common.util.Sets;
+
+/**
+ * {@link ExtendedHashSet} is the extended {@link HashSet} of {@code E} element type.
+ *
+ * @param <E> the element type of the {@link ExtendedHashSet}
+ */
+public class ExtendedHashSet<E>
+		extends HashSet<E>
+		implements ICloneable<ExtendedHashSet<E>> {
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTANTS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * The generated serial version ID.
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONSTRUCTORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Constructs an empty {@link ExtendedHashSet} of {@code E} element type by default.
+	 */
+	public ExtendedHashSet() {
+		super(Sets.DEFAULT_CAPACITY);
+	}
+
+	/**
+	 * Constructs an empty {@link ExtendedHashSet} of {@code E} element type with the specified
+	 * initial capacity.
+	 *
+	 * @param initialCapacity the initial capacity
+	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
+	 */
+	public ExtendedHashSet(final int initialCapacity) {
+		super(initialCapacity);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Constructs an {@link ExtendedHashSet} of {@code E} element type with the specified elements.
+	 *
+	 * @param elements an {@code E} array
+	 */
+	@SuppressWarnings({"unchecked", "varargs"})
+	public ExtendedHashSet(final E... elements) {
+		super(Arguments.requireNonNull(elements, "elements").length);
+		addAll(elements);
+	}
+
+	/**
+	 * Constructs an {@link ExtendedHashSet} of {@code E} element type with the elements of the
+	 * specified {@link Collection}.
+	 *
+	 * @param elements a {@link Collection} of {@code E} element subtype
+	 */
+	public ExtendedHashSet(final Collection<? extends E> elements) {
+		super(elements);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ACCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns the element {@link Class}.
+	 *
+	 * @return the element {@link Class}
+	 */
+	public Class<?> getElementClass() {
+		return Sets.getElementClass(this);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CLEARERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements from {@code this}.
+	 */
+	@Override
+	public void clear() {
+		super.clear();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// CONVERTERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns an {@code E} array containing all the elements of {@code this} in the same order, or
+	 * an empty array if {@code this} is empty.
+	 *
+	 * @return an {@code E} array containing all the elements of {@code this} in the same order, or
+	 *         an empty array if {@code this} is empty
+	 *
+	 * @see Sets#toArray(Collection)
+	 */
+	@Override
+	public E[] toArray() {
+		return Sets.<E>toArray(this);
+	}
+
+	/**
+	 * Returns a primitive array containing all the elements of {@code this} in the same order, or
+	 * {@code null} if {@code this} is empty.
+	 *
+	 * @return a primitive array containing all the elements of {@code this} in the same order, or
+	 *         {@code null} if {@code this} is empty
+	 *
+	 * @see Sets#toPrimitiveArray(Collection)
+	 */
+	public Object toPrimitiveArray() {
+		return Sets.toPrimitiveArray(this);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// PROCESSORS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Adds the specified element to {@code this}.
+	 *
+	 * @param element the {@code E} element to add
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean add(final E element) {
+		return super.add(element);
+	}
+
+	/**
+	 * Adds all the specified elements to {@code this}.
+	 *
+	 * @param <T>      the type of the elements to add ({@code E} subtype)
+	 * @param elements the {@code T} elements to add
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	public <T extends E> boolean addAll(final T[] elements) {
+		return Sets.<T>addAll(this, elements);
+	}
+
+	/**
+	 * Adds all the elements of the specified {@link Collection} to {@code this}.
+	 *
+	 * @param elements the {@link Collection} containing the {@code E} elements to add
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean addAll(final Collection<? extends E> elements) {
+		return super.addAll(elements);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean remove(final Object object) {
+		return super.remove(object);
+	}
+
+	/**
+	 * Removes all the elements that are contained in the specified {@link Collection} from
+	 * {@code this}.
+	 *
+	 * @param collection the {@link Collection} to remove (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean removeAll(final Collection<?> collection) {
+		return super.removeAll(collection);
+	}
+
+	//////////////////////////////////////////////
+
+	/**
+	 * Removes the first occurrence of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return the index of the removed element, or {@code -1} if it is not present
+	 */
+	public int removeFirst(final Object object) {
+		return Sets.removeFirst(this, object);
+	}
+
+	/**
+	 * Removes all the occurrences of the specified {@link Object} from {@code this}.
+	 *
+	 * @param object the {@link Object} to remove (may be {@code null})
+	 * @return the indices of the removed elements
+	 */
+	public int[] removeAll(final Object object) {
+		return Sets.removeAll(this, object);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Removes all the elements that are not contained in the specified {@link Collection} from
+	 * {@code this}.
+	 *
+	 * @param collection the {@link Collection} to retain (may be {@code null})
+	 * @return {@code true} if {@code this} has changed as a result of the call, {@code false}
+	 *         otherwise
+	 */
+	@Override
+	public boolean retainAll(final Collection<?> collection) {
+		return super.retainAll(collection);
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// VERIFIERS
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Tests whether {@code this} is non-empty.
+	 *
+	 * @return {@code true} if {@code this} is non-empty, {@code false} otherwise
+	 */
+	public boolean isNonEmpty() {
+		return !isEmpty();
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// OBJECT
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Clones {@code this}.
+	 *
+	 * @return a clone of {@code this}
+	 * @see ICloneable
+	 */
+	@Override
+	public ExtendedHashSet<E> clone() {
+		final ExtendedHashSet<E> clone = new ExtendedHashSet<E>(size());
+		for (final E element : this) {
+			clone.add(Objects.clone(element));
+		}
+		return clone;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * Returns a representative {@link String} of {@code this}.
+	 *
+	 * @return a representative {@link String} of {@code this}
+	 */
+	@Override
+	public String toString() {
+		return Sets.toString(this);
+	}
+}

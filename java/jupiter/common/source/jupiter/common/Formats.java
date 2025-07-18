@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -268,12 +268,10 @@ public class Formats {
 
 	/**
 	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String}.
-	 * <p>
+	 *
 	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat} ({@code null}
 	 *                indicates that the default {@link DecimalFormat} should be used)
-	 * <p>
 	 * @return the {@link DecimalFormat} with the specified decimal pattern {@link String}
-	 *
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
@@ -284,11 +282,10 @@ public class Formats {
 	/**
 	 * Returns the {@link DecimalFormat} with the specified decimal pattern {@link String} and
 	 * {@link Locale}.
-	 * <p>
+	 *
 	 * @param pattern the pattern {@link String} describing the {@link DecimalFormat} ({@code null}
 	 *                indicates that the default {@link DecimalFormat} should be used)
 	 * @param locale  the {@link Locale} whose {@link DecimalFormatSymbols} should be used
-	 * <p>
 	 * @return the {@link DecimalFormat} with the specified decimal pattern {@link String} and
 	 *         {@link Locale}
 	 *
@@ -310,9 +307,8 @@ public class Formats {
 
 	/**
 	 * Returns the {@link DecimalFormat} of {@code double} values.
-	 * <p>
-	 * @return the {@link DecimalFormat} of {@code double} values
 	 *
+	 * @return the {@link DecimalFormat} of {@code double} values
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */
@@ -322,11 +318,9 @@ public class Formats {
 
 	/**
 	 * Returns the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}.
-	 * <p>
-	 * @param locale the {@link Locale} whose {@link DecimalFormatSymbols} should be used
-	 * <p>
-	 * @return the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}
 	 *
+	 * @param locale the {@link Locale} whose {@link DecimalFormatSymbols} should be used
+	 * @return the {@link DecimalFormat} of {@code double} values with the specified {@link Locale}
 	 * @see DecimalFormat#DOUBLE_INTEGER_DIGITS
 	 * @see DecimalFormat#DOUBLE_FRACTION_DIGITS
 	 */

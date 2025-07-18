@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,7 @@ public class IOSLF4j
 
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 */
 	public IOSLF4j(final SeverityLevel severityLevel) {
@@ -73,7 +73,7 @@ public class IOSLF4j
 
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel} and stack index.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 */
@@ -86,7 +86,7 @@ public class IOSLF4j
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel}, stack index and
 	 * {@link ConsoleHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
@@ -99,7 +99,7 @@ public class IOSLF4j
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel}, stack index and
 	 * {@link LogHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param logHandler    the {@link LogHandler}
@@ -112,7 +112,7 @@ public class IOSLF4j
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel}, stack index,
 	 * {@link ConsoleHandler} and {@link LogHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel  the {@link SeverityLevel}
 	 * @param stackIndex     the stack index
 	 * @param consoleHandler the {@link ConsoleHandler}
@@ -126,7 +126,7 @@ public class IOSLF4j
 	/**
 	 * Constructs an {@link IOSLF4j} with the specified {@link SeverityLevel}, stack index and
 	 * {@link List} of {@link IOHandler}.
-	 * <p>
+	 *
 	 * @param severityLevel the {@link SeverityLevel}
 	 * @param stackIndex    the stack index
 	 * @param handlers      the {@link List} of {@link IOHandler}
@@ -143,9 +143,8 @@ public class IOSLF4j
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

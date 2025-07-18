@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	/**
 	 * Constructs a {@link ComparablePair} with the specified {@code T1} and {@code T2} components.
-	 * <p>
+	 *
 	 * @param first  the {@code T1} component
 	 * @param second the {@code T2} component
 	 */
@@ -71,10 +71,9 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 	 * Compares {@code this} with {@code other} for order. Returns a negative integer, {@code 0} or
 	 * a positive integer as {@code this} is less than, equal to or greater than {@code other} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param other the other {@link ComparablePair} of {@code T1} and {@code T2} component types to
 	 *              compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code this} is less than,
 	 *         equal to or greater than {@code other}
 	 */
@@ -102,9 +101,8 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -119,11 +117,9 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -143,9 +139,8 @@ public class ComparablePair<T1 extends Comparable<T1>, T2 extends Comparable<T2>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */

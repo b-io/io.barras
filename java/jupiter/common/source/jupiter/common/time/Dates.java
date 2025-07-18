@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,8 +36,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import jupiter.common.Formats;
-import jupiter.common.map.Mapper;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.transform.Mapper;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.util.Integers;
 import jupiter.common.util.Longs;
 import jupiter.common.util.Objects;
@@ -122,7 +122,7 @@ public class Dates {
 
 	/**
 	 * Returns the current {@link Date}.
-	 * <p>
+	 *
 	 * @return the current {@link Date}
 	 */
 	public static Date getDate() {
@@ -141,7 +141,7 @@ public class Dates {
 
 	/**
 	 * Returns the current {@link Date} with time.
-	 * <p>
+	 *
 	 * @return the current {@link Date} with time
 	 */
 	public static Date getDateTime() {
@@ -161,7 +161,7 @@ public class Dates {
 	/**
 	 * Returns the current length of time (in milliseconds) since the epoch (January 1, 1970,
 	 * 00:00:00 GMT).
-	 * <p>
+	 *
 	 * @return the current length of time (in milliseconds) since the epoch (January 1, 1970,
 	 *         00:00:00 GMT)
 	 */
@@ -185,7 +185,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current day start.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current day start
 	 */
 	public static Date getDayStart() {
@@ -194,9 +194,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the day start of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the day start of the specified {@link Date}
 	 */
 	public static Date getDayStart(final Date date) {
@@ -205,9 +204,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the day start of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the day start of the specified {@link Calendar}
 	 */
 	public static Date getDayStart(final Calendar calendar) {
@@ -217,7 +215,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current day end.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current day end
 	 */
 	public static Date getDayEnd() {
@@ -226,9 +224,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the day end of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the day end of the specified {@link Date}
 	 */
 	public static Date getDayEnd(final Date date) {
@@ -237,9 +234,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the day end of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the day end of the specified {@link Calendar}
 	 */
 	public static Date getDayEnd(final Calendar calendar) {
@@ -253,7 +249,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} if it is a business day, the previous business day otherwise.
-	 * <p>
+	 *
 	 * @return the {@link Date} if it is a business day, the previous business day otherwise
 	 */
 	public static Date getBusinessDay() {
@@ -263,9 +259,8 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} if it is a business day, the previous (or next if {@code getNext})
 	 * business day otherwise.
-	 * <p>
+	 *
 	 * @param getNext the flag specifying whether to get the next or previous business day
-	 * <p>
 	 * @return the {@link Date} if it is a business day, the previous (or next if {@code getNext})
 	 *         business day otherwise
 	 */
@@ -276,9 +271,8 @@ public class Dates {
 	/**
 	 * Returns the specified {@link Date} if it is a business day, the previous business day
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the specified {@link Date} if it is a business day, the previous business day
 	 *         otherwise
 	 */
@@ -289,10 +283,9 @@ public class Dates {
 	/**
 	 * Returns the specified {@link Date} if it is a business day, the previous (or next if
 	 * {@code getNext}) business day otherwise.
-	 * <p>
+	 *
 	 * @param date    the {@link Date} to consider
 	 * @param getNext the flag specifying whether to get the next or previous business day
-	 * <p>
 	 * @return the specified {@link Date} if it is a business day, the previous (or next if
 	 *         {@code getNext}) business day otherwise
 	 */
@@ -303,9 +296,8 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day, the
 	 * previous business day otherwise.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day, the
 	 *         previous business day otherwise
 	 */
@@ -316,10 +308,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day, the
 	 * previous (or next if {@code getNext}) business day otherwise.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
 	 * @param getNext  the flag specifying whether to get the next or previous business day
-	 * <p>
 	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day, the
 	 *         previous (or next if {@code getNext}) business day otherwise
 	 */
@@ -330,10 +321,9 @@ public class Dates {
 	/**
 	 * Returns the specified {@link Date} if it is a business day with the specified public holidays
 	 * {@link Mapper}, the previous business day otherwise.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the specified {@link Date} if it is a business day with the specified public holidays
 	 *         {@link Mapper}, the previous business day otherwise
 	 */
@@ -345,11 +335,10 @@ public class Dates {
 	/**
 	 * Returns the specified {@link Date} if it is a business day with the specified public holidays
 	 * {@link Mapper}, the previous (or next if {@code getNext}) business day otherwise.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
 	 * @param getNext        the flag specifying whether to get the next or previous business day
-	 * <p>
 	 * @return the specified {@link Date} if it is a business day with the specified public holidays
 	 *         {@link Mapper}, the previous (or next if {@code getNext}) business day otherwise
 	 */
@@ -361,10 +350,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day with the
 	 * specified public holidays {@link Mapper}, the previous business day otherwise.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day with the
 	 *         specified public holidays {@link Mapper}, the previous business day otherwise
 	 */
@@ -377,11 +365,10 @@ public class Dates {
 	 * Returns the {@link Date} of the specified {@link Calendar} if it is a business day with the
 	 * specified public holidays {@link Mapper}, the previous (or next if {@code getNext}) business
 	 * day otherwise.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
 	 * @param getNext        the flag specifying whether to get the next or previous business day
-	 * <p>
 	 * @return the {@link Date} of the specified {@link Calendar} if it is a business day with the
 	 *         specified public holidays {@link Mapper}, the previous (or next if {@code getNext})
 	 *         business day otherwise
@@ -399,7 +386,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the previous business day.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the previous business day
 	 */
 	public static Date getPreviousBusinessDay() {
@@ -408,9 +395,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the previous business day of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the previous business day of the specified {@link Date}
 	 */
 	public static Date getPreviousBusinessDay(final Date date) {
@@ -419,9 +405,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the previous business day of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the previous business day of the specified {@link Calendar}
 	 */
 	public static Date getPreviousBusinessDay(final Calendar calendar) {
@@ -431,10 +416,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the previous business day of the specified {@link Date} with the
 	 * specified public holidays {@link Mapper}.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the {@link Date} of the previous business day of the specified {@link Date} with the
 	 *         specified public holidays {@link Mapper}
 	 */
@@ -446,10 +430,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the previous business day of the specified {@link Calendar} with
 	 * the specified public holidays {@link Mapper}.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the {@link Date} of the previous business day of the specified {@link Calendar} with
 	 *         the specified public holidays {@link Mapper}
 	 */
@@ -471,7 +454,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the next business day.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the next business day
 	 */
 	public static Date getNextBusinessDay() {
@@ -480,9 +463,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the next business day of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the next business day of the specified {@link Date}
 	 */
 	public static Date getNextBusinessDay(final Date date) {
@@ -491,9 +473,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the next business day of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the next business day of the specified {@link Calendar}
 	 */
 	public static Date getNextBusinessDay(final Calendar calendar) {
@@ -503,10 +484,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the next business day of the specified {@link Date} with the
 	 * specified public holidays {@link Mapper}.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the {@link Date} of the next business day of the specified {@link Date} with the
 	 *         specified public holidays {@link Mapper}
 	 */
@@ -518,10 +498,9 @@ public class Dates {
 	/**
 	 * Returns the {@link Date} of the next business day of the specified {@link Calendar} with the
 	 * specified public holidays {@link Mapper}.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to consider
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the {@link Date} of the next business day of the specified {@link Calendar} with the
 	 *         specified public holidays {@link Mapper}
 	 */
@@ -557,7 +536,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current month start.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current month start
 	 */
 	public static Date getMonthStart() {
@@ -566,9 +545,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the month start of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the month start of the specified {@link Date}
 	 */
 	public static Date getMonthStart(final Date date) {
@@ -577,9 +555,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the month start of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the month start of the specified {@link Calendar}
 	 */
 	public static Date getMonthStart(final Calendar calendar) {
@@ -589,7 +566,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current month end.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current month end
 	 */
 	public static Date getMonthEnd() {
@@ -598,9 +575,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the month end of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the month end of the specified {@link Date}
 	 */
 	public static Date getMonthEnd(final Date date) {
@@ -609,9 +585,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the month end of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the month end of the specified {@link Calendar}
 	 */
 	public static Date getMonthEnd(final Calendar calendar) {
@@ -635,7 +610,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current year start.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current year start
 	 */
 	public static Date getYearStart() {
@@ -644,9 +619,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the year start of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the year start of the specified {@link Date}
 	 */
 	public static Date getYearStart(final Date date) {
@@ -655,9 +629,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the year start of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the year start of the specified {@link Calendar}
 	 */
 	public static Date getYearStart(final Calendar calendar) {
@@ -667,7 +640,7 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the current year end.
-	 * <p>
+	 *
 	 * @return the {@link Date} of the current year end
 	 */
 	public static Date getYearEnd() {
@@ -676,9 +649,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the year end of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to consider
-	 * <p>
 	 * @return the {@link Date} of the year end of the specified {@link Date}
 	 */
 	public static Date getYearEnd(final Date date) {
@@ -687,9 +659,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of the year end of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to consider
-	 * <p>
 	 * @return the {@link Date} of the year end of the specified {@link Calendar}
 	 */
 	public static Date getYearEnd(final Calendar calendar) {
@@ -702,9 +673,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of Good Friday for the specified year.
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the {@link Date} of Good Friday for the specified year
 	 */
 	public static Date getGoodFriday(final int year) {
@@ -715,9 +685,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of Easter in the specified year (using Butcher's algorithm).
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the {@link Date} of Easter in the specified year
 	 */
 	public static Date getEasterDay(final int year) {
@@ -747,9 +716,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of Easter Monday in the specified year.
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the {@link Date} of Easter Monday in the specified year
 	 */
 	public static Date getEasterMonday(final int year) {
@@ -760,9 +728,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of Ascension Day in the specified year.
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the {@link Date} of Ascension Day in the specified year
 	 */
 	public static Date getAscensionDay(final int year) {
@@ -773,9 +740,8 @@ public class Dates {
 
 	/**
 	 * Returns the {@link Date} of Pentecost Day in the specified year.
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the {@link Date} of Pentecost Day in the specified year
 	 */
 	public static Date getPentecostDay(final int year) {
@@ -788,9 +754,8 @@ public class Dates {
 
 	/**
 	 * Returns the Swiss public holidays in an {@link ExtendedList}.
-	 * <p>
+	 *
 	 * @param year the year to consider
-	 * <p>
 	 * @return the Swiss public holidays in an {@link ExtendedList}
 	 */
 	public static ExtendedList<Date> getSwissPublicHolidays(final int year) {
@@ -820,7 +785,7 @@ public class Dates {
 
 	/**
 	 * Sets the date of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date  the {@link Date} to set
 	 * @param year  a number of years
 	 * @param month a number of months
@@ -832,7 +797,7 @@ public class Dates {
 
 	/**
 	 * Sets the date of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to set
 	 * @param year     a number of years
 	 * @param month    a number of months
@@ -849,7 +814,7 @@ public class Dates {
 
 	/**
 	 * Sets the time of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date   the {@link Date} to set
 	 * @param hour   a number of hours
 	 * @param minute a number of minutes
@@ -862,7 +827,7 @@ public class Dates {
 
 	/**
 	 * Sets the time of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date        the {@link Date} to set
 	 * @param hour        a number of hours
 	 * @param minute      a number of minutes
@@ -876,7 +841,7 @@ public class Dates {
 
 	/**
 	 * Sets the time of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to set
 	 * @param hour     a number of hours
 	 * @param minute   a number of minutes
@@ -889,7 +854,7 @@ public class Dates {
 
 	/**
 	 * Sets the time of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar    the {@link Calendar} to set
 	 * @param hour        a number of hours
 	 * @param minute      a number of minutes
@@ -908,7 +873,7 @@ public class Dates {
 
 	/**
 	 * Sets the date-time of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date   the {@link Date} to set
 	 * @param year   a number of years
 	 * @param month  a number of months
@@ -924,7 +889,7 @@ public class Dates {
 
 	/**
 	 * Sets the date-time of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date        the {@link Date} to set
 	 * @param year        a number of years
 	 * @param month       a number of months
@@ -941,7 +906,7 @@ public class Dates {
 
 	/**
 	 * Sets the date-time of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to set
 	 * @param year     a number of years
 	 * @param month    a number of months
@@ -957,7 +922,7 @@ public class Dates {
 
 	/**
 	 * Sets the date-time of the specified {@link Calendar}.
-	 * <p>
+	 *
 	 * @param calendar    the {@link Calendar} to set
 	 * @param year        a number of years
 	 * @param month       a number of months
@@ -983,10 +948,9 @@ public class Dates {
 	 * Compares the specified {@link Date} for order. Returns a negative integer, {@code 0} or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Date} to compare for order (may be {@code null})
 	 * @param b the other {@link Date} to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -1019,10 +983,9 @@ public class Dates {
 	 * Compares the specified {@link Calendar} for order. Returns a negative integer, {@code 0} or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Calendar} to compare for order (may be {@code null})
 	 * @param b the other {@link Calendar} to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -1054,10 +1017,9 @@ public class Dates {
 	 * Compares the specified {@link Date} with time for order. Returns a negative integer,
 	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Date} with time to compare for order (may be {@code null})
 	 * @param b the other {@link Date} with time to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -1081,11 +1043,10 @@ public class Dates {
 	 * Compares the specified {@link Calendar} with time for order. Returns a negative integer,
 	 * {@code 0} or a positive integer as {@code a} is less than, equal to or greater than {@code b}
 	 * (with {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Calendar} with time to compare for order (may be {@code null})
 	 * @param b the other {@link Calendar} with time to compare against for order (may be
 	 *          {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -1112,9 +1073,8 @@ public class Dates {
 
 	/**
 	 * Returns a {@link Date} converted from the specified {@link Date} with time.
-	 * <p>
+	 *
 	 * @param date the {@link Date} with time to convert
-	 * <p>
 	 * @return a {@link Date} converted from the specified {@link Date} with time
 	 */
 	public static Date toDate(final Date date) {
@@ -1128,9 +1088,8 @@ public class Dates {
 
 	/**
 	 * Returns the formatted {@link String} of the specified {@link Date}.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to format
-	 * <p>
 	 * @return the formatted {@link String} of the specified {@link Date}
 	 */
 	public static String format(final Date date) {
@@ -1140,10 +1099,9 @@ public class Dates {
 	/**
 	 * Returns the formatted {@link String} of the specified {@link Date} with the specified pattern
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param date    the {@link Date} to format
 	 * @param pattern the pattern {@link String} describing the date-time format
-	 * <p>
 	 * @return the formatted {@link String} of the specified {@link Date} with the specified pattern
 	 *         {@link String}
 	 */
@@ -1153,9 +1111,8 @@ public class Dates {
 
 	/**
 	 * Returns the formatted {@link String} of the specified {@link Date} with time.
-	 * <p>
+	 *
 	 * @param date the {@link Date} with time to format
-	 * <p>
 	 * @return the formatted {@link String} of the specified {@link Date} with time
 	 */
 	public static String formatWithTime(final Date date) {
@@ -1189,11 +1146,10 @@ public class Dates {
 
 	/**
 	 * Creates a {@link Date} that represents the specified date.
-	 * <p>
+	 *
 	 * @param year  the year of the {@link Date} to create
 	 * @param month the month of the {@link Date} to create
 	 * @param day   the day of the {@link Date} to create
-	 * <p>
 	 * @return a {@link Date} that represents the specified date
 	 */
 	public static Date createDate(final int year, final int month, final int day) {
@@ -1202,14 +1158,13 @@ public class Dates {
 
 	/**
 	 * Creates a {@link Date} with time that represents the specified date.
-	 * <p>
+	 *
 	 * @param year   the year of the {@link Date} to create
 	 * @param month  the month of the {@link Date} to create
 	 * @param day    the day of the {@link Date} to create
 	 * @param hour   the hour of the {@link Date} to create
 	 * @param minute the minute of the {@link Date} to create
 	 * @param second the second of the {@link Date} to create
-	 * <p>
 	 * @return a {@link Date} with time that represents the specified date
 	 */
 	public static Date createDateTime(final int year, final int month, final int day,
@@ -1219,7 +1174,7 @@ public class Dates {
 
 	/**
 	 * Creates a {@link Date} with time that represents the specified date.
-	 * <p>
+	 *
 	 * @param year        the year of the {@link Date} to create
 	 * @param month       the month of the {@link Date} to create
 	 * @param day         the day of the {@link Date} to create
@@ -1227,7 +1182,6 @@ public class Dates {
 	 * @param minute      the minute of the {@link Date} to create
 	 * @param second      the second of the {@link Date} to create
 	 * @param millisecond the millisecond of the {@link Date} to create
-	 * <p>
 	 * @return a {@link Date} with time that represents the specified date
 	 */
 	public static Date createDateTime(final int year, final int month, final int day,
@@ -1398,11 +1352,9 @@ public class Dates {
 
 	/**
 	 * Parses the {@link Date} encoded in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to parse
-	 * <p>
 	 * @return the {@link Date} encoded in the specified {@link String}
-	 * <p>
 	 * @throws ParseException if there is a problem with parsing
 	 */
 	public static Date parse(final String text)
@@ -1413,13 +1365,11 @@ public class Dates {
 	/**
 	 * Parses the {@link Date} encoded in the specified {@link String}, or returns
 	 * {@code defaultDate} if there is a problem with parsing.
-	 * <p>
+	 *
 	 * @param text        the {@link String} to parse (may be {@code null})
 	 * @param defaultDate the default {@link Date} (may be {@code null})
-	 * <p>
 	 * @return the {@link Date} encoded in the specified {@link String}, or returns
 	 *         {@code defaultDate} if there is a problem with parsing
-	 * <p>
 	 * @throws ParseException if there is a problem with parsing
 	 */
 	public static Date parse(final String text, final Date defaultDate)
@@ -1437,11 +1387,9 @@ public class Dates {
 
 	/**
 	 * Parses the {@link Date} with time encoded in the specified {@link String}.
-	 * <p>
+	 *
 	 * @param text the {@link String} to parse
-	 * <p>
 	 * @return the {@link Date} with time encoded in the specified {@link String}
-	 * <p>
 	 * @throws ParseException if there is a problem with parsing
 	 */
 	public static Date parseWithTime(final String text)
@@ -1452,13 +1400,11 @@ public class Dates {
 	/**
 	 * Parses the {@link Date} with time encoded in the specified {@link String}, or returns
 	 * {@code defaultDate} if there is a problem with parsing.
-	 * <p>
+	 *
 	 * @param text            the {@link String} to parse (may be {@code null})
 	 * @param defaultDateTime the default {@link Date} with time (may be {@code null})
-	 * <p>
 	 * @return the {@link Date} with time encoded in the specified {@link String}, or returns
 	 *         {@code defaultDate} if there is a problem with parsing
-	 * <p>
 	 * @throws ParseException if there is a problem with parsing
 	 */
 	public static Date parseWithTime(final String text, final Date defaultDateTime)
@@ -1479,10 +1425,9 @@ public class Dates {
 
 	/**
 	 * Returns the number of days for the specified period of time.
-	 * <p>
+	 *
 	 * @param from the start of the period of time (inclusive)
 	 * @param to   the end of the period of time (inclusive)
-	 * <p>
 	 * @return the number of days for the specified period of time
 	 */
 	public static int countDays(final Date from, final Date to) {
@@ -1491,10 +1436,9 @@ public class Dates {
 
 	/**
 	 * Returns the number of business days for the specified period of time.
-	 * <p>
+	 *
 	 * @param from the start of the period of time (inclusive)
 	 * @param to   the end of the period of time (inclusive)
-	 * <p>
 	 * @return the number of business days for the specified period of time
 	 */
 	public static int countBusinessDays(final Date from, final Date to) {
@@ -1504,11 +1448,10 @@ public class Dates {
 	/**
 	 * Returns the number of business days with the specified public holidays {@link Mapper} for the
 	 * specified period of time.
-	 * <p>
+	 *
 	 * @param from           the start of the period of time (inclusive)
 	 * @param to             the end of the period of time (inclusive)
 	 * @param publicHolidays the {@link Mapper} mapping a year to a {@link List} of public holidays
-	 * <p>
 	 * @return the number of business days with the specified public holidays {@link Mapper} for the
 	 *         specified period of time
 	 */
@@ -1540,10 +1483,9 @@ public class Dates {
 
 	/**
 	 * Returns the number of months for the specified period of time.
-	 * <p>
+	 *
 	 * @param from the start of the period of time (inclusive)
 	 * @param to   the end of the period of time (inclusive)
-	 * <p>
 	 * @return the number of months for the specified period of time
 	 */
 	public static int countMonths(final Date from, final Date to) {
@@ -1563,10 +1505,9 @@ public class Dates {
 
 	/**
 	 * Returns the number of years for the specified period of time.
-	 * <p>
+	 *
 	 * @param from the start of the period of time (inclusive)
 	 * @param to   the end of the period of time (inclusive)
-	 * <p>
 	 * @return the number of years for the specified period of time
 	 */
 	public static int countYears(final Date from, final Date to) {
@@ -1589,9 +1530,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Date}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Date},
 	 *         {@code false} otherwise
 	 */
@@ -1601,9 +1541,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Date}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Date},
 	 *         {@code false} otherwise
 	 */
@@ -1615,9 +1554,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Date} is a week day.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Date} is a week day, {@code false} otherwise
 	 */
 	public static boolean isWeekDay(final Date date) {
@@ -1626,9 +1564,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Calendar} is a week day.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Calendar} is a week day, {@code false} otherwise
 	 */
 	public static boolean isWeekDay(final Calendar calendar) {
@@ -1638,10 +1575,9 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Date} is a public holiday.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to test
 	 * @param publicHolidays the {@link List} of public holidays
-	 * <p>
 	 * @return {@code true} if the specified {@link Date} is a public holiday, {@code false}
 	 *         otherwise
 	 */
@@ -1652,10 +1588,9 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Calendar} is a public holiday.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to test
 	 * @param publicHolidays the {@link List} of public holidays
-	 * <p>
 	 * @return {@code true} if the specified {@link Calendar} is a public holiday, {@code false}
 	 *         otherwise
 	 */
@@ -1667,10 +1602,9 @@ public class Dates {
 	/**
 	 * Tests whether the specified {@link Date} is a business day with the specified {@link List} of
 	 * public holidays.
-	 * <p>
+	 *
 	 * @param date           the {@link Date} to test
 	 * @param publicHolidays the {@link List} of public holidays
-	 * <p>
 	 * @return {@code true} if the specified {@link Date} is a business day with the specified
 	 *         {@link List} of public holidays, {@code false} otherwise
 	 */
@@ -1682,10 +1616,9 @@ public class Dates {
 	/**
 	 * Tests whether the specified {@link Calendar} is a business day with the specified
 	 * {@link List} of public holidays.
-	 * <p>
+	 *
 	 * @param calendar       the {@link Calendar} to test
 	 * @param publicHolidays the {@link List} of public holidays
-	 * <p>
 	 * @return {@code true} if the specified {@link Calendar} is a business day with the specified
 	 *         {@link List} of public holidays, {@code false} otherwise
 	 */
@@ -1698,9 +1631,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Date} has time.
-	 * <p>
+	 *
 	 * @param date the {@link Date} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Date} has time, {@code false} otherwise
 	 */
 	public static boolean hasTime(final Date date) {
@@ -1709,9 +1641,8 @@ public class Dates {
 
 	/**
 	 * Tests whether the specified {@link Calendar} has time.
-	 * <p>
+	 *
 	 * @param calendar the {@link Calendar} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Calendar} has time, {@code false} otherwise
 	 */
 	public static boolean hasTime(final Calendar calendar) {
@@ -1726,10 +1657,9 @@ public class Dates {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Date} to compare for equality (may be {@code null})
 	 * @param b the other {@link Date} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	@SuppressWarnings("deprecation")
@@ -1742,10 +1672,9 @@ public class Dates {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Calendar} to compare for equality (may be {@code null})
 	 * @param b the other {@link Calendar} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Calendar a, final Calendar b) {
@@ -1757,11 +1686,10 @@ public class Dates {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Date} with time to compare for equality (may be {@code null})
 	 * @param b the other {@link Date} with time to compare against for equality (may be
 	 *          {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equalsWithTime(final Date a, final Date b) {
@@ -1773,9 +1701,8 @@ public class Dates {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Date}, or {@code "null"} if
 	 * it is {@code null}.
-	 * <p>
+	 *
 	 * @param date a {@link Date} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Date}, or {@code "null"} if
 	 *         it is {@code null}
 	 */

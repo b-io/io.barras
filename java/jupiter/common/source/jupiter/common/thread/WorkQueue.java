@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@ import java.util.Stack;
 
 import jupiter.common.exception.IllegalOperationException;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.test.IntegerArguments;
 import jupiter.common.util.Classes;
 import jupiter.common.util.Objects;
@@ -125,7 +125,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} by default.
-	 * <p>
+	 *
 	 * @param model the model {@link Worker} of {@code I} and {@code O} types
 	 */
 	protected WorkQueue(final Worker<I, O> model) {
@@ -135,7 +135,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Constructs a {@link WorkQueue} with the specified model {@link Worker} and minimum and
 	 * maximum numbers of {@link Worker}.
-	 * <p>
+	 *
 	 * @param model          the model {@link Worker} of {@code I} and {@code O} types
 	 * @param minThreadCount the minimum number of {@link Worker} to handle
 	 * @param maxThreadCount the maximum number of {@link Worker} to handle
@@ -155,7 +155,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Tests whether {@code this} is running.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is running, {@code false} otherwise
 	 */
 	public boolean isRunning() {
@@ -176,7 +176,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Shutdowns {@code this}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force shutdowning
 	 */
 	public void shutdown(final boolean force) {
@@ -195,7 +195,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Restarts {@code this}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force restarting
 	 */
 	public void restart(final boolean force) {
@@ -215,7 +215,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns the {@link Class} of the model {@link Worker}.
-	 * <p>
+	 *
 	 * @return the {@link Class} of the model {@link Worker}
 	 */
 	public Class<?> getModelClass() {
@@ -224,7 +224,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns the number of {@link Worker}.
-	 * <p>
+	 *
 	 * @return the number of {@link Worker}
 	 */
 	public int getWorkerCount() {
@@ -233,7 +233,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns the number of available {@link Worker}.
-	 * <p>
+	 *
 	 * @return the number of available {@link Worker}
 	 */
 	public int getAvailableWorkerCount() {
@@ -244,9 +244,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Creates the specified number of {@link Worker} according to the model.
-	 * <p>
+	 *
 	 * @param workerToCreateCount the number of {@link Worker} to create
-	 * <p>
 	 * @return the number of created {@link Worker}
 	 */
 	public int createWorkers(final int workerToCreateCount) {
@@ -263,9 +262,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Creates the specified number of {@link Worker} according to the model if required.
-	 * <p>
+	 *
 	 * @param availableWorkerToCreateCount the number of {@link Worker} to create if required
-	 * <p>
 	 * @return the number of created {@link Worker}
 	 */
 	public int createAvailableWorkers(final int availableWorkerToCreateCount) {
@@ -279,9 +277,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Creates a {@link Worker} according to the model.
-	 * <p>
+	 *
 	 * @return {@code 1} if the {@link Worker} is created, {@code 0} otherwise
-	 * <p>
 	 * @throws IllegalOperationException if the maximum number of {@link Worker} has been reached
 	 */
 	protected int createWorker()
@@ -306,7 +303,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Removes the specified {@link Worker}.
-	 * <p>
+	 *
 	 * @param worker the {@link Worker} of {@code I} and {@code O} types to remove
 	 */
 	public void removeWorker(final Worker<I, O> worker) {
@@ -328,9 +325,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Reserves the specified number of {@link Worker}.
-	 * <p>
+	 *
 	 * @param workerToReserveCount the number of {@link Worker} to reserve
-	 * <p>
 	 * @return {@code true} if the {@link Worker} are reserved, {@code false} otherwise
 	 */
 	public boolean reserveWorkers(final int workerToReserveCount) {
@@ -365,9 +361,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Reserves the specified maximum number of {@link Worker}.
-	 * <p>
+	 *
 	 * @param maxWorkerToReserveCount the maximum number of {@link Worker} to reserve
-	 * <p>
 	 * @return the number of reserved {@link Worker}
 	 */
 	public int reserveMaxWorkers(final int maxWorkerToReserveCount) {
@@ -402,7 +397,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Frees the specified number of {@link Worker}.
-	 * <p>
+	 *
 	 * @param workerToFreeCount the number of {@link Worker} to free
 	 */
 	public void freeWorkers(final int workerToFreeCount) {
@@ -413,7 +408,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Kills the specified {@link Worker}.
-	 * <p>
+	 *
 	 * @param worker the {@link Worker} of {@code I} and {@code O} types to kill
 	 */
 	@SuppressWarnings("deprecation")
@@ -441,9 +436,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Submits a {@link Task} with the specified {@code I} input for execution.
-	 * <p>
+	 *
 	 * @param input the {@code I} input of the {@link Task} to submit
-	 * <p>
 	 * @return the identifier of the submitted {@link Task}
 	 */
 	public long submit(final I input) {
@@ -456,7 +450,7 @@ public class WorkQueue<I, O>
 	/**
 	 * Returns the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @return the next {@link Task} of {@code I} type if {@code this} is running, {@code null}
 	 *         otherwise
 	 */
@@ -476,7 +470,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Adds the specified {@code O} result of the {@link Task} with the specified identifier.
-	 * <p>
+	 *
 	 * @param id     the identifier of the {@link Task}
 	 * @param result the {@code O} result of the {@link Task}
 	 */
@@ -488,9 +482,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns the {@code O} result of the {@link Task} with the specified identifier.
-	 * <p>
+	 *
 	 * @param id the identifier of the {@link Task}
-	 * <p>
 	 * @return the {@code O} result of the {@link Task} with the specified identifier
 	 */
 	public O get(final long id) {
@@ -501,9 +494,8 @@ public class WorkQueue<I, O>
 	/**
 	 * Tests whether the {@code O} result of the {@link Task} with the specified identifier is
 	 * ready.
-	 * <p>
+	 *
 	 * @param id the identifier of the {@link Task}
-	 * <p>
 	 * @return {@code true} if the {@code O} result of the {@link Task} with the specified
 	 *         identifier is ready, {@code false} otherwise
 	 */
@@ -518,9 +510,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -532,11 +523,9 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -566,9 +555,8 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -583,7 +571,7 @@ public class WorkQueue<I, O>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

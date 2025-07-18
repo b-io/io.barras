@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -66,9 +66,8 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Applies the {@link HyperbolicTangent} to the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param E an {@link Entity}
-	 * <p>
 	 * @return {@code tanh(E)}
 	 */
 	@Override
@@ -78,9 +77,8 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Applies the derivative of the {@link HyperbolicTangent} to the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param E an array of {@link Entity}
-	 * <p>
 	 * @return {@code 1. - E .* E}
 	 */
 	@Override
@@ -95,9 +93,8 @@ public class ActivationHyperbolicTangent
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

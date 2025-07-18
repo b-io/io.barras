@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -66,7 +66,7 @@ public abstract class Element
 	/**
 	 * Constructs an {@link Element} with the specified parent {@link Element} and expression
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 */
@@ -78,7 +78,7 @@ public abstract class Element
 	/**
 	 * Constructs an {@link Element} with the specified parent {@link Element}, expression
 	 * {@link String} and {@link Entity}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element}
 	 * @param expression the expression {@link String}
 	 * @param entity     the {@link Entity}
@@ -96,7 +96,7 @@ public abstract class Element
 
 	/**
 	 * Returns the parent {@link Element}.
-	 * <p>
+	 *
 	 * @return the parent {@link Element}
 	 */
 	public Element getParent() {
@@ -105,7 +105,7 @@ public abstract class Element
 
 	/**
 	 * Returns the expression {@link String}.
-	 * <p>
+	 *
 	 * @return the expression {@link String}
 	 */
 	public String getExpression() {
@@ -114,7 +114,7 @@ public abstract class Element
 
 	/**
 	 * Returns the {@link Entity}.
-	 * <p>
+	 *
 	 * @return the {@link Entity}
 	 */
 	public Entity getEntity() {
@@ -125,7 +125,7 @@ public abstract class Element
 
 	/**
 	 * Sets the parent {@link Element}.
-	 * <p>
+	 *
 	 * @param parent an {@link Element}
 	 */
 	public void setParent(final Element parent) {
@@ -134,7 +134,7 @@ public abstract class Element
 
 	/**
 	 * Sets the expression {@link String}.
-	 * <p>
+	 *
 	 * @param expression a {@link String}
 	 */
 	public void setExpression(final String expression) {
@@ -143,7 +143,7 @@ public abstract class Element
 
 	/**
 	 * Sets the {@link Entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
 	 */
 	public void setEntity(final Entity entity) {
@@ -157,7 +157,7 @@ public abstract class Element
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,7 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Constructs a {@link UnivariateFunction} with the specified {@link Domain}.
-	 * <p>
+	 *
 	 * @param domain the {@link Domain}
 	 */
 	protected UnivariateFunction(final Domain domain) {
@@ -94,7 +94,7 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Returns the {@link Domain}.
-	 * <p>
+	 *
 	 * @return the {@link Domain}
 	 */
 	public Domain getDomain() {
@@ -109,9 +109,8 @@ public abstract class UnivariateFunction
 	/**
 	 * Returns {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
 	 * not {@code NaN}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside {@code domain}, the closest bound if {@code x} is
 	 *         not {@code NaN}, {@code NaN} otherwise
 	 */
@@ -121,9 +120,8 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Returns {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code x} if {@code x} is inside {@code domain}, {@code NaN} otherwise
 	 */
 	public double constrain(final double x) {
@@ -134,9 +132,8 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Applies the function to the specified value.
-	 * <p>
+	 *
 	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
 	 * @return {@code f(x)}
 	 */
 	protected abstract double a(final double x);
@@ -145,11 +142,9 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Applies the function to the specified value.
-	 * <p>
-	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code f(x)}
 	 *
+	 * @param x a {@code double} value (on the abscissa)
+	 * @return {@code f(x)}
 	 * @see #a(double)
 	 */
 	public double apply(final double x) {
@@ -158,11 +153,9 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Applies the function to the specified {@link Number}.
-	 * <p>
-	 * @param x a {@link Number} (on the abscissa)
-	 * <p>
-	 * @return {@code f(x)}
 	 *
+	 * @param x a {@link Number} (on the abscissa)
+	 * @return {@code f(x)}
 	 * @see #apply(double)
 	 */
 	public double apply(final Number x) {
@@ -378,9 +371,8 @@ public abstract class UnivariateFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

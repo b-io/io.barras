@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,7 +52,7 @@ import jupiter.common.exception.IllegalTypeException;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
 import jupiter.common.properties.Properties;
-import jupiter.common.struct.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Objects;
@@ -124,7 +124,7 @@ public class MailHandler
 	/**
 	 * Constructs a {@link MailHandler} with the specified ingoing mail server {@link Protocol},
 	 * outgoing mail server {@link Protocol}, host name, user name and password.
-	 * <p>
+	 *
 	 * @param inProtocol  the ingoing mail server {@link Protocol}
 	 * @param outProtocol the outgoing mail server {@link Protocol}
 	 * @param hostName    the host name
@@ -146,7 +146,7 @@ public class MailHandler
 	 * Constructs a {@link MailHandler} loaded from the specified {@link Properties} containing the
 	 * ingoing mail server {@link Protocol}, outgoing mail server {@link Protocol}, host name,
 	 * ingoing mail server port, outgoing mail server port, user name and password.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	public MailHandler(final Properties properties) {
@@ -160,7 +160,7 @@ public class MailHandler
 
 	/**
 	 * Returns the ingoing mail server {@link Protocol}.
-	 * <p>
+	 *
 	 * @return the ingoing mail server {@link Protocol}
 	 */
 	public Protocol getInProtocol() {
@@ -169,7 +169,7 @@ public class MailHandler
 
 	/**
 	 * Returns the outgoing mail server {@link Protocol}.
-	 * <p>
+	 *
 	 * @return the outgoing mail server {@link Protocol}
 	 */
 	public Protocol getOutProtocol() {
@@ -178,7 +178,7 @@ public class MailHandler
 
 	/**
 	 * Returns the host name.
-	 * <p>
+	 *
 	 * @return the host name
 	 */
 	public String getHostName() {
@@ -187,7 +187,7 @@ public class MailHandler
 
 	/**
 	 * Returns the ingoing mail server port.
-	 * <p>
+	 *
 	 * @return the ingoing mail server port
 	 */
 	public int getInPort() {
@@ -196,7 +196,7 @@ public class MailHandler
 
 	/**
 	 * Returns the outgoing mail server port.
-	 * <p>
+	 *
 	 * @return the outgoing mail server port
 	 */
 	public int getOutPort() {
@@ -205,7 +205,7 @@ public class MailHandler
 
 	/**
 	 * Returns the user name.
-	 * <p>
+	 *
 	 * @return the user name
 	 */
 	public String getUserName() {
@@ -214,7 +214,7 @@ public class MailHandler
 
 	/**
 	 * Returns the password.
-	 * <p>
+	 *
 	 * @return the password
 	 */
 	public String getPassword() {
@@ -225,7 +225,7 @@ public class MailHandler
 
 	/**
 	 * Sets the ingoing mail server {@link Protocol}.
-	 * <p>
+	 *
 	 * @param inProtocol a {@link Protocol}
 	 */
 	public void setInProtocol(final Protocol inProtocol) {
@@ -234,7 +234,7 @@ public class MailHandler
 
 	/**
 	 * Sets the outgoing mail server {@link Protocol}.
-	 * <p>
+	 *
 	 * @param outProtocol a {@link Protocol}
 	 */
 	public void setOutProtocol(final Protocol outProtocol) {
@@ -243,7 +243,7 @@ public class MailHandler
 
 	/**
 	 * Sets the host name.
-	 * <p>
+	 *
 	 * @param hostName a {@link String}
 	 */
 	public void setHostName(final String hostName) {
@@ -252,7 +252,7 @@ public class MailHandler
 
 	/**
 	 * Sets the ingoing mail server port.
-	 * <p>
+	 *
 	 * @param inPort an {@code int} value
 	 */
 	public void setInPort(final int inPort) {
@@ -261,7 +261,7 @@ public class MailHandler
 
 	/**
 	 * Sets the outgoing mail server port.
-	 * <p>
+	 *
 	 * @param outPort an {@code int} value
 	 */
 	public void setOutPort(final int outPort) {
@@ -270,7 +270,7 @@ public class MailHandler
 
 	/**
 	 * Sets the user name.
-	 * <p>
+	 *
 	 * @param userName a {@link String}
 	 */
 	public void setUserName(final String userName) {
@@ -279,7 +279,7 @@ public class MailHandler
 
 	/**
 	 * Sets the password.
-	 * <p>
+	 *
 	 * @param password a {@link String}
 	 */
 	public void setPassword(final String password) {
@@ -294,9 +294,8 @@ public class MailHandler
 	/**
 	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 * in the remote directory denoted by the specified path.
-	 * <p>
+	 *
 	 * @param remoteDirPath the path to the remote directory
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 *         in the remote directory denoted by the specified path
 	 */
@@ -308,10 +307,9 @@ public class MailHandler
 	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 * in the remote directory denoted by the specified path filtered by the specified mail filter
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link String}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 *         in the remote directory denoted by the specified path filtered by the specified mail
 	 *         filter {@link String}
@@ -325,10 +323,9 @@ public class MailHandler
 	 * Returns the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 * in the remote directory denoted by the specified path filtered by the specified mail filter
 	 * {@link SearchTerm}.
-	 * <p>
+	 *
 	 * @param remoteDirPath the path to the remote directory
 	 * @param mailFilter    the mail filter {@link SearchTerm}
-	 * <p>
 	 * @return the {@link ExtendedLinkedList} of {@link MimeMessage} downloaded from the mail server
 	 *         in the remote directory denoted by the specified path filtered by the specified mail
 	 *         filter {@link SearchTerm}
@@ -382,11 +379,10 @@ public class MailHandler
 	 * Sends a mail with the specified subject {@link String} and content {@link String} to the
 	 * specified comma-separated recipients {@link String} from the mail server with {@code this}
 	 * parameters.
-	 * <p>
+	 *
 	 * @param recipients the comma-separated recipients {@link String} to send to
 	 * @param subject    the subject {@link String} of the mail to send
 	 * @param content    the content {@link String} of the mail to send
-	 * <p>
 	 * @throws MessagingException if there is a problem with creating or sending the mail
 	 */
 	public void send(final String recipients, final String subject, final String content)
@@ -398,11 +394,10 @@ public class MailHandler
 	 * Sends a mail with the specified subject {@link String} and content {@link Multipart} to the
 	 * specified comma-separated recipients {@link String} from the mail server with {@code this}
 	 * parameters.
-	 * <p>
+	 *
 	 * @param recipients the comma-separated recipients {@link String} to send to
 	 * @param subject    the subject {@link String} of the mail to send
 	 * @param content    the content {@link Multipart} of the mail to send
-	 * <p>
 	 * @throws MessagingException if there is a problem with creating or sending the mail
 	 */
 	public void send(final String recipients, final String subject, final Multipart content)
@@ -414,12 +409,11 @@ public class MailHandler
 	 * Sends a mail with the specified subject {@link String} and content {@link Multipart} to the
 	 * specified comma-separated recipients {@link String} from the mail server with {@code this}
 	 * parameters.
-	 * <p>
+	 *
 	 * @param sender     the sender {@link String} to send from
 	 * @param recipients the comma-separated recipients {@link String} to send to
 	 * @param subject    the subject {@link String} of the mail to send
 	 * @param content    the content {@link Multipart} of the mail to send
-	 * <p>
 	 * @throws MessagingException if there is a problem with creating or sending the mail
 	 */
 	public void send(final String sender, final String recipients, final String subject,
@@ -446,11 +440,9 @@ public class MailHandler
 
 	/**
 	 * Creates a {@link MimeMultipart} with the specified content {@link String}.
-	 * <p>
+	 *
 	 * @param content the content {@link String} of the {@link MimeMultipart} to create
-	 * <p>
 	 * @return a {@link MimeMultipart} with the specified content {@link String}
-	 * <p>
 	 * @throws MessagingException if there is a problem with creating the mail content
 	 */
 	public static MimeMultipart createContent(final String content)
@@ -464,9 +456,8 @@ public class MailHandler
 
 	/**
 	 * Creates a {@link SearchTerm} with the specified pattern {@link String}.
-	 * <p>
+	 *
 	 * @param pattern the pattern {@link String} of the {@link SearchTerm} to create
-	 * <p>
 	 * @return a {@link SearchTerm} with the specified pattern {@link String}
 	 */
 	public static SearchTerm createSearchTerm(final String pattern) {
@@ -476,9 +467,8 @@ public class MailHandler
 
 	/**
 	 * Creates a {@link Session} with the specified {@link Protocol} and {@code this} parameters.
-	 * <p>
+	 *
 	 * @param protocol the {@link Protocol} of the {@link Session} to create
-	 * <p>
 	 * @return a {@link Session} with the specified {@link Protocol} and {@code this} parameters
 	 */
 	public Session createSession(final Protocol protocol) {
@@ -521,7 +511,7 @@ public class MailHandler
 
 	/**
 	 * Loads {@code this} from the specified {@link Properties}.
-	 * <p>
+	 *
 	 * @param properties the {@link Properties} to load
 	 */
 	public void load(final Properties properties) {
@@ -545,9 +535,8 @@ public class MailHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -663,7 +652,7 @@ public class MailHandler
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

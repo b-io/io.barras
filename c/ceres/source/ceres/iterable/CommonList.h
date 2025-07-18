@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,7 +54,7 @@ extern "C"
 
 	/**
 	 * Resets the specified List.
-	 * <p>
+	 *
 	 * @param list        the List to be reset
 	 * @param length      the length to set
 	 * @param elementType the element type to set
@@ -70,20 +70,18 @@ extern "C"
 
 	/**
 	 * Returns the element at the specified position in the specified List.
-	 * <p>
+	 *
 	 * @param list  the List
 	 * @param index the index of the element to be returned
-	 * <p>
 	 * @return the element at the specified position in the specified List
 	 */
 	Structure List_get(const void* list, const natural index);
 
 	/**
 	 * Returns the element that was removed from the specified List.
-	 * <p>
+	 *
 	 * @param list  the List
 	 * @param index the index of the element to be removed
-	 * <p>
 	 * @return {@code _TRUE} if the List changed as a result of this call,
 	 *         {@code _FALSE} otherwise
 	 */

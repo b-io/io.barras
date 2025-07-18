@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,8 @@ public interface IDoubleInterval
 	/**
 	 * Returns the closest {@link LowerBound} or {@link UpperBound} to the specified value, or
 	 * {@code null} if {@code this} does not contain any finite {@link Bound}.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the closest {@link LowerBound} or {@link UpperBound} to the specified value, or
 	 *         {@code null} if {@code this} does not contain any finite {@link Bound}
 	 */
@@ -49,27 +48,24 @@ public interface IDoubleInterval
 
 	/**
 	 * Returns the distance to the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance to the specified value
 	 */
 	public double getDistance(final Double value);
 
 	/**
 	 * Returns the distance between the {@link LowerBound} and the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance between the {@link LowerBound} and the specified value
 	 */
 	public double getLowerDistance(final Double value);
 
 	/**
 	 * Returns the distance between the {@link UpperBound} and the specified value.
-	 * <p>
+	 *
 	 * @param value a {@link Double} (may be {@code null})
-	 * <p>
 	 * @return the distance between the {@link UpperBound} and the specified value
 	 */
 	public double getUpperDistance(final Double value);
@@ -78,7 +74,7 @@ public interface IDoubleInterval
 
 	/**
 	 * Returns the {@code double} value of the {@link LowerBound}.
-	 * <p>
+	 *
 	 * @return the {@code double} value of the {@link LowerBound}
 	 */
 	public double getLowerBoundValue();
@@ -86,9 +82,8 @@ public interface IDoubleInterval
 	/**
 	 * Returns the {@code double} value of the {@link LowerBound} using the specified minimal
 	 * interval.
-	 * <p>
+	 *
 	 * @param step the {@code double} minimal interval
-	 * <p>
 	 * @return the {@code double} value of the {@link LowerBound} using the specified minimal
 	 *         interval
 	 */
@@ -98,7 +93,7 @@ public interface IDoubleInterval
 
 	/**
 	 * Returns the {@code double} value of the {@link UpperBound}.
-	 * <p>
+	 *
 	 * @return the {@code double} value of the {@link UpperBound}
 	 */
 	public double getUpperBoundValue();
@@ -106,9 +101,8 @@ public interface IDoubleInterval
 	/**
 	 * Returns the {@code double} value of the {@link UpperBound} using the specified minimal
 	 * interval.
-	 * <p>
+	 *
 	 * @param step the {@code double} minimal interval
-	 * <p>
 	 * @return the {@code double} value of the {@link UpperBound} using the specified minimal
 	 *         interval
 	 */
@@ -123,9 +117,8 @@ public interface IDoubleInterval
 	 * Returns {@code value} if {@code value} is inside {@code this}, the value of the closest
 	 * {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param value the {@link Double} to bound (may be {@code null})
-	 * <p>
 	 * @return {@code value} if {@code value} is inside {@code this}, the value of the closest
 	 *         {@link Bound} if {@code value} is non-{@code null} and not {@code NaN}, {@code NaN}
 	 *         otherwise
@@ -139,7 +132,7 @@ public interface IDoubleInterval
 
 	/**
 	 * Tests whether {@code this} is finite.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is finite, {@code false} otherwise
 	 */
 	public boolean isFinite();

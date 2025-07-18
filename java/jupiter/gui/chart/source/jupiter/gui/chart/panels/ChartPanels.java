@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -65,10 +65,9 @@ public class ChartPanels {
 	/**
 	 * Returns the closest {@link ChartEntity} to the specified mouse event in the specified
 	 * {@link ChartPanel}.
-	 * <p>
+	 *
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param mouseEvent a {@link ChartMouseEvent}
-	 * <p>
 	 * @return the closest {@link ChartEntity} to the specified mouse event in the specified
 	 *         {@link ChartPanel}
 	 */
@@ -114,10 +113,9 @@ public class ChartPanels {
 
 	/**
 	 * Returns the {@link XYPlot} at the specified position in the specified {@link ChartPanel}.
-	 * <p>
+	 *
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param position   a {@link Point}
-	 * <p>
 	 * @return the {@link XYPlot} at the specified position in the specified {@link ChartPanel}
 	 */
 	public static XYPlot getPlot(final ChartPanel chartPanel, final Point position) {
@@ -134,10 +132,9 @@ public class ChartPanels {
 	/**
 	 * Returns the screen area {@link Rectangle2D} at the specified position in the specified
 	 * {@link ChartPanel}.
-	 * <p>
+	 *
 	 * @param chartPanel a {@link ChartPanel}
 	 * @param position   a {@link Point}
-	 * <p>
 	 * @return the screen area {@link Rectangle2D} at the specified position in the specified
 	 *         {@link ChartPanel}
 	 */
@@ -149,7 +146,7 @@ public class ChartPanels {
 
 	/**
 	 * Sets the parameters of the specified {@link ChartPanel} by default.
-	 * <p>
+	 *
 	 * @param chartPanel the {@link ChartPanel} to set
 	 */
 	public static void setDefaultParameters(final ChartPanel chartPanel) {

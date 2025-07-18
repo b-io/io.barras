@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -159,9 +159,8 @@ public class Charsets {
 
 	/**
 	 * Returns the {@link Charset} with the specified name.
-	 * <p>
+	 *
 	 * @param name the name of the {@link Charset}
-	 * <p>
 	 * @return the {@link Charset} with the specified name
 	 */
 	public static Charset get(final String name) {
@@ -177,9 +176,8 @@ public class Charsets {
 	/**
 	 * Returns the number of bytes to encode a {@code char} value with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param charset a {@link Charset}
-	 * <p>
 	 * @return the number of bytes to encode a {@code char} value with the specified {@link Charset}
 	 */
 	public static int getCharSize(final Charset charset) {

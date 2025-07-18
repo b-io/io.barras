@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ public class Content
 
 	/**
 	 * Constructs a {@link Content} with the specified content {@link Object}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
 	 */
 	public Content(final Object content) {
@@ -78,7 +78,7 @@ public class Content
 
 	/**
 	 * Constructs a {@link Content} with the specified content {@link Object} and {@link Charset}.
-	 * <p>
+	 *
 	 * @param content the content {@link Object}
 	 * @param charset the {@link Charset} of the content {@link Object}
 	 */
@@ -88,7 +88,7 @@ public class Content
 
 	/**
 	 * Constructs a {@link Content} with the specified content {@link Object} and number of lines.
-	 * <p>
+	 *
 	 * @param content   the content {@link Object}
 	 * @param lineCount the number of lines of the content {@link Object}
 	 */
@@ -99,7 +99,7 @@ public class Content
 	/**
 	 * Constructs a {@link Content} with the specified content {@link Object}, {@link Charset} and
 	 * number of lines.
-	 * <p>
+	 *
 	 * @param content   the content {@link Object}
 	 * @param charset   the {@link Charset} of the content {@link Object}
 	 * @param lineCount the number of lines of the content {@link Object}
@@ -117,7 +117,7 @@ public class Content
 
 	/**
 	 * Returns the content {@link String}.
-	 * <p>
+	 *
 	 * @return the content {@link String}
 	 */
 	public String getContent() {
@@ -126,7 +126,7 @@ public class Content
 
 	/**
 	 * Returns the {@link Charset}.
-	 * <p>
+	 *
 	 * @return the {@link Charset}
 	 */
 	public Charset getCharset() {
@@ -135,7 +135,7 @@ public class Content
 
 	/**
 	 * Returns the number of lines.
-	 * <p>
+	 *
 	 * @return the number of lines
 	 */
 	public int getLineCount() {
@@ -149,7 +149,7 @@ public class Content
 
 	/**
 	 * Tests whether {@code this} is {@code "null"} or empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is {@code "null"} or empty, {@code false} otherwise
 	 */
 	public boolean isNullOrEmpty() {
@@ -158,7 +158,7 @@ public class Content
 
 	/**
 	 * Tests whether {@code this} is empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is empty, {@code false} otherwise
 	 */
 	public boolean isEmpty() {
@@ -167,7 +167,7 @@ public class Content
 
 	/**
 	 * Tests whether {@code this} is not {@code "null"} and non-empty.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code this} is not {@code "null"} and non-empty, {@code false}
 	 *         otherwise
 	 */
@@ -182,9 +182,8 @@ public class Content
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -200,11 +199,9 @@ public class Content
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -225,9 +222,8 @@ public class Content
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -240,7 +236,7 @@ public class Content
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

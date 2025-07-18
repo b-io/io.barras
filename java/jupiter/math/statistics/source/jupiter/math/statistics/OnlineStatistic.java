@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,7 +76,7 @@ public class OnlineStatistic
 
 	/**
 	 * Returns the sample size.
-	 * <p>
+	 *
 	 * @return the sample size
 	 */
 	public int getSampleSize() {
@@ -85,7 +85,7 @@ public class OnlineStatistic
 
 	/**
 	 * Returns the sample mean.
-	 * <p>
+	 *
 	 * @return the sample mean
 	 */
 	public double getSampleMean() {
@@ -94,7 +94,7 @@ public class OnlineStatistic
 
 	/**
 	 * Returns the sample variance.
-	 * <p>
+	 *
 	 * @return the sample variance
 	 */
 	public double getSampleVariance() {
@@ -103,7 +103,7 @@ public class OnlineStatistic
 
 	/**
 	 * Returns the sample standard deviation.
-	 * <p>
+	 *
 	 * @return the sample standard deviation
 	 */
 	public double getSampleStandardDeviation() {
@@ -112,7 +112,7 @@ public class OnlineStatistic
 
 	/**
 	 * Returns the confidence interval of the sample mean.
-	 * <p>
+	 *
 	 * @return the confidence interval of the sample mean
 	 */
 	public double getSampleMeanConfidenceInterval() {
@@ -141,7 +141,7 @@ public class OnlineStatistic
 
 	/**
 	 * Updates the sample mean and variance with the specified value.
-	 * <p>
+	 *
 	 * @param x a {@code double} value
 	 */
 	public void update(final double x) {

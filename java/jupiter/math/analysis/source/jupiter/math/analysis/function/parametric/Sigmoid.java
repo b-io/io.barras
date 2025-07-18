@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ public class Sigmoid
 
 	/**
 	 * Constructs a {@link Sigmoid} with the specified coefficient.
-	 * <p>
+	 *
 	 * @param coefficient the {@code double} coefficient
 	 */
 	protected Sigmoid(final double coefficient) {
@@ -71,12 +71,10 @@ public class Sigmoid
 
 	/**
 	 * Applies the sigmoid function to the specified value with the specified parameters.
-	 * <p>
+	 *
 	 * @param x          a {@code double} value
 	 * @param parameters the {@code double} parameters
-	 * <p>
 	 * @return {@code f(x, coefficient)}
-	 *
 	 * @see #apply(double, double)
 	 */
 	@Override
@@ -90,10 +88,9 @@ public class Sigmoid
 
 	/**
 	 * Applies the sigmoid function to the specified value with the specified coefficient.
-	 * <p>
+	 *
 	 * @param x           a {@code double} value
 	 * @param coefficient the {@code double} coefficient
-	 * <p>
 	 * @return {@code 1. / (1. + exp(-coefficient * x))}
 	 */
 	public static double apply(final double x, final double coefficient) {
@@ -107,9 +104,8 @@ public class Sigmoid
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

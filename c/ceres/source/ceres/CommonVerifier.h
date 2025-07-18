@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -50,10 +50,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified argument is correct,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param argument the argument to be checked
 	 * @param name     the name of the argument to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified argument is correct,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -62,12 +61,11 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified arguments are correct,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param firstType   the type of the first argument to be checked
 	 * @param firstValue  the value of the first argument to be checked
 	 * @param secondType  the type of the second argument to be checked
 	 * @param secondValue the value of the second argument to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified arguments are correct,
 	 * {@code _FALSE} otherwise
 	 */
@@ -81,10 +79,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified types are equal, {@code _FALSE}
 	 * otherwise.
-	 * <p>
+	 *
 	 * @param givenType    the type to be checked
 	 * @param expectedType the type to be expected
-	 * <p>
 	 * @return {@code _TRUE} if the specified types are equal, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -98,9 +95,8 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified Structure is correct,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param structure the Structure to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified Structure is correct,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -109,10 +105,9 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified Structures are correct,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param first  the first Structure to be checked
 	 * @param second the second Structure to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified Structures are correct,
 	 *         {@code _FALSE} otherwise
 	 */
@@ -126,11 +121,10 @@ extern "C"
 	/**
 	 * Returns {@code _TRUE} if the specified array is correct and nonempty,
 	 * {@code _FALSE} otherwise.
-	 * <p>
+	 *
 	 * @param array the array to be checked
 	 * @param size  the size of the array to be checked
 	 * @param name  the name of the array to be checked
-	 * <p>
 	 * @return {@code _TRUE} if the specified array is correct and nonempty,
 	 *         {@code _FALSE} otherwise
 	 */

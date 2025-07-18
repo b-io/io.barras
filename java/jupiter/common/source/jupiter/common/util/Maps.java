@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,8 +34,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 
@@ -60,9 +60,8 @@ public class Maps
 
 	/**
 	 * Returns the key {@link Class} of the specified {@link Map}.
-	 * <p>
+	 *
 	 * @param map a {@link Map} (may be {@code null})
-	 * <p>
 	 * @return the key {@link Class} of the specified {@link Map}
 	 */
 	public static Class<?> getKeyClass(final Map<?, ?> map) {
@@ -77,9 +76,8 @@ public class Maps
 
 	/**
 	 * Returns the value {@link Class} of the specified {@link Map}.
-	 * <p>
+	 *
 	 * @param map a {@link Map} (may be {@code null})
-	 * <p>
 	 * @return the value {@link Class} of the specified {@link Map}
 	 */
 	public static Class<?> getValueClass(final Map<?, ?> map) {
@@ -97,14 +95,12 @@ public class Maps
 	/**
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
 	 * keys and {@code null} for those that are not present in an {@link ExtendedList}.
-	 * <p>
+	 *
 	 * @param <V>  the type of the {@link ExtendedList} to return
 	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to get
-	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
 	 *         keys and {@code null} for those that are not present in an {@link ExtendedList}
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -125,16 +121,14 @@ public class Maps
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
 	 * keys and the specified default {@code V} value for those that are not present in an
 	 * {@link ExtendedList}.
-	 * <p>
+	 *
 	 * @param <V>          the type of the {@link ExtendedList} to return
 	 * @param map          a {@link Map} of {@code V} value subtype
 	 * @param keys         the array of key {@link Object} of the {@code V} values to get
 	 * @param defaultValue the default {@code V} value (may be {@code null})
-	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
 	 *         keys and the specified default {@code V} value for those that are not present in an
 	 *         {@link ExtendedList}
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -156,16 +150,14 @@ public class Maps
 	 * Returns all the {@code V} values of the specified {@link Map} associated to the specified
 	 * keys and the specified corresponding default {@code V} values for those that are not present
 	 * in an {@link ExtendedList}.
-	 * <p>
+	 *
 	 * @param <V>           the type of the {@link ExtendedList} to return
 	 * @param map           a {@link Map} of {@code V} value subtype
 	 * @param keys          the array of key {@link Object} of the {@code V} values to get
 	 * @param defaultValues the {@code V} array containing the corresponding default values
-	 * <p>
 	 * @return all the {@code V} values of the specified {@link Map} associated to the specified
 	 *         keys and the specified corresponding default {@code V} values for those that are not
 	 *         present in an {@link ExtendedList}
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -188,15 +180,13 @@ public class Maps
 	/**
 	 * Returns the {@code V} value of the specified {@link Map} associated to the specified key, or
 	 * the specified default {@code V} value if it is not present.
-	 * <p>
+	 *
 	 * @param <V>          the type of the value to return
 	 * @param map          a {@link Map} of {@code V} value subtype
 	 * @param key          the key {@link Object} of the {@code V} value to get
 	 * @param defaultValue the default {@code V} value (may be {@code null})
-	 * <p>
 	 * @return the {@code V} value of the specified {@link Map} associated to the specified key, or
 	 *         the specified default {@code V} value if it is not present
-	 * <p>
 	 * @throws ClassCastException   if {@code key} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if {@code key} is {@code null}
 	 */
@@ -214,11 +204,10 @@ public class Maps
 	/**
 	 * Creates a reverse {@link ExtendedHashMap} of {@code V} and {@code K} types of the specified
 	 * {@link Map}.
-	 * <p>
+	 *
 	 * @param <K> the key type of the {@link Map}
 	 * @param <V> the value type of the {@link Map}
 	 * @param map a {@link Map} of {@code K} and {@code V} types
-	 * <p>
 	 * @return a reverse {@link ExtendedHashMap} of {@code V} and {@code K} types of the specified
 	 *         {@link Map}
 	 */
@@ -235,13 +224,12 @@ public class Maps
 	/**
 	 * Puts all the key-value mappings of the specified key and value arrays into the specified
 	 * {@link Map} replacing any entries with identical keys.
-	 * <p>
+	 *
 	 * @param <K>    the key type of the key-value mappings to put
 	 * @param <V>    the value type of the key-value mappings to put
 	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
 	 * @param values the {@code V} array containing the values of the key-value mappings to put
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -255,14 +243,13 @@ public class Maps
 	/**
 	 * Puts all the key-value mappings of the specified key array and value {@link Collection} into
 	 * the specified {@link Map} replacing any entries with identical keys.
-	 * <p>
+	 *
 	 * @param <K>    the key type of the key-value mappings to put
 	 * @param <V>    the value type of the key-value mappings to put
 	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
 	 * @param keys   the {@code K} array containing the keys of the key-value mappings to put
 	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
 	 *               the key-value mappings to put
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -277,7 +264,7 @@ public class Maps
 	/**
 	 * Puts all the key-value mappings of the specified key and value {@link Collection} into the
 	 * specified {@link Map} replacing any entries with identical keys.
-	 * <p>
+	 *
 	 * @param <K>    the key type of the key-value mappings to put
 	 * @param <V>    the value type of the key-value mappings to put
 	 * @param map    a {@link Map} of {@code K} and {@code V} supertypes
@@ -285,7 +272,6 @@ public class Maps
 	 *               key-value mappings to put
 	 * @param values the {@link Collection} of {@code V} element subtype containing the values of
 	 *               the key-value mappings to put
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -303,14 +289,12 @@ public class Maps
 	/**
 	 * Removes all the key-value mappings associated to the specified keys from the specified
 	 * {@link Map}.
-	 * <p>
+	 *
 	 * @param <V>  the type of the {@link ExtendedList} to return
 	 * @param map  a {@link Map} of {@code V} value subtype
 	 * @param keys the array of key {@link Object} of the {@code V} values to remove
-	 * <p>
 	 * @return the previous associated {@code V} values and {@code null} for the {@code map} keys
 	 *         that are not present in an {@link ExtendedList}
-	 * <p>
 	 * @throws ClassCastException   if any {@code keys} cannot be compared to the {@code map} keys
 	 * @throws NullPointerException if any {@code keys} is {@code null}
 	 */
@@ -330,9 +314,8 @@ public class Maps
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Map}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Map},
 	 *         {@code false} otherwise
 	 */
@@ -342,9 +325,8 @@ public class Maps
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a {@link Map}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a {@link Map},
 	 *         {@code false} otherwise
 	 */
@@ -356,9 +338,8 @@ public class Maps
 
 	/**
 	 * Tests whether the specified {@link Map} is {@code null} or empty.
-	 * <p>
+	 *
 	 * @param map the {@link Map} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Map} is {@code null} or empty, {@code false}
 	 *         otherwise
 	 */
@@ -368,9 +349,8 @@ public class Maps
 
 	/**
 	 * Tests whether the specified {@link Map} is non-{@code null} and empty.
-	 * <p>
+	 *
 	 * @param map the {@link Map} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Map} is non-{@code null} and empty,
 	 *         {@code false} otherwise
 	 */
@@ -380,9 +360,8 @@ public class Maps
 
 	/**
 	 * Tests whether the specified {@link Map} is non-{@code null} and non-empty.
-	 * <p>
+	 *
 	 * @param map the {@link Map} to test (may be {@code null})
-	 * <p>
 	 * @return {@code true} if the specified {@link Map} is non-{@code null} and non-empty,
 	 *         {@code false} otherwise
 	 */
@@ -397,10 +376,9 @@ public class Maps
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Map} to compare for equality (may be {@code null})
 	 * @param b the other{@link Map} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Map<?, ?> a, final Map<?, ?> b) {
@@ -418,9 +396,8 @@ public class Maps
 	/**
 	 * Returns a representative {@link String} of the specified {@link Map}, or {@code "null"} if it
 	 * is {@code null}.
-	 * <p>
+	 *
 	 * @param map a {@link Map} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Map}, or {@code "null"} if it
 	 *         is {@code null}
 	 */
@@ -447,9 +424,8 @@ public class Maps
 	/**
 	 * Returns a representative {@link String} of the specified {@link Entry}, or {@code "null"} if
 	 * it is {@code null}.
-	 * <p>
+	 *
 	 * @param entry an {@link Entry} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Entry}, or {@code "null"} if
 	 *         it is {@code null}
 	 */
@@ -462,10 +438,9 @@ public class Maps
 
 	/**
 	 * Returns a representative {@link String} of the specified key-value mapping.
-	 * <p>
+	 *
 	 * @param key   a key {@link Object} (may be {@code null})
 	 * @param value a value {@link Object} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified key-value mapping
 	 */
 	public static String toString(final Object key, final Object value) {

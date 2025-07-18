@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Constructs a {@link Pair} with the specified {@code T1} and {@code T2} components.
-	 * <p>
+	 *
 	 * @param first  the {@code T1} component
 	 * @param second the {@code T2} component
 	 */
@@ -85,7 +85,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Returns the {@code T1} component.
-	 * <p>
+	 *
 	 * @return the {@code T1} component
 	 */
 	public T1 getFirst() {
@@ -94,7 +94,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Returns the {@code T2} component.
-	 * <p>
+	 *
 	 * @return the {@code T2} component
 	 */
 	public T2 getSecond() {
@@ -105,7 +105,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Returns the size of {@code this}.
-	 * <p>
+	 *
 	 * @return the size of {@code this}
 	 */
 	@Override
@@ -117,7 +117,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Sets the {@code T1} component.
-	 * <p>
+	 *
 	 * @param first a {@code T1} object
 	 */
 	public void setFirst(final T1 first) {
@@ -126,7 +126,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Sets the {@code T2} component.
-	 * <p>
+	 *
 	 * @param second a {@code T2} object
 	 */
 	public void setSecond(final T2 second) {
@@ -140,9 +140,8 @@ public class Pair<T1, T2>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -162,11 +161,9 @@ public class Pair<T1, T2>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -186,9 +183,8 @@ public class Pair<T1, T2>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -201,7 +197,7 @@ public class Pair<T1, T2>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

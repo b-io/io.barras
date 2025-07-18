@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +72,7 @@ public abstract class ParametricFunction
 
 	/**
 	 * Constructs a {@link ParametricFunction} with the specified parameters.
-	 * <p>
+	 *
 	 * @param parameters the {@code double} parameters
 	 */
 	protected ParametricFunction(final double... parameters) {
@@ -87,11 +87,9 @@ public abstract class ParametricFunction
 
 	/**
 	 * Applies the parametric function to the specified value with the parameters.
-	 * <p>
-	 * @param x a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code f(x, parameters)}
 	 *
+	 * @param x a {@code double} value (on the abscissa)
+	 * @return {@code f(x, parameters)}
 	 * @see #a(double, double...)
 	 */
 	@Override
@@ -101,10 +99,9 @@ public abstract class ParametricFunction
 
 	/**
 	 * Applies the parametric function to the specified value with the parameters.
-	 * <p>
+	 *
 	 * @param x          a {@code double} value (on the abscissa)
 	 * @param parameters the {@code double} parameters
-	 * <p>
 	 * @return {@code f(x, parameters)}
 	 */
 	protected abstract double a(final double x, final double... parameters);
@@ -113,12 +110,10 @@ public abstract class ParametricFunction
 
 	/**
 	 * Applies the parametric function to the specified value with the parameters.
-	 * <p>
+	 *
 	 * @param x          a {@code double} value (on the abscissa)
 	 * @param parameters the {@code double} parameters
-	 * <p>
 	 * @return {@code f(x, parameters)}
-	 *
 	 * @see #a(double, double...)
 	 */
 	public double apply(final double x, final double... parameters) {
@@ -127,12 +122,10 @@ public abstract class ParametricFunction
 
 	/**
 	 * Applies the parametric function to the specified {@link Number} with the parameters.
-	 * <p>
+	 *
 	 * @param x          a {@link Number} (on the abscissa)
 	 * @param parameters the {@code double} parameters
-	 * <p>
 	 * @return {@code f(x, parameters)}
-	 *
 	 * @see #apply(double, double...)
 	 */
 	public double apply(final Number x, final double... parameters) {
@@ -362,9 +355,8 @@ public abstract class ParametricFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

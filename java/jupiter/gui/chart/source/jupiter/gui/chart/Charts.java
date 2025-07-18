@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import java.text.Format;
 import java.util.List;
 
 import jupiter.common.Formats;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.gui.chart.datasets.XYRangeAxisDataset;
 import jupiter.gui.chart.struct.TimeSeriesList;
 import jupiter.math.analysis.function.univariate.UnivariateFunction;
@@ -105,12 +105,11 @@ public class Charts {
 	/**
 	 * Creates a line chart with the specified title, domain label and {@link List} of
 	 * {@link XYRangeAxisDataset} of {@link XYDataset}.
-	 * <p>
+	 *
 	 * @param title        the title of the line chart to create
 	 * @param xLabel       the domain label of the line chart to create
 	 * @param axisDatasets the {@link List} of {@link XYRangeAxisDataset} of {@link XYDataset} of
 	 *                     the line chart to create
-	 * <p>
 	 * @return a line chart with the specified title, domain label and {@link List} of
 	 *         {@link XYRangeAxisDataset} of {@link XYDataset}
 	 */
@@ -142,12 +141,11 @@ public class Charts {
 	/**
 	 * Creates a scatter chart with the specified title, domain label and {@link List} of
 	 * {@link XYRangeAxisDataset} of {@link XYDataset}.
-	 * <p>
+	 *
 	 * @param title        the title of the scatter chart to create
 	 * @param xLabel       the domain label of the scatter chart to create
 	 * @param axisDatasets the {@link List} of {@link XYRangeAxisDataset} of {@link XYDataset} of
 	 *                     the scatter chart to create
-	 * <p>
 	 * @return a scatter chart with the specified title, domain label and {@link List} of
 	 *         {@link XYRangeAxisDataset} of {@link XYDataset}
 	 */
@@ -179,12 +177,11 @@ public class Charts {
 	/**
 	 * Creates a time series chart with the specified title, domain label and {@link List} of
 	 * {@link XYRangeAxisDataset} of {@link TimeSeriesList}.
-	 * <p>
+	 *
 	 * @param title        the title of the time series chart to create
 	 * @param xLabel       the domain label of the time series chart to create
 	 * @param axisDatasets the {@link List} of {@link XYRangeAxisDataset} of {@link TimeSeriesList}
 	 *                     of the time series chart to create
-	 * <p>
 	 * @return a time series chart with the specified title, domain label and {@link List} of
 	 *         {@link XYRangeAxisDataset} of {@link TimeSeriesList}
 	 */
@@ -196,13 +193,12 @@ public class Charts {
 	/**
 	 * Creates a time series chart with the specified title, domain label, {@link DateFormat} and
 	 * {@link List} of {@link XYRangeAxisDataset} of {@link TimeSeriesList}.
-	 * <p>
+	 *
 	 * @param title        the title of the time series chart to create
 	 * @param xLabel       the domain label of the time series chart to create
 	 * @param xDateFormat  the domain {@link DateFormat} of the time series chart to create
 	 * @param axisDatasets the {@link List} of {@link XYRangeAxisDataset} of {@link TimeSeriesList}
 	 *                     of the time series chart to create
-	 * <p>
 	 * @return a time series chart with the specified title, domain label, {@link DateFormat} and
 	 *         {@link List} of {@link XYRangeAxisDataset} of {@link TimeSeriesList}
 	 */
@@ -238,12 +234,11 @@ public class Charts {
 	/**
 	 * Creates a combined chart with the specified title, domain {@link ValueAxis} and {@link List}
 	 * of {@link XYRangeAxisDataset} of {@link XYDataset}.
-	 * <p>
+	 *
 	 * @param title        the title of the combined chart to create
 	 * @param xAxis        the domain {@link ValueAxis} of the combined chart to create
 	 * @param axisDatasets the {@link List} of {@link XYRangeAxisDataset} of {@link XYDataset} of
 	 *                     the combined chart to create
-	 * <p>
 	 * @return a combined chart with the specified title, domain {@link ValueAxis} and {@link List}
 	 *         of {@link XYRangeAxisDataset} of {@link XYDataset}
 	 */
@@ -297,13 +292,12 @@ public class Charts {
 
 	/**
 	 * Creates a {@link XYDataset} constructed by sampling the specified {@link UnivariateFunction}.
-	 * <p>
+	 *
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
 	 * @param from       the {@code double} lower bound of the domain
 	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
-	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link UnivariateFunction}
 	 */
 	public static XYDataset createDataset(final Comparable<?> seriesKey, final UnivariateFunction f,
@@ -319,13 +313,12 @@ public class Charts {
 
 	/**
 	 * Creates a {@link XYDataset} constructed by sampling the specified {@link Function2D}.
-	 * <p>
+	 *
 	 * @param seriesKey  the identifier of the {@link XYDataset} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
 	 * @param from       the {@code double} lower bound of the domain
 	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
-	 * <p>
 	 * @return a {@link XYDataset} constructed by sampling the specified {@link Function2D}
 	 */
 	public static XYDataset createDataset(final Comparable<?> seriesKey, final Function2D f,
@@ -337,13 +330,12 @@ public class Charts {
 
 	/**
 	 * Creates a {@link XYSeries} constructed by sampling the specified {@link UnivariateFunction}.
-	 * <p>
+	 *
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link UnivariateFunction} {@code f: R -{@literal >} R}
 	 * @param from       the {@code double} lower bound of the domain
 	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
-	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link UnivariateFunction}
 	 */
 	public static XYSeries createSeries(final Comparable<?> seriesKey, final UnivariateFunction f,
@@ -359,13 +351,12 @@ public class Charts {
 
 	/**
 	 * Creates a {@link XYSeries} constructed by sampling the specified {@link Function2D}.
-	 * <p>
+	 *
 	 * @param seriesKey  the identifier of the {@link XYSeries} to create
 	 * @param f          a {@link Function2D} {@code f: R -{@literal >} R}
 	 * @param from       the {@code double} lower bound of the domain
 	 * @param to         the {@code double} upper bound of the domain
 	 * @param sampleSize the sample size
-	 * <p>
 	 * @return a {@link XYSeries} constructed by sampling the specified {@link Function2D}
 	 */
 	public static XYSeries createSeries(final Comparable<?> seriesKey, final Function2D f,
@@ -380,7 +371,7 @@ public class Charts {
 
 	/**
 	 * Sets the parameters of the specified {@link XYPlot} by default.
-	 * <p>
+	 *
 	 * @param plot the {@link XYPlot} to set
 	 */
 	public static void setDefaultParameters(final XYPlot plot) {
@@ -408,7 +399,7 @@ public class Charts {
 	/**
 	 * Sets all the {@link XYRangeAxisDataset} of {@link XYDataset} of the specified {@link XYPlot}
 	 * to the specified {@link List} of {@link XYRangeAxisDataset} of {@link XYDataset}.
-	 * <p>
+	 *
 	 * @param plot         the {@link XYPlot} to set
 	 * @param axisDatasets a {@link List} of {@link XYRangeAxisDataset} of {@link XYDataset}
 	 */
@@ -428,7 +419,7 @@ public class Charts {
 
 	/**
 	 * Sets all the {@link XYLineAndShapeRenderer} of the specified {@link XYPlot} by default.
-	 * <p>
+	 *
 	 * @param plot the {@link XYPlot} to set
 	 */
 	public static void setAllRenderers(final XYPlot plot) {
@@ -438,7 +429,7 @@ public class Charts {
 	/**
 	 * Sets all the {@link XYLineAndShapeRenderer} of the specified {@link XYPlot} to the respective
 	 * specified {@link Color} and {@link Stroke}.
-	 * <p>
+	 *
 	 * @param plot    the {@link XYPlot} to set
 	 * @param colors  an array of {@link Color}
 	 * @param strokes an array of {@link Stroke}

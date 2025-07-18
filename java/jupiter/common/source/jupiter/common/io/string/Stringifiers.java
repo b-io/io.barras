@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,9 +58,8 @@ public class Stringifiers {
 
 	/**
 	 * Tests whether the specified {@link Class} is a leaf.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is a leaf, {@code false} otherwise
 	 */
 	public static boolean isLeaf(final Class<?> c) {
@@ -69,9 +68,8 @@ public class Stringifiers {
 
 	/**
 	 * Tests whether the specified array is a leaf.
-	 * <p>
+	 *
 	 * @param array the array of {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified array is a leaf, {@code false} otherwise
 	 */
 	public static boolean isLeaf(final Object[] array) {
@@ -85,9 +83,8 @@ public class Stringifiers {
 
 	/**
 	 * Tests whether the specified {@link Collection} is a leaf.
-	 * <p>
+	 *
 	 * @param collection the {@link Collection} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Collection} is a leaf, {@code false} otherwise
 	 */
 	public static boolean isLeaf(final Collection<?> collection) {

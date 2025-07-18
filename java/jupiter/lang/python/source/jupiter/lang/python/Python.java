@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -167,7 +167,7 @@ public class Python {
 
 	/**
 	 * Installs the {@code PACKAGES}.
-	 * <p>
+	 *
 	 * @param args ignored
 	 */
 	public static void main(final String[] args) {
@@ -202,9 +202,8 @@ public class Python {
 
 	/**
 	 * Executes the specified Python script and returns the exit value.
-	 * <p>
+	 *
 	 * @param script the Python script to execute
-	 * <p>
 	 * @return the exit value of the specified Python script
 	 */
 	public static int executeScript(final String... script) {
@@ -214,10 +213,9 @@ public class Python {
 	/**
 	 * Executes the specified Python script, prints the output with the specified printer
 	 * {@link IOHandler} and returns the exit value.
-	 * <p>
+	 *
 	 * @param printer the printer {@link IOHandler}
 	 * @param script  the Python script to execute
-	 * <p>
 	 * @return the exit value of the specified Python script
 	 */
 	public static int executeScript(final IOHandler printer, final String... script) {
@@ -236,9 +234,8 @@ public class Python {
 
 	/**
 	 * Executes the specified Python command, prints the output and returns it.
-	 * <p>
+	 *
 	 * @param command the Python command to execute
-	 * <p>
 	 * @return the output {@link String} of the specified Python command, or {@code null} if there
 	 *         is a problem with the execution
 	 */
@@ -249,10 +246,9 @@ public class Python {
 	/**
 	 * Executes the specified Python command, prints the output with the specified printer
 	 * {@link IOHandler} and returns it.
-	 * <p>
+	 *
 	 * @param printer the printer {@link IOHandler}
 	 * @param command the Python command to execute
-	 * <p>
 	 * @return the output {@link String} of the specified Python command, or {@code null} if there
 	 *         is a problem with the execution
 	 */
@@ -311,7 +307,7 @@ public class Python {
 
 		/**
 		 * Constructs a {@link PythonPrinter} with the specified printer {@link IOHandler}.
-		 * <p>
+		 *
 		 * @param printer the printer {@link IOHandler}
 		 */
 		protected PythonPrinter(final IOHandler printer) {
@@ -362,9 +358,8 @@ public class Python {
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -81,7 +81,7 @@ public:
 
 	/**
 	 * Gets the current pathname.
-	 * <p>
+	 *
 	 * @return the current pathname {@link string}
 	 */
 	static string getCurrentPath()
@@ -101,9 +101,8 @@ public:
 
 	/**
 	 * Creates all the directories of the specified pathname.
-	 * <p>
+	 *
 	 * @param pathname the pathname {@link string}
-	 * <p>
 	 * @return {@code true} if the directories are created, {@code false}
 	 *         otherwise
 	 */
@@ -122,9 +121,8 @@ public:
 
 	/**
 	 * Reads the file denoted by the specified pathname.
-	 * <p>
+	 *
 	 * @param pathname the pathname of the file to be read from
-	 * <p>
 	 * @return the content of the file
 	 */
 	static FileContent* read(const string& pathname)
@@ -142,10 +140,9 @@ public:
 	/**
 	 * Writes the specified string in the file denoted by the specified
 	 * pathname.
-	 * <p>
+	 *
 	 * @param line   the {@link string} to be written
 	 * @param pathname the pathname of the file to be written to
-	 * <p>
 	 * @return {@code true} if {@code string} is written in the file,
 	 *         {@code false} otherwise
 	 */
@@ -157,11 +154,10 @@ public:
 	/**
 	 * Writes the specified string in the file denoted by the specified
 	 * pathname.
-	 * <p>
+	 *
 	 * @param line     the {@link string} to be written
 	 * @param pathname the pathname of the file to be written to
 	 * @param append   option specifying how the file is opened
-	 * <p>
 	 * @return {@code true} if {@code string} is written in the file,
 	 *         {@code false} otherwise
 	 */
@@ -196,9 +192,8 @@ public:
 
 	/**
 	 * Tests whether the file or directory denoted by the specified path exists.
-	 * <p>
+	 *
 	 * @param path the path to the file (or directory) to be tested
-	 * <p>
 	 * @return {@code true} if and only if the file (or directory) denoted by
 	 *         {@code path} exists, {@code false} otherwise
 	 */

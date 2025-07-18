@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -95,7 +95,7 @@ public class NeuralNetwork
 
 	/**
 	 * Constructs a {@link NeuralNetwork} with the specified number of features {@code n}.
-	 * <p>
+	 *
 	 * @param featureCount the number of features {@code n}
 	 */
 	public NeuralNetwork(final int featureCount) {
@@ -106,11 +106,10 @@ public class NeuralNetwork
 	/**
 	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
 	 * the feature vectors and classes.
-	 * <p>
+	 *
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m}
 	 * @param classesPath        the path to the file containing the classes of size {@code m}
-	 * <p>
 	 * @throws IOException if there is a problem with reading the files denoted by
 	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
@@ -123,13 +122,12 @@ public class NeuralNetwork
 	/**
 	 * Constructs a {@link NeuralNetwork} with the files denoted by the specified paths containing
 	 * the feature vectors and classes.
-	 * <p>
+	 *
 	 * @param featureVectorsPath the path to the file containing the feature vectors of size
 	 *                           {@code n x m} (or {@code m x n} if {@code transpose})
 	 * @param classesPath        the path to the file containing the classes of size {@code m}
 	 * @param transpose          the flag specifying whether to transpose the feature vectors and
 	 *                           classes
-	 * <p>
 	 * @throws IOException if there is a problem with reading the files denoted by
 	 *                     {@code featureVectorsPath} or {@code classesPath}
 	 */
@@ -147,7 +145,7 @@ public class NeuralNetwork
 
 	/**
 	 * Returns the array of {@link Matrix} {@code W} containing the weights.
-	 * <p>
+	 *
 	 * @return the array of {@link Matrix} {@code W} containing the weights
 	 */
 	public Matrix[] getWeights() {
@@ -156,7 +154,7 @@ public class NeuralNetwork
 
 	/**
 	 * Returns the array of {@link Vector} {@code b} containing the bias.
-	 * <p>
+	 *
 	 * @return the array of {@link Vector} {@code b} containing the bias
 	 */
 	public Vector[] getBias() {
@@ -167,7 +165,7 @@ public class NeuralNetwork
 
 	/**
 	 * Returns the {@link ActivationFunction} {@code g} for all the hidden layers.
-	 * <p>
+	 *
 	 * @return the {@link ActivationFunction} {@code g} for all the hidden layers
 	 */
 	public ActivationFunction getActivationFunction() {
@@ -176,7 +174,7 @@ public class NeuralNetwork
 
 	/**
 	 * Returns the {@link RegularizationFunction} {@code r}.
-	 * <p>
+	 *
 	 * @return the {@link RegularizationFunction} {@code r}
 	 */
 	public RegularizationFunction getRegularizationFunction() {
@@ -187,7 +185,7 @@ public class NeuralNetwork
 
 	/**
 	 * Sets the array of {@link Matrix} {@code W} containing the weights.
-	 * <p>
+	 *
 	 * @param weights an array of {@link Matrix}
 	 */
 	public void setWeights(final Matrix... weights) {
@@ -202,7 +200,7 @@ public class NeuralNetwork
 
 	/**
 	 * Sets the array of {@link Vector} {@code b} containing the bias.
-	 * <p>
+	 *
 	 * @param bias an array of {@link Vector}
 	 */
 	public void setBias(final Vector... bias) {
@@ -219,7 +217,7 @@ public class NeuralNetwork
 
 	/**
 	 * Sets the {@link ActivationFunction} {@code g} for all the hidden layers.
-	 * <p>
+	 *
 	 * @param activationFunction an {@link ActivationFunction}
 	 */
 	public void setActivationFunction(final ActivationFunction activationFunction) {
@@ -228,7 +226,7 @@ public class NeuralNetwork
 
 	/**
 	 * Sets the {@link RegularizationFunction} {@code r}.
-	 * <p>
+	 *
 	 * @param regularizationFunction a {@link RegularizationFunction}
 	 */
 	public void setRegularizationFunction(
@@ -252,13 +250,12 @@ public class NeuralNetwork
 
 	/**
 	 * Trains the model with the specified hyper-parameters.
-	 * <p>
+	 *
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
 	 * @param tolerance                        the tolerance level {@code ε}
 	 * @param maxIterationCount                the maximum number of iterations
-	 * <p>
 	 * @return the number of iterations
 	 */
 	@Override
@@ -283,13 +280,12 @@ public class NeuralNetwork
 
 	/**
 	 * Trains the model with the specified hyper-parameters.
-	 * <p>
+	 *
 	 * @param learningRate      the learning rate {@code α}
 	 * @param tolerance         the tolerance level {@code ε}
 	 * @param maxIterationCount the maximum number of iterations
 	 * @param hiddenLayerCount  the number of hidden layers {@code L - 1}
 	 * @param hiddenLayerSize   the size of the hidden layers
-	 * <p>
 	 * @return the number of iterations
 	 */
 	public int train(final double learningRate,
@@ -304,7 +300,7 @@ public class NeuralNetwork
 
 	/**
 	 * Trains the model with the specified hyper-parameters.
-	 * <p>
+	 *
 	 * @param learningRate                     the learning rate {@code α}
 	 * @param firstMomentExponentialDecayRate  the first-moment exponential decay rate {@code β1}
 	 * @param secondMomentExponentialDecayRate the second-moment exponential decay rate {@code β2}
@@ -312,7 +308,6 @@ public class NeuralNetwork
 	 * @param maxIterationCount                the maximum number of iterations
 	 * @param hiddenLayerCount                 the number of hidden layers {@code L - 1}
 	 * @param hiddenLayerSize                  the size of the hidden layers
-	 * <p>
 	 * @return the number of iterations
 	 */
 	public int train(final double learningRate,
@@ -434,9 +429,8 @@ public class NeuralNetwork
 
 	/**
 	 * Returns the result of {@code Z[l + 1] = W[l] A[l] + b[l]} for the specified layer.
-	 * <p>
+	 *
 	 * @param layer the layer to compute
-	 * <p>
 	 * @return the result of {@code Z[l + 1] = W[l] A[l] + b[l]} for the specified layer
 	 */
 	protected Entity computeForward(final int layer) {
@@ -446,10 +440,9 @@ public class NeuralNetwork
 	/**
 	 * Returns the result of {@code Z[l + 1] = W[l] A + b[l]} for the specified layer and
 	 * {@link Entity}.
-	 * <p>
+	 *
 	 * @param layer the layer to compute
 	 * @param A     an {@link Entity}
-	 * <p>
 	 * @return the result of {@code Z[l + 1] = W[l] A + b[l]} for the specified layer and
 	 *         {@link Entity}
 	 */
@@ -460,7 +453,7 @@ public class NeuralNetwork
 
 	/**
 	 * Computes the cost.
-	 * <p>
+	 *
 	 * @return the cost
 	 */
 	@Override
@@ -477,9 +470,8 @@ public class NeuralNetwork
 	/**
 	 * Returns the estimated probability of the binary (logistic) or multinary (softmax) response
 	 * for all feature vector in {@code X}.
-	 * <p>
+	 *
 	 * @param X the feature vectors of size {@code n x m}
-	 * <p>
 	 * @return the estimated probability of the binary (logistic) or multinary (softmax) response
 	 *         for all feature vector in {@code X}
 	 */
@@ -504,9 +496,8 @@ public class NeuralNetwork
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

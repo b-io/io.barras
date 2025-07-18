@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,10 +70,9 @@ public class Numbers {
 	 * Compares the specified {@link Number} for order. Returns a negative integer, {@code 0} or a
 	 * positive integer as {@code a} is less than, equal to or greater than {@code b} (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare for order (may be {@code null})
 	 * @param b the other {@link Number} to compare against for order (may be {@code null})
-	 * <p>
 	 * @return a negative integer, {@code 0} or a positive integer as {@code a} is less than, equal
 	 *         to or greater than {@code b}
 	 */
@@ -101,10 +100,9 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is less than {@code b} (with {@code null} considered as the minimum
 	 * value).
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is less than {@code b}, {@code false} otherwise
 	 */
 	public static boolean isLessThan(final Number a, final Number b) {
@@ -114,10 +112,9 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is less or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is less or equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean isLessOrEqualTo(final Number a, final Number b) {
@@ -129,10 +126,9 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is greater than {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is greater than {@code b}, {@code false} otherwise
 	 */
 	public static boolean isGreaterThan(final Number a, final Number b) {
@@ -142,10 +138,9 @@ public class Numbers {
 	/**
 	 * Tests whether {@code a} is greater or equal to {@code b} (with {@code null} considered as the
 	 * minimum value).
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare (may be {@code null})
 	 * @param b the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is greater or equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean isGreaterOrEqualTo(final Number a, final Number b) {
@@ -157,11 +152,10 @@ public class Numbers {
 	/**
 	 * Returns the smaller of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare (may be {@code null})
 	 * @param b   the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return the smaller of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Number> T getMin(final T a, final T b) {
@@ -171,11 +165,10 @@ public class Numbers {
 	/**
 	 * Returns the larger of {@code a} and {@code b}, or {@code a} if they are equal (with
 	 * {@code null} considered as the minimum value).
-	 * <p>
+	 *
 	 * @param <T> the {@link Number} type
 	 * @param a   the {@link Number} to compare (may be {@code null})
 	 * @param b   the other {@link Number} to compare against (may be {@code null})
-	 * <p>
 	 * @return the larger of {@code a} and {@code b}, or {@code a} if they are equal
 	 */
 	public static <T extends Number> T getMax(final T a, final T b) {
@@ -189,9 +182,8 @@ public class Numbers {
 
 	/**
 	 * Returns a {@link BigDecimal} converted from the specified {@link Number}.
-	 * <p>
+	 *
 	 * @param number a {@link Number} (may be {@code null})
-	 * <p>
 	 * @return a {@link BigDecimal} converted from the specified {@link Number}
 	 */
 	public static BigDecimal toBigDecimal(final Number number) {
@@ -207,10 +199,9 @@ public class Numbers {
 	/**
 	 * Returns a {@link Number} of the specified {@link Class} converted from the specified
 	 * {@link String}.
-	 * <p>
+	 *
 	 * @param c    a {@link Class}
 	 * @param text a {@link String} (may be {@code null})
-	 * <p>
 	 * @return a {@link Number} of the specified {@link Class} converted from the specified
 	 *         {@link String}
 	 */
@@ -246,9 +237,8 @@ public class Numbers {
 
 	/**
 	 * Tests whether the specified {@link Object} is an instance of {@link Number}.
-	 * <p>
+	 *
 	 * @param object the {@link Object} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Object} is an instance of {@link Number},
 	 *         {@code false} otherwise
 	 */
@@ -259,9 +249,8 @@ public class Numbers {
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a primitive number or a
 	 * {@link Number}.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number or a
 	 *         {@link Number}, {@code false} otherwise
 	 */
@@ -271,9 +260,8 @@ public class Numbers {
 
 	/**
 	 * Tests whether the specified {@link Class} is assignable to a primitive number.
-	 * <p>
+	 *
 	 * @param c the {@link Class} to test
-	 * <p>
 	 * @return {@code true} if the specified {@link Class} is assignable to a primitive number,
 	 *         {@code false} otherwise
 	 */
@@ -290,9 +278,8 @@ public class Numbers {
 
 	/**
 	 * Tests whether the specified value {@link String} is parsable to a {@link Number}.
-	 * <p>
+	 *
 	 * @param value the value {@link String} to test
-	 * <p>
 	 * @return {@code true} if the specified value {@link String} is parsable to a {@link Number},
 	 *         {@code false} otherwise
 	 */
@@ -312,10 +299,9 @@ public class Numbers {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b}.
-	 * <p>
+	 *
 	 * @param a the {@link Number} to compare for equality (may be {@code null})
 	 * @param b the other {@link Number} to compare against for equality (may be {@code null})
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b}, {@code false} otherwise
 	 */
 	public static boolean equals(final Number a, final Number b) {
@@ -333,12 +319,11 @@ public class Numbers {
 
 	/**
 	 * Tests whether {@code a} is equal to {@code b} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param a         the {@link Number} to compare for equality (may be {@code null})
 	 * @param b         the other {@link Number} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code a} is equal to {@code b} within {@code tolerance},
 	 *         {@code false} otherwise
 	 */
@@ -360,9 +345,8 @@ public class Numbers {
 	/**
 	 * Returns a representative {@link String} of the specified {@link Number}, or {@code "null"} if
 	 * it is {@code null}.
-	 * <p>
+	 *
 	 * @param number a {@link Number} (may be {@code null})
-	 * <p>
 	 * @return a representative {@link String} of the specified {@link Number}, or {@code "null"} if
 	 *         it is {@code null}
 	 */

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,7 +64,7 @@ public abstract class StatisticalInference
 
 	/**
 	 * Constructs a {@link StatisticalInference} with the specified number of hypotheses.
-	 * <p>
+	 *
 	 * @param hypothesisCount the number of hypotheses
 	 */
 	public StatisticalInference(final int hypothesisCount) {
@@ -94,7 +94,7 @@ public abstract class StatisticalInference
 	/**
 	 * Infers the hypothesis probability {@code P(H)} for all hypothesis {@code H} with the
 	 * specified evidence {@code E}.
-	 * <p>
+	 *
 	 * @param evidence the evidence {@code E} that is not yet used in the inference
 	 */
 	public abstract void infer(final double evidence);

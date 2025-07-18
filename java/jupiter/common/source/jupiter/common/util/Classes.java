@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -55,9 +55,8 @@ public class Classes {
 	/**
 	 * Returns the {@link Class} of the specified {@link Object}, or {@code null} if it is
 	 * {@code null}.
-	 * <p>
+	 *
 	 * @param object an {@link Object} (may be {@code null})
-	 * <p>
 	 * @return the {@link Class} of the specified {@link Object}, or {@code null} if it is
 	 *         {@code null}
 	 */
@@ -70,10 +69,9 @@ public class Classes {
 	/**
 	 * Returns the common ancestor {@link Class} of the specified classes, or {@code null} if both
 	 * of them are {@code null}.
-	 * <p>
+	 *
 	 * @param c1 a {@link Class} (may be {@code null})
 	 * @param c2 a {@link Class} (may be {@code null})
-	 * <p>
 	 * @return the common ancestor {@link Class} of the specified classes, or {@code null} if both
 	 *         of them are {@code null}
 	 */
@@ -106,9 +104,8 @@ public class Classes {
 	/**
 	 * Returns the common ancestor {@link Class} of the specified classes, or {@code null} if all of
 	 * them are {@code null}.
-	 * <p>
+	 *
 	 * @param classes an array of {@link Class} (may be {@code null})
-	 * <p>
 	 * @return the common ancestor {@link Class} of the specified classes, or {@code null} if all of
 	 *         them are {@code null}
 	 */
@@ -130,12 +127,10 @@ public class Classes {
 
 	/**
 	 * Returns the value of the specified static field in the specified {@link Class}.
-	 * <p>
+	 *
 	 * @param c    the {@link Class} containing the static field to get
 	 * @param name the name of the static field to get
-	 * <p>
 	 * @return the value of the specified static field in the specified {@link Class}
-	 * <p>
 	 * @throws IllegalAccessException   if the field is inaccessible
 	 * @throws IllegalArgumentException if {@code c} is not declaring the field
 	 * @throws NoSuchFieldException     if there is no field with {@code name}

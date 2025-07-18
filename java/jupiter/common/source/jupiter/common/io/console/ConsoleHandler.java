@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +82,7 @@ public class ConsoleHandler
 
 	/**
 	 * Constructs a {@link ConsoleHandler} with the specified {@link IConsole}.
-	 * <p>
+	 *
 	 * @param console the {@link IConsole} to handle
 	 */
 	public ConsoleHandler(final IConsole console) {
@@ -97,7 +97,7 @@ public class ConsoleHandler
 
 	/**
 	 * Returns the {@link IConsole}.
-	 * <p>
+	 *
 	 * @return the {@link IConsole}
 	 */
 	public IConsole getConsole() {
@@ -108,9 +108,8 @@ public class ConsoleHandler
 
 	/**
 	 * Returns the {@link Color} of the specified {@link SeverityLevel}.
-	 * <p>
+	 *
 	 * @param severityLevel a {@link SeverityLevel}
-	 * <p>
 	 * @return the {@link Color} of the specified {@link SeverityLevel}
 	 */
 	public static Color getColor(final SeverityLevel severityLevel) {
@@ -139,7 +138,7 @@ public class ConsoleHandler
 
 	/**
 	 * Sets the {@link IConsole}.
-	 * <p>
+	 *
 	 * @param console an {@link IConsole}
 	 */
 	public void setConsole(final IConsole console) {
@@ -154,11 +153,10 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content {@link Object} in the output console (or error console if
 	 * {@code isError}).
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -181,9 +179,8 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified {@link Message} (in color if {@code USE_COLORS}) and terminates the
 	 * line.
-	 * <p>
+	 *
 	 * @param message the {@link Message} to print
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -200,11 +197,10 @@ public class ConsoleHandler
 	/**
 	 * Prints the specified content {@link Object} in the output console (or error console if
 	 * {@code isError}) and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link Object} to print
 	 * @param isError the flag specifying whether to print in {@code console.getErr()} or in
 	 *                {@code console.getOut()}
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	@Override
@@ -229,7 +225,7 @@ public class ConsoleHandler
 
 	/**
 	 * Returns the input line.
-	 * <p>
+	 *
 	 * @return the input line
 	 */
 	public synchronized String getInputLine() {
@@ -243,9 +239,8 @@ public class ConsoleHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -257,11 +252,9 @@ public class ConsoleHandler
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -280,9 +273,8 @@ public class ConsoleHandler
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -413,9 +405,8 @@ public class ConsoleHandler
 
 		/**
 		 * Parses the {@link Color} encoded in the specified {@link String}.
-		 * <p>
+		 *
 		 * @param text the {@link String} to parse
-		 * <p>
 		 * @return the {@link Color} encoded in the specified {@link String}, or {@code null} if
 		 *         there is a problem with parsing
 		 */
@@ -462,7 +453,7 @@ public class ConsoleHandler
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedList;
+import jupiter.common.struct.collection.list.ExtendedList;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
 import jupiter.common.test.DoubleArguments;
@@ -75,9 +75,8 @@ public class TimeSeriesList
 
 	/**
 	 * Constructs an empty {@link TimeSeriesList} with the specified initial capacity.
-	 * <p>
+	 *
 	 * @param initialCapacity the initial capacity
-	 * <p>
 	 * @throws IllegalArgumentException if {@code initialCapacity} is negative
 	 */
 	public TimeSeriesList(final int initialCapacity) {
@@ -89,7 +88,7 @@ public class TimeSeriesList
 
 	/**
 	 * Constructs a {@link TimeSeriesList} with the specified elements.
-	 * <p>
+	 *
 	 * @param elements an array of {@link TimeSeries}
 	 */
 	public TimeSeriesList(final TimeSeries... elements) {
@@ -99,7 +98,7 @@ public class TimeSeriesList
 
 	/**
 	 * Constructs a {@link TimeSeriesList} with the elements of the specified {@link Collection}.
-	 * <p>
+	 *
 	 * @param elements a {@link Collection} of {@link TimeSeries}
 	 */
 	public TimeSeriesList(final Collection<? extends TimeSeries> elements) {
@@ -114,7 +113,7 @@ public class TimeSeriesList
 
 	/**
 	 * Returns the number of {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @return the number of {@link TimeSeries}
 	 */
 	public int size() {
@@ -128,7 +127,7 @@ public class TimeSeriesList
 
 	/**
 	 * Appends the specified {@link TimeSeries} to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param timeSeries the {@link TimeSeries} to append
 	 */
 	@Override
@@ -139,9 +138,8 @@ public class TimeSeriesList
 
 	/**
 	 * Appends a {@link TimeSeries} constructed with the specified name to the end of {@code this}.
-	 * <p>
+	 *
 	 * @param name the name of the {@link TimeSeries} to append
-	 * <p>
 	 * @return the index of the {@link TimeSeries} appended to the end of {@code this}
 	 */
 	public int addSeries(final String name) {
@@ -153,7 +151,7 @@ public class TimeSeriesList
 
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param index the index of the {@link TimeSeries} to append to
 	 * @param y     the {@code double} range coordinate of the point to append
 	 */
@@ -164,7 +162,7 @@ public class TimeSeriesList
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param index the index of the {@link TimeSeries} to append to
 	 * @param x     the {@code double} domain coordinate of the point to append
 	 * @param y     the {@code double} range coordinate of the point to append
@@ -176,7 +174,7 @@ public class TimeSeriesList
 
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param Y the {@code double} range coordinate of each point to append
 	 */
 	public void addPointToAll(final double[] Y) {
@@ -195,7 +193,7 @@ public class TimeSeriesList
 
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param index the index of the {@link TimeSeries} to append to
 	 * @param y     the range coordinate {@link Number} of the point to append
 	 */
@@ -206,7 +204,7 @@ public class TimeSeriesList
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param index the index of the {@link TimeSeries} to append to
 	 * @param x     the domain coordinate {@link Number} of the point to append
 	 * @param y     the range coordinate {@link Number} of the point to append
@@ -219,7 +217,7 @@ public class TimeSeriesList
 
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries}.
-	 * <p>
+	 *
 	 * @param Y the range coordinate {@link Number} of each point to append
 	 */
 	public void addPointToAll(final Number[] Y) {
@@ -243,9 +241,8 @@ public class TimeSeriesList
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

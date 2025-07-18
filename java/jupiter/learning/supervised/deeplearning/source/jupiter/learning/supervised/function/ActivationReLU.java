@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -70,7 +70,7 @@ public class ActivationReLU
 
 	/**
 	 * Constructs a leaky {@link ActivationReLU} with the specified positive gradient.
-	 * <p>
+	 *
 	 * @param gradient a {@code double} value
 	 */
 	public ActivationReLU(final double gradient) {
@@ -91,9 +91,8 @@ public class ActivationReLU
 
 	/**
 	 * Applies the ReLU function to the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param E an {@link Entity}
-	 * <p>
 	 * @return {@code max(E)}
 	 */
 	@Override
@@ -103,9 +102,8 @@ public class ActivationReLU
 
 	/**
 	 * Applies the derivative of the ReLU function to the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param E an {@link Entity}
-	 * <p>
 	 * @return {@code filter(E)}
 	 */
 	@Override
@@ -120,9 +118,8 @@ public class ActivationReLU
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

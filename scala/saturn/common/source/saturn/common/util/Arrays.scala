@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,12 +32,11 @@ object Arrays {
 	/**
 	 * Returns the representative {@link String} of the specified {@link Array} joined with the
 	 * specified delimiter and mapped with the specified element converter.
-	 * <p>
+	 *
 	 * @tparam T        the type of the {@link Array}
 	 * @param a         the {@link Array} of type {@code T} to print
 	 * @param delimiter the delimiting {@link String}
 	 * @param f         the element converter (from type {@code T} to {@link String})
-	 * <p>
 	 * @return the representative {@link String} of the specified {@link Array} joined with the
 	 *         specified delimiter and mapped with the specified element converter
 	 */

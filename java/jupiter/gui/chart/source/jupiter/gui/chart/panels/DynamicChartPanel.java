@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -112,7 +112,7 @@ public class DynamicChartPanel
 
 	/**
 	 * Constructs a {@link DynamicChartPanel} with the specified chart.
-	 * <p>
+	 *
 	 * @param chart the chart
 	 */
 	public DynamicChartPanel(final JFreeChart chart) {
@@ -122,7 +122,7 @@ public class DynamicChartPanel
 	/**
 	 * Constructs a {@link DynamicChartPanel} with the specified chart and {@link Format} of the
 	 * domain label.
-	 * <p>
+	 *
 	 * @param chart   the chart
 	 * @param xFormat the {@link Format} of the domain label
 	 */
@@ -133,7 +133,7 @@ public class DynamicChartPanel
 	/**
 	 * Constructs a {@link DynamicChartPanel} with the specified chart, {@link Format} of the domain
 	 * label and {@link Format} of each range label.
-	 * <p>
+	 *
 	 * @param chart    the chart
 	 * @param xFormat  the {@link Format} of the domain label
 	 * @param yFormats the {@link Format} of each range label
@@ -158,9 +158,8 @@ public class DynamicChartPanel
 
 	/**
 	 * Returns the closest {@link ChartEntity} to the specified mouse event.
-	 * <p>
+	 *
 	 * @param mouseEvent a {@link ChartMouseEvent}
-	 * <p>
 	 * @return the closest {@link ChartEntity} to the specified mouse event
 	 */
 	public ChartEntity getEntity(final ChartMouseEvent mouseEvent) {
@@ -169,9 +168,8 @@ public class DynamicChartPanel
 
 	/**
 	 * Returns the {@link XYPlot} at the specified position.
-	 * <p>
+	 *
 	 * @param position a {@link Point}
-	 * <p>
 	 * @return the {@link XYPlot} at the specified position
 	 */
 	public XYPlot getPlot(final Point position) {
@@ -180,9 +178,8 @@ public class DynamicChartPanel
 
 	/**
 	 * Returns the screen area {@link Rectangle2D} at the specified position.
-	 * <p>
+	 *
 	 * @param position a {@link Point}
-	 * <p>
 	 * @return the screen area {@link Rectangle2D} at the specified position
 	 */
 	public Rectangle2D getScreenArea(final Point position) {

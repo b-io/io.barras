@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -69,7 +69,7 @@ public:
 
 	/**
 	 * Returns the next input line of {@code console}.
-	 * <p>
+	 *
 	 * @return the next input line of {@code console}
 	 */
 	static string getInputLine()
@@ -123,7 +123,7 @@ public:
 
 	/**
 	 * Prints the specified message in the console.
-	 * <p>
+	 *
 	 * @param message the {@link Message} to be printed
 	 */
 	static void printn(const Message& message)
@@ -155,7 +155,7 @@ public:
 
 	/**
 	 * Prints {@code n} spaces.
-	 * <p>
+	 *
 	 * @param n the number of spaces to be printed
 	 */
 	static void printSpaces(int n)
@@ -165,7 +165,7 @@ public:
 
 	/**
 	 * Prints {@code n} strings.
-	 * <p>
+	 *
 	 * @param n the number of strings to be printed
 	 */
 	static void printStrings(const string& string, int n)
@@ -188,10 +188,9 @@ protected:
 
 	/**
 	 * Returns the number of points to be printed.
-	 * <p>
+	 *
 	 * @param i the current number of iterations
 	 * @param n the total number of iterations
-	 * <p>
 	 * @return the number of points to be printed
 	 */
 	static int getPointsNumber(double i, double n)
@@ -206,7 +205,7 @@ protected:
 
 	/**
 	 * Prints {@code n} points.
-	 * <p>
+	 *
 	 * @param n the number of points to be printed
 	 */
 	static void printPoints(int n)
@@ -222,7 +221,7 @@ public:
 
 	/**
 	 * Prints a loading bar of {@code i/n} points.
-	 * <p>
+	 *
 	 * @param i an {@code int} value
 	 * @param n the upper bound of {@code i}
 	 */
@@ -253,7 +252,7 @@ public:
 
 	/**
 	 * Prints {@code i/n} points.
-	 * <p>
+	 *
 	 * @param i an {@code double} value
 	 * @param n the upper bound of {@code i}
 	 */

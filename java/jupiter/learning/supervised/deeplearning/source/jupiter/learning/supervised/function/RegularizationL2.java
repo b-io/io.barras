@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ public class RegularizationL2
 
 	/**
 	 * Constructs a {@link RegularizationL2} with the specified hyper-parameter {@code λ}.
-	 * <p>
+	 *
 	 * @param lambda the hyper-parameter {@code λ}
 	 */
 	public RegularizationL2(final double lambda) {
@@ -72,10 +72,9 @@ public class RegularizationL2
 
 	/**
 	 * Computes the regularization cost.
-	 * <p>
+	 *
 	 * @param m       the number of training examples
 	 * @param weights the array of weight {@link Matrix}
-	 * <p>
 	 * @return {@code λ sum(sum(W .* W)) / (2. * m)}
 	 */
 	@Override
@@ -89,10 +88,9 @@ public class RegularizationL2
 
 	/**
 	 * Applies the derivative of the regularization function to the specified weight {@link Matrix}.
-	 * <p>
+	 *
 	 * @param m the number of training examples
 	 * @param W the weight {@link Matrix}
-	 * <p>
 	 * @return {@code λ W / m}
 	 */
 	@Override
@@ -107,9 +105,8 @@ public class RegularizationL2
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

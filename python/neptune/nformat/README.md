@@ -6,7 +6,8 @@
 * nformat,
 * ngui,
 * nlearn,
-* nmath, and
+* nmath,
+* nserve, and
 * nutil.
 
 The library **nformat** contains financial utility functions; among them:

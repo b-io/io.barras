@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ import static jupiter.common.util.Characters.RIGHT_PARENTHESIS;
 import static jupiter.math.analysis.function.univariate.UnivariateFunctions.ROUND;
 
 import jupiter.common.math.Maths;
-import jupiter.common.struct.map.hash.ExtendedHashMap;
+import jupiter.common.struct.collection.map.hash.ExtendedHashMap;
 import jupiter.common.struct.table.StringTable;
 import jupiter.common.test.Arguments;
 import jupiter.common.test.ArrayArguments;
@@ -102,7 +102,7 @@ public class SVM {
 	/**
 	 * Constructs a support vector machine {@link SVM} with the specified number of features
 	 * {@code n}.
-	 * <p>
+	 *
 	 * @param featureCount the number of features {@code n}
 	 */
 	public SVM(final int featureCount) {
@@ -121,7 +121,7 @@ public class SVM {
 
 	/**
 	 * Returns the feature vectors.
-	 * <p>
+	 *
 	 * @return the feature vectors
 	 */
 	public svm_node[][] getFeatureVectors() {
@@ -130,7 +130,7 @@ public class SVM {
 
 	/**
 	 * Returns the classes.
-	 * <p>
+	 *
 	 * @return the classes
 	 */
 	public double[] getClasses() {
@@ -139,7 +139,7 @@ public class SVM {
 
 	/**
 	 * Returns the probability estimates.
-	 * <p>
+	 *
 	 * @return the probability estimates
 	 */
 	public ExtendedHashMap<Integer, Double> getProbabilityEstimates() {
@@ -161,7 +161,7 @@ public class SVM {
 
 	/**
 	 * Sets the cache size.
-	 * <p>
+	 *
 	 * @param cacheSize a {@code double} value
 	 */
 	public void setCacheSize(final double cacheSize) {
@@ -177,7 +177,7 @@ public class SVM {
 
 	/**
 	 * Sets the kernel type to polynomial with the specified hyper-parameters.
-	 * <p>
+	 *
 	 * @param degree      an {@code int} value
 	 * @param coefficient a {@code double} value
 	 * @param constant    a {@code double} value
@@ -193,7 +193,7 @@ public class SVM {
 
 	/**
 	 * Sets the kernel type to Gaussian with the specified hyper-parameter.
-	 * <p>
+	 *
 	 * @param variance a {@code double} value
 	 */
 	public void setKernelTypeToGaussian(final double variance) {
@@ -202,7 +202,7 @@ public class SVM {
 
 	/**
 	 * Sets the kernel type to radial basis function (RBF) with the specified hyper-parameter.
-	 * <p>
+	 *
 	 * @param gamma a {@code double} value
 	 */
 	public void setKernelTypeToRBF(final double gamma) {
@@ -212,7 +212,7 @@ public class SVM {
 
 	/**
 	 * Sets the tolerance level (or termination criterion) {@code ε}.
-	 * <p>
+	 *
 	 * @param tolerance a {@code double} value
 	 */
 	public void setTolerance(final double tolerance) {
@@ -228,7 +228,7 @@ public class SVM {
 
 	/**
 	 * Sets the type to C-SVC. This type regularizes the support vector classification.
-	 * <p>
+	 *
 	 * @param c a {@code double} value
 	 */
 	public void setTypeToCSVC(final double c) {
@@ -248,7 +248,7 @@ public class SVM {
 	/**
 	 * Sets the type to nu-SVC. This type automatically regularizes the support vector
 	 * classification.
-	 * <p>
+	 *
 	 * @param nu a {@code double} value
 	 */
 	public void setTypeToNuSVC(final double nu) {
@@ -258,7 +258,7 @@ public class SVM {
 
 	/**
 	 * Sets the type to one-class. This type selects a hyper-sphere to maximize density.
-	 * <p>
+	 *
 	 * @param nu a {@code double} value
 	 */
 	public void setTypeToOneClass(final double nu) {
@@ -269,7 +269,7 @@ public class SVM {
 	/**
 	 * Sets the type to epsilon SVR. This type supports vector regression robust to small (epsilon)
 	 * errors.
-	 * <p>
+	 *
 	 * @param c       a {@code double} value
 	 * @param epsilon a {@code double} value
 	 */
@@ -281,7 +281,7 @@ public class SVM {
 
 	/**
 	 * Sets the weights (only for C-SVC).
-	 * <p>
+	 *
 	 * @param weights a {@code double} array
 	 */
 	public void setWeights(final double... weights) {
@@ -302,7 +302,7 @@ public class SVM {
 	/**
 	 * Loads the training examples (feature vectors and classes) from the specified 2D
 	 * {@code double} array of feature vectors and {@code double} array of classes.
-	 * <p>
+	 *
 	 * @param featureVectors the 2D {@code double} array of feature vectors of size {@code m x n} to
 	 *                       load
 	 * @param classes        the {@code double} array of classes of size {@code m} to load
@@ -335,7 +335,7 @@ public class SVM {
 	/**
 	 * Loads the training examples (feature vectors and classes) from the specified
 	 * {@link StringTable}.
-	 * <p>
+	 *
 	 * @param trainingExamples the {@link StringTable} containing the training examples (feature
 	 *                         vectors and classes) of size {@code m x n + 1} to load
 	 * @param classesIndex     the index of the column containing the classes of size {@code m} to
@@ -387,7 +387,7 @@ public class SVM {
 
 	/**
 	 * Updates the class of the training example at the specified index.
-	 * <p>
+	 *
 	 * @param trainingExampleIndex the index of the training example
 	 * @param classification       the class of the training example
 	 */
@@ -398,7 +398,7 @@ public class SVM {
 
 	/**
 	 * Updates the feature vector of the training example at the specified index.
-	 * <p>
+	 *
 	 * @param trainingExampleIndex the index of the training example
 	 * @param featureVector        the feature vector of the training example
 	 */
@@ -411,7 +411,7 @@ public class SVM {
 
 	/**
 	 * Updates the value of the feature vector of the training example at the specified indices.
-	 * <p>
+	 *
 	 * @param trainingExampleIndex the index of the training example
 	 * @param featureIndex         the index of the feature
 	 * @param value                the {@code double} value at the indices
@@ -438,7 +438,7 @@ public class SVM {
 
 	/**
 	 * Trains the model with the problem and hyper-parameters.
-	 * <p>
+	 *
 	 * @return the trained model
 	 */
 	public svm_model train() {
@@ -460,9 +460,8 @@ public class SVM {
 
 	/**
 	 * Classifies the specified example.
-	 * <p>
+	 *
 	 * @param example the example to classify
-	 * <p>
 	 * @return the estimated class
 	 */
 	public Integer classify(final double... example) {

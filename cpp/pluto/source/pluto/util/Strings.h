@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -133,7 +133,7 @@ public:
 
 	/**
 	 * Returns a {@link string} line with the default length.
-	 * <p>
+	 *
 	 * @return a {@link string} line with the default length
 	 */
 	static string generateLine()
@@ -143,9 +143,8 @@ public:
 
 	/**
 	 * Returns a {@link string} line with the specified length.
-	 * <p>
+	 *
 	 * @param length the length of the line to be generated
-	 * <p>
 	 * @return a {@link string} line with the specified length
 	 */
 	static string generateLine(int length)

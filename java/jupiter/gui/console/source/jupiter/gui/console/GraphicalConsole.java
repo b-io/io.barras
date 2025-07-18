@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -119,7 +119,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Returns the prefix {@link String}.
-	 * <p>
+	 *
 	 * @return the prefix {@link String}
 	 */
 	protected String getPrefix() {
@@ -145,7 +145,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Prints the specified message {@link String} in the {@link JConsole}.
-	 * <p>
+	 *
 	 * @param message the message {@link String} to print
 	 */
 	public void print(final String message) {
@@ -154,7 +154,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Prints the specified message {@link String} in the {@link JConsole} and terminates the line.
-	 * <p>
+	 *
 	 * @param message the message {@link String} to print
 	 */
 	public void println(final String message) {
@@ -168,7 +168,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Executes the specified input expression {@link String}.
-	 * <p>
+	 *
 	 * @param inputExpression the input expression {@link String} to execute
 	 */
 	protected abstract void execute(final String inputExpression);
@@ -205,7 +205,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Exits {@code this} with the specified status code.
-	 * <p>
+	 *
 	 * @param status the status code to exit with
 	 */
 	public void exit(final int status) {
@@ -221,7 +221,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Returns the input line of the {@link JConsole}.
-	 * <p>
+	 *
 	 * @return the input line of the {@link JConsole}
 	 */
 	public String getInputLine() {
@@ -230,7 +230,7 @@ public abstract class GraphicalConsole
 
 	/**
 	 * Returns the last line of the {@link JConsole}.
-	 * <p>
+	 *
 	 * @return the last line of the {@link JConsole}
 	 */
 	public String getLastLine() {

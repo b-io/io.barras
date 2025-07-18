@@ -61,14 +61,13 @@ public class Web {
 
 	/**
 	 * Downloads the file pointed by the specified {@link URL} to the specified target {@link File}.
-	 * <p>
+	 *
 	 * @param source the {@link URL} of the source file
 	 * @param target the target {@link File}
-	 * <p>
 	 * @throws IOException              if there is a problem with downloading the file
 	 * @throws KeyManagementException   if there is a problem with the key manager
 	 * @throws NoSuchAlgorithmException if there is no such supported protocol
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public static void download(final URL source, final File target)
@@ -78,15 +77,14 @@ public class Web {
 
 	/**
 	 * Downloads the file pointed by the specified {@link URL} to the specified target {@link File}.
-	 * <p>
+	 *
 	 * @param source the {@link URL} of the source file
 	 * @param target the target {@link File}
 	 * @param cookie the cookie {@link String} to use
-	 * <p>
 	 * @throws IOException              if there is a problem with downloading the file
 	 * @throws KeyManagementException   if there is a problem with the key manager
 	 * @throws NoSuchAlgorithmException if there is no such supported protocol
-	 * <p>
+	 *
 	 * @since 1.7
 	 */
 	public static void download(final URL source, final File target, final String cookie)

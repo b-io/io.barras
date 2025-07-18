@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -90,7 +90,7 @@ public:
 	/**
 	 * Gets the input line using the console handler and writes it in the log
 	 * indicating the I/O type {@code IOType.IN}.
-	 * <p>
+	 *
 	 * @return the input {@link string}
 	 */
 	static string input()
@@ -112,7 +112,7 @@ public:
 
 	/**
 	 * Prints the specified object.
-	 * <p>
+	 *
 	 * @param message the message to be printed
 	 * @param error if {@code true}, use stderr instead of stdout
 	 */
@@ -125,7 +125,7 @@ public:
 	/**
 	 * Prints the specified object and terminates the current line by writing
 	 * the line separator string.
-	 * <p>
+	 *
 	 * @param message the message to be printed
 	 * @param error if {@code true}, use stderr instead of stdout
 	 */
@@ -140,12 +140,11 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the log
 	 * indicating the severity level {@code SeverityLevel.TRACE}.
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param lineNumber   the line number
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message trace(const string& filePath, const string& functionName, int lineNumber, const string& content)
@@ -162,11 +161,10 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the log
 	 * indicating the severity level {@code SeverityLevel.DEBUG}.
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message debug(const string& filePath, const string& functionName, const string& content)
@@ -183,10 +181,9 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the log
 	 * indicating the severity level {@code SeverityLevel.TEST}.
-	 * <p>
+	 *
 	 * @param filePath the file path
 	 * @param content  the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message test(const string& filePath, const string& content)
@@ -203,9 +200,8 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the log
 	 * indicating the severity level {@code SeverityLevel.INFO}.
-	 * <p>
+	 *
 	 * @param string the {@link string} to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message info(const string& content)
@@ -222,9 +218,8 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the log
 	 * indicating the severity level {@code SeverityLevel.RESULT}.
-	 * <p>
+	 *
 	 * @param string the {@link string} to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message result(const string& content)
@@ -241,10 +236,9 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.WARNING}.
-	 * <p>
+	 *
 	 * @param filePath the file path
 	 * @param content  the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message warn(const string& filePath, const string& content)
@@ -261,11 +255,10 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.ERROR}.
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message error(const string& filePath, const string& functionName, const string& content)
@@ -282,12 +275,11 @@ public:
 	/**
 	 * Prints the specified string in the console and writes it in the error log
 	 * indicating the severity level {@code SeverityLevel.FAILURE}.
-	 * <p>
+	 *
 	 * @param filePath     the file path
 	 * @param functionName the function name
 	 * @param lineNumber   the line number
 	 * @param content      the content of the message to be printed
-	 * <p>
 	 * @return a {@link Message} containing the specified string
 	 */
 	static Message fail(const string& filePath, const string& functionName, int lineNumber, const string& content)

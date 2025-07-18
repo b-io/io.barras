@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -127,7 +127,7 @@ public class MemoryTest
 
 	/**
 	 * Runs a bandwidth test with the specified memory and access modes.
-	 * <p>
+	 *
 	 * @param memoryMode The memory mode
 	 * @param accessMode The access mode
 	 */
@@ -159,11 +159,10 @@ public class MemoryTest
 	/**
 	 * Computes the bandwidth for copying a chunk of memory of the specified size from the host to
 	 * the device with the specified memory and access modes.
-	 * <p>
+	 *
 	 * @param memorySize The memory size, in bytes
 	 * @param memoryMode The memory mode
 	 * @param accessMode The access mode
-	 * <p>
 	 * @return the bandwidth
 	 */
 	protected static double computeBandwidth(final int memorySize, final MemoryMode memoryMode,

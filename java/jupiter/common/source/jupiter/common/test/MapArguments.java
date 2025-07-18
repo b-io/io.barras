@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -80,7 +80,7 @@ public class MapArguments
 	/**
 	 * Checks if {@code a} is either the same as, or is a superclass or superinterface of, the class
 	 * or interface represented by {@code b}.
-	 * <p>
+	 *
 	 * @param a a {@link Class}
 	 * @param b another {@link Class}
 	 */

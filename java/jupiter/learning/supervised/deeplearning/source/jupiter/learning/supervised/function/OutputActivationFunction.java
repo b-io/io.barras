@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -61,10 +61,9 @@ public abstract class OutputActivationFunction
 
 	/**
 	 * Computes the cost of {@code A}.
-	 * <p>
+	 *
 	 * @param classifier a {@link Classifier}
 	 * @param A          an {@link Entity}
-	 * <p>
 	 * @return the cost of {@code A}
 	 */
 	public abstract double computeCost(final Classifier classifier, final Entity A);
@@ -76,9 +75,8 @@ public abstract class OutputActivationFunction
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

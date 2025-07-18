@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,7 +63,7 @@ public class TimeSeriesGraphic
 
 	/**
 	 * Constructs a {@link TimeSeriesGraphic} with the specified title and domain label.
-	 * <p>
+	 *
 	 * @param title  the title
 	 * @param xLabel the domain label
 	 */
@@ -74,7 +74,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Constructs a {@link TimeSeriesGraphic} with the specified title, domain label and range
 	 * labels.
-	 * <p>
+	 *
 	 * @param title   the title
 	 * @param xLabel  the domain label
 	 * @param yLabels the range labels
@@ -91,11 +91,10 @@ public class TimeSeriesGraphic
 	/**
 	 * Returns the {@link TimeSeries} at the specified index in the {@link TimeSeriesList} of the
 	 * specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} of the {@link TimeSeries} to get
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to get
-	 * <p>
 	 * @return the {@link TimeSeries} at the specified index in the {@link TimeSeriesList} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -107,10 +106,9 @@ public class TimeSeriesGraphic
 	/**
 	 * Returns the number of {@link TimeSeries} in the {@link TimeSeriesList} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} of the {@link TimeSeries} to count
-	 * <p>
 	 * @return the number of {@link TimeSeries} in the {@link TimeSeriesList} of the specified
 	 *         {@link XYRangeAxisDataset}
 	 */
@@ -126,7 +124,7 @@ public class TimeSeriesGraphic
 
 	/**
 	 * Creates a time series chart.
-	 * <p>
+	 *
 	 * @return a time series chart
 	 */
 	@Override
@@ -138,9 +136,8 @@ public class TimeSeriesGraphic
 
 	/**
 	 * Creates a {@link ChartPanel} for the specified chart.
-	 * <p>
+	 *
 	 * @param chart the {@link JFreeChart} to create for
-	 * <p>
 	 * @return a {@link ChartPanel} for the specified chart
 	 */
 	@Override
@@ -155,7 +152,7 @@ public class TimeSeriesGraphic
 
 	/**
 	 * Appends a {@link XYRangeAxisDataset} constructed with the specified range label.
-	 * <p>
+	 *
 	 * @param yLabel the range label of the {@link XYRangeAxisDataset} to append
 	 */
 	@Override
@@ -168,11 +165,10 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a {@link TimeSeries} constructed with the specified name to the
 	 * {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to append to
 	 * @param name             the name of the {@link TimeSeries} to append
-	 * <p>
 	 * @return the index of the {@link TimeSeries} appended to the {@link TimeSeriesList} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -184,11 +180,10 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends the specified {@link TimeSeries} to the {@link TimeSeriesList} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to append to
 	 * @param timeSeries       the {@link TimeSeries} to append
-	 * <p>
 	 * @return the index of the specified {@link TimeSeries} appended to the {@link TimeSeriesList}
 	 *         of the specified {@link XYRangeAxisDataset}
 	 */
@@ -202,7 +197,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a {@link TimeSeries} constructed with the specified name, {@link SeriesStyle} and
 	 * points to the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to append to
 	 * @param name             the name of the {@link TimeSeries} to append
@@ -211,7 +206,6 @@ public class TimeSeriesGraphic
 	 *                         {@link TimeSeries} to append
 	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link TimeSeries} to append
-	 * <p>
 	 * @return the index of the {@link TimeSeries} appended to the {@link TimeSeriesList} of the
 	 *         specified {@link XYRangeAxisDataset}
 	 */
@@ -223,7 +217,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends the specified {@link TimeSeries} with the specified {@link SeriesStyle} and points to
 	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to append to
 	 * @param timeSeries       the {@link TimeSeries} to append
@@ -232,7 +226,6 @@ public class TimeSeriesGraphic
 	 *                         {@link TimeSeries} to append
 	 * @param Y                the {@code double} range coordinates of the points of the
 	 *                         {@link TimeSeries} to append
-	 * <p>
 	 * @return the index of the specified {@link TimeSeries} appended to the {@link TimeSeriesList}
 	 *         of the specified {@link XYRangeAxisDataset}
 	 */
@@ -255,7 +248,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Removes the {@link TimeSeries} at the specified index from the {@link TimeSeriesList} of the
 	 * specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to remove from
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to remove
@@ -268,7 +261,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Removes the specified {@link TimeSeries} from the {@link TimeSeriesList} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to remove from
 	 * @param timeSeries       the {@link TimeSeries} to remove
@@ -281,7 +274,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Removes all the {@link TimeSeries} from the {@link TimeSeriesList} of the specified
 	 * {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} containing the
 	 *                         {@link TimeSeriesList} to remove from
 	 */
@@ -295,7 +288,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries} of the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
@@ -315,7 +308,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries} of
 	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
@@ -328,7 +321,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries} of the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
@@ -343,7 +336,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries} of
 	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param Y                the {@code double} range coordinate of each point to append
@@ -357,7 +350,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point with the specified range coordinate to the specified {@link TimeSeries} of
 	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
@@ -370,7 +363,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point with the specified domain and range coordinates to the specified
 	 * {@link TimeSeries} of the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param timeSeriesIndex  the index of the {@link TimeSeries} to append to
@@ -385,7 +378,7 @@ public class TimeSeriesGraphic
 	/**
 	 * Appends a point for each specified range coordinate to the respective {@link TimeSeries} of
 	 * the {@link TimeSeriesList} of the specified {@link XYRangeAxisDataset}.
-	 * <p>
+	 *
 	 * @param axisDatasetIndex the index of the {@link XYRangeAxisDataset} of the
 	 *                         {@link TimeSeriesList} containing the {@link TimeSeries} to append to
 	 * @param Y                the range coordinate {@link Number} of each point to append
@@ -401,9 +394,8 @@ public class TimeSeriesGraphic
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

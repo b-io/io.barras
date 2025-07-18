@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -83,7 +83,7 @@ public class Scalar
 
 	/**
 	 * Constructs a {@link Scalar} with the specified value.
-	 * <p>
+	 *
 	 * @param value the {@code double} value
 	 */
 	public Scalar(final double value) {
@@ -96,7 +96,7 @@ public class Scalar
 
 	/**
 	 * Constructs a zero {@link Scalar} and the flag specifying whether {@code this} is immutable.
-	 * <p>
+	 *
 	 * @param isImmutable the flag specifying whether {@code this} is immutable
 	 */
 	public Scalar(final boolean isImmutable) {
@@ -106,7 +106,7 @@ public class Scalar
 	/**
 	 * Constructs a {@link Scalar} with the specified value and the flag specifying whether
 	 * {@code this} is immutable.
-	 * <p>
+	 *
 	 * @param value       the {@code double} value
 	 * @param isImmutable the flag specifying whether {@code this} is immutable
 	 */
@@ -123,7 +123,7 @@ public class Scalar
 
 	/**
 	 * Returns the name.
-	 * <p>
+	 *
 	 * @return the name
 	 */
 	@Override
@@ -133,7 +133,7 @@ public class Scalar
 
 	/**
 	 * Returns the {@link Dimensions}.
-	 * <p>
+	 *
 	 * @return the {@link Dimensions}
 	 */
 	@Override
@@ -143,7 +143,7 @@ public class Scalar
 
 	/**
 	 * Returns the flag specifying whether {@code this} is immutable.
-	 * <p>
+	 *
 	 * @return the flag specifying whether {@code this} is immutable
 	 */
 	public boolean isImmutable() {
@@ -152,7 +152,7 @@ public class Scalar
 
 	/**
 	 * Returns the {@code double} value.
-	 * <p>
+	 *
 	 * @return the {@code double} value
 	 */
 	public double get() {
@@ -163,9 +163,8 @@ public class Scalar
 
 	/**
 	 * Sets the {@code double} value.
-	 * <p>
+	 *
 	 * @param value a {@code double} value
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	public void set(final double value) {
@@ -184,7 +183,7 @@ public class Scalar
 
 	/**
 	 * Converts {@code this} to a {@link Scalar}.
-	 * <p>
+	 *
 	 * @return a {@link Scalar}
 	 */
 	@Override
@@ -194,7 +193,7 @@ public class Scalar
 
 	/**
 	 * Converts {@code this} to a {@link Vector}.
-	 * <p>
+	 *
 	 * @return a {@link Vector}
 	 */
 	@Override
@@ -204,7 +203,7 @@ public class Scalar
 
 	/**
 	 * Converts {@code this} to a {@link Matrix}.
-	 * <p>
+	 *
 	 * @return a {@link Matrix}
 	 */
 	@Override
@@ -214,7 +213,7 @@ public class Scalar
 
 	/**
 	 * Converts {@code this} to a {@code double} array.
-	 * <p>
+	 *
 	 * @return a {@code double} array
 	 */
 	@Override
@@ -229,7 +228,7 @@ public class Scalar
 
 	/**
 	 * Returns the mean of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code mean(this)}
 	 */
 	@Override
@@ -239,7 +238,7 @@ public class Scalar
 
 	/**
 	 * Returns the size of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code size(this)}
 	 */
 	@Override
@@ -251,7 +250,7 @@ public class Scalar
 
 	/**
 	 * Returns the identity of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code eye(size(this))}
 	 */
 	@Override
@@ -261,7 +260,7 @@ public class Scalar
 
 	/**
 	 * Returns the randomization of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code rand(size(this))}
 	 */
 	@Override
@@ -271,7 +270,7 @@ public class Scalar
 
 	/**
 	 * Returns the sequence of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code reshape(1:prod(size(this)), size(this))'}
 	 */
 	@Override
@@ -286,9 +285,8 @@ public class Scalar
 
 	/**
 	 * Applies the specified {@link UnivariateFunction} to {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to apply
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
@@ -298,9 +296,8 @@ public class Scalar
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply column-wise
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	@Override
@@ -310,9 +307,8 @@ public class Scalar
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply row-wise
-	 * <p>
 	 * @return {@code f(this')}
 	 */
 	@Override
@@ -322,7 +318,7 @@ public class Scalar
 
 	/**
 	 * Returns the negation of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code -this}
 	 */
 	@Override
@@ -332,7 +328,7 @@ public class Scalar
 
 	/**
 	 * Returns the sum of the elements.
-	 * <p>
+	 *
 	 * @return {@code sum(sum(this))}
 	 */
 	@Override
@@ -342,7 +338,7 @@ public class Scalar
 
 	/**
 	 * Returns the transpose of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code this'}
 	 */
 	@Override
@@ -357,9 +353,8 @@ public class Scalar
 
 	/**
 	 * Returns the addition of the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this + scalar}
 	 */
 	@Override
@@ -369,9 +364,8 @@ public class Scalar
 
 	/**
 	 * Returns the addition of the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this + matrix}
 	 */
 	@Override
@@ -383,11 +377,9 @@ public class Scalar
 
 	/**
 	 * Adds the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this += scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -403,9 +395,8 @@ public class Scalar
 
 	/**
 	 * Adds the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this += matrix}
 	 */
 	@Override
@@ -422,9 +413,8 @@ public class Scalar
 
 	/**
 	 * Returns the subtraction of the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this - scalar}
 	 */
 	@Override
@@ -434,9 +424,8 @@ public class Scalar
 
 	/**
 	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this - matrix}
 	 */
 	@Override
@@ -454,11 +443,9 @@ public class Scalar
 
 	/**
 	 * Subtracts the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this -= scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -474,9 +461,8 @@ public class Scalar
 
 	/**
 	 * Subtracts the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this -= matrix}
 	 */
 	@Override
@@ -493,9 +479,8 @@ public class Scalar
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this * scalar}
 	 */
 	@Override
@@ -505,9 +490,8 @@ public class Scalar
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this * matrix}
 	 */
 	@Override
@@ -517,11 +501,9 @@ public class Scalar
 
 	/**
 	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code diag(this * matrix)}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -533,9 +515,8 @@ public class Scalar
 	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .* matrix}
 	 */
 	@Override
@@ -547,11 +528,9 @@ public class Scalar
 
 	/**
 	 * Multiplies {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this *= scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -567,9 +546,8 @@ public class Scalar
 
 	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .*= matrix}
 	 */
 	@Override
@@ -581,9 +559,8 @@ public class Scalar
 
 	/**
 	 * Returns the division of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this / scalar}
 	 */
 	@Override
@@ -593,9 +570,8 @@ public class Scalar
 
 	/**
 	 * Returns the division of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this / matrix}
 	 */
 	@Override
@@ -611,9 +587,8 @@ public class Scalar
 
 	/**
 	 * Returns the element-by-element division of the specified {@link Matrix} by {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
 	@Override
@@ -625,11 +600,9 @@ public class Scalar
 
 	/**
 	 * Divides {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this /= scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -645,9 +618,8 @@ public class Scalar
 
 	/**
 	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
 	@Override
@@ -665,9 +637,8 @@ public class Scalar
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified scalar
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^ scalar}
 	 */
 	@Override
@@ -678,9 +649,8 @@ public class Scalar
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^ matrix}
 	 */
 	@Override
@@ -699,11 +669,9 @@ public class Scalar
 
 	/**
 	 * Raises {@code this} to the power of the specified scalar element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^= scalar}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -719,9 +687,8 @@ public class Scalar
 
 	/**
 	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^= matrix}
 	 */
 	@Override
@@ -742,9 +709,8 @@ public class Scalar
 
 	/**
 	 * Fills {@code this} with the specified constant.
-	 * <p>
+	 *
 	 * @param constant the {@code double} constant to fill with
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} is immutable
 	 */
 	@Override
@@ -764,11 +730,9 @@ public class Scalar
 
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return the solution X of {@code this * X = entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be solved with {@code entity}
 	 */
 	@Override
@@ -792,7 +756,7 @@ public class Scalar
 
 	/**
 	 * Returns the inverse of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code inv(this)}
 	 */
 	@Override
@@ -807,9 +771,8 @@ public class Scalar
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -821,11 +784,9 @@ public class Scalar
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -835,11 +796,10 @@ public class Scalar
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link Object} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -860,9 +820,8 @@ public class Scalar
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -875,7 +834,7 @@ public class Scalar
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
@@ -885,9 +844,8 @@ public class Scalar
 
 	/**
 	 * Returns a representative {@link String} of {@code this} of the specified width.
-	 * <p>
+	 *
 	 * @param width the width of the representative {@link String} to create
-	 * <p>
 	 * @return a representative {@link String} of {@code this} of the specified width
 	 */
 	public String toString(final int width) {

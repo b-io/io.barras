@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -71,7 +71,7 @@ public class SystemConsole
 
 	/**
 	 * Constructs a {@link SystemConsole} with the specified {@link Charset}.
-	 * <p>
+	 *
 	 * @param charset the {@link Charset} of the input lines to read
 	 */
 	public SystemConsole(final Charset charset) {
@@ -86,7 +86,7 @@ public class SystemConsole
 
 	/**
 	 * Returns the standard input {@link InputStream}.
-	 * <p>
+	 *
 	 * @return the standard input {@link InputStream}
 	 */
 	public InputStream getIn() {
@@ -95,7 +95,7 @@ public class SystemConsole
 
 	/**
 	 * Returns the input line.
-	 * <p>
+	 *
 	 * @return the input line
 	 */
 	public String getInputLine() {
@@ -107,7 +107,7 @@ public class SystemConsole
 
 	/**
 	 * Returns the standard output {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the standard output {@link PrintStream}
 	 */
 	public PrintStream getOut() {
@@ -116,7 +116,7 @@ public class SystemConsole
 
 	/**
 	 * Returns the standard error {@link PrintStream}.
-	 * <p>
+	 *
 	 * @return the standard error {@link PrintStream}
 	 */
 	public PrintStream getErr() {

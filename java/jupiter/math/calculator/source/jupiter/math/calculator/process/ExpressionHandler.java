@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,9 +38,9 @@ import jupiter.common.exception.ParseException;
 import jupiter.common.math.Interval;
 import jupiter.common.math.IntervalList;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.ExtendedList;
-import jupiter.common.struct.list.Index;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.ExtendedList;
+import jupiter.common.struct.collection.list.Index;
 import jupiter.common.struct.tuple.Triple;
 import jupiter.common.thread.Result;
 import jupiter.common.thread.SynchronizedWorkQueue;
@@ -198,10 +198,9 @@ public class ExpressionHandler
 	 * Returns the root {@link Element} of the tree whose nodes and leaves correspond respectively
 	 * to the operations and {@link Entity} of the specified expression {@link String} with the
 	 * specified context {@link Map}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse
 	 * @param context    the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return the root {@link Element} of the tree whose nodes and leaves correspond respectively
 	 *         to the operations and {@link Entity} of the specified expression {@link String} with
 	 *         the specified context {@link Map}
@@ -215,11 +214,10 @@ public class ExpressionHandler
 	 * Returns a node or leaf {@link Element} with the specified parent {@link Element}
 	 * corresponding respectively to an operation or an {@link Entity} parsed from the specified
 	 * expression {@link String} with the specified context {@link Map}.
-	 * <p>
+	 *
 	 * @param parent     the parent {@link Element} of the expression {@link String} to parse
 	 * @param expression the expression {@link String} to parse
 	 * @param context    the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node or leaf {@link Element} with the specified parent {@link Element}
 	 *         corresponding respectively to an operation or an {@link Entity} parsed from the
 	 *         specified expression {@link String} with the specified context {@link Map}
@@ -270,13 +268,12 @@ public class ExpressionHandler
 	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to an
 	 * unary operator parsed from the specified expression {@link String} with the specified context
 	 * {@link Map}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to an
 	 *         unary operator parsed from the specified expression {@link String} with the specified
 	 *         context {@link Map}, or {@code null} if there is no such occurrence
@@ -304,13 +301,12 @@ public class ExpressionHandler
 	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 * univariate function parsed from the specified expression {@link String} with the specified
 	 * context {@link Map}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 *         univariate function parsed from the specified expression {@link String} with the
 	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
@@ -356,13 +352,12 @@ public class ExpressionHandler
 	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 * binary operator parsed from the specified expression {@link String} with the specified
 	 * context {@link Map}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 *         binary operator parsed from the specified expression {@link String} with the
 	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
@@ -387,13 +382,12 @@ public class ExpressionHandler
 	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 * bivariate function parsed from the specified expression {@link String} with the specified
 	 * context {@link Map}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 *         bivariate function parsed from the specified expression {@link String} with the
 	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
@@ -477,13 +471,12 @@ public class ExpressionHandler
 	 * Returns a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 * nested expression parsed from the specified expression {@link String} with the specified
 	 * context {@link Map}, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a node {@link Element} with the specified parent {@link Element} corresponding to a
 	 *         nested expression parsed from the specified expression {@link String} with the
 	 *         specified context {@link Map}, or {@code null} if there is no such occurrence
@@ -519,13 +512,12 @@ public class ExpressionHandler
 	 * Returns a leaf {@link Element} with the specified parent {@link Element} corresponding to an
 	 * {@link Entity} parsed from the specified expression {@link String} with the specified context
 	 * {@link Map}.
-	 * <p>
+	 *
 	 * @param parent              the parent {@link Element} of the expression {@link String} to
 	 *                            parse
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param context             the context {@link Map} containing the values of the variables
-	 * <p>
 	 * @return a leaf {@link Element} with the specified parent {@link Element} corresponding to an
 	 *         {@link Entity} parsed from the specified expression {@link String} with the specified
 	 *         context {@link Map}
@@ -559,10 +551,9 @@ public class ExpressionHandler
 	/**
 	 * Returns the index of the last unary operator in the specified expression {@link String} that
 	 * is not in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the index of the last unary operator in the specified expression {@link String} that
 	 *         is not in the specified delimiting intervals, or {@code -1} if there is no such
 	 *         occurrence
@@ -576,10 +567,9 @@ public class ExpressionHandler
 	/**
 	 * Returns the index of the middle binary operator in the specified expression {@link String},
 	 * or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the index of the middle binary operator in the specified expression {@link String},
 	 *         or {@code -1} if there is no such occurrence
 	 */
@@ -597,10 +587,9 @@ public class ExpressionHandler
 	/**
 	 * Returns the indices of all the binary operators in the specified expression {@link String}
 	 * that are not in the specified delimiting intervals.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the indices of all the binary operators in the specified expression {@link String}
 	 *         that are not in the specified delimiting intervals
 	 */
@@ -613,10 +602,9 @@ public class ExpressionHandler
 	/**
 	 * Returns the index of the argument delimiter in the specified expression {@link String}, or
 	 * {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the index of the argument delimiter in the specified expression {@link String}, or
 	 *         {@code -1} if there is no such occurrence
 	 */
@@ -631,12 +619,11 @@ public class ExpressionHandler
 	/**
 	 * Returns the indices of all the operators in the specified expression {@link String} that are
 	 * not in the specified delimiting intervals.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
-	 * <p>
 	 * @return the indices of all the operators in the specified expression {@link String} that are
 	 *         not in the specified delimiting intervals
 	 */
@@ -665,12 +652,11 @@ public class ExpressionHandler
 	/**
 	 * Returns the index of the last operator in the specified expression {@link String} that is not
 	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param operators           the {@link List} of operators to find
-	 * <p>
 	 * @return the index of the last operator in the specified expression {@link String} that is not
 	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
@@ -688,12 +674,11 @@ public class ExpressionHandler
 	/**
 	 * Returns the index of the last operator in the specified expression {@link String} that is not
 	 * in the specified delimiting intervals, or {@code -1} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
 	 * @param fromIndex           the index to start seeking backward from (inclusive)
 	 * @param allOperators        the {@link List} of all the operators to find
-	 * <p>
 	 * @return the index of the last operator in the specified expression {@link String} that is not
 	 *         in the specified delimiting intervals, or {@code -1} if there is no such occurrence
 	 */
@@ -719,10 +704,9 @@ public class ExpressionHandler
 	 * Returns the {@link Index} of the last univariate function in the specified expression
 	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the {@link Index} of the last univariate function in the specified expression
 	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
 	 *         there is no such occurrence
@@ -742,10 +726,9 @@ public class ExpressionHandler
 	 * Returns the {@link Index} of the last bivariate function in the specified expression
 	 * {@link String} that is not in the specified delimiting intervals, or {@code null} if there is
 	 * no such occurrence.
-	 * <p>
+	 *
 	 * @param expression          the expression {@link String} to parse
 	 * @param delimitingIntervals the delimiting intervals in the expression {@link String} to parse
-	 * <p>
 	 * @return the {@link Index} of the last bivariate function in the specified expression
 	 *         {@link String} that is not in the specified delimiting intervals, or {@code null} if
 	 *         there is no such occurrence
@@ -765,9 +748,8 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the delimiting intervals in the specified expression {@link String}.
-	 * <p>
+	 *
 	 * @param expression the expression {@link String} to parse
-	 * <p>
 	 * @return the delimiting intervals in the specified expression {@link String}
 	 */
 	protected static IntervalList<Integer> getDelimitingIntervals(final String expression) {
@@ -798,9 +780,8 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the {@link Type} of the specified {@code char} token.
-	 * <p>
+	 *
 	 * @param token a {@code char} token
-	 * <p>
 	 * @return the {@link Type} of the specified {@code char} token
 	 */
 	protected static Element.Type getType(final char token) {
@@ -843,9 +824,8 @@ public class ExpressionHandler
 
 	/**
 	 * Returns the {@link Type} of the specified token {@link String}.
-	 * <p>
+	 *
 	 * @param token a token {@link String}
-	 * <p>
 	 * @return the {@link Type} of the specified token {@link String}
 	 */
 	protected static Element.Type getType(final String token) {
@@ -880,9 +860,8 @@ public class ExpressionHandler
 
 		/**
 		 * Clones {@code this}.
-		 * <p>
-		 * @return a clone of {@code this}
 		 *
+		 * @return a clone of {@code this}
 		 * @see ICloneable
 		 */
 		@Override

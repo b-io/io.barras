@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,7 +51,7 @@ public class Modulo
 
 	/**
 	 * Constructs a {@link Modulo} with the specified initial value.
-	 * <p>
+	 *
 	 * @param initialValue the initial {@code double} value
 	 */
 	public Modulo(final double initialValue) {
@@ -65,11 +65,9 @@ public class Modulo
 
 	/**
 	 * Applies the bivariate function to the initial value and the specified value.
-	 * <p>
-	 * @param x1 a {@code double} value (on the abscissa)
-	 * <p>
-	 * @return {@code f(x1, initialValue)}
 	 *
+	 * @param x1 a {@code double} value (on the abscissa)
+	 * @return {@code f(x1, initialValue)}
 	 * @see #a(double, double)
 	 */
 	@Override
@@ -79,10 +77,9 @@ public class Modulo
 
 	/**
 	 * Applies the modulo function to the specified values.
-	 * <p>
+	 *
 	 * @param x1 a {@code double} value (on the abscissa)
 	 * @param x2 another {@code double} value
-	 * <p>
 	 * @return {@code x1 % x2}
 	 */
 	@Override
@@ -97,9 +94,8 @@ public class Modulo
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +72,7 @@ extern "C"
 
 	/**
 	 * Constructs a Sorted List dynamically.
-	 * <p>
+	 *
 	 * @return the dynamically constructed Sorted List
 	 */
 	SortedList* SortedList_new(void);
@@ -84,7 +84,7 @@ extern "C"
 
 	/**
 	 * Resets the specified Sorted List.
-	 * <p>
+	 *
 	 * @param sortedList the Sorted List to be reset
 	 */
 	void SortedList_reset(void* sortedList);
@@ -96,10 +96,9 @@ extern "C"
 
 	/**
 	 * Inserts {@code node} into {@code sortedList}.
-	 * <p>
+	 *
 	 * @param sortedList the Sorted List
 	 * @param node       the Sorted Node to be inserted
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -112,11 +111,10 @@ extern "C"
 
 	/**
 	 * Adds the specified value to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param type       the type of the value to be added
 	 * @param value      the value to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -124,10 +122,9 @@ extern "C"
 
 	/**
 	 * Adds the specified value to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param value      the value to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */
@@ -135,10 +132,9 @@ extern "C"
 
 	/**
 	 * Adds the specified Structure to the specified Collection.
-	 * <p>
+	 *
 	 * @param collection the Collection
 	 * @param structure  the Structure to be added
-	 * <p>
 	 * @return {@code _TRUE} if the insert is performed, {@code _FALSE}
 	 *         otherwise
 	 */

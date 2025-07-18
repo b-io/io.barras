@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,8 @@ import jupiter.common.io.Content;
 import jupiter.common.io.InputOutput;
 import jupiter.common.io.Resources;
 import jupiter.common.model.ICloneable;
-import jupiter.common.struct.list.ExtendedLinkedList;
-import jupiter.common.struct.list.Index;
+import jupiter.common.struct.collection.list.ExtendedLinkedList;
+import jupiter.common.struct.collection.list.Index;
 import jupiter.common.test.Arguments;
 import jupiter.common.time.Dates;
 import jupiter.common.util.Arrays;
@@ -106,7 +106,7 @@ public class FileHandler
 
 	/**
 	 * Constructs a {@link FileHandler} of the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path the path to the file to handle
 	 */
 	public FileHandler(final String... path) {
@@ -115,7 +115,7 @@ public class FileHandler
 
 	/**
 	 * Constructs a {@link FileHandler} of the file denoted by the specified path.
-	 * <p>
+	 *
 	 * @param path the path to the file to handle
 	 */
 	public FileHandler(final String path) {
@@ -125,7 +125,7 @@ public class FileHandler
 	/**
 	 * Constructs a {@link FileHandler} of the file denoted by the specified path with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param path    the path to the file to handle
 	 * @param charset the {@link Charset} of the file to handle
 	 */
@@ -137,7 +137,7 @@ public class FileHandler
 
 	/**
 	 * Constructs a {@link FileHandler} of the specified {@link File}.
-	 * <p>
+	 *
 	 * @param file the {@link File} to handle
 	 */
 	public FileHandler(final File file) {
@@ -147,7 +147,7 @@ public class FileHandler
 	/**
 	 * Constructs a {@link FileHandler} of the specified {@link File} with the specified
 	 * {@link Charset}.
-	 * <p>
+	 *
 	 * @param file    the {@link File} to handle
 	 * @param charset the {@link Charset} of the {@link File} to handle
 	 */
@@ -168,7 +168,7 @@ public class FileHandler
 
 	/**
 	 * Returns the {@link File}.
-	 * <p>
+	 *
 	 * @return the {@link File}
 	 */
 	public File getFile() {
@@ -177,7 +177,7 @@ public class FileHandler
 
 	/**
 	 * Returns the {@link Charset}.
-	 * <p>
+	 *
 	 * @return the {@link Charset}
 	 */
 	public Charset getCharset() {
@@ -186,7 +186,7 @@ public class FileHandler
 
 	/**
 	 * Returns the number of lines.
-	 * <p>
+	 *
 	 * @return the number of lines
 	 */
 	public int getLineCount() {
@@ -197,7 +197,7 @@ public class FileHandler
 
 	/**
 	 * Returns the path.
-	 * <p>
+	 *
 	 * @return the path
 	 */
 	public String getPath() {
@@ -206,9 +206,8 @@ public class FileHandler
 
 	/**
 	 * Returns the canonical path.
-	 * <p>
+	 *
 	 * @return the canonical path
-	 * <p>
 	 * @throws IOException       if there is a problem with querying the file system
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -219,7 +218,7 @@ public class FileHandler
 
 	/**
 	 * Returns the file name.
-	 * <p>
+	 *
 	 * @return the file name
 	 */
 	public String getName() {
@@ -228,7 +227,7 @@ public class FileHandler
 
 	/**
 	 * Returns the file name without the extension.
-	 * <p>
+	 *
 	 * @return the file name without the extension
 	 */
 	public String getNameWithoutExtension() {
@@ -237,7 +236,7 @@ public class FileHandler
 
 	/**
 	 * Returns the file extension.
-	 * <p>
+	 *
 	 * @return the file extension
 	 */
 	public String getExtension() {
@@ -248,7 +247,7 @@ public class FileHandler
 
 	/**
 	 * Returns the flag specifying whether to append.
-	 * <p>
+	 *
 	 * @return the flag specifying whether to append
 	 */
 	public boolean append() {
@@ -262,7 +261,7 @@ public class FileHandler
 
 	/**
 	 * Creates all the directories.
-	 * <p>
+	 *
 	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -273,7 +272,7 @@ public class FileHandler
 
 	/**
 	 * Creates all the parent directories.
-	 * <p>
+	 *
 	 * @throws IOException       if there is a problem with creating the directories
 	 * @throws SecurityException if there is a permission problem
 	 */
@@ -289,7 +288,7 @@ public class FileHandler
 
 	/**
 	 * Removes all the lines from the {@link File}.
-	 * <p>
+	 *
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean empty() {
@@ -308,12 +307,10 @@ public class FileHandler
 
 	/**
 	 * Copies the {@link File} to the specified target {@link File} (preserving the file dates).
-	 * <p>
+	 *
 	 * @param target the target {@link File} to copy to
-	 * <p>
 	 * @return {@code true} if the {@link File} is copied to the specified target {@link File}
 	 *         (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
 	 */
 	public boolean copy(final File target)
@@ -323,13 +320,11 @@ public class FileHandler
 
 	/**
 	 * Copies the {@link File} to the specified target {@link File} (preserving the file dates).
-	 * <p>
+	 *
 	 * @param target the target {@link File} to copy to
 	 * @param force  the flag specifying whether to delete the target {@link File} before copying
-	 * <p>
 	 * @return {@code true} if the {@link File} is copied to the specified target {@link File}
 	 *         (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
 	 */
 	public boolean copy(final File target, final boolean force)
@@ -341,7 +336,7 @@ public class FileHandler
 
 	/**
 	 * Deletes the {@link File}.
-	 * <p>
+	 *
 	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete() {
@@ -350,9 +345,8 @@ public class FileHandler
 
 	/**
 	 * Deletes the {@link File}.
-	 * <p>
+	 *
 	 * @param force the flag specifying whether to force deleting
-	 * <p>
 	 * @return {@code true} if the {@link File} is deleted, {@code false} otherwise
 	 */
 	public boolean delete(final boolean force) {
@@ -364,12 +358,10 @@ public class FileHandler
 
 	/**
 	 * Moves the {@link File} to the specified target {@link File} (preserving the file dates).
-	 * <p>
+	 *
 	 * @param target the target {@link File} to move to
-	 * <p>
 	 * @return {@code true} if the {@link File} is moved to the specified target {@link File}
 	 *         (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
 	 */
 	public boolean move(final File target)
@@ -379,13 +371,11 @@ public class FileHandler
 
 	/**
 	 * Moves the {@link File} to the specified target {@link File} (preserving the file dates).
-	 * <p>
+	 *
 	 * @param target the target {@link File} to move to
 	 * @param force  the flag specifying whether to delete the target {@link File} before moving
-	 * <p>
 	 * @return {@code true} if the {@link File} is moved to the specified target {@link File}
 	 *         (preserving the file dates), {@code false} otherwise
-	 * <p>
 	 * @throws CopyFileException if there is a problem with copying {@code file} to {@code target}
 	 */
 	public boolean move(final File target, final boolean force)
@@ -401,9 +391,8 @@ public class FileHandler
 
 	/**
 	 * Removes the specified line from the {@link File}.
-	 * <p>
+	 *
 	 * @param lineIndex the index of the line to remove
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean remove(final int lineIndex) {
@@ -414,9 +403,8 @@ public class FileHandler
 
 	/**
 	 * Removes all the lines from the {@link File} from the specified line.
-	 * <p>
+	 *
 	 * @param fromLineIndex the line index to start removing from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean removeAll(final int fromLineIndex) {
@@ -425,10 +413,9 @@ public class FileHandler
 
 	/**
 	 * Removes all the lines from the {@link File} between the specified lines.
-	 * <p>
+	 *
 	 * @param fromLineIndex the line index to start removing from (inclusive)
 	 * @param toLineIndex   the line index to finish removing at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean removeAll(final int fromLineIndex, final int toLineIndex) {
@@ -457,11 +444,10 @@ public class FileHandler
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * {@link File} by the specified {@link String}.
-	 * <p>
+	 *
 	 * @param regex       the regular expression {@link String} to identify and replace (may be
 	 *                    {@code null})
 	 * @param replacement the {@link String} to replace by (may be {@code null})
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean replaceAll(final String regex, final String replacement) {
@@ -471,12 +457,11 @@ public class FileHandler
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * {@link File} by the specified {@link String} from the specified line.
-	 * <p>
+	 *
 	 * @param regex         the regular expression {@link String} to identify and replace (may be
 	 *                      {@code null})
 	 * @param replacement   the {@link String} to replace by (may be {@code null})
 	 * @param fromLineIndex the line index to start replacing from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean replaceAll(final String regex, final String replacement,
@@ -487,13 +472,12 @@ public class FileHandler
 	/**
 	 * Replaces all the substrings matching the specified regular expression {@link String} in the
 	 * {@link File} by the specified {@link String} between the specified lines.
-	 * <p>
+	 *
 	 * @param regex         the regular expression {@link String} to identify and replace (may be
 	 *                      {@code null})
 	 * @param replacement   the {@link String} to replace by (may be {@code null})
 	 * @param fromLineIndex the line index to start replacing from (inclusive)
 	 * @param toLineIndex   the line index to finish replacing at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean replaceAll(final String regex, final String replacement, final int fromLineIndex,
@@ -534,7 +518,7 @@ public class FileHandler
 
 	/**
 	 * Touches the {@link File}.
-	 * <p>
+	 *
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean touch() {
@@ -554,9 +538,8 @@ public class FileHandler
 
 	/**
 	 * Truncates the {@link File} from the specified line.
-	 * <p>
+	 *
 	 * @param fromLineIndex the line index to start truncating from (inclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean truncate(final int fromLineIndex) {
@@ -565,10 +548,9 @@ public class FileHandler
 
 	/**
 	 * Truncates the {@link File} between the specified lines.
-	 * <p>
+	 *
 	 * @param fromLineIndex the line index to start truncating from (inclusive)
 	 * @param toLineIndex   the line index to finish truncating at (exclusive)
-	 * <p>
 	 * @return {@code true} if there is no {@link IOException}, {@code false} otherwise
 	 */
 	public boolean truncate(final int fromLineIndex, final int toLineIndex) {
@@ -597,9 +579,8 @@ public class FileHandler
 
 	/**
 	 * Creates a {@link BufferedReader}.
-	 * <p>
+	 *
 	 * @return a {@link BufferedReader}
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with opening {@code file}
 	 */
 	public BufferedReader createReader()
@@ -611,9 +592,8 @@ public class FileHandler
 
 	/**
 	 * Creates a {@link ReversedFileReader}.
-	 * <p>
+	 *
 	 * @return a {@link ReversedFileReader}
-	 * <p>
 	 * @throws FileNotFoundException        if there is a problem with opening {@code file}
 	 * @throws IOException                  if there is a problem with reading {@code file}
 	 * @throws UnsupportedEncodingException if the {@code charset} byte order cannot be determined
@@ -629,7 +609,7 @@ public class FileHandler
 
 	/**
 	 * Closes the specified {@link Closeable} reader.
-	 * <p>
+	 *
 	 * @param reader the {@link Closeable} reader to close
 	 */
 	public void closeReader(final Closeable reader) {
@@ -639,7 +619,7 @@ public class FileHandler
 
 	/**
 	 * Closes the specified {@link Closeable} reader.
-	 * <p>
+	 *
 	 * @param reader  the {@link Closeable} reader to close
 	 * @param message the warning message {@link String} to print for each {@link Closeable} reader
 	 *                already closed
@@ -664,7 +644,7 @@ public class FileHandler
 
 	/**
 	 * Closes all the {@link Closeable} readers.
-	 * <p>
+	 *
 	 * @param message the warning message {@link String} to print for each {@link Closeable} reader
 	 *                already closed
 	 */
@@ -679,7 +659,7 @@ public class FileHandler
 
 	/**
 	 * Returns the {@link Content}.
-	 * <p>
+	 *
 	 * @return the {@link Content}
 	 */
 	public Content read() {
@@ -688,7 +668,7 @@ public class FileHandler
 
 	/**
 	 * Returns the unzipped {@link Content}.
-	 * <p>
+	 *
 	 * @return the unzipped {@link Content}
 	 */
 	public Content unzip() {
@@ -697,7 +677,7 @@ public class FileHandler
 
 	/**
 	 * Returns the ungzipped {@link Content}.
-	 * <p>
+	 *
 	 * @return the ungzipped {@link Content}
 	 */
 	public Content ungzip() {
@@ -708,7 +688,7 @@ public class FileHandler
 
 	/**
 	 * Returns the number of lines.
-	 * <p>
+	 *
 	 * @return the number of lines
 	 */
 	public int countLines() {
@@ -717,9 +697,8 @@ public class FileHandler
 
 	/**
 	 * Returns the number of lines (or non-empty lines if {@code skipEmptyLines}).
-	 * <p>
+	 *
 	 * @param skipEmptyLines the flag specifying whether to skip empty lines
-	 * <p>
 	 * @return the number of lines (or non-empty lines if {@code skipEmptyLines})
 	 */
 	public int countLines(final boolean skipEmptyLines) {
@@ -730,9 +709,8 @@ public class FileHandler
 
 	/**
 	 * Creates the {@link BufferedWriter}.
-	 * <p>
+	 *
 	 * @param append the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 */
 	public synchronized void createWriter(final boolean append)
@@ -761,7 +739,7 @@ public class FileHandler
 
 	/**
 	 * Closes the {@link BufferedWriter}.
-	 * <p>
+	 *
 	 * @param message the warning message {@link String} to print if the {@link BufferedWriter} is
 	 *                already closed
 	 */
@@ -774,9 +752,8 @@ public class FileHandler
 
 	/**
 	 * Writes the specified content {@link String}.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -787,10 +764,9 @@ public class FileHandler
 
 	/**
 	 * Writes the specified content {@link String}.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param append  the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -808,9 +784,8 @@ public class FileHandler
 
 	/**
 	 * Writes the specified content {@link String} and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -821,10 +796,9 @@ public class FileHandler
 
 	/**
 	 * Writes the specified content {@link String} and terminates the line.
-	 * <p>
+	 *
 	 * @param content the content {@link String} to write
 	 * @param append  the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -840,9 +814,8 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader}.
-	 * <p>
+	 *
 	 * @param reader the {@link BufferedReader} to read
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -853,10 +826,9 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader}.
-	 * <p>
+	 *
 	 * @param reader the {@link BufferedReader} to read
 	 * @param append the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -867,10 +839,9 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader} from the specified line.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read
 	 * @param fromLineIndex the line index to start reading from (inclusive)
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -881,11 +852,10 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader} from the specified line.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read
 	 * @param fromLineIndex the line index to start reading from (inclusive)
 	 * @param append        the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -897,11 +867,10 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader} between the specified lines.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read
 	 * @param fromLineIndex the line index to start reading from (inclusive)
 	 * @param toLineIndex   the line index to finish replacing at (exclusive)
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -913,12 +882,11 @@ public class FileHandler
 
 	/**
 	 * Writes all the lines of the specified {@link BufferedReader} between the specified lines.
-	 * <p>
+	 *
 	 * @param reader        the {@link BufferedReader} to read
 	 * @param fromLineIndex the line index to start reading from (inclusive)
 	 * @param toLineIndex   the line index to finish replacing at (exclusive)
 	 * @param append        the flag specifying whether to append
-	 * <p>
 	 * @throws FileNotFoundException if there is a problem with creating or opening {@code file}
 	 * @throws IOException           if there is a problem with writing to {@code file}
 	 */
@@ -942,9 +910,8 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
 	 *         such occurrence
@@ -957,10 +924,9 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking forward from the specified index,
 	 * or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking forward from the
 	 *         specified index, or {@code null} if there is no such occurrence
@@ -973,11 +939,10 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking forward from the specified index
 	 * to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking forward from the
 	 *         specified index to the specified index, or {@code null} if there is no such
@@ -1013,9 +978,8 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
 	 *         such occurrence
@@ -1028,11 +992,10 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking forward from the specified index,
 	 * or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking forward from the
 	 *         specified index, or {@code null} if there is no such occurrence
@@ -1046,12 +1009,11 @@ public class FileHandler
 	 * Returns the {@link Index} of the first line containing the first occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking forward from the specified index
 	 * to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking forward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking forward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the first line containing the first occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking forward from the
 	 *         specified index to the specified index, or {@code null} if there is no such
@@ -1089,9 +1051,8 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param tokens the array of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
 	 *         such occurrence
@@ -1104,10 +1065,9 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking backward from the specified
 	 * index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking backward from the
 	 *         specified index, or {@code null} if there is no such occurrence
@@ -1120,11 +1080,10 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking backward from the specified index
 	 * to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the array of token {@link String} to find (may be {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking backward from the
 	 *         specified index to the specified index, or {@code null} if there is no such
@@ -1160,9 +1119,8 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, or {@code null} if there is no such
 	 * occurrence.
-	 * <p>
+	 *
 	 * @param tokens the {@link Collection} of token {@link String} to find (may be {@code null})
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, or {@code null} if there is no
 	 *         such occurrence
@@ -1175,11 +1133,10 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking backward from the specified
 	 * index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking backward from the
 	 *         specified index, or {@code null} if there is no such occurrence
@@ -1193,12 +1150,11 @@ public class FileHandler
 	 * Returns the {@link Index} of the last line containing the last occurrence of any of the
 	 * specified token {@link String} in the {@link File}, seeking backward from the specified index
 	 * to the specified index, or {@code null} if there is no such occurrence.
-	 * <p>
+	 *
 	 * @param tokens        the {@link Collection} of token {@link String} to find (may be
 	 *                      {@code null})
 	 * @param fromLineIndex the line index to start seeking backward from (inclusive)
 	 * @param toLineIndex   the line index to finish seeking backward at (exclusive)
-	 * <p>
 	 * @return the {@link Index} of the last line containing the last occurrence of any of the
 	 *         specified token {@link String} in the {@link File}, seeking backward from the
 	 *         specified index to the specified index, or {@code null} if there is no such
@@ -1237,9 +1193,8 @@ public class FileHandler
 
 	/**
 	 * Tests whether the {@link File} exists.
-	 * <p>
+	 *
 	 * @return {@code true} if the {@link File} exists, {@code false} otherwise
-	 * <p>
 	 * @throws SecurityException if there is a permission problem
 	 */
 	public boolean exists()
@@ -1267,9 +1222,8 @@ public class FileHandler
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -1310,7 +1264,7 @@ public class FileHandler
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

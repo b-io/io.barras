@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,14 +63,14 @@ public abstract class Entity
 
 	/**
 	 * Returns the name.
-	 * <p>
+	 *
 	 * @return the name
 	 */
 	public abstract String getName();
 
 	/**
 	 * Returns the {@link Dimensions}.
-	 * <p>
+	 *
 	 * @return the {@link Dimensions}
 	 */
 	public abstract Dimensions getDimensions();
@@ -82,28 +82,28 @@ public abstract class Entity
 
 	/**
 	 * Converts {@code this} to a {@link Scalar}.
-	 * <p>
+	 *
 	 * @return a {@link Scalar}
 	 */
 	public abstract Scalar toScalar();
 
 	/**
 	 * Converts {@code this} to a {@link Vector}.
-	 * <p>
+	 *
 	 * @return a {@link Vector}
 	 */
 	public abstract Vector toVector();
 
 	/**
 	 * Converts {@code this} to a {@link Matrix}.
-	 * <p>
+	 *
 	 * @return a {@link Matrix}
 	 */
 	public abstract Matrix toMatrix();
 
 	/**
 	 * Converts {@code this} to a {@code double} array.
-	 * <p>
+	 *
 	 * @return a {@code double} array
 	 */
 	public abstract double[] toPrimitiveArray();
@@ -115,14 +115,14 @@ public abstract class Entity
 
 	/**
 	 * Returns the mean of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code mean(this)}
 	 */
 	public abstract Entity mean();
 
 	/**
 	 * Returns the size of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code size(this)}
 	 */
 	public abstract Entity size();
@@ -131,21 +131,21 @@ public abstract class Entity
 
 	/**
 	 * Returns the identity of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code eye(size(this))}
 	 */
 	public abstract Entity identity();
 
 	/**
 	 * Returns the randomization of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code rand(size(this))}
 	 */
 	public abstract Entity random();
 
 	/**
 	 * Returns the sequence of {@code size(this)}.
-	 * <p>
+	 *
 	 * @return {@code reshape(1:prod(size(this)), size(this))'}
 	 */
 	public abstract Entity sequence();
@@ -157,48 +157,45 @@ public abstract class Entity
 
 	/**
 	 * Applies the specified {@link UnivariateFunction} to {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link UnivariateFunction} to apply
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	public abstract Entity apply(final UnivariateFunction f);
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the columns of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply column-wise
-	 * <p>
 	 * @return {@code f(this)}
 	 */
 	public abstract Entity applyByColumn(final BivariateFunction f);
 
 	/**
 	 * Applies the specified {@link BivariateFunction} to the rows of {@code this}.
-	 * <p>
+	 *
 	 * @param f the {@link BivariateFunction} to apply row-wise
-	 * <p>
 	 * @return {@code f(this')}
 	 */
 	public abstract Entity applyByRow(final BivariateFunction f);
 
 	/**
 	 * Returns the negation of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code -this}
 	 */
 	public abstract Entity minus();
 
 	/**
 	 * Returns the sum of the elements.
-	 * <p>
+	 *
 	 * @return {@code sum(sum(this))}
 	 */
 	public abstract double sum();
 
 	/**
 	 * Returns the transpose of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code this'}
 	 */
 	public abstract Entity transpose();
@@ -210,11 +207,9 @@ public abstract class Entity
 
 	/**
 	 * Returns the addition of the specified {@link Entity} to {@code this}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this + entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code entity} cannot be added to {@code this}
 	 */
 	public Entity plus(final Entity entity) {
@@ -229,18 +224,16 @@ public abstract class Entity
 
 	/**
 	 * Returns the addition of the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this + scalar}
 	 */
 	public abstract Entity plus(final double scalar);
 
 	/**
 	 * Returns the addition of the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this + matrix}
 	 */
 	public abstract Matrix plus(final Matrix matrix);
@@ -249,11 +242,9 @@ public abstract class Entity
 
 	/**
 	 * Adds the specified {@link Entity} to {@code this}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this += entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code entity} cannot be added to {@code this}
 	 */
 	public Entity add(final Entity entity) {
@@ -268,18 +259,16 @@ public abstract class Entity
 
 	/**
 	 * Adds the specified scalar to {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this += scalar}
 	 */
 	public abstract Entity add(final double scalar);
 
 	/**
 	 * Adds the specified {@link Matrix} to {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this += matrix}
 	 */
 	public abstract Matrix add(final Matrix matrix);
@@ -288,11 +277,9 @@ public abstract class Entity
 
 	/**
 	 * Returns the subtraction of the specified {@link Entity} from {@code this}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this - entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code entity} cannot be subtracted from {@code this}
 	 */
 	public Entity minus(final Entity entity) {
@@ -307,18 +294,16 @@ public abstract class Entity
 
 	/**
 	 * Returns the subtraction of the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this - scalar}
 	 */
 	public abstract Entity minus(final double scalar);
 
 	/**
 	 * Returns the subtraction of the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this - matrix}
 	 */
 	public abstract Matrix minus(final Matrix matrix);
@@ -327,11 +312,9 @@ public abstract class Entity
 
 	/**
 	 * Subtracts the specified {@link Entity} from {@code this}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this -= entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code entity} cannot be subtracted from {@code this}
 	 */
 	public Entity subtract(final Entity entity) {
@@ -346,18 +329,16 @@ public abstract class Entity
 
 	/**
 	 * Subtracts the specified scalar from {@code this}.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this -= scalar}
 	 */
 	public abstract Entity subtract(final double scalar);
 
 	/**
 	 * Subtracts the specified {@link Matrix} from {@code this}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this -= matrix}
 	 */
 	public abstract Matrix subtract(final Matrix matrix);
@@ -366,11 +347,9 @@ public abstract class Entity
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this * entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be multiplied by {@code entity}
 	 */
 	public Entity times(final Entity entity) {
@@ -385,20 +364,17 @@ public abstract class Entity
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this * scalar}
 	 */
 	public abstract Entity times(final double scalar);
 
 	/**
 	 * Returns the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this * matrix}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -406,11 +382,9 @@ public abstract class Entity
 
 	/**
 	 * Returns the diagonal of the multiplication of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code diag(this * matrix)}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code this} and {@code matrix}
 	 *                                  do not agree
 	 */
@@ -419,9 +393,8 @@ public abstract class Entity
 	/**
 	 * Returns the element-by-element multiplication of {@code this} by the specified
 	 * {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .* matrix}
 	 */
 	public abstract Matrix arrayTimes(final Matrix matrix);
@@ -430,18 +403,16 @@ public abstract class Entity
 
 	/**
 	 * Multiplies {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this *= scalar}
 	 */
 	public abstract Entity multiply(final double scalar);
 
 	/**
 	 * Multiplies {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .*= matrix}
 	 */
 	public abstract Matrix arrayMultiply(final Matrix matrix);
@@ -450,11 +421,9 @@ public abstract class Entity
 
 	/**
 	 * Returns the division of {@code this} by the specified {@link Entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this / entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be divided by {@code entity}
 	 */
 	public Entity division(final Entity entity) {
@@ -469,27 +438,24 @@ public abstract class Entity
 
 	/**
 	 * Returns the division of {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this / scalar}
 	 */
 	public abstract Entity division(final double scalar);
 
 	/**
 	 * Returns the division of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this / matrix}
 	 */
 	public abstract Entity division(final Matrix matrix);
 
 	/**
 	 * Returns the element-by-element division of {@code this} by the specified {@link Matrix}.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./ matrix}
 	 */
 	public abstract Matrix arrayDivision(final Matrix matrix);
@@ -498,18 +464,16 @@ public abstract class Entity
 
 	/**
 	 * Divides {@code this} by the specified scalar.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this /= scalar}
 	 */
 	public abstract Entity divide(final double scalar);
 
 	/**
 	 * Divides {@code this} by the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this ./= matrix}
 	 */
 	public abstract Matrix arrayDivide(final Matrix matrix);
@@ -518,9 +482,8 @@ public abstract class Entity
 
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified exponent.
-	 * <p>
+	 *
 	 * @param exponent an {@code int} value
-	 * <p>
 	 * @return {@code this ^ exponent}
 	 */
 	public Entity power(final int exponent) {
@@ -534,11 +497,9 @@ public abstract class Entity
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Entity}
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this .^ entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be raised to the power of
 	 *                                   {@code entity} element-by-element
 	 */
@@ -555,9 +516,8 @@ public abstract class Entity
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified scalar
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^ scalar}
 	 */
 	public abstract Entity arrayPower(final double scalar);
@@ -565,9 +525,8 @@ public abstract class Entity
 	/**
 	 * Returns the value of {@code this} raised to the power of the specified {@link Matrix}
 	 * element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^ matrix}
 	 */
 	public abstract Matrix arrayPower(final Matrix matrix);
@@ -576,11 +535,9 @@ public abstract class Entity
 
 	/**
 	 * Raises {@code this} to the power of the specified {@link Entity} element-by-element.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return {@code this .^= entity}
-	 * <p>
 	 * @throws IllegalOperationException if {@code this} cannot be raised to the power of
 	 *                                   {@code entity} element-by-element
 	 */
@@ -596,18 +553,16 @@ public abstract class Entity
 
 	/**
 	 * Raises {@code this} to the power of the specified scalar element-by-element.
-	 * <p>
+	 *
 	 * @param scalar a {@code double} value
-	 * <p>
 	 * @return {@code this .^= scalar}
 	 */
 	public abstract Entity arrayRaise(final double scalar);
 
 	/**
 	 * Raises {@code this} to the power of the specified {@link Matrix} element-by-element.
-	 * <p>
+	 *
 	 * @param matrix a {@link Matrix}
-	 * <p>
 	 * @return {@code this .^= matrix}
 	 */
 	public abstract Matrix arrayRaise(final Matrix matrix);
@@ -619,7 +574,7 @@ public abstract class Entity
 
 	/**
 	 * Fills {@code this} with the specified constant.
-	 * <p>
+	 *
 	 * @param constant the {@code double} constant to fill with
 	 */
 	public abstract void fill(final double constant);
@@ -631,16 +586,15 @@ public abstract class Entity
 
 	/**
 	 * Returns the solution X of {@code this * X = entity}.
-	 * <p>
+	 *
 	 * @param entity an {@link Entity}
-	 * <p>
 	 * @return the solution X of {@code this * X = entity}
 	 */
 	public abstract Entity solve(final Entity entity);
 
 	/**
 	 * Returns the inverse of {@code this}.
-	 * <p>
+	 *
 	 * @return {@code inv(this)}
 	 */
 	public abstract Entity inverse();
@@ -652,9 +606,8 @@ public abstract class Entity
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -670,11 +623,9 @@ public abstract class Entity
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -682,11 +633,10 @@ public abstract class Entity
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other} within {@code tolerance}.
-	 * <p>
+	 *
 	 * @param other     the other {@link Object} to compare against for equality (may be
 	 *                  {@code null})
 	 * @param tolerance the tolerance level
-	 * <p>
 	 * @return {@code true} if {@code this} is equal to {@code other} within {@code tolerance},
 	 *         {@code false} otherwise
 	 *
@@ -696,9 +646,8 @@ public abstract class Entity
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -709,7 +658,7 @@ public abstract class Entity
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override
@@ -751,7 +700,7 @@ public abstract class Entity
 
 		/**
 		 * Returns a representative {@link String} of {@code this}.
-		 * <p>
+		 *
 		 * @return a representative {@link String} of {@code this}
 		 */
 		@Override

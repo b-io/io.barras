@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -62,18 +62,16 @@ extern "C"
 
 	/**
 	 * Returns the absolute value of the specified integer.
-	 * <p>
+	 *
 	 * @param number an integer
-	 * <p>
 	 * @return the absolute value of the specified integer
 	 */
 	integer integer_abs(const integer number);
 
 	/**
 	 * Returns the absolute value of the specified real number.
-	 * <p>
+	 *
 	 * @param number a real number
-	 * <p>
 	 * @return the absolute value of the specified real number
 	 */
 	real real_abs(const real number);
@@ -85,9 +83,8 @@ extern "C"
 
 	/**
 	 * Converts the specified number to a digit considering its boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	digit natural_to_digit(const natural number);
@@ -96,9 +93,8 @@ extern "C"
 
 	/**
 	 * Converts the specified number to a digit considering its boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	digit integer_to_digit(const integer number);
@@ -106,9 +102,8 @@ extern "C"
 	/**
 	 * Converts the specified number to a natural number considering its
 	 * boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	natural integer_to_natural(const integer number);
@@ -117,9 +112,8 @@ extern "C"
 
 	/**
 	 * Converts the specified number to a digit considering its boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	digit real_to_digit(const real number);
@@ -127,18 +121,16 @@ extern "C"
 	/**
 	 * Converts the specified number to a natural number considering its
 	 * boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	natural real_to_natural(const real number);
 
 	/**
 	 * Converts the specified number to an integer considering its boundaries.
-	 * <p>
+	 *
 	 * @param number the number to be converted
-	 * <p>
 	 * @return the resulting number
 	 */
 	integer real_to_integer(const real number);
@@ -151,9 +143,8 @@ extern "C"
 	/**
 	 * Returns the largest natural number that is less than or equal to the
 	 * specified real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the largest natural number that is less than or equal to the
 	 *         specified real number
 	 */
@@ -162,9 +153,8 @@ extern "C"
 	/**
 	 * Returns the largest integer that is less than or equal to the specified
 	 * real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the largest integer that is less than or equal to the specified
 	 *         real number
 	 */
@@ -175,9 +165,8 @@ extern "C"
 	/**
 	 * Returns the smallest natural number that is greater than or equal to the
 	 * specified real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the smallest natural number that is greater than or equal to the
 	 *         specified real number
 	 */
@@ -186,9 +175,8 @@ extern "C"
 	/**
 	 * Returns the smallest integer that is greater than or equal to the
 	 * specified real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the smallest integer that is greater than or equal to the
 	 *         specified real number
 	 */
@@ -198,18 +186,16 @@ extern "C"
 
 	/**
 	 * Returns the closest natural number to the specified real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the closest natural number to the specified real number
 	 */
 	natural round_to_natural(const real number);
 
 	/**
 	 * Returns the closest integer to the specified real number.
-	 * <p>
+	 *
 	 * @param number the real number to be converted
-	 * <p>
 	 * @return the closest integer to the specified real number
 	 */
 	integer round_to_integer(const real number);
@@ -280,9 +266,8 @@ extern "C"
 
 	/**
 	 * Returns the square of the specified real number.
-	 * <p>
+	 *
 	 * @param number a real number
-	 * <p>
 	 * @return the square of the specified real number
 	 */
 	real square(const real number);
@@ -294,19 +279,17 @@ extern "C"
 
 	/**
 	 * Returns the root with the specified degree of the specified real number.
-	 * <p>
+	 *
 	 * @param degree   the degree of the root
 	 * @param radicand a nonnegative real number
-	 * <p>
 	 * @return the root with the specified degree of the specified real number
 	 */
 	real root(const natural degree, const real radicand);
 
 	/**
 	 * Returns the square root of the specified real number.
-	 * <p>
+	 *
 	 * @param radicand a nonnegative real number
-	 * <p>
 	 * @return the square root of the specified real number
 	 */
 	real square_root(const real radicand);

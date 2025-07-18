@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import jupiter.common.util.Objects;
 
 /**
  * {@link Task} is a wrapper around an {@code I} input.
- * <p>
+ *
  * @param <I> the input type
  */
 public class Task<I>
@@ -68,7 +68,7 @@ public class Task<I>
 	/**
 	 * Constructs a {@link Task} of {@code I} type with the specified identifier and {@code I}
 	 * input.
-	 * <p>
+	 *
 	 * @param id    the identifier
 	 * @param input the {@code I} input
 	 */
@@ -84,7 +84,7 @@ public class Task<I>
 
 	/**
 	 * Returns the identifier.
-	 * <p>
+	 *
 	 * @return the identifier
 	 */
 	public long getID() {
@@ -93,7 +93,7 @@ public class Task<I>
 
 	/**
 	 * Returns the {@code I} input.
-	 * <p>
+	 *
 	 * @return the {@code I} input
 	 */
 	public I getInput() {
@@ -104,7 +104,7 @@ public class Task<I>
 
 	/**
 	 * Sets the identifier.
-	 * <p>
+	 *
 	 * @param id a {@code long} value
 	 */
 	public void setID(final long id) {
@@ -113,7 +113,7 @@ public class Task<I>
 
 	/**
 	 * Sets the {@code I} input.
-	 * <p>
+	 *
 	 * @param input an {@code I} input
 	 */
 	public void setInput(final I input) {
@@ -127,9 +127,8 @@ public class Task<I>
 
 	/**
 	 * Clones {@code this}.
-	 * <p>
-	 * @return a clone of {@code this}
 	 *
+	 * @return a clone of {@code this}
 	 * @see ICloneable
 	 */
 	@Override
@@ -148,11 +147,9 @@ public class Task<I>
 
 	/**
 	 * Tests whether {@code this} is equal to {@code other}.
-	 * <p>
-	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
-	 * <p>
-	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 *
+	 * @param other the other {@link Object} to compare against for equality (may be {@code null})
+	 * @return {@code true} if {@code this} is equal to {@code other}, {@code false} otherwise
 	 * @see #hashCode()
 	 */
 	@Override
@@ -172,9 +169,8 @@ public class Task<I>
 
 	/**
 	 * Returns the hash code of {@code this}.
-	 * <p>
-	 * @return the hash code of {@code this}
 	 *
+	 * @return the hash code of {@code this}
 	 * @see #equals(Object)
 	 * @see System#identityHashCode(Object)
 	 */
@@ -187,7 +183,7 @@ public class Task<I>
 
 	/**
 	 * Returns a representative {@link String} of {@code this}.
-	 * <p>
+	 *
 	 * @return a representative {@link String} of {@code this}
 	 */
 	@Override

@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright © 2013-2022 Florian Barras <https://barras.io> (florian@barras.io)
+ * Copyright © 2013-2025 Florian Barras <https://barras.io> (florian@barras.io)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,13 +34,13 @@ import jupiter.math.linear.test.MatrixArguments;
 
 /**
  * {@link CholeskyDecomposition} performs a Cholesky decomposition on a {@link Matrix}.
- * <p>
+ *
  * For a symmetric, positive definite matrix {@code A}, the Cholesky decomposition is a lower
  * triangular matrix {@code L} so that {@code A = L L'}.
- * <p>
+ *
  * If the matrix is not symmetric or positive definite, the constructor returns a partial
  * decomposition and sets an internal flag that may be queried by the method {@link #isSPD}.
- * <p>
+ *
  * @author JAMA (http://math.nist.gov/javanumerics/jama)
  * @version 1.0.3
  */
@@ -82,9 +82,8 @@ public class CholeskyDecomposition
 	/**
 	 * Constructs a {@link CholeskyDecomposition} of the specified symmetric and positive definite
 	 * {@link Matrix}. Sets {@code isSymmetricPositiveDefinite} and the decomposition {@code L}.
-	 * <p>
+	 *
 	 * @param A the symmetric and positive definite {@link Matrix} to decompose
-	 * <p>
 	 * @throws IllegalOperationException if {@code A} is not square
 	 */
 	public CholeskyDecomposition(final Matrix A) {
@@ -135,7 +134,7 @@ public class CholeskyDecomposition
 
 	/**
 	 * Tests whether {@code A} is symmetric and positive definite.
-	 * <p>
+	 *
 	 * @return {@code true} if {@code A} is symmetric and positive definite, {@code false} otherwise
 	 */
 	public boolean isSPD() {
@@ -144,7 +143,7 @@ public class CholeskyDecomposition
 
 	/**
 	 * Returns the triangular factor {@code L}.
-	 * <p>
+	 *
 	 * @return the triangular factor {@code L}
 	 */
 	public Matrix getL() {
@@ -158,11 +157,9 @@ public class CholeskyDecomposition
 
 	/**
 	 * Solves {@code A X = B}.
-	 * <p>
+	 *
 	 * @param B a {@link Matrix} with as many rows as {@code A} and any number of columns
-	 * <p>
 	 * @return {@code X} so that {@code L L' X = B}
-	 * <p>
 	 * @throws IllegalArgumentException if the inner dimensions of {@code A} and {@code B} do not
 	 *                                  agree
 	 */
