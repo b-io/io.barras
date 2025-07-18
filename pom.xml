@@ -40,14 +40,14 @@
 		<!-- Maven -->
 		<maven.compiler.source>${project.build.source}</maven.compiler.source>
 		<maven.compiler.target>${project.build.target}</maven.compiler.target>
-		<maven.artifact.version>2.2.1</maven.artifact.version>
+		<maven.artifact.version>3.6.3</maven.artifact.version>
 		<maven.info.version>2.9</maven.info.version>
 		<maven.install.version>2.5.2</maven.install.version>
 		<maven.javadoc.version>2.10.4</maven.javadoc.version>
 		<maven.nar.version>3.5.1</maven.nar.version>
 		<maven.project.version>2.2.1</maven.project.version>
 		<maven.site.version>3.9.1</maven.site.version>
-		<maven.source.version>2.4</maven.source.version>
+		<maven.source.version>3.2.1</maven.source.version>
 		<maven.surefire.version>2.22.2</maven.surefire.version>
 		<!-- Build -->
 		<build.sourceFolder>source</build.sourceFolder>

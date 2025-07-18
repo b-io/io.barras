@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.jupiter</groupId>
 		<artifactId>lang</artifactId>
-		<version>1.6.0</version>
+		<version>1.8.0</version>
 	</parent>
 
 	<artifactId>python</artifactId>
@@ -19,7 +19,7 @@
 
 	<properties>
 		<!-- Jython -->
-		<jython.version>2.5.3</jython.version>
+		<jython.version>2.7.2</jython.version>
 	</properties>
 
 	<!-- Project Settings -->

@@ -22,7 +22,7 @@ Launch the following commands in a shell:
 ~~~bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/c/ceres/
-mvn clean install
+mvn -Dhttps.protocols=TLSv1.2 clean install
 ~~~
 
 
