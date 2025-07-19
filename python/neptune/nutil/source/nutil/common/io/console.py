@@ -30,11 +30,14 @@ import numpy as np
 from multiprocess.pool import Pool
 from tabulate import tabulate
 
+from nutil.enums import SeverityLevel
+
 ####################################################################################################
 # COMMON SETTINGS
 ####################################################################################################
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
+
 
 ####################################################################################################
 # COMMON CLASSES
@@ -104,6 +107,7 @@ CORE_COUNT = mp.cpu_count() or 1
 EMPTY = ()
 
 NA_NAME = "N/A"
+
 
 ####################################################################################################
 # COMMON VERIFIERS
@@ -203,77 +207,17 @@ def exists(x):
 
 
 ####################################################################################################
-# COMMON PROPERTIES
+# COMMON CONSOLE PROPERTIES
 ####################################################################################################
 
-__COMMON_PROPERTIES_______________________________ = ""
-
-
-def get_config_path(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
-    """Returns the path to the properties with the specified filename in the specified directory."""
-    return find_path(filename + ".properties", dir=dir, subdir=subdir)
-
-
-def load_config(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
-    """Loads the properties with the specified filename in the specified directory."""
-    return CONFIG.read(get_config_path(filename, dir=dir, subdir=subdir))
-
-
-def escape_property(property):
-    return property.replace("%", "%%") if not is_null(property) else None
-
-
-#########################
-
-# The default configuration
-DEFAULT_CONFIG = {
-    "common": {
-        # Assert
-        "assert": DEFAULT_ASSERT,
-        # Environment (local, dev, test, model, prod)
-        "env": DEFAULT_ENV,
-    },
-    "console": {
-        # Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
-        "severityLevel": DEFAULT_SEVERITY_LEVEL,
-        # Verbose
-        "verbose": DEFAULT_VERBOSE,
-    },
-    "date": {
-        # Date format
-        "dateFormat": escape_property(DEFAULT_DATE_FORMAT),
-        # Time format
-        "timeFormat": escape_property(DEFAULT_TIME_FORMAT),
-        # Aggregation (count, min, max, mean, median, std, var, sum)
-        "aggregation": DEFAULT_AGGREGATION,
-        # Frequency (D, W, M, Q, S, Y)
-        "frequency": DEFAULT_FREQUENCY,
-        # Period
-        "period": DEFAULT_PERIOD,
-        # Position (first, middle, last)
-        "position": DEFAULT_POSITION,
-    },
-}
-CONFIG.read_dict(DEFAULT_CONFIG)
-load_config("common")
-
-##################################################
-
-# The flag specifying whether to assert
-ASSERT = CONFIG.getboolean("common", "assert")
-
-# The environment
-ENV = Environment(CONFIG.get("common", "env"))
-
-# • CONSOLE ########################################################################################
-
-__CONSOLE_PROPERTIES______________________________ = ""
+__COMMON_CONSOLE_PROPERTIES_______________________ = ""
 
 # The severity level
 SEVERITY_LEVEL = SeverityLevel(CONFIG.getint("console", "severityLevel"))
 
 # The flag specifying whether to enable the verbose mode
 VERBOSE = CONFIG.getboolean("console", "verbose")
+
 
 ####################################################################################################
 # COMMON ACCESSORS
@@ -411,6 +355,7 @@ def format_bulleted_dict(d, f=format_bulleted_item):
 ####################################################################################################
 
 __COMMON_GENERATORS_______________________________ = ""
+
 
 ####################################################################################################
 # COMMON PROCESSORS

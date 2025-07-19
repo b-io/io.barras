@@ -15,7 +15,9 @@
 ####################################################################################################
 
 import base64
+
 import cv2
+
 
 ####################################################################################################
 # IMAGE CONSTANTS
@@ -33,6 +35,7 @@ PNG_FORMAT = "png"  # Portable Network Graphics
 SVG_FORMAT = "svg"  # Scalable Vector Graphics
 TIFF_FORMAT = "tiff"  # Tag Image File Format
 WEBP_FORMAT = "webp"  # WebP
+
 
 ####################################################################################################
 # IMAGE FUNCTIONS

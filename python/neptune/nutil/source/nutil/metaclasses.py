@@ -3,6 +3,7 @@ import threading
 from collections import defaultdict
 from typing import Any, Dict, List, Type, TypeVar
 
+from nutil.common import get_stamp
 
 T = TypeVar("T")
 
@@ -133,5 +134,9 @@ class TempSingletonMeta(type):
         with cls.lock():
             return cls in cls._instances
 
-    def valid(cls: Type[T]):
-        pass
+    def valid(cls: Type[T]) -> bool:
+        with cls.lock():
+            if not cls.exists():
+                return False
+            get_stamp()
+            current

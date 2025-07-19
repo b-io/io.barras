@@ -20,8 +20,9 @@ import string
 
 import numpy as np
 
-from nutil.common.collections import apply, is_collection, remove_empty, to_collection
-from nutil.common.common import INF, is_null
+from nutil.common import INF
+from nutil.common.common import apply, is_null
+from nutil.common.struct.collection import is_collection, remove_empty, to_collection
 
 ####################################################################################################
 # COMMON STRING CONSTANTS
@@ -39,6 +40,7 @@ NEWLINE = "\n"
 BULLET = "•"
 COLON = ":"
 SEMICOLON = ";"
+
 
 ####################################################################################################
 # COMMON STRING VERIFIERS

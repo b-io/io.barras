@@ -47,6 +47,7 @@ from nutil.common.collections import (
     unique,
 )
 
+
 ####################################################################################################
 # COMMON DATAFRAME CONSTANTS
 ####################################################################################################
@@ -63,6 +64,7 @@ FRAME_GROUP_TYPE = pd.core.groupby.generic.DataFrameGroupBy
 
 INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
+
 
 ####################################################################################################
 # COMMON DATAFRAME VERIFIERS

@@ -10,33 +10,27 @@ The library contains utility functions; among them:
 
 URANUS is fully compliant with POSIX and does not require any other library.
 
+---
 
-## Install
+## 🚀 Installation
 
 Launch the following commands in a shell:
-~~~bash
+```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/shell/uranus/
 mvn -Dhttps.protocols=TLSv1.2 clean install
-~~~
+```
 
+---
 
-## License
+## 💡 Examples
 
-Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License (MIT)][license].
-
-[license]: <LICENSE>
-
-
-## Examples
-
->*Talk is cheap. Show me the code.*
->- Linus Torvalds
+> *"Talk is cheap. Show me the code."*  
+> — Linus Torvalds
 
 #### 1. POSIX-Compliant Arrays
 
-~~~bash
+```bash
 verb 'Create an array'
 A="`createSequence 1 3 | toCreateArray`" # "1" "2" "3"
 
@@ -62,11 +56,11 @@ getElementIndex "$A" "$item" # 3
 verb 'Remove an item from an array'
 printn "$A" | toRemoveElement "$item" # "1" "2" "3"
 removeElement "$A" "$item" # "1" "2" "3"
-~~~
+```
 
 #### 2. Arguments Handler
 
-~~~shell
+```shell
 verb 'Load the arguments'
 loadArguments $# "${@:-}"
 
@@ -75,13 +69,13 @@ printn "'`getFlags`'"
 
 verb 'List the arguments (without options)'
 printArray "$ARGS"
-~~~
+```
 
 #### 3. Package Management System (PMS)
 
 Package on Red-Hat or Solaris operating systems thanks to the PMS library.
 Have a look to **ura-package**:
-~~~bash
+```bash
 startList 'Prepare'
 	preparePackage "$SOURCE_DIR"
 endList
@@ -93,20 +87,30 @@ endList
 startList 'Install'
 	installPackage
 endList
-~~~
+```
 
 #### 4. Virtualization Management System (VMS)
 
 Manage Linux containers conveniently thanks to the VMS library. Have a look to:
 - **ura-create** for creating a LXC container:
-~~~bash
+```bash
 createContainer "$NAME"
-~~~
+```
 - **ura-start** for starting a LXC container:
-~~~bash
+```bash
 startContainer "$NAME"
-~~~
+```
+
 - **ura-stop** for stopping a LXC container:
-~~~bash
+```bash
 stopContainer "$NAME"
-~~~
+```
+
+---
+
+## 📄 License
+
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+
+[license]: <LICENSE>

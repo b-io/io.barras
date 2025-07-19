@@ -20,10 +20,11 @@ from typing import Optional
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
-from nutil import *
 from ngui.charts import *
+from nutil import *
 from nutil.enums import StringEnum
 from nutil.math import *
+
 
 ####################################################################################################
 # TIME SERIES ENUMS

@@ -21,6 +21,7 @@ from matplotlib.colors import *
 from nmath.stats import normal
 from nutil.math import *
 
+
 ####################################################################################################
 # COLOR CONSTANTS
 ####################################################################################################
@@ -180,6 +181,7 @@ XKCD_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.XKCD_
 
 RAINBOW_SCALE = mcm.get_cmap(name="rainbow")
 RYG_SCALE = mcm.get_cmap(name="RdYlGn")
+
 
 ####################################################################################################
 # COLOR FUNCTIONS

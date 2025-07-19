@@ -18,9 +18,9 @@ from scipy.special import ndtr
 
 from nmath.common import (
     DEFAULT_CONFIDENCE_LEVEL,
+    PI,
     Distribution,
     E,
-    PI,
     add,
     apply,
     chi2,
@@ -42,6 +42,7 @@ from nmath.common import (
     z,
 )
 
+
 ####################################################################################################
 # NORMAL CONSTANTS
 ####################################################################################################
@@ -50,6 +51,7 @@ __NORMAL_CONSTANTS________________________________ = ""
 
 NORMAL_NAME = "Normal"
 NORMAL_KDE_NAME = "Normal KDE"
+
 
 ####################################################################################################
 # NORMAL CLASSES

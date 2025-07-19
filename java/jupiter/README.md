@@ -14,20 +14,22 @@ JUPITER is fully compliant with Java 6 (release-java-6), Java 8 (release-java-8)
 Please do not hesitate to leave your comments for further improvement or for which applications
 you may use it. Enjoy!
 
+---
 
-## Install
+## 🚀 Installation
 
 Launch the following commands in a shell:
-~~~bash
+```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/java/jupiter/
 mvn -Dhttps.protocols=TLSv1.2 clean install
-~~~
+```
 
+---
 
-## License
+## 📄 License
 
-Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License (MIT)][license].
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
 
 [license]: <LICENSE>

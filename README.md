@@ -1,41 +1,90 @@
 # ⊕ IO.BARRAS
 
-**IO.BARRAS** is a collection of **C/C++, Java/Scala and POSIX Shell libraries** intended to
-facilitate software development and particularly scientific computing.
-Among them:
+**IO.BARRAS** is a unified collection of libraries in **C/C++, Java/Scala, Python, and POSIX Shell**
+designed to accelerate software development — particularly in **scientific computing**,
+**data processing**, and **automation**.
 
-  * ⚳ Ceres (C) <https://github.com/b-io/io.barras/tree/master/c/ceres>,
-  * ♃ Jupiter (Java) <https://github.com/b-io/io.barras/tree/master/java/jupiter>,
-  * ♆ Neptune (Python) <https://github.com/b-io/io.barras/tree/master/python/neptune>,
-  * ♇ Pluto (C++) <https://github.com/b-io/io.barras/tree/master/cpp/pluto>,
-  * ♄ Saturn (Scala) <https://github.com/b-io/io.barras/tree/master/scala/saturn> and
-  * ♅ Uranus (POSIX Shell) <https://github.com/b-io/io.barras/tree/master/shell/uranus>.
+The ecosystem includes the following language-specific modules:
 
-Please do not hesitate to leave your comments for further improvement!
+- ⚳ [**Ceres** (C)](https://github.com/b-io/io.barras/tree/master/c/ceres) — foundational utilities in C
+- ♃ [**Jupiter** (Java)](https://github.com/b-io/io.barras/tree/master/java/jupiter) — core libraries for Java
+- ♆ [**Neptune** (Python)](https://github.com/b-io/io.barras/tree/master/python/neptune) — modular libraries for Python
+- ♇ [**Pluto** (C++)](https://github.com/b-io/io.barras/tree/master/cpp/pluto) — scientific computing tools in C++
+- ♄ [**Saturn** (Scala)](https://github.com/b-io/io.barras/tree/master/scala/saturn) — functional utilities for Scala
+- ♅ [**Uranus** (POSIX Shell)](https://github.com/b-io/io.barras/tree/master/shell/uranus) — scripting and automation tools
 
+Feel free to share comments or suggestions to improve the libraries.
 
-## Install
+---
 
-Launch the following commands in a shell:
-~~~bash
+## 🚀 Installation
+
+### 🛠 Pre-Install
+
+#### On Windows (via Chocolatey)
+Install required tools:
+```bash
+choco install git llvm maven mingw python
+```
+
+Make sure `clang-format`, `gcc`, `g++`, and  `mvn` are in your system PATH.
+
+#### On Linux (Debian-based)
+Install required packages:
+```bash
+sudo apt update
+sudo apt install -y build-essential clang-format git maven python3 python3-pip
+```
+
+Also ensure `pre-commit` is installed globally:
+```bash
+pip3 install --user pre-commit
+```
+
+### 📦 Install
+
+Clone the repository and build the project:
+```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/
 mvn -Dhttps.protocols=TLSv1.2 clean install
-~~~
+```
 
-or add the Maven repository:
-~~~xml
+Or add the public Maven repository to your `pom.xml`:
+```xml
 <repository>
-	<id>barras.io</id>
-	<name>barras.io</name>
-	<url>https://repo.barras.io</url>
+  <id>barras.io</id>
+  <name>barras.io</name>
+  <url>https://repo.barras.io</url>
 </repository>
-~~~
+```
 
+---
 
-## License
+## ⚙️ Setup
 
-Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License (MIT)][license].
+### 🔁 Pre-Commit Setup
+
+Ensure `pre-commit` is installed globally:
+```bash
+pip3 install --user pre-commit
+```
+
+Then enable the hooks:
+```bash
+pre-commit install --install-hooks --overwrite
+```
+
+To run all hooks manually:
+```bash
+pre-commit run --all-files
+```
+
+---
+
+## 📄 License
+
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
 
 [license]: <LICENSE>

@@ -21,17 +21,17 @@
 	<!-- Project Settings -->
 	<modules>
 		<module>common</module>
+		<module>connect</module>
 		<module>execution</module>
 		<module>gui</module>
 		<module>hardware</module>
 		<module>lang</module>
-		<module>learning</module>
+		<module>learn</module>
 		<module>log</module>
 		<module>math</module>
 		<module>media</module>
 		<module>mobile</module>
 		<module>network</module>
 		<module>security</module>
-		<module>transfer</module>
 	</modules>
 </project>

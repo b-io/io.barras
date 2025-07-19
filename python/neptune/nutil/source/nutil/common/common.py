@@ -29,11 +29,13 @@ import numpy as np
 from multiprocess.pool import Pool
 from tabulate import tabulate
 
+
 ####################################################################################################
 # COMMON SETTINGS
 ####################################################################################################
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
+
 
 ####################################################################################################
 # COMMON CLASSES
@@ -95,6 +97,7 @@ CORE_COUNT = mp.cpu_count() or 1
 EMPTY = ()
 
 NA_NAME = "N/A"
+
 
 ####################################################################################################
 # COMMON VERIFIERS
@@ -247,6 +250,7 @@ SEVERITY_LEVEL = SeverityLevel(CONFIG.getint("console", "severityLevel"))
 # The flag specifying whether to enable the verbose mode
 VERBOSE = CONFIG.getboolean("console", "verbose")
 
+
 ####################################################################################################
 # COMMON ACCESSORS
 ####################################################################################################
@@ -383,6 +387,7 @@ def format_bulleted_dict(d, f=format_bulleted_item):
 ####################################################################################################
 
 __COMMON_GENERATORS_______________________________ = ""
+
 
 ####################################################################################################
 # COMMON PROCESSORS

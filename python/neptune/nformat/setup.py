@@ -18,6 +18,7 @@ from os import path
 
 from setuptools import find_packages, setup
 
+
 ####################################################################################################
 # SETUP CONSTANTS
 ####################################################################################################
@@ -38,6 +39,7 @@ LICENSE_FILES = ["LICENSE"]
 URL = "https://github.com/b-io/io.barras/tree/master/python/neptune/nformat"
 
 DEPENDENCIES = ["nutil", "open-cv"]
+
 
 ####################################################################################################
 # SETUP

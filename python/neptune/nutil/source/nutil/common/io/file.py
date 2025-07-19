@@ -22,6 +22,7 @@ from urllib.request import urlopen
 import pandas as pd
 import validators
 
+
 ####################################################################################################
 # COMMON FILE CONSTANTS
 ####################################################################################################
@@ -38,6 +39,7 @@ DEFAULT_RES_DIR = "resources"
 
 # The default encoding
 DEFAULT_ENCODING = "utf-8"
+
 
 ####################################################################################################
 # COMMON FILE VERIFIERS

@@ -16,32 +16,34 @@
 
 from nutil.common import *
 
+
 ####################################################################################################
 # GUI CONSTANTS
 ####################################################################################################
 
-__GUI_CONSTANTS___________________________________ = ''
+__GUI_CONSTANTS___________________________________ = ""
 
-__all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post138'
+__all__ = [s for s in dir() if not s.startswith("_")]
+__version__ = "1.0.0.post138"
 
 ##################################################
 
-NAME = 'ngui'
+NAME = "ngui"
 VERSION = __version__
-DESCRIPTION = 'Graphical utility library'
+DESCRIPTION = "Graphical utility library"
+
 
 ####################################################################################################
 # GUI MAIN
 ####################################################################################################
 
-__GUI_MAIN________________________________________ = ''
+__GUI_MAIN________________________________________ = ""
 
 
 def main():
-	'''Starts the application.'''
-	info('Start %s %s (%s)' % (NAME, VERSION, ENV))
+    """Starts the application."""
+    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
 
 
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__":
+    main()

@@ -16,32 +16,34 @@
 
 from nutil.common import *
 
+
 ####################################################################################################
 # MATH CONSTANTS
 ####################################################################################################
 
-__MATH_CONSTANTS__________________________________ = ''
+__MATH_CONSTANTS__________________________________ = ""
 
-__all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post138'
+__all__ = [s for s in dir() if not s.startswith("_")]
+__version__ = "1.0.0.post138"
 
 ##################################################
 
-NAME = 'nmath'
+NAME = "nmath"
 VERSION = __version__
-DESCRIPTION = 'Mathematical utility library'
+DESCRIPTION = "Mathematical utility library"
+
 
 ####################################################################################################
 # MATH MAIN
 ####################################################################################################
 
-__MATH_MAIN_______________________________________ = ''
+__MATH_MAIN_______________________________________ = ""
 
 
 def main():
-	'''Starts the application.'''
-	info('Start %s %s (%s)' % (NAME, VERSION, ENV))
+    """Starts the application."""
+    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
 
 
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__":
+    main()

@@ -16,10 +16,10 @@
 
 from nmath.common import (
     DEFAULT_CONFIDENCE_LEVEL,
-    Distribution,
-    E,
     FLOAT_ELEMENT_TYPE,
     PI,
+    Distribution,
+    E,
     add,
     apply,
     collist,
@@ -43,6 +43,7 @@ from nmath.common import (
 )
 from nmath.stats import normal
 
+
 ####################################################################################################
 # BINOMIAL CONSTANTS
 ####################################################################################################
@@ -50,6 +51,7 @@ from nmath.stats import normal
 __BINOMIAL_CONSTANTS______________________________ = ""
 
 BINOMIAL_NAME = "Binomial"
+
 
 ####################################################################################################
 # BINOMIAL CLASSES

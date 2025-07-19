@@ -13,17 +13,30 @@
 #    Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
-from distutils.util import strtobool
+
+from calendar import monthrange
+from datetime import *
+
+import pandas as pd
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
 
 from nutil.common.common import *
-from nutil.common.strings import *
+from nutil.common.number import *
+from nutil.common.struct.collection import *
+from nutil.common.struct.tuple import is_tuple
 from nutil.enums import Aggregation, Frequency, Position
+
 
 ####################################################################################################
 # COMMON DATE CONSTANTS
 ####################################################################################################
 
 __COMMON_DATE_CONSTANTS___________________________ = ""
+
+DEFAULT_TIME_ZONE = timezone.utc
+
+#########################
 
 # The default date format
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
@@ -164,6 +177,7 @@ FREQUENCY_TO_DAY_COUNT = {
 
 DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
 
+
 ####################################################################################################
 # COMMON DATE VERIFIERS
 ####################################################################################################
@@ -225,6 +239,7 @@ PERIOD = CONFIG.get("date", "period")
 # The position
 POSITION = Position(CONFIG.get("date", "position"))
 
+
 ####################################################################################################
 # COMMON DATE ACCESSORS
 ####################################################################################################
@@ -240,8 +255,8 @@ def get_date_string():
     return format_date(get_date())
 
 
-def get_datetime():
-    return datetime.now()
+def get_datetime(tz=DEFAULT_TIME_ZONE):
+    return datetime.now(tz=tz)
 
 
 def get_datetime_string(format=DATE_TIME_FORMAT):

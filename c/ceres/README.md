@@ -15,35 +15,27 @@ CERES is based on the ANSI C standard library and does not require any other lib
 
 Please do not hesitate to leave your comments for further improvement!
 
+---
 
-## Install
+## 🚀 Installation
 
 Launch the following commands in a shell:
-~~~bash
+```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/c/ceres/
 mvn -Dhttps.protocols=TLSv1.2 clean install
-~~~
+```
 
+---
 
-## License
+## 💡 Examples
 
-Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License (MIT)][license].
-
-[license]: <LICENSE>
-
-
-## Examples
-
->*Talk is cheap. Show me the code.*
->- Linus Torvalds
-
+> *"Talk is cheap. Show me the code."*  
+> — Linus Torvalds
 
 #### 1. Number and Object
 
-~~~c
-
+```c
 /* Create a Number able to change its base from 2 to _NUMBER_BASE_MAX (36) */
 const natural number = 20;
 const digit base = 10;
@@ -64,14 +56,11 @@ Object o = Object_create(&s);
 /* Change the base of the Number to hexadecimal (0 -> 0, 1 -> 1, ..., 10 -> A, 11 -> B, ...) */
 n.changeBase(&n, 16);
 printn(_S("%O"), &o); /* 14 */
-
-~~~
-
+```
 
 #### 2. Array
 
-~~~c
-
+```c
 /* Define the constant(s) */
 string s1 = _S("hello");
 string s2 = _S("world");
@@ -108,14 +97,11 @@ printn(_S("%s %s%s"), a->get(a, 0).value, a->get(a, 1).value, a->get(a, 2).value
 
 /* Release the Array */
 _RELEASE(a);
-
-~~~
-
+```
 
 #### 3. Time
 
-~~~c
-
+```c
 const tick t = chrono_start();
 
 /* Construct a Number */
@@ -136,14 +122,11 @@ n.changeBase(&n, 26);
 printn(_S("Hexavigesimal: %N"), &n); /* DGEHTYM or KMLUXINKECOJO */
 
 chrono_end(t); /* #Ticks: ... | Elapsed time: ... [ms] */
-
-~~~
-
+```
 
 4. Sort
 
-~~~c
-
+```c
 /* Fill the Array with integers (full copy) */
 const natural size = real_to_natural(1E6);
 Array* a = Array_new(_INTEGER_TYPE, INTEGER_SIZE, size);
@@ -166,5 +149,13 @@ printn(_S("%A"), a); /* (10000000, 9999999, 9999998, ...) */
 
 /* Release the Array */
 _RELEASE(a);
+```
 
-~~~
+---
+
+## 📄 License
+
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+
+[license]: <LICENSE>

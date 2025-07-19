@@ -16,9 +16,14 @@
 
 from distutils.util import strtobool
 
-from nutil.common.arrays import *
-from nutil.common.dataframes import *
-from nutil.common.strings import *
+import pandas as pd
+
+from nutil.common.common import *
+from nutil.common.string import *
+from nutil.common.struct.collection import is_collection
+from nutil.common.struct.collection.array import *
+from nutil.common.struct.collection.dataframe import *
+
 
 ####################################################################################################
 # COMMON NUMBER CONSTANTS

@@ -20,6 +20,7 @@
 
 	<!-- Project Settings -->
 	<modules>
+		<module>nconnect</module>
 		<module>nfin</module>
 		<module>nformat</module>
 		<module>ngui</module>

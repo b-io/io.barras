@@ -14,34 +14,36 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common import *
+from nutil.common import ENV, info
+
 
 ####################################################################################################
 # CONSTANTS
 ####################################################################################################
 
-__CONSTANTS_______________________________________ = ''
+__CONSTANTS_______________________________________ = ""
 
-__all__ = [s for s in dir() if not s.startswith('_')]
-__version__ = '1.0.0.post138'
+__all__ = [s for s in dir() if not s.startswith("_")]
+__version__ = "1.0.0.post138"
 
 ##################################################
 
-NAME = 'nutil'
+NAME = "nutil"
 VERSION = __version__
-DESCRIPTION = 'Utility library'
+DESCRIPTION = "Utility library"
+
 
 ####################################################################################################
 # MAIN
 ####################################################################################################
 
-__MAIN____________________________________________ = ''
+__MAIN____________________________________________ = ""
 
 
 def main():
-	'''Starts the application.'''
-	info('Start %s %s (%s)' % (NAME, VERSION, ENV))
+    """Starts the application."""
+    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
 
 
-if __name__ == '__main__':
-	main()
+if __name__ == "__main__":
+    main()

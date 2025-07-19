@@ -5,20 +5,22 @@ scientific computing.
 
 PLUTO is based on the standard C++ 11 library and does not require any other library.
 
+---
 
-## Install
+## 🚀 Installation
 
 Launch the following commands in a shell:
-~~~bash
+```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/cpp/pluto/
 mvn -Dhttps.protocols=TLSv1.2 clean install
-~~~
+```
 
+---
 
-## License
+## 📄 License
 
-Feel free to download, try and share your suggestions about the libraries,
-while respecting [this MIT License (MIT)][license].
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
 
 [license]: <LICENSE>

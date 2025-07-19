@@ -9,6 +9,7 @@ from __future__ import annotations
 from enum import EnumMeta
 from typing import Dict, Iterator, List, Tuple, Type, TypeVar, Union
 
+
 ####################################################################################################
 # COMMON ENUMS
 ####################################################################################################

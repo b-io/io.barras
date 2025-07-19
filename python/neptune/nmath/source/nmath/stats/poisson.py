@@ -16,10 +16,10 @@
 
 from nmath.common import (
     DEFAULT_CONFIDENCE_LEVEL,
-    Distribution,
-    E,
     FLOAT_ELEMENT_TYPE,
     PI,
+    Distribution,
+    E,
     add,
     apply,
     chi2,
@@ -40,6 +40,7 @@ from nmath.common import (
 )
 from nmath.stats import normal
 
+
 ####################################################################################################
 # POISSON CONSTANTS
 ####################################################################################################
@@ -47,6 +48,7 @@ from nmath.stats import normal
 __POISSON_CONSTANTS_______________________________ = ""
 
 POISSON_NAME = "Poisson"
+
 
 ####################################################################################################
 # POISSON CLASSES

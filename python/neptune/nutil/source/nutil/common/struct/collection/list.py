@@ -16,6 +16,7 @@
 
 from nutil.common.collections import has_filter, is_collection, is_dict, is_empty, is_null, to_set
 
+
 ####################################################################################################
 # COMMON LIST CONSTANTS
 ####################################################################################################
@@ -23,6 +24,7 @@ from nutil.common.collections import has_filter, is_collection, is_dict, is_empt
 __COMMON_LIST_CONSTANTS___________________________ = ""
 
 LIST_TYPE = list
+
 
 ####################################################################################################
 # COMMON LIST VERIFIERS

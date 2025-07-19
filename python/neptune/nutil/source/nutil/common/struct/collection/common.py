@@ -20,6 +20,7 @@ from nutil.common.string import *
 from nutil.common.tuple import *
 from nutil.enums import Aggregation, Frequency, Position
 
+
 ####################################################################################################
 # COMMON COLLECTION CONSTANTS
 ####################################################################################################

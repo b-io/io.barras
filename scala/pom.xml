@@ -49,7 +49,6 @@
 				<configuration>
 					<source>${maven.compiler.release}</source>
 					<target>${maven.compiler.release}</target>
-					<testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<args>
 						<arg>-deprecation</arg>

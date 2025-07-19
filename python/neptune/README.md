@@ -5,14 +5,13 @@ scientific and analytical development.
 
 It includes focused packages for financial modeling, machine learning, statistics, visualization,
 and core utilities — all built on top of **NumPy**, **Pandas**, **Matplotlib**, **Plotly**, **SciPy
-**, and **scikit-learn**.
+**, **scikit-learn**, and **TensorFlow**.
 
 ---
 
 ## 🚀 Installation
 
 Clone the repository and navigate to the NEPTUNE module:
-
 ```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/python/neptune/
@@ -25,13 +24,11 @@ cd io.barras/python/neptune/
 ### 🐍 1. Install and Configure Poetry
 
 Install Poetry:
-
 ```bash
 pip install poetry
 ```
 
 Ensure Poetry uses your active Conda environment (or system Python):
-
 ```bash
 poetry config virtualenvs.create false --local
 poetry env info
@@ -40,44 +37,27 @@ poetry env info
 ### 📦 2. Install Project Dependencies
 
 Lock and install dependencies:
-
 ```bash
 poetry lock
 poetry install
 ```
 
 View resolved packages:
-
 ```bash
 poetry show --tree
 ```
 
----
-
 ### 📤 3. Export Requirements (Optional)
 
 Install the export plugin:
-
 ```bash
 poetry self add poetry-plugin-export
 ```
 
 Export grouped dependencies for use with `pip`:
-
 ```bash
 poetry export --without-hashes --with lint,test,docs --format=requirements.txt > requirements.txt
 pip install -r requirements.txt
-```
-
----
-
-### ✨ 4. Enable Pre-Commit Hooks
-
-For consistent formatting and code hygiene:
-
-```bash
-pip install pre-commit
-pre-commit install --install-hooks --overwrite
 ```
 
 ---
@@ -86,8 +66,6 @@ pre-commit install --install-hooks --overwrite
 
 > *"Talk is cheap. Show me the code."*  
 > — Linus Torvalds
-
----
 
 ### 1. Utility Function: Apply Across Collections
 
@@ -100,8 +78,6 @@ squared = apply(lambda x: x ** 2, data)
 
 print(squared)  # output: {'a': 1, 'b': 4, 'c': 9}
 ```
-
----
 
 ### 2. Math: Confidence Interval
 
@@ -121,8 +97,6 @@ print(f"Estimated deviation: {normal_kde.std()}")
 print(f"95% confidence interval: {normal_kde.interval(0.95)}")
 ```
 
----
-
 ### 3. Finance: Time Series Transformation
 
 ```python
@@ -141,8 +115,6 @@ log_returns = transform_series(
 
 print(log_returns)  # output: log return series
 ```
-
----
 
 ### 4. Learning: Text Classification
 
@@ -165,8 +137,6 @@ classifier.train(texts, labels)
 result = classifier.predict("Deep learning boosts AI performance.")
 print(result)  # output: tech
 ```
-
----
 
 ### 5. GUI: Plot Multiple Time Series
 
@@ -191,15 +161,16 @@ plot_multi_series(df, title="System Metrics", show_legend=True, show_date=True)
 
 NEPTUNE is organized into the following modular subpackages:
 
-| Package  | Description                                                |
-|----------|------------------------------------------------------------|
-| `nfin`   | Time series and financial modeling tools                   |
-| `ngui`   | Charting, web, image display, and GUI rendering            |
-| `nlearn` | Clustering, regression, and neural models for ML/NLP       |
-| `nmath`  | Statistical distributions, sampling, and numerical tools   |
-| `nutil`  | Enums, configuration, math constants, functional utilities |
-
----
+| Package    | Description                                                             |
+|------------|-------------------------------------------------------------------------|
+| `nconnect` | Connectors to external systems (SQL query builder, I/O interfaces)      |
+| `nfin`     | Time series and financial modeling tools (pricing, risk, forecasting)   |
+| `nformat`  | Formatting functionalities for colors, images, and structured data      |
+| `ngui`     | Charting, image display, and GUI rendering                              |
+| `nlearn`   | Clustering, regression, and neural models for machine learning and NLP  |
+| `nmath`    | Statistical distributions, sampling methods, and numerical computations |
+| `nserve`   | Web-serving functionalities (HTTP servers, FastAPI helpers)             |
+| `nutil`    | Configuration, constants, enums, and functional programming utilities   |
 
 ### 🧭 Exploring the API
 
@@ -211,5 +182,7 @@ NEPTUNE is organized into the following modular subpackages:
 
 ## 📄 License
 
-NEPTUNE is released under the [MIT License](LICENSE).  
-You are welcome to use, modify, and contribute — with attribution.
+The libraries are released under the [MIT License](LICENSE).  
+You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+
+[license]: <LICENSE>

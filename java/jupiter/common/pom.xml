@@ -14,6 +14,6 @@
 	<packaging>jar</packaging>
 
 	<name>Common</name>
-	<description>Common library</description>
+	<description>Common utilities</description>
 	<url>https://github.com/b-io/io.barras/tree/master/java/jupiter/common</url>
 </project>

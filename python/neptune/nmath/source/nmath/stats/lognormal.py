@@ -16,10 +16,10 @@
 
 from nmath.common import (
     DEFAULT_CONFIDENCE_LEVEL,
-    Distribution,
-    E,
     FLOAT_ELEMENT_TYPE,
     PI,
+    Distribution,
+    E,
     apply,
     chi2,
     collist,
@@ -40,6 +40,7 @@ from nmath.common import (
 )
 from nmath.stats import normal
 
+
 ####################################################################################################
 # LOG-NORMAL CONSTANTS
 ####################################################################################################
@@ -47,6 +48,7 @@ from nmath.stats import normal
 __LOG_NORMAL_CONSTANTS____________________________ = ""
 
 LOG_NORMAL_NAME = "Log-Normal"
+
 
 ####################################################################################################
 # LOG-NORMAL CLASSES

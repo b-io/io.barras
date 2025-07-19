@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 
 	<name>io.barras</name>
-	<description>Libraries written in C/C++, Java/Scala and POSIX Shell</description>
+	<description>Libraries written in C/C++, Java/Scala, Python, and POSIX Shell</description>
 	<url>https://github.com/b-io/io.barras</url>
 	<inceptionYear>2013</inceptionYear>
 
