@@ -23,7 +23,7 @@
 		<project.build.source>1.8</project.build.source>
 		<project.build.target>1.8</project.build.target>
 		<!-- Scala -->
-		<scala.version>2.13.1</scala.version>
+		<scala.version>2.13.9</scala.version>
 		<scala.minor.version>2.13</scala.minor.version>
 		<scala.plugin.version>2.15.2</scala.plugin.version>
 	</properties>
