@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the connectivity utility library
+#    <NAME> - tests the connectivity utility library
 #
 # SYNOPSIS
 #    <NAME>

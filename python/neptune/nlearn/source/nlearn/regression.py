@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions for multivariate regressions
+#    <NAME> - contains machine learning utility functions for multivariate regressions
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,11 +15,9 @@
 ####################################################################################################
 
 import statsmodels.api as sm
-from sklearn.preprocessing import OrdinalEncoder
-
 from ngui.chart import *
 from nutil.common import *
-
+from sklearn.preprocessing import OrdinalEncoder
 
 ####################################################################################################
 # REGRESSION FUNCTIONS
@@ -39,9 +37,11 @@ def get_categorical_variables(X):
 ##################################################
 
 
-def encode_categorical_variables(X, type=INT_ELEMENT_TYPE):
+def encode_categorical_variables(X, element_type=INT_ELEMENT_TYPE):
     categorical_variables = get_categorical_variables(X)
-    X[categorical_variables] = OrdinalEncoder(dtype=type).fit_transform(X[categorical_variables])
+    X[categorical_variables] = OrdinalEncoder(dtype=element_type).fit_transform(
+        X[categorical_variables]
+    )
     return X
 
 

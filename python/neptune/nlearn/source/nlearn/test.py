@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the machine learning utility library
+#    <NAME> - tests the machine learning utility library
 #
 # SYNOPSIS
 #    <NAME>

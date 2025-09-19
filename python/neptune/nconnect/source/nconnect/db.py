@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain utility functions for databases
+#    <NAME> - contains utility functions for databases
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,14 +15,12 @@
 ####################################################################################################
 
 import sqlalchemy as db
+from nutil.common import *
 from sqlalchemy.dialects import mssql
 from sqlalchemy.engine import URL
 from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
-
-from nutil.common import *
-
 
 ####################################################################################################
 # DB CONSTANTS
@@ -362,17 +360,17 @@ def get_col_types(
     string_length=8000,
     to_text=False,
 ):
-    types = {}
-    for col, type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
-        type_name = str(type)
-        if "bool" in type_name:
-            types.update({col: db.Boolean()})
-        elif "datetime" in type_name:
-            types.update(
+    col_types = {}
+    for col, col_type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
+        col_type_name = str(col_type)
+        if "bool" in col_type_name:
+            col_types.update({col: db.Boolean()})
+        elif "datetime" in col_type_name:
+            col_types.update(
                 {col: (db.Date(timezone=timezone) if to_date else db.DateTime(timezone=timezone))}
             )
-        elif "float" in type_name:
-            types.update(
+        elif "float" in col_type_name:
+            col_types.update(
                 {
                     col: db.Float(
                         asdecimal=to_decimal,
@@ -381,11 +379,11 @@ def get_col_types(
                     )
                 }
             )
-        elif "int" in type_name:
-            types.update({col: db.Integer()})
+        elif "int" in col_type_name:
+            col_types.update({col: db.Integer()})
         else:
-            types.update({col: db.Text() if to_text else db.String(length=string_length)})
-    return types
+            col_types.update({col: db.Text() if to_text else db.String(length=string_length)})
+    return col_types
 
 
 ##################################################
@@ -456,7 +454,7 @@ def create_table(
     method=None,
     replace=False,
     schema=DEFAULT_SCHEMA,
-    type=None,
+    col_types=None,
 ):
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table) if append else get_names(df.index)
@@ -469,7 +467,7 @@ def create_table(
         index_label=index_cols,
         method=method,
         schema=schema,
-        dtype=type if not is_null(type) else get_col_types(df),
+        dtype=col_types if not is_null(col_types) else get_col_types(df),
     )
 
 

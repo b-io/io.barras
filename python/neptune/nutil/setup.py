@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain the build script for setuptools
+#    <NAME> - contains the build script for setuptools
 #
 # SYNOPSIS
 #    <NAME>
@@ -26,7 +26,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS_________________________________ = ""
 
 NAME = "nutil"
-VERSION = "1.0.0.post138"
+VERSION = "1.0.0.post137"
 DESCRIPTION = "Utility library"
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, "README.md"), encoding="utf-8") as f:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions for natural language processing (NLP)
+#    <NAME> - contains machine learning utility functions for natural language processing (NLP)
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,17 +15,13 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
-from tensorflow.keras.layers import LSTM, Activation, Dense, Dropout, Embedding, Input
-from tensorflow.keras.models import Model
-
 from nlearn.common import (
     CONFIG,
+    debug,
     DEFAULT_ENCODING,
+    distances,
     FLOAT_ELEMENT_TYPE,
     INT_ELEMENT_TYPE,
-    VERBOSE,
-    debug,
-    distances,
     is_empty,
     is_null,
     np,
@@ -34,8 +30,10 @@ from nlearn.common import (
     sort,
     take_at,
     to_array,
+    VERBOSE,
 )
-
+from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
+from tensorflow.keras.models import Model
 
 ####################################################################################################
 # NLP PROPERTIES
@@ -346,7 +344,7 @@ class WordEmbeddings:
                 )
             word = paste(line[:-size])
             self.vocabulary.append(word)
-            self.word_vectors.append(to_array(line[-size:], type=FLOAT_ELEMENT_TYPE))
+            self.word_vectors.append(to_array(line[-size:], element_type=FLOAT_ELEMENT_TYPE))
         # Create the dictionary mapping every vocabulary word to its index
         for i, word in enumerate(self.vocabulary):
             self.word_to_index[word] = i

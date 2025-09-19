@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions for clustering
+#    <NAME> - contains machine learning utility functions for clustering
 #
 # SYNOPSIS
 #    <NAME>

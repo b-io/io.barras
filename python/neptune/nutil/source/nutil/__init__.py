@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain utility functions
+#    <NAME> - contains utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,8 +14,12 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common import ENV, info
-
+from . import common, config, enums, exceptions, io, math, metaclasses, profile, scalar, struct, \
+    transform, verifiers
+from .io import *
+from .scalar import *
+from .struct import *
+from .transform import *
 
 ####################################################################################################
 # CONSTANTS
@@ -24,7 +28,7 @@ from nutil.common import ENV, info
 __CONSTANTS_______________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
-__version__ = "1.0.0.post138"
+__version__ = "1.0.0.post137"
 
 ##################################################
 

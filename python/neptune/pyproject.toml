@@ -2,7 +2,7 @@
 [tool.poetry]
 name = "neptune"
 version = "1.0.0"
-description = "NEPTUNE is a collection of decoupled Python modules for robust application development."
+description = "NEPTUNE is a collection of decoupled Python modules for robust application development"
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"
@@ -11,6 +11,7 @@ repository = "https://github.com/b-io/io.barras/tree/master/python/neptune"
 
 # Define multiple packages located under different 'source' folders
 packages = [
+    { include = "nconnect", from = "nconnect/source" },
     { include = "nfin", from = "nfin/source" },
     { include = "nformat", from = "nformat/source" },
     { include = "ngui", from = "ngui/source" },
@@ -25,55 +26,64 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Data Handling ##################################
-numpy = "^1.26.4"             # Numerical computing
-openpyxl = "^3.1.5"           # Excel file reading and writing
-orjson = "^3.10.18"           # Fast JSON parsing and serialization
-pandas = "^2.3.0"             # Data analysis and manipulation
-polars = "^0.20.31"           # Apache Arrow-based DataFrame support
-pyyaml = "^6.0.2"             # YAML parsing and emitting
-sqlalchemy = "^2.0.41"        # SQL toolkit and ORM
-xlsxwriter = "^3.2.5"         # Excel file writing with formatting control
+# Computer Vision ################################
+opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
+
+# Concurrency & System ###########################
+multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
+psutil = "^5.9.8"             # System and process resource monitoring
+
+# Connectors #####################################
+sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
+
+# DataFrames & Tables ############################
+numpy = "^1.26.4"             # Array computing and linear algebra
+pandas = "^2.3.0"             # Labeled data structures and analysis
+polars = "^0.20.31"           # Arrow-based DataFrame engine
+tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
+
+# File & Data I/O ################################
+chardet = "^4.0.0"            # Text encoding detection
+openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
+orjson = "^3.10.18"           # Fast JSON serialization and parsing
+pyyaml = "^6.0.2"             # YAML encoding and decoding
+xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
 # Machine Learning & Stats #######################
-scikit-learn = "^1.6.1"       # Machine learning algorithms
-scipy = "^1.13.1"             # Scientific computing tools
-statsmodels = "^0.14.4"       # Statistical modeling and testing
-
-# Parallelism & Scheduling ########################
-multiprocess = "^0.70.18"     # Drop-in replacement for multiprocessing
-psutil = "^5.9.8"             # Process and system resource monitoring
+scikit-learn = "^1.6.1"       # Algorithms for machine learning
+scipy = "^1.13.1"             # Scientific computing and numerical tools
+statsmodels = "^0.14.4"       # Statistical modeling and inference
 
 # Utilities ######################################
-annotated-types = "^0.6.0"    # Extended type metadata
-cffi = "^1.17.1"              # C foreign function interface
-chardet = "^4.0.0"            # Character encoding detection
-deprecated = "^1.2.18"        # Deprecation markers
-importlib-metadata = "^8.7.0" # Access to installed package metadata
-joblib = "^1.5.1"             # Function execution with disk caching
-more-itertools = "^10.7.0"    # Additional itertools utilities
-pydantic = "^2.11.7"          # Data validation and structured settings
-pydantic-core = "^2.33.2"     # Core runtime logic for pydantic
-pydantic-settings = "^2.10.0" # Environment-based configuration management
-python-dateutil = "^2.9.0"    # Robust parsing and manipulation of datetimes
-python-dotenv = "^1.1.0"      # Environment variable loading
-validators = "^0.34.0"        # Lightweight data and URL validation
+annotated-types = "^0.6.0"    # Metadata for static type checkers
+cffi = "^1.17.1"              # Interface for calling C code
+deprecated = "^1.2.18"        # Runtime deprecation warnings
+importlib-metadata = "^8.7.0" # Access to package metadata
+joblib = "^1.5.1"             # Disk caching and parallel execution
+more-itertools = "^10.7.0"    # Utilities extending itertools
+pydantic = "^2.11.7"          # Data validation and configuration parsing
+pydantic-core = "^2.33.2"     # Core runtime for Pydantic
+pydantic-settings = "^2.10.0" # Environment-based settings management
+python-dateutil = "^2.9.0"    # Date and time parsing and manipulation
+python-dotenv = "^1.1.0"      # Loading of .env configuration files
+validators = "^0.34.0"        # Lightweight data and URL checks
 
 # Visualization ##################################
-matplotlib = "^3.9.4"         # Static and interactive plotting
-seaborn = "^0.13.2"           # Statistical data visualization
-tabulate = "^0.9.0"           # Pretty table display for CLI and notebooks
-tqdm = "^4.67.1"              # Progress bar rendering
+matplotlib = "^3.9.4"         # 2D plotting and figures
+seaborn = "^0.13.2"           # Statistical data visualizations
+tqdm = "^4.67.1"              # Terminal progress bars
 
-# Web / API ######################################
-asgiref = "^3.8.1"            # ASGI adapter interface
-fastapi = "^0.112.4"          # High-performance web framework
-httpcore = "^1.0.9"           # Low-level HTTP transport
-httpx = "^0.28.1"             # Async HTTP client
-python-multipart = "^0.0.20"  # Multipart form data parsing
-requests = "^2.32.4"          # Synchronous HTTP client
-urllib3 = "^2.5.0"            # HTTP client used internally by requests
-uvicorn = "^0.32.1"           # ASGI server for running FastAPI
+# Web ASGI #######################################
+asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
+fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
+uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
+
+# Web HTTP #######################################
+httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
+httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
+python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
+requests = "^2.32.4"          # Synchronous HTTP client for APIs and websites
+urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
 
 
 # 3. OTHER DEPENDENCIES ############################################################################
@@ -131,10 +141,28 @@ extend-ignore = ["E203", "W503"]
 max-line-length = 100
 
 [tool.isort]
-known_first_party = ["nfin", "nformat", "ngui", "nlearn", "nmath", "nserve", "nutil"]
+known_first_party = [
+    "nconnect",
+    "nfin",
+    "nformat",
+    "ngui",
+    "nlearn",
+    "nmath",
+    "nserve",
+    "nutil"
+]
 line_length = 100
 profile = "black"
-src_paths = ["nfin/source", "nformat/source", "ngui/source", "nlearn/source", "nmath/source", "nserve/source", "nutil/source"]
+src_paths = [
+    "nconnect/source",
+    "nfin/source",
+    "nformat/source",
+    "ngui/source",
+    "nlearn/source",
+    "nmath/source",
+    "nserve/source",
+    "nutil/source",
+]
 
 [tool.mypy]
 python_version = "3.9"
@@ -169,4 +197,13 @@ omit = [
 
 [tool.coverage.run]
 branch = true
-source = ["nfin", "nformat", "ngui", "nlearn", "nmath", "nserve", "nutil"]
+source = [
+    "nconnect",
+    "nfin",
+    "nformat",
+    "ngui",
+    "nlearn",
+    "nmath",
+    "nserve",
+    "nutil"
+]

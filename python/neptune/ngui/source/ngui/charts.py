@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain graphical utility functions for charts
+#    <NAME> - contains graphical utility functions for charts
 #
 # SYNOPSIS
 #    <NAME>

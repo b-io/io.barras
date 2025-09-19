@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain financial functions for time series
+#    <NAME> - contains financial functions for time series
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,16 +15,13 @@
 ####################################################################################################
 
 from statistics import mode
-from typing import Optional
 
+from ngui.charts import *
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
-from ngui.charts import *
-from nutil import *
 from nutil.enums import StringEnum
 from nutil.math import *
-
 
 ####################################################################################################
 # TIME SERIES ENUMS

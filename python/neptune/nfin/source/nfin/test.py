@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the financial utility library
+#    <NAME> - tests the financial utility library
 #
 # SYNOPSIS
 #    <NAME>

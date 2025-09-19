@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the graphical utility functions
+#    <NAME> - tests the graphical utility functions
 #
 # SYNOPSIS
 #    <NAME>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the mathematical utility library
+#    <NAME> - tests the mathematical utility library
 #
 # SYNOPSIS
 #    <NAME>

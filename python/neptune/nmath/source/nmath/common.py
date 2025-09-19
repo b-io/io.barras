@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain common mathematical utility functions
+#    <NAME> - contains common mathematical utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -16,26 +16,24 @@
 
 from abc import ABC, abstractmethod
 
-from scipy import stats
-
 from nutil.math import (
-    FLOAT_ELEMENT_TYPE,
-    NAN,
     apply,
     calculate,
+    FLOAT_ELEMENT_TYPE,
     forward,
     get_values,
     is_dict,
     is_frame,
-    is_group,
+    is_group_by,
     is_null,
     is_table,
+    NAN,
     np,
     sqrt,
     to_array,
     to_series,
 )
-
+from scipy import stats
 
 ####################################################################################################
 # MATH COMMON CONSTANTS
@@ -160,7 +158,7 @@ def cov(c1, c2, dof=1):
 
 def skew(*args, axis=0):
     c = forward(*args)
-    if is_group(c):
+    if is_group_by(c):
         return c.skew()
     elif is_frame(c):
         return c.skew(axis=axis)
@@ -188,7 +186,7 @@ def margin(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2):
     elif tail == 2:
         # Chebyshev's inequality
         k = sqrt(1 / (1 - cl))
-        return to_array(-k, k, type=FLOAT_ELEMENT_TYPE)
+        return to_array(-k, k, element_type=FLOAT_ELEMENT_TYPE)
 
 
 #########################
@@ -200,7 +198,7 @@ def interval_probability(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2):
     elif tail == 1:
         return cl
     elif tail == 2:
-        return to_array(0.5 - cl / 2, 0.5 + cl / 2, type=FLOAT_ELEMENT_TYPE)
+        return to_array(0.5 - cl / 2, 0.5 + cl / 2, element_type=FLOAT_ELEMENT_TYPE)
     return NAN
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain connectivity utility functions
+#    <NAME> - contains connectivity utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -21,7 +21,7 @@
 __CONNECT_CONSTANTS_______________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
-__version__ = "1.0.0.post138"
+__version__ = "1.0.0.post137"
 
 ##################################################
 

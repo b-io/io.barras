@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the formatting utility library
+#    <NAME> - tests the formatting utility library
 #
 # SYNOPSIS
 #    <NAME>
@@ -36,7 +36,7 @@ TEST_COUNT = 10
 __FIN_TEST_CLASSES________________________________ = ""
 
 
-class TestFin(Test):
+class TestServe(Test):
 
     def test_time_series(self):
         date_to = get_date()

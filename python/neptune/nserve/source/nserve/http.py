@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain formatting utility functions for images
+#    <NAME> - contains formatting utility functions for images
 #
 # SYNOPSIS
 #    <NAME>

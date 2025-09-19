@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain mathematical utility functions for Poisson distributions
+#    <NAME> - contains mathematical utility functions for Poisson distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,15 +15,14 @@
 ####################################################################################################
 
 from nmath.common import (
-    DEFAULT_CONFIDENCE_LEVEL,
-    FLOAT_ELEMENT_TYPE,
-    PI,
-    Distribution,
-    E,
     add,
     apply,
     chi2,
     collist,
+    DEFAULT_CONFIDENCE_LEVEL,
+    Distribution,
+    E,
+    FLOAT_ELEMENT_TYPE,
     floor,
     interval_probability,
     is_null,
@@ -32,6 +31,7 @@ from nmath.common import (
     multiply,
     np,
     par,
+    PI,
     sort,
     sqrt,
     stats,
@@ -39,7 +39,6 @@ from nmath.common import (
     to_array,
 )
 from nmath.stats import normal
-
 
 ####################################################################################################
 # POISSON CONSTANTS
@@ -176,5 +175,7 @@ def interval(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2, lam=1):
 def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL):
     cl = 0.5 + cl / 2
     return to_array(
-        chi2(2 * k, cl=cl, tail=-1) / 2, chi2(2 * k + 2, cl=cl, tail=1) / 2, type=FLOAT_ELEMENT_TYPE
+        chi2(2 * k, cl=cl, tail=-1) / 2,
+        chi2(2 * k + 2, cl=cl, tail=1) / 2,
+        element_type=FLOAT_ELEMENT_TYPE,
     )

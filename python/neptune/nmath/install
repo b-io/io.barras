@@ -14,8 +14,11 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-python -m pip install --user --upgrade pip setuptools wheel
+# 1. Upgrade Poetry and pip to ensure latest tools are used
+python -m pip install --user --upgrade pip poetry
 
-python setup.py sdist bdist_wheel --dist-dir=target clean --all
+# 2. Install project dependencies and create a lockfile
+poetry lock
 
-pip install target/nmath-1.0.0.post138-py3-none-any.whl --force-reinstall --no-deps --upgrade
+# 3. Build the package (creates the .whl and .tar.gz files in the dist/ directory)
+poetry build

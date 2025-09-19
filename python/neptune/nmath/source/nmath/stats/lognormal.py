@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain mathematical utility functions for log-normal distributions
+#    <NAME> - contains mathematical utility functions for log-normal distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,22 +15,22 @@
 ####################################################################################################
 
 from nmath.common import (
-    DEFAULT_CONFIDENCE_LEVEL,
-    FLOAT_ELEMENT_TYPE,
-    PI,
-    Distribution,
-    E,
     apply,
     chi2,
     collist,
+    DEFAULT_CONFIDENCE_LEVEL,
+    Distribution,
     divide,
+    E,
     exp,
+    FLOAT_ELEMENT_TYPE,
     interval_probability,
     is_null,
     log,
     multiply,
     np,
     par,
+    PI,
     sort,
     sqrt,
     stats,
@@ -39,7 +39,6 @@ from nmath.common import (
     to_array,
 )
 from nmath.stats import normal
-
 
 ####################################################################################################
 # LOG-NORMAL CONSTANTS
@@ -148,7 +147,7 @@ class LogNormal(Distribution):
                                 / 2
                                 * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1)
                             ),
-                            type=FLOAT_ELEMENT_TYPE,
+                            element_type=FLOAT_ELEMENT_TYPE,
                         )
                     sigma2 = self.sigma**2
                     s = sqrt((sigma2 + sigma2**2 / 2) / self.size)

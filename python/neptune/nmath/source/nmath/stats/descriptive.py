@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain mathematical utility functions for descriptive statistics
+#    <NAME> - contains mathematical utility functions for descriptive statistics
 #
 # SYNOPSIS
 #    <NAME>

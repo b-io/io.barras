@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain graphical utility functions for Web
+#    <NAME> - contains graphical utility functions for Web
 #
 # SYNOPSIS
 #    <NAME>

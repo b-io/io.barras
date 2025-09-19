@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain mathematical utility functions for normal distributions
+#    <NAME> - contains mathematical utility functions for normal distributions
 #
 # SYNOPSIS
 #    <NAME>

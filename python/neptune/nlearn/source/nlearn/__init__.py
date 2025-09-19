@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain machine learning utility functions
+#    <NAME> - contains machine learning utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -24,7 +24,7 @@ from nutil.common import *
 __LEARN_CONSTANTS_________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
-__version__ = "1.0.0.post138"
+__version__ = "1.0.0.post137"
 
 ##################################################
 

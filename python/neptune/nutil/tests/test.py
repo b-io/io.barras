@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - test the utility library
+#    <NAME> - tests the utility library
 #
 # SYNOPSIS
 #    <NAME>

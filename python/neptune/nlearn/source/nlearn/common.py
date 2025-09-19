@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain common machine learning utility functions
+#    <NAME> - contains common machine learning utility functions
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,8 +15,9 @@
 ####################################################################################################
 
 from ngui.chart import *
-from nutil.math import *
 
+from nutil.config import CONFIG, load_config
+from nutil.math import *
 
 ####################################################################################################
 # LEARN PROPERTIES

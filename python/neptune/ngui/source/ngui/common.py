@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain common graphical utility functions
+#    <NAME> - contains common graphical utility functions
 #
 # SYNOPSIS
 #    <NAME>

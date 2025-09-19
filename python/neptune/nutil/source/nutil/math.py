@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain utility functions for mathematics
+#    <NAME> - contains utility functions for mathematics
 #
 # SYNOPSIS
 #    <NAME>
@@ -14,40 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common import (
-    EPS,
-    apply,
-    collection_to_type,
-    concat_cols,
-    create_sequence,
-    farthest,
-    fill_null,
-    fill_null_all,
-    filter_with,
-    floor,
-    get_common_keys,
-    get_keys,
-    get_names,
-    get_values,
-    is_array,
-    is_collection,
-    is_frame,
-    is_list,
-    is_number,
-    is_series,
-    is_table,
-    join,
-    maximum,
-    nearest,
-    np,
-    product_cols,
-    reduce,
-    rename_all,
-    set_names,
-    sum_cols,
-    to_list,
-)
-
+from nutil.common import *
 
 ####################################################################################################
 # MATH CONSTANTS
@@ -109,18 +76,41 @@ def sqrt(x):
 #########################
 
 
-def normalize(x, axis=0):
-    return x / np.expand_dims(np.sum(x, axis=axis), axis)
-
-
-def scale(x, base=10):
+def scale(x, base=10, eps=EPS):
+    """Returns x scaled so its magnitude is stable across orders of magnitude."""
     if is_collection(x):
-        return apply(x, scale, axis=1, base=base)
-    return x / base ** floor(log(maximum(abs(x)) + EPS) / log(base))
+        return apply(x, scale, axis=1, base=base, eps=eps)
+    return x / base ** floor(log(maximum(abs(x)) + eps) / log(base))
 
 
-def softmax(x, axis=0):
-    return normalize(exp(x), axis=axis)
+#########################
+
+
+def expand_dims(x, y, axis=0):
+    """Returns x with a dimension inserted at the specified axis to match the dimension of y."""
+    if axis is None:
+        return x  # for scalar broadcasting
+    return x if np.ndim(x) == np.ndim(y) else np.expand_dims(x, axis=axis)
+
+
+def sum_along(x, axis=0):
+    """Returns the sum along the specified axis with the dimension preserved."""
+    if axis is None:
+        return np.sum(x)  # for scalar broadcasting
+    return expand_dims(np.sum(x, axis=axis), x, axis=axis)
+
+
+def normalize(x, axis=0, eps=EPS):
+    """Returns x divided by its sum along the specified axis.
+
+    Adds a small epsilon to the denominator to improve numerical stability.
+    """
+    return x / (sum_along(x, axis=axis) + eps)
+
+
+def softmax(x, axis=0, eps=EPS):
+    m = np.max(x, axis=axis) if axis is not None else np.max(x)
+    return normalize(exp(x - expand_dims(m, x, axis=axis)), axis=axis, eps=eps)
 
 
 # • MATH ARITHMETIC ################################################################################
@@ -387,7 +377,11 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 
 def divide_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
-        divide, *args, numeric_default=numeric_default, object_default=object_default, rename=rename
+        divide,
+        *args,
+        numeric_default=numeric_default,
+        object_default=object_default,
+        rename=rename,
     )
 
 
@@ -449,15 +443,32 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
         or (is_array(c1) or is_number(c1))
         and (is_array(c2) or is_number(c2))
     ):
-        return c1 / c2
+        return safe_divide(c1, c2, invalid_default=numeric_default)
     elif is_array(c1):
-        return [collection_to_type(a, c2) for a in np.vstack(c1) / get_values(c2)]
+        # Align shapes then safe divide per chunk
+        v1 = np.vstack(c1)
+        v2 = get_values(c2)
+        return [
+            collection_to_type(a, c2) for a in safe_divide(v1, v2, invalid_default=numeric_default)
+        ]
     elif is_array(c2):
-        return [collection_to_type(a, c1) for a in get_values(c1) / np.vstack(c2)]
+        # Align shapes then safe divide per chunk
+        v1 = get_values(c1)
+        v2 = np.vstack(c2)
+        return [
+            collection_to_type(a, c1) for a in safe_divide(v1, v2, invalid_default=numeric_default)
+        ]
     elif is_table(c1):
-        return product_cols(join(c1, 1 / get_values(c2)))
+        # Avoid 1 / 0 when forming reciprocals
+        return product_cols(
+            join(c1, safe_reciprocal(get_values(c2), invalid_default=numeric_default))
+        )
     elif is_table(c2):
-        return product_cols(join(1 / c2, get_values(c1)))
+        # Avoid 1 / 0 when forming reciprocals
+        return product_cols(
+            join(c2, safe_reciprocal(get_values(c1), invalid_default=numeric_default))
+        )
+    # Dict/series-like fallthrough: compute on aligned numeric arrays
     keys = get_common_keys(c1, c2)
     v1 = fill_null(
         get_values(c1, keys=keys), numeric_default=numeric_default, object_default=object_default
@@ -465,7 +476,44 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
     v2 = fill_null(
         get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default
     )
-    return collection_to_type(np.divide(v1, v2), c1)
+    return safe_divide(v1, v2, invalid_default=numeric_default, template=c1)
+
+
+def safe_divide(c1, c2, eps=EPS, invalid_default=0, template=None):
+    """Returns c1 / c2 with invalid_default where the denominator is zero or invalid.
+
+    Broadcasts c1 and c2, promotes an element type using get_min_element_type, then ensures a
+    floating/complex element type for true division. Maps the result back to the specified template
+    (or to c1 if template is None).
+    """
+    # Broadcast first (so shapes match)
+    b1, b2 = np.broadcast_arrays(c1, c2)
+
+    # Pick an element type that can represent c1, c2 and the minimum requirement
+    element_type = get_min_element_type(b1, b2, min_element_type=FLOAT_ELEMENT_TYPE)
+
+    # Cast to the working element type
+    b1 = np.asarray(b1, dtype=element_type)
+    b2 = np.asarray(b2, dtype=element_type)
+
+    # Build the output buffer and the valid-denominator mask
+    out = np.full(b1.shape, np.asarray(invalid_default, dtype=element_type), dtype=element_type)
+    mask = np.isfinite(b2) & (np.abs(b2) > np.asarray(eps, dtype=element_type))
+
+    return collection_to_type(
+        np.divide(b1, b2, out=out, where=mask), template if template is not None else c1
+    )
+
+
+def safe_reciprocal(c, element_type=FLOAT_ELEMENT_TYPE, invalid_default=0, template=None):
+    """Returns 1 / c with invalid default values where c == 0 to avoid NaN/Inf."""
+    return safe_divide(
+        np.ones_like(c),
+        c,
+        element_type=element_type,
+        invalid_default=invalid_default,
+        template=template,
+    )
 
 
 #########################
@@ -557,15 +605,31 @@ def eigh(a, use_lower_part=True):
 
 
 def norm1(vector, axis=0):
+    """Returns the L1 norm (Manhattan norm) of the specified vector along the axis."""
     return np.linalg.norm(vector, ord=1, axis=axis)
 
 
 def norm2(vector, axis=0):
+    """Returns the L2 norm (Euclidean norm) of the specified vector along the axis."""
     return np.linalg.norm(vector, ord=2, axis=axis)
 
 
-def normalize(vector):
-    return vector / norm2(vector)
+def normalize1(vector, axis=0, eps=EPS):
+    """
+    Returns the L1-normalized vector along the specified axis (sum of absolute values = 1).
+
+    Divides the vector by its L1 norm. Adds eps to avoid division by zero.
+    """
+    return vector / (norm1(vector, axis=axis) + eps)
+
+
+def normalize2(vector, axis=0, eps=EPS):
+    """
+    Returns the L2-normalized vector along the specified axis (Euclidean length = 1).
+
+    Divides the vector by its L2 norm. Adds eps to avoid division by zero.
+    """
+    return vector / (norm2(vector, axis=axis) + eps)
 
 
 ##################################################

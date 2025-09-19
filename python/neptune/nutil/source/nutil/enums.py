@@ -1,7 +1,17 @@
+#!/usr/bin/env python
 ####################################################################################################
-# ENUMS MODULE
-# Provides a comprehensive collection of enumeration classes for consistent data representation and
-# validation across the project. Includes base string enum functionality and domain-specific enums.
+# NAME
+#    <NAME> - contains utility enums
+#
+# SYNOPSIS
+#    <NAME>
+#
+# AUTHOR
+#    Written by Florian Barras (florian@barras.io).
+#
+# COPYRIGHT
+#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -9,12 +19,11 @@ from __future__ import annotations
 from enum import EnumMeta
 from typing import Dict, Iterator, List, Tuple, Type, TypeVar, Union
 
-
 ####################################################################################################
-# COMMON ENUMS
+# ENUMS
 ####################################################################################################
 
-__COMMON_ENUMS____________________________________ = ""
+__ENUMS___________________________________________ = ""
 
 T = TypeVar("T", bound="StringEnum")
 
@@ -44,8 +53,8 @@ class StringEnumMeta(EnumMeta):
         """
         try:
             return cls[name]
-        except KeyError:
-            raise ValueError(f"{name!r} is not a valid name for {cls.__name__}")
+        except KeyError as e:
+            raise ValueError(f"'{name!r}' is not a valid name for '{cls.__name__}'") from e
 
     def from_value(cls: Type[T], value: str) -> T:
         """
@@ -63,7 +72,7 @@ class StringEnumMeta(EnumMeta):
         for member in cls:
             if member.value == value:
                 return member
-        raise ValueError(f"{value!r} is not a valid value for {cls.__name__}")
+        raise ValueError(f"'{value!r}' is not a valid value for '{cls.__name__}'")
 
     ##############################################
     # ACCESSORS
@@ -742,28 +751,6 @@ class RegionCode(StringEnum):
     YE = "YE"  # Yemen
     ZM = "ZM"  # Zambia
     ZW = "ZW"  # Zimbabwe
-
-
-# • LOGGING ########################################################################################
-
-
-class LogLevel(StringEnum):
-    CRITICAL = "CRITICAL"
-    DEBUG = "DEBUG"
-    ERROR = "ERROR"
-    INFO = "INFO"
-    WARNING = "WARNING"
-
-
-class SeverityLevel(StringEnum):
-    FAIL = 0
-    ERROR = 1
-    WARN = 2
-    RESULT = 3
-    INFO = 4
-    TEST = 5
-    DEBUG = 6
-    TRACE = 7
 
 
 # • MIME #############################################################################################

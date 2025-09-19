@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contain mathematical utility functions for binomial distributions
+#    <NAME> - contains mathematical utility functions for binomial distributions
 #
 # SYNOPSIS
 #    <NAME>
@@ -15,15 +15,14 @@
 ####################################################################################################
 
 from nmath.common import (
-    DEFAULT_CONFIDENCE_LEVEL,
-    FLOAT_ELEMENT_TYPE,
-    PI,
-    Distribution,
-    E,
     add,
     apply,
     collist,
+    DEFAULT_CONFIDENCE_LEVEL,
+    Distribution,
+    E,
     f,
+    FLOAT_ELEMENT_TYPE,
     floor,
     interval_probability,
     is_null,
@@ -33,6 +32,7 @@ from nmath.common import (
     multiply,
     np,
     par,
+    PI,
     round_to_int,
     sort,
     sqrt,
@@ -42,7 +42,6 @@ from nmath.common import (
     var,
 )
 from nmath.stats import normal
-
 
 ####################################################################################################
 # BINOMIAL CONSTANTS
@@ -185,5 +184,5 @@ def event_interval(k, cl=DEFAULT_CONFIDENCE_LEVEL, n=1):
     return to_array(
         1 / (1 + (n - k + 1) / (k * f(2 * k, 2 * (n - k + 1), cl=cl, tail=-1))),
         1 / (1 + (n - k) / ((k + 1) * f(2 * (k + 1), 2 * (n - k), cl=cl, tail=1))),
-        type=FLOAT_ELEMENT_TYPE,
+        element_type=FLOAT_ELEMENT_TYPE,
     )
