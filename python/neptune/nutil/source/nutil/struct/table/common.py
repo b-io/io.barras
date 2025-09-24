@@ -43,52 +43,6 @@ TIME_INDEX_TYPE = pd.DatetimeIndex
 
 
 ####################################################################################################
-# COMMON TABLE VERIFIERS
-####################################################################################################
-
-__COMMON_TABLE_VERIFIERS__________________________ = ""
-
-
-def is_table(x):
-    return is_frame(x) or is_series(x)
-
-
-# • DATAFRAME ######################################################################################
-
-__COMMON_DATAFRAME_VERIFIERS______________________ = ""
-
-
-def is_series(x):
-    return isinstance(x, SERIES_TYPE) or isinstance(x, SERIES_GROUP_BY_TYPE)
-
-
-def is_frame(x):
-    return isinstance(x, FRAME_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
-
-
-def is_group_by(x):
-    return isinstance(x, SERIES_GROUP_BY_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
-
-
-#########################
-
-
-def is_time_series(x):
-    return is_table(x) and not is_group_by(x) and is_time_index(x.index)
-
-
-#########################
-
-
-def is_index(x):
-    return isinstance(x, INDEX_TYPE)
-
-
-def is_time_index(x):
-    return isinstance(x, TIME_INDEX_TYPE)
-
-
-####################################################################################################
 # COMMON TABLE ACCESSORS
 ####################################################################################################
 
@@ -121,3 +75,55 @@ def count_cols(df):
         return 1
     shape = np.shape(df)
     return shape[1] if len(shape) >= 2 else 0
+
+
+####################################################################################################
+# COMMON TABLE VERIFIERS
+####################################################################################################
+
+__COMMON_TABLE_VERIFIERS__________________________ = ""
+
+
+def is_table(x):
+    return is_frame(x) or is_series(x)
+
+
+# • DATAFRAME ######################################################################################
+
+__COMMON_DATAFRAME_VERIFIERS______________________ = ""
+
+
+def is_series(x):
+    """Returns whether `x` is a Pandas `Series`."""
+    return isinstance(x, SERIES_TYPE) or isinstance(x, SERIES_GROUP_BY_TYPE)
+
+
+def is_frame(x):
+    """Returns whether `x` is a Pandas `DataFrame`."""
+    return isinstance(x, FRAME_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
+
+
+def is_group_by(x):
+    """Returns whether `x` is a Pandas `DataSeriesGroupBy` or `DataFrameGroupBy`."""
+    return isinstance(x, SERIES_GROUP_BY_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
+
+
+#########################
+
+
+def is_time_series(x):
+    """Returns whether `x` is a Pandas `Series` or `Frame` and has a Pandas `DatetimeIndex`."""
+    return is_table(x) and not is_group_by(x) and is_time_index(x.index)
+
+
+#########################
+
+
+def is_index(x):
+    """Returns whether `x` is a Pandas `Index`."""
+    return isinstance(x, INDEX_TYPE)
+
+
+def is_time_index(x):
+    """Returns whether `x` is a Pandas `DatetimeIndex`."""
+    return isinstance(x, TIME_INDEX_TYPE)

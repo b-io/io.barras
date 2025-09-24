@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 from threading import RLock
 from types import MappingProxyType
@@ -14,8 +16,8 @@ T = TypeVar("T")
 
 def combine_metaclasses(*metas: Type[type]) -> type:
     """
-    Returns a new metaclass that inherits from the specified metaclasses in the specified
-    left-to-right order. If no metaclasses are provided, returns the built-in `type`.
+    Returns a new metaclass that inherits from the specified metaclasses in left-to-right order.
+    If no metaclasses are specified, returns the built-in `type`.
     """
     if not metas:
         return type
@@ -27,7 +29,7 @@ def combine_metaclasses(*metas: Type[type]) -> type:
 
 
 class NoPublicConstructorMeta(type):
-    """Ensures that the class cannot be instantiated directly (no public constructor)."""
+    """A metaclass that forbids direct instantiation (no public constructor)."""
 
     def __call__(cls: Type[T], *args: Any, **kwargs: Any) -> NoReturn:
         raise TypeError(f"'{cls.__module__}.{cls.__qualname__}' has no public constructor")
@@ -38,56 +40,21 @@ class NoPublicConstructorMeta(type):
 
 class FinalSingletonMeta(type):
     """
-    Ensures a final, per-subclass singleton instance with thread-safe initialization.
-
-    Behavior
-    --------
-    • The first call to the subclass constructs the singleton instance using the specified
-      constructor arguments.
-    • Subsequent calls (with or without arguments) return the existing instance; any new
-      constructor arguments are ignored (a debug message is logged).
-    • Accessing instance attributes/methods on the class before initialization raises a
-      `RuntimeError` with guidance.
-
-    Attribute precedence (class access)
-    -----------------------------------
-    • Class attributes take precedence (Python’s normal rule).
-    • If the attribute is not defined on the class, the lookup is forwarded to the singleton
-      instance (once initialized).
-
-    `__dict__` (merged, read-only)
-    ----------------------------
-    • Returns a read-only mapping that combines class and instance attributes once initialized:
-      instance keys are included, but class keys take precedence on conflicts.
-    • Note: this deviates from Python’s usual class `__dict__` (class-only).
-
-    `__dir__` (discoverability)
-    -------------------------
-    • Returns the union of class and instance attribute names (once initialized) to improve
-      interactive help and IDE autocompletion. Names only; no values or precedence.
-
-    Writes (no forwarding)
-    ----------------------
-    • Setting attributes on the class writes to the class namespace; writes are not forwarded
-      to the singleton instance.
-
-    Error semantics
-    ---------------
-    • Uninitialized access to an instance-only attribute via the class raises RuntimeError.
-    • Missing attributes on both class and instance raise `AttributeError` (standard Python behavior).
+    A metaclass that enforces a final, per-subclass singleton instance with thread-safe
+    initialization.
     """
 
-    def __init__(cls: Type[T], name: str, bases: Tuple[type, ...], ns: Dict[str, Any]) -> None:
+    def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
         cls._lock: RLock = RLock()
         cls._instance: Optional[T] = None
 
     def __call__(cls: Type[T], *args: Any, **kwargs: Any) -> T:
         """
-        Returns the final singleton instance for the specified class.
+        Returns the final singleton instance.
 
         If no instance exists, creates it using the specified constructor arguments.
-        If an instance already exists, returns it and ignores any provided arguments.
+        If an instance already exists, returns it and ignores any specified constructor arguments.
         """
         with cls._lock:
             if cls._instance is None:
@@ -106,9 +73,8 @@ class FinalSingletonMeta(type):
         """
         Returns a class attribute (preferred) or forwards to the instance after initialization.
 
-        Special case:
-        • `__dict__` returns a read-only merged view of class and instance dictionaries
-          (if initialized), with class keys taking precedence on conflicts.
+        Special case: `__dict__` returns a read-only merged view of class and instance dictionaries
+        (class keys take precedence on conflicts).
         """
         # Special-case `__dict__` to provide a merged, read-only view
         if name == "__dict__":
@@ -139,7 +105,7 @@ class FinalSingletonMeta(type):
         except AttributeError:
             pass
 
-        # 2) Forward to instance (if initialized)
+        # 2) Forward to the instance
         try:
             lock = super().__getattribute__("_lock")
         except AttributeError as e:
@@ -155,32 +121,28 @@ class FinalSingletonMeta(type):
                     f"Final singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
                     f"call '{cls.__qualname__}(...)' first"
                 )
-            # Do not catch `AttributeError` here; missing attributes must surface normally
+            # Do not catch `AttributeError` here; if the instance lacks `name`, let it propagate
             return getattr(instance, name)
 
     def __dir__(cls: Type[T]) -> List[str]:
-        """
-        Returns the merged set of attribute names from the class and, if initialized, the final
-        singleton instance. Includes names exposed by slots, properties, and dynamic attributes
-        visible via dir(instance).
-        """
+        """Returns the union of class and instance attribute names (once initialized)."""
         names = set(super().__dir__())
         with cls._lock:
-            inst = cls._instance
-            if inst is not None:
-                # Include slots, properties, and dynamic attributes visible via dir()
-                names.update(dir(inst))
+            instance = cls._instance
+            if instance is not None:
+                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                names.update(dir(instance))
         return sorted(names)
 
     ##############################################
 
     def exists(cls: Type[T]) -> bool:
-        """Returns True if the final singleton instance exists."""
+        """Returns whether the final singleton instance exists."""
         with cls._lock:
             return cls._instance is not None
 
     def get(cls: Type[T]) -> T:
-        """Returns the final singleton instance, or raises if not initialized."""
+        """Returns the final singleton instance, or raises if it is not initialized."""
         with cls._lock:
             if cls._instance is None:
                 raise RuntimeError(
@@ -190,54 +152,15 @@ class FinalSingletonMeta(type):
             return cast(T, cls._instance)
 
 
-# • OVERWRITEABLE SINGLETON ########################################################################
-
+# • OVERWRITABLE SINGLETON #########################################################################
 
 class SingletonMeta(type):
     """
-    Ensures a singleton instance per subclass with thread-safe initialization and controlled
-    overwrite via setters.
-
-    Behavior
-    --------
-    • The first call to the subclass constructs the singleton instance using the specified
-      constructor arguments.
-    • Subsequent calls:
-        – If new constructor arguments are specified, they are stored and the singleton is
-          recreated with those arguments.
-        – If no arguments are specified, the singleton is recreated using the last stored
-          constructor arguments.
-    • Accessing attributes via the class:
-        – Class attributes take precedence (Python’s normal rule).
-        – If the attribute is not found on the class, the lookup is forwarded to the singleton
-          instance. If the instance does not exist yet, it is created by calling `get()`; this
-          may call `set()` with the last stored arguments (possibly empty).
-
-    `__dict__` (merged, read-only)
-    ----------------------------
-    • Returns a read-only mapping combining class and instance attributes (once initialized):
-      instance keys are included, but class keys take precedence on conflicts.
-    • Note: this deviates from Python’s usual class `__dict__` (class-only).
-
-    `__dir__` (discoverability)
-    -------------------------
-    • Returns the union of class and instance attribute names (once initialized) to improve
-      interactive help and IDE autocompletion. Names only; no values or precedence.
-
-    Writes (no forwarding)
-    ----------------------
-    • Setting attributes on the class writes to the class namespace; writes are not forwarded
-      to the singleton instance.
-
-    Error semantics
-    ---------------
-    • If `get()` is called when no instance exists and no prior constructor arguments are stored,
-      `set()` will attempt to construct with empty arguments; this may raise a `TypeError` if the
-      subclass constructor requires parameters.
-    • Missing attributes on both the class and the instance raise `AttributeError` (standard Python).
+    A metaclass that provides a per-subclass singleton instance with controlled overwrite and thread
+    safety.
     """
 
-    def __init__(cls: Type[T], name: str, bases: Tuple[type, ...], ns: Dict[str, Any]) -> None:
+    def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
         cls._lock: RLock = RLock()
         cls._instance: Optional[T] = None
@@ -249,8 +172,8 @@ class SingletonMeta(type):
         Returns the singleton instance for the specified class.
 
         If no instance exists, creates it using the specified constructor arguments.
-        If an instance already exists, optionally updates stored constructor arguments and
-        recreates the instance.
+        If an instance already exists, optionally updates stored constructor arguments and recreates
+        the instance.
         """
         with cls._lock:
             if cls._instance is None:
@@ -261,7 +184,7 @@ class SingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # otherwise reuse the last ones
+                # otherwise reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -272,7 +195,7 @@ class SingletonMeta(type):
                 else:
                     logging.debug(
                         f"Recreate the singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the last constructor arguments."
+                        f"with the last stored constructor arguments."
                     )
             cls._instance = super(SingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             return cast(T, cls._instance)
@@ -282,9 +205,8 @@ class SingletonMeta(type):
         Returns a class attribute (preferred) or forwards to the singleton instance after
         initialization.
 
-        Special case:
-        • `__dict__` returns a read-only merged view of class and instance dictionaries
-          (if initialized) with class keys taking precedence on conflicts.
+        Special case: `__dict__` returns a read-only merged view of class and instance dictionaries
+        (class keys take precedence on conflicts).
         """
         # Special-case `__dict__` to provide a merged, read-only view
         if name == "__dict__":
@@ -326,58 +248,51 @@ class SingletonMeta(type):
         except AttributeError:
             pass
 
-        # 2) Forward to the instance (creating it if necessary via get(), which may call set())
+        # 2) Forward to the instance
         try:
             lock = super().__getattribute__("_lock")
         except AttributeError as e:
-            # Very early init: behave as not initialized yet (cannot safely create)
+            # Early init: behave as not initialized yet
             raise RuntimeError(
                 f"Singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
                 f"call '{cls.__qualname__}(...)' first"
             ) from e
         with lock:
-            # Obtain or create the instance via get() using stored args (possibly empty)
+            # Get or create the instance via `get()` using the stored constructor arguments
             instance_get = super().__getattribute__("get")
-            instance = instance_get()
+            instance = instance_get()  # creates or refreshes it if it is expired
             # Do not catch `AttributeError` here; if the instance lacks `name`, let it propagate
             return getattr(instance, name)
 
     def __dir__(cls: Type[T]) -> List[str]:
-        """
-        Returns the merged set of attribute names from the class and, if initialized, the singleton
-        instance. Includes names exposed by slots, properties, and dynamic attributes visible via
-        dir(instance).
-        """
+        """Returns the union of class and instance attribute names (once initialized)."""
         names = set(super().__dir__())
         with cls._lock:
-            inst = cls._instance
-            if inst is not None:
-                # Include slots, properties, and dynamic attributes visible via dir()
-                names.update(dir(inst))
+            instance = cls._instance
+            if instance is not None:
+                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                names.update(dir(instance))
         return sorted(names)
 
     ##############################################
 
     def exists(cls: Type[T]) -> bool:
-        """Returns True if the singleton instance exists."""
+        """Returns whether the singleton instance exists."""
         with cls._lock:
             return cls._instance is not None
 
     def get(cls: Type[T]) -> T:
-        """
-        Returns the singleton instance. If it does not exist yet, creates it by calling set()
-        with the last stored constructor arguments (possibly empty).
-        """
+        """Returns the singleton instance; creates it via `cls.set(...)` if it is missing."""
         with cls._lock:
             if cls._instance is None:
-                # Create the singleton instance using the last stored arguments (may be empty)
+                # Create the singleton instance using the last stored constructor arguments
                 cls.set(*cls._args, **cls._kwargs)
             return cast(T, cls._instance)
 
     def set(cls: Type[T], *args: Any, **kwargs: Any) -> T:
         """
         Creates the singleton instance if it does not exist yet using the specified constructor
-        arguments, and stores those arguments for future resets or recreations.
+        arguments, and stores those constructor arguments for future resets.
         """
         with cls._lock:
             if cls._instance is None:
@@ -390,10 +305,7 @@ class SingletonMeta(type):
             return cast(T, cls._instance)
 
     def reset(cls: Type[T]) -> T:
-        """
-        Recreates the singleton instance using the last stored constructor arguments.
-        Raises `UnboundLocalError` if no instance has been created yet.
-        """
+        """Recreates the singleton instance using the last stored constructor arguments."""
         with cls._lock:
             if cls._instance is None:
                 raise UnboundLocalError(
@@ -401,7 +313,7 @@ class SingletonMeta(type):
                 )
             logging.debug(
                 f"Recreate the singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                f"with the last constructor arguments."
+                f"with the last stored constructor arguments."
             )
             cls._instance = super(SingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             return cast(T, cls._instance)
@@ -421,72 +333,21 @@ class SingletonMeta(type):
 
 class TempSingletonMeta(type):
     """
-    Ensures a per-subclass *temporary* singleton instance with thread-safe initialization and a
-    configurable lifespan in seconds. When the instance expires, the next access (via the class)
-    recreates it using the last stored constructor arguments.
-
-    Behavior
-    --------
-    • The first call to the subclass constructs the temp singleton using the specified
-      constructor arguments and timestamps its creation.
-    • Subsequent calls:
-        – If new constructor arguments are specified, they are stored and the temp singleton is
-          recreated with those arguments and a fresh timestamp.
-        – If no arguments are specified, the temp singleton is recreated using the last stored
-          constructor arguments and a fresh timestamp.
-    • Accessing attributes via the class:
-        – Class attributes take precedence (Python’s normal rule).
-        – If the attribute is not defined on the class, the lookup is forwarded to the temp
-          singleton instance obtained via `get()`. If the instance does not exist or is expired,
-          `get()` will (re)create it (using `set()` or `reset()`), then the attribute is read.
-
-    Lifespan (seconds)
-    ------------------
-    • `_lifespan == 0` (default) means no expiration: the instance never expires once created.
-    • `_lifespan > 0` means the instance expires `_lifespan` seconds after `_created_at`.
-      Expiration is evaluated lazily on access (`get()` / forwarded reads).
-
-    `__dict__` (merged, read-only)
-    ----------------------------
-    • Returns a read-only mapping that combines class and instance attributes once initialized:
-      instance keys are included, but class keys take precedence on conflicts.
-    • Note: this deviates from Python’s usual class `__dict__` (class-only).
-
-    `__dir__` (discoverability)
-    -------------------------
-    • Returns the union of class and instance attribute names (once initialized) to improve
-      interactive help and IDE autocompletion. Names only; no values or precedence.
-
-    Writes (no forwarding)
-    ----------------------
-    • Setting attributes on the class writes to the class namespace; writes are not forwarded
-      to the temp singleton instance.
-
-    Error semantics
-    ---------------
-    • If `get()` is called when no instance exists and no prior constructor arguments are stored,
-      `set()` will attempt to construct with empty arguments; this may raise a `TypeError` if the
-      subclass constructor requires parameters.
-    • Missing attributes on both the class and the instance raise `AttributeError` (standard Python).
+    A metaclass that provides a per-subclass *temporary* singleton instance with an optional
+    expiration.
     """
 
-    def __init__(cls: Type[T], name: str, bases: Tuple[type, ...], ns: Dict[str, Any]) -> None:
+    def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
         cls._lock: RLock = RLock()
         cls._instance: Optional[T] = None
         cls._args: Tuple[Any, ...] = ()
         cls._kwargs: Dict[str, Any] = {}
-        cls._lifespan: int = 0  # seconds; 0 means no expiration
+        cls._lifespan: int = 0  # seconds; 0 = no expiration
         cls._created_at: int = 0  # epoch seconds
 
     def __call__(cls: Type[T], *args: Any, **kwargs: Any) -> T:
-        """
-        Returns the temp singleton instance for the specified class.
-
-        If no instance exists, creates it using the specified constructor arguments.
-        If an instance already exists, optionally updates stored constructor arguments and
-        recreates the instance (refreshes timestamp).
-        """
+        """Returns the temp singleton; (re)creates it and refreshes its timestamp."""
         with cls._lock:
             if cls._instance is None:
                 logging.debug(
@@ -496,7 +357,7 @@ class TempSingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # otherwise reuse the last ones
+                # otherwise reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -507,7 +368,7 @@ class TempSingletonMeta(type):
                 else:
                     logging.debug(
                         f"Recreate the temp singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the last constructor arguments."
+                        f"with the last stored constructor arguments."
                     )
             cls._instance = super(TempSingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             cls._created_at = cls._now()
@@ -515,12 +376,11 @@ class TempSingletonMeta(type):
 
     def __getattribute__(cls: Type[T], name: str) -> Any:
         """
-        Returns a class attribute (preferred) or forwards to the temp singleton instance after
-        initialization and on-demand refresh if expired.
+        Returns a class attribute (preferred) or forwards to the temp singleton instance
+        (auto-refresh on expiry).
 
-        Special case:
-        • `__dict__` returns a read-only merged view of class and instance dictionaries
-          (if initialized) with class keys taking precedence on conflicts.
+        Special case: `__dict__` returns a read-only merged view of class and instance dictionaries
+        (class keys take precedence on conflicts).
         """
         # Special-case `__dict__` to provide a merged, read-only view
         if name == "__dict__":
@@ -566,62 +426,53 @@ class TempSingletonMeta(type):
         except AttributeError:
             pass
 
-        # 2) Forward to the instance obtained via get() (auto-refresh on expiry)
+        # 2) Forward to the instance
         try:
             lock = super().__getattribute__("_lock")
         except AttributeError as e:
-            # Very early init: behave as not initialized yet (cannot safely create)
+            # Early init: behave as not initialized yet
             raise RuntimeError(
                 f"Temp singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
                 f"call '{cls.__qualname__}(...)' first"
             ) from e
         with lock:
+            # Get or create the instance via `get()` using the stored constructor arguments
             instance_get = super().__getattribute__("get")
-            instance = instance_get()  # May create or refresh if expired
-            # Do not catch `AttributeError` here; let genuine missing attributes propagate
+            instance = instance_get()  # creates or refreshes it if it is expired
+            # Do not catch `AttributeError` here; if the instance lacks `name`, let it propagate
             return getattr(instance, name)
 
     def __dir__(cls: Type[T]) -> List[str]:
-        """
-        Returns the merged set of attribute names from the class and, if initialized, the temp
-        singleton instance. Includes names exposed by slots, properties, and dynamic attributes
-        visible via dir(instance).
-        """
+        """Returns the union of class and instance attribute names (once initialized)."""
         names = set(super().__dir__())
         with cls._lock:
-            inst = cls._instance
-            if inst is not None:
-                # Include slots, properties, and dynamic attributes visible via dir()
-                names.update(dir(inst))
+            instance = cls._instance
+            if instance is not None:
+                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                names.update(dir(instance))
         return sorted(names)
 
     ##############################################
 
     def exists(cls: Type[T]) -> bool:
-        """Returns True if the temp singleton instance exists and is not expired."""
+        """Returns whether the temp singleton instance exists and is not expired."""
         with cls._lock:
             return cls._instance is not None and cls._is_valid()
 
     def get(cls: Type[T]) -> T:
         """
-        Returns the temp singleton instance. If it does not exist, creates it by calling set()
-        with the last stored constructor arguments (possibly empty). If it exists but is expired,
-        recreates it by calling reset().
+        Returns the temp singleton; creates or refreshes it via `cls.set(...)` if it is missing or
+        expired.
         """
         with cls._lock:
             if cls._instance is None:
-                # Create the temp singleton instance using the last stored arguments (may be empty)
                 return cls.set(*cls._args, **cls._kwargs)
             if not cls._is_valid():
-                # Recreate the temp singleton instance if expired
                 return cls.reset()
             return cast(T, cls._instance)
 
     def set(cls: Type[T], *args: Any, _lifespan: Optional[int] = None, **kwargs: Any) -> T:
-        """
-        Creates or replaces the temp singleton instance using the specified constructor arguments.
-        Also stores the arguments for future recreations and sets (or leaves) the lifespan.
-        """
+        """Creates or replaces the temp singleton instance and (optionally) sets the lifespan."""
         with cls._lock:
             logging.debug(
                 f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'."
@@ -638,9 +489,8 @@ class TempSingletonMeta(type):
 
     def reset(cls: Type[T]) -> T:
         """
-        Recreates the temp singleton instance using the last stored constructor arguments and
-        updates the creation timestamp. Raises `UnboundLocalError` if no instance has been created.
-        """
+        Recreates the temp singleton instance with the last stored constructor arguments and
+        refreshes the creation timestamp."""
         with cls._lock:
             if cls._instance is None:
                 raise UnboundLocalError(
@@ -648,14 +498,14 @@ class TempSingletonMeta(type):
                 )
             logging.debug(
                 f"Recreate the temp singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                f"with the last constructor arguments."
+                f"with the last stored constructor arguments."
             )
             cls._instance = super(TempSingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             cls._created_at = cls._now()
             return cast(T, cls._instance)
 
     def delete(cls: Type[T]) -> None:
-        """Deletes the temp singleton instance if it exists and clears the creation timestamp."""
+        """Deletes the temp singleton instance if it exists and clears its creation timestamp."""
         with cls._lock:
             if cls._instance is not None:
                 logging.debug(
@@ -665,7 +515,7 @@ class TempSingletonMeta(type):
                 cls._created_at = 0
 
     def _is_valid(cls: Type[T]) -> bool:
-        """Returns True if the temp singleton has not expired; False otherwise."""
+        """Returns whether the temp singleton instance is not expired."""
         if cls._instance is None:
             return False
         if cls._lifespan <= 0:

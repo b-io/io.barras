@@ -20,7 +20,6 @@ from ngui.charts import *
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
-from nutil.enums import StringEnum
 from nutil.math import *
 
 ####################################################################################################
@@ -31,10 +30,20 @@ __TIME_SERIES_ENUMS_______________________________ = ""
 
 
 class Transformation(StringEnum):
+    """
+    An enumeration of common series transformations.
+
+    Members
+    • `LOG`: natural logarithm.
+    • `DIFF`: first difference.
+    • `RETURNS`: arithmetic returns (percentage change).
+    • `LOG_RETURNS`: log returns (difference of logs).
+    """
+
     LOG = "log"
     DIFF = "diff"
     RETURNS = "returns"
-    LOG_RETURNS = "log returns"
+    LOG_RETURNS = "log_returns"
 
 
 ####################################################################################################

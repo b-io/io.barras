@@ -124,7 +124,7 @@ def plot_histogram(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_list(colors), cycle=True)
+    colors = get_iterator(to_tuple(colors), cycle=True)
 
     for s in to_series(df) if is_frame(df) else [df]:
         color = next(colors)
@@ -456,7 +456,7 @@ def plot_cumulative_distribution(
                 height=height,
                 margin=margin,
             )
-    colors = get_iterator(to_list(colors), cycle=True)
+    colors = get_iterator(to_tuple(colors), cycle=True)
 
     # Convert x and classes to arrays
     x = to_array(x)

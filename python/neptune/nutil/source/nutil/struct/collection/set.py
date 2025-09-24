@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.struct.collection.util import *
+from nutil.common import *
 
 ####################################################################################################
 # SET PROCESSORS

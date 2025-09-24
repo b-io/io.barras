@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.struct.collection.common import *
+from nutil.common import *
 
 ####################################################################################################
 # NUMBER CONSTANTS
@@ -30,16 +30,6 @@ DEFAULT_MAX_DECIMALS = 8
 EPS = np.finfo(FLOAT_TYPE).eps
 INF = np.inf
 NAN = np.nan
-
-
-####################################################################################################
-# NUMBER VERIFIERS
-####################################################################################################
-
-__NUMBER_VERIFIERS________________________________ = ""
-
-def equals(x, y):
-    return is_null(x) and is_null(y) or x == y
 
 
 ####################################################################################################
@@ -172,3 +162,13 @@ def farthest(c, value):
     elif is_series(c) or is_array(c):
         return get(c, abs(c - value).argmax())
     return max(to_list(c), key=lambda x: abs(x - value))
+
+
+####################################################################################################
+# NUMBER VERIFIERS
+####################################################################################################
+
+__NUMBER_VERIFIERS________________________________ = ""
+
+def equals(x, y):
+    return is_null(x) and is_null(y) or x == y

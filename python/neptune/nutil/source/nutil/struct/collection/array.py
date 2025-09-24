@@ -14,13 +14,20 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.struct.collection.common import *
+from nutil.common import *
 
 ####################################################################################################
 # ARRAY GENERATORS
 ####################################################################################################
 
 __ARRAY_GENERATORS________________________________ = ""
+
+
+def create_array(*shape, fill=0, order="C", element_type=None):
+    return np.full(to_tuple(*shape), fill, dtype=element_type, order=order)
+
+
+##################################################
 
 
 def create_random_array(*shape):

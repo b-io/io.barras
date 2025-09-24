@@ -14,8 +14,11 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+from __future__ import annotations
+
 from nutil.common import *
 from nutil.io.file import DEFAULT_ENCODING
+from nutil.struct.util import apply
 
 ####################################################################################################
 # BYTES CONVERTERS
@@ -23,68 +26,43 @@ from nutil.io.file import DEFAULT_ENCODING
 
 __BYTES_CONVERTERS________________________________ = ""
 
-def to_bytes(x, encoding: str = DEFAULT_ENCODING, errors: str = "strict"):
+def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -> Any:
     """
-    Converts the specified object to bytes.
+    Converts `x` to bytes (recursively for collections).
 
-    - Returns the project null sentinel (...) unchanged if x is null.
-    - Returns bytes unchanged for bytes/bytearray/memoryview.
-    - Encodes strings with the specified encoding.
-    - Converts numbers to their string representation and encodes that.
-    - Recursively applies to collections.
-    - Uses `__bytes__` if the object defines it.
-    - Falls back to encoding str(x).
+    Behavior:
+      • Returns `None` if `x` is null (per `is_null`).
+      • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
+      • Encodes `str` via `encoding`/`errors`.
+      • Converts numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
+      • For NumPy arrays:
+          – If `dtype` is `uint8`, returns `x.tobytes()`.
+          – Otherwise maps element-wise via `apply(..., to_bytes)`.
+      • For other collections, maps element-wise via `apply`.
+      • If `__bytes__` is defined, uses `bytes(x)` (with safe fallback).
+      • Otherwise encodes `str(x)`.
 
-    Parameters
-    ----------
-    x : Any
-        The specified object to convert.
-    encoding : str, optional
-        The text encoding used for strings (default: 'utf-8').
-    errors : str, optional
-        The error handling scheme (default: 'strict').
-
-    Returns
-    -------
-    bytes | Any
-        A bytes object, or the project null sentinel (...) if x is null.
+    Returns:
+        `bytes` for scalars/byte-like, or the collection with elements converted to `bytes`.
+        Returns `None` if `x` is null.
     """
-    # Handle the project-level null sentinel
     if is_null(x):
         return None
-
-    # Fast path for already byte-like objects
-    if isinstance(x, (bytes, bytearray, memoryview)):
+    elif is_byte_like(x):
         return bytes(x)
-
-    # Strings must be encoded explicitly
-    if is_string(x):
+    elif is_string(x):
         return x.encode(encoding, errors)
-
-    # Avoid the surprising behavior where bytes(int) yields zero-filled bytes
-    if is_number(x):
+    elif is_number(x):
         return str(x).encode(encoding, errors)
-
-    # Numpy / array-like: try dtype conversion, otherwise map recursively
-    if is_collection(x):
-        # If it is a NumPy-like array, try to cast to a byte-capable dtype
-        if hasattr(x, "astype"):
-            try:
-                # Prefer your constant if it represents a byte-string or uint8
-                return x.astype(BYTES_ELEMENT_TYPE)
-            except Exception:
-                # Fall back to elementwise conversion
-                return apply(x, lambda e: to_bytes(e, encoding, errors))
-        # Generic Python collections (list/tuple/set/dict/Series...)
+    elif is_array(x):
+        if x.dtype == np.uint8:
+            return x.tobytes()
         return apply(x, lambda e: to_bytes(e, encoding, errors))
-
-    # Use custom `__bytes__` if available
-    to_b = getattr(x, "__bytes__", None)
-    if callable(to_b):
+    elif is_collection(x):
+        return apply(x, lambda e: to_bytes(e, encoding, errors))
+    elif is_callable(x, "__bytes__"):
         try:
             return bytes(x)
         except Exception:
-            pass  # Fall through to string fallback
-
-    # Last resort: encode the string representation
+            pass
     return str(x).encode(encoding, errors)

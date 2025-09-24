@@ -31,7 +31,7 @@ def escape_property(property):
     return property.replace("%", "%%") if not is_null(property) else None
 
 
-def merge_config_with_defaults(config: dict, defaults: dict) -> dict:
+def merge_config_with_defaults(config: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[str, Any]:
     """Merges the specified config with defaults, replacing None with defaults.
 
     Args:
@@ -41,10 +41,10 @@ def merge_config_with_defaults(config: dict, defaults: dict) -> dict:
     Returns:
         A new dictionary with defaults applied.
     """
-    merged = dict(config)  # Shallow copy
+    merged: Dict[str, Any] = dict(config)
     for key, default in defaults.items():
         value = merged.get(key)
-        merged[key] = default if value is None else value
+        merged[key] = default if is_null(value) else value
     return merged
 
 

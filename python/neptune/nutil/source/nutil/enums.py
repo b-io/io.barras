@@ -16,8 +16,9 @@
 
 from __future__ import annotations
 
-from enum import EnumMeta
-from typing import Dict, Iterator, List, Tuple, Type, TypeVar, Union
+import enum
+from enum import Enum, EnumMeta
+from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 
 ####################################################################################################
 # ENUMS
@@ -25,12 +26,12 @@ from typing import Dict, Iterator, List, Tuple, Type, TypeVar, Union
 
 __ENUMS___________________________________________ = ""
 
-T = TypeVar("T", bound="StringEnum")
+I = TypeVar("I", bound="IntEnum")
 
-
-class StringEnumMeta(EnumMeta):
+class IntEnumMeta(EnumMeta):
     """
-    A metaclass for string-based Enums offering convenience methods for name, value, and validation.
+    The metaclass for enums whose members are integers, providing convenience methods for the `name`,
+    the `value`, and the validation of the enum members.
 
     This metaclass adds:
         - Utilities for accessing enum members by name or value.
@@ -38,160 +39,380 @@ class StringEnumMeta(EnumMeta):
         - Validation of name or value membership.
     """
 
-    def from_name(cls: Type[T], name: str) -> T:
-        """
-        Retrieves an enum member based on its name.
-
-        Args:
-            name (str): Name of the enum member.
-
-        Returns:
-            T: Corresponding enum member.
-
-        Raises:
-            ValueError: If the name is invalid.
-        """
-        try:
-            return cls[name]
-        except KeyError as e:
-            raise ValueError(f"'{name!r}' is not a valid name for '{cls.__name__}'") from e
-
-    def from_value(cls: Type[T], value: str) -> T:
-        """
-        Retrieves an enum member based on its value.
-
-        Args:
-            value (str): Value of the enum member.
-
-        Returns:
-            T: Corresponding enum member.
-
-        Raises:
-            ValueError: If the value is invalid.
-        """
+    def __new__(metacls, name, bases, namespace, **kwargs):
+        cls = super().__new__(metacls, name, bases, namespace, **kwargs)
+        if name == "IntEnum":
+            return cls
+        if not issubclass(cls, IntEnum):
+            raise TypeError(f"'{name}' must inherit from 'IntEnum'")
         for member in cls:
-            if member.value == value:
-                return member
-        raise ValueError(f"'{value!r}' is not a valid value for '{cls.__name__}'")
+            if not isinstance(member.value, int):
+                raise TypeError(f"'{name}.{member.name}' has non-int value '{member.value}'")
+        return cls
 
     ##############################################
     # ACCESSORS
     ##############################################
 
-    def names(cls: Type[T]) -> List[str]:
+    def from_name(cls: Type[I], name: str) -> I:
         """
-        Lists all member names of the enum.
+        Retrieves the enum member with the specified `name`.
+
+        Args:
+            name: The name of the enum member.
 
         Returns:
-            List[str]: List of member names.
-        """
-        return list(cls.__members__.keys())
+            The corresponding enum member.
 
-    def values(cls: Type[T]) -> List[str]:
+        Raises:
+            ValueError: If the `name` is not valid for the enum.
         """
-        Lists all member values of the enum.
+        member = cls.__members__.get(name)
+        if member is None:
+            raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'")
+        return cast(I, member)
+
+    def from_value(cls: Type[I], value: int) -> I:
+        """
+        Retrieves the enum member with the specified `value`.
+
+        Args:
+            value: The integer value of the enum member.
 
         Returns:
-            List[str]: List of member values.
-        """
-        return [str(member.value) for member in cls]
+            The corresponding enum member.
 
-    def items(cls: Type[T]) -> Iterator[Tuple[str, str]]:
+        Raises:
+            ValueError: If the `value` is not valid for the enum.
         """
-        Iterates over all name-value pairs of the enum.
+        try:
+            return cast(I, cls._value2member_map_[value])  # O(1)
+        except KeyError:
+            raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'")
+
+    #####################
+
+    def names(cls: Type[I]) -> Tuple[str, ...]:
+        """
+        Lists all the names of the enum members as a `tuple`.
+
+        Returns:
+            A `tuple` of the member names.
+        """
+        return tuple(member.name for member in cls)
+
+    def values(cls: Type[I]) -> Tuple[int, ...]:
+        """
+        Lists all the values of the enum members as a `tuple`.
+
+        Returns:
+            A `tuple` of the member values.
+        """
+        return tuple(member.value for member in cls)
+
+    def items(cls: Type[I]) -> Iterator[Tuple[str, int]]:
+        """
+        Iterates over all the `(name, value)` pairs of the enum.
 
         Yields:
-            Tuple[str, str]: Pairs of member names and their values.
+            The pairs of the member names and their values.
         """
-        yield from ((member.name, str(member.value)) for member in cls)
+        yield from ((member.name, member.value) for member in cls)
 
-    def by_value(cls: Type[T]) -> Dict[str, T]:
+    #####################
+
+    def by_name(cls: Type[I]) -> Dict[str, I]:
         """
-        Maps enum member values to their corresponding enum members.
+        Maps the names of the enum members to the corresponding enum members.
 
         Returns:
-            Dict[str, T]: A dictionary mapping values to members.
+            The dictionary-like mapping from names to members.
         """
-        return {str(member.value): member for member in cls}
+        return dict(cls.__members__)
+
+    def by_value(cls: Type[I]) -> Dict[int, I]:
+        """
+        Maps the values of the enum members to the corresponding enum members.
+
+        Returns:
+            The dictionary mapping the member values to the members.
+        """
+        return {member.value: cast(I, member) for member in cls}
 
     ##############################################
     # OPERATORS
     ##############################################
 
-    def __contains__(cls: Type[T], item: Union[str, T]) -> bool:
+    def __contains__(cls: Type[I], item: Union[int, str, I]) -> bool:
         """
-        Checks if a given name or value is a member of the enum.
+        Checks whether the specified `name` or `value` corresponds to an enum member.
 
         Args:
-            item (Union[str, T]): Name or value to check.
+            item: The `name`, the `value`, or the enum member to check.
+                  Numeric strings are also treated as values.
 
         Returns:
-            bool: True if valid, False otherwise.
+            `True` if the item corresponds to an enum member, `False` otherwise.
         """
-        if isinstance(item, str):
-            return item in cls.__members__ or any(str(member.value) == item for member in cls)
-        return super().__contains__(item)
+        if isinstance(item, enum.IntEnum):
+            if item.__class__ is cls:
+                return True
+            item = int(item)
 
-    def __str__(cls: Type[T]) -> str:
+        if isinstance(item, int):
+            return item in cls._value2member_map_  # O(1)
+        elif isinstance(item, str):
+            if item in cls.__members__:  # O(1)
+                return True
+            try:
+                value = int(item.strip())
+            except ValueError:
+                return False
+            return value in cls._value2member_map_  # O(1)
+        return False
+
+    def __str__(cls: Type[I]) -> str:
+        """
+        Returns the `name` of the enum class.
+        """
         return cls.__name__
 
-    def __repr__(cls: Type[T]) -> str:
-        members = ", ".join(
-            f"{name}={repr(member.value)}" for name, member in cls.__members__.items()
-        )
+    def __repr__(cls: Type[I]) -> str:
+        """Returns the canonical representation of the enum class as `(name=value)` pairs."""
+        members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
         return f"{cls.__name__}({members})"
 
     ##############################################
     # VALIDATORS
     ##############################################
 
-    def is_valid_name(cls: Type[T], name: str) -> bool:
+    def is_valid_name(cls: Type[I], name: str) -> bool:
         """
-        Validates if a string is a valid enum member name.
+        Validates whether the specified string is the `name` of an enum member.
 
         Args:
-            name (str): Name to validate.
+            name: The string to validate.
 
         Returns:
-            bool: True if valid, False otherwise.
+            `True` if the string is the `name` of an enum member, `False` otherwise.
         """
-        return name in cls.__members__
+        return name in cls.__members__  # O(1)
 
-    def is_valid_value(cls: Type[T], value: str) -> bool:
+    def is_valid_value(cls: Type[I], value: int) -> bool:
         """
-        Validates if a string is a valid enum member value.
+        Validates whether the specified integer is the `value` of an enum member.
 
         Args:
-            value (str): Value to validate.
+            value: The integer to validate.
 
         Returns:
-            bool: True if valid, False otherwise.
+            `True` if the integer is the `value` of an enum member, `False` otherwise.
         """
-        return any(member.value == value for member in cls)
+        return value in cls._value2member_map_  # O(1)
 
-
-class StringEnum(metaclass=StringEnumMeta):
+class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
     """
-    Base class for enums with string values. Provides enhanced functionality for common operations.
+    The base class for enums whose members are integers.
     """
 
     def __str__(self) -> str:
-        """
-        Converts an enum member to its string value.
-
-        Returns:
-            str: Enum member value as a string.
-        """
+        """Returns the string value of the enum member."""
         return str(self.value)
 
+##################################################
+
+S = TypeVar("S", bound="StrEnum")
+
+class StrEnumMeta(EnumMeta):
+    """
+    The metaclass for enums whose members are strings, providing convenience methods for the `name`,
+    the `value`, and the validation of the enum members.
+
+    This metaclass adds:
+        - Utilities for accessing enum members by name or value.
+        - Collections of all names or values for quick access.
+        - Validation of name or value membership.
+    """
+
+    def __new__(metacls, name, bases, namespace, **kwargs):
+        cls = super().__new__(metacls, name, bases, namespace, **kwargs)
+        if name == "StrEnum":
+            return cls
+        if not issubclass(cls, StrEnum):
+            raise TypeError(f"'{name}' must inherit from 'StrEnum'")
+        for member in cls:
+            if not isinstance(member.value, str):
+                raise TypeError(f"'{name}.{member.name}' has non-str value '{member.value}'")
+        return cls
+
+    ##############################################
+    # ACCESSORS
+    ##############################################
+
+    def from_name(cls: Type[S], name: str) -> S:
+        """
+        Retrieves the enum member with the specified `name`.
+
+        Args:
+            name: The name of the enum member.
+
+        Returns:
+            The corresponding enum member.
+
+        Raises:
+            ValueError: If the `name` is not valid for the enum.
+        """
+        member = cls.__members__.get(name)
+        if member is None:
+            raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'")
+        return cast(S, member)
+
+    def from_value(cls: Type[S], value: str) -> S:
+        """
+        Retrieves the enum member with the specified `value`.
+
+        Args:
+            value: The value of the enum member.
+
+        Returns:
+            The corresponding enum member.
+
+        Raises:
+            ValueError: If the `value` is not valid for the enum.
+        """
+        try:
+            return cast(S, cls._value2member_map_[value])  # O(1)
+        except KeyError:
+            raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'")
+
+    #####################
+
+    def names(cls: Type[S]) -> Tuple[str, ...]:
+        """
+        Lists all the names of the enum members as a `tuple`.
+
+        Returns:
+            A `tuple` of the member names.
+        """
+        return tuple(member.name for member in cls)
+
+    def values(cls: Type[S]) -> Tuple[str, ...]:
+        """
+        Lists all the values of the enum members as a `tuple`.
+
+        Returns:
+            A `tuple` of the member values.
+        """
+        return tuple(member.value for member in cls)
+
+    def items(cls: Type[S]) -> Iterator[Tuple[str, str]]:
+        """
+        Iterates over all the `(name, value)` pairs of the enum.
+
+        Yields:
+            The pairs of the member names and their values.
+        """
+        yield from ((member.name, member.value) for member in cls)
+
+    #####################
+
+    def by_name(cls: Type[S]) -> Dict[str, S]:
+        """
+        Maps the names of the enum members to the corresponding enum members.
+
+        Returns:
+            The dictionary-like mapping from names to members.
+        """
+        return dict(cls.__members__)
+
+
+    def by_value(cls: Type[S]) -> Dict[str, S]:
+        """
+        Maps the values of the enum members to the corresponding enum members.
+
+        Returns:
+            The dictionary mapping the member values to the members.
+        """
+        return {member.value: cast(S, member) for member in cls}
+
+    ##############################################
+    # OPERATORS
+    ##############################################
+
+    def __contains__(cls: Type[S], item: Union[str, S]) -> bool:
+        """
+        Checks whether the specified `name` or `value` corresponds to an enum member.
+
+        Args:
+            item: The `name`, the `value`, or the enum member to check.
+
+        Returns:
+            `True` if the item corresponds to an enum member, `False` otherwise.
+        """
+        if isinstance(item, StrEnum):
+            if item.__class__ is cls:
+                return True
+            item = str(item)
+
+        if isinstance(item, str):
+            return (item in cls.__members__) or (item in cls._value2member_map_)  # O(1)
+        return False
+
+    def __str__(cls: Type[S]) -> str:
+        """
+        Returns the `name` of the enum class.
+        """
+        return cls.__name__
+
+    def __repr__(cls: Type[S]) -> str:
+        """Returns the canonical representation of the enum class as `(name=value)` pairs."""
+        members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
+        return f"{cls.__name__}({members})"
+
+    ##############################################
+    # VALIDATORS
+    ##############################################
+
+    def is_valid_name(cls: Type[S], name: str) -> bool:
+        """
+        Validates whether the specified string is the `name` of an enum member.
+
+        Args:
+            name: The string to validate.
+
+        Returns:
+            `True` if the string is the `name` of an enum member, `False` otherwise.
+        """
+        return name in cls.__members__  # O(1)
+
+    def is_valid_value(cls: Type[S], value: str) -> bool:
+        """
+        Validates whether the specified string is the `value` of an enum member.
+
+        Args:
+            value: The string to validate.
+
+        Returns:
+            `True` if the string is the `value` of an enum member, `False` otherwise.
+        """
+        return value in cls._value2member_map_  # O(1)
+
+class StrEnum(str, Enum, metaclass=StrEnumMeta):
+    """
+    The base class for enums whose members are strings.
+    """
+
+    def __str__(self) -> str:
+        """Returns the string value of the enum member."""
+        return self.value
 
 # • DISPLAY ########################################################################################
 
 __DISPLAY_ENUMS___________________________________ = ""
 
 
-class ColorCode(StringEnum):
-    """Enumeration for common color hex codes."""
+class ColorCode(StrEnum):
+    """An enumeration of the common color hex codes."""
 
     BLACK = "#000000"
     BLUE = "#0000FF"
@@ -206,8 +427,8 @@ class ColorCode(StringEnum):
 __FINANCE_ENUMS___________________________________ = ""
 
 
-class CurrencyCode(StringEnum):
-    """ISO 4217 currency codes."""
+class CurrencyCode(StrEnum):
+    """The ISO 4217 currency codes."""
 
     EUR = "EUR"
     GBP = "GBP"
@@ -220,8 +441,8 @@ class CurrencyCode(StringEnum):
 __ENVIRONMENT_ENUMS_______________________________ = ""
 
 
-class Environment(StringEnum):
-    """Application deployment environments."""
+class Environment(StrEnum):
+    """The application deployment environments."""
 
     DEV = "dev"
     LOCAL = "local"
@@ -235,16 +456,16 @@ class Environment(StringEnum):
 __FILE_ENUMS______________________________________ = ""
 
 
-class Charset(StringEnum):
-    """Character encodings."""
+class Charset(StrEnum):
+    """The character encodings."""
 
     ASCII = "us-ascii"
     LATIN1 = "iso-8859-1"
     UTF8 = "utf-8"
 
 
-class CompressionFormat(StringEnum):
-    """File compression formats."""
+class CompressionFormat(StrEnum):
+    """The file compression formats."""
 
     BZ2 = "bz2"
     GZ = "gz"
@@ -253,118 +474,117 @@ class CompressionFormat(StringEnum):
     ZIP = "zip"
 
 
-class FileType(StringEnum):
+class FileType(StrEnum):
     """
-    Enumeration of common file types.
+    An enumeration of the common file types.
 
     File format categories:
-    - Documents: DOC, DOCX, MD, ODT, PDF, RTF, TXT
-    - Spreadsheets: CSV, ODS, XLS, XLSX
-    - Data Exchange: INI, JSON, TOML, XML, YAML, YML
-    - Presentations: ODP, PPT, PPTX
-    - Data Storage: DB, H5, PKL, SQLITE
-    - Web: CSS, HTML, HTM, JS
-    - Images: BMP, GIF, JPEG, JPG, PNG, SVG, WEBP
-    - Audio: FLAC, M4A, MP3, OGG, WAV
-    - Video: AVI, MKV, MOV, MP4, WMV
-    - Code: CPP, H, JAVA, PY, SQL, TS
-    - Config: CFG, CONF, ENV, INI
-    - Archives: GZ, RAR, SEVEN_ZIP, TAR, ZIP
-    - Logs: LOG
-    - Other: BIN, DAT, TMP
+    - Documents: `DOC`, `DOCX`, `MD`, `ODT`, `PDF`, `RTF`, `TXT`
+    - Spreadsheets: `CSV`, `ODS`, `XLS`, `XLSX`
+    - Data Exchange: `JSON`, `TOML`, `XML`, `YAML`, `YML`
+    - Presentations: `ODP`, `PPT`, `PPTX`
+    - Data Storage: `DB`, `H5`, `PKL`, `SQLITE`
+    - Web: `CSS`, `HTML`, `HTM`, `JS`
+    - Images: `BMP`, `GIF`, `JPEG`, `JPG`, `PNG`, `SVG`, `WEBP`
+    - Audio: `FLAC`, `M4A`, `MP3`, `OGG`, `WAV`
+    - Video: `AVI`, `MKV`, `MOV`, `MP4`, `WMV`
+    - Code: `CPP`, `H`, `JAVA`, `PY`, `SQL`, `TS`
+    - Config: `CFG`, `CONF`, `ENV`, `INI`
+    - Archives: `GZ`, `RAR`, `SEVEN_ZIP`, `TAR`, `ZIP`
+    - Logs: `LOG`
+    - Other: `BIN`, `DAT`, `TMP`
 
     Members:
         # Documents
-        DOC: Microsoft Word Document (.doc) - Legacy Word format
-        DOCX: Microsoft Word Open XML Document (.docx) - Modern Word format
-        MD: Markdown Document (.md) - Lightweight markup language
-        ODT: OpenDocument Text (.odt) - Open-source document format
-        PDF: Portable Document Format (.pdf) - Fixed-layout document
-        RTF: Rich Text Format (.rtf) - Formatted text document
-        TXT: Plain Text (.txt) - Unformatted text file
+        `DOC`: Microsoft Word Document (.doc) - Legacy Word format
+        `DOCX`: Microsoft Word Open XML Document (.docx) - Modern Word format
+        `MD`: Markdown Document (.md) - Lightweight markup language
+        `ODT`: OpenDocument Text (.odt) - Open-source document format
+        `PDF`: Portable Document Format (.pdf) - Fixed-layout document
+        `RTF`: Rich Text Format (.rtf) - Formatted text document
+        `TXT`: Plain Text (.txt) - Unformatted text file
 
         # Spreadsheets
-        CSV: Comma-Separated Values (.csv) - Tabular data in plain text
-        ODS: OpenDocument Spreadsheet (.ods) - Open-source spreadsheet
-        XLS: Microsoft Excel Spreadsheet (.xls) - Legacy Excel format
-        XLSX: Microsoft Excel Open XML (.xlsx) - Modern Excel format
+        `CSV`: Comma-Separated Values (.csv) - Tabular data in plain text
+        `ODS`: OpenDocument Spreadsheet (.ods) - Open-source spreadsheet
+        `XLS`: Microsoft Excel Spreadsheet (.xls) - Legacy Excel format
+        `XLSX`: Microsoft Excel Open XML (.xlsx) - Modern Excel format
 
         # Data Exchange
-        INI: Configuration File (.ini) - Simple config format
-        JSON: JavaScript Object Notation (.json) - Lightweight data interchange
-        TOML: Tom's Obvious Minimal Language (.toml) - Config file format
-        XML: Extensible Markup Language (.xml) - Structured data format
-        YAML: YAML Ain't Markup Language (.yaml) - Human-readable data format
-        YML: Alternative extension for YAML (.yml)
+        `JSON`: JavaScript Object Notation (.json) - Lightweight data interchange
+        `TOML`: Tom's Obvious Minimal Language (.toml) - Config file format
+        `XML`: Extensible Markup Language (.xml) - Structured data format
+        `YAML`: YAML Ain't Markup Language (.yaml) - Human-readable data format
+        `YML`: Alternative extension for YAML (.yml)
 
         # Presentations
-        ODP: OpenDocument Presentation (.odp) - Open-source presentation
-        PPT: PowerPoint Presentation (.ppt) - Legacy PowerPoint format
-        PPTX: PowerPoint Open XML (.pptx) - Modern PowerPoint format
+        `ODP`: OpenDocument Presentation (.odp) - Open-source presentation
+        `PPT`: PowerPoint Presentation (.ppt) - Legacy PowerPoint format
+        `PPTX`: PowerPoint Open XML (.pptx) - Modern PowerPoint format
 
         # Data Storage
-        DB: Generic Database (.db) - Generic database file
-        H5: Hierarchical Data Format (.h5) - Large dataset storage
-        PKL: Python Pickle (.pkl) - Python object serialization
-        SQLITE: SQLite Database (.sqlite) - Self-contained database
+        `DB`: Generic Database (.db) - Generic database file
+        `H5`: Hierarchical Data Format (.h5) - Large dataset storage
+        `PKL`: Python Pickle (.pkl) - Python object serialization
+        `SQLITE`: SQLite Database (.sqlite) - Self-contained database
 
         # Web
-        CSS: Cascading Style Sheets (.css) - Web styling
-        HTML: HyperText Markup Language (.html) - Web page format
-        HTM: Alternative extension for HTML (.htm)
-        JS: JavaScript (.js) - Web scripting
+        `CSS`: Cascading Style Sheets (.css) - Web styling
+        `HTML`: HyperText Markup Language (.html) - Web page format
+        `HTM`: Alternative extension for HTML (.htm)
+        `JS`: JavaScript (.js) - Web scripting
 
         # Images
-        BMP: Bitmap Image (.bmp) - Uncompressed image format
-        GIF: Graphics Interchange Format (.gif) - Animated image format
-        JPEG: JPEG Image (.jpeg) - Compressed image format
-        JPG: JPEG Image (.jpg) - Compressed image format
-        PNG: Portable Network Graphics (.png) - Lossless image format
-        SVG: Scalable Vector Graphics (.svg) - Vector image format
-        WEBP: WebP Image (.webp) - Modern web image format
+        `BMP`: Bitmap Image (.bmp) - Uncompressed image format
+        `GIF`: Graphics Interchange Format (.gif) - Animated image format
+        `JPEG`: JPEG Image (.jpeg) - Compressed image format
+        `JPG`: JPEG Image (.jpg) - Compressed image format
+        `PNG`: Portable Network Graphics (.png) - Lossless image format
+        `SVG`: Scalable Vector Graphics (.svg) - Vector image format
+        `WEBP`: WebP Image (.webp) - Modern web image format
 
         # Audio
-        FLAC: Free Lossless Audio Codec (.flac) - Lossless audio
-        M4A: MPEG-4 Audio (.m4a) - AAC audio format
-        MP3: MPEG Audio Layer III (.mp3) - Compressed audio
-        OGG: Ogg Vorbis Audio (.ogg) - Free audio format
-        WAV: Waveform Audio (.wav) - Uncompressed audio
+        `FLAC`: Free Lossless Audio Codec (.flac) - Lossless audio
+        `M4A`: MPEG-4 Audio (.m4a) - AAC audio format
+        `MP3`: MPEG Audio Layer III (.mp3) - Compressed audio
+        `OGG`: Ogg Vorbis Audio (.ogg) - Free audio format
+        `WAV`: Waveform Audio (.wav) - Uncompressed audio
 
         # Video
-        AVI: Audio Video Interleave (.avi) - Microsoft video format
-        MKV: Matroska Video (.mkv) - Open video container
-        MOV: QuickTime Movie (.mov) - Apple video format
-        MP4: MPEG-4 Video (.mp4) - Common video format
-        WMV: Windows Media Video (.wmv) - Microsoft video format
+        `AVI`: Audio Video Interleave (.avi) - Microsoft video format
+        `MKV`: Matroska Video (.mkv) - Open video container
+        `MOV`: QuickTime Movie (.mov) - Apple video format
+        `MP4`: MPEG-4 Video (.mp4) - Common video format
+        `WMV`: Windows Media Video (.wmv) - Microsoft video format
 
         # Code
-        CPP: C++ Source (.cpp) - C++ code file
-        H: C/C++ Header (.h) - C/C++ header file
-        JAVA: Java Source (.java) - Java code file
-        PY: Python Source (.py) - Python code file
-        SQL: SQL Query (.sql) - Database query file
-        TS: TypeScript Source (.ts) - TypeScript code file
+        `CPP`: C++ Source (.cpp) - C++ code file
+        `H`: C/C++ Header (.h) - C/C++ header file
+        `JAVA`: Java Source (.java) - Java code file
+        `PY`: Python Source (.py) - Python code file
+        `SQL`: SQL Query (.sql) - Database query file
+        `TS`: TypeScript Source (.ts) - TypeScript code file
 
         # Config
-        CFG: Configuration (.cfg) - Generic config file
-        CONF: Configuration (.conf) - Unix config file
-        ENV: Environment (.env) - Environment variables
-        INI: Configuration (.ini) - Simple config format
+        `CFG`: Configuration (.cfg) - Generic config file
+        `CONF`: Configuration (.conf) - Unix config file
+        `ENV`: Environment (.env) - Environment variables
+        `INI`: Configuration (.ini) - Simple config format
 
         # Archives
-        GZ: Gzip Compressed (.gz) - Gzip compression
-        RAR: RAR Archive (.rar) - Proprietary compression
-        SEVEN_ZIP: 7-Zip Archive (.7z) - Open source compression
-        TAR: Tape Archive (.tar) - Unix archive format
-        ZIP: ZIP Archive (.zip) - Compressed file container
+        `GZ`: Gzip Compressed (.gz) - Gzip compression
+        `RAR`: RAR Archive (.rar) - Proprietary compression
+        `SEVEN_ZIP`: 7-Zip Archive (.7z) - Open source compression
+        `TAR`: Tape Archive (.tar) - Unix archive format
+        `ZIP`: ZIP Archive (.zip) - Compressed file container
 
         # Logs
-        LOG: Log File (.log) - Text-based logging output
+        `LOG`: Log File (.log) - Text-based logging output
 
         # Other
-        BIN: Binary File (.bin) - Raw binary data
-        DAT: Data File (.dat) - Generic data file
-        TMP: Temporary File (.tmp) - Temporary data
+        `BIN`: Binary File (.bin) - Raw binary data
+        `DAT`: Data File (.dat) - Generic data file
+        `TMP`: Temporary File (.tmp) - Temporary data
     """
 
     # Documents
@@ -383,7 +603,6 @@ class FileType(StringEnum):
     XLSX = "xlsx"
 
     # Data Exchange
-    INI = "ini"
     JSON = "json"
     TOML = "toml"
     XML = "xml"
@@ -460,11 +679,11 @@ class FileType(StringEnum):
     TMP = "tmp"
 
 
-# GEOGRAPHY ########################################################################################
+# • GEOGRAPHY ######################################################################################
 
 
-class LanguageCode(StringEnum):
-    """ISO 639-1 language codes (https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)."""
+class LanguageCode(StrEnum):
+    """The ISO 639-1 language codes (https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)."""
 
     AF = "af"  # Afrikaans
     SQ = "sq"  # Albanian
@@ -512,8 +731,8 @@ class LanguageCode(StringEnum):
     ZH = "zh"  # Chinese
 
 
-class RegionCode(StringEnum):
-    """ISO 3166-1 country/region codes (https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)."""
+class RegionCode(StrEnum):
+    """The ISO 3166-1 country/region codes (https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)."""
 
     AF = "AF"  # Afghanistan
     AL = "AL"  # Albania
@@ -756,7 +975,8 @@ class RegionCode(StringEnum):
 # • MIME #############################################################################################
 
 
-class MimeCategory(StringEnum):
+class MimeCategory(StrEnum):
+    """The top-level MIME categories."""
     APPLICATION = "application"
     AUDIO = "audio"
     FONT = "font"
@@ -771,7 +991,8 @@ class MimeCategory(StringEnum):
 ##################################################
 
 
-class AudioType(StringEnum):
+class AudioType(StrEnum):
+    """The audio MIME types."""
     AAC = "audio/aac"
     FLAC = "audio/flac"
     MP3 = "audio/mpeg"
@@ -783,7 +1004,8 @@ class AudioType(StringEnum):
     X_PN_REALAUDIO = "audio/x-pn-realaudio"
 
 
-class ImageType(StringEnum):
+class ImageType(StrEnum):
+    """The image MIME types."""
     AVIF = "image/avif"
     BMP = "image/bmp"
     GIF = "image/gif"
@@ -795,17 +1017,27 @@ class ImageType(StringEnum):
     WEBP = "image/webp"
 
 
-class MediaType(StringEnum):
+class MediaType(StrEnum):
+    """The common media (MIME) types."""
+    # Generic / structured
     APPLICATION_JSON = "application/json"
     APPLICATION_PDF = "application/pdf"
+    APPLICATION_XML = "application/xml"
     APPLICATION_ZIP = "application/zip"
+    APPLICATION_OCTET_STREAM = "application/octet-stream"
+    APPLICATION_JAVASCRIPT = "application/javascript"
+    APPLICATION_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded"
+    MULTIPART_FORM_DATA = "multipart/form-data"
+
+    # Text
     TEXT_CSV = "text/csv"
     TEXT_HTML = "text/html"
     TEXT_PLAIN = "text/plain"
     TEXT_XML = "text/xml"
 
 
-class VideoType(StringEnum):
+class VideoType(StrEnum):
+    """The common video MIME types."""
     GPP = "video/3gpp"
     MP4 = "video/mp4"
     MPEG = "video/mpeg"
@@ -823,7 +1055,8 @@ class VideoType(StringEnum):
 __TIME_SERIES_ENUMS_______________________________ = ""
 
 
-class Aggregation(StringEnum):
+class Aggregation(StrEnum):
+    """The common aggregation functions for time series."""
     COUNT = "count"
     MIN = "min"
     MAX = "max"
@@ -834,7 +1067,8 @@ class Aggregation(StringEnum):
     SUM = "sum"
 
 
-class Frequency(StringEnum):
+class Frequency(StrEnum):
+    """The common time series frequencies."""
     DAYS = "D"
     WEEKS = "W"
     MONTHS = "M"
@@ -843,7 +1077,8 @@ class Frequency(StringEnum):
     YEARS = "Y"
 
 
-class Position(StringEnum):
+class Position(StrEnum):
+    """The common positional options."""
     AUTO = "auto"
     START = "start"
     MIDDLE = "middle"
@@ -853,7 +1088,8 @@ class Position(StringEnum):
 # • WEB ############################################################################################
 
 
-class CloudProvider(StringEnum):
+class CloudProvider(StrEnum):
+    """The major cloud providers."""
     AWS = "aws"
     AZURE = "azure"
     GCP = "gcp"
@@ -862,14 +1098,13 @@ class CloudProvider(StringEnum):
 ##################################################
 
 
-class HttpContentEncoding(StringEnum):
+class HttpContentEncoding(StrEnum):
     """
-    Standard HTTP content encoding mechanisms for compression.
+    The common HTTP content coding mechanisms for compression.
 
-    As defined in RFC 7231 section 3.1.2.2 and IANA HTTP Content Coding Registry.
+    As defined in `RFC 7231` section `3.1.2.2` and in the IANA HTTP Content Coding Registry.
     See: https://tools.ietf.org/html/rfc7231#section-3.1.2.2
     """
-
     BR = "br"
     COMPRESS = "compress"
     DEFLATE = "deflate"
@@ -877,31 +1112,76 @@ class HttpContentEncoding(StringEnum):
     IDENTITY = "identity"
 
 
-class HttpMethod(StringEnum):
-    """HTTP request methods."""
-
+class HttpMethod(StrEnum):
+    """The HTTP request methods."""
+    CONNECT = "CONNECT"
     DELETE = "DELETE"
     GET = "GET"
+    HEAD = "HEAD"
+    OPTIONS = "OPTIONS"
     PATCH = "PATCH"
     POST = "POST"
     PUT = "PUT"
+    TRACE = "TRACE"
 
 
-class HttpStatusCode(StringEnum):
-    """Enumeration of common HTTP status codes."""
+class HttpStatusCode(IntEnum):
+    """The common HTTP status codes."""
+    # 1xx — Informational
+    CONTINUE = 100
+    SWITCHING_PROTOCOLS = 101
+    PROCESSING = 102
+    EARLY_HINTS = 103
 
+    # 2xx — Success
     OK = 200
     CREATED = 201
+    ACCEPTED = 202
     NO_CONTENT = 204
+    PARTIAL_CONTENT = 206
+
+    # 3xx — Redirection
+    MULTIPLE_CHOICES = 300
+    MOVED_PERMANENTLY = 301
+    FOUND = 302
+    SEE_OTHER = 303
+    NOT_MODIFIED = 304
+    TEMPORARY_REDIRECT = 307
+    PERMANENT_REDIRECT = 308
+
+    # 4xx — Client Error
     BAD_REQUEST = 400
     UNAUTHORIZED = 401
+    PAYMENT_REQUIRED = 402
     FORBIDDEN = 403
     NOT_FOUND = 404
     METHOD_NOT_ALLOWED = 405
+    NOT_ACCEPTABLE = 406
+    PROXY_AUTHENTICATION_REQUIRED = 407
+    REQUEST_TIMEOUT = 408
     CONFLICT = 409
+    GONE = 410
+    LENGTH_REQUIRED = 411
+    PRECONDITION_FAILED = 412
+    PAYLOAD_TOO_LARGE = 413
+    URI_TOO_LONG = 414
     UNSUPPORTED_MEDIA_TYPE = 415
+    RANGE_NOT_SATISFIABLE = 416
+    EXPECTATION_FAILED = 417
+    I_AM_A_TEAPOT = 418  # fun but widely recognized
+    UNPROCESSABLE_ENTITY = 422
+    TOO_EARLY = 425
+    UPGRADE_REQUIRED = 426
+    PRECONDITION_REQUIRED = 428
     TOO_MANY_REQUESTS = 429
+    REQUEST_HEADER_FIELDS_TOO_LARGE = 431
+    UNAVAILABLE_FOR_LEGAL_REASONS = 451
+
+    # 5xx — Server Error
     INTERNAL_SERVER_ERROR = 500
+    NOT_IMPLEMENTED = 501
     BAD_GATEWAY = 502
     SERVICE_UNAVAILABLE = 503
     GATEWAY_TIMEOUT = 504
+    HTTP_VERSION_NOT_SUPPORTED = 505
+    NETWORK_AUTHENTICATION_REQUIRED = 511

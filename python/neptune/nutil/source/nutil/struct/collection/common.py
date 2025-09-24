@@ -16,7 +16,14 @@
 
 from __future__ import annotations
 
-from collections.abc import MutableSet
+from collections.abc import (
+    Collection as ABCCollection,
+    Iterable as ABCIterable,
+    MutableSequence as ABCMutableSequence,
+    MutableSet as ABCMutableSet,
+    Sequence as ABCSequence,
+    Set as ABCSet,
+)
 
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
@@ -27,10 +34,12 @@ from nutil.struct.collection.registry.common import *
 
 __COMMON_COLLECTION_CONSTANTS_____________________ = ""
 
-ITERABLE_TYPE = Iterable
+COLLECTION_TYPE = ABCCollection
 
-SEQUENCE_TYPE = Sequence
+ITERABLE_TYPE = ABCIterable
 
+SEQUENCE_TYPE = ABCSequence
+MUTABLE_SEQUENCE_TYPE = ABCMutableSequence
 
 # • ARRAY ##########################################################################################
 
@@ -38,13 +47,11 @@ __COMMON_ARRAY_CONSTANTS__________________________ = ""
 
 ARRAY_TYPE = np.ndarray
 
-
 # • DICT ###########################################################################################
 
 __COMMON_DICT_CONSTANTS___________________________ = ""
 
 DICT_TYPE = dict
-
 
 # • LIST ###########################################################################################
 
@@ -52,14 +59,32 @@ __COMMON_LIST_CONSTANTS___________________________ = ""
 
 LIST_TYPE = list
 
-
 # • SET ############################################################################################
 
 __COMMON_SET_CONSTANTS____________________________ = ""
 
-SET_TYPE = set
+SET_TYPE = ABCSet
+FROZENSET_TYPE = frozenset
+MUTABLE_SET_TYPE = ABCMutableSet
 
-MUTABLE_SET_TYPE = MutableSet
+
+####################################################################################################
+# COMMON COLLECTION ACCESSORS
+####################################################################################################
+
+__COMMON_COLLECTION_ACCESSORS_____________________ = ""
+
+
+def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
+    """
+    Returns a `tuple` `(has_item, first_or_none, iterator)` without consuming the first element.
+    """
+    it1, it2 = itertools.tee(iter(iterable), 2)
+    try:
+        return True, next(it1), it2
+    except StopIteration:
+        return False, None, it2
+
 
 ####################################################################################################
 # COMMON COLLECTION VERIFIERS
@@ -68,19 +93,51 @@ MUTABLE_SET_TYPE = MutableSet
 __COMMON_COLLECTION_VERIFIERS_____________________ = ""
 
 
-def is_iterable(x):
-    return isinstance(x, ITERABLE_TYPE)
-
-
-def is_sequence(x):
-    return isinstance(x, SEQUENCE_TYPE)
+def is_collection(x: Any) -> bool:
+    """Returns whether `x` is a generic collection (excluding text/byte-like)."""
+    return isinstance(x, COLLECTION_TYPE) and not is_byte_like(x) and not is_string(x)
 
 
 #########################
 
 
-def is_collection(x: Any) -> bool:
-    return is_abstract_collection(x) or is_array(x) or is_dict(x) or is_list(x) or is_set(x)
+def is_iterable(x: Any) -> bool:
+    """Returns whether `x` is an `Iterable` (excluding text/byte-like)."""
+    return isinstance(x, ITERABLE_TYPE) and not is_byte_like(x) and not is_string(x)
+
+
+def is_iterable_of_pairs(x: Any) -> bool:
+    """
+    Returns whether `x` is an `Iterable` of `(key, value)` pairs.
+
+    - Empty iterables are considered `True` (compatible with `dict()`).
+    - Uses a one-element `peek`; does not consume single-pass iterables.
+    - Relies on `is_iterable` (which excludes `str`/`bytes`/etc.).
+    """
+    if not is_iterable(x):
+        return False
+    has_item, first_item, _ = peek(x)
+    if not has_item:
+        return True
+    try:
+        k, v = first_item  # must unpack to two items exactly
+        _ = (k, v)
+        return True
+    except (TypeError, ValueError):
+        return False
+
+
+#########################
+
+
+def is_sequence(x: Any) -> bool:
+    """Returns whether `x` is a `Sequence`."""
+    return isinstance(x, SEQUENCE_TYPE)
+
+
+def is_mutable_sequence(x: Any) -> bool:
+    """Returns whether `x` is a `MutableSequence`."""
+    return isinstance(x, MUTABLE_SEQUENCE_TYPE)
 
 
 # • ARRAY ##########################################################################################
@@ -88,7 +145,8 @@ def is_collection(x: Any) -> bool:
 __COMMON_ARRAY_VERIFIERS__________________________ = ""
 
 
-def is_array(x):
+def is_array(x: Any) -> bool:
+    """Returns whether `x` is a NumPy `ndarray`."""
     return isinstance(x, ARRAY_TYPE)
 
 
@@ -97,7 +155,8 @@ def is_array(x):
 __COMMON_DICT_VERIFIERS___________________________ = ""
 
 
-def is_dict(x):
+def is_dict(x: Any) -> bool:
+    """Returns whether `x` is a `dict`."""
     return isinstance(x, DICT_TYPE)
 
 
@@ -106,7 +165,8 @@ def is_dict(x):
 __COMMON_LIST_VERIFIERS___________________________ = ""
 
 
-def is_list(x):
+def is_list(x: Any) -> bool:
+    """Returns whether `x` is a `list`."""
     return isinstance(x, LIST_TYPE)
 
 
@@ -115,9 +175,16 @@ def is_list(x):
 __COMMON_SET_VERIFIERS____________________________ = ""
 
 
-def is_set(x):
+def is_set(x: Any) -> bool:
+    """Returns whether `x` is a `Set`."""
     return isinstance(x, SET_TYPE)
 
 
-def is_mutable_set(x):
+def is_frozen_set(x: Any) -> bool:
+    """Returns whether `x` is a `frozenset`."""
+    return isinstance(x, FROZENSET_TYPE)
+
+
+def is_mutable_set(x: Any) -> bool:
+    """Returns whether `x` is a `MutableSet`."""
     return isinstance(x, MUTABLE_SET_TYPE)

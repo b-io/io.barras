@@ -13,11 +13,10 @@
 #    Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
-
+import random
 import timeit
 import unittest
 
-from nutil.db import *
 from nutil.math import *
 
 ####################################################################################################

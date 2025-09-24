@@ -17,7 +17,7 @@
 from tabulate import tabulate
 
 from nutil.config import CONFIG
-from nutil.enums import StringEnum
+from nutil.enums import StrEnum
 from nutil.scalar.date import *
 from nutil.struct.table import *
 
@@ -28,7 +28,7 @@ from nutil.struct.table import *
 __LOG_CLASSES_____________________________________ = ""
 
 
-class LogLevel(StringEnum):
+class LogLevel(StrEnum):
     CRITICAL = "CRITICAL"
     DEBUG = "DEBUG"
     ERROR = "ERROR"
@@ -36,7 +36,7 @@ class LogLevel(StringEnum):
     WARNING = "WARNING"
 
 
-class SeverityLevel(StringEnum):
+class SeverityLevel(StrEnum):
     FAIL = 0
     ERROR = 1
     WARN = 2

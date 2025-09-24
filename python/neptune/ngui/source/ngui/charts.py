@@ -18,16 +18,16 @@ import io
 
 import matplotlib.figure as mfigure
 import matplotlib.ticker as mticker
+import ngui.web as web
 import plotly.express as px
 import plotly.graph_objs as go
 import plotly.io as pio
 import plotly.subplots as sp
 import plotly.tools as tls
-
-import ngui.web as web
 from ngui.image import *
-from nutil.math import *
+from nutil.common.struct.collection import to_series
 
+from nutil.math import *
 
 ####################################################################################################
 # CHART SETTINGS
@@ -84,10 +84,12 @@ __CHART___________________________________________ = ""
 
 
 def is_matplot(fig):
+    """Returns whether `fig` is a Matplotlib `Figure`."""
     return isinstance(fig, mfigure.Figure)
 
 
 def is_plotly(fig):
+    """Returns whether `fig` is a Plotly `Figure`."""
     return isinstance(fig, go._figure.Figure)
 
 
@@ -856,7 +858,7 @@ def plot_multi(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_list(colors), cycle=True)
+    colors = get_iterator(to_tuple(colors), cycle=True)
 
     # Get the number of series
     series_count = count_cols(df)
@@ -914,7 +916,7 @@ def plot_series(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_list(colors), cycle=True)
+    colors = get_iterator(to_tuple(colors), cycle=True)
 
     for s in to_series(series) if is_frame(series) else [series]:
         fig.add_trace(

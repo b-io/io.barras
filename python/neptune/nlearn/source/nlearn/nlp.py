@@ -15,25 +15,11 @@
 ####################################################################################################
 
 from gensim.utils import tokenize
-from nlearn.common import (
-    CONFIG,
-    debug,
-    DEFAULT_ENCODING,
-    distances,
-    FLOAT_ELEMENT_TYPE,
-    INT_ELEMENT_TYPE,
-    is_empty,
-    is_null,
-    np,
-    paste,
-    read_enumerator,
-    sort,
-    take_at,
-    to_array,
-    VERBOSE,
-)
+from nlearn.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
+
+from nutil.config import CONFIG
 
 ####################################################################################################
 # NLP PROPERTIES
@@ -289,7 +275,7 @@ class WordEmbeddings:
         # Add a dropout layer
         X = Dropout(dropout_rate)(X)
 
-        # Propagate X trough another LSTM layer that returns a single hidden state
+        # Propagate X through another LSTM layer that returns a single hidden state
         X = LSTM(hidden_unit_count, return_sequences=False)(X)
         # Add a dropout layer
         X = Dropout(dropout_rate)(X)

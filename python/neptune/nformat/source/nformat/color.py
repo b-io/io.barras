@@ -17,10 +17,9 @@
 import cv2
 import matplotlib.cm as mcm
 from matplotlib.colors import *
-
 from nmath.stats import normal
-from nutil.math import *
 
+from nutil.math import *
 
 ####################################################################################################
 # COLOR CONSTANTS
@@ -32,7 +31,7 @@ TRANSPARENT = (0, 0, 0, 0)
 
 ##################################################
 
-# The default colors iterator
+# The default colors `Iterator`
 DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color

@@ -17,8 +17,8 @@
 import cv2
 import matplotlib.cm as mcm
 import matplotlib.colors as mcolors
-
 from nmath import normal
+
 from nutil.math import (
     ceil,
     collist,
@@ -40,7 +40,6 @@ from nutil.math import (
     to_array,
     to_float,
 )
-
 
 ####################################################################################################
 # GUI COMMON CONSTANTS
@@ -94,7 +93,7 @@ DEFAULT_COLORS = [
     "#17BECF",  # blue-teal
 ]
 
-# The default colors iterator
+# The default colors `Iterator`
 DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 
 # The default background color
