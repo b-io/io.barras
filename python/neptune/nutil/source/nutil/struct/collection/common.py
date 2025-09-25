@@ -27,6 +27,7 @@ from collections.abc import (
 
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
+from nutil.struct.tuple import *
 
 ####################################################################################################
 # COMMON COLLECTION CONSTANTS
@@ -106,25 +107,32 @@ def is_iterable(x: Any) -> bool:
     return isinstance(x, ITERABLE_TYPE) and not is_byte_like(x) and not is_string(x)
 
 
-def is_iterable_of_pairs(x: Any) -> bool:
+def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = False) -> bool:
     """
-    Returns whether `x` is an `Iterable` of `(key, value)` pairs.
+    Returns whether `x` is an `Iterable` of `tuple` (optionally of a fixed `size`).
 
-    - Empty iterables are considered `True` (compatible with `dict()`).
-    - Uses a one-element `peek`; does not consume single-pass iterables.
+    - Empty iterables are considered `True`.
+    - If `check_all` is False (default), only the first element is checked (O(1)).
+    - If `check_all` is True, all elements are checked (O(n)).
     - Relies on `is_iterable` (which excludes `str`/`bytes`/etc.).
     """
     if not is_iterable(x):
         return False
-    has_item, first_item, _ = peek(x)
+
+    # Check if the `Iterable` is empty
+    has_item, first_item, it = peek(x)
     if not has_item:
         return True
-    try:
-        k, v = first_item  # must unpack to two items exactly
-        _ = (k, v)
-        return True
-    except (TypeError, ValueError):
+
+    # Check if the first `tuple` matches the expected size
+    if not is_valid_tuple(first_item, size=size):
         return False
+
+    # Check if every other `tuple` matches the expected size (if requested)
+    if check_all:
+        return all(is_valid_tuple(item, size=size) for item in it)
+
+    return True
 
 
 #########################
@@ -176,7 +184,7 @@ __COMMON_SET_VERIFIERS____________________________ = ""
 
 
 def is_set(x: Any) -> bool:
-    """Returns whether `x` is a `Set`."""
+    """Returns whether `x` is a `Set` (including `set` and `frozenset`)."""
     return isinstance(x, SET_TYPE)
 
 
@@ -186,5 +194,5 @@ def is_frozen_set(x: Any) -> bool:
 
 
 def is_mutable_set(x: Any) -> bool:
-    """Returns whether `x` is a `MutableSet`."""
+    """Returns whether `x` is a `MutableSet` (including `set`)."""
     return isinstance(x, MUTABLE_SET_TYPE)

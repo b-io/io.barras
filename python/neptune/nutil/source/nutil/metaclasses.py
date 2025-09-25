@@ -82,7 +82,7 @@ class FinalSingletonMeta(type):
             try:
                 lock = super().__getattribute__("_lock")
             except AttributeError:
-                # Fall back to the class dict during very early initialization
+                # Fall back to the class `dict` during very early initialization
                 return class_dict
             with lock:
                 instance = super().__getattribute__("_instance")
@@ -214,7 +214,7 @@ class SingletonMeta(type):
             try:
                 lock = super().__getattribute__("_lock")
             except AttributeError:
-                # Fall back to the class dict during very early initialization
+                # Fall back to the class `dict` during very early initialization
                 return class_dict
             with lock:
                 instance = super().__getattribute__("_instance")
@@ -388,7 +388,7 @@ class TempSingletonMeta(type):
             try:
                 lock = super().__getattribute__("_lock")
             except AttributeError:
-                # Fall back to the class dict during very early initialization
+                # Fall back to the class `dict` during very early initialization
                 return class_dict
             with lock:
                 instance = super().__getattribute__("_instance")

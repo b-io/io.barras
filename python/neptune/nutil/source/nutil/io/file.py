@@ -118,7 +118,7 @@ def read_csv(
     index_name="index",
     na_values=[""],
     newline=None,
-    element_type=None,
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
     **kwargs,
 ):
     df = pd.read_csv(

@@ -126,7 +126,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             return list(keys)[index]  # O(n) materialization, then O(k) slice
 
         try:
-            index = operator.index(index)  # accept int-like types (e.g., numpy.int64)
+            index = operator.index(index)  # accepts int-like types (e.g., numpy.int64)
         except TypeError as e:
             raise TypeError(
                 f"Collection indices must be integers or slices, not '{type(index).__name__}'"

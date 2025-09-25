@@ -66,7 +66,7 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
     """
     Class decorator that:
     • Sets class-level metadata:
-      - `__adapts__`: a tuple of all supported target types.
+      - `__adapts__`: a `tuple` of all supported target types.
       - `__adapter_priority__`: the adapter’s priority value.
     • Sets instance-level metadata for each registered adapter:
       - `__adapts__`: the single bound target type for that instance.
@@ -194,7 +194,7 @@ class CollectionAdapter(Generic[T], ABC):
     @classproperty
     def target_types(cls) -> Tuple[Type[Any], ...]:
         """
-        Returns the tuple of target types this adapter class supports.
+        Returns the `tuple` of target types this adapter class supports.
 
         Complexity:
             O(1).
@@ -269,7 +269,9 @@ class CollectionAdapter(Generic[T], ABC):
 
     #####################
 
-    def to_array(self, x: Any, element_type=None) -> np.ndarray:
+    def to_array(
+        self, x: Any, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
+    ) -> np.ndarray:
         """
         Returns an `array` built from the specified collection.
 
@@ -556,7 +558,9 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """
         return self  # instances are iterable by contract
 
-    def to_array(self, element_type=None) -> np.ndarray:
+    def to_array(
+        self, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
+    ) -> np.ndarray:
         """
         Returns an `array` built from this collection.
 
@@ -704,7 +708,7 @@ class AbstractSequentialCollection(AbstractCollection[T], Sequence[T], ABC):
             return [self[i] for i in range(start, stop, step)]
 
         try:
-            index = operator.index(index)  # accept int-like types (e.g., numpy.int64)
+            index = operator.index(index)  # accepts int-like types (e.g., numpy.int64)
         except TypeError as e:
             raise TypeError(
                 f"Collection indices must be integers or slices, not '{type(index).__name__}'"
@@ -866,7 +870,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
             Let `m = number of pairs / mapping size`.
             • Path (1): O(1).
             • Path (2): typically O(m).
-            • Path (3): O(m) to build dict + O(m) to construct.
+            • Path (3): O(m) to build `dict` + O(m) to construct.
             Overall (typical): O(m).
 
         Notes:
@@ -894,7 +898,9 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
 
     #####################
 
-    def to_array(self, element_type=None) -> np.ndarray:
+    def to_array(
+        self, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
+    ) -> np.ndarray:
         """
         Returns an `array` built from the values of this mapping collection.
 
@@ -1109,9 +1115,10 @@ def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T
         raise ValueError("'n' must be >= 1")
 
     it = iter(iterable)
-    if it is iterable:  # single-pass
-        return itertools.tee(it, n)
-    return (iterable,) * n
+    # Single-pass check by identity (if `iter(x) is x`, then `x` is its own `Iterator`)
+    if it is iterable:
+        return itertools.tee(it, n)  # produces `n` independent `Iterator` (to avoid consuming `it`)
+    return (iterable,) * n  # reuses the same re-`Iterable` reference `n` times
 
 
 ####################################################################################################

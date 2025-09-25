@@ -226,7 +226,7 @@ class WordEmbeddings:
         :return: an embedding layer using the pre-trained word vectors
         """
         # Initialize the embedding matrix
-        vocabulary_size = len(self.vocabulary) + 1  # add 1 to fit Keras embedding (requirement)
+        vocabulary_size = len(self.vocabulary) + 1  # adds 1 to fit Keras embedding (requirement)
         embedding_size = self.get_size()
         embedding_matrix = np.zeros((vocabulary_size, embedding_size), dtype=FLOAT_ELEMENT_TYPE)
 

@@ -393,14 +393,18 @@ __COMMON_CONVERTERS_______________________________ = ""
 __COMMON_PROCESSORS_______________________________ = ""
 
 def forward(*args: Any) -> Any:
-    """Returns the single argument if one is specified; otherwise returns the list of arguments."""
+    """
+    Returns the single argument if one is specified; otherwise returns the `list` of arguments.
+    """
     if len(args) == 1:
         return args[0]
     return list(args)
 
 
 def forward_element(*args: Any) -> Any:
-    """Returns the single argument if one is specified; otherwise returns the tuple of arguments."""
+    """
+    Returns the single argument if one is specified; otherwise returns the `tuple` of arguments.
+    """
     if len(args) == 1:
         return args[0]
     return tuple(args)

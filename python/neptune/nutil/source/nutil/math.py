@@ -14,7 +14,7 @@
 #    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.common import *
+from nutil.struct.util import *
 
 ####################################################################################################
 # MATH CONSTANTS
@@ -120,7 +120,7 @@ __MATH_ARITHMETIC_________________________________ = ""
 
 def add_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
-        add, *args, numeric_default=numeric_default, object_default=object_default, rename=rename
+        args, add, numeric_default=numeric_default, object_default=object_default, rename=rename,
     )
 
 
@@ -203,8 +203,8 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
 
 def subtract_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
+        args,
         subtract,
-        *args,
         numeric_default=numeric_default,
         object_default=object_default,
         rename=rename,
@@ -290,8 +290,8 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
 
 def multiply_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
+        args,
         multiply,
-        *args,
         numeric_default=numeric_default,
         object_default=object_default,
         rename=rename,
@@ -377,8 +377,8 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
 
 def divide_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
+        args,
         divide,
-        *args,
         numeric_default=numeric_default,
         object_default=object_default,
         rename=rename,

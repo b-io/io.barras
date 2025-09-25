@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains collection processors
+#    <NAME> - contains struct utilities
 #
 # SYNOPSIS
 #    <NAME>
@@ -20,11 +20,13 @@ import functools
 
 from pandas.api.types import is_numeric_dtype
 
+from nutil.constants import *
 from nutil.scalar.date import *
-from nutil.scalar.string import to_string
-from nutil.scalar.util import to_scalar
+from nutil.scalar.util import *
+from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
-from nutil.struct.collection.util import *
+from nutil.struct.collection.registry.ordered_set import *
+from nutil.struct.common import *
 
 ####################################################################################################
 # STRUCT ACCESSORS
@@ -110,7 +112,8 @@ def get_names(c, inclusion=None, exclusion=None):
 
 def get_all_common_names(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_common_names(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_common_names(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -122,7 +125,8 @@ def get_common_names(c1, c2, inclusion=None, exclusion=None):
 
 def get_all_uncommon_names(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_uncommon_names(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_uncommon_names(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -159,7 +163,8 @@ def get_keys(c, inclusion=None, exclusion=None):
 
 def get_all_common_keys(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_common_keys(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_common_keys(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -171,7 +176,8 @@ def get_common_keys(c1, c2, inclusion=None, exclusion=None):
 
 def get_all_uncommon_keys(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_uncommon_keys(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_uncommon_keys(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -210,7 +216,8 @@ def get_index_name(c):
 
 def get_all_common_index(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_common_index(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_common_index(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -222,7 +229,8 @@ def get_common_index(c1, c2, inclusion=None, exclusion=None):
 
 def get_all_uncommon_index(*args, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: get_uncommon_index(c1, c2, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: get_uncommon_index(c1, c2, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -283,7 +291,13 @@ def get_items(c, keys=None, inclusion=None, exclusion=None):
 #########################
 
 
-def get_value(c, element_type=None, keys=None, inclusion=None, exclusion=None):
+def get_value(
+    c,
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    keys=None,
+    inclusion=None,
+    exclusion=None,
+):
     return simplify(
         get_values(
             c, element_type=element_type, keys=keys, inclusion=inclusion, exclusion=exclusion
@@ -291,7 +305,13 @@ def get_value(c, element_type=None, keys=None, inclusion=None, exclusion=None):
     )
 
 
-def get_values(c, element_type=None, keys=None, inclusion=None, exclusion=None):
+def get_values(
+    c,
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    keys=None,
+    inclusion=None,
+    exclusion=None,
+):
     """Returns the values (values/values/columns) of the specified collection whose keys
     (indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
     list."""
@@ -556,7 +576,7 @@ def set_element_types(c, new_element_types, keys=None, inclusion=None, exclusion
 __TABLE_ACCESSORS_________________________________ = ""
 
 
-# • DARTAFRAME ###################################
+# • DATAFRAME ####################################
 
 
 def get_row(df, i=0):
@@ -636,8 +656,8 @@ def to_struct(*args):
     return to_tuple(*args)
 
 
-def uncollect(s):
-    if to_struct(s):
+def unstruct(s):
+    if is_struct(s):
         if len(s) == 1:
             return get_next(s)
         return tuple(s)
@@ -668,7 +688,25 @@ def to_collection(*args):
         if is_collection(arg):
             return arg
         return [arg]
-    return to_tuple(*args)
+    return to_list(*args)
+
+
+def to_indexed_collection(*args):
+    if len(args) == 1:
+        arg = args[0]
+        if is_collection(arg) and has_index(arg):
+            return arg
+        return [arg]
+    return to_list(*args)
+
+
+def to_subscriptable_collection(*args):
+    if len(args) == 1:
+        arg = args[0]
+        if is_subscriptable(arg):
+            return arg
+        return [arg]
+    return to_list(*args)
 
 
 def uncollect(c):
@@ -682,7 +720,7 @@ def uncollect(c):
 #########################
 
 
-def collection_to_type(c, template):
+def collection_to_type(c, template, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None):
     if is_frame(template):
         return to_frame(c, names=template, index=template)
     elif is_series(template):
@@ -694,7 +732,7 @@ def collection_to_type(c, template):
     elif is_set(template):
         return to_set(c)
     elif is_array(template):
-        return to_array(c)
+        return to_array(c, element_type=element_type)
     elif is_list(template):
         return to_list(c)
     return c
@@ -718,56 +756,14 @@ def collection_to_common_type(c, template):
     return c
 
 
-# • ARRAY ########################################
-
-
-def unarray(a):
-    if is_array(a):
-        if len(a) == 1:
-            return a[0]
-        return tuple(a)
-    return a
-
-
-# • DICT #########################################
-
-
-def undict(d):
-    if is_dict(d):
-        if len(d) == 1:
-            return d[0]
-        return tuple(d)
-    return d
-
-
-# • LIST #########################################
-
-
-def unlist(l):
-    if is_list(l):
-        if len(l) == 1:
-            return l[0]
-        return tuple(l)
-    return l
-
-
-# • SET ##########################################
-
-
-def unset(s):
-    if is_set(s):
-        if len(s) == 1:
-            return get_next(s)
-        return tuple(s)
-    return s
-
-
 # • TABLE ##########################################################################################
 
 __TABLE_CONVERTERS________________________________ = ""
 
 
-def to_series(data, name=None, index=None, element_type=None):
+def to_series(
+    data, name=None, index=None, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
+):
     """Converts the specified collection to a series."""
     if is_empty(data) and not is_table(data):
         data = []
@@ -801,7 +797,13 @@ def to_time_series(data, name=None, index=None, element_type=FLOAT_ELEMENT_TYPE)
 #########################
 
 
-def to_frame(data, names=None, index=None, index_name="index", element_type=None):
+def to_frame(
+    data,
+    names=None,
+    index=None,
+    index_name="index",
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+):
     """Converts the specified collection to a dataframe."""
     if is_empty(data) and not is_table(data):
         data = []
@@ -896,7 +898,7 @@ def apply(
     x, f, *args, inplace=False, axis=None, keys=None, inclusion=None, exclusion=None, **kwargs
 ):
     """Applies the specified function iteratively over the specified value along the specified axis
-    (over the rows, columns or elements if the specified axis is respectively zero, one or null)
+    (over the rows, columns, or elements if the specified axis is respectively zero, one or null)
     with the specified arguments."""
     if not is_subscriptable(x):
         return f(x, *args, **kwargs)
@@ -912,7 +914,8 @@ def apply(
             return concat_rows(
                 [
                     to_frame(
-                        [to_array(f(get_values(v, keys=keys)), *args, **kwargs)], index=to_list(i)
+                        [to_array(f(get_values(v, keys=keys), *args, **kwargs))],
+                        index=to_list(i),
                     )
                     for i, v in x
                 ]
@@ -977,7 +980,7 @@ def calculate(c, f, *args, axis=0, **kwargs):
 
 
 def concat_all(*args):
-    return reduce(concat, *args)
+    return reduce(args, concat)
 
 
 def concat(c1, c2):
@@ -1448,7 +1451,7 @@ def filter_years(c, years):
 #########################
 
 
-def flatten(c, element_type=None, axis=0):
+def flatten(c, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None, axis=0):
     if is_empty(c):
         return to_array(element_type=element_type)
     if element_type is OBJECT_TYPE:
@@ -1590,8 +1593,8 @@ def insert_all(
     exclusion=None,
 ):
     return reduce(
+        args,
         insert,
-        *args,
         copy=copy,
         ignore_index=ignore_index,
         sort=sort,
@@ -1825,7 +1828,7 @@ def reverse(c, axis=0):
             return c.loc[::-1]
         return c.loc[:, ::-1]
     elif is_dict(c):
-        return {v: k for k, v in c.items()}
+        return dict(reversed(list(c.items())))
     return c[::-1]
 
 
@@ -1833,7 +1836,15 @@ def reverse(c, axis=0):
 
 
 def shift_dates(
-    c, years=0, months=0, weeks=0, days=0, hours=0, minutes=0, seconds=0, microseconds=0
+    c,
+    years=0,
+    months=0,
+    weeks=0,
+    days=0,
+    hours=0,
+    minutes=0,
+    seconds=0,
+    microseconds=0,
 ):
     """Shifts the date-time index of the specified collection."""
     if is_group_by(c):
@@ -2068,7 +2079,8 @@ def unique(c, pos=POSITION):
 
 def update_all(*args, keys=None, inclusion=None, exclusion=None):
     return reduce(
-        lambda c1, c2: update(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion), *args
+        args,
+        lambda c1, c2: update(c1, c2, keys=keys, inclusion=inclusion, exclusion=exclusion),
     )
 
 
@@ -2111,6 +2123,7 @@ def upsert_all(
     exclusion=None,
 ):
     return reduce(
+        args,
         lambda c1, c2: upsert(
             c1,
             c2,
@@ -2122,7 +2135,6 @@ def upsert_all(
             inclusion=inclusion,
             exclusion=exclusion,
         ),
-        *args,
     )
 
 
@@ -2284,11 +2296,13 @@ def find_last_not_in(l, values):
 
 
 def find_last_with(l, f, *args, **kwargs):
-    return len(l) - find_with(l[::-1], f, *args, **kwargs) - 1
+    i = find_with(l[::-1], f, *args, **kwargs)
+    return None if i is None else len(l) - i - 1
 
 
 def find_last_not_with(l, f, *args, **kwargs):
-    return len(l) - find_not_with(l[::-1], f, *args, **kwargs) - 1
+    i = find_not_with(l[::-1], f, *args, **kwargs)
+    return None if i is None else len(l) - i - 1
 
 
 # • TABLE ##########################################################################################
@@ -2297,7 +2311,7 @@ __TABLE_PROCESSORS________________________________ = ""
 
 
 def combine_all(*args, f):
-    return reduce(lambda left, right: combine(left, right, f), *args)
+    return reduce(args, lambda left, right: combine(left, right, f))
 
 
 def combine(left, right, f):
@@ -2501,10 +2515,10 @@ def filter_any_rows_not_in(df, rows):
 
 def join_all(*args, how="inner", on=None, index_name="index", suffix="2", validate="m:m"):
     return reduce(
+        args,
         lambda left, right: join(
             left, right, how=how, on=on, index_name=index_name, suffix=suffix, validate=validate
         ),
-        *args,
     )
 
 
@@ -2530,6 +2544,7 @@ def merge_all(
     validate="m:m",
 ):
     return reduce(
+        args,
         lambda left, right: merge(
             left,
             right,
@@ -2540,7 +2555,6 @@ def merge_all(
             indicator=indicator,
             validate=validate,
         ),
-        *args,
     )
 
 
