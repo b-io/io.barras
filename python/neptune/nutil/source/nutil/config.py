@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains utility configuration
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains utility configuration
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 import configparser
@@ -65,13 +62,13 @@ DEFAULT_CONFIG = {
         "timeFormat": None,
     },
     "series": {
-        # Aggregation (count, min, max, mean, median, std, var, sum)
+        # Aggregation (`count`, `min`, `max`, `mean`, `median`, `std`, `var`, `sum`)
         "aggregation": None,
-        # Frequency (D, W, M, Q, S, Y)
+        # Frequency (`D`, `W`, `M`, `Q`, `S`, `Y`)
         "frequency": None,
         # Period
         "period": None,
-        # Position (auto, start, middle, end)
+        # Position (`auto`, `start`, `middle`, `end`)
         "position": None,
     },
 }
@@ -101,16 +98,16 @@ DATE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
 #########################
 
-# The aggregation (count, min, max, mean, median, std, var, sum)
+# The aggregation (`count`, `min`, `max`, `mean`, `median`, `std`, `var`, `sum`)
 AGGREGATION = Aggregation(CONFIG.get("series", "aggregation"))
 
-# The frequency (D, W, M, Q, S, Y)
+# The frequency (`D`, `W`, `M`, `Q`, `S`, `Y`)
 FREQUENCY = Frequency(CONFIG.get("series", "frequency"))
 
 # The period
 PERIOD = CONFIG.get("series", "period")
 
-# The position (auto, start, middle, end)
+# The position (`auto`, `start`, `middle`, `end`)
 POSITION = Position(CONFIG.get("series", "position"))
 
 ####################################################################################################

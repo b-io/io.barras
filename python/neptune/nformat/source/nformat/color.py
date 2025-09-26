@@ -1,22 +1,20 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains formatting utility functions for colors
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains formatting utility functions for colors
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
+import random
 
 import cv2
 import matplotlib.cm as mcm
-from matplotlib.colors import *
+import matplotlib.colors as mcolors
 from nmath.stats import normal
 
 from nutil.math import *
@@ -131,11 +129,13 @@ def hsv_to_rgb(*args, h=0, s=0, v=0, alpha=None, scale=None):
 #########################
 
 
-def is_scaled_color(x, y, z):
+def is_scaled_color(x, y, z) -> bool:
+    """Returns whether the specified RGB color components are scaled (contain values greater than 1)."""
     return maximum(maximum(x)) > 1 or maximum(maximum(y)) > 1 or maximum(maximum(z)) > 1
 
 
-def is_unscaled_color(x, y, z):
+def is_unscaled_color(x, y, z) -> bool:
+    """Returns whether the specified RGB color components are unscaled (all values are less than or equal to 1)."""
     return maximum(maximum(x)) <= 1 and maximum(maximum(y)) <= 1 and maximum(maximum(z)) <= 1
 
 

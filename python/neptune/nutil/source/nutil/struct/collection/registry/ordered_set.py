@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains an ordered set implementation and its adapter
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains an ordered set implementation and its adapter
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -35,11 +32,11 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
     An ordered set implementation that preserves the insertion order.
 
     Notes:
-    • Elements must be hashable (stored as `OrderedDict` keys).
-    • Iteration, indexing, and slicing follow the insertion order.
-    • Membership, equality, and set algebra match `set`.
-    • Operators return an `OrderedSet` and preserve a deterministic order (`self`'s order first).
-    • Average complexity: add/discard/membership O(1) amortized; iteration O(n); indexing O(1+index).
+        • Elements must be hashable (stored as `OrderedDict` keys).
+        • Iteration, indexing, and slicing follow the insertion order.
+        • Membership, equality, and set algebra match `set`.
+        • Operators return an `OrderedSet` and preserve a deterministic order (`self`'s order first).
+        • Average complexity: add/discard/membership O(1) amortized; iteration O(n); indexing O(1+index).
     """
 
     def __init__(self, iterable: Iterable[T] = ()) -> None:
@@ -109,8 +106,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
 
         Complexity:
             • Integer index `i`: O(i + 1) via iterator skipping (worst-case O(n)).
-            • Slice with unit step (`step is None` or `step == 1`) and length `k = stop - start`:
-              O(k).
+            • Slice with unit step (`step is None` or `step == 1`) and length `k = stop - start`: O(k).
             • General slice (negative or non-unit step): O(n) (materialize keys) + O(k) slicing.
         """
         keys = self.elements.keys()
@@ -296,7 +292,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
 
         Complexity:
             Let `m = len(other)`, `n = len(self)`.
-            O(n + m).
+            O(m + n).
         """
         union_set = OrderedSet(self)  # O(n)
         union_set.update(other)  # O(m)
@@ -325,8 +321,8 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         Complexity:
             Let `m = len(other)`, `n = len(self)`.
             Conversion `OrderedSet(other)`: O(m).
-            Then union: O(n + m).
-            Overall: O(n + m).
+            Then union: O(m + n).
+            Overall: O(m + n).
         """
         return OrderedSet(other).__or__(self)
 
@@ -669,10 +665,5 @@ __ORDERED_SET_VERIFIERS___________________________ = ""
 
 
 def is_ordered_set(x: Any) -> bool:
-    """
-    Returns whether `x` is an `OrderedSet`.
-
-    Complexity:
-        O(1).
-    """
+    """Returns whether `x` is an `OrderedSet`."""
     return isinstance(x, ORDERED_SET_TYPE)

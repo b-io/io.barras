@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from nutil.common import *
@@ -39,7 +36,7 @@ NAN = np.nan
 __NUMBER_CONVERTERS_______________________________ = ""
 
 
-def to_int(x):
+def to_int(x: Any):
     if is_null(x):
         return NAN
     elif is_collection(x):
@@ -49,7 +46,7 @@ def to_int(x):
     return int(x)
 
 
-def to_float(x):
+def to_float(x: Any):
     if is_null(x):
         return NAN
     elif is_collection(x):
@@ -73,7 +70,7 @@ def format_number(x, decimals=DEFAULT_MAX_DECIMALS):
 #########################
 
 
-def format_nth(x):
+def format_nth(x: Any):
     s = str(x)
     if s[-1] == "1":
         return s + "st"
@@ -119,11 +116,11 @@ def create_sequence(start=0, stop=0, step=1, include=False, size=None):
 __NUMBER_PROCESSORS_______________________________ = ""
 
 
-def ceil(x):
+def ceil(x: Any):
     return to_int(np.ceil(x))
 
 
-def floor(x):
+def floor(x: Any):
     return to_int(np.floor(x))
 
 
@@ -133,7 +130,7 @@ def round(x, decimals=DEFAULT_MAX_DECIMALS):
     return np.round(x, decimals=decimals)
 
 
-def round_to_int(x):
+def round_to_int(x: Any):
     return to_int(np.round(x))
 
 

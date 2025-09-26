@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains utility functions for mathematics
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains utility functions for mathematics
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from nutil.struct.util import *
@@ -38,46 +35,50 @@ RAD_TO_DEG = 180 / PI
 __MATH____________________________________________ = ""
 
 
-def is_negative(x):
+def is_negative(x: Any) -> bool:
+    """Returns whether `x` is negative."""
     return x < 0
 
 
-def is_non_negative(x):
+def is_non_negative(x: Any) -> bool:
+    """Returns whether `x` is non-negative."""
     return x >= 0
 
 
-def is_positive(x):
+def is_positive(x: Any) -> bool:
+    """Returns whether `x` is positive."""
     return x > 0
 
 
-def is_non_positive(x):
+def is_non_positive(x: Any) -> bool:
+    """Returns whether `x` is non-positive."""
     return x <= 0
 
 
 ##################################################
 
 
-def abs(x):
+def abs(x: Any):
     return np.abs(x)
 
 
-def exp(x):
+def exp(x: Any):
     return np.exp(x)
 
 
-def log(x):
+def log(x: Any):
     return np.log(x)
 
 
-def sqrt(x):
+def sqrt(x: Any):
     return np.sqrt(x)
 
 
 #########################
 
 
-def scale(x, base=10, eps=EPS):
-    """Returns x scaled so its magnitude is stable across orders of magnitude."""
+def scale(x: Any, base=10, eps=EPS):
+    """Returns `x` scaled so its magnitude is stable across orders of magnitude."""
     if is_collection(x):
         return apply(x, scale, axis=1, base=base, eps=eps)
     return x / base ** floor(log(maximum(abs(x)) + eps) / log(base))
@@ -87,7 +88,7 @@ def scale(x, base=10, eps=EPS):
 
 
 def expand_dims(x, y, axis=0):
-    """Returns x with a dimension inserted at the specified axis to match the dimension of y."""
+    """Returns `x` with a dimension inserted at the specified axis to match the dimension of `y`."""
     if axis is None:
         return x  # for scalar broadcasting
     return x if np.ndim(x) == np.ndim(y) else np.expand_dims(x, axis=axis)
@@ -101,7 +102,7 @@ def sum_along(x, axis=0):
 
 
 def normalize(x, axis=0, eps=EPS):
-    """Returns x divided by its sum along the specified axis.
+    """Returns `x` divided by its sum along the specified axis.
 
     Adds a small epsilon to the denominator to improve numerical stability.
     """
@@ -635,27 +636,27 @@ def normalize2(vector, axis=0, eps=EPS):
 ##################################################
 
 
-def cos(x):
+def cos(x: Any):
     return np.cos(x)
 
 
-def acos(x):
+def acos(x: Any):
     return np.arccos(x)
 
 
-def sin(x):
+def sin(x: Any):
     return np.sin(x)
 
 
-def asin(x):
+def asin(x: Any):
     return np.arcsin(x)
 
 
-def tan(x):
+def tan(x: Any):
     return np.tan(x)
 
 
-def atan(x):
+def atan(x: Any):
     return np.arctan(x)
 
 

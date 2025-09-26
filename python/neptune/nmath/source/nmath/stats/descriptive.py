@@ -1,23 +1,18 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains mathematical utility functions for descriptive statistics
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains mathematical utility functions for descriptive statistics
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from ngui.charts import *
 from ngui.common import *
-from nmath.common import *
-
 
 ####################################################################################################
 # DESCRIPTIVE CONSTANTS
@@ -458,7 +453,7 @@ def plot_cumulative_distribution(
             )
     colors = get_iterator(to_tuple(colors), cycle=True)
 
-    # Convert x and classes to arrays
+    # Convert `x` and classes to arrays
     x = to_array(x)
     classes = to_array(classes)
 

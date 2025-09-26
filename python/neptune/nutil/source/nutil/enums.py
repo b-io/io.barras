@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains utility enums
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains utility enums
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -34,9 +31,9 @@ class IntEnumMeta(EnumMeta):
     the `value`, and the validation of the enum members.
 
     This metaclass adds:
-        - Utilities for accessing enum members by name or value.
-        - Collections of all names or values for quick access.
-        - Validation of name or value membership.
+        • Utilities for accessing enum members by name or value.
+        • Collections of all names or values for quick access.
+        • Validation of name or value membership.
     """
 
     def __new__(metacls, name, bases, namespace, **kwargs):
@@ -229,9 +226,9 @@ class StrEnumMeta(EnumMeta):
     the `value`, and the validation of the enum members.
 
     This metaclass adds:
-        - Utilities for accessing enum members by name or value.
-        - Collections of all names or values for quick access.
-        - Validation of name or value membership.
+        • Utilities for accessing enum members by name or value.
+        • Collections of all names or values for quick access.
+        • Validation of name or value membership.
     """
 
     def __new__(metacls, name, bases, namespace, **kwargs):
@@ -479,20 +476,20 @@ class FileType(StrEnum):
     An enumeration of the common file types.
 
     File format categories:
-    - Documents: `DOC`, `DOCX`, `MD`, `ODT`, `PDF`, `RTF`, `TXT`
-    - Spreadsheets: `CSV`, `ODS`, `XLS`, `XLSX`
-    - Data Exchange: `JSON`, `TOML`, `XML`, `YAML`, `YML`
-    - Presentations: `ODP`, `PPT`, `PPTX`
-    - Data Storage: `DB`, `H5`, `PKL`, `SQLITE`
-    - Web: `CSS`, `HTML`, `HTM`, `JS`
-    - Images: `BMP`, `GIF`, `JPEG`, `JPG`, `PNG`, `SVG`, `WEBP`
-    - Audio: `FLAC`, `M4A`, `MP3`, `OGG`, `WAV`
-    - Video: `AVI`, `MKV`, `MOV`, `MP4`, `WMV`
-    - Code: `CPP`, `H`, `JAVA`, `PY`, `SQL`, `TS`
-    - Config: `CFG`, `CONF`, `ENV`, `INI`
-    - Archives: `GZ`, `RAR`, `SEVEN_ZIP`, `TAR`, `ZIP`
-    - Logs: `LOG`
-    - Other: `BIN`, `DAT`, `TMP`
+        • Documents: `DOC`, `DOCX`, `MD`, `ODT`, `PDF`, `RTF`, `TXT`
+        • Spreadsheets: `CSV`, `ODS`, `XLS`, `XLSX`
+        • Data Exchange: `JSON`, `TOML`, `XML`, `YAML`, `YML`
+        • Presentations: `ODP`, `PPT`, `PPTX`
+        • Data Storage: `DB`, `H5`, `PKL`, `SQLITE`
+        • Web: `CSS`, `HTML`, `HTM`, `JS`
+        • Images: `BMP`, `GIF`, `JPEG`, `JPG`, `PNG`, `SVG`, `WEBP`
+        • Audio: `FLAC`, `M4A`, `MP3`, `OGG`, `WAV`
+        • Video: `AVI`, `MKV`, `MOV`, `MP4`, `WMV`
+        • Code: `CPP`, `H`, `JAVA`, `PY`, `SQL`, `TS`
+        • Config: `CFG`, `CONF`, `ENV`, `INI`
+        • Archives: `GZ`, `RAR`, `SEVEN_ZIP`, `TAR`, `ZIP`
+        • Logs: `LOG`
+        • Other: `BIN`, `DAT`, `TMP`
 
     Members:
         # Documents

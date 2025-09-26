@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -84,8 +81,9 @@ def count_cols(df):
 __COMMON_TABLE_VERIFIERS__________________________ = ""
 
 
-def is_table(x):
-    return is_frame(x) or is_series(x)
+def is_table(x: Any):
+    """Returns whether `x` is a Pandas `Series` or `DataFrame`."""
+    return is_series(x) or is_frame(x)
 
 
 # • DATAFRAME ######################################################################################
@@ -93,17 +91,17 @@ def is_table(x):
 __COMMON_DATAFRAME_VERIFIERS______________________ = ""
 
 
-def is_series(x):
+def is_series(x: Any):
     """Returns whether `x` is a Pandas `Series`."""
     return isinstance(x, SERIES_TYPE) or isinstance(x, SERIES_GROUP_BY_TYPE)
 
 
-def is_frame(x):
+def is_frame(x: Any):
     """Returns whether `x` is a Pandas `DataFrame`."""
     return isinstance(x, FRAME_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
 
 
-def is_group_by(x):
+def is_group_by(x: Any):
     """Returns whether `x` is a Pandas `DataSeriesGroupBy` or `DataFrameGroupBy`."""
     return isinstance(x, SERIES_GROUP_BY_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
 
@@ -111,19 +109,21 @@ def is_group_by(x):
 #########################
 
 
-def is_time_series(x):
-    """Returns whether `x` is a Pandas `Series` or `Frame` and has a Pandas `DatetimeIndex`."""
-    return is_table(x) and not is_group_by(x) and is_time_index(x.index)
+def is_time_series(x: Any):
+    """Returns whether `x` is a Pandas `Series` or `DataFrame` with a Pandas `DatetimeIndex`."""
+    if is_group_by(x):
+        x = x.obj
+    return is_table(x) and is_time_index(x.index)
 
 
 #########################
 
 
-def is_index(x):
+def is_index(x: Any):
     """Returns whether `x` is a Pandas `Index`."""
     return isinstance(x, INDEX_TYPE)
 
 
-def is_time_index(x):
+def is_time_index(x: Any):
     """Returns whether `x` is a Pandas `DatetimeIndex`."""
     return isinstance(x, TIME_INDEX_TYPE)

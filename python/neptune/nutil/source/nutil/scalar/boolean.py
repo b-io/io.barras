@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains boolean utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains boolean utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from distutils.util import strtobool
 
-from nutil.processors import *
 from nutil.scalar.number import *
 from nutil.struct.util import apply
 
@@ -26,7 +22,7 @@ from nutil.struct.util import apply
 
 __BOOLEAN_CONVERTERS______________________________ = ""
 
-def to_boolean(x):
+def to_boolean(x: Any):
     if is_null(x):
         return NAN
     elif is_struct(x):

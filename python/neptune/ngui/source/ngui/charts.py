@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains graphical utility functions for charts
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains graphical utility functions for charts
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 import io
@@ -26,8 +23,6 @@ import plotly.subplots as sp
 import plotly.tools as tls
 from ngui.image import *
 from nutil.common.struct.collection import to_series
-
-from nutil.math import *
 
 ####################################################################################################
 # CHART SETTINGS
@@ -83,21 +78,22 @@ MAP_PROJECTIONS = [
 __CHART___________________________________________ = ""
 
 
-def is_matplot(fig):
-    """Returns whether `fig` is a Matplotlib `Figure`."""
-    return isinstance(fig, mfigure.Figure)
+def is_matplot(x: Any) -> bool:
+    """Returns whether `x` is a Matplotlib `Figure`."""
+    return isinstance(x, mfigure.Figure)
 
 
-def is_plotly(fig):
-    """Returns whether `fig` is a Plotly `Figure`."""
-    return isinstance(fig, go._figure.Figure)
+def is_plotly(x: Any) -> bool:
+    """Returns whether `x` is a Plotly `Figure`."""
+    return isinstance(x, go._figure.Figure)
 
 
 #########################
 
 
-def is_multi_plot(fig):
-    return not is_null(fig._grid_ref)
+def is_multi_plot(x: Any) -> bool:
+    """Returns whether `x` is a Plotly multi-plot."""
+    return getattr(x, "_grid_ref", None) is not None
 
 
 ##################################################

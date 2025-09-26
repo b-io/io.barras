@@ -1,19 +1,26 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+from __future__ import annotations
+
+from calendar import monthrange
+from datetime import timezone
+from math import ceil
+
+from dateutil import parser
+from dateutil.relativedelta import relativedelta
+
+from nutil.config import CONFIG
 from nutil.enums import Aggregation, Frequency, Position
 from nutil.scalar.number import *
 
@@ -983,7 +990,7 @@ def to_timestamp(d):
     return pd.to_datetime(d)
 
 
-def to_stamp(x):
+def to_stamp(x: Any):
     if is_null(x):
         return None
     elif is_collection(x):
@@ -1271,8 +1278,13 @@ def shift_date(
 
 __DATE_VERIFIERS__________________________________ = ""
 
-def is_business_day(d):
-    if is_string(d):
-        d = parse_datetime(d)
-    return date.weekday(d) < 5
+def is_business_day(x: Any) -> bool:
+    """Returns whether `x` is a business day (Monday–Friday)."""
+    if is_string(x):
+        x = parse_datetime(x)
+    elif is_datetime(x):
+        x = x.date()
+    elif not is_date(x):
+        raise TypeError(f"'{x}' is not a valid date or datetime")
+    return x.weekday() < 5
 

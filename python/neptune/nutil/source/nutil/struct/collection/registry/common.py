@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains a common collection registry
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains a common collection registry
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -65,13 +62,13 @@ __COMMON_COLLECTION_REGISTRY_ANNOTATIONS__________ = ""
 def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
     """
     Class decorator that:
-    • Sets class-level metadata:
-      - `__adapts__`: a `tuple` of all supported target types.
-      - `__adapter_priority__`: the adapter’s priority value.
-    • Sets instance-level metadata for each registered adapter:
-      - `__adapts__`: the single bound target type for that instance.
-      - `__adapter_priority__`: the same priority value.
-    • Creates and registers one adapter instance per target type with the `CollectionRegistry`.
+        • Sets class-level metadata:
+            – `__adapts__`: a `tuple` of all supported target types.
+            – `__adapter_priority__`: the adapter’s priority value.
+        • Sets instance-level metadata for each registered adapter:
+            – `__adapts__`: the single bound target type for that instance.
+            – `__adapter_priority__`: the same priority value.
+        • Creates and registers one adapter instance per target type with the `CollectionRegistry`.
 
     Complexity:
         Let `t = len(target_types)`.
@@ -227,20 +224,20 @@ class CollectionAdapter(Generic[T], ABC):
         `Iterable`.
 
         Resolution order:
-        1) Uses `target_type.from_iterable(iterable)` if present (e.g., `AbstractCollection`).
-        2) Tries `target_type(iterable)`.
-        3) Tries `target_type(list(iterable))` as the final fallback.
+            1) Uses `target_type.from_iterable(iterable)` if present (e.g., `AbstractCollection`).
+            2) Tries `target_type(iterable)`.
+            3) Tries `target_type(list(iterable))` as the final fallback.
 
         Complexity:
             Let `n = len(iterable)` if known; else count of elements consumed.
             • Path (1): depends on implementation (typically O(n)).
             • Path (2): typically O(n).
-            • Path (3): materialize list O(n), then construction O(n).
+            • Path (3): materialize a `list` O(n), then construction O(n).
             Overall (typical): O(n).
 
         Notes:
-        • Only constructor-shape errors (`TypeError`) trigger fallbacks; other exceptions propagate.
-        • Single-pass iterables are duplicated to avoid partial consumption across attempts.
+            • Only constructor-shape errors (`TypeError`) trigger fallbacks; other exceptions propagate.
+            • Single-pass iterables are duplicated to avoid partial consumption across attempts.
         """
         target_type = self.target_type
 
@@ -270,7 +267,7 @@ class CollectionAdapter(Generic[T], ABC):
     #####################
 
     def to_array(
-        self, x: Any, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
+        self, x, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
     ) -> np.ndarray:
         """
         Returns an `array` built from the specified collection.
@@ -328,12 +325,7 @@ class CollectionAdapter(Generic[T], ABC):
     ##############################################
 
     def is_instance(self, x: Any) -> bool:
-        """
-        Returns whether the specified value is an instance of this adapter’s target type.
-
-        Complexity:
-            O(1).
-        """
+        """Returns whether `x` is an instance of this adapter’s target type."""
         return isinstance(x, self.target_type)
 
 
@@ -506,21 +498,21 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         Returns an instance of this collection type built from the specified `Iterable`.
 
         Resolution order (base implementation):
-        1) If the `Iterable` is already an instance of cls, returns it (idempotent fast-path).
-        2) Try `cls(iterable)` if the constructor accepts an `Iterable`.
-        3) Try `cls(list(iterable))` as a final fallback.
+            1) If the `Iterable` is already an instance of cls, returns it (idempotent fast-path).
+            2) Try `cls(iterable)` if the constructor accepts an `Iterable`.
+            3) Try `cls(list(iterable))` as a final fallback.
 
         Complexity:
             Let `n = len(iterable)` if known; else number of items consumed.
             • Path (1): O(1).
             • Path (2): typically O(n).
-            • Path (3): O(n) to build list + O(n) to construct.
+            • Path (3): O(n) to build a `list` + O(n) to construct.
             Overall (typical): O(n).
 
         Notes:
-        • Concrete subclasses should override to construct efficiently and preserve invariants.
-        • Only constructor-shape errors (`TypeError`) trigger fallbacks; other exceptions propagate.
-        • Single-pass iterables are duplicated to avoid partial consumption across attempts.
+            • Concrete subclasses should override to construct efficiently and preserve invariants.
+            • Only constructor-shape errors (`TypeError`) trigger fallbacks; other exceptions propagate.
+            • Single-pass iterables are duplicated to avoid partial consumption across attempts.
         """
         # 1) Idempotent fast-path: if already an instance of this class, return as-is
         if isinstance(iterable, cls):
@@ -689,7 +681,7 @@ class AbstractSequentialCollection(AbstractCollection[T], Sequence[T], ABC):
         Returns the element(s) at the specified position or slice.
 
         • If `index` is an integer, returns the element at that position.
-        • If `index` is a slice, returns a new list containing the elements in the specified range.
+        • If `index` is a slice, returns a new `list` containing the elements in the specified range.
 
         Complexity:
             • Integer index `i`: O(i + 1) via iterator skipping (base default).
@@ -726,7 +718,7 @@ class AbstractSequentialCollection(AbstractCollection[T], Sequence[T], ABC):
         Returns a reversed `Iterator` over the elements of this collection.
 
         Complexity:
-            O(n) time, O(n) memory (materializes a list for predictable reverse).
+            O(n) time, O(n) memory (materializes a `list` for predictable reverse).
         """
         return reversed(self.to_list())  # predictable
 
@@ -756,7 +748,7 @@ class AbstractSequentialCollectionAdapter(AbstractCollectionAdapter[T]):
 
     def get_slice(self, x: AbstractSequentialCollection[T], s: slice) -> List[T]:
         """
-        Returns a list containing the elements in the specified slice.
+        Returns a `list` containing the elements in the specified `slice`.
 
         Complexity:
             Follows `x.__getitem__` slice rules; base default O(k) for unit-step, else up to O(k^2).
@@ -861,21 +853,21 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         pairs or from the specified mapping. Class-level converter.
 
         Resolution order (base implementation):
-        1) If the `Iterable` is already an instance of cls, returns it (idempotent fast-path).
-        2) Try `cls(iterable)` directly.
-        3) If that fails, try `cls(dict(iterable))` (accepts (key, value) pairs).
-        4) Otherwise, raises a `TypeError`.
+            1) If the `Iterable` is already an instance of cls, returns it (idempotent fast-path).
+            2) Try `cls(iterable)` directly.
+            3) If that fails, try `cls(dict(iterable))` (accepts (key, value) pairs).
+            4) Otherwise, raises a `TypeError`.
 
         Complexity:
-            Let `m = number of pairs / mapping size`.
+            Let `n = number of pairs / mapping size`.
             • Path (1): O(1).
-            • Path (2): typically O(m).
-            • Path (3): O(m) to build `dict` + O(m) to construct.
-            Overall (typical): O(m).
+            • Path (2): typically O(n).
+            • Path (3): O(n) to build a `dict` + O(n) to construct.
+            Overall (typical): O(n).
 
         Notes:
-        • Concrete subclasses should override to construct efficiently and preserve invariants.
-        • Only constructor-shape errors (TypeError) trigger fallbacks; other exceptions propagate.
+            • Concrete subclasses should override to construct efficiently and preserve invariants.
+            • Only constructor-shape errors (TypeError) trigger fallbacks; other exceptions propagate.
         """
         # 1) Idempotent fast-path: if already an instance of this class, return as-is
         if isinstance(iterable, cls):
@@ -905,7 +897,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         Returns an `array` built from the values of this mapping collection.
 
         Complexity:
-            O(m).
+            O(n).
         """
         return np.array(self.values(), dtype=element_type)
 
@@ -914,7 +906,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         Returns a `list` built from the values of this mapping collection.
 
         Complexity:
-            O(m).
+            O(n).
         """
         return list(self.values())
 
@@ -923,7 +915,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         Returns a `set` built from the values of this mapping collection.
 
         Complexity:
-            O(m) average.
+            O(n) average.
         """
         return set(self.values())
 
@@ -932,7 +924,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         Returns a `tuple` built from the values of this mapping collection.
 
         Complexity:
-            O(m).
+            O(n).
         """
         return tuple(self.values())
 
@@ -1003,7 +995,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         Returns a keys view of the specified mapping collection.
 
         Complexity:
-            O(1) to obtain; iteration O(m).
+            O(1) to obtain; iteration O(n).
         """
         return x.keys()
 
@@ -1012,7 +1004,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         Returns a values view of the specified mapping collection.
 
         Complexity:
-            O(1) to obtain; iteration O(m).
+            O(1) to obtain; iteration O(n).
         """
         return x.values()
 
@@ -1021,7 +1013,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         Returns an items view of the specified mapping collection.
 
         Complexity:
-            O(1) to obtain; iteration O(m).
+            O(1) to obtain; iteration O(n).
         """
         return x.items()
 
@@ -1099,14 +1091,15 @@ def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T
     """
     Returns `n` safe iterables; replicates only if the specified `Iterable` is single-pass.
 
-    – Single-pass (`Iterator` is its own `Iterable`): returns `n` independent tees.
-    – Re-iterable: returns the same iterable reference repeated `n` times.
+    Notes:
+        • Single-pass (`Iterator` is its own `Iterable`): returns `n` independent tees.
+        • Re-iterable: returns the same iterable reference repeated `n` times.
 
     Complexity:
-        Creation: O(1).
-        Consumption:
-            • Re-iterable: inherent O(n) as consumed.
-            • `tee`: amortized O(n) total across tees (lazy buffering).
+        • Creation: O(1).
+        • Consumption:
+            – Re-iterable: inherent O(n) as consumed.
+            – `tee`: amortized O(n) total across tees (lazy buffering).
 
     Raises:
         ValueError: If `n` is less than 1.
@@ -1142,12 +1135,12 @@ def is_single_pass_iterator(x: Any) -> bool:
 
 
 def is_mapping(x: Any) -> bool:
-    """Returns whether `x` is a `Mapping`."""
+    """Returns whether `x` is a `Mapping` (including `dict`)."""
     return isinstance(x, MAPPING_TYPE)
 
 
 def is_mutable_mapping(x: Any) -> bool:
-    """Returns whether `x` is a `MutableMapping`."""
+    """Returns whether `x` is a `MutableMapping` (including `dict`)."""
     return isinstance(x, MUTABLE_MAPPING_TYPE)
 
 

@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains utility exceptions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains utility exceptions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from typing import Any, Callable, List, Optional, Type, Union
@@ -26,7 +23,7 @@ __EXCEPTION_CLASSES_______________________________ = ""
 
 
 class ErrorList(List[Any]):
-    """A specialized list for error values."""
+    """A specialized `list` for error values."""
 
 
 # • TYPE ERROR #####################################################################################
@@ -34,7 +31,7 @@ class ErrorList(List[Any]):
 __TYPE_ERROR_CLASSES______________________________ = ""
 
 class ExpectedTypeList(List[Type[Any]]):
-    """A specialized list for expected types."""
+    """A specialized `list` for expected types."""
 
 
 ####################################################################################################

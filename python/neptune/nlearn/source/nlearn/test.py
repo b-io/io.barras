@@ -1,25 +1,21 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - tests the machine learning utility library
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - tests the machine learning utility library
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+from nutil.test import *
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
 from nlearn.nlp import *
-from nutil.test import *
-
 
 ####################################################################################################
 # LEARN TEST CONSTANTS

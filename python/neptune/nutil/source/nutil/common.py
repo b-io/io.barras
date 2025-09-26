@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -194,9 +191,9 @@ def matches_type_hints(value: Any, annotation: Any, sample_limit: int = 1) -> bo
     parametrized containers and unions. Validates element types recursively.
 
     Notes:
-        - Accepts `Any`, `Union[...]` (incl. `X | Y`), `Annotated[T, ...]`, `Literal[...]`,
+        • Accepts `Any`, `Union[...]` (incl. `X | Y`), `Annotated[T, ...]`, `Literal[...]`,
           `Type[T]`, `tuple[int, ...]`, `Sequence[T]`, `Mapping[K, V]`, etc.
-        - For iterables, it samples up to `_SAMPLE_LIMIT` elements (may consume from one-shot
+        • For iterables, it samples up to `_SAMPLE_LIMIT` elements (may consume from one-shot
           iterators).
 
     Complexity:
@@ -297,12 +294,12 @@ def flatten_expected_types(annotation: Any) -> Tuple[Any, ...]:
     formatting (for example, wrapping into `ExpectedTypeList` elsewhere).
 
     Examples:
-        - `Union[int, str]`      → `(int, str)`
-        - `Optional[int]`        → `(int, NoneType)`
-        - `Annotated[T, ...]`    → same as `flatten_expected_types(T)`
-        - `Literal[1, 2, "x"]`   → `(int, int, str)` (the raw literal values are not returned here)
-        - `list[int]`            → `(list,)`  (container element typing is not expanded)
-        - `int`                  → `(int,)`
+        • `Union[int, str]`      → `(int, str)`
+        • `Optional[int]`        → `(int, NoneType)`
+        • `Annotated[T, ...]`    → same as `flatten_expected_types(T)`
+        • `Literal[1, 2, "x"]`   → `(int, int, str)` (the raw literal values are not returned here)
+        • `list[int]`            → `(list,)`  (container element typing is not expanded)
+        • `int`                  → `(int,)`
 
     Complexity:
         O(k) for `Union`/`Annotated`/`Literal` unwrapping; otherwise O(1).
@@ -333,9 +330,9 @@ def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
     Returns the directory for `path`.
 
     Behavior:
-    • If `path` is a file, returns the directory that contains the file.
-    • If `path` is a directory and `parent` is `False`/`None`, returns the directory itself.
-    • If `parent` is `True`, returns the parent directory of `path`.
+        • If `path` is a file, returns the directory that contains the file.
+        • If `path` is a directory and `parent` is `False`/`None`, returns the directory itself.
+        • If `parent` is `True`, returns the parent directory of `path`.
     """
     abs_path = get_path(path)
     if parent is True:
@@ -551,8 +548,9 @@ def assert_element_types(
     Verifies that the `value` is a scalar instance of one of `allowed_types`. Collections are rejected.
 
     Behavior:
-    • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview), raises `TypeError`.
-    • Otherwise, if `allowed_types` is non-empty, `value` must be an instance of one of them.
+        • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview),
+          raises `TypeError`.
+        • Otherwise, if `allowed_types` is non-empty, `value` must be an instance of one of them.
 
     Complexity:
         O(len(allowed_types)) `isinstance` checks.
@@ -582,11 +580,12 @@ def assert_types(
     Verifies that the `value` conforms to the allowed scalar/container types.
 
     Behavior:
-    • Returns if `value` is an instance of any type in `allowed_types` or `allowed_collection_types`.
-    • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview), it MUST
-      be an instance of one of `allowed_collection_types`, otherwise raises `TypeError`.
-    • If `value` is a scalar and `allowed_types` is non-empty, it MUST be an instance of one of
-      `allowed_types`, otherwise raises `TypeError`.
+        • Returns if `value` is an instance of any type in `allowed_types` or
+          `allowed_collection_types`.
+        • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview),
+          it MUST be an instance of one of `allowed_collection_types`, otherwise raises `TypeError`.
+        • If `value` is a scalar and `allowed_types` is non-empty, it MUST be an instance of one of
+          `allowed_types`, otherwise raises `TypeError`.
 
     Complexity:
         O(len(allowed_types) + len(allowed_collection_types)) `isinstance` checks.

@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from nutil.scalar import *
@@ -37,7 +34,7 @@ SEMICOLON = ";"
 __STRING_CONVERTERS_______________________________ = ""
 
 
-def to_string(x, delimiter=","):
+def to_string(x: Any, delimiter=","):
     if is_null(x):
         return None
     elif is_collection(x):

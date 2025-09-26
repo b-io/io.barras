@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from nutil.common import *
@@ -25,8 +22,8 @@ __LIST_PROCESSORS_________________________________ = ""
 
 
 def filter_list(l, inclusion=None, exclusion=None):
-    """Returns the values of the specified list that are in the specified inclusive list and are not
-    in the specified exclusive list."""
+    """Returns the values of the specified `list` that are in the specified inclusive `list` and are
+    not in the specified exclusive `list`."""
     if is_empty(l):
         return []
     if not has_filter(inclusion=inclusion, exclusion=exclusion):
@@ -39,12 +36,12 @@ def filter_list(l, inclusion=None, exclusion=None):
 
 
 def include_list(l, inclusion):
-    """Returns the values of the specified list that are in the specified inclusive list."""
+    """Returns the values of the specified `list` that are in the specified inclusive `list`."""
     return filter_list(l, inclusion=inclusion)
 
 
 def exclude_list(l, exclusion):
-    """Returns the values of the specified list that are not in the specified exclusive list."""
+    """Returns the values of the specified `list` that are not in the specified exclusive `list`."""
     return filter_list(l, exclusion=exclusion)
 
 
@@ -68,7 +65,7 @@ def flatten_list(l, depth=-1):
 
 
 def mask_list(l, mask):
-    """Returns the values of the specified list that are True in the specified mask."""
+    """Returns the values of the specified `list` that are True in the specified mask."""
     return [v for i, v in enumerate(l) if mask[i]]
 
 

@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    test_nutil - test the utility library with pytest
-#
-# SYNOPSIS
-#    pytest -q
+#   test_nutil - test the utility library with pytest
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-import timeit
-
 import pytest
+import timeit
 from nutil.common import *
 
 ####################################################################################################

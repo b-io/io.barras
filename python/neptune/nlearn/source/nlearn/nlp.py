@@ -1,21 +1,17 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains machine learning utility functions for natural language processing (NLP)
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains machine learning utility functions for natural language processing (NLP)
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from gensim.utils import tokenize
-from nlearn.common import *
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
 
@@ -121,12 +117,12 @@ class WordEmbeddings:
     def sentences_to_word_indices(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
         Converts the specified sentences of size m to an array of word indices of shape
-        (m x max_word_count).
+        (`m` × `max_word_count`).
 
         :param sentences:      a list of sentences of size m
         :param max_word_count: the maximum number of words in a sentence
 
-        :return: an array of word indices of shape (m x max_word_count) and the set of unknown words
+        :return: an array of word indices of shape (`m` × `max_word_count`) and the set of unknown words
         """
         word_indices = np.zeros((len(sentences), max_word_count), dtype=INT_ELEMENT_TYPE)
         unknown_words = set()
@@ -275,12 +271,12 @@ class WordEmbeddings:
         # Add a dropout layer
         X = Dropout(dropout_rate)(X)
 
-        # Propagate X through another LSTM layer that returns a single hidden state
+        # Propagate `X` through another LSTM layer that returns a single hidden state
         X = LSTM(hidden_unit_count, return_sequences=False)(X)
         # Add a dropout layer
         X = Dropout(dropout_rate)(X)
 
-        # Propagate X through a dense layer
+        # Propagate `X` through a dense layer
         X = Dense(class_count, activation=None)(X)
         # Add a softmax activation
         classes = Activation("softmax")(X)

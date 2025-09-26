@@ -1,23 +1,21 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains machine learning utility functions for multivariate regressions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains machine learning utility functions for multivariate regressions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 import statsmodels.api as sm
 from ngui.chart import *
-from nutil.common import *
 from sklearn.preprocessing import OrdinalEncoder
+
+from nutil.common import *
 
 ####################################################################################################
 # REGRESSION FUNCTIONS
@@ -46,21 +44,21 @@ def encode_categorical_variables(X, element_type=INT_ELEMENT_TYPE):
 
 
 def fit(X, y):
-    """Fits the model of the OLS regression of the specified endogenous variable y on the specified
-    exogenous variables X."""
+    """Fits the model of the OLS regression of the specified endogenous variable `y` on the specified
+    exogenous variables `X`."""
     X = sm.add_constant(X)
     return sm.OLS(y, X).fit()
 
 
 def predict(model, X):
-    """Predicts the endogenous variable y of the specified model on the specified exogenous
-    variables X."""
+    """Predicts the endogenous variable `y` of the specified model on the specified exogenous
+    variables `X`."""
     return model.predict(X).ravel()
 
 
 def summarize(X, y):
-    """Summarizes the results of the OLS regression of the specified endogenous variable y on the
-    specified exogenous variables X."""
+    """Summarizes the results of the OLS regression of the specified endogenous variable `y` on the
+    specified exogenous variables `X`."""
     return fit(X, y).summary()
 
 

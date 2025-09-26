@@ -1,37 +1,27 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains machine learning utility functions for clustering
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains machine learning utility functions for clustering
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from sklearn import mixture
-from sklearn.cluster import KMeans, MiniBatchKMeans
-from sklearn.metrics import silhouette_samples
-from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
-
 from nmath.descriptive import (
+    any_values,
+    atan2,
+    collapse,
+    create_figure,
     DEFAULT_COLORS,
     DEFAULT_CONFIDENCE_LEVEL,
     DEFAULT_HEIGHT,
     DEFAULT_LINE_WIDTH,
     DEFAULT_MARKER_SIZE,
     DEFAULT_WIDTH,
-    RAD_TO_DEG,
-    VERBOSE,
-    any_values,
-    atan2,
-    collapse,
-    create_figure,
     draw,
     eigh,
     format_rgb_color,
@@ -45,14 +35,19 @@ from nmath.descriptive import (
     normalize,
     plot_cumulative_distribution,
     plot_ellipse,
+    RAD_TO_DEG,
     sort,
     sqrt,
     to_array,
     to_list,
     to_set,
+    VERBOSE,
     web,
 )
-
+from sklearn import mixture
+from sklearn.cluster import KMeans, MiniBatchKMeans
+from sklearn.metrics import silhouette_samples
+from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
 ####################################################################################################
 # CLUSTERING CONSTANTS

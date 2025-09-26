@@ -1,23 +1,20 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains utility constants
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains utility constants
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 import multiprocessing as mp
-import struct
-
 import numpy as np
+
+import struct
 
 ####################################################################################################
 # CONSTANTS

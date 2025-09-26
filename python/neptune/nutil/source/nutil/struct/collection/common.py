@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -111,10 +108,11 @@ def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = 
     """
     Returns whether `x` is an `Iterable` of `tuple` (optionally of a fixed `size`).
 
-    - Empty iterables are considered `True`.
-    - If `check_all` is False (default), only the first element is checked (O(1)).
-    - If `check_all` is True, all elements are checked (O(n)).
-    - Relies on `is_iterable` (which excludes `str`/`bytes`/etc.).
+    Notes:
+        • Empty iterables are considered `True`.
+        • If `check_all` is False (default), only the first element is checked (O(1)).
+        • If `check_all` is True, all elements are checked (O(n)).
+        • Relies on `is_iterable` (which excludes `str`/`bytes`/etc.).
     """
     if not is_iterable(x):
         return False

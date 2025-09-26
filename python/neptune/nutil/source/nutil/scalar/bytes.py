@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -31,16 +28,16 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
     Converts `x` to bytes (recursively for collections).
 
     Behavior:
-      • Returns `None` if `x` is null (per `is_null`).
-      • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
-      • Encodes `str` via `encoding`/`errors`.
-      • Converts numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
-      • For NumPy arrays:
+        • Returns `None` if `x` is null (per `is_null`).
+        • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
+        • Converts numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
+        • Encodes `str` via `encoding`/`errors`.
+        • For NumPy arrays:
           – If `dtype` is `uint8`, returns `x.tobytes()`.
           – Otherwise maps element-wise via `apply(..., to_bytes)`.
-      • For other collections, maps element-wise via `apply`.
-      • If `__bytes__` is defined, uses `bytes(x)` (with safe fallback).
-      • Otherwise encodes `str(x)`.
+        • For other collections, maps element-wise via `apply`.
+        • If `__bytes__` is defined, uses `bytes(x)` (with safe fallback).
+        • Otherwise encodes `str(x)`.
 
     Returns:
         `bytes` for scalars/byte-like, or the collection with elements converted to `bytes`.
@@ -50,10 +47,10 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
         return None
     elif is_byte_like(x):
         return bytes(x)
-    elif is_string(x):
-        return x.encode(encoding, errors)
     elif is_number(x):
         return str(x).encode(encoding, errors)
+    elif is_string(x):
+        return x.encode(encoding, errors)
     elif is_array(x):
         if x.dtype == np.uint8:
             return x.tobytes()

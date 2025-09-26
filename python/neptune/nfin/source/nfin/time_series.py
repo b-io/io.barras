@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains financial functions for time series
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains financial functions for time series
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from statistics import mode
@@ -33,11 +30,11 @@ class Transformation(StringEnum):
     """
     An enumeration of common series transformations.
 
-    Members
-    • `LOG`: natural logarithm.
-    • `DIFF`: first difference.
-    • `RETURNS`: arithmetic returns (percentage change).
-    • `LOG_RETURNS`: log returns (difference of logs).
+    Members:
+        • `LOG`: natural logarithm.
+        • `DIFF`: first difference.
+        • `RETURNS`: arithmetic returns (percentage change).
+        • `LOG_RETURNS`: log returns (difference of logs).
     """
 
     LOG = "log"
@@ -325,8 +322,8 @@ def transform_series(
         Whether to remove null values from the input series before processing.
     method : {'pad', 'ffill', 'backfill', 'bfill'}, optional
         Method used for filling holes during frequency conversion:
-        - 'pad' / 'ffill': propagate last valid observation forward.
-        - 'backfill' / 'bfill': use the next valid observation to fill.
+        • 'pad' / 'ffill': propagate last valid observation forward.
+        • 'backfill' / 'bfill': use the next valid observation to fill.
         Does not fill pre-existing NaNs.
     how : {'start', 'end'}, optional
         Only applicable for `PeriodIndex`. Determines whether to use the start or end of the period
@@ -342,10 +339,10 @@ def transform_series(
         Example values: 'D', 'W', 'M', 'Q', 'Y'.
     transf : Transformation (Enum), optional
         Optional transformation to apply after aggregation:
-        - Transformation.LOG
-        - Transformation.DIFF
-        - Transformation.RETURNS
-        - Transformation.LOG_RETURNS
+        • Transformation.LOG
+        • Transformation.DIFF
+        • Transformation.RETURNS
+        • Transformation.LOG_RETURNS
 
     Returns
     -------

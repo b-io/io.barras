@@ -1,23 +1,20 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - tests the graphical utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - tests the graphical utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from ngui.chart import *
-from ngui.image import *
 from nutil.test import *
 
+from ngui.image import *
 
 ####################################################################################################
 # GUI TEST CONSTANTS

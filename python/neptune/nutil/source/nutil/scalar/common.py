@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common scalar utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common scalar utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -123,20 +120,20 @@ def is_byte_like(x: Any) -> bool:
 __COMMON_DATE_VERIFIERS___________________________ = ""
 
 def is_date(x: Any) -> bool:
-    """Returns whether `x` is a `date` (without time)."""
+    """Returns whether `x` is a `date` scalar (without time)."""
     return isinstance(x, DATE_TYPE)
 
 def is_datetime(x: Any) -> bool:
-    """Returns whether `x` is a `datetime`."""
+    """Returns whether `x` is a `datetime` scalar."""
     return isinstance(x, DATETIME_TYPE)
 
 def is_timestamp(x: Any) -> bool:
-    """Returns whether `x` is a Pandas `Timestamp`."""
+    """Returns whether `x` is a Pandas `Timestamp` scalar."""
     return isinstance(x, TIMESTAMP_TYPE)
 
 def is_stamp(x: Any) -> bool:
     """Returns whether `x` is a numeric timestamp (epoch seconds/millis, etc.)."""
-    return is_number(x)
+    return is_number(x) and not is_boolean(x) and np.isfinite(x) and x >= 0
 
 # • NUMBER #########################################################################################
 

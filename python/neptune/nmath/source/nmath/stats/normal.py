@@ -1,30 +1,24 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains mathematical utility functions for normal distributions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains mathematical utility functions for normal distributions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from scipy.special import ndtr
-
 from nmath.common import (
-    DEFAULT_CONFIDENCE_LEVEL,
-    PI,
-    Distribution,
-    E,
     add,
     apply,
     chi2,
     collist,
+    DEFAULT_CONFIDENCE_LEVEL,
+    Distribution,
+    E,
     interval_probability,
     is_null,
     log,
@@ -32,6 +26,7 @@ from nmath.common import (
     multiply,
     np,
     par,
+    PI,
     simplify,
     sort,
     sqrt,
@@ -41,7 +36,7 @@ from nmath.common import (
     t,
     z,
 )
-
+from scipy.special import ndtr
 
 ####################################################################################################
 # NORMAL CONSTANTS

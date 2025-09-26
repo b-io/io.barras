@@ -1,17 +1,34 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains struct utilities
+#   util - contains struct utilities
 #
-# SYNOPSIS
-#    <NAME>
+# DESCRIPTION
+#   Provides a uniform API to access, convert, filter, transform, and combine heterogeneous
+#   containers such as lists, tuples, dicts, NumPy arrays, Pandas Series/DataFrames, and Pandas
+#   GroupBy objects. Functions are designed to handle empty inputs, scalar fallbacks, and mixed
+#   shapes gracefully. Most APIs accept optional `keys`/`inclusion`/`exclusion` filters and many
+#   are `axis`-aware.
+#
+#   Key ideas:
+#       • Accessors (`get_*`): read names, keys, index, items, values, types, and shapes.
+#       • Converters (`to_*`): coerce between containers and enforce element dtypes.
+#       • Generators: build masks and shaped arrays aligned to a template.
+#       • Processors: vectorized apply/calculate/filter/sort/slice/reduce utilities.
+#       • Joins/Merges/Pivots: thin convenience wrappers over Pandas operations.
+#
+#   Conventions:
+#       • “names” = column labels
+#       • “index” = row index
+#       • “keys” = indices or mapping keys (for non-tabular containers)
+#       • `axis=None` → element-wise; `axis=0` → rows; `axis=1` → columns
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from __future__ import annotations
@@ -64,7 +81,7 @@ def get_iterator(c, cycle=False):
 
 
 def get_next(c, cycle=False):
-    if not is_collection(c):
+    if is_element(c):
         return c
     return next(get_iterator(c, cycle=cycle))
 
@@ -90,8 +107,7 @@ def get_name(c, inclusion=None, exclusion=None):
 
 def get_names(c, inclusion=None, exclusion=None):
     """Returns the names of the specified collection."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_table(inclusion):
         inclusion = get_names(inclusion)
     if is_table(exclusion):
@@ -119,7 +135,7 @@ def get_all_common_names(*args, inclusion=None, exclusion=None):
 
 def get_common_names(c1, c2, inclusion=None, exclusion=None):
     """Returns the common names of the specified collections that are in the specified inclusive
-    list and are not in the specified exclusive list."""
+    `list` and are not in the specified exclusive `list`."""
     return get_names(c1, inclusion=include_list(get_names(c2), inclusion), exclusion=exclusion)
 
 
@@ -146,8 +162,7 @@ def get_key(c, inclusion=None, exclusion=None):
 def get_keys(c, inclusion=None, exclusion=None):
     """Returns the keys (indices/keys/names) of the specified collection that are in the specified
     inclusive list and are not in the specified exclusive list."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return OrderedSet()
     if is_table(inclusion):
@@ -367,8 +382,8 @@ def get_min_element_type(c1, c2, min_element_type=FLOAT_ELEMENT_TYPE):
     """Returns an element type that can safely represent c1, c2, and min_element_type.
 
     Uses NumPy's type promotion rules:
-    - Computes the combined element type of c1 and c2.
-    - Promotes it with the specified min_element_type.
+        • Computes the combined element type of c1 and c2.
+        • Promotes it with the specified min_element_type.
     This is generic and works for bools, integers, unsigned integers, floats, and complex.
     """
     return np.promote_types(np.result_type(c1, c2), np.dtype(min_element_type))
@@ -379,8 +394,7 @@ def get_min_element_type(c1, c2, min_element_type=FLOAT_ELEMENT_TYPE):
 
 def set_names(c, new_names):
     """Sets the names of the specified collection."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_table(new_names):
@@ -401,8 +415,7 @@ def set_names(c, new_names):
 def set_keys(c, new_keys, keys=None, inclusion=None, exclusion=None):
     """Sets the keys (indices/keys/names) of the specified collection that are in the specified
     inclusive list and are not in the specified exclusive list."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_null(keys):
@@ -472,8 +485,7 @@ def set_values(c, new_values, mask=None, keys=None, inclusion=None, exclusion=No
     """Sets the values (values/values/columns) of the specified collection whose keys
     (indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
     list."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_null(keys):
@@ -517,8 +529,7 @@ def set_element_types(c, new_element_types, keys=None, inclusion=None, exclusion
     """Sets the values (values/values/columns) of the specified collection whose keys
     (indices/keys/names) are in the specified inclusive list and are not in the specified exclusive
     list."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_null(keys):
@@ -1004,8 +1015,7 @@ def concat(c1, c2):
 def fill_null(
     c, numeric_default=None, object_default=None, keys=None, inclusion=None, exclusion=None
 ):
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_null(keys):
@@ -1819,8 +1829,7 @@ def remove_value(c, value, conservative=True, axis=0, keys=None, inclusion=None,
 
 
 def reverse(c, axis=0):
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_table(c):
@@ -1847,8 +1856,7 @@ def shift_dates(
     microseconds=0,
 ):
     """Shifts the date-time index of the specified collection."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_table(c):
         t = c.copy()
         t.index += pd.DateOffset(
@@ -1910,8 +1918,7 @@ def simplify(c):
 
 
 def slice(c, index_from=None, index_to=None, axis=0):
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_null(index_from):
         index_from = 0
     if is_null(index_to):
@@ -1925,8 +1932,7 @@ def slice(c, index_from=None, index_to=None, axis=0):
 
 def sort(c, ascending=True, by=None, inplace=False, axis=0):
     """Sorts the values of the specified collection."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_frame(c):
         return c.sort_values(by, ascending=ascending, inplace=inplace, axis=axis)
     elif is_series(c):
@@ -1940,8 +1946,7 @@ def sort(c, ascending=True, by=None, inplace=False, axis=0):
 
 def sort_index(c):
     """Sorts the index of the specified collection."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_table(c):
         return c.sort_index()
     return c
@@ -1952,8 +1957,7 @@ def sort_index(c):
 
 def take(c, keys, axis=0):
     """Returns the entries of the specified collection for all the specified keys."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     keys = to_ordered_set(keys)
     if is_table(c):
         if axis == 0:
@@ -1970,8 +1974,7 @@ def take_not(c, keys, axis=0):
 
 def take_at(c, indices, axis=0):
     """Returns the entries of the specified collection that are at the specified indices."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     indices = to_list(indices)
@@ -1996,8 +1999,7 @@ def take_not_at(c, indices, axis=0):
 def tally(c, boundaries):
     """Tallies the values of the specified collection into the intervals delimited by the specified
     boundaries."""
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
     if is_empty(c) or not is_subscriptable(c):
         return c
     if is_empty(boundaries):
@@ -2025,18 +2027,17 @@ def unique(c, pos=POSITION):
         The input container to deduplicate.
     pos : Position (Enum) or None, optional
         Indicates which duplicate to retain:
-        - Position.START: keep first occurrence (default for DataFrames)
-        - Position.END: keep last occurrence
-        - Position.MIDDLE: keep middle occurrence (rounded down if even number)
-        - None or Position.AUTO: fastest deduplication (order-preserving)
+        • Position.START: keep first occurrence (default for DataFrames)
+        • Position.END: keep last occurrence
+        • Position.MIDDLE: keep middle occurrence (rounded down if even number)
+        • None or Position.AUTO: fastest deduplication (order-preserving)
 
     Returns
     -------
     object
         A deduplicated container of the same type, using the specified positional strategy.
     """
-    if is_group_by(c):
-        c = c.obj if c.axis == 0 else c.groups
+    c = ungroup(c)
 
     # Fastest path: order-preserving unique values
     if is_null(pos) or pos is Position.AUTO:

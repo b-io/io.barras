@@ -1,26 +1,20 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains graphical utility functions for Web
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains graphical utility functions for Web
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-import socket
-
 import requests
-from xhtml2pdf import pisa
-
+import socket
 from nutil.common import *
-
+from xhtml2pdf import pisa
 
 ####################################################################################################
 # WEB FUNCTIONS

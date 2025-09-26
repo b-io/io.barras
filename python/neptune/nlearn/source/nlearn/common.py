@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#    <NAME> - contains common machine learning utility functions
-#
-# SYNOPSIS
-#    <NAME>
+#   <NAME> - contains common machine learning utility functions
 #
 # AUTHOR
-#    Written by Florian Barras (florian@barras.io).
+#   Written by Florian Barras (florian@barras.io).
 #
 # COPYRIGHT
-#    Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#    The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
 from ngui.chart import *
@@ -74,8 +71,8 @@ def to_one_hot(Y, size):
 ##################################################
 
 
-def softmax(x):
-    """Returns the softmax values for every set of scores in x."""
+def softmax(x: Any):
+    """Returns the softmax values for every set of scores in `x`."""
     e_x = np.exp(x - np.max(x))
     return e_x / e_x.sum()
 
