@@ -97,7 +97,7 @@ def get_middle(s: Struct, axis: Optional[int] = 0) -> Value:
     Notes:
         Uses floor toward the lower-middle for even lengths.
     """
-    if axis is None:
+    if is_null(axis):
         n = int(np.size(get_values(s)))
     else:
         n = count_rows(s) if axis == 0 else count_cols(s)

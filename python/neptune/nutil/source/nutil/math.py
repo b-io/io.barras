@@ -11,7 +11,10 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.struct.util.util import *
+from math import cos, sin
+
+from nutil.scalar.number import *
+from nutil.struct.util import *
 
 ####################################################################################################
 # MATH CONSTANTS
@@ -87,21 +90,21 @@ def scale(x: Any, base=10, eps=EPS):
 #########################
 
 
-def expand_dims(x, y, axis=0):
+def expand_dims(x, y, axis: Axis = 0):
     """Returns `x` with a dimension inserted at the specified axis to match the dimension of `y`."""
-    if axis is None:
+    if is_null(axis):
         return x  # for scalar broadcasting
     return x if np.ndim(x) == np.ndim(y) else np.expand_dims(x, axis=axis)
 
 
-def sum_along(x, axis=0):
+def sum_along(x, axis: Axis = 0):
     """Returns the sum along the specified axis with the dimension preserved."""
-    if axis is None:
+    if is_null(axis):
         return np.sum(x)  # for scalar broadcasting
     return expand_dims(np.sum(x, axis=axis), x, axis=axis)
 
 
-def normalize(x, axis=0, eps=EPS):
+def normalize(x, axis: Axis=0, eps=EPS):
     """Returns `x` divided by its sum along the specified axis.
 
     Adds a small epsilon to the denominator to improve numerical stability.
@@ -109,7 +112,7 @@ def normalize(x, axis=0, eps=EPS):
     return x / (sum_along(x, axis=axis) + eps)
 
 
-def softmax(x, axis=0, eps=EPS):
+def softmax(x, axis: Axis=0, eps=EPS):
     m = np.max(x, axis=axis) if axis is not None else np.max(x)
     return normalize(exp(x - expand_dims(m, x, axis=axis)), axis=axis, eps=eps)
 
@@ -605,17 +608,17 @@ def eigh(a, use_lower_part=True):
 #########################
 
 
-def norm1(vector, axis=0):
+def norm1(vector, axis: Axis=0):
     """Returns the L1 norm (Manhattan norm) of the specified vector along the axis."""
     return np.linalg.norm(vector, ord=1, axis=axis)
 
 
-def norm2(vector, axis=0):
+def norm2(vector, axis: Axis=0):
     """Returns the L2 norm (Euclidean norm) of the specified vector along the axis."""
     return np.linalg.norm(vector, ord=2, axis=axis)
 
 
-def normalize1(vector, axis=0, eps=EPS):
+def normalize1(vector, axis: Axis=0, eps=EPS):
     """
     Returns the L1-normalized vector along the specified axis (sum of absolute values = 1).
 
@@ -624,7 +627,7 @@ def normalize1(vector, axis=0, eps=EPS):
     return vector / (norm1(vector, axis=axis) + eps)
 
 
-def normalize2(vector, axis=0, eps=EPS):
+def normalize2(vector, axis: Axis=0, eps=EPS):
     """
     Returns the L2-normalized vector along the specified axis (Euclidean length = 1).
 
