@@ -268,7 +268,9 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
 # • TABLE ########################################
 
 
-def ungroup(x: Any, *, axis: Axis = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
+def ungroup(
+    x: Any, *, axis: Optional[Axis] = 0, mode: Literal["auto", "obj", "groups"] = "auto"
+) -> Any:
     """
     Returns the ungrouped Pandas object or the groups mapping from a `GroupBy`.
 
@@ -334,15 +336,17 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
 __COMMON_STRUCT_PROCESSORS________________________ = ""
 
 
-def normalize_axis(a: Axis) -> int:
+def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
     """
     Normalizes an axis specifier to its integer form.
 
-    Accepts both integer and string representations:
-      • 0 or "index"    → 0  (row axis)
-      • 1 or "columns"  → 1  (column axis)
+    Dispatch:
+        • 0 or "index"      → 0  (row axis)
+        • 1 or "columns"    → 1  (column axis)
     """
-    return 0 if a in (0, "index") else 1
+    if axis is None:
+        return None
+    return 0 if axis in (0, "index") else 1
 
 
 ####################################################################################################
@@ -379,7 +383,8 @@ def is_subscriptable(x: Any):
 
 
 def is_callable(x: Any, name: str) -> bool:
-    """Returns whether `x` has a callable attribute with the specified `name`.
+    """
+    Returns whether `x` has a callable attribute with the specified `name`.
 
     Example:
         if is_callable(df, "to_dict"):

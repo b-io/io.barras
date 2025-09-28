@@ -490,7 +490,8 @@ class TempSingletonMeta(type):
     def reset(cls: Type[T]) -> T:
         """
         Recreates the temp singleton instance with the last stored constructor arguments and
-        refreshes the creation timestamp."""
+        refreshes the creation timestamp.
+        """
         with cls._lock:
             if cls._instance is None:
                 raise UnboundLocalError(

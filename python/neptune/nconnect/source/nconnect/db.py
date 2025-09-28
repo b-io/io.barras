@@ -12,12 +12,13 @@
 ####################################################################################################
 
 import sqlalchemy as db
-from nutil.common import *
 from sqlalchemy.dialects import mssql
 from sqlalchemy.engine import URL
 from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
+
+from nutil.common import *
 
 ####################################################################################################
 # DB CONSTANTS
@@ -257,8 +258,10 @@ def create_metadata(engine, schema=DEFAULT_SCHEMA):
 
 
 def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
-    """Returns the metadata of the specified table (in the specified schema) using the specified
-    engine."""
+    """
+    Returns the metadata of the specified table (in the specified schema) using the specified
+    engine.
+    """
     if is_null(metadata):
         metadata = create_metadata(engine, schema=schema)
     metadata.reflect(extend_existing=True, only=[table], schema=schema, views=True)
@@ -276,8 +279,10 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
 
 
 def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
-    """Returns the columns of the specified dataframe that exist in the specified table and that are
-    not the specified filtering columns."""
+    """
+    Returns the columns of the specified dataframe that exist in the specified table and that are
+    not the specified filtering columns.
+    """
     if test:
         # Test the existence of the columns in the table
         for col in df:

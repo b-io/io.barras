@@ -21,8 +21,10 @@ __SET_PROCESSORS__________________________________ = ""
 
 
 def filter_set(s, inclusion=None, exclusion=None):
-    """Returns the values of the specified set that are in the specified inclusive set and are not
-    in the specified exclusive set."""
+    """
+    Returns the values of the specified set that are in the specified inclusive set and are not in
+    the specified exclusive set.
+    """
     if is_empty(s):
         return set()
     if not has_filter(inclusion=inclusion, exclusion=exclusion):

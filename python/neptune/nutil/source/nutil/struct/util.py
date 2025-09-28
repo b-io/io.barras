@@ -1672,7 +1672,9 @@ def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
 #########################
 
 
-def calculate(s: Struct, f: Callable[..., Any], *args: Any, axis: int = 0, **kwargs: Any) -> Any:
+def calculate(
+    s: Struct, f: Callable[..., Any], *args: Any, axis: Optional[Axis] = None, **kwargs: Any
+) -> Any:
     """
     Calculates `f(values, *args, axis=axis, **kwargs)` aligned to `s`, preserving labels where
     applicable (e.g., returns a `Series` for DataFrames with index/keys).

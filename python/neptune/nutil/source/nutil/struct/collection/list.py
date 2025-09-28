@@ -22,8 +22,10 @@ __LIST_PROCESSORS_________________________________ = ""
 
 
 def filter_list(l, inclusion=None, exclusion=None):
-    """Returns the values of the specified `list` that are in the specified inclusive `list` and are
-    not in the specified exclusive `list`."""
+    """
+    Returns the values of the specified `list` that are in the specified inclusive `list` and are
+    not in the specified exclusive `list`.
+    """
     if is_empty(l):
         return []
     if not has_filter(inclusion=inclusion, exclusion=exclusion):

@@ -29,7 +29,8 @@ def escape_property(property):
 
 
 def merge_config_with_defaults(config: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[str, Any]:
-    """Merges the specified config with defaults, replacing None with defaults.
+    """
+    Merges the specified config with defaults, replacing None with defaults.
 
     Args:
         config: The base configuration (may contain None values).

@@ -826,8 +826,10 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     ##############################################
 
     def put(self, key: K, value: V) -> None:
-        """Associates the specified value with the specified key in this mapping collection,
-        replacing any existing entry."""
+        """
+        Associates the specified value with the specified key in this mapping collection,
+        replacing any existing entry.
+        """
         raise TypeError("Mapping collection is immutable")
 
     def discard_key(self, key: K) -> None:
@@ -1022,8 +1024,10 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
     ##############################################
 
     def put(self, x: AbstractMappingCollection[K, V], key: K, value: V) -> None:
-        """Associates the specified value with the specified key in the specified mapping
-        collection, replacing any existing entry."""
+        """
+        Associates the specified value with the specified key in the specified mapping collection,
+        replacing any existing entry.
+        """
         x.put(key, value)
 
     def discard_key(self, x: AbstractMappingCollection[K, V], key: K) -> None:

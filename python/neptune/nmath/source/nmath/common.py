@@ -12,6 +12,9 @@
 ####################################################################################################
 
 from abc import ABC, abstractmethod
+from typing import Optional
+
+from scipy import stats
 
 from nutil.math import (
     apply,
@@ -30,7 +33,7 @@ from nutil.math import (
     to_array,
     to_series,
 )
-from scipy import stats
+from nutil.struct.util import Axis
 
 ####################################################################################################
 # MATH COMMON CONSTANTS
@@ -136,7 +139,7 @@ __MATH_COMMON_____________________________________ = ""
 __MATH_STATISTICS_________________________________ = ""
 
 
-def mode(*args, axis=0):
+def mode(*args, axis: Optional[Axis] = None):
     c = forward(*args)
     return calculate(c, f=stats.mode, axis=axis)
 
@@ -153,7 +156,7 @@ def cov(c1, c2, dof=1):
     return np.cov(c1, c2, ddof=dof)[0, 1]
 
 
-def skew(*args, axis=0):
+def skew(*args, axis: Optional[Axis] = 0):
     c = forward(*args)
     if is_group_by(c):
         return c.skew()
@@ -162,12 +165,12 @@ def skew(*args, axis=0):
     return stats.skew(get_values(c), axis=axis)
 
 
-def kurtosis(*args, axis=0):
+def kurtosis(*args, axis: Optional[Axis] = 0):
     c = forward(*args)
     return calculate(c, f=stats.kurtosis, axis=axis)
 
 
-def entropy(*args, axis=0):
+def entropy(*args, axis: Optional[Axis] = 0):
     c = forward(*args)
     return calculate(c, f=stats.entropy, axis=axis)
 

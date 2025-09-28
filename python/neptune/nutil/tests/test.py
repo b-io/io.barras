@@ -240,7 +240,7 @@ class TestCommon(Test):
 
     #####################
 
-    def apply(self, c, f, *args, axis=None, inplace=False, **kwargs):
+    def apply(self, c, f, *args, axis: Optional[Axis] = None, inplace=False, **kwargs):
         t = timeit.timeit(
             stmt=lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT
         )

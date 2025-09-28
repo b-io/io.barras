@@ -1204,8 +1204,10 @@ def diff_years(date_from, date_to):
 #########################
 
 def filter_days(c, days, week=False, year=False):
-    """Filters the collection by matching its date-time index with the specified days (week days
-    if week is True, days of the year if year is True, days of the month otherwise)."""
+    """
+    Filters the collection by matching its date-time index with the specified days (week days if
+    week is True, days of the year if year is True, days of the month otherwise).
+    """
     indices = find_all_in(
         get_days(c, use_index=True, week=week, year=year),
         get_days(days, use_index=True, week=week, year=year),

@@ -11,8 +11,11 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
+import re
+
 from nutil.scalar import *
 from nutil.scalar.number import INF
+from nutil.struct.util import remove_empty
 
 ####################################################################################################
 # STRING CONSTANTS
@@ -77,8 +80,10 @@ def extract(s, pattern):
 
 
 def replace(s, pattern, replacement):
-    """Returns the string constructed by replacing the specified pattern by the specified
-    replacement string in the specified string recursively (only if the length is decreasing)."""
+    """
+    Returns the string constructed by replacing the specified pattern by the specified replacement
+    string in the specified string recursively (only if the length is decreasing).
+    """
     count = INF
     while len(s) < count:
         count = len(s)
@@ -87,8 +92,10 @@ def replace(s, pattern, replacement):
 
 
 def replace_word(s, word, replacement):
-    """Returns the string constructed by replacing the specified word by the specified replacement
-    string in the specified string recursively (only if the length is decreasing)."""
+    """
+    Returns the string constructed by replacing the specified word by the specified replacement
+    string in the specified string recursively (only if the length is decreasing).
+    """
     return replace(s, "\\b" + word + "\\b", replacement)
 
 
@@ -96,8 +103,10 @@ def replace_word(s, word, replacement):
 
 
 def split(s, delimiter=",", empty_filter=True):
-    """Returns all the tokens computed by splitting the specified string around the specified
-    delimiter (regular expression)."""
+    """
+    Returns all the tokens computed by splitting the specified string around the specified delimiter
+    (regular expression).
+    """
     if empty_filter:
         return remove_empty(re.split(delimiter, s))
     return re.split(delimiter, s)
@@ -107,9 +116,11 @@ def split(s, delimiter=",", empty_filter=True):
 
 
 def trim(s, replace_space=True, replace_special=True):
-    """Returns the string constructed by stripping the specified string (and replacing recursively
-    the adjacent spaces if replace_space is True and/or special characters if replace_special is
-    True to a single space)."""
+    """
+    Returns the string constructed by stripping the specified string (and replacing recursively the
+    adjacent spaces if `replace_space` is `True` and/or special characters if `replace_special` is
+    `True` to a single space).
+    """
     if replace_special:
         s = replace(s, "\b|\f|\r\n|\r|\n|\t", " ")
     if replace_space:
