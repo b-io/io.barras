@@ -86,8 +86,22 @@ def get_first(s: Struct, axis: Optional[int] = 0) -> Value:
 
 
 def get_middle(s: Struct, axis: Optional[int] = 0) -> Value:
-    """Returns the middle entry along `axis` (equivalent to `get(s, len(s)//2, axis=axis)`)."""
-    return get(s, len(s) // 2, axis=axis)
+    """
+    Returns the middle entry along `axis`.
+
+    Equivalent to:
+        • axis=None → get(s, (N-1)//2, axis=None) where N is the flattened size
+        • axis=0    → get(s, (R-1)//2, axis=0)    where R is row count
+        • axis=1    → get(s, (C-1)//2, axis=1)    where C is column count
+
+    Notes:
+        Uses floor toward the lower-middle for even lengths.
+    """
+    if axis is None:
+        n = int(np.size(get_values(s)))
+    else:
+        n = count_rows(s) if axis == 0 else count_cols(s)
+    return get(s, (n - 1) // 2, axis=axis)
 
 
 def get_last(s: Struct, axis: Optional[int] = 0) -> Value:
