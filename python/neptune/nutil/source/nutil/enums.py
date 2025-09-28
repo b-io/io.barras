@@ -142,7 +142,7 @@ class IntEnumMeta(EnumMeta):
 
     def __contains__(cls: Type[I], item: Union[int, str, I]) -> bool:
         """
-        Checks whether the specified `name` or `value` corresponds to an enum member.
+        Returns whether the specified `name` or `value` corresponds to an enum member.
 
         Args:
             item: The `name`, the `value`, or the enum member to check.
@@ -338,7 +338,7 @@ class StrEnumMeta(EnumMeta):
 
     def __contains__(cls: Type[S], item: Union[str, S]) -> bool:
         """
-        Checks whether the specified `name` or `value` corresponds to an enum member.
+        Returns whether the specified `name` or `value` corresponds to an enum member.
 
         Args:
             item: The `name`, the `value`, or the enum member to check.

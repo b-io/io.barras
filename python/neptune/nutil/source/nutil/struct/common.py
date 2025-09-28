@@ -13,19 +13,39 @@
 
 from __future__ import annotations
 
-from typing import Literal
+from typing import Hashable, Literal
 
 from nutil.struct.collection.common import *
-from nutil.struct.collection.registry.common import *
 from nutil.struct.table.common import *
 from nutil.struct.tuple.common import *
+
+####################################################################################################
+# COMMON STRUCT CLASSES
+####################################################################################################
+
+__COMMON_STRUCT_CLASSES___________________________ = ""
+
+# Typing alias for any supported `Struct`:
+#   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
+#   • table: `pd.Series`, or `pd.DataFrame`
+#   • tuple: `tuple`
+Struct = Iterable[Any]
+
+# Typing alias for any supported keys across `Struct`
+Key = Hashable
+
+# Typing alias for any supported values across `Struct`
+Value = Any
+
+# Typing alias for any supported axes across `Struct`
+Axis = Union[int, str]  # {0, 1, "index", "columns"}
+
 
 ####################################################################################################
 # COMMON STRUCT CONVERTERS
 ####################################################################################################
 
 __COMMON_STRUCT_CONVERTERS________________________ = ""
-
 
 # • COLLECTION ###################################
 
@@ -50,7 +70,7 @@ def to_array(
     if len(args) == 1:
         arg = args[0]
         # Unwrap `GroupBy`
-        arg = ungroup(x)
+        arg = ungroup(arg)
         # Convert the argument
         if is_callable(arg, "to_array"):
             return arg.to_array()
@@ -202,7 +222,7 @@ def to_set(*args: Any) -> Set[Any]:
 
     • Single argument:
         – If a `GroupBy`, unwraps to object or groups, then continues.
-         – If the object has a `to_set` method, delegates to it.
+        – If the object has a `to_set` method, delegates to it.
         – If a scalar, wraps it as a single-element `set`.
         – If a `Mapping`, returns its values as a `set`.
         – If already a `set`, returns it unchanged.
@@ -248,13 +268,15 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
 # • TABLE ########################################
 
 
-def ungroup(x: Any, *, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
-    """Returns the ungrouped Pandas table or the groups mapping from a `GroupBy`.
+def ungroup(x: Any, *, axis: Axis = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
+    """
+    Returns the ungrouped Pandas object or the groups mapping from a `GroupBy`.
 
     Modes:
-        • `mode="obj"`      → returns the underlying `Series`/`DataFrame` (`.obj`).
-        • `mode="groups"`   → returns the groups mapping (`.groups`).
-        • `mode="auto"`     → returns `.obj` when grouping rows (`axis` in {0, "index"}), otherwise `.groups`.
+      • "obj"      → always return `.obj`
+      • "groups"   → always return `.groups`
+      • "auto"     → return `.obj` if normalized x.axis == normalized axis hint,
+                     else return `.groups`
 
     If `x` is not a `GroupBy`, returns `x` unchanged.
     """
@@ -264,7 +286,7 @@ def ungroup(x: Any, *, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
         return x.obj
     elif mode == "groups":
         return x.groups
-    return x.obj if getattr(x, "axis", 0) in (0, "index") else x.groups
+    return x.obj if normalize_axis(getattr(x, "axis", 0)) == normalize_axis(axis) else x.groups
 
 
 # • TUPLE ########################################
@@ -303,6 +325,24 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
         return (arg,)
     # Convert the arguments
     return tuple(args)
+
+
+####################################################################################################
+# COMMON STRUCT PROCESSORS
+####################################################################################################
+
+__COMMON_STRUCT_PROCESSORS________________________ = ""
+
+
+def normalize_axis(a: Axis) -> int:
+    """
+    Normalizes an axis specifier to its integer form.
+
+    Accepts both integer and string representations:
+      • 0 or "index"    → 0  (row axis)
+      • 1 or "columns"  → 1  (column axis)
+    """
+    return 0 if a in (0, "index") else 1
 
 
 ####################################################################################################

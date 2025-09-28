@@ -20,9 +20,9 @@ from math import ceil
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from nutil.config import CONFIG
-from nutil.enums import Aggregation, Frequency, Position
 from nutil.scalar.number import *
+from nutil.scalar.string import *
+from nutil.struct.util import *
 
 ####################################################################################################
 # DATE CONSTANTS
@@ -1201,16 +1201,65 @@ def diff_semesters(date_from, date_to):
 def diff_years(date_from, date_to):
     return date_to.year - date_from.year
 
-
 #########################
 
+def filter_days(c, days, week=False, year=False):
+    """Filters the collection by matching its date-time index with the specified days (week days
+    if week is True, days of the year if year is True, days of the month otherwise)."""
+    indices = find_all_in(
+        get_days(c, use_index=True, week=week, year=year),
+        get_days(days, use_index=True, week=week, year=year),
+    )
+    return take_at(c, indices)
+
+
+def filter_weeks(c, weeks):
+    """Filters the collection by matching its date-time index with the specified weeks."""
+    indices = find_all_in(get_weeks(c, use_index=True), get_weeks(weeks, use_index=True))
+    return take_at(c, indices)
+
+
+def filter_year_weeks(c, year_weeks):
+    """Filters the collection by matching its date-time index with the specified year-weeks."""
+    indices = find_all_in(
+        get_year_weeks(c, use_index=True), get_year_weeks(year_weeks, use_index=True)
+    )
+    return take_at(c, indices)
+
+
+def filter_months(c, months):
+    """Filters the collection by matching its date-time index with the specified months."""
+    indices = find_all_in(get_months(c, use_index=True), get_months(months, use_index=True))
+    return take_at(c, indices)
+
+
+def filter_quarters(c, quarters):
+    """Filters the collection by matching its date-time index with the specified quarters."""
+    indices = find_all_in(get_quarters(c, use_index=True), get_quarters(quarters, use_index=True))
+    return take_at(c, indices)
+
+
+def filter_semesters(c, semesters):
+    """Filters the collection by matching its date-time index with the specified semesters."""
+    indices = find_all_in(
+        get_semesters(c, use_index=True), get_semesters(semesters, use_index=True)
+    )
+    return take_at(c, indices)
+
+
+def filter_years(c, years):
+    """Filters the collection by matching its date-time index with the specified years."""
+    indices = find_all_in(get_years(c, use_index=True), get_years(years, use_index=True))
+    return take_at(c, indices)
+
+
+#########################
 
 def find_nearest_period(length, freq=FREQUENCY):
     day_count = get_period_days(None, period=to_period(length, freq=freq))
     period_freq = DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
     period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
     return to_period(period_length, period_freq)
-
 
 #########################
 
@@ -1244,7 +1293,6 @@ def reset_time(d=get_datetime()):
 
 #########################
 
-
 def shift_date(
     d=get_datetime(),
     years=0,
@@ -1271,6 +1319,64 @@ def shift_date(
         d,
     )
 
+def shift_dates(
+    c,
+    years=0,
+    months=0,
+    weeks=0,
+    days=0,
+    hours=0,
+    minutes=0,
+    seconds=0,
+    microseconds=0,
+):
+    """Shifts the date-time index of the specified collection."""
+    c = ungroup(c)
+    if is_table(c):
+        t = c.copy()
+        t.index += pd.DateOffset(
+            years=years,
+            months=months,
+            weeks=weeks,
+            days=days,
+            hours=hours,
+            minutes=minutes,
+            seconds=seconds,
+            microseconds=microseconds,
+        )
+        return t
+    elif is_dict(c):
+        return {
+            shift_date(
+                d,
+                years=years,
+                months=months,
+                weeks=weeks,
+                days=days,
+                hours=hours,
+                minutes=minutes,
+                seconds=seconds,
+                microseconds=microseconds,
+            ): c[d]
+            for d in c
+        }
+    return collection_to_type(
+        [
+            shift_date(
+                d,
+                years=years,
+                months=months,
+                weeks=weeks,
+                days=days,
+                hours=hours,
+                minutes=minutes,
+                seconds=seconds,
+                microseconds=microseconds,
+            )
+            for d in c
+        ],
+        c,
+    )
 
 ####################################################################################################
 # DATE VERIFIERS

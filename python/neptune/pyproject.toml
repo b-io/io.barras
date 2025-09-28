@@ -1,7 +1,7 @@
 # 1. PROJECT METADATA ##############################################################################
 [tool.poetry]
 name = "neptune"
-version = "1.0.0"
+version = "1.0.0.post137"
 description = "NEPTUNE is a collection of decoupled Python modules for robust application development"
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
@@ -17,7 +17,7 @@ packages = [
     { include = "ngui", from = "ngui/source" },
     { include = "nlearn", from = "nlearn/source" },
     { include = "nmath", from = "nmath/source" },
-    { include = "nserve ", from = "nserve/source" },
+    { include = "nserve", from = "nserve/source" },
     { include = "nutil", from = "nutil/source" },
 ]
 
@@ -149,7 +149,7 @@ known_first_party = [
     "nlearn",
     "nmath",
     "nserve",
-    "nutil"
+    "nutil",
 ]
 line_length = 100
 profile = "black"

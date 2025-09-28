@@ -11,12 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from . import common, config, enums, exceptions, io, math, metaclasses, profile, scalar, struct, \
-    transform, verifiers
-from .io import *
-from .scalar import *
-from .struct import *
-from .transform import *
+from . import common
+from .common import *
 
 ####################################################################################################
 # CONSTANTS

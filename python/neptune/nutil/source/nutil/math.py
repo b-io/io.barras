@@ -11,7 +11,7 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from nutil.struct.util import *
+from nutil.struct.util.util import *
 
 ####################################################################################################
 # MATH CONSTANTS

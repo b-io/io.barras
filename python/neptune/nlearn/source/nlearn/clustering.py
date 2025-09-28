@@ -55,6 +55,8 @@ from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
 __CLUSTERING_CONSTANTS____________________________ = ""
 
+from nutil.struct.collection.registry.ordered_set import to_ordered_set
+
 # The default maximum number of iterations
 DEFAULT_MAX_ITERATION_COUNT = 1000
 
@@ -253,7 +255,7 @@ def plot_clusters(
     points = to_array(points)
     classes = to_array(classes)
 
-    for i, c in enumerate(sort(to_set(classes))):
+    for i, c in enumerate(sort(to_ordered_set(classes))):
         # Skip the classes that are not present
         class_filter = classes == c
         if not any_values(class_filter):

@@ -447,9 +447,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
 
         Complexity:
             Let `m = len(other)`, `n = len(self)`.
-            If `other` is an `OrderedSet`: O(n).
-            Else if the elements of `other` are hashable: O(m + n).
-            Else: O(m · n).
+            • If `other` is an `OrderedSet`: O(n).
+            • Else if the elements of `other` are hashable: O(m + n).
+            • Else: O(m · n).
         """
         if isinstance(other, OrderedSet):
             other_keys = other.elements  # dict-like membership is O(1)
@@ -476,9 +476,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
 
         Complexity:
             Let `m = len(other)`, `n = len(self)`.
-            If `other` is an `OrderedSet`: O(m).
-            Else if the elements of `other` are hashable: O(m) membership checks.
-            Else: O(m · n).
+            • If `other` is an `OrderedSet`: O(m).
+            • Else if the elements of `other` are hashable: O(m) membership checks.
+            • Else: O(m · n).
         """
         if isinstance(other, OrderedSet):
             return all(e in self.elements for e in other)  # O(m)
@@ -589,7 +589,7 @@ def to_ordered_set(*args: Any) -> OrderedSet[Any]:
         • One non-`OrderedSet` arg of length `k`: O(k).
         • Multiple args (`p` positional items): O(p).
 
-    Behavior:
+    Dispatch:
         • If exactly one `OrderedSet` is specified, returns it unchanged.
         • If exactly one non-`OrderedSet` argument is specified, constructs `OrderedSet(arg)`.
         • If multiple arguments are specified, constructs `OrderedSet(args)`.

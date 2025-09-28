@@ -11,9 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from . import common, dataframe
+from . import common
 from .common import *
-from .dataframe import *
 
 
 ####################################################################################################

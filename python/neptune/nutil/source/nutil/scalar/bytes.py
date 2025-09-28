@@ -15,7 +15,7 @@ from __future__ import annotations
 
 from nutil.common import *
 from nutil.io.file import DEFAULT_ENCODING
-from nutil.struct.util import apply
+from nutil.struct.util.util import apply
 
 ####################################################################################################
 # BYTES CONVERTERS
@@ -27,14 +27,14 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
     """
     Converts `x` to bytes (recursively for collections).
 
-    Behavior:
+    Dispatch:
         • Returns `None` if `x` is null (per `is_null`).
         • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
         • Converts numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
         • Encodes `str` via `encoding`/`errors`.
         • For NumPy arrays:
-          – If `dtype` is `uint8`, returns `x.tobytes()`.
-          – Otherwise maps element-wise via `apply(..., to_bytes)`.
+            – If `dtype` is `uint8`, returns `x.tobytes()`.
+            – Otherwise maps element-wise via `apply(..., to_bytes)`.
         • For other collections, maps element-wise via `apply`.
         • If `__bytes__` is defined, uses `bytes(x)` (with safe fallback).
         • Otherwise encodes `str(x)`.

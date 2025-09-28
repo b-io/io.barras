@@ -11,10 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from . import collection, common, converters, table, tuple
-from .collection import *
-from .table import *
-from .tuple import *
+from . import common
+from .common import *
 
 ####################################################################################################
 # CONSTANTS

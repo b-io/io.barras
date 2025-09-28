@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ####################################################################################################
 # NAME
-#   <NAME> - contains utility annotations
+#   <NAME> - contains common typing decorators
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -16,34 +16,13 @@ from __future__ import annotations
 import inspect
 import logging
 from functools import wraps
-from typing import (Any, Callable, Dict, Optional,
-                    Type, TypeVar, Union)
-
-from nutil.common import get_function_name
-from nutil.exceptions import (create_type_error, ErrorList, ExpectedTypeList)
+from typing import Any, Callable, Dict, Optional, TypeVar
 
 ####################################################################################################
-# ANNOTATIONS
+# TYPING DECORATORS
 ####################################################################################################
 
-__ANNOTATIONS_____________________________________ = ""
-
-class classproperty:
-    """Implements a read-only property evaluated on the class (not the instance)."""
-
-    def __init__(self, fget):
-        if not callable(fget):
-            raise TypeError("'classproperty' expects a callable 'fget'")
-        self.fget = fget
-
-    def __get__(self, x: Any, owner=None):
-        owner = owner if owner is not None else type(x)
-        return self.fget(owner)
-
-
-# • TYPE CHECKING ANNOTATIONS ######################################################################
-
-__TYPE_CHECKING_ANNOTATIONS_______________________ = ""
+__TYPING_DECORATORS_______________________________ = ""
 
 F = TypeVar("F", bound=Callable[..., Any])
 
@@ -79,9 +58,12 @@ def typesafe(*, mode: str = "raise", logger: Optional[logging.Logger] = None) ->
     def _typesafe(func: F) -> F:
         sig = inspect.signature(func)
         try:
-            type_hints: Dict[str, Any] = inspect.get_annotations(func, eval_str=True)  # Python 3.10+
+            type_hints: Dict[str, Any] = inspect.get_annotations(
+                func, eval_str=True
+            )  # Python 3.10+
         except (AttributeError, TypeError, NameError):
             from typing import get_type_hints
+
             type_hints = get_type_hints(func, globalns=func.__globals__)
 
         @wraps(func)
@@ -120,4 +102,3 @@ def typesafe(*, mode: str = "raise", logger: Optional[logging.Logger] = None) ->
         return _wrapper
 
     return _typesafe
-

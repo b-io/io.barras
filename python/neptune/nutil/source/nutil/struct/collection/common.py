@@ -24,7 +24,7 @@ from collections.abc import (
 
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
-from nutil.struct.tuple import *
+from nutil.struct.tuple.common import *
 
 ####################################################################################################
 # COMMON COLLECTION CONSTANTS
@@ -65,7 +65,6 @@ SET_TYPE = ABCSet
 FROZENSET_TYPE = frozenset
 MUTABLE_SET_TYPE = ABCMutableSet
 
-
 ####################################################################################################
 # COMMON COLLECTION ACCESSORS
 ####################################################################################################
@@ -92,15 +91,29 @@ __COMMON_COLLECTION_VERIFIERS_____________________ = ""
 
 
 def is_collection(x: Any) -> bool:
-    """Returns whether `x` is a generic collection (excluding text/byte-like)."""
-    return isinstance(x, COLLECTION_TYPE) and not is_byte_like(x) and not is_string(x)
+    """
+    Returns whether `x` is a generic collection (1-D container) excluding:
+        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • `str` (treated as scalar text)
+        • `tuple` (treated as an atomic element)
+    """
+    return (
+        isinstance(x, COLLECTION_TYPE)
+        and not is_byte_like(x)
+        and not is_string(x)
+        and not is_tuple(x)
+    )
 
 
 #########################
 
 
 def is_iterable(x: Any) -> bool:
-    """Returns whether `x` is an `Iterable` (excluding text/byte-like)."""
+    """
+    Returns whether `x` is an `Iterable` excluding:
+        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • `str` (treated as scalar text)
+    """
     return isinstance(x, ITERABLE_TYPE) and not is_byte_like(x) and not is_string(x)
 
 

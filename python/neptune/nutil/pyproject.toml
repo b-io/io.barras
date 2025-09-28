@@ -1,17 +1,16 @@
 # 1. PROJECT METADATA ##############################################################################
 [tool.poetry]
-name = "nconnect"
+name = "nutil"
 version = "1.0.0.post137"
-description = "Connectivity utility library for Python"
-keywords = ["neptune", "utilities", "connectivity", "sql"]
+description = "NEPTUNE is a collection of decoupled Python modules for robust application development"
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/b-io/io.barras/tree/master/python/neptune/nconnect"
+repository = "https://github.com/b-io/io.barras/tree/master/python/neptune/nutil"
 
 packages = [
-    { include = "nconnect", from = "source" },
+    { include = "nutil", from = "source" },
 ]
 
 # Include specific resource files
@@ -21,19 +20,43 @@ include = [
 
 [tool.poetry.urls]
 "Bug Tracker" = "https://github.com/b-io/io.barras/issues"
-"Documentation" = "https://repo.barras.io/io.barras.python/neptune/nconnect/index.html"
-"Source Code" = "https://github.com/b-io/io.barras/tree/master/python/neptune/nconnect"
+"Documentation" = "https://repo.barras.io/io.barras.python/neptune/nutil/index.html"
+"Source Code" = "https://github.com/b-io/io.barras/tree/master/python/neptune/nutil"
 
 
 # 2. MAIN DEPENDENCIES #############################################################################
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Data Handling ##################################
-sqlalchemy = "^2.0.41"        # SQL toolkit and ORM
+# Concurrency & System ###########################
+multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
+psutil = "^5.9.8"             # System and process resource monitoring
+
+# DataFrames & Tables ############################
+numpy = "^1.26.4"             # Array computing and linear algebra
+pandas = "^2.3.0"             # Labeled data structures and analysis
+tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
+
+# File & Data I/O ################################
+chardet = "^4.0.0"            # Text encoding detection
+openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
+orjson = "^3.10.18"           # Fast JSON serialization and parsing
+pyyaml = "^6.0.2"             # YAML encoding and decoding
+xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
 # Utilities ######################################
-nutil = "^1.0.0"              # Neptune utility library
+annotated-types = "^0.6.0"    # Metadata for static type checkers
+cffi = "^1.17.1"              # Interface for calling C code
+deprecated = "^1.2.18"        # Runtime deprecation warnings
+importlib-metadata = "^8.7.0" # Access to package metadata
+joblib = "^1.5.1"             # Disk caching and parallel execution
+more-itertools = "^10.7.0"    # Utilities extending itertools
+pydantic = "^2.11.7"          # Data validation and configuration parsing
+pydantic-core = "^2.33.2"     # Core runtime for Pydantic
+pydantic-settings = "^2.10.0" # Environment-based settings management
+python-dateutil = "^2.9.0"    # Date and time parsing and manipulation
+python-dotenv = "^1.1.0"      # Loading of .env configuration files
+validators = "^0.34.0"        # Lightweight data and URL checks
 
 
 # 3. OTHER DEPENDENCIES ############################################################################
@@ -91,7 +114,7 @@ extend-ignore = ["E203", "W503"]
 max-line-length = 100
 
 [tool.isort]
-known_first_party = ["nconnect"]
+known_first_party = ["nutil"]
 line_length = 100
 profile = "black"
 src_paths = ["source"]
@@ -129,4 +152,4 @@ omit = [
 
 [tool.coverage.run]
 branch = true
-source = ["nconnect"]
+source = ["nutil"]

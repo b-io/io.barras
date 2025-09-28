@@ -14,18 +14,19 @@
 from typing import Any, Optional
 
 ####################################################################################################
-# TUPLE CONSTANTS
+# COMMON TUPLE CONSTANTS
 ####################################################################################################
 
-__TUPLE_CONSTANTS_________________________________ = ""
+__COMMON_TUPLE_CONSTANTS__________________________ = ""
 
 TUPLE_TYPE = tuple
 
+
 ####################################################################################################
-# TUPLE VERIFIERS
+# COMMON TUPLE VERIFIERS
 ####################################################################################################
 
-__TUPLE_VERIFIERS_________________________________ = ""
+__COMMON_TUPLE_VERIFIERS__________________________ = ""
 
 
 def is_tuple(x: Any):
@@ -34,7 +35,7 @@ def is_tuple(x: Any):
 
 
 def is_valid_tuple(x: Any, size: Optional[int] = None) -> bool:
-    """Returns whether `x` is a `tuple` and optionally whether it has the specified `size`."""
+    """Returns whether `x` is a `tuple` and optionally of the specified `size`."""
     if not is_tuple(x):
         return False
     elif size is not None and len(x) != size:

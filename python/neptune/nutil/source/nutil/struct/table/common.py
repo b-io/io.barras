@@ -13,6 +13,8 @@
 
 from __future__ import annotations
 
+from typing import Union
+
 from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *
@@ -37,6 +39,15 @@ FRAME_GROUP_BY_TYPE = DataFrameGroupBy
 
 INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
+
+####################################################################################################
+# COMMON TABLE CLASSES
+####################################################################################################
+
+__COMMON_TABLE_CLASSES____________________________ = ""
+
+# Typing alias for any supported tables
+Table = Union["pd.Series", "pd.DataFrame"]
 
 
 ####################################################################################################

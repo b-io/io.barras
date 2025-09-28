@@ -49,7 +49,7 @@ from typing import (
 
 import numpy as np
 
-from nutil.annotations import classproperty
+from nutil.decorators.common import classproperty
 from nutil.metaclasses import FinalSingletonMeta
 
 ####################################################################################################
@@ -133,9 +133,9 @@ class CollectionAdapter(Generic[T], ABC):
         Returns the number of elements contained in the specified collection.
 
         Complexity:
-            If `len(x)` is supported: O(1).
-            Else if `length_hint(x)` available: O(1) (hint only).
-            Else: O(n) by iteration.
+            • If `len(x)` is supported: O(1).
+            • Else if `length_hint(x)` available: O(1) (hint only).
+            • Else: O(n) by iteration.
         """
         try:
             return len(x)  # enforces int >= 0
@@ -159,8 +159,8 @@ class CollectionAdapter(Generic[T], ABC):
 
         Complexity:
             • If `x.__contains__` exists:
-              – hash-based containers: average O(1).
-              – sequence/linear containers: O(n).
+                – hash-based containers: average O(1).
+                – sequence/linear containers: O(n).
             • Else (iterate): O(n).
         """
         __contains__ = getattr(x, "__contains__", None)

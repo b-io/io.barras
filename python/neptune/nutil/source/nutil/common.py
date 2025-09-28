@@ -14,12 +14,10 @@
 from __future__ import annotations
 
 import builtins
-import inspect
 import os
 import sys
 import types
 import warnings
-from typing import Annotated, Callable, get_args, get_origin, Literal
 
 from nutil.struct.common import *
 
@@ -149,172 +147,6 @@ def get_all_attributes(x: Any) -> List[str]:
     return [a for a in dir(x) if not a.startswith("_")]
 
 
-#########################
-
-T = TypeVar("T")
-
-def get_type_name(t: Any) -> str:
-    """Returns the simple type name for a `type`, or the instance type name for values."""
-    return t.__name__ if isinstance(t, type) else type(t).__name__
-
-def get_type_names(ts: Iterable[Any], separator: str = ", ") -> str:
-    """Returns the simple type names of the specified types joined by the specified `separator`."""
-    return separator.join(get_type_name(t) for t in ts)
-
-#########################
-
-def get_type_hints(x: Any) -> Dict[str, Any]:
-    """
-    Returns the resolved type hints for `x`, handling forward references and Python version
-    differences robustly.
-
-    Tries `inspect.get_annotations(obj, eval_str=True)` on Python 3.10+ and falls back to
-    `typing.get_type_hints` when unavailable.
-
-    Complexity:
-        O(n) in the number of annotations, with constant-time dictionary operations.
-    """
-    try:
-        return inspect.get_annotations(obj, eval_str=True)  # type: ignore[attr-defined]
-    except (AttributeError, TypeError, NameError):
-        try:
-            from typing import get_type_hints
-            glb = getattr(obj, "__globals__", None)
-            return get_type_hints(obj, globalns=glb)
-        except Exception:
-            return {}
-
-# TODO: use is_dict, is_list, is_set, etc. and make sure they check against collection ABC...
-def matches_type_hints(value: Any, annotation: Any, sample_limit: int = 1) -> bool:
-    """
-    Determines whether the `value` conforms to the `annotation` (PEP 484/585/604), including
-    parametrized containers and unions. Validates element types recursively.
-
-    Notes:
-        • Accepts `Any`, `Union[...]` (incl. `X | Y`), `Annotated[T, ...]`, `Literal[...]`,
-          `Type[T]`, `tuple[int, ...]`, `Sequence[T]`, `Mapping[K, V]`, etc.
-        • For iterables, it samples up to `_SAMPLE_LIMIT` elements (may consume from one-shot
-          iterators).
-
-    Complexity:
-        Linear in container sizes; union checks are O(k) in the number of union branches.
-    """
-    if annotation is Any:
-        return True
-
-    origin = get_origin(annotation)
-    args = get_args(annotation)
-
-    if is_null(origin):
-        # PEP 604 `X | Y` may surface as `types.UnionType` on some versions
-        if getattr(annotation, "__module__", "") == "types" and getattr(annotation, "__qualname__", "") == "UnionType":
-            return any(matches_type_hints(value, a) for a in args)
-        try:
-            return isinstance(value, annotation)
-        except TypeError:
-            return False
-    elif origin is Annotated:
-        return matches_type_hints(value, args[0])
-    elif origin is Literal:
-        return any(value == a for a in args)
-    elif origin is Union:
-        return any(matches_type_hints(value, a) for a in args)
-    elif is_type(origin):
-        return isinstance(value, type) and (not args or issubclass(value, args[0]))
-    elif is_tuple(origin):
-        if not isinstance(value, tuple):
-            return False
-        if len(args) == 2 and args[1] is Ellipsis:  # variable-length homogeneous tuple: `tuple[T, ...]`
-            (elem_type, _) = args
-            return all(matches_type_hints(v, elem_type) for v in value)
-        if len(args) != len(value):
-            return False
-        return all(matches_type_hints(v, t) for v, t in zip(value, args))
-    elif is_list(origin):
-        if not is_list(value):
-            return False
-        if not args:
-            return True
-        (elem_type,) = args
-        return all(matches_type_hints(v, elem_type) for v in value)
-    elif is_sequence(origin):
-        # excludes `tuple` (handled above)
-        if not is_sequence(value):
-            return False
-        if not args:
-            return True
-        (elem_type,) = args
-        return all(matches_type_hints(v, elem_type) for v in value)
-    elif is_mapping(origin):
-        if not is_mapping(value):
-            return False
-        if not args:
-            return True
-        key_type, val_type = args
-        return all(
-            matches_type_hints(k, key_type) and matches_type_hints(v, val_type)
-            for k, v in value.items()
-        )
-    elif is_set(origin):
-        if not is_set(value):
-            return False
-        if not args:
-            return True
-        (elem_type,) = args
-        return all(matches_type_hints(v, elem_type) for v in value)
-    elif is_iterable(origin):
-        if not is_iterable(value):
-            return False
-        if not args:
-            return True
-        (elem_type,) = args
-        # Check up to `sample_limit` items
-        has_item, first_item, it = peek(value)
-        if not has_item:
-            return True
-        if not matches_type_hints(first_item, elem_type):
-            return False
-        checked = 1
-        for x in it:
-            if not matches_type_hints(x, elem_type):
-                return False
-            checked += 1
-            if checked >= sample_limit:
-                break
-        return True
-    try:
-        return isinstance(value, origin)
-    except TypeError:
-        return False
-
-
-def flatten_expected_types(annotation: Any) -> Tuple[Any, ...]:
-    """
-    Normalizes the `annotation` into a `tuple` of acceptable alternatives for display or downstream
-    formatting (for example, wrapping into `ExpectedTypeList` elsewhere).
-
-    Examples:
-        • `Union[int, str]`      → `(int, str)`
-        • `Optional[int]`        → `(int, NoneType)`
-        • `Annotated[T, ...]`    → same as `flatten_expected_types(T)`
-        • `Literal[1, 2, "x"]`   → `(int, int, str)` (the raw literal values are not returned here)
-        • `list[int]`            → `(list,)`  (container element typing is not expanded)
-        • `int`                  → `(int,)`
-
-    Complexity:
-        O(k) for `Union`/`Annotated`/`Literal` unwrapping; otherwise O(1).
-    """
-    origin = get_origin(annotation)
-    args = get_args(annotation)
-
-    if origin is Annotated:
-        return flatten_expected_types(args[0])
-    elif origin is Literal:
-        return tuple(type(v) for v in args) if args else (annotation,)
-    elif origin is Union:
-        return tuple(args)  # includes `NoneType` when `Optional[T]` is `Union[T, NoneType]`
-    return (annotation,)
-
 # • IO #############################################################################################
 
 __COMMON_IO_ACCESSORS_____________________________ = ""
@@ -329,7 +161,7 @@ def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
     """
     Returns the directory for `path`.
 
-    Behavior:
+    Dispatch:
         • If `path` is a file, returns the directory that contains the file.
         • If `path` is a directory and `parent` is `False`/`None`, returns the directory itself.
         • If `parent` is `True`, returns the parent directory of `path`.
@@ -534,81 +366,6 @@ def exists(name: str, *, level: int = 0) -> bool:
         return hasattr(builtins, name)
 
     return (name in f.f_locals) or (name in f.f_globals) or hasattr(builtins, name)
-
-##################################################
-
-def assert_element_types(
-    name: str,
-    value: Any,
-    allowed_types: Tuple[Type[Any], ...],
-    *,
-    collection_predicate: Optional[Callable[[Any], bool]] = None,
-) -> None:
-    """
-    Verifies that the `value` is a scalar instance of one of `allowed_types`. Collections are rejected.
-
-    Behavior:
-        • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview),
-          raises `TypeError`.
-        • Otherwise, if `allowed_types` is non-empty, `value` must be an instance of one of them.
-
-    Complexity:
-        O(len(allowed_types)) `isinstance` checks.
-    """
-    is_allowed_collection = collection_predicate or is_collection
-    if is_allowed_collection(value):
-        scalars = get_type_names(allowed_types)
-        raise TypeError(
-            f"'{name}' must be a scalar instance of {{{scalars}}}; got {type(value).__name__}"
-            if scalars else
-            f"'{name}' must be a scalar; got {type(value).__name__}"
-        )
-    if allowed_types and not isinstance(value, allowed_types):
-        scalars = get_type_names(allowed_types)
-        raise TypeError(f"'{name}' must be an instance of {{{scalars}}}; got {type(value).__name__}")
-
-
-def assert_types(
-    name: str,
-    value: Any,
-    allowed_types: Tuple[Type[Any], ...],
-    *,
-    allowed_collection_types: Tuple[Type[Any], ...] = (),
-    collection_predicate: Optional[Callable[[Any], bool]] = None,
-) -> None:
-    """
-    Verifies that the `value` conforms to the allowed scalar/container types.
-
-    Behavior:
-        • Returns if `value` is an instance of any type in `allowed_types` or
-          `allowed_collection_types`.
-        • If `value` is a generic collection (default excludes str/bytes/bytearray/memoryview),
-          it MUST be an instance of one of `allowed_collection_types`, otherwise raises `TypeError`.
-        • If `value` is a scalar and `allowed_types` is non-empty, it MUST be an instance of one of
-          `allowed_types`, otherwise raises `TypeError`.
-
-    Complexity:
-        O(len(allowed_types) + len(allowed_collection_types)) `isinstance` checks.
-    """
-    for t in allowed_types + allowed_collection_types:
-        if isinstance(value, t):
-            return
-
-    is_allowed_collection = collection_predicate or is_collection
-    if is_allowed_collection(value):
-        if allowed_collection_types:
-            raise TypeError(
-                f"'{name}' must be one of {{{get_type_names(allowed_collection_types)}}}; "
-                f"got {type(value).__name__}"
-            )
-        raise TypeError(f"'{name}' must be a scalar; got {type(value).__name__}")
-
-    if allowed_types and not isinstance(value, allowed_types):
-        raise TypeError(
-            f"'{name}' must be an instance of {{{get_type_names(allowed_types)}}}; "
-            f"got {type(value).__name__}"
-        )
-
 
 # • IO #############################################################################################
 

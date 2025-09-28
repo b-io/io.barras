@@ -14,7 +14,7 @@
 from distutils.util import strtobool
 
 from nutil.scalar.number import *
-from nutil.struct.util import apply
+from nutil.struct.util.util import apply
 
 ####################################################################################################
 # BOOLEAN CONVERTERS

@@ -11,13 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-from . import array, common, dict, list, set
-from .array import *
+from . import common
 from .common import *
-from .dict import *
-from .list import *
-from .set import *
-
 
 ####################################################################################################
 # CONSTANTS
