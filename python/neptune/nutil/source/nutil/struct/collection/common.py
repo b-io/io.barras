@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -26,11 +26,9 @@ from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
 
-####################################################################################################
-# COMMON COLLECTION CONSTANTS
-####################################################################################################
+## COMMON COLLECTION CONSTANTS
 
-__COMMON_COLLECTION_CONSTANTS_____________________ = ""
+__COMMON_COLLECTION_CONSTANTS_______________________________ = ""
 
 COLLECTION_TYPE = ABCCollection
 
@@ -39,37 +37,35 @@ ITERABLE_TYPE = ABCIterable
 SEQUENCE_TYPE = ABCSequence
 MUTABLE_SEQUENCE_TYPE = ABCMutableSequence
 
-# • ARRAY ##########################################################################################
+### ARRAY ##################################################
 
-__COMMON_ARRAY_CONSTANTS__________________________ = ""
+__COMMON_ARRAY_CONSTANTS____________________________________ = ""
 
 ARRAY_TYPE = np.ndarray
 
-# • DICT ###########################################################################################
+### DICT ###################################################
 
-__COMMON_DICT_CONSTANTS___________________________ = ""
+__COMMON_DICT_CONSTANTS_____________________________________ = ""
 
 DICT_TYPE = dict
 
-# • LIST ###########################################################################################
+### LIST ###################################################
 
-__COMMON_LIST_CONSTANTS___________________________ = ""
+__COMMON_LIST_CONSTANTS_____________________________________ = ""
 
 LIST_TYPE = list
 
-# • SET ############################################################################################
+### SET ####################################################
 
-__COMMON_SET_CONSTANTS____________________________ = ""
+__COMMON_SET_CONSTANTS______________________________________ = ""
 
 SET_TYPE = ABCSet
 FROZENSET_TYPE = frozenset
 MUTABLE_SET_TYPE = ABCMutableSet
 
-####################################################################################################
-# COMMON COLLECTION ACCESSORS
-####################################################################################################
+## COMMON COLLECTION ACCESSORS
 
-__COMMON_COLLECTION_ACCESSORS_____________________ = ""
+__COMMON_COLLECTION_ACCESSORS_______________________________ = ""
 
 
 def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
@@ -83,11 +79,9 @@ def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
         return False, None, it2
 
 
-####################################################################################################
-# COMMON COLLECTION VERIFIERS
-####################################################################################################
+## COMMON COLLECTION VERIFIERS
 
-__COMMON_COLLECTION_VERIFIERS_____________________ = ""
+__COMMON_COLLECTION_VERIFIERS_______________________________ = ""
 
 
 def is_collection(x: Any) -> bool:
@@ -105,7 +99,7 @@ def is_collection(x: Any) -> bool:
     )
 
 
-#########################
+##############################
 
 
 def is_iterable(x: Any) -> bool:
@@ -146,7 +140,7 @@ def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = 
     return True
 
 
-#########################
+##############################
 
 
 def is_sequence(x: Any) -> bool:
@@ -159,9 +153,9 @@ def is_mutable_sequence(x: Any) -> bool:
     return isinstance(x, MUTABLE_SEQUENCE_TYPE)
 
 
-# • ARRAY ##########################################################################################
+### ARRAY ##################################################
 
-__COMMON_ARRAY_VERIFIERS__________________________ = ""
+__COMMON_ARRAY_VERIFIERS____________________________________ = ""
 
 
 def is_array(x: Any) -> bool:
@@ -169,9 +163,9 @@ def is_array(x: Any) -> bool:
     return isinstance(x, ARRAY_TYPE)
 
 
-# • DICT ###########################################################################################
+### DICT ###################################################
 
-__COMMON_DICT_VERIFIERS___________________________ = ""
+__COMMON_DICT_VERIFIERS_____________________________________ = ""
 
 
 def is_dict(x: Any) -> bool:
@@ -179,9 +173,9 @@ def is_dict(x: Any) -> bool:
     return isinstance(x, DICT_TYPE)
 
 
-# • LIST ###########################################################################################
+### LIST ###################################################
 
-__COMMON_LIST_VERIFIERS___________________________ = ""
+__COMMON_LIST_VERIFIERS_____________________________________ = ""
 
 
 def is_list(x: Any) -> bool:
@@ -189,9 +183,9 @@ def is_list(x: Any) -> bool:
     return isinstance(x, LIST_TYPE)
 
 
-# • SET ############################################################################################
+### SET ####################################################
 
-__COMMON_SET_VERIFIERS____________________________ = ""
+__COMMON_SET_VERIFIERS______________________________________ = ""
 
 
 def is_set(x: Any) -> bool:

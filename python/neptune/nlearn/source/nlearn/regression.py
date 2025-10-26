@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains machine learning utility functions for multivariate regressions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import statsmodels.api as sm
 from ngui.chart import *
@@ -17,11 +17,9 @@ from sklearn.preprocessing import OrdinalEncoder
 
 from nutil.common import *
 
-####################################################################################################
-# REGRESSION FUNCTIONS
-####################################################################################################
+## REGRESSION FUNCTIONS ##################################################################
 
-__REGRESSION______________________________________ = ""
+__REGRESSION________________________________________________ = ""
 
 
 def get_categorical_variables(X):
@@ -32,7 +30,7 @@ def get_categorical_variables(X):
     ]
 
 
-##################################################
+############################################################
 
 
 def encode_categorical_variables(X, element_type=INT_ELEMENT_TYPE):
@@ -62,9 +60,9 @@ def summarize(X, y):
     return fit(X, y).summary()
 
 
-# • REGRESSION FIGURE ##############################################################################
+### REGRESSION FIGURE ######################################
 
-__REGRESSION_FIGURE_______________________________ = ""
+__REGRESSION_FIGURE_________________________________________ = ""
 
 
 def plot_variables(

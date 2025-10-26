@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -17,11 +17,9 @@ from nutil.common import *
 from nutil.io.file import DEFAULT_ENCODING
 from nutil.struct.util.util import apply
 
-####################################################################################################
-# BYTES CONVERTERS
-####################################################################################################
+## BYTES CONVERTERS ######################################################################
 
-__BYTES_CONVERTERS________________________________ = ""
+__BYTES_CONVERTERS__________________________________________ = ""
 
 def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -> Any:
     """

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains formatting utility functions for images
 #
@@ -9,36 +9,22 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import base64
 
 import cv2
 
+## IMAGE CONSTANTS #######################################################################
 
-####################################################################################################
-# IMAGE CONSTANTS
-####################################################################################################
-
-__IMAGE_CONSTANTS_________________________________ = ""
+__IMAGE_CONSTANTS___________________________________________ = ""
 
 DEFAULT_IMAGE_MODE = cv2.IMREAD_UNCHANGED
 
-##################################################
 
-BMP_FORMAT = "bmp"  # bitmap
-JPEG_FORMAT = "jpg"  # Joint Photographic Experts Group
-PNG_FORMAT = "png"  # Portable Network Graphics
-SVG_FORMAT = "svg"  # Scalable Vector Graphics
-TIFF_FORMAT = "tiff"  # Tag Image File Format
-WEBP_FORMAT = "webp"  # WebP
+## IMAGE FUNCTIONS #######################################################################
 
-
-####################################################################################################
-# IMAGE FUNCTIONS
-####################################################################################################
-
-__IMAGE___________________________________________ = ""
+__IMAGE_____________________________________________________ = ""
 
 
 def buffer_to_image(buffer, format, rotate=False):
@@ -75,7 +61,7 @@ def buffer_to_html(
     return template.format(image=image, format=format, width=width, height=height)
 
 
-#########################
+##############################
 
 
 def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
@@ -111,14 +97,14 @@ def image_to_html(
     )
 
 
-##################################################
+############################################################
 
 
 def generate_image(*shape):
     return create_random_short_array(255, *shape)
 
 
-##################################################
+############################################################
 
 
 def evaluate_colorfulness(buffer):
@@ -152,14 +138,14 @@ def evaluate_brightness(buffer):
     return mean(mean(v))
 
 
-#########################
+##############################
 
 
 def resize_image(buffer, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT):
     return cv2.resize(buffer, (width, height))
 
 
-#########################
+##############################
 
 
 def rotate_anti_90(buffer):
@@ -182,7 +168,7 @@ def rotate_by(buffer, angle, center=None, scale=1):
     return cv2.warpAffine(buffer, m, (w, h))
 
 
-#########################
+##############################
 
 
 def show_image(buffer, title="Image"):
@@ -191,7 +177,7 @@ def show_image(buffer, title="Image"):
     cv2.destroyAllWindows()
 
 
-##################################################
+############################################################
 
 
 def write_image(path, buffer):

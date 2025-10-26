@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - tests the graphical utility functions
 #
@@ -9,27 +9,23 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from ngui.chart import *
 from nutil.test import *
 
 from ngui.image import *
 
-####################################################################################################
-# GUI TEST CONSTANTS
-####################################################################################################
+## GUI TEST CONSTANTS ####################################################################
 
-__GUI_TEST_CONSTANTS______________________________ = ""
+__GUI_TEST_CONSTANTS________________________________________ = ""
 
 SIZE = 1000
 
 
-####################################################################################################
-# GUI TEST CLASSES
-####################################################################################################
+## GUI TEST CLASSES ######################################################################
 
-__GUI_TEST_CLASSES________________________________ = ""
+__GUI_TEST_CLASSES__________________________________________ = ""
 
 
 class TestGui(Test):
@@ -47,7 +43,7 @@ class TestGui(Test):
         self.assert_equals(fig_to_svg_html(fig)[-42:-10], 'g-xtitle"/><g class="g-ytitle"/>')
         self.assert_equals(fig_to_webp_html(fig)[-42:-10], "5z/7n/3H/uP/ef+8/95/5z/7n/3H/uv8")
 
-    #####################
+    ##########################
 
     def test_image(self):
         rgb = to_rgb(200, 100, 0, scale=False)
@@ -111,9 +107,9 @@ class TestGui(Test):
         self.assert_equals(evaluate_blurriness(rgb_buffer), 108379.74, precision=2)
         self.assert_equals(evaluate_brightness(rgb_buffer), 190.56, precision=2)
 
-        # show_image(rgb_buffer)
+        # Show_image(rgb_buffer)
 
-    ##############################################
+    ########################################################
 
     def evaluate_colorfulness(self, image):
         t = timeit.timeit(stmt=lambda: evaluate_colorfulness(image), number=TEST_COUNT)
@@ -128,11 +124,9 @@ class TestGui(Test):
         test("Evaluate the blurriness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
 
 
-####################################################################################################
-# GUI TEST MAIN
-####################################################################################################
+## GUI TEST MAIN #########################################################################
 
-__GUI_TEST_MAIN___________________________________ = ""
+__GUI_TEST_MAIN_____________________________________________ = ""
 
 
 def main():

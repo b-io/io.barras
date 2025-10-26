@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains scalar converters
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from nutil.scalar.boolean import to_boolean
 from nutil.scalar.bytes import to_bytes
@@ -18,11 +18,9 @@ from nutil.scalar.date import to_date, to_datetime, to_timestamp
 from nutil.scalar.number import to_float, to_int
 from nutil.scalar.string import to_string
 
-####################################################################################################
-# SCALAR CONVERTERS
-####################################################################################################
+## SCALAR CONVERTERS #####################################################################
 
-__SCALAR_CONVERTERS_______________________________ = ""
+__SCALAR_CONVERTERS_________________________________________ = ""
 
 def to_scalar(x, t):
     if type(x) is t:

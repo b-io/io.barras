@@ -1,5 +1,5 @@
-# tests/struct/test_common.py
-####################################################################################################
+# Tests/struct/test_common.py
+##########################################################################################
 # NAME
 #   test_common - contains unit tests for the `OrderedSet` implementation and helpers
 #
@@ -9,7 +9,7 @@
 #
 # USAGE
 #   Run with: pytest -q
-####################################################################################################
+##########################################################################################
 
 import operator
 from typing import Any
@@ -43,7 +43,7 @@ from nutil.struct.common import (
 )
 
 
-# 1. TEST DOUBLES ##################################################################################
+# 1. TEST DOUBLES ######################################################################################################
 class _DelegateAll:
     """A delegate that provides `to_array`, `to_dict`, `to_list`, `to_set`, `to_tuple`."""
 
@@ -73,7 +73,7 @@ class _CallableProbe:
         return "pong"
 
 
-# 2. CONVERTERS & UNWRAPPERS #######################################################################
+# 2. CONVERTERS & UNWRAPPERS ###########################################################################################
 @pytest.mark.parametrize(
     "arg, dtype, expected, expected_dtype",
     [
@@ -228,7 +228,7 @@ def test_to_tuple_delegation():
     assert to_tuple(src) == (10, 20)
 
 
-# 3. UNGROUP (PANDAS GroupBy) ######################################################################
+# 3. UNGROUP (PANDAS GroupBy) ##########################################################################################
 def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     """Verifies `ungroup` returns `.obj`, `.groups`, or passthrough depending on `mode` and axis."""
     df = pd.DataFrame({"k": ["a", "a", "b"], "v": [1, 2, 3]})
@@ -236,7 +236,7 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     g_rows = df.groupby("k")
     assert ungroup(g_rows, mode="obj").equals(df)
 
-    groups = ungroup(g_rows, mode="groups")  # PrettyDict wrapper
+    groups = ungroup(g_rows, mode="groups")  # prettyDict wrapper
     groups = dict(groups)  # unwrap
     groups = {k: (v.tolist() if hasattr(v, "tolist") else list(v)) for k, v in groups.items()}
     assert groups == {"a": [0, 1], "b": [2]}
@@ -249,7 +249,7 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     assert ungroup(123) == 123
 
 
-# 4. VERIFIERS & UTILITIES #########################################################################
+# 4. VERIFIERS & UTILITIES #############################################################################################
 def test_is_struct_and_is_element():
     """Verifies `is_struct` for collection, table, tuple; `is_element` for scalars and tuples."""
     assert is_struct([1, 2, 3]) is True

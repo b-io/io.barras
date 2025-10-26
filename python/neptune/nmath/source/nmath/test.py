@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - tests the mathematical utility library
 #
@@ -9,28 +9,24 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from nutil.test import *
 
 from nmath import binomial, descriptive, lognormal, normal, poisson
 from nmath.common import *
 
-####################################################################################################
-# MATH TEST CONSTANTS
-####################################################################################################
+## MATH TEST CONSTANTS ###################################################################
 
-__MATH_TEST_CONSTANTS_____________________________ = ""
+__MATH_TEST_CONSTANTS_______________________________________ = ""
 
 PRECISION = 14  # decimals
 SIZE = 1000
 
 
-####################################################################################################
-# MATH TEST CLASSES
-####################################################################################################
+## MATH TEST CLASSES #####################################################################
 
-__MATH_TEST_CLASSES_______________________________ = ""
+__MATH_TEST_CLASSES_________________________________________ = ""
 
 
 class TestStats(Test):
@@ -50,7 +46,7 @@ class TestStats(Test):
         fig = descriptive.plot_histogram(get_col(df))
         fig.show()
 
-    #####################
+    ##########################
 
     def test_binomial(self):
         test("Test the", binomial.BINOMIAL_NAME, "distribution")
@@ -116,7 +112,7 @@ class TestStats(Test):
         interval = stats.poisson.interval(DEFAULT_CONFIDENCE_LEVEL, mu=lam)
         test("- Real confidence interval:", interval)
 
-    ##############################################
+    ########################################################
 
     def assert_dist(self, dist_a, dist_s):
         mean_a, mean_s = dist_a.mean(), dist_s.mean()
@@ -170,11 +166,9 @@ class TestStats(Test):
         self.assert_equals(interval_a, interval_s)
 
 
-####################################################################################################
-# MATH TEST MAIN
-####################################################################################################
+## MATH TEST MAIN ########################################################################
 
-__MATH_TEST_MAIN__________________________________ = ""
+__MATH_TEST_MAIN____________________________________________ = ""
 
 
 def main():

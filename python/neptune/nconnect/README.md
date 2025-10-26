@@ -20,7 +20,7 @@ NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
 
 ---
 
-## 🚀 Installation
+## 🚀 Installation ########################################################################
 
 Launch the following commands in a shell:
 ```bash
@@ -31,7 +31,7 @@ mvn clean install
 
 ---
 
-## 📄 License
+## 📄 License #############################################################################
 
 The libraries are released under the [MIT License](LICENSE).  
 You are free to download, use, and share suggestions — contribute if you'd like to get involved.

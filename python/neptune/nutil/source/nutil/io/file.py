@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,30 +9,28 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import csv
 import json
-import validators
 from urllib.request import urlopen
 
+import validators
+
 from nutil.common import *
+from nutil.struct.util import set_index_name
 
-####################################################################################################
-# FILE CONSTANTS
-####################################################################################################
+## FILE CONSTANTS ########################################################################
 
-__FILE_CONSTANTS__________________________________ = ""
+__FILE_CONSTANTS____________________________________________ = ""
 
 # The default encoding
 DEFAULT_ENCODING = "utf-8"
 
 
-####################################################################################################
-# FILE GENERATORS
-####################################################################################################
+## FILE GENERATORS #######################################################################
 
-__FILE_GENERATORS_________________________________ = ""
+__FILE_GENERATORS___________________________________________ = ""
 
 
 def create_dir(path):
@@ -40,11 +38,9 @@ def create_dir(path):
         os.makedirs(path)
 
 
-####################################################################################################
-# FILE PROCESSORS
-####################################################################################################
+## FILE PROCESSORS #######################################################################
 
-__FILE_PROCESSORS_________________________________ = ""
+__FILE_PROCESSORS___________________________________________ = ""
 
 
 def format_dir(dir):
@@ -55,7 +51,7 @@ def format_dir(dir):
     return dir + "/"
 
 
-##################################################
+############################################################
 
 
 def read(path, encoding=DEFAULT_ENCODING, ignore=False, newline=None):
@@ -129,8 +125,6 @@ def read_csv(
         **kwargs,
     )
     if not index_cols:
-        from nutil.struct.table.dataframe import set_index_name
-
         set_index_name(df, index_name)
     return df
 
@@ -145,7 +139,7 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwar
         return json.load(f, **kwargs)
 
 
-#########################
+##############################
 
 
 def write(path, content, append=False, encoding=DEFAULT_ENCODING, ignore=False, newline=None):

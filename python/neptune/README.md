@@ -9,7 +9,7 @@ and core utilities — all built on top of **NumPy**, **Pandas**, **Matplotlib**
 
 ---
 
-## 🚀 Installation
+## 🚀 Installation ########################################################################
 
 Clone the repository and navigate to the NEPTUNE module:
 ```bash
@@ -19,9 +19,9 @@ cd io.barras/python/neptune/
 
 ---
 
-## ⚙️ Environment Configuration
+## ⚙️ Environment Configuration ##########################################################
 
-### 🐍 1. Install and Configure Poetry
+### 🐍 1. Install and Configure Poetry ######################
 
 Install Poetry:
 ```bash
@@ -34,7 +34,7 @@ poetry config virtualenvs.create false --local
 poetry env info
 ```
 
-### 📦 2. Install Project Dependencies
+### 📦 2. Install Project Dependencies ######################
 
 Lock and install dependencies:
 ```bash
@@ -47,7 +47,7 @@ View resolved packages:
 poetry show --tree
 ```
 
-### 📤 3. Export Requirements (Optional)
+### 📤 3. Export Requirements (Optional) ####################
 
 Install the export plugin:
 ```bash
@@ -62,12 +62,12 @@ pip install -r requirements.txt
 
 ---
 
-## 💡 Examples
+## 💡 Examples ############################################################################
 
 > *"Talk is cheap. Show me the code."*  
 > — Linus Torvalds
 
-### 1. Utility Function: Apply Across Collections
+### 1. Utility Function: Apply Across Collections ##########
 
 ```python
 from nutil.common import apply
@@ -79,7 +79,7 @@ squared = apply(lambda x: x ** 2, data)
 print(squared)  # output: {'a': 1, 'b': 4, 'c': 9}
 ```
 
-### 2. Math: Confidence Interval
+### 2. Math: Confidence Interval ###########################
 
 ```python
 import pandas as pd
@@ -97,7 +97,7 @@ print(f"Estimated deviation: {normal_kde.std()}")
 print(f"95% confidence interval: {normal_kde.interval(0.95)}")
 ```
 
-### 3. Finance: Time Series Transformation
+### 3. Finance: Time Series Transformation #################
 
 ```python
 from nfin.time_series import transform_series, Transformation
@@ -116,7 +116,7 @@ log_returns = transform_series(
 print(log_returns)  # output: log return series
 ```
 
-### 4. Learning: Text Classification
+### 4. Learning: Text Classification #######################
 
 ```python
 from nlearn.nlp import TextClassifier
@@ -138,7 +138,7 @@ result = classifier.predict("Deep learning boosts AI performance.")
 print(result)  # output: tech
 ```
 
-### 5. GUI: Plot Multiple Time Series
+### 5. GUI: Plot Multiple Time Series ######################
 
 ```python
 import pandas as pd
@@ -157,7 +157,7 @@ plot_multi_series(df, title="System Metrics", show_legend=True, show_date=True)
 
 ---
 
-## 📚 Library Structure
+## 📚 Library Structure ###################################################################
 
 NEPTUNE is organized into the following modular subpackages:
 
@@ -172,7 +172,7 @@ NEPTUNE is organized into the following modular subpackages:
 | `nserve`   | Web-serving functionalities (HTTP servers, FastAPI helpers)             |
 | `nutil`    | Configuration, constants, enums, and functional programming utilities   |
 
-### 🧭 Exploring the API
+### 🧭 Exploring the API ####################################
 
 - Browse the `source/<module>` directories for implementation details.
 - Look for `test/` folders for usage examples and unit tests.
@@ -180,7 +180,7 @@ NEPTUNE is organized into the following modular subpackages:
 
 ---
 
-## 📄 License
+## 📄 License #############################################################################
 
 The libraries are released under the [MIT License](LICENSE).  
 You are free to download, use, and share suggestions — contribute if you'd like to get involved.

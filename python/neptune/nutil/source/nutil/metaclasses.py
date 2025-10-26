@@ -5,11 +5,9 @@ from threading import RLock
 from types import MappingProxyType
 from typing import Any, cast, Dict, List, NoReturn, Optional, Tuple, Type, TypeVar
 
-####################################################################################################
-# METACLASSES
-####################################################################################################
+## METACLASSES ###########################################################################
 
-__METACLASSES_____________________________________ = ""
+__METACLASSES_______________________________________________ = ""
 
 T = TypeVar("T")
 
@@ -25,7 +23,7 @@ def combine_metaclasses(*metas: Type[type]) -> type:
     return type(name, metas, {})
 
 
-# • NO PUBLIC CONSTRUCTOR ##########################################################################
+### NO PUBLIC CONSTRUCTOR ##################################
 
 
 class NoPublicConstructorMeta(type):
@@ -35,7 +33,7 @@ class NoPublicConstructorMeta(type):
         raise TypeError(f"'{cls.__module__}.{cls.__qualname__}' has no public constructor")
 
 
-# • FINAL SINGLETON ################################################################################
+### FINAL SINGLETON ########################################
 
 
 class FinalSingletonMeta(type):
@@ -134,7 +132,7 @@ class FinalSingletonMeta(type):
                 names.update(dir(instance))
         return sorted(names)
 
-    ##############################################
+    ########################################################
 
     def exists(cls: Type[T]) -> bool:
         """Returns whether the final singleton instance exists."""
@@ -152,7 +150,7 @@ class FinalSingletonMeta(type):
             return cast(T, cls._instance)
 
 
-# • OVERWRITABLE SINGLETON #########################################################################
+### OVERWRITABLE SINGLETON #################################
 
 class SingletonMeta(type):
     """
@@ -184,7 +182,7 @@ class SingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # otherwise reuse the last stored ones
+                # Otherwise reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -274,7 +272,7 @@ class SingletonMeta(type):
                 names.update(dir(instance))
         return sorted(names)
 
-    ##############################################
+    ########################################################
 
     def exists(cls: Type[T]) -> bool:
         """Returns whether the singleton instance exists."""
@@ -328,7 +326,7 @@ class SingletonMeta(type):
                 cls._instance = None
 
 
-# • TEMPORARY SINGLETON (WITH EXPIRATION) ##########################################################
+# • TEMPORARY SINGLETON (WITH EXPIRATION) ##############################################################################
 
 
 class TempSingletonMeta(type):
@@ -357,7 +355,7 @@ class TempSingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # otherwise reuse the last stored ones
+                # Otherwise reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -452,7 +450,7 @@ class TempSingletonMeta(type):
                 names.update(dir(instance))
         return sorted(names)
 
-    ##############################################
+    ########################################################
 
     def exists(cls: Type[T]) -> bool:
         """Returns whether the temp singleton instance exists and is not expired."""

@@ -1,4 +1,4 @@
-# 1. PROJECT METADATA ##############################################################################
+## 1. PROJECT METADATA ###################################################################
 [tool.poetry]
 name = "nformat"
 version = "1.0.0.post137"
@@ -25,27 +25,27 @@ include = [
 "Source Code" = "https://github.com/b-io/io.barras/tree/master/python/neptune/nformat"
 
 
-# 2. MAIN DEPENDENCIES #############################################################################
+## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Data Handling ##################################
+# Data Handling ########################################################################################################
 sqlalchemy = "^2.0.41"        # SQL toolkit and ORM
 
-# Utilities ######################################
+# Utilities ############################################################################################################
 nutil = "^1.0.0"              # Neptune utility library
 
 
-# 3. OTHER DEPENDENCIES ############################################################################
+## 3. OTHER DEPENDENCIES #################################################################
 
 [tool.poetry.group.docs.dependencies]
-# Documentation ##################################
+# Documentation ########################################################################################################
 docutils = "^0.21.2"              # reStructuredText parsing and rendering
 myst-parser = "^3.0.1"            # Markdown parser for Sphinx
 sphinx = "^7.4.7"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
-# Code Quality ###################################
+# Code Quality #########################################################################################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
 black = "^24.10.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
@@ -56,12 +56,12 @@ isort = "^6.0.1"                  # Import sorting and grouping
 mypy = "^1.16.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
-# Testing ########################################
+# Testing ##############################################################################################################
 coverage = "^7.9.1"               # Code coverage reporting
 pytest = "^8.4.1"                 # Unit testing framework
 
 
-# 4. PACKAGE SOURCES ###############################################################################
+## 4. PACKAGE SOURCES ####################################################################
 
 # You can configure additional or internal package sources below.
 # Uncomment and customize if your company uses a private PyPI repository or proxy.
@@ -72,16 +72,16 @@ pytest = "^8.4.1"                 # Unit testing framework
 # priority = "primary"                    # Valid options: 'primary', 'supplemental', 'explicit'
 
 
-# 5. BUILD SYSTEM ##################################################################################
+## 5. BUILD SYSTEM #######################################################################
 
 [build-system]
 requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# 6. TOOL-SPECIFIC CONFIGURATION ###################################################################
+# 6. TOOL-SPECIFIC CONFIGURATION #######################################################################################
 
-# Code Quality ###################################
+# Code Quality #########################################################################################################
 [tool.black]
 line-length = 100
 target-version = ["py39"]
@@ -111,7 +111,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 
 
-# Testing ########################################
+# Testing ##############################################################################################################
 [tool.pytest.ini_options]
 addopts = "--strict-markers"
 filterwarnings = [

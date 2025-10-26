@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains machine learning utility functions for clustering
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from nmath.descriptive import (
     any_values,
@@ -49,11 +49,9 @@ from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
-####################################################################################################
-# CLUSTERING CONSTANTS
-####################################################################################################
+## CLUSTERING CONSTANTS ##################################################################
 
-__CLUSTERING_CONSTANTS____________________________ = ""
+__CLUSTERING_CONSTANTS______________________________________ = ""
 
 from nutil.struct.collection.registry.ordered_set import to_ordered_set
 
@@ -61,11 +59,9 @@ from nutil.struct.collection.registry.ordered_set import to_ordered_set
 DEFAULT_MAX_ITERATION_COUNT = 1000
 
 
-####################################################################################################
-# CLUSTERING FUNCTIONS
-####################################################################################################
+## CLUSTERING FUNCTIONS ##################################################################
 
-__CLUSTERING______________________________________ = ""
+__CLUSTERING________________________________________________ = ""
 
 
 def create_clustering(
@@ -92,7 +88,7 @@ def create_clustering(
     return model.fit(points)
 
 
-#########################
+##############################
 
 
 def create_gaussian_mixture(
@@ -119,7 +115,7 @@ def create_bayesian_gaussian_mixture(
     return model.fit(points)
 
 
-#########################
+##############################
 
 
 def create_outlier_detector(
@@ -168,7 +164,7 @@ def create_bayesian_outlier_detector(
     return model.fit(points)
 
 
-##################################################
+############################################################
 
 
 def cluster(
@@ -191,9 +187,9 @@ def cluster(
     ).predict(points)
 
 
-# • CLUSTERING FIGURE ##############################################################################
+### CLUSTERING FIGURE ######################################
 
-__CLUSTERING_FIGURE_______________________________ = ""
+__CLUSTERING_FIGURE_________________________________________ = ""
 
 
 def plot_clusters(
@@ -370,7 +366,7 @@ def plot_silhouettes(
     )
 
 
-##################################################
+############################################################
 
 
 def plot_mixture(

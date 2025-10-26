@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   util - contains struct utilities
 #
@@ -29,7 +29,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -49,11 +49,9 @@ from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
 from nutil.struct.common import *
 
-####################################################################################################
-# STRUCT ACCESSORS
-####################################################################################################
+## STRUCT ACCESSORS ######################################################################
 
-__STRUCT_ACCESSORS________________________________ = ""
+__STRUCT_ACCESSORS__________________________________________ = ""
 
 
 def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
@@ -123,7 +121,7 @@ def get_next(s: Struct, cycle: bool = False) -> Value:
     return next(get_iterator(s, cycle=cycle))
 
 
-#########################
+##############################
 
 
 def get_shape(
@@ -151,7 +149,7 @@ def get_shape(
     return (len(s),)
 
 
-#########################
+##############################
 
 
 def get_name(
@@ -243,7 +241,7 @@ def get_uncommon_names(
     return get_names(s1, inclusion=inclusion, exclusion=include_list(get_names(s2), exclusion))
 
 
-#########################
+##############################
 
 
 def get_key(
@@ -329,7 +327,7 @@ def get_uncommon_keys(
     return get_keys(s1, inclusion=inclusion, exclusion=include_list(get_keys(s2), exclusion))
 
 
-#########################
+##############################
 
 
 def get_index(
@@ -415,7 +413,7 @@ def get_uncommon_index(
     return get_index(s1, inclusion=inclusion, exclusion=include_list(get_index(s2), exclusion))
 
 
-#########################
+##############################
 
 
 def get_keys_or_index(
@@ -446,7 +444,7 @@ def get_index_or_keys(
     )
 
 
-#########################
+##############################
 
 
 def get_item(
@@ -493,7 +491,7 @@ def get_items(
     return [(k, s[k]) for k in keys]
 
 
-#########################
+##############################
 
 
 def get_value(
@@ -550,7 +548,7 @@ def get_values(
     return to_array([s[k] for k in keys], element_type=element_type)
 
 
-#########################
+##############################
 
 
 def get_element_type(
@@ -622,7 +620,7 @@ def get_min_element_type(
     return np.promote_types(np.result_type(s1, s2), np.dtype(min_element_type))
 
 
-##################################################
+############################################################
 
 
 def set_names(s: Struct, new_names: Any) -> Any:
@@ -924,11 +922,11 @@ def set_element_types(
     return s
 
 
-# • TABLE ##########################################################################################
+### TABLE ##################################################
 
-__TABLE_ACCESSORS_________________________________ = ""
+__TABLE_ACCESSORS___________________________________________ = ""
 
-# • DATAFRAME ####################################
+### DATAFRAME ##############################################
 
 
 def get_row(df: Struct, i: int = 0) -> Value:
@@ -992,7 +990,7 @@ def get_rows(df: Struct) -> List[Value]:
     return [get_row(df, i) for i in range(count_rows(df))]
 
 
-#########################
+##############################
 
 
 def get_col(df: Struct, j: int = 0) -> Value:
@@ -1057,11 +1055,9 @@ def get_cols(df: Struct) -> List[Value]:
     return [get_col(df, j) for j in range(count_cols(df))]
 
 
-####################################################################################################
-# STRUCT CONVERTERS
-####################################################################################################
+## STRUCT CONVERTERS #####################################################################
 
-__STRUCT_CONVERTERS_______________________________ = ""
+__STRUCT_CONVERTERS_________________________________________ = ""
 
 
 def to_struct(*args: Any) -> Struct:
@@ -1105,7 +1101,7 @@ def unstruct(s: Any) -> Any:
     return s
 
 
-#########################
+##############################
 
 
 def to_element_type(x: Any, t: Any) -> Any:
@@ -1135,9 +1131,9 @@ def to_element_type(x: Any, t: Any) -> Any:
     return x
 
 
-# • COLLECTION #####################################################################################
+### COLLECTION #############################################
 
-__COLLECTION_CONVERTERS___________________________ = ""
+__COLLECTION_CONVERTERS_____________________________________ = ""
 
 
 def to_collection(*args: Any) -> Collection:
@@ -1223,7 +1219,7 @@ def uncollect(c: Any) -> Any:
     return c
 
 
-#########################
+##############################
 
 
 def collection_to_type(
@@ -1298,11 +1294,11 @@ def collection_to_common_type(c: Collection, template: Any) -> Any:
     return c
 
 
-# • TABLE ##########################################################################################
+### TABLE ##################################################
 
-__TABLE_CONVERTERS________________________________ = ""
+__TABLE_CONVERTERS__________________________________________ = ""
 
-# • DATAFRAME ####################################
+### DATAFRAME ##############################################
 
 
 def to_series(
@@ -1374,7 +1370,7 @@ def to_time_series(
     return to_series(data, name=name, index=index, element_type=element_type)
 
 
-#########################
+##############################
 
 
 def to_frame(
@@ -1454,13 +1450,11 @@ def to_time_frame(
     )
 
 
-# struct_processors.py — refactored processors & helpers (drop-in)
+# Struct_processors.py — refactored processors & helpers (drop-in)
 
-####################################################################################################
-# STRUCT GENERATORS
-####################################################################################################
+## STRUCT GENERATORS #####################################################################
 
-__STRUCT_GENERATORS_______________________________ = ""
+__STRUCT_GENERATORS_________________________________________ = ""
 
 
 def create_mask(
@@ -1522,11 +1516,9 @@ def create_mask(
     return mask
 
 
-####################################################################################################
-# STRUCT PROCESSORS
-####################################################################################################
+## STRUCT PROCESSORS #####################################################################
 
-__STRUCT_PROCESSORS_______________________________ = ""
+__STRUCT_PROCESSORS_________________________________________ = ""
 
 
 def all_values(s: Struct) -> bool:
@@ -1549,7 +1541,7 @@ def any_not_values(s: Struct) -> bool:
     return np.any(invert(get_values(s)))
 
 
-#########################
+##############################
 
 
 def apply(
@@ -1669,7 +1661,7 @@ def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
     return fill_with(s, value, condition=is_null, inplace=inplace)
 
 
-#########################
+##############################
 
 
 def calculate(
@@ -1701,7 +1693,7 @@ def calculate(
     return f(get_values(s), *args, axis=axis, **kwargs)
 
 
-#########################
+##############################
 
 
 def concat_all(*args: Any) -> Any:
@@ -1724,7 +1716,7 @@ def concat(c1: Any, c2: Any) -> Any:
     return to_list(c1) + to_list(c2)
 
 
-#########################
+##############################
 
 
 def fill_null(
@@ -1757,7 +1749,7 @@ def fill_null(
     return s
 
 
-#########################
+##############################
 
 
 def filter(
@@ -1806,7 +1798,7 @@ def exclude(s: Struct, exclusion: Iterable[Key]) -> Any:
     return filter(s, exclusion=exclusion)
 
 
-#########################
+##############################
 
 
 def filter_index(
@@ -1843,7 +1835,7 @@ def exclude_index(s: Struct, exclusion: Iterable[Key]) -> Any:
     return filter_index(s, exclusion=exclusion)
 
 
-#########################
+##############################
 
 
 def filter_with(
@@ -1958,7 +1950,7 @@ def filter_any_not_with(
     return collection_to_type([s[k] for k in keys if not f(s[k], *args, **kwargs)], s)
 
 
-#########################
+##############################
 
 
 def filter_null(
@@ -1989,7 +1981,7 @@ def filter_any_not_null(
     return filter_any_not_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-#########################
+##############################
 
 
 def filter_empty(
@@ -2020,7 +2012,7 @@ def filter_any_not_empty(
     return filter_any_not_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-#########################
+##############################
 
 
 def filter_value(s: Struct, value: Any, keys=None, inclusion=None, exclusion=None) -> Any:
@@ -2049,7 +2041,7 @@ def filter_any_not_value(s: Struct, value: Any, keys=None, inclusion=None, exclu
     )
 
 
-#########################
+##############################
 
 
 def filter_in(s: Struct, values: Iterable[Any], keys=None, inclusion=None, exclusion=None) -> Any:
@@ -2090,7 +2082,7 @@ def filter_any_not_in(
     )
 
 
-#########################
+##############################
 
 
 def filter_between(
@@ -2189,7 +2181,7 @@ def filter_any_not_between(
     )
 
 
-#########################
+##############################
 
 
 def flatten(
@@ -2205,7 +2197,7 @@ def flatten(
     )
 
 
-#########################
+##############################
 
 
 def groupby(
@@ -2336,7 +2328,7 @@ def sum(*args: Any, axis: Optional[int] = 0) -> Any:
     return np.sum(s, axis=axis)
 
 
-#########################
+##############################
 
 
 def insert_all(
@@ -2465,7 +2457,7 @@ def insert_cols(
     return c1
 
 
-#########################
+##############################
 
 
 def keep_min(
@@ -2500,7 +2492,7 @@ def keep_max_with(s: Struct, n: int, f: Callable[..., Any], axis: int = 0) -> An
     return keep_max(apply(s, f, axis=axis), n)
 
 
-#########################
+##############################
 
 
 def reduce(
@@ -2516,10 +2508,10 @@ def reduce(
 
 def reduce_and(x: Any, axis: int = 0) -> np.ndarray:
     """Reduces by logical AND along `axis` with empty-axis identity handling."""
-    # axis=0 and no rows → one True per column
+    # Axis=0 and no rows → one True per column
     if axis == 0 and count_rows(x) == 0:
         return np.ones(count_cols(x), dtype=BOOLEAN_ELEMENT_TYPE)
-    # axis=1 and no columns → one True per row
+    # Axis=1 and no columns → one True per row
     elif axis == 1 and count_cols(x) == 0:
         return np.ones(count_rows(x), dtype=BOOLEAN_ELEMENT_TYPE)
     return np.logical_and.reduce(x, axis=axis)
@@ -2527,16 +2519,16 @@ def reduce_and(x: Any, axis: int = 0) -> np.ndarray:
 
 def reduce_or(x: Any, axis: int = 0) -> np.ndarray:
     """Reduces by logical OR along `axis` with empty-axis identity handling."""
-    # axis=0 and no rows → one False per column
+    # Axis=0 and no rows → one False per column
     if axis == 0 and count_rows(x) == 0:
         return np.zeros(count_cols(x), dtype=BOOLEAN_ELEMENT_TYPE)
-    # axis=1 and no columns → one False per row
+    # Axis=1 and no columns → one False per row
     elif axis == 1 and count_cols(x) == 0:
         return np.zeros(count_rows(x), dtype=BOOLEAN_ELEMENT_TYPE)
     return np.logical_or.reduce(x, axis=axis)
 
 
-#########################
+##############################
 
 
 def remove_null(
@@ -2609,7 +2601,7 @@ def remove_value(
     return s
 
 
-#########################
+##############################
 
 
 def reverse(s: Struct, axis: int = 0) -> Any:
@@ -2626,7 +2618,7 @@ def reverse(s: Struct, axis: int = 0) -> Any:
     return s[::-1]
 
 
-#########################
+##############################
 
 
 def simplify(s: Any) -> Any:
@@ -2637,7 +2629,7 @@ def simplify(s: Any) -> Any:
     return s
 
 
-#########################
+##############################
 
 
 def slice(
@@ -2656,7 +2648,7 @@ def slice(
     return take(s, keys[index_from:index_to], axis=axis)
 
 
-#########################
+##############################
 
 
 def sort(
@@ -2683,7 +2675,7 @@ def sort_index(s: Struct) -> Any:
     return s
 
 
-#########################
+##############################
 
 
 def take(s: Struct, keys: Iterable[Key], axis: int = 0) -> Any:
@@ -2724,7 +2716,7 @@ def take_not_at(s: Struct, indices: Iterable[int], axis: int = 0) -> Any:
     return take_at(s, indices, axis=axis)
 
 
-#########################
+##############################
 
 
 def tally(s: Struct, boundaries: Iterable[Any]) -> Any:
@@ -2743,7 +2735,7 @@ def tally(s: Struct, boundaries: Iterable[Any]) -> Any:
     return ts
 
 
-#########################
+##############################
 
 
 def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
@@ -2804,7 +2796,7 @@ def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
     return list(dict.fromkeys(s))  # fallback
 
 
-#########################
+##############################
 
 
 def update_all(
@@ -2847,7 +2839,7 @@ def update(
     return c1
 
 
-#########################
+##############################
 
 
 def upsert_all(
@@ -2927,7 +2919,7 @@ def upsert_rows(
     )
 
 
-#########################
+##############################
 
 
 def where(
@@ -2947,14 +2939,12 @@ def where(
     return [k for k in keys if condition(s[k], *args, **kwargs)]
 
 
-####################################################################################################
-# COLLECTION PROCESSORS
-####################################################################################################
+## COLLECTION PROCESSORS #################################################################
 
-__COLLECTION_PROCESSORS___________________________ = ""
+__COLLECTION_PROCESSORS_____________________________________ = ""
 
 
-# • LIST #########################################
+### LIST ###################################################
 
 
 def find_all(l: List[Value], value: Value) -> List[int]:
@@ -2999,7 +2989,7 @@ def find_all_not_with(
     return [i for i in range(len(l)) if not f(l[i], *args, **kwargs)]
 
 
-#########################
+##############################
 
 
 def find(l: List[Value], value: Value) -> Optional[int]:
@@ -3044,7 +3034,7 @@ def find_not_with(
     return next((i for i in range(len(l)) if not f(l[i], *args, **kwargs)), None)
 
 
-#########################
+##############################
 
 
 def find_last(l: List[Value], value: Value) -> Optional[int]:
@@ -3091,11 +3081,11 @@ def find_last_not_with(
     return None if i is None else len(l) - i - 1
 
 
-# • TABLE ##########################################################################################
+### TABLE ##################################################
 
-__TABLE_PROCESSORS________________________________ = ""
+__TABLE_PROCESSORS__________________________________________ = ""
 
-# • DATAFRAME ####################################
+### DATAFRAME ##############################################
 
 
 def combine_all(*args: Any, f: Callable[[pd.Series, pd.Series], pd.Series]) -> pd.DataFrame:
@@ -3114,7 +3104,7 @@ def combine(left: Any, right: Any, f: Callable[[pd.Series, pd.Series], pd.Series
     return to_frame(left).combine(to_frame(right), f)
 
 
-#########################
+##############################
 
 
 def concat_rows(
@@ -3171,7 +3161,7 @@ def concat_cols(
     return df
 
 
-#########################
+##############################
 
 
 def fill_null_all(
@@ -3235,7 +3225,7 @@ def fill_null_cols(
     )
 
 
-#########################
+##############################
 
 
 def filter_rows_with(
@@ -3287,7 +3277,7 @@ def filter_any_rows_not_with(
     ]
 
 
-#########################
+##############################
 
 
 def filter_rows(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
@@ -3318,7 +3308,7 @@ def filter_any_rows_not(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFr
     return df.loc[reduce_or([df[k] != v for k, v in row.items() if k in df])]
 
 
-#########################
+##############################
 
 
 def filter_rows_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
@@ -3353,7 +3343,7 @@ def filter_any_rows_not_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]
     ]
 
 
-#########################
+##############################
 
 
 def join_all(
@@ -3389,7 +3379,7 @@ def join(
     )
 
 
-#########################
+##############################
 
 
 def merge_all(
@@ -3442,7 +3432,7 @@ def merge(
     )
 
 
-#########################
+##############################
 
 
 def pivot(df: pd.DataFrame, names: Any, index: Any, values: Any) -> pd.DataFrame:
@@ -3465,7 +3455,7 @@ def unpivot(df: pd.DataFrame, value: Key, names: Optional[Iterable[str]] = None)
     return df
 
 
-#########################
+##############################
 
 
 def remove_row(
@@ -3496,7 +3486,7 @@ def remove_col_at(df: pd.DataFrame, j: int) -> pd.DataFrame:
     return df.iloc[:, to_list(range(0, j)) + to_list(range(j + 1, count_cols(df)))]
 
 
-#########################
+##############################
 
 
 def rename(
@@ -3525,7 +3515,7 @@ def rename_all(*args: Any, names: Any = None, index: Any = None, level: Any = No
         rename(arg, names=names, index=index, level=level)
 
 
-#########################
+##############################
 
 
 def rotate_rows(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> pd.DataFrame:
@@ -3558,7 +3548,7 @@ def rotate_cols(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> p
     return df
 
 
-#########################
+##############################
 
 
 def sum_rows(df: pd.DataFrame) -> pd.Series:

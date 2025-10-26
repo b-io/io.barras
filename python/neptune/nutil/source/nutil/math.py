@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains utility functions for mathematics
 #
@@ -9,33 +9,29 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from math import cos, sin
 
 from nutil.scalar.number import *
 from nutil.struct.util import *
 
-####################################################################################################
-# MATH CONSTANTS
-####################################################################################################
+## MATH CONSTANTS ########################################################################
 
-__MATH_CONSTANTS__________________________________ = ""
+__MATH_CONSTANTS____________________________________________ = ""
 
 E = np.e
 PI = np.pi
 
-#########################
+##############################
 
 DEG_TO_RAD = PI / 180
 RAD_TO_DEG = 180 / PI
 
 
-####################################################################################################
-# MATH FUNCTIONS
-####################################################################################################
+## MATH FUNCTIONS ########################################################################
 
-__MATH____________________________________________ = ""
+__MATH______________________________________________________ = ""
 
 
 def is_negative(x: Any) -> bool:
@@ -58,7 +54,7 @@ def is_non_positive(x: Any) -> bool:
     return x <= 0
 
 
-##################################################
+############################################################
 
 
 def abs(x: Any):
@@ -77,7 +73,7 @@ def sqrt(x: Any):
     return np.sqrt(x)
 
 
-#########################
+##############################
 
 
 def scale(x: Any, base=10, eps=EPS):
@@ -87,7 +83,7 @@ def scale(x: Any, base=10, eps=EPS):
     return x / base ** floor(log(maximum(abs(x)) + eps) / log(base))
 
 
-#########################
+##############################
 
 
 def expand_dims(x, y, axis: Optional[Axis] = 0):
@@ -118,9 +114,9 @@ def softmax(x, axis: Optional[Axis] = 0, eps=EPS):
     return normalize(exp(x - expand_dims(m, x, axis=axis)), axis=axis, eps=eps)
 
 
-# • MATH ARITHMETIC ################################################################################
+### MATH ARITHMETIC ########################################
 
-__MATH_ARITHMETIC_________________________________ = ""
+__MATH_ARITHMETIC___________________________________________ = ""
 
 
 def add_all(*args, numeric_default=None, object_default=None, rename=False):
@@ -522,7 +518,7 @@ def safe_reciprocal(c, element_type=FLOAT_ELEMENT_TYPE, invalid_default=0, templ
     )
 
 
-#########################
+##############################
 
 
 def nearest_inferior(c, value):
@@ -549,9 +545,9 @@ def farthest_superior(c, value):
     return farthest(add(filter_with(subtract(c, value), is_non_negative), value), value)
 
 
-# • MATH GEOMETRY ##################################################################################
+### MATH GEOMETRY ##########################################
 
-__MATH_GEOMETRY___________________________________ = ""
+__MATH_GEOMETRY_____________________________________________ = ""
 
 
 def create_ellipse(center, a, b, angle=0, precision=100):
@@ -573,7 +569,7 @@ def create_ellipse(center, a, b, angle=0, precision=100):
     return X, Y
 
 
-##################################################
+############################################################
 
 
 def distance(v1, v2):
@@ -600,14 +596,14 @@ def max_distance_index(v1, v2):
     return np.argmax(distances(v1, v2))
 
 
-#########################
+##############################
 
 
 def eigh(a, use_lower_part=True):
     return np.linalg.eigh(a, UPLO="L" if use_lower_part else "U")
 
 
-#########################
+##############################
 
 
 def norm1(vector, axis: Optional[Axis] = 0):
@@ -638,7 +634,7 @@ def normalize2(vector, axis: Optional[Axis] = 0, eps=EPS):
     return vector / (norm2(vector, axis=axis) + eps)
 
 
-##################################################
+############################################################
 
 
 def cos(x: Any):
@@ -669,7 +665,7 @@ def atan2(y, x):
     return np.arctan2(y, x)
 
 
-#########################
+##############################
 
 
 def rotate_point(x, y, angle=0):

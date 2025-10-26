@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains utility configuration
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import configparser
 
@@ -17,11 +17,9 @@ from nutil.common import *
 from nutil.constants import *
 from nutil.enums import *
 
-####################################################################################################
-# CONFIG CLASSES
-####################################################################################################
+## CONFIG CLASSES ########################################################################
 
-__CONFIG_CLASSES__________________________________ = ""
+__CONFIG_CLASSES____________________________________________ = ""
 
 class EnvInterpolation(configparser.BasicInterpolation):
     """Extends the basic property parser to handle environment variables."""
@@ -31,15 +29,13 @@ class EnvInterpolation(configparser.BasicInterpolation):
         return os.path.expandvars(value)
 
 
-####################################################################################################
-# CONFIG CONSTANTS
-####################################################################################################
+## CONFIG CONSTANTS ######################################################################
 
-__CONFIG_CONSTANTS________________________________ = ""
+__CONFIG_CONSTANTS__________________________________________ = ""
 
 CONFIG = configparser.ConfigParser(interpolation=EnvInterpolation())
 
-#########################
+##############################
 
 # The default configuration
 DEFAULT_CONFIG = {
@@ -74,7 +70,7 @@ DEFAULT_CONFIG = {
 }
 CONFIG.read_dict(DEFAULT_CONFIG)
 
-##################################################
+############################################################
 
 # The flag specifying whether to assert
 ASSERT = CONFIG.getboolean("common", "assert")
@@ -83,9 +79,9 @@ ASSERT = CONFIG.getboolean("common", "assert")
 ENV = Environment(CONFIG.get("common", "env"))
 
 
-# • DATE ###########################################################################################
+### DATE ###################################################
 
-__DATE_PROPERTIES_________________________________ = ""
+__DATE_PROPERTIES___________________________________________ = ""
 
 # The date format
 DATE_FORMAT = CONFIG.get("date", "dateFormat")
@@ -96,7 +92,7 @@ TIME_FORMAT = CONFIG.get("date", "timeFormat")
 # The date-time format
 DATE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
-#########################
+##############################
 
 # The aggregation (`count`, `min`, `max`, `mean`, `median`, `std`, `var`, `sum`)
 AGGREGATION = Aggregation(CONFIG.get("series", "aggregation"))
@@ -110,22 +106,18 @@ PERIOD = CONFIG.get("series", "period")
 # The position (`auto`, `start`, `middle`, `end`)
 POSITION = Position(CONFIG.get("series", "position"))
 
-####################################################################################################
-# CONFIG ACCESSORS
-####################################################################################################
+## CONFIG ACCESSORS ######################################################################
 
-__CONFIG_ACCESSORS________________________________ = ""
+__CONFIG_ACCESSORS__________________________________________ = ""
 
 def get_config_path(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
     """Returns the path to the properties with the specified filename in the specified directory."""
     return find_path(filename + ".properties", dir=dir, subdir=subdir)
 
 
-####################################################################################################
-# CONFIG PROCESSORS
-####################################################################################################
+## CONFIG PROCESSORS #####################################################################
 
-__CONFIG_PROCESSORS_______________________________ = ""
+__CONFIG_PROCESSORS_________________________________________ = ""
 
 def escape_property(property):
     return property.replace("%", "%%") if not is_null(property) else None
@@ -135,11 +127,9 @@ def load_config(filename, dir=DEFAULT_ROOT, subdir=DEFAULT_RES_DIR):
     return CONFIG.read(get_config_path(filename, dir=dir, subdir=subdir))
 
 
-####################################################################################################
-# CONFIG EXECUTION
-####################################################################################################
+## CONFIG EXECUTION ######################################################################
 
-__CONFIG_EXECUTION________________________________ = ""
+__CONFIG_EXECUTION__________________________________________ = ""
 
 load_config("")
 print(CONFIG)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains machine learning utility functions for natural language processing (NLP)
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from gensim.utils import tokenize
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
@@ -17,30 +17,24 @@ from tensorflow.keras.models import Model
 
 from nutil.config import CONFIG
 
-####################################################################################################
-# NLP PROPERTIES
-####################################################################################################
+## NLP PROPERTIES ########################################################################
 
-__NLP_PROPERTIES__________________________________ = ""
+__NLP_PROPERTIES____________________________________________ = ""
 
 WORD_VECTOR_PATH = CONFIG.get("nlp", "wordVectorPath")
 
 
-####################################################################################################
-# NLP CONSTANTS
-####################################################################################################
+## NLP CONSTANTS #########################################################################
 
-__NLP_CONSTANTS___________________________________ = ""
+__NLP_CONSTANTS_____________________________________________ = ""
 
 # The default maximum number of words
 DEFAULT_MAX_WORD_COUNT = 20
 
 
-####################################################################################################
-# NLP CLASSES
-####################################################################################################
+## NLP CLASSES ###########################################################################
 
-__NLP_CLASSES_____________________________________ = ""
+__NLP_CLASSES_______________________________________________ = ""
 
 
 class WordEmbeddings:
@@ -82,7 +76,7 @@ class WordEmbeddings:
                 verbose_interval=verbose_interval,
             )
 
-    ##############################################
+    ########################################################
 
     def get_size(self):
         """Returns the size of the word vectors."""
@@ -90,7 +84,7 @@ class WordEmbeddings:
             return self.size
         return self.word_vectors[0].shape[0]
 
-    ##############################################
+    ########################################################
 
     def sentence_to_word_indices(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
@@ -137,7 +131,7 @@ class WordEmbeddings:
             unknown_words = unknown_words.union(sentence_unknown_words)
         return word_indices, unknown_words
 
-    #####################
+    ##########################
 
     def sentence_to_word_vectors(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
@@ -175,7 +169,7 @@ class WordEmbeddings:
             unknown_words = unknown_words.union(sentence_unknown_words)
         return word_vectors, unknown_words
 
-    #####################
+    ##########################
 
     def sentence_to_single_word_vector(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
@@ -213,7 +207,7 @@ class WordEmbeddings:
             unknown_words = unknown_words.union(sentence_unknown_words)
         return word_vectors, unknown_words
 
-    ##############################################
+    ########################################################
 
     def create_embedding_layer(self):
         """
@@ -284,13 +278,13 @@ class WordEmbeddings:
         # Create the model that classifies the input sentences into the output classes
         return Model(inputs=[word_indices], outputs=classes)
 
-    ##############################################
+    ########################################################
 
     def find_closest_words(self, word_vector, top=10):
         a = distances(word_vector, self.word_vectors)
         return [self.vocabulary[i] for _, i in sort(zip(a, range(len(a))))[:top]]
 
-    #####################
+    ##########################
 
     def load(
         self,

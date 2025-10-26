@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -21,37 +21,29 @@ import warnings
 
 from nutil.struct.common import *
 
-####################################################################################################
-# COMMON SETTINGS
-####################################################################################################
+## COMMON SETTINGS #######################################################################
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
-####################################################################################################
-# COMMON CONSTANTS
-####################################################################################################
+## COMMON CONSTANTS ######################################################################
 
-__COMMON_CONSTANTS________________________________ = ""
+__COMMON_CONSTANTS__________________________________________ = ""
 
 DEFAULT_UNKNOWN = "unknown"
 
 
-####################################################################################################
-# COMMON CLASSES
-####################################################################################################
+## COMMON CLASSES ########################################################################
 
-__COMMON_CLASSES__________________________________ = ""
+__COMMON_CLASSES____________________________________________ = ""
 
 
 class Object:
     """An Object base class."""
 
 
-####################################################################################################
-# COMMON ACCESSORS
-####################################################################################################
+## COMMON ACCESSORS ######################################################################
 
-__COMMON_ACCESSORS________________________________ = ""
+__COMMON_ACCESSORS__________________________________________ = ""
 
 
 def get_exec_info() -> Optional[Type[BaseException]]:
@@ -59,7 +51,7 @@ def get_exec_info() -> Optional[Type[BaseException]]:
     return sys.exc_info()[0]
 
 
-#########################
+##############################
 
 def get_frame(level: int = 0) -> types.FrameType:
     """Returns the caller’s `FrameType` at the specified `level` above this function."""
@@ -114,7 +106,7 @@ def get_line_number(level: int = 0) -> int:
         return -1
 
 
-#########################
+##############################
 
 def get_module_name(x: Any) -> str:
     """Returns the module name of the class of `x`."""
@@ -147,9 +139,9 @@ def get_all_attributes(x: Any) -> List[str]:
     return [a for a in dir(x) if not a.startswith("_")]
 
 
-# • IO #############################################################################################
+### IO #####################################################
 
-__COMMON_IO_ACCESSORS_____________________________ = ""
+__COMMON_IO_ACCESSORS_______________________________________ = ""
 
 
 def get_path(path: str = ".") -> str:
@@ -208,18 +200,14 @@ def find_path(filename: str, directory: Optional[str] = None, subdir: Optional[s
     return format_dir(directory) + format_dir(subdir) + filename
 
 
-####################################################################################################
-# COMMON CONVERTERS
-####################################################################################################
+## COMMON CONVERTERS #####################################################################
 
-__COMMON_CONVERTERS_______________________________ = ""
+__COMMON_CONVERTERS_________________________________________ = ""
 
 
-####################################################################################################
-# COMMON PROCESSORS
-####################################################################################################
+## COMMON PROCESSORS #####################################################################
 
-__COMMON_PROCESSORS_______________________________ = ""
+__COMMON_PROCESSORS_________________________________________ = ""
 
 def forward(*args: Any) -> Any:
     """
@@ -244,9 +232,9 @@ def invert(x: Any) -> Any:
     return np.logical_not(x)
 
 
-# • SCALAR #########################################################################################
+### SCALAR #################################################
 
-__COMMON_SCALAR_PROCESSORS________________________ = ""
+__COMMON_SCALAR_PROCESSORS__________________________________ = ""
 
 
 def collapse(*args: Any, delimiter: str = "", append: bool = False) -> str:
@@ -264,11 +252,9 @@ def paste(*args: Any) -> str:
     return collapse([s for s in map(str, to_list(*args)) if s != ""], delimiter=" ")
 
 
-####################################################################################################
-# COMMON VERIFIERS
-####################################################################################################
+## COMMON VERIFIERS ######################################################################
 
-__COMMON_VERIFIERS________________________________ = ""
+__COMMON_VERIFIERS__________________________________________ = ""
 
 
 def is_null(x: Any) -> bool:
@@ -295,13 +281,13 @@ def is_any_not_null(*args: Any) -> bool:
     """Returns whether at least one of the specified arguments is not `null`."""
     return not is_all_null(*args)
 
-#########################
+##############################
 
 def is_type(x: Any) -> bool:
     """Returns whether `x` is a `type`."""
     return isinstance(x, type)
 
-#########################
+##############################
 
 def is_empty(x: Any) -> bool:
     """Returns whether `x` is semantically empty (null, zero-length, or empty frame)."""
@@ -330,7 +316,7 @@ def is_any_not_empty(*args: Any) -> bool:
     return not is_all_empty(*args)
 
 
-#########################
+##############################
 
 def is_all_value(value: Any, *args: Any) -> bool:
     """Returns whether all specified arguments equal `value`."""
@@ -351,7 +337,7 @@ def is_any_not_value(value: Any, *args: Any) -> bool:
     """Returns whether at least one of the specified arguments does not equal `value`."""
     return not is_all_value(value, *args)
 
-##################################################
+############################################################
 
 def exists(name: str, *, level: int = 0) -> bool:
     """
@@ -367,9 +353,9 @@ def exists(name: str, *, level: int = 0) -> bool:
 
     return (name in f.f_locals) or (name in f.f_globals) or hasattr(builtins, name)
 
-# • IO #############################################################################################
+### IO #####################################################
 
-__COMMON_IO_VERIFIERS_____________________________ = ""
+__COMMON_IO_VERIFIERS_______________________________________ = ""
 
 
 def is_dir(path: str) -> bool:
@@ -387,9 +373,9 @@ def is_root(path: str) -> bool:
     return os.path.dirname(path) == path
 
 
-# • STRUCT #########################################################################################
+### STRUCT #################################################
 
-__COMMON_STRUCT_VERIFIERS_________________________ = ""
+__COMMON_STRUCT_VERIFIERS___________________________________ = ""
 
 
 def has_filter(keys: Any = None, inclusion: Any = None, exclusion: Any = None) -> bool:

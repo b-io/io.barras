@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -24,15 +24,13 @@ from nutil.scalar.number import *
 from nutil.scalar.string import *
 from nutil.struct.util import *
 
-####################################################################################################
-# DATE CONSTANTS
-####################################################################################################
+## DATE CONSTANTS ########################################################################
 
-__DATE_CONSTANTS__________________________________ = ""
+__DATE_CONSTANTS____________________________________________ = ""
 
 DEFAULT_TIME_ZONE = timezone.utc
 
-#########################
+##############################
 
 # The default date format
 DEFAULT_DATE_FORMAT = "%Y-%m-%d"
@@ -58,7 +56,7 @@ DEFAULT_MONTH_FORMAT = "%b"
 # The default full month date format
 DEFAULT_FULL_MONTH_FORMAT = "%B"
 
-#########################
+##############################
 
 # The default aggregation
 DEFAULT_AGGREGATION = None
@@ -72,13 +70,13 @@ DEFAULT_PERIOD = "1" + Frequency.YEARS.value
 # The default position
 DEFAULT_POSITION = Position.END
 
-##################################################
+############################################################
 
 # The weekdays
 MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
 WEEKDAY_NAMES = ("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
 
-#########################
+##############################
 
 # The time durations
 DAY = np.timedelta64(1, "D")
@@ -99,7 +97,7 @@ FREQUENCY_TO_DURATION = {
 
 # DURATION_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DURATION.items()}
 
-#########################
+##############################
 
 # The relative time durations
 RELATIVE_DAY = relativedelta(days=1)
@@ -120,7 +118,7 @@ FREQUENCY_TO_RELATIVE_DURATION = {
 
 RELATIVE_DURATION_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_RELATIVE_DURATION.items()}
 
-#########################
+##############################
 
 # The average number of days per year
 DAYS_PER_YEAR = 365.25  # days
@@ -140,7 +138,7 @@ QUARTERS_PER_YEAR = 4  # quarters
 # The number of semesters per year
 SEMESTERS_PER_YEAR = 2  # semesters
 
-#########################
+##############################
 
 # The number of days per week
 DAYS_PER_WEEK = 7  # days
@@ -166,11 +164,9 @@ FREQUENCY_TO_DAY_COUNT = {
 DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
 
 
-####################################################################################################
-# DATE PROPERTIES
-####################################################################################################
+## DATE PROPERTIES #######################################################################
 
-__DATE_PROPERTIES_________________________________ = ""
+__DATE_PROPERTIES___________________________________________ = ""
 
 # The date format
 DATE_FORMAT = CONFIG.get("date", "dateFormat")
@@ -181,7 +177,7 @@ TIME_FORMAT = CONFIG.get("date", "timeFormat")
 # The date-time format
 DATE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
 
-#########################
+##############################
 
 # The aggregation
 AGGREGATION = Aggregation(CONFIG.get("date", "aggregation"))
@@ -196,11 +192,9 @@ PERIOD = CONFIG.get("date", "period")
 POSITION = Position(CONFIG.get("date", "position"))
 
 
-####################################################################################################
-# DATE ACCESSORS
-####################################################################################################
+## DATE ACCESSORS ########################################################################
 
-__DATE_ACCESSORS__________________________________ = ""
+__DATE_ACCESSORS____________________________________________ = ""
 
 def get_date():
     return date.today()
@@ -234,7 +228,7 @@ def get_stamp():
     return to_stamp(get_datetime())
 
 
-#########################
+##############################
 
 
 def get_microsecond(d=get_datetime()):
@@ -442,7 +436,7 @@ def get_years(c, use_index=False):
     return collection_to_type([get_year(d) for d in c], c)
 
 
-#########################
+##############################
 
 
 def get_business_day(d=get_datetime(), prev=True):
@@ -457,9 +451,9 @@ def get_prev_business_day(d=get_datetime()):
     if is_string(d):
         d = parse_datetime(d)
     day = date.weekday(d)
-    if day is MON:  # Monday
+    if day is MON:
         return d - 3 * RELATIVE_DAY
-    elif day is SUN:  # Sunday
+    elif day is SUN:
         return d - 2 * RELATIVE_DAY
     return d - RELATIVE_DAY
 
@@ -468,14 +462,14 @@ def get_next_business_day(d=get_datetime()):
     if is_string(d):
         d = parse_datetime(d)
     day = date.weekday(d)
-    if day is FRI:  # Friday
+    if day is FRI:
         return d + 3 * RELATIVE_DAY
-    elif day is SAT:  # Saturday
+    elif day is SAT:
         return d + 2 * RELATIVE_DAY
     return d + RELATIVE_DAY
 
 
-#########################
+##############################
 
 
 def get_month_range(d=get_datetime()):
@@ -492,7 +486,7 @@ def get_month_days(year, month):
     return monthrange(year, month)[1]
 
 
-#########################
+##############################
 
 
 def get_month_start(d=get_datetime()):
@@ -557,7 +551,7 @@ def get_next_month_end(d=get_datetime()):
     return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
 
 
-#########################
+##############################
 
 
 def get_quarter_start(d=get_datetime()):
@@ -660,7 +654,7 @@ def get_next_quarter_end(d=get_datetime()):
     return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
 
 
-#########################
+##############################
 
 
 def get_semester_start(d=get_datetime()):
@@ -731,7 +725,7 @@ def get_next_semester_end(d=get_datetime()):
     return reset_time(d.replace(year=year, month=month, day=get_month_days(year, month)))
 
 
-#########################
+##############################
 
 
 def get_year_start(d=get_datetime()):
@@ -770,7 +764,7 @@ def get_next_year_end(d=get_datetime()):
     return reset_time(d.replace(year=d.year + 1, month=12, day=31))
 
 
-#########################
+##############################
 
 
 def get_start_period(y, s=None, q=None, m=None, w=None, d=None):
@@ -801,7 +795,7 @@ def get_end_period(y, s=None, q=None, m=None, w=None, d=None):
     return create_datetime(y, 12, 31)
 
 
-#########################
+##############################
 
 
 def get_start_date(d=get_datetime(), freq=FREQUENCY):
@@ -850,7 +844,7 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
     return to_timestamp(get_end_date(d, freq=freq))
 
 
-#########################
+##############################
 
 
 def get_frequency(freq=FREQUENCY, pos=POSITION):
@@ -865,7 +859,7 @@ def get_frequency(freq=FREQUENCY, pos=POSITION):
     return f
 
 
-#########################
+##############################
 
 
 def get_period_index(period=PERIOD):
@@ -927,11 +921,9 @@ def get_period_years(d=get_datetime(), period=PERIOD):
     return diff_years(subtract_period(d, period), d)
 
 
-####################################################################################################
-# DATE CONVERTERS
-####################################################################################################
+## DATE CONVERTERS #######################################################################
 
-__DATE_CONVERTERS_________________________________ = ""
+__DATE_CONVERTERS___________________________________________ = ""
 
 
 def to_date(x, format=DATE_FORMAT):
@@ -1000,7 +992,7 @@ def to_stamp(x: Any):
     return to_datetime(x).timestamp()
 
 
-#########################
+##############################
 
 
 def timestamp_to_type(t, template):
@@ -1018,7 +1010,7 @@ def timestamp_to_type(t, template):
     return t
 
 
-#########################
+##############################
 
 
 def to_period(length, freq=FREQUENCY):
@@ -1033,11 +1025,9 @@ def to_period_freq(period):
     return Frequency(period[-1].upper())
 
 
-####################################################################################################
-# DATE FORMATTERS
-####################################################################################################
+## DATE FORMATTERS #######################################################################
 
-__DATE_FORMATTERS_________________________________ = ""
+__DATE_FORMATTERS___________________________________________ = ""
 
 
 def format_date(d=get_datetime()):
@@ -1074,11 +1064,9 @@ def format_time(d=get_datetime()):
     return trim(format_datetime(d, format=TIME_FORMAT))
 
 
-####################################################################################################
-# DATE GENERATORS
-####################################################################################################
+## DATE GENERATORS #######################################################################
 
-__DATE_GENERATORS_________________________________ = ""
+__DATE_GENERATORS___________________________________________ = ""
 
 def create_date(y, m, d):
     return date(int(y), int(m), int(d))
@@ -1096,7 +1084,7 @@ def create_stamp(y, m, d):
     return to_stamp(create_datetime(y, m, d))
 
 
-#########################
+##############################
 
 
 def create_date_range(
@@ -1142,11 +1130,9 @@ def create_stamp_sequence(
     return to_stamp(date_range)
 
 
-####################################################################################################
-# DATE PROCESSORS
-####################################################################################################
+## DATE PROCESSORS #######################################################################
 
-__DATE_PROCESSORS_________________________________ = ""
+__DATE_PROCESSORS___________________________________________ = ""
 
 
 def add_period(d=get_datetime(), period=PERIOD):
@@ -1161,7 +1147,7 @@ def subtract_period(d=get_datetime(), period=PERIOD):
     return d - period_length * FREQUENCY_TO_RELATIVE_DURATION[period_freq]
 
 
-#########################
+##############################
 
 
 def diff_date(date_from, date_to, freq=FREQUENCY):
@@ -1201,7 +1187,7 @@ def diff_semesters(date_from, date_to):
 def diff_years(date_from, date_to):
     return date_to.year - date_from.year
 
-#########################
+##############################
 
 def filter_days(c, days, week=False, year=False):
     """
@@ -1255,7 +1241,7 @@ def filter_years(c, years):
     return take_at(c, indices)
 
 
-#########################
+##############################
 
 def find_nearest_period(length, freq=FREQUENCY):
     day_count = get_period_days(None, period=to_period(length, freq=freq))
@@ -1263,7 +1249,7 @@ def find_nearest_period(length, freq=FREQUENCY):
     period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
     return to_period(period_length, period_freq)
 
-#########################
+##############################
 
 
 def parse_date(s):
@@ -1282,7 +1268,7 @@ def parse_stamp(s):
     return datetime.fromtimestamp(s)
 
 
-#########################
+##############################
 
 
 def reset_time(d=get_datetime()):
@@ -1293,7 +1279,7 @@ def reset_time(d=get_datetime()):
     return d.replace(hour=0, minute=0, second=0, microsecond=0)
 
 
-#########################
+##############################
 
 def shift_date(
     d=get_datetime(),
@@ -1380,11 +1366,9 @@ def shift_dates(
         c,
     )
 
-####################################################################################################
-# DATE VERIFIERS
-####################################################################################################
+## DATE VERIFIERS ########################################################################
 
-__DATE_VERIFIERS__________________________________ = ""
+__DATE_VERIFIERS____________________________________________ = ""
 
 def is_business_day(x: Any) -> bool:
     """Returns whether `x` is a business day (Monday–Friday)."""

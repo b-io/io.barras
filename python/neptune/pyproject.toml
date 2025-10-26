@@ -1,4 +1,4 @@
-# 1. PROJECT METADATA ##############################################################################
+## 1. PROJECT METADATA ###################################################################
 [tool.poetry]
 name = "neptune"
 version = "1.0.0.post137"
@@ -22,39 +22,39 @@ packages = [
 ]
 
 
-# 2. MAIN DEPENDENCIES #############################################################################
+## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Computer Vision ################################
+### Computer Vision ########################################
 opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
 
-# Concurrency & System ###########################
+### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
 psutil = "^5.9.8"             # System and process resource monitoring
 
-# Connectors #####################################
+### Connectors #############################################
 sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
 
-# DataFrames & Tables ############################
+### DataFrames & Tables ####################################
 numpy = "^1.26.4"             # Array computing and linear algebra
 pandas = "^2.3.0"             # Labeled data structures and analysis
 polars = "^0.20.31"           # Arrow-based DataFrame engine
 tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
 
-# File & Data I/O ################################
+### File & Data I/O ########################################
 chardet = "^4.0.0"            # Text encoding detection
 openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
 orjson = "^3.10.18"           # Fast JSON serialization and parsing
 pyyaml = "^6.0.2"             # YAML encoding and decoding
 xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
-# Machine Learning & Stats #######################
+### Machine Learning & Stats ###############################
 scikit-learn = "^1.6.1"       # Algorithms for machine learning
 scipy = "^1.13.1"             # Scientific computing and numerical tools
 statsmodels = "^0.14.4"       # Statistical modeling and inference
 
-# Utilities ######################################
+### Utilities ##############################################
 annotated-types = "^0.6.0"    # Metadata for static type checkers
 cffi = "^1.17.1"              # Interface for calling C code
 deprecated = "^1.2.18"        # Runtime deprecation warnings
@@ -68,17 +68,17 @@ python-dateutil = "^2.9.0"    # Date and time parsing and manipulation
 python-dotenv = "^1.1.0"      # Loading of .env configuration files
 validators = "^0.34.0"        # Lightweight data and URL checks
 
-# Visualization ##################################
+### Visualization ##########################################
 matplotlib = "^3.9.4"         # 2D plotting and figures
 seaborn = "^0.13.2"           # Statistical data visualizations
 tqdm = "^4.67.1"              # Terminal progress bars
 
-# Web ASGI #######################################
+### Web ASGI ###############################################
 asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
 fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
 uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
 
-# Web HTTP #######################################
+# Web HTTP #############################################################################################################
 httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
 httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
 python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
@@ -86,16 +86,16 @@ requests = "^2.32.4"          # Synchronous HTTP client for APIs and websites
 urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
 
 
-# 3. OTHER DEPENDENCIES ############################################################################
+## 3. OTHER DEPENDENCIES #################################################################
 
 [tool.poetry.group.docs.dependencies]
-# Documentation ##################################
+# Documentation ########################################################################################################
 docutils = "^0.21.2"              # reStructuredText parsing and rendering
 myst-parser = "^3.0.1"            # Markdown parser for Sphinx
 sphinx = "^7.4.7"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
-# Code Quality ###################################
+# Code Quality #########################################################################################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
 black = "^24.10.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
@@ -106,12 +106,12 @@ isort = "^6.0.1"                  # Import sorting and grouping
 mypy = "^1.16.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
-# Testing ########################################
+# Testing ##############################################################################################################
 coverage = "^7.9.1"               # Code coverage reporting
 pytest = "^8.4.1"                 # Unit testing framework
 
 
-# 4. PACKAGE SOURCES ###############################################################################
+## 4. PACKAGE SOURCES ####################################################################
 
 # You can configure additional or internal package sources below.
 # Uncomment and customize if your company uses a private PyPI repository or proxy.
@@ -122,16 +122,16 @@ pytest = "^8.4.1"                 # Unit testing framework
 # priority = "primary"                    # Valid options: 'primary', 'supplemental', 'explicit'
 
 
-# 5. BUILD SYSTEM ##################################################################################
+## 5. BUILD SYSTEM #######################################################################
 
 [build-system]
 requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# 6. TOOL-SPECIFIC CONFIGURATION ###################################################################
+# 6. TOOL-SPECIFIC CONFIGURATION #######################################################################################
 
-# Code Quality ###################################
+# Code Quality #########################################################################################################
 [tool.black]
 line-length = 100
 target-version = ["py39"]
@@ -179,7 +179,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 
 
-# Testing ########################################
+# Testing ##############################################################################################################
 [tool.pytest.ini_options]
 addopts = "--strict-markers"
 filterwarnings = [

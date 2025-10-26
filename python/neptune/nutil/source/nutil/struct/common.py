@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -19,11 +19,9 @@ from nutil.struct.collection.common import *
 from nutil.struct.table.common import *
 from nutil.struct.tuple.common import *
 
-####################################################################################################
-# COMMON STRUCT CLASSES
-####################################################################################################
+## COMMON STRUCT CLASSES #################################################################
 
-__COMMON_STRUCT_CLASSES___________________________ = ""
+__COMMON_STRUCT_CLASSES_____________________________________ = ""
 
 # Typing alias for any supported `Struct`:
 #   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
@@ -41,13 +39,11 @@ Value = Any
 Axis = Union[int, str]  # {0, 1, "index", "columns"}
 
 
-####################################################################################################
-# COMMON STRUCT CONVERTERS
-####################################################################################################
+## COMMON STRUCT CONVERTERS ##############################################################
 
-__COMMON_STRUCT_CONVERTERS________________________ = ""
+__COMMON_STRUCT_CONVERTERS__________________________________ = ""
 
-# • COLLECTION ###################################
+### COLLECTION #############################################
 
 
 def to_array(
@@ -106,7 +102,7 @@ def unarray(a: Any) -> Union[Any, Tuple[Any, ...]]:
     return a
 
 
-#########################
+##############################
 
 
 def to_dict(*args: Any) -> Dict[Any, Any]:
@@ -161,7 +157,7 @@ def undict(d: Any) -> Union[Any, Tuple[Any, ...]]:
     return d
 
 
-#########################
+##############################
 
 
 def to_list(*args: Any) -> List[Any]:
@@ -213,7 +209,7 @@ def unlist(l: Any) -> Union[Any, Tuple[Any, ...]]:
     return l
 
 
-#########################
+##############################
 
 
 def to_set(*args: Any) -> Set[Any]:
@@ -265,7 +261,7 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
     return s
 
 
-# • TABLE ########################################
+### TABLE ##################################################
 
 
 def ungroup(
@@ -291,7 +287,7 @@ def ungroup(
     return x.obj if normalize_axis(getattr(x, "axis", 0)) == normalize_axis(axis) else x.groups
 
 
-# • TUPLE ########################################
+### TUPLE ##################################################
 
 
 def to_tuple(*args: Any) -> Tuple[Any, ...]:
@@ -329,11 +325,9 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
     return tuple(args)
 
 
-####################################################################################################
-# COMMON STRUCT PROCESSORS
-####################################################################################################
+## COMMON STRUCT PROCESSORS ##############################################################
 
-__COMMON_STRUCT_PROCESSORS________________________ = ""
+__COMMON_STRUCT_PROCESSORS__________________________________ = ""
 
 
 def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
@@ -349,11 +343,9 @@ def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
     return 0 if axis in (0, "index") else 1
 
 
-####################################################################################################
-# COMMON STRUCT VERIFIERS
-####################################################################################################
+## COMMON STRUCT VERIFIERS ###############################################################
 
-__COMMON_STRUCT_VERIFIERS_____________________ = ""
+__COMMON_STRUCT_VERIFIERS_______________________________ = ""
 
 
 def is_struct(x: Any):
@@ -366,7 +358,7 @@ def is_element(x: Any) -> bool:
     return not is_iterable(x) or is_tuple(x)
 
 
-#########################
+##############################
 
 
 def is_multidimensional(x: Any):
@@ -379,7 +371,7 @@ def is_subscriptable(x: Any):
     return hasattr(x, "__getitem__")
 
 
-#########################
+##############################
 
 
 def is_callable(x: Any, name: str) -> bool:
@@ -393,14 +385,14 @@ def is_callable(x: Any, name: str) -> bool:
     return callable(getattr(x, name, None))
 
 
-##################################################
+############################################################
 
 
 def has_index(c):
     return is_array(c) or is_index(c) or is_sequence(c)
 
 
-#########################
+##############################
 
 
 def compare_length(x: Any, n: int, op) -> bool:

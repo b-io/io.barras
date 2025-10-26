@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains formatting utility functions for colors
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 import random
 
 import cv2
@@ -19,15 +19,13 @@ from nmath.stats import normal
 
 from nutil.math import *
 
-####################################################################################################
-# COLOR CONSTANTS
-####################################################################################################
+## COLOR CONSTANTS #######################################################################
 
-__COLOR_CONSTANTS_________________________________ = ""
+__COLOR_CONSTANTS___________________________________________ = ""
 
 TRANSPARENT = (0, 0, 0, 0)
 
-##################################################
+############################################################
 
 # The default colors `Iterator`
 DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
@@ -35,7 +33,7 @@ DEFAULT_COLORS_ITERATOR = get_iterator(DEFAULT_COLORS, cycle=True)
 # The default background color
 DEFAULT_BG_COLOR = TRANSPARENT
 
-##################################################
+############################################################
 
 
 def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
@@ -68,7 +66,7 @@ def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
     return r, g, b
 
 
-#########################
+##############################
 
 
 def to_hsv(*args, h=0, s=0, v=0, alpha=None, scale=None):
@@ -89,7 +87,7 @@ def to_hsv(*args, h=0, s=0, v=0, alpha=None, scale=None):
     return h, s, v
 
 
-#########################
+##############################
 
 
 def rgb_to_hsv(*args, r=0, g=0, b=0, alpha=None, scale=None):
@@ -126,7 +124,7 @@ def hsv_to_rgb(*args, h=0, s=0, v=0, alpha=None, scale=None):
     return r, g, b
 
 
-#########################
+##############################
 
 
 def is_scaled_color(x, y, z) -> bool:
@@ -139,7 +137,7 @@ def is_unscaled_color(x, y, z) -> bool:
     return maximum(maximum(x)) <= 1 and maximum(maximum(y)) <= 1 and maximum(maximum(z)) <= 1
 
 
-#########################
+##############################
 
 
 def scale_color(x, y, z):
@@ -158,7 +156,7 @@ def unscale_color(x, y, z):
     return x, y, z
 
 
-#########################
+##############################
 
 BASE_COLOR_NAMES = [name for name, _ in mcolors.BASE_COLORS.items()]
 BASE_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.BASE_COLORS.items()])
@@ -182,11 +180,9 @@ RAINBOW_SCALE = mcm.get_cmap(name="rainbow")
 RYG_SCALE = mcm.get_cmap(name="RdYlGn")
 
 
-####################################################################################################
-# COLOR FUNCTIONS
-####################################################################################################
+## COLOR FUNCTIONS #######################################################################
 
-__COLOR___________________________________________ = ""
+__COLOR_____________________________________________________ = ""
 
 
 def get_alternate_colors(n, row_odd_color="white", row_even_color="lightgray"):
@@ -203,7 +199,7 @@ def get_RYG(brightness="8"):
     return [color.replace(".", brightness) for color in colors]
 
 
-#########################
+##############################
 
 
 def get_random_base_color_name():
@@ -222,7 +218,7 @@ def get_random_xkcd_color_name():
     return random.choice(XKCD_COLOR_NAMES)
 
 
-#########################
+##############################
 
 
 def get_color_name(code, names, codes):
@@ -261,7 +257,7 @@ def get_xkcd_color_name(code, is_hsv=False):
     )
 
 
-##################################################
+############################################################
 
 
 def format_rgb_color(*args, r=0, g=0, b=0, alpha=1):
@@ -278,7 +274,7 @@ def format_hsv_color(*args, h=0, s=0, v=0, alpha=1):
     return prefix + par(collist(*hsv, alpha) if not is_null(alpha) else collist(*hsv))
 
 
-#########################
+##############################
 
 
 def map_to_color(value, color_scale=RYG_SCALE, normalize=False):

@@ -1,3 +1,8 @@
+from typing import Annotated, get_args, get_origin
+
+from nutil.common import *
+
+
 def get_type_hints(x: Any) -> Dict[str, Any]:
     """
     Returns the resolved type hints for `x`, handling forward references and Python version
@@ -10,7 +15,7 @@ def get_type_hints(x: Any) -> Dict[str, Any]:
         O(n) in the number of annotations, with constant-time dictionary operations.
     """
     try:
-        return inspect.get_annotations(obj, eval_str=True)  # type: ignore[attr-defined]
+        return inspect.get_annotations(obj, eval_str=True)
     except (AttributeError, TypeError, NameError):
         try:
             from typing import get_type_hints
@@ -80,7 +85,7 @@ def matches_type_hints(value: Any, annotation: Any, sample_limit: int = 1) -> bo
         (elem_type,) = args
         return all(matches_type_hints(v, elem_type) for v in value)
     elif is_sequence(origin):
-        # excludes `tuple` (handled above)
+        # Excludes `tuple` (handled above)
         if not is_sequence(value):
             return False
         if not args:

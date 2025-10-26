@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common typing utilities
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -17,11 +17,9 @@ from typing import Callable
 
 from nutil.struct.collection.common import *
 
-####################################################################################################
-# COMMON TYPING ACCESSORS
-####################################################################################################
+## COMMON TYPING ACCESSORS ###############################################################
 
-__COMMON_TYPING_ACCESSORS_________________________ = ""
+__COMMON_TYPING_ACCESSORS___________________________________ = ""
 
 
 def get_type_name(t: Any) -> str:
@@ -34,11 +32,9 @@ def get_type_names(ts: Iterable[Any], separator: str = ", ") -> str:
     return separator.join(get_type_name(t) for t in ts)
 
 
-####################################################################################################
-# COMMON TYPING VERIFIERS
-####################################################################################################
+## COMMON TYPING VERIFIERS ###############################################################
 
-__COMMON_TYPING_VERIFIERS_________________________ = ""
+__COMMON_TYPING_VERIFIERS___________________________________ = ""
 
 
 def assert_element_types(

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains graphical utility functions for charts
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import io
 
@@ -24,18 +24,14 @@ import plotly.tools as tls
 from ngui.image import *
 from nutil.common.struct.collection import to_series
 
-####################################################################################################
-# CHART SETTINGS
-####################################################################################################
+## CHART SETTINGS ########################################################################
 
 pio.renderers.default = "browser"
 
 
-####################################################################################################
-# CHART CONSTANTS
-####################################################################################################
+## CHART CONSTANTS #######################################################################
 
-__CHART_CONSTANTS___________________________________ = ""
+__CHART_CONSTANTS_____________________________________________ = ""
 
 # The default tick length
 DEFAULT_TICK_LENGTH = 4
@@ -43,7 +39,7 @@ DEFAULT_TICK_LENGTH = 4
 # The default tick direction
 DEFAULT_TICK_DIRECTION = "outside"
 
-##################################################
+############################################################
 
 MAP_PROJECTIONS = [
     "equirectangular",
@@ -71,11 +67,9 @@ MAP_PROJECTIONS = [
 ]
 
 
-####################################################################################################
-# CHART FUNCTIONS
-####################################################################################################
+## CHART FUNCTIONS #######################################################################
 
-__CHART___________________________________________ = ""
+__CHART_____________________________________________________ = ""
 
 
 def is_matplot(x: Any) -> bool:
@@ -88,7 +82,7 @@ def is_plotly(x: Any) -> bool:
     return isinstance(x, go._figure.Figure)
 
 
-#########################
+##############################
 
 
 def is_multi_plot(x: Any) -> bool:
@@ -96,7 +90,7 @@ def is_multi_plot(x: Any) -> bool:
     return getattr(x, "_grid_ref", None) is not None
 
 
-##################################################
+############################################################
 
 
 def get_grid_size(n, row_count=None, col_count=None):
@@ -174,7 +168,7 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
     return dict(l=x, r=x, b=x, t=x)
 
 
-##################################################
+############################################################
 
 
 def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
@@ -188,7 +182,7 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
     return tls.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
 
 
-#########################
+##############################
 
 
 def fig_to_image(
@@ -225,7 +219,7 @@ def fig_to_webp(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HE
     return fig_to_image(fig, WEBP_FORMAT, scale=scale, width=width, height=height, margin=margin)
 
 
-#########################
+##############################
 
 
 def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
@@ -365,7 +359,7 @@ def fig_to_webp_html(
     )
 
 
-##################################################
+############################################################
 
 
 def create_figure(
@@ -575,7 +569,7 @@ def create_figures(
     return fig
 
 
-#########################
+##############################
 
 
 def create_choropleth_map(
@@ -666,7 +660,7 @@ def create_choropleth_map(
     return fig
 
 
-##################################################
+############################################################
 
 
 def draw(
@@ -813,7 +807,7 @@ def draw_series(
     )
 
 
-#########################
+##############################
 
 
 def plot_multi(
@@ -1111,7 +1105,7 @@ def plot_ellipse(
     return fig
 
 
-#########################
+##############################
 
 
 def update_layout(

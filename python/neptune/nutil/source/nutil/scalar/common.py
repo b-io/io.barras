@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common scalar utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -22,20 +22,18 @@ import pandas as pd
 
 from nutil.constants import BIT_COUNT
 
-####################################################################################################
-# COMMON SCALAR CONSTANTS
-####################################################################################################
+## COMMON SCALAR CONSTANTS ###############################################################
 
-# • BOOLEAN ########################################################################################
+### BOOLEAN ################################################
 
-__COMMON_BOOLEAN_CONSTANTS________________________ = ""
+__COMMON_BOOLEAN_CONSTANTS__________________________________ = ""
 
 BOOLEAN_TYPE = bool
 BOOLEAN_ELEMENT_TYPE = np.bool_
 
-# • BYTES ##########################################################################################
+### BYTES ##################################################
 
-__COMMON_BYTES_CONSTANTS__________________________ = ""
+__COMMON_BYTES_CONSTANTS____________________________________ = ""
 
 BYTES_TYPE = bytes
 BYTES_ELEMENT_TYPE = np.bytes_
@@ -43,21 +41,21 @@ BYTES_ELEMENT_TYPE = np.bytes_
 BYTEARRAY_TYPE = bytearray
 MEMORYVIEW_TYPE = memoryview
 
-# • DATE ###########################################################################################
+### DATE ###################################################
 
-__COMMON_DATE_CONSTANTS___________________________ = ""
+__COMMON_DATE_CONSTANTS_____________________________________ = ""
 
 DATE_TYPE = date
 DATETIME_TYPE = datetime
 TIMESTAMP_TYPE = pd.Timestamp
 
-# • NUMBER #########################################################################################
+### NUMBER #################################################
 
-__COMMON_NUMBER_CONSTANTS_________________________ = ""
+__COMMON_NUMBER_CONSTANTS___________________________________ = ""
 
 NUMBER_TYPE = numbers.Number
 
-#########################
+##############################
 
 FLOAT_TYPE = float
 FLOAT_ELEMENT_TYPE = np.float32 if BIT_COUNT == 32 else np.float64 if BIT_COUNT == 64 else None
@@ -71,19 +69,17 @@ LONG_ELEMENT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 
 SHORT_TYPE = int
 SHORT_ELEMENT_TYPE = np.uint8
 
-# • STRING #########################################################################################
+### STRING #################################################
 
-__COMMON_STRING_CONSTANTS_________________________ = ""
+__COMMON_STRING_CONSTANTS___________________________________ = ""
 
 STRING_TYPE = str
 STRING_ELEMENT_TYPE = np.str_  # np.string_
 
 
-####################################################################################################
-# COMMON SCALAR VERIFIERS
-####################################################################################################
+## COMMON SCALAR VERIFIERS ###############################################################
 
-__COMMON_SCALAR_VERIFIERS_________________________ = ""
+__COMMON_SCALAR_VERIFIERS___________________________________ = ""
 
 def is_scalar(x: Any) -> bool:
     """Returns whether `x` is one of the supported scalar categories."""
@@ -95,17 +91,17 @@ def is_scalar(x: Any) -> bool:
         or is_string(x)
     )
 
-# • BOOLEAN ########################################################################################
+### BOOLEAN ################################################
 
-__COMMON_BOOLEAN_VERIFIERS________________________ = ""
+__COMMON_BOOLEAN_VERIFIERS__________________________________ = ""
 
 def is_boolean(x: Any) -> bool:
     """Returns whether `x` is a boolean scalar (Python or NumPy)."""
     return isinstance(x, BOOLEAN_TYPE) or isinstance(x, BOOLEAN_ELEMENT_TYPE)
 
-# • BYTES ##########################################################################################
+### BYTES ##################################################
 
-__COMMON_BYTES_VERIFIERS__________________________ = ""
+__COMMON_BYTES_VERIFIERS____________________________________ = ""
 
 def is_bytes(x: Any) -> bool:
     """Returns whether `x` is a bytes scalar (Python or NumPy)."""
@@ -115,9 +111,9 @@ def is_byte_like(x: Any) -> bool:
     """Returns whether `x` is a byte-like object (Python or NumPy)."""
     return isinstance(x, (BYTES_TYPE, BYTEARRAY_TYPE, MEMORYVIEW_TYPE))
 
-# • DATE ###########################################################################################
+### DATE ###################################################
 
-__COMMON_DATE_VERIFIERS___________________________ = ""
+__COMMON_DATE_VERIFIERS_____________________________________ = ""
 
 def is_date(x: Any) -> bool:
     """Returns whether `x` is a `date` scalar (without time)."""
@@ -135,9 +131,9 @@ def is_stamp(x: Any) -> bool:
     """Returns whether `x` is a numeric timestamp (epoch seconds/millis, etc.)."""
     return is_number(x) and not is_boolean(x) and np.isfinite(x) and x >= 0
 
-# • NUMBER #########################################################################################
+### NUMBER #################################################
 
-__COMMON_NUMBER_VERIFIERS_________________________ = ""
+__COMMON_NUMBER_VERIFIERS___________________________________ = ""
 
 def is_number(x: Any) -> bool:
     """Returns whether `x` is a numeric scalar (Python, NumPy, or compatible)."""
@@ -159,7 +155,7 @@ def is_short(x: Any) -> bool:
     """Returns whether `x` is a short-integer scalar (NumPy `uint8`)."""
     return isinstance(x, SHORT_TYPE) or isinstance(x, SHORT_ELEMENT_TYPE)
 
-##################################################
+############################################################
 
 def is_nan(x: Any) -> bool:
     """
@@ -179,9 +175,9 @@ def is_nan(x: Any) -> bool:
         return x.lower() == "nan"
     return False
 
-# • STRING #########################################################################################
+### STRING #################################################
 
-__COMMON_STRING_VERIFIERS_________________________ = ""
+__COMMON_STRING_VERIFIERS___________________________________ = ""
 
 def is_string(x: Any) -> bool:
     """Returns whether `x` is a string scalar (Python or NumPy)."""

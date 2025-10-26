@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains mathematical utility functions for descriptive statistics
 #
@@ -9,26 +9,22 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from ngui.charts import *
 from ngui.common import *
 
-####################################################################################################
-# DESCRIPTIVE CONSTANTS
-####################################################################################################
+## DESCRIPTIVE CONSTANTS #################################################################
 
-__DESCRIPTIVE_CONSTANTS___________________________ = ""
+__DESCRIPTIVE_CONSTANTS_____________________________________ = ""
 
 # The default number of points
 DEFAULT_POINT_COUNT = 100
 
 
-####################################################################################################
-# DESCRIPTIVE FUNCTIONS
-####################################################################################################
+## DESCRIPTIVE FUNCTIONS #################################################################
 
-__DESCRIPTIVE_____________________________________ = ""
+__DESCRIPTIVE_______________________________________________ = ""
 
 
 def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None):
@@ -39,9 +35,9 @@ def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=No
     return to_series(kde(x), name=name, index=x)
 
 
-# • DESCRIPTIVE FIGURE #############################################################################
+### DESCRIPTIVE FIGURE #####################################
 
-__DESCRIPTIVE_FIGURE______________________________ = ""
+__DESCRIPTIVE_FIGURE________________________________________ = ""
 
 
 def draw_histogram(
@@ -217,7 +213,7 @@ def plot_multi_histogram(
     )
 
 
-#########################
+##############################
 
 
 def draw_density(
@@ -401,7 +397,7 @@ def plot_multi_density(
     )
 
 
-#########################
+##############################
 
 
 def plot_cumulative_distribution(

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains utility functions for databases
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
@@ -20,11 +20,9 @@ from sqlalchemy.sql.elements import *
 
 from nutil.common import *
 
-####################################################################################################
-# DB CONSTANTS
-####################################################################################################
+## DB CONSTANTS ##########################################################################
 
-__DB_CONSTANTS____________________________________ = ""
+__DB_CONSTANTS______________________________________________ = ""
 
 # The default flag specifying whether the DB is Microsoft SQL Server
 DEFAULT_IS_MSSQL = True
@@ -32,26 +30,24 @@ DEFAULT_IS_MSSQL = True
 # The default schema
 DEFAULT_SCHEMA = "dbo"
 
-#########################
+##############################
 
 # The default chunk size
 DEFAULT_CHUNK_SIZE = 100
 
-#########################
+##############################
 
 # The default debug interval
 DEFAULT_DEBUG_INTERVAL = 1000
 
 
-####################################################################################################
-# DB FUNCTIONS
-####################################################################################################
+## DB FUNCTIONS ##########################################################################
 
-__DB______________________________________________ = ""
+__DB________________________________________________________ = ""
 
-# • DB CONNECT #####################################################################################
+### DB CONNECT #############################################
 
-__DB_CONNECT______________________________________ = ""
+__DB_CONNECT________________________________________________ = ""
 
 
 def create_engine(
@@ -83,16 +79,16 @@ def create_session(engine):
     return Session(bind=engine)
 
 
-# • DB CONSOLE #####################################################################################
+### DB CONSOLE #############################################
 
-__DB_CONSOLE______________________________________ = ""
+__DB_CONSOLE________________________________________________ = ""
 
 
 def get_query_message(verb, count, table):
     return paste(verb, count, "rows", "in the table", quote(table))
 
 
-#########################
+##############################
 
 
 def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERBOSE):
@@ -127,7 +123,7 @@ def error_query(verb, table, ex=None, verbose=VERBOSE):
         warn_query(verb, table, ex=ex, verbose=verbose)
 
 
-##################################################
+############################################################
 
 
 def get_row_message(verb, index, table, cols=None, row=None):
@@ -141,7 +137,7 @@ def get_row_message(verb, index, table, cols=None, row=None):
     )
 
 
-#########################
+##############################
 
 
 def trace_row(verb, index, table, cols=None, row=None, verbose=VERBOSE):
@@ -169,9 +165,9 @@ def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE)
         warn_row(verb, index, table, ex=ex, cols=cols, row=row, verbose=verbose)
 
 
-# • DB FORMAT ######################################################################################
+### DB FORMAT ##############################################
 
-__DB_FORMAT_______________________________________ = ""
+__DB_FORMAT_________________________________________________ = ""
 
 
 def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAULT_IS_MSSQL):
@@ -199,7 +195,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAUL
     )
 
 
-##################################################
+############################################################
 
 
 def escape(name):
@@ -207,7 +203,7 @@ def escape(name):
     return str(name).replace("'", "''").replace("%", "%%")
 
 
-#########################
+##############################
 
 
 def format_name(name):
@@ -244,9 +240,9 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
     return quote(escape(value))
 
 
-# • DB METADATA ####################################################################################
+### DB METADATA ############################################
 
-__DB_METADATA_____________________________________ = ""
+__DB_METADATA_______________________________________________ = ""
 
 
 def create_metadata(engine, schema=DEFAULT_SCHEMA):
@@ -254,7 +250,7 @@ def create_metadata(engine, schema=DEFAULT_SCHEMA):
     return db.MetaData(bind=engine, schema=schema)
 
 
-##################################################
+############################################################
 
 
 def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
@@ -275,7 +271,7 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
     )
 
 
-#########################
+##############################
 
 
 def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
@@ -346,7 +342,7 @@ def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCH
     return include_list(primary_cols, cols)
 
 
-#########################
+##############################
 
 
 def get_col_types(
@@ -388,7 +384,7 @@ def get_col_types(
     return col_types
 
 
-##################################################
+############################################################
 
 
 def metadata_to_lowercase(metadata):
@@ -409,7 +405,7 @@ def table_to_lowercase(table):
             fk.constraint.name = fk.constraint.name.lower()
 
 
-# • DB EXECUTE #####################################################################################
+### DB EXECUTE #############################################
 
 
 def execute(engine, query, *args, **kwargs):
@@ -440,9 +436,9 @@ def transact(engine, query, *args, **kwargs):
         return result.fetchall() if not is_null(result.cursor) else result.rowcount
 
 
-# • DB CREATE ######################################################################################
+### DB CREATE ##############################################
 
-__DB_CREATE_______________________________________ = ""
+__DB_CREATE_________________________________________________ = ""
 
 
 def create_table(
@@ -473,9 +469,9 @@ def create_table(
     )
 
 
-# • DB SELECT ######################################################################################
+### DB SELECT ##############################################
 
-__DB_SELECT_______________________________________ = ""
+__DB_SELECT_________________________________________________ = ""
 
 
 def create_select_table_where_query(
@@ -513,7 +509,7 @@ def create_select_table_where_query(
     )
 
 
-##################################################
+############################################################
 
 
 def select_query(engine, query, chunk_size=DEFAULT_CHUNK_SIZE, index_cols=None, verbose=VERBOSE):
@@ -634,9 +630,9 @@ def select_table_where(
     return df
 
 
-# • DB DELETE ######################################################################################
+### DB DELETE ##############################################
 
-__DB_DELETE_______________________________________ = ""
+__DB_DELETE_________________________________________________ = ""
 
 
 def create_delete_table_query(
@@ -656,7 +652,7 @@ def create_delete_table_query(
     )
 
 
-##################################################
+############################################################
 
 
 def delete_table(
@@ -820,9 +816,9 @@ def bulk_delete_table(
     return delete_count
 
 
-# • DB INSERT ######################################################################################
+### DB INSERT ##############################################
 
-__DB_INSERT_______________________________________ = ""
+__DB_INSERT_________________________________________________ = ""
 
 
 def set_id_insert(engine, table, flag, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
@@ -834,7 +830,7 @@ def set_id_insert(engine, table, flag, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT
         )
 
 
-##################################################
+############################################################
 
 
 def create_insert_table_query(table, cols, row, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
@@ -852,7 +848,7 @@ def create_insert_table_query(table, cols, row, is_mssql=DEFAULT_IS_MSSQL, schem
     )
 
 
-##################################################
+############################################################
 
 
 def insert_table(
@@ -1000,9 +996,9 @@ def bulk_insert_table(
     return insert_count
 
 
-# • DB UPDATE ######################################################################################
+### DB UPDATE ##############################################
 
-__DB_UPDATE_______________________________________ = ""
+__DB_UPDATE_________________________________________________ = ""
 
 
 def create_update_table_query(
@@ -1029,7 +1025,7 @@ def create_update_table_query(
     )
 
 
-##################################################
+############################################################
 
 
 def update_table(
@@ -1189,9 +1185,9 @@ def bulk_update_table(
     return update_count
 
 
-# • DB UPSERT ######################################################################################
+### DB UPSERT ##############################################
 
-__DB_UPSERT_______________________________________ = ""
+__DB_UPSERT_________________________________________________ = ""
 
 
 def upsert_table(
@@ -1293,9 +1289,9 @@ def upsert_table(
     return upsert_count
 
 
-# • DB MIGRATE #####################################################################################
+### DB MIGRATE #############################################
 
-__DB_MIGRATE______________________________________ = ""
+__DB_MIGRATE________________________________________________ = ""
 
 
 def migrate(
@@ -1389,7 +1385,7 @@ def migrate(
     return count
 
 
-#########################
+##############################
 
 
 def update_col(col, collation=None, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):

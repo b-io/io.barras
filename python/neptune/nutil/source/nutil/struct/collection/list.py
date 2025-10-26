@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,16 +9,14 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from nutil.common import *
 
 
-####################################################################################################
-# LIST PROCESSORS
-####################################################################################################
+## LIST PROCESSORS #######################################################################
 
-__LIST_PROCESSORS_________________________________ = ""
+__LIST_PROCESSORS___________________________________________ = ""
 
 
 def filter_list(l, inclusion=None, exclusion=None):
@@ -47,7 +45,7 @@ def exclude_list(l, exclusion):
     return filter_list(l, exclusion=exclusion)
 
 
-#########################
+##############################
 
 
 def flatten_list(l, depth=-1):
@@ -63,7 +61,7 @@ def flatten_list(l, depth=-1):
     return fl
 
 
-#########################
+##############################
 
 
 def mask_list(l, mask):
@@ -71,7 +69,7 @@ def mask_list(l, mask):
     return [v for i, v in enumerate(l) if mask[i]]
 
 
-#########################
+##############################
 
 
 def resize_list(l, size, left=False, value=None):
@@ -83,14 +81,14 @@ def resize_list(l, size, left=False, value=None):
     return l[0:size]
 
 
-#########################
+##############################
 
 
 def repeat(value, n):
     return n * [value]
 
 
-#########################
+##############################
 
 
 def rotate_list(l, n=1):

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains an ordered set implementation and its adapter
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -18,11 +18,9 @@ from typing import MutableSet
 
 from nutil.common import *
 
-####################################################################################################
-# ORDERED SET CLASSES
-####################################################################################################
+## ORDERED SET CLASSES ###################################################################
 
-__ORDERED_SET_CLASSES_____________________________ = ""
+__ORDERED_SET_CLASSES_______________________________________ = ""
 
 T = TypeVar("T")
 
@@ -48,11 +46,11 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Overall: O(n).
         """
         super().__init__()
-        self.elements: OrderedDict[T, None] = OrderedDict.fromkeys(iterable)  # O(n) in C
+        self.elements: OrderedDict[T, None] = OrderedDict.fromkeys(iterable)
 
-    ##############################################
+    ########################################################
     # COLLECTION
-    ##############################################
+    ########################################################
 
     def __len__(self) -> int:
         """
@@ -63,9 +61,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return len(self.elements)
 
-    ##############################################
+    ########################################################
     # CONTAINER
-    ##############################################
+    ########################################################
 
     def __contains__(self, element: object) -> bool:
         """
@@ -76,9 +74,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return element in self.elements
 
-    ##############################################
+    ########################################################
     # ITERABLE
-    ##############################################
+    ########################################################
 
     def __iter__(self) -> Iterator[T]:
         """
@@ -90,9 +88,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return iter(self.elements.keys())
 
-    ##############################################
+    ########################################################
     # SEQUENCE
-    ##############################################
+    ########################################################
 
     @overload
     def __getitem__(self, index: int) -> T: ...
@@ -117,9 +115,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
                 if stop <= start:
                     return []
                 # Extract exactly the required window
-                return list(itertools.islice(keys, start, stop))  # O(k)
+                return list(itertools.islice(keys, start, stop))
             # General slice path (handles negative and non-unit steps)
-            return list(keys)[index]  # O(n) materialization, then O(k) slice
+            return list(keys)[index]
 
         try:
             index = operator.index(index)  # accepts int-like types (e.g., numpy.int64)
@@ -133,7 +131,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             index += n
         if index < 0 or index >= n:
             raise IndexError("OrderedSet index out of range")
-        return next(itertools.islice(keys, index, index + 1))  # O(index + 1)
+        return next(itertools.islice(keys, index, index + 1))
 
     def __reversed__(self) -> Iterator[T]:
         """
@@ -170,9 +168,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         except StopIteration:
             raise IndexError("OrderedSet is empty") from None
 
-    ##############################################
+    ########################################################
     # CONVERTERS
-    ##############################################
+    ########################################################
 
     def to_iterable(self) -> Iterable[T]:
         """
@@ -183,9 +181,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return self.elements.keys()
 
-    ##############################################
+    ########################################################
     # MUTATORS
-    ##############################################
+    ########################################################
 
     def add(self, element: T) -> None:
         """
@@ -217,9 +215,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         for iterable in iterables:
             if is_ordered_set(iterable):
-                self.elements.update(iterable.elements)  # O(k_i)
+                self.elements.update(iterable.elements)
             else:
-                self.elements.update(OrderedDict.fromkeys(iterable))  # O(k_i)
+                self.elements.update(OrderedDict.fromkeys(iterable))
 
     def clear(self) -> None:
         """
@@ -230,9 +228,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         self.elements.clear()
 
-    ##############################################
+    ########################################################
     # SET ALGEBRA (ORDER-PRESERVING)
-    ##############################################
+    ########################################################
 
     def __and__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -244,11 +242,11 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Otherwise: O(m · n).
         """
         try:
-            other_set = set(other)  # O(m)
+            other_set = set(other)
         except TypeError:
-            other_list = list(other)  # O(m)
-            return OrderedSet(x for x in self if any(x == y for y in other_list))  # O(m·n)
-        return OrderedSet(x for x in self if x in other_set)  # O(n)
+            other_list = list(other)
+            return OrderedSet(x for x in self if any(x == y for y in other_list))
+        return OrderedSet(x for x in self if x in other_set)
 
     def __iand__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -260,14 +258,14 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Otherwise: O(m · n).
         """
         try:
-            other_set = set(other)  # O(m)
+            other_set = set(other)
         except TypeError:
-            other_list = list(other)  # O(m)
+            other_list = list(other)
             self.elements = OrderedDict(
                 (k, None) for k in self.elements if any(k == y for y in other_list)
-            )  # O(m·n)
+            )
         else:
-            self.elements = OrderedDict((k, None) for k in self.elements if k in other_set)  # O(n)
+            self.elements = OrderedDict((k, None) for k in self.elements if k in other_set)
         return self
 
     def __rand__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -283,7 +281,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return OrderedSet(other).__and__(self)
 
-    #####################
+    ##########################
 
     def __or__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -294,8 +292,8 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Let `m = len(other)`, `n = len(self)`.
             O(m + n).
         """
-        union_set = OrderedSet(self)  # O(n)
-        union_set.update(other)  # O(m)
+        union_set = OrderedSet(self)
+        union_set.update(other)
         return union_set
 
     def __ior__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -308,9 +306,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             O(m).
         """
         if isinstance(other, OrderedSet):
-            self.elements.update(other.elements)  # O(m)
+            self.elements.update(other.elements)
         else:
-            self.elements.update(OrderedDict.fromkeys(other))  # O(m)
+            self.elements.update(OrderedDict.fromkeys(other))
         return self
 
     def __ror__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -326,7 +324,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return OrderedSet(other).__or__(self)
 
-    #####################
+    ##########################
 
     def __sub__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -338,11 +336,11 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Otherwise: O(m · n).
         """
         try:
-            other_set = set(other)  # O(m)
+            other_set = set(other)
         except TypeError:
-            other_list = list(other)  # O(m)
-            return OrderedSet(x for x in self if not any(x == y for y in other_list))  # O(m·n)
-        return OrderedSet(x for x in self if x not in other_set)  # O(n)
+            other_list = list(other)
+            return OrderedSet(x for x in self if not any(x == y for y in other_list))
+        return OrderedSet(x for x in self if x not in other_set)
 
     def __isub__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -354,16 +352,14 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Otherwise: O(m · n).
         """
         try:
-            other_set = set(other)  # O(m)
+            other_set = set(other)
         except TypeError:
-            other_list = list(other)  # O(m)
+            other_list = list(other)
             self.elements = OrderedDict(
                 (k, None) for k in self.elements if not any(k == y for y in other_list)
-            )  # O(m·n)
+            )
         else:
-            self.elements = OrderedDict(
-                (k, None) for k in self.elements if k not in other_set
-            )  # O(n)
+            self.elements = OrderedDict((k, None) for k in self.elements if k not in other_set)
         return self
 
     def __rsub__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -378,7 +374,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return OrderedSet(other).__sub__(self)
 
-    #####################
+    ##########################
 
     def __xor__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -390,14 +386,14 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             If the elements of `other` are hashable: O(m + n).
             Otherwise: TypeError (elements must be hashable).
         """
-        other_list = list(other)  # O(m)
+        other_list = list(other)
         try:
-            other_set = set(other_list)  # O(m)
+            other_set = set(other_list)
         except TypeError:
             raise TypeError("Symmetric difference requires hashable elements in 'other'")
         else:
-            left_only = (x for x in self if x not in other_set)  # O(n)
-            right_only = (y for y in other_list if y not in self.elements)  # O(m)
+            left_only = (x for x in self if x not in other_set)
+            right_only = (y for y in other_list if y not in self.elements)
             return OrderedSet(itertools.chain(left_only, right_only))
 
     def __ixor__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -413,16 +409,16 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             If the elements of `other` are hashable: O(m + n).
             Otherwise: TypeError (elements must be hashable).
         """
-        other_list = list(other)  # O(m)
+        other_list = list(other)
         try:
-            other_set = set(other_list)  # O(m)
+            other_set = set(other_list)
         except TypeError:
             raise TypeError("In-place symmetric difference requires hashable elements in 'other'")
         else:
-            left_only = (x for x in self if x not in other_set)  # O(n)
-            right_only = (y for y in other_list if y not in self.elements)  # O(m)
+            left_only = (x for x in self if x not in other_set)
+            right_only = (y for y in other_list if y not in self.elements)
             new_iter = itertools.chain(left_only, right_only)
-        self.elements = OrderedDict.fromkeys(new_iter)  # O(k), k ≤ m + n
+        self.elements = OrderedDict.fromkeys(new_iter)
         return self
 
     def __rxor__(self, other: Iterable[T]) -> "OrderedSet[T]":
@@ -437,9 +433,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return OrderedSet(other).__xor__(self)
 
-    ##############################################
+    ########################################################
     # SUBSET / SUPERSET
-    ##############################################
+    ########################################################
 
     def __le__(self, other: Iterable[T]) -> bool:
         """
@@ -455,11 +451,11 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             other_keys = other.elements  # dict-like membership is O(1)
             return all(e in other_keys for e in self)
         try:
-            other_keys = set(other)  # O(m)
-            return all(e in other_keys for e in self)  # O(n)
+            other_keys = set(other)
+            return all(e in other_keys for e in self)
         except TypeError:
-            other_list = list(other)  # O(m)
-            return all(any(e == y for y in other_list) for e in self)  # O(m·n)
+            other_list = list(other)
+            return all(any(e == y for y in other_list) for e in self)
 
     def __lt__(self, other: Iterable[T]) -> bool:
         """
@@ -481,12 +477,12 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             • Else: O(m · n).
         """
         if isinstance(other, OrderedSet):
-            return all(e in self.elements for e in other)  # O(m)
+            return all(e in self.elements for e in other)
         try:
-            return all(e in self for e in other)  # O(m)
+            return all(e in self for e in other)
         except TypeError:
-            other_list = list(other)  # O(m)
-            return all(any(y == e for y in self) for e in other_list)  # O(m·n)
+            other_list = list(other)
+            return all(any(y == e for y in self) for e in other_list)
 
     def __gt__(self, other: Iterable[T]) -> bool:
         """
@@ -497,9 +493,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return self >= other and self != other
 
-    ##############################################
+    ########################################################
     # REPRESENTATION
-    ##############################################
+    ########################################################
 
     REPR_OPEN = "{"
     REPR_CLOSE = "}"
@@ -516,9 +512,9 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
     `AbstractCollectionAdapter` mutators to keep semantics consistent.
     """
 
-    ##############################################
+    ########################################################
     # ITERABLE
-    ##############################################
+    ########################################################
 
     def to_iterable(self, x: OrderedSet[T]) -> Iterable[T]:
         """
@@ -529,9 +525,9 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
         """
         return x.to_iterable()
 
-    ##############################################
+    ########################################################
     # OPTIONAL MUTATORS (MUTABLE)
-    ##############################################
+    ########################################################
 
     def add(self, x: OrderedSet[T], v: T) -> None:
         """
@@ -564,20 +560,16 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
         x.update(*iterables)
 
 
-####################################################################################################
-# ORDERED SET CONSTANTS
-####################################################################################################
+## ORDERED SET CONSTANTS #################################################################
 
-__ORDERED_SET_CONSTANTS___________________________ = ""
+__ORDERED_SET_CONSTANTS_____________________________________ = ""
 
 ORDERED_SET_TYPE = OrderedSet
 
 
-####################################################################################################
-# ORDERED SET CONVERTERS
-####################################################################################################
+## ORDERED SET CONVERTERS ################################################################
 
-__ORDERED_SET_CONVERTERS__________________________ = ""
+__ORDERED_SET_CONVERTERS____________________________________ = ""
 
 
 def to_ordered_set(*args: Any) -> OrderedSet[Any]:
@@ -602,11 +594,9 @@ def to_ordered_set(*args: Any) -> OrderedSet[Any]:
     return OrderedSet(args)
 
 
-####################################################################################################
-# ORDERED SET PROCESSORS
-####################################################################################################
+## ORDERED SET PROCESSORS ################################################################
 
-__ORDERED_SET_PROCESSORS__________________________ = ""
+__ORDERED_SET_PROCESSORS____________________________________ = ""
 
 
 def filter_ordered_set(
@@ -657,11 +647,9 @@ def exclude_ordered_set(s: Iterable[T], exclusion: Iterable[T]) -> OrderedSet[T]
     return filter_ordered_set(s, exclusion=exclusion)
 
 
-####################################################################################################
-# ORDERED SET VERIFIERS
-####################################################################################################
+## ORDERED SET VERIFIERS #################################################################
 
-__ORDERED_SET_VERIFIERS___________________________ = ""
+__ORDERED_SET_VERIFIERS_____________________________________ = ""
 
 
 def is_ordered_set(x: Any) -> bool:

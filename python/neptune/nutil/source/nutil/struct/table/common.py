@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from __future__ import annotations
 
@@ -19,15 +19,13 @@ from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *
 
-####################################################################################################
-# COMMON TABLE CONSTANTS
-####################################################################################################
+## COMMON TABLE CONSTANTS ################################################################
 
-__COMMON_TABLE_CONSTANTS__________________________ = ""
+__COMMON_TABLE_CONSTANTS____________________________________ = ""
 
-# • DATAFRAME ######################################################################################
+### DATAFRAME ##############################################
 
-__COMMON_DATAFRAME_CONSTANTS______________________ = ""
+__COMMON_DATAFRAME_CONSTANTS________________________________ = ""
 
 SERIES_TYPE = pd.Series
 SERIES_GROUP_BY_TYPE = SeriesGroupBy
@@ -35,30 +33,26 @@ SERIES_GROUP_BY_TYPE = SeriesGroupBy
 FRAME_TYPE = pd.DataFrame
 FRAME_GROUP_BY_TYPE = DataFrameGroupBy
 
-#########################
+##############################
 
 INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
 
-####################################################################################################
-# COMMON TABLE CLASSES
-####################################################################################################
+## COMMON TABLE CLASSES ##################################################################
 
-__COMMON_TABLE_CLASSES____________________________ = ""
+__COMMON_TABLE_CLASSES______________________________________ = ""
 
 # Typing alias for any supported tables
 Table = Union["pd.Series", "pd.DataFrame"]
 
 
-####################################################################################################
-# COMMON TABLE ACCESSORS
-####################################################################################################
+## COMMON TABLE ACCESSORS ################################################################
 
-__COMMON_TABLE_ACCESSORS_____________________ = ""
+__COMMON_TABLE_ACCESSORS_______________________________ = ""
 
-# • DATAFRAME ######################################################################################
+### DATAFRAME ##############################################
 
-__COMMON_DATAFRAME_ACCESSORS______________________ = ""
+__COMMON_DATAFRAME_ACCESSORS________________________________ = ""
 
 
 def count_rows(df):
@@ -85,11 +79,9 @@ def count_cols(df):
     return shape[1] if len(shape) >= 2 else 0
 
 
-####################################################################################################
-# COMMON TABLE VERIFIERS
-####################################################################################################
+## COMMON TABLE VERIFIERS ################################################################
 
-__COMMON_TABLE_VERIFIERS__________________________ = ""
+__COMMON_TABLE_VERIFIERS____________________________________ = ""
 
 
 def is_table(x: Any):
@@ -97,9 +89,9 @@ def is_table(x: Any):
     return is_series(x) or is_frame(x)
 
 
-# • DATAFRAME ######################################################################################
+### DATAFRAME ##############################################
 
-__COMMON_DATAFRAME_VERIFIERS______________________ = ""
+__COMMON_DATAFRAME_VERIFIERS________________________________ = ""
 
 
 def is_series(x: Any):
@@ -117,7 +109,7 @@ def is_group_by(x: Any):
     return isinstance(x, SERIES_GROUP_BY_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
 
 
-#########################
+##############################
 
 
 def is_time_series(x: Any):
@@ -127,7 +119,7 @@ def is_time_series(x: Any):
     return is_table(x) and is_time_index(x.index)
 
 
-#########################
+##############################
 
 
 def is_index(x: Any):

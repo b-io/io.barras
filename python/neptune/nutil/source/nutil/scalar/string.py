@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains common utility functions
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 import re
 
@@ -17,11 +17,9 @@ from nutil.scalar import *
 from nutil.scalar.number import INF
 from nutil.struct.util import remove_empty
 
-####################################################################################################
-# STRING CONSTANTS
-####################################################################################################
+## STRING CONSTANTS ######################################################################
 
-__STRING_CONSTANTS________________________________ = ""
+__STRING_CONSTANTS__________________________________________ = ""
 
 NEWLINE = "\n"
 
@@ -30,11 +28,9 @@ COLON = ":"
 SEMICOLON = ";"
 
 
-####################################################################################################
-# STRING CONVERTERS
-####################################################################################################
+## STRING CONVERTERS #####################################################################
 
-__STRING_CONVERTERS_______________________________ = ""
+__STRING_CONVERTERS_________________________________________ = ""
 
 
 def to_string(x: Any, delimiter=","):
@@ -47,11 +43,9 @@ def to_string(x: Any, delimiter=","):
     return str(x)
 
 
-####################################################################################################
-# STRING GENERATORS
-####################################################################################################
+## STRING GENERATORS #####################################################################
 
-__STRING_GENERATORS_______________________________ = ""
+__STRING_GENERATORS_________________________________________ = ""
 
 
 def generate_string(length, case_sensitive=False, digits=True):
@@ -64,11 +58,9 @@ def generate_string(length, case_sensitive=False, digits=True):
     return collapse(random.choices(choices, k=length))
 
 
-####################################################################################################
-# STRING PROCESSORS
-####################################################################################################
+## STRING PROCESSORS #####################################################################
 
-__STRING_PROCESSORS_______________________________ = ""
+__STRING_PROCESSORS_________________________________________ = ""
 
 
 def extract(s, pattern):
@@ -76,7 +68,7 @@ def extract(s, pattern):
     return re.findall(pattern, s)
 
 
-#########################
+##############################
 
 
 def replace(s, pattern, replacement):
@@ -99,7 +91,7 @@ def replace_word(s, word, replacement):
     return replace(s, "\\b" + word + "\\b", replacement)
 
 
-#########################
+##############################
 
 
 def split(s, delimiter=",", empty_filter=True):
@@ -112,7 +104,7 @@ def split(s, delimiter=",", empty_filter=True):
     return re.split(delimiter, s)
 
 
-#########################
+##############################
 
 
 def trim(s, replace_space=True, replace_special=True):
@@ -128,7 +120,7 @@ def trim(s, replace_space=True, replace_special=True):
     return s.strip()
 
 
-#########################
+##############################
 
 
 def wrap(content, left, right=None):

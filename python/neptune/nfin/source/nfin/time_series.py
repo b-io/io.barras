@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-####################################################################################################
+##########################################################################################
 # NAME
 #   <NAME> - contains financial functions for time series
 #
@@ -9,7 +9,7 @@
 # COPYRIGHT
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
-####################################################################################################
+##########################################################################################
 
 from statistics import mode
 
@@ -19,11 +19,9 @@ from statsmodels.tsa.seasonal import STL
 
 from nutil.math import *
 
-####################################################################################################
-# TIME SERIES ENUMS
-####################################################################################################
+## TIME SERIES ENUMS #####################################################################
 
-__TIME_SERIES_ENUMS_______________________________ = ""
+__TIME_SERIES_ENUMS_________________________________________ = ""
 
 
 class Transformation(StringEnum):
@@ -43,16 +41,14 @@ class Transformation(StringEnum):
     LOG_RETURNS = "log_returns"
 
 
-####################################################################################################
-# TIME SERIES FUNCTIONS
-####################################################################################################
+## TIME SERIES FUNCTIONS #################################################################
 
-__TIME_SERIES_____________________________________ = ""
+__TIME_SERIES_______________________________________________ = ""
 
 
-# • TIME SERIES IMPUTATION #########################################################################
+### TIME SERIES IMPUTATION #################################
 
-__TIME_SERIES_IMPUTATION__________________________ = ""
+__TIME_SERIES_IMPUTATION____________________________________ = ""
 
 
 def clean_series(series, pos=POSITION):
@@ -83,9 +79,9 @@ def prepare_series(
     return series[series.index >= date_from]
 
 
-# • TIME SERIES FREQUENCY ADJUSTMENT ###############################################################
+### TIME SERIES FREQUENCY ADJUSTMENT #######################
 
-__TIME_SERIES_FREQUENCY_ADJUSTMENT________________ = ""
+__TIME_SERIES_FREQUENCY_ADJUSTMENT__________________________ = ""
 
 
 def get_average_duration(series, per=DAY):
@@ -100,7 +96,7 @@ def get_frequency_and_position(series, freq=FREQUENCY, pos=POSITION):
     return freq, pos
 
 
-##################################################
+############################################################
 
 
 def set_freq(series, freq=FREQUENCY, pos=POSITION):
@@ -108,7 +104,7 @@ def set_freq(series, freq=FREQUENCY, pos=POSITION):
     series.index.freq = get_frequency(freq=freq, pos=pos)
 
 
-##################################################
+############################################################
 
 
 def find_nearest_freq(series):
@@ -156,7 +152,7 @@ def find_nearest_frequency_position(series):
     return freq, pos
 
 
-#########################
+##############################
 
 
 def group_series(series, clean=False, freq=FREQUENCY, sort=True):
@@ -227,9 +223,9 @@ def ungroup_series(series, clean=False, freq=FREQUENCY, end=True):
     return series
 
 
-# • TIME SERIES TRANSFORMATION #####################################################################
+### TIME SERIES TRANSFORMATION
 
-__TIME_SERIES_TRANSFORMATION______________________ = ""
+__TIME_SERIES_TRANSFORMATION________________________________ = ""
 
 
 def get_diff(series, periods=1):
@@ -266,14 +262,14 @@ def cum_log_returns(series, offset):
     return cum_returns(exp(series) - 1, offset)
 
 
-#########################
+##############################
 
 
 def get_moving_average(series, window):
     return remove_null(series.rolling(window).mean())
 
 
-#########################
+##############################
 
 
 def get_period_over_period(series, freq=FREQUENCY):
@@ -295,7 +291,7 @@ def get_period_over_period(series, freq=FREQUENCY):
     return remove_null(subtract(series, s))
 
 
-#########################
+##############################
 
 
 def transform_series(
@@ -413,9 +409,9 @@ def untransform_series(series, clean=True, offset=0, transformation=None):
     return series
 
 
-# • TIME SERIES AGGREGATION ########################################################################
+### TIME SERIES AGGREGATION ################################
 
-__TIME_SERIES_AGGREGATION_________________________ = ""
+__TIME_SERIES_AGGREGATION___________________________________ = ""
 
 
 def aggregate_series(
@@ -484,7 +480,7 @@ def aggregate_series(
     return series
 
 
-#########################
+##############################
 
 
 def aggregate_series(
@@ -518,9 +514,9 @@ def aggregate_series(
     return series[series.index >= date_from]
 
 
-# • TIME SERIES DECOMPOSITION ######################################################################
+### TIME SERIES DECOMPOSITION ##############################
 
-__TIME_SERIES_DECOMPOSITION_______________________ = ""
+__TIME_SERIES_DECOMPOSITION_________________________________ = ""
 
 
 def decompose_series(series, seasonal_period=1, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION):
@@ -533,9 +529,9 @@ def decompose_series(series, seasonal_period=1, agg=AGGREGATION, freq=FREQUENCY,
     return STL(series, period=seasonal_period_length).fit()
 
 
-# • TIME SERIES FORECASTING ########################################################################
+### TIME SERIES FORECASTING ################################
 
-__TIME_SERIES_FORECASTING_________________________ = ""
+__TIME_SERIES_FORECASTING___________________________________ = ""
 
 
 def forecast_series(
@@ -566,9 +562,9 @@ def forecast_series(
     return predictions
 
 
-# • TIME SERIES FIGURE #############################################################################
+### TIME SERIES FIGURE #####################################
 
-__TIME_SERIES_FIGURE______________________________ = ""
+__TIME_SERIES_FIGURE________________________________________ = ""
 
 
 def plot_decomposition(
