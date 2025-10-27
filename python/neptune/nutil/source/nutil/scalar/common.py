@@ -17,10 +17,9 @@ import numbers
 from datetime import date, datetime
 from typing import Any
 
-import numpy as np
 import pandas as pd
 
-from nutil.constants import BIT_COUNT
+from nutil.constants import *
 
 ## COMMON SCALAR CONSTANTS ###############################################################
 

@@ -13,8 +13,6 @@
 
 from tabulate import tabulate
 
-from nutil.config import CONFIG
-from nutil.enums import StrEnum
 from nutil.scalar.date import *
 from nutil.struct.table import *
 

@@ -12,13 +12,18 @@
 ##########################################################################################
 
 import multiprocessing as mp
-import numpy as np
-
 import struct
+
+import numpy as np
 
 ## CONSTANTS #############################################################################
 
 __CONSTANTS_________________________________________________ = ""
+
+### DEFAULTS ###############################################
+
+# The default encoding
+DEFAULT_ENCODING = "utf-8"
 
 # The default environment
 DEFAULT_ENV = "local"
@@ -28,31 +33,36 @@ DEFAULT_ASSERT = True
 
 ##############################
 
-# The default severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
-DEFAULT_SEVERITY_LEVEL = 4
-
-# The default flag specifying whether to enable the verbose mode
-DEFAULT_VERBOSE = True
-
-##############################
-
 # The default root
 DEFAULT_ROOT = None
 
 # The default resources directory
 DEFAULT_RES_DIR = "resources"
 
-############################################################
+##############################
 
-OBJECT_TYPE = object
-OBJECT_ELEMENT_TYPE = np.object_
+# The default severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
+DEFAULT_SEVERITY_LEVEL = 4
 
-############################################################
+# The default flag specifying whether to enable the verbose mode
+DEFAULT_VERBOSE = True
+
+### GLOBALS ################################################
 
 BIT_COUNT = 8 * struct.calcsize("P")
 
 CORE_COUNT = mp.cpu_count() or 1
 
+##############################
+
 EMPTY = ()
 
 NA_NAME = "N/A"
+
+INF = np.inf
+NAN = np.nan
+
+### TYPES ##################################################
+
+OBJECT_TYPE = object
+OBJECT_ELEMENT_TYPE = np.object_

@@ -10,12 +10,11 @@
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
-
+import random
 import re
+import string
 
-from nutil.scalar import *
-from nutil.scalar.number import INF
-from nutil.struct.util import remove_empty
+from nutil.common import *
 
 ## STRING CONSTANTS ######################################################################
 
@@ -100,6 +99,7 @@ def split(s, delimiter=",", empty_filter=True):
     (regular expression).
     """
     if empty_filter:
+        from nutil.struct.util import remove_empty
         return remove_empty(re.split(delimiter, s))
     return re.split(delimiter, s)
 
@@ -130,6 +130,7 @@ def wrap(content, left, right=None):
     elif is_null(right):
         right = left
     if is_collection(content):
+        from nutil.struct.util import apply
         return apply(content, wrap, left, right=right)
     return collapse(left, content, right)
 

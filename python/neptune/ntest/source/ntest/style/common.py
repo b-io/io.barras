@@ -612,18 +612,6 @@ def request_text(
 ## I/O ###################################################################################
 
 
-def to_json(obj: Any) -> Any:
-    """Serializes arbitrary containers into JSON-friendly structures (e.g., a `set` → a sorted `list`)."""
-
-    if isinstance(obj, dict):
-        return {k: to_json(v) for k, v in obj.items()}
-    if isinstance(obj, (list, tuple)):
-        return [to_json(x) for x in obj]
-    if isinstance(obj, set):
-        return sorted(to_json(x) for x in obj)
-    return obj
-
-
 def write_text(path: Path, text: str) -> None:
     """
     Writes the `text` to the `path` atomically.

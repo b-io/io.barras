@@ -20,9 +20,10 @@ from math import ceil
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
+from nutil.config import CONFIG
+from nutil.enums import *
 from nutil.scalar.number import *
 from nutil.scalar.string import *
-from nutil.struct.util import *
 
 ## DATE CONSTANTS ########################################################################
 
@@ -239,13 +240,15 @@ def get_microsecond(d=get_datetime()):
     return d
 
 
-def get_microseconds(c, use_index=False):
+def get_microseconds(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).microsecond
-        elif is_dict(c):
-            return get_microseconds(get_index(c))
-    return collection_to_type([get_microsecond(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).microsecond
+        elif is_dict(s):
+            return get_microseconds(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_microsecond(d) for d in s], s)
 
 
 def get_second(d=get_datetime()):
@@ -256,13 +259,15 @@ def get_second(d=get_datetime()):
     return d
 
 
-def get_seconds(c, use_index=False):
+def get_seconds(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).second
-        elif is_dict(c):
-            return get_seconds(get_index(c))
-    return collection_to_type([get_second(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).second
+        elif is_dict(s):
+            return get_seconds(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_second(d) for d in s], s)
 
 
 def get_minute(d=get_datetime()):
@@ -273,13 +278,15 @@ def get_minute(d=get_datetime()):
     return d
 
 
-def get_minutes(c, use_index=False):
+def get_minutes(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).minute
-        elif is_dict(c):
-            return get_minutes(get_index(c))
-    return collection_to_type([get_minute(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).minute
+        elif is_dict(s):
+            return get_minutes(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_minute(d) for d in s], s)
 
 
 def get_hour(d=get_datetime()):
@@ -290,13 +297,15 @@ def get_hour(d=get_datetime()):
     return d
 
 
-def get_hours(c, use_index=False):
+def get_hours(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).hour
-        elif is_dict(c):
-            return get_hours(get_index(c))
-    return collection_to_type([get_hour(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).hour
+        elif is_dict(s):
+            return get_hours(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_hour(d) for d in s], s)
 
 
 def get_day(d=get_datetime(), week=False, year=False):
@@ -307,14 +316,16 @@ def get_day(d=get_datetime(), week=False, year=False):
     return d
 
 
-def get_days(c, use_index=False, week=False, year=False):
+def get_days(s, use_index=False, week=False, year=False):
     if use_index:
-        if is_table(c):
-            index = to_timestamp(get_index(c))
+        from nutil.struct.util import get_index
+        if is_table(s):
+            index = to_timestamp(get_index(s))
             return index.weekday if week else index.dayofyear if year else index.day
-        elif is_dict(c):
-            return get_days(get_index(c), week=week, year=year)
-    return collection_to_type([get_day(d, week=week, year=year) for d in c], c)
+        elif is_dict(s):
+            return get_days(get_index(s), week=week, year=year)
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_day(d, week=week, year=year) for d in s], s)
 
 
 def get_weekday(d=get_datetime()):
@@ -330,6 +341,7 @@ def get_weekday_name(d=get_datetime()):
 
 
 def get_weekday_names(d=get_datetime(), use_index=False):
+    from nutil.struct.util import apply
     return apply(get_weekdays(d, use_index=use_index), lambda d: WEEKDAY_NAMES[d])
 
 
@@ -341,13 +353,15 @@ def get_week(d=get_datetime()):
     return d
 
 
-def get_weeks(c, use_index=False):
+def get_weeks(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).week
-        elif is_dict(c):
-            return get_weeks(get_index(c))
-    return collection_to_type([get_week(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).week
+        elif is_dict(s):
+            return get_weeks(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_week(d) for d in s], s)
 
 
 def get_year_week(d=get_datetime()):
@@ -359,13 +373,15 @@ def get_year_week(d=get_datetime()):
     return d
 
 
-def get_year_weeks(c, use_index=False):
+def get_year_weeks(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return pd.MultiIndex.from_tuples(get_year_weeks(get_index(c)), names=["year", "week"])
-        elif is_dict(c):
-            return get_year_weeks(get_index(c))
-    return collection_to_type([get_year_week(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return pd.MultiIndex.from_tuples(get_year_weeks(get_index(s)), names=["year", "week"])
+        elif is_dict(s):
+            return get_year_weeks(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_year_week(d) for d in s], s)
 
 
 def get_month(d=get_datetime()):
@@ -376,13 +392,15 @@ def get_month(d=get_datetime()):
     return d
 
 
-def get_months(c, use_index=False):
+def get_months(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).month
-        elif is_dict(c):
-            return get_months(get_index(c))
-    return collection_to_type([get_month(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).month
+        elif is_dict(s):
+            return get_months(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_month(d) for d in s], s)
 
 
 def get_quarter(d=get_datetime()):
@@ -393,13 +411,15 @@ def get_quarter(d=get_datetime()):
     return d
 
 
-def get_quarters(c, use_index=False):
+def get_quarters(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).quarter
-        elif is_dict(c):
-            return get_quarters(get_index(c))
-    return collection_to_type([get_quarter(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).quarter
+        elif is_dict(s):
+            return get_quarters(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_quarter(d) for d in s], s)
 
 
 def get_semester(d=get_datetime()):
@@ -410,13 +430,15 @@ def get_semester(d=get_datetime()):
     return d
 
 
-def get_semesters(c, use_index=False):
+def get_semesters(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return ceil(get_months(c, use_index=use_index) / 6)
-        elif is_dict(c):
-            return get_semesters(get_index(c))
-    return collection_to_type([get_semester(d) for d in c], c)
+        if is_table(s):
+            return ceil(get_months(s, use_index=use_index) / 6)
+        elif is_dict(s):
+            from nutil.struct.util import get_index
+            return get_semesters(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_semester(d) for d in s], s)
 
 
 def get_year(d=get_datetime()):
@@ -427,13 +449,15 @@ def get_year(d=get_datetime()):
     return d
 
 
-def get_years(c, use_index=False):
+def get_years(s, use_index=False):
     if use_index:
-        if is_table(c):
-            return to_timestamp(get_index(c)).year
-        elif is_dict(c):
-            return get_years(get_index(c))
-    return collection_to_type([get_year(d) for d in c], c)
+        from nutil.struct.util import get_index
+        if is_table(s):
+            return to_timestamp(get_index(s)).year
+        elif is_dict(s):
+            return get_years(get_index(s))
+    from nutil.struct.util import collection_to_type
+    return collection_to_type([get_year(d) for d in s], s)
 
 
 ##############################
@@ -497,6 +521,7 @@ def get_month_start(d=get_datetime()):
 
 def get_month_end(d=get_datetime()):
     if is_collection(d):
+        from nutil.struct.util import apply
         return apply(d, get_month_end)
     elif is_string(d):
         d = parse_datetime(d)
@@ -930,6 +955,7 @@ def to_date(x, format=DATE_FORMAT):
     if is_null(x):
         return None
     elif is_collection(x):
+        from nutil.struct.util import apply
         return apply(x, to_date, format=format)
     elif is_stamp(x):
         x = parse_stamp(x)
@@ -948,6 +974,7 @@ def to_datetime(x, format=DATE_TIME_FORMAT):
     if is_null(x):
         return None
     elif is_collection(x):
+        from nutil.struct.util import apply
         return apply(x, to_datetime, format=format)
     elif is_stamp(x):
         return parse_stamp(x)
@@ -986,6 +1013,7 @@ def to_stamp(x: Any):
     if is_null(x):
         return None
     elif is_collection(x):
+        from nutil.struct.util import apply
         return apply(x, to_stamp)
     elif is_stamp(x):
         return x
@@ -998,6 +1026,7 @@ def to_stamp(x: Any):
 def timestamp_to_type(t, template):
     """Converts the specified timestamp to the type of the specified variable."""
     if is_collection(t):
+        from nutil.struct.util import apply
         return apply(t, timestamp_to_type, template)
     elif is_stamp(template):
         return to_stamp(t)
@@ -1093,6 +1122,7 @@ def create_date_range(
     if not is_null(periods):
         return to_date(pd.date_range(date_from, date_to, periods=periods))
     if freq is Frequency.SEMESTERS:
+        from nutil.struct.util import filter_with
         months = [1, 7] if pos is Position.START else [6, 12]
         return filter_with(
             create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS, pos=pos),
@@ -1189,56 +1219,63 @@ def diff_years(date_from, date_to):
 
 ##############################
 
-def filter_days(c, days, week=False, year=False):
+def filter_days(s, days, week=False, year=False):
     """
     Filters the collection by matching its date-time index with the specified days (week days if
     week is True, days of the year if year is True, days of the month otherwise).
     """
+    from nutil.struct.util import find_all_in, take_at
     indices = find_all_in(
-        get_days(c, use_index=True, week=week, year=year),
+        get_days(s, use_index=True, week=week, year=year),
         get_days(days, use_index=True, week=week, year=year),
     )
-    return take_at(c, indices)
+    return take_at(s, indices)
 
 
-def filter_weeks(c, weeks):
+def filter_weeks(s, weeks):
     """Filters the collection by matching its date-time index with the specified weeks."""
-    indices = find_all_in(get_weeks(c, use_index=True), get_weeks(weeks, use_index=True))
-    return take_at(c, indices)
+    from nutil.struct.util import find_all_in, take_at
+    indices = find_all_in(get_weeks(s, use_index=True), get_weeks(weeks, use_index=True))
+    return take_at(s, indices)
 
 
-def filter_year_weeks(c, year_weeks):
+def filter_year_weeks(s, year_weeks):
     """Filters the collection by matching its date-time index with the specified year-weeks."""
+    from nutil.struct.util import find_all_in, take_at
     indices = find_all_in(
-        get_year_weeks(c, use_index=True), get_year_weeks(year_weeks, use_index=True)
+        get_year_weeks(s, use_index=True), get_year_weeks(year_weeks, use_index=True)
     )
-    return take_at(c, indices)
+    return take_at(s, indices)
 
 
-def filter_months(c, months):
+def filter_months(s, months):
     """Filters the collection by matching its date-time index with the specified months."""
-    indices = find_all_in(get_months(c, use_index=True), get_months(months, use_index=True))
-    return take_at(c, indices)
+    from nutil.struct.util import find_all_in, take_at
+    indices = find_all_in(get_months(s, use_index=True), get_months(months, use_index=True))
+    return take_at(s, indices)
 
 
-def filter_quarters(c, quarters):
+def filter_quarters(s, quarters):
     """Filters the collection by matching its date-time index with the specified quarters."""
-    indices = find_all_in(get_quarters(c, use_index=True), get_quarters(quarters, use_index=True))
-    return take_at(c, indices)
+    from nutil.struct.util import find_all_in, take_at
+    indices = find_all_in(get_quarters(s, use_index=True), get_quarters(quarters, use_index=True))
+    return take_at(s, indices)
 
 
-def filter_semesters(c, semesters):
+def filter_semesters(s, semesters):
     """Filters the collection by matching its date-time index with the specified semesters."""
+    from nutil.struct.util import find_all_in, take_at
     indices = find_all_in(
-        get_semesters(c, use_index=True), get_semesters(semesters, use_index=True)
+        get_semesters(s, use_index=True), get_semesters(semesters, use_index=True)
     )
-    return take_at(c, indices)
+    return take_at(s, indices)
 
 
-def filter_years(c, years):
+def filter_years(s, years):
     """Filters the collection by matching its date-time index with the specified years."""
-    indices = find_all_in(get_years(c, use_index=True), get_years(years, use_index=True))
-    return take_at(c, indices)
+    from nutil.struct.util import find_all_in, take_at
+    indices = find_all_in(get_years(s, use_index=True), get_years(years, use_index=True))
+    return take_at(s, indices)
 
 
 ##############################
@@ -1308,7 +1345,7 @@ def shift_date(
     )
 
 def shift_dates(
-    c,
+    s,
     years=0,
     months=0,
     weeks=0,
@@ -1319,9 +1356,9 @@ def shift_dates(
     microseconds=0,
 ):
     """Shifts the date-time index of the specified collection."""
-    c = ungroup(c)
-    if is_table(c):
-        t = c.copy()
+    s = ungroup(s)
+    if is_table(s):
+        t = s.copy()
         t.index += pd.DateOffset(
             years=years,
             months=months,
@@ -1333,7 +1370,7 @@ def shift_dates(
             microseconds=microseconds,
         )
         return t
-    elif is_dict(c):
+    elif is_dict(s):
         return {
             shift_date(
                 d,
@@ -1345,9 +1382,10 @@ def shift_dates(
                 minutes=minutes,
                 seconds=seconds,
                 microseconds=microseconds,
-            ): c[d]
-            for d in c
+            ): s[d]
+            for d in s
         }
+    from nutil.struct.util import collection_to_type
     return collection_to_type(
         [
             shift_date(
@@ -1361,9 +1399,9 @@ def shift_dates(
                 seconds=seconds,
                 microseconds=microseconds,
             )
-            for d in c
+            for d in s
         ],
-        c,
+        s,
     )
 
 ## DATE VERIFIERS ########################################################################

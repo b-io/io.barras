@@ -11,7 +11,13 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.common import *
+from concurrent.futures import ThreadPoolExecutor
+
+from multiprocess.pool import Pool
+
+from nutil.io.log import *
+from nutil.struct.util import apply
+
 
 ## PROCESSORS ############################################################################
 
@@ -21,6 +27,7 @@ __PROCESSORS________________________________________________ = ""
 ### CONFIG #################################################
 
 __COMMON_CONFIG_PROCESSORS__________________________________ = ""
+
 
 def escape_property(property):
     return property.replace("%", "%%") if not is_null(property) else None
@@ -42,148 +49,6 @@ def merge_config_with_defaults(config: Dict[str, Any], defaults: Dict[str, Any])
         value = merged.get(key)
         merged[key] = default if is_null(value) else value
     return merged
-
-
-### CONSOLE ################################################
-
-__CONSOLE_PROCESSORS________________________________________ = ""
-
-
-def trace(*args, level=0):
-    if SEVERITY_LEVEL.value >= 7:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][TRAC]",
-                "[",
-                get_script_name(level + 1),
-                "]",
-                "[",
-                get_function_name(level + 1),
-                "]",
-                "[",
-                get_line_number(level + 1),
-                "] ",
-                paste(*args),
-            )
-        )
-
-
-def debug(*args, level=0):
-    if SEVERITY_LEVEL.value >= 6:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][DEBU]",
-                "[",
-                get_script_name(level + 1),
-                "]",
-                "[",
-                get_function_name(level + 1),
-                "] ",
-                paste(*args),
-            )
-        )
-
-
-def test(*args, level=0):
-    if SEVERITY_LEVEL.value >= 5:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][TEST]",
-                "[",
-                get_script_name(level + 1),
-                "] ",
-                paste(*args),
-            )
-        )
-
-
-def info(*args):
-    if SEVERITY_LEVEL.value >= 4:
-        print(collapse("[", get_datetime_string(), "][INFO] ", paste(*args)))
-
-
-def result(*args):
-    if SEVERITY_LEVEL.value >= 3:
-        print(paste(*args))
-
-
-def warn(*args, level=0):
-    if SEVERITY_LEVEL.value >= 2:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][WARN]",
-                "[",
-                get_script_name(level + 1),
-                "] ",
-                paste(*args),
-            ),
-            file=sys.stderr,
-        )
-
-
-def error(*args, level=0):
-    if SEVERITY_LEVEL.value >= 1:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][ERRO]",
-                "[",
-                get_script_name(level + 1),
-                "]",
-                "[",
-                get_function_name(level + 1),
-                "] ",
-                paste(*args),
-            ),
-            file=sys.stderr,
-        )
-
-
-def fail(*args, level=0):
-    if SEVERITY_LEVEL.value >= 0:
-        print(
-            collapse(
-                "[",
-                get_datetime_string(),
-                "][FAIL]",
-                "[",
-                get_script_name(level + 1),
-                "]",
-                "[",
-                get_function_name(level + 1),
-                "]",
-                "[",
-                get_line_number(level + 1),
-                "] ",
-                paste(*args),
-            ),
-            file=sys.stderr,
-        )
-
-
-############################################################
-
-
-def print_table(table, format="grid", headers=None, show_index="default"):
-    print(
-        tabulate(
-            table,
-            tablefmt=format,
-            headers=(
-                headers if not is_null(headers) else get_names(table) if is_table(table) else EMPTY
-            ),
-            showindex=show_index,
-        )
-    )
 
 
 ### THREAD #################################################

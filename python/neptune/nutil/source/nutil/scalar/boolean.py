@@ -14,7 +14,6 @@
 from distutils.util import strtobool
 
 from nutil.scalar.number import *
-from nutil.struct.util.util import apply
 
 ## BOOLEAN CONVERTERS ####################################################################
 
@@ -26,6 +25,7 @@ def to_boolean(x: Any):
     elif is_struct(x):
         if hasattr(x, "astype"):
             return x.astype(BOOLEAN_ELEMENT_TYPE)
+        from nutil.struct.util import apply
         return apply(x, to_boolean)
     elif is_string(x):
         return bool(strtobool(x))

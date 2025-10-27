@@ -14,7 +14,6 @@
 import configparser
 
 from nutil.common import *
-from nutil.constants import *
 from nutil.enums import *
 
 ## CONFIG CLASSES ########################################################################

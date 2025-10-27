@@ -40,14 +40,11 @@ from typing import Callable
 from pandas.core.dtypes.common import is_numeric_dtype
 
 from nutil.config import *
-from nutil.constants import *
-from nutil.enums import Aggregation, Position
-from nutil.scalar.number import NAN
+from nutil.enums import *
 from nutil.scalar.util import *
 from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
-from nutil.struct.common import *
 
 ## STRUCT ACCESSORS ######################################################################
 

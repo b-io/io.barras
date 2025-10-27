@@ -11,12 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from typing import Any, Optional, Type, Union
+from nutil.common import *
 
-import numpy as np
-
-from nutil.common import to_tuple
-from nutil.scalar.common import INT_ELEMENT_TYPE, LONG_ELEMENT_TYPE, SHORT_ELEMENT_TYPE
 
 ## ARRAY GENERATORS ######################################################################
 

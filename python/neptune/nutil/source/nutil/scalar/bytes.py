@@ -14,8 +14,6 @@
 from __future__ import annotations
 
 from nutil.common import *
-from nutil.io.file import DEFAULT_ENCODING
-from nutil.struct.util.util import apply
 
 ## BYTES CONVERTERS ######################################################################
 
@@ -52,8 +50,10 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
     elif is_array(x):
         if x.dtype == np.uint8:
             return x.tobytes()
+        from nutil.struct.util import apply
         return apply(x, lambda e: to_bytes(e, encoding, errors))
     elif is_collection(x):
+        from nutil.struct.util import apply
         return apply(x, lambda e: to_bytes(e, encoding, errors))
     elif is_callable(x, "__bytes__"):
         try:

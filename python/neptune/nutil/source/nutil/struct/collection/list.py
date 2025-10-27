@@ -19,6 +19,28 @@ from nutil.common import *
 __LIST_PROCESSORS___________________________________________ = ""
 
 
+def deduplicate(items: List[str]) -> List[str]:
+    """
+    Strips duplicates from a list while preserving the original order.
+
+    Args:
+        items: The sequence of strings to deduplicate.
+
+    Returns:
+        The deduplicated list with preserved order.
+    """
+    out: List[str] = []
+    seen: Set[str] = set()
+    for x in items:
+        if x and x not in seen:
+            out.append(x)
+            seen.add(x)
+    return out
+
+
+##############################
+
+
 def filter_list(l, inclusion=None, exclusion=None):
     """
     Returns the values of the specified `list` that are in the specified inclusive `list` and are

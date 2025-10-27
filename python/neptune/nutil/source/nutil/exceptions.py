@@ -13,11 +13,13 @@
 
 from typing import Any, Callable, List, Optional, Type, Union
 
-from nutil.common import get_function_name, get_type_name
+from nutil.common import *
 
 ## EXCEPTION CLASSES #####################################################################
 
 __EXCEPTION_CLASSES_________________________________________ = ""
+
+from nutil.typing import get_type_name
 
 
 class ErrorList(List[Any]):

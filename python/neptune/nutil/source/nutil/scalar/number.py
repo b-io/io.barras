@@ -23,8 +23,6 @@ DEFAULT_MAX_DECIMALS = 8
 ############################################################
 
 EPS = np.finfo(FLOAT_TYPE).eps
-INF = np.inf
-NAN = np.nan
 
 
 ## NUMBER CONVERTERS #####################################################################
@@ -38,6 +36,7 @@ def to_int(x: Any):
     elif is_collection(x):
         if hasattr(x, "astype"):
             return x.astype(INT_ELEMENT_TYPE)
+        from nutil.struct.util import apply
         return apply(x, to_int)
     return int(x)
 
@@ -48,6 +47,7 @@ def to_float(x: Any):
     elif is_collection(x):
         if hasattr(x, "astype"):
             return x.astype(FLOAT_ELEMENT_TYPE)
+        from nutil.struct.util import apply
         return apply(x, to_float)
     return float(x)
 
@@ -139,6 +139,7 @@ def nearest(c, value):
     if is_empty(c):
         return None
     elif is_series(c) or is_array(c):
+        from nutil.struct.util import get
         return get(c, abs(c - value).argmin())
     return min(to_list(c), key=lambda x: abs(x - value))
 
@@ -147,6 +148,7 @@ def farthest(c, value):
     if is_empty(c):
         return None
     elif is_series(c) or is_array(c):
+        from nutil.struct.util import get
         return get(c, abs(c - value).argmax())
     return max(to_list(c), key=lambda x: abs(x - value))
 
