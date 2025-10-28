@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains graphical utility functions for charts
+#   <NAME> - contains graphical user interface utility functions for charts
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -15,14 +15,14 @@ import io
 
 import matplotlib.figure as mfigure
 import matplotlib.ticker as mticker
-import ngui.web as web
 import plotly.express as px
 import plotly.graph_objs as go
 import plotly.io as pio
 import plotly.subplots as sp
 import plotly.tools as tls
+
+import ngui.web as web
 from ngui.image import *
-from nutil.common.struct.collection import to_series
 
 ## CHART SETTINGS ########################################################################
 
@@ -87,7 +87,7 @@ def is_plotly(x: Any) -> bool:
 
 def is_multi_plot(x: Any) -> bool:
     """Returns whether `x` is a Plotly multi-plot."""
-    return getattr(x, "_grid_ref", None) is not None
+    return not is_null(getattr(x, "_grid_ref", None))
 
 
 ############################################################
@@ -201,22 +201,22 @@ def fig_to_image(
 
 def fig_to_jpg(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
     """Converts the specified figure to a JPEG image."""
-    return fig_to_image(fig, JPEG_FORMAT, scale=scale, width=width, height=height, margin=margin)
+    return fig_to_image(fig, FileType.JPEG, scale=scale, width=width, height=height, margin=margin)
 
 
 def fig_to_png(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
     """Converts the specified figure to a PNG image."""
-    return fig_to_image(fig, PNG_FORMAT, scale=scale, width=width, height=height, margin=margin)
+    return fig_to_image(fig, FileType.PNG, scale=scale, width=width, height=height, margin=margin)
 
 
 def fig_to_svg(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
     """Converts the specified figure to an SVG image."""
-    return fig_to_image(fig, SVG_FORMAT, scale=scale, width=width, height=height, margin=margin)
+    return fig_to_image(fig, FileType.SVG, scale=scale, width=width, height=height, margin=margin)
 
 
 def fig_to_webp(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
     """Converts the specified figure to a WebP image."""
-    return fig_to_image(fig, WEBP_FORMAT, scale=scale, width=width, height=height, margin=margin)
+    return fig_to_image(fig, FileType.WEBP, scale=scale, width=width, height=height, margin=margin)
 
 
 ##############################
@@ -273,7 +273,7 @@ def fig_to_jpg_html(
     code."""
     return fig_to_image_html(
         fig,
-        JPEG_FORMAT,
+        FileType.JPEG,
         encoding=encoding,
         style=style,
         rotate=rotate,
@@ -298,7 +298,7 @@ def fig_to_png_html(
     code."""
     return fig_to_image_html(
         fig,
-        PNG_FORMAT,
+        FileType.PNG,
         encoding=encoding,
         style=style,
         rotate=rotate,
@@ -323,7 +323,7 @@ def fig_to_svg_html(
     code."""
     return fig_to_image_html(
         fig,
-        SVG_FORMAT,
+        FileType.SVG,
         encoding=encoding,
         style=style,
         rotate=rotate,
@@ -348,7 +348,7 @@ def fig_to_webp_html(
     code."""
     return fig_to_image_html(
         fig,
-        WEBP_FORMAT,
+        FileType.WEBP,
         encoding=encoding,
         style=style,
         rotate=rotate,

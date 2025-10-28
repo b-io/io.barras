@@ -11,11 +11,13 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.test import *
+import unittest
+
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
 from nlearn.nlp import *
+from ntest.unit.unittest import Test
 
 ## LEARN TEST CONSTANTS ##################################################################
 
@@ -32,7 +34,7 @@ __LEARN_TEST_CLASSES________________________________________ = ""
 class TestLearn(Test):
 
     def test_clustering(self):
-        test("Cluster")
+        logging.info("Cluster")
         data, classes, centers = make_blobs(
             n_samples=500,
             n_features=2,
@@ -77,7 +79,7 @@ class TestLearn(Test):
         )
         fig.show()
 
-        test("Fit a Gaussian mixture with one component")
+        logging.info("Fit a Gaussian mixture with one component")
         data = np.random.randn(SIZE, 2)
         data[:, 1] = exp(1 + data[:, 1])
         data[:, 0], data[:, 1] = rotate_point(data[:, 0], data[:, 1], angle=1)
@@ -85,7 +87,7 @@ class TestLearn(Test):
         fig = plot_mixture(data, model, title="Gaussian Mixture With One Component")
         fig.show()
 
-        test("Fit a Gaussian mixture with five components")
+        logging.info("Fit a Gaussian mixture with five components")
         data = np.array([[0, -0.1], [1.7, 0.4]])
         data = np.r_[
             np.dot(np.random.randn(SIZE, 2), data),
@@ -95,7 +97,7 @@ class TestLearn(Test):
         fig = plot_mixture(data, model, title="Gaussian Mixture With Five Components")
         fig.show()
 
-        test("Fit a Dirichlet process Gaussian mixture with five components")
+        logging.info("Fit a Dirichlet process Gaussian mixture with five components")
         data = np.array([[0, -0.1], [1.7, 0.4]])
         data = np.r_[
             np.dot(np.random.randn(SIZE, 2), data),
@@ -108,7 +110,7 @@ class TestLearn(Test):
         fig.show()
 
     def test_nlp(self):
-        test("Create a handler for word embeddings")
+        logging.info("Create a handler for word embeddings")
         _ = WordEmbeddings()
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains financial utility functions
+#   <NAME> - contains formatting utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,12 +11,9 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.common import *
+## FORMATTING INIT #######################################################################
 
-
-## FIN CONSTANTS #########################################################################
-
-__FIN_CONSTANTS_____________________________________________ = ""
+__FORMATTING_INIT___________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.0.post137"
@@ -26,17 +23,3 @@ __version__ = "1.0.0.post137"
 NAME = "nformat"
 VERSION = __version__
 DESCRIPTION = "Formatting utility library"
-
-
-## FIN MAIN ##############################################################################
-
-__FIN_MAIN__________________________________________________ = ""
-
-
-def main():
-    """Starts the application."""
-    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
-
-
-if __name__ == "__main__":
-    main()

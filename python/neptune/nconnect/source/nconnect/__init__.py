@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains connectivity utility functions
+#   <NAME> - contains connecting utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,9 +11,9 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-## CONNECT CONSTANTS #####################################################################
+## CONNECT INIT ##########################################################################
 
-__CONNECT_CONSTANTS_________________________________________ = ""
+__CONNECT_INIT______________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.0.post137"
@@ -22,18 +22,4 @@ __version__ = "1.0.0.post137"
 
 NAME = "nconnect"
 VERSION = __version__
-DESCRIPTION = "Financial utility library"
-
-
-## FIN MAIN ##############################################################################
-
-__FIN_MAIN__________________________________________________ = ""
-
-
-def main():
-    """Starts the application."""
-    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
-
-
-if __name__ == "__main__":
-    main()
+DESCRIPTION = "Connecting utility library"

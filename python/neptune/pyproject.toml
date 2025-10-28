@@ -50,6 +50,7 @@ pyyaml = "^6.0.2"             # YAML encoding and decoding
 xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
 ### Machine Learning & Stats ###############################
+gensim = "^4.4.0"             # Topic modelling & embeddings
 scikit-learn = "^1.6.1"       # Algorithms for machine learning
 scipy = "^1.13.1"             # Scientific computing and numerical tools
 statsmodels = "^0.14.4"       # Statistical modeling and inference
@@ -70,6 +71,7 @@ validators = "^0.34.0"        # Lightweight data and URL checks
 
 ### Visualization ##########################################
 matplotlib = "^3.9.4"         # 2D plotting and figures
+plotly = "^6.3.1"             # Interactive charts
 seaborn = "^0.13.2"           # Statistical data visualizations
 tqdm = "^4.67.1"              # Terminal progress bars
 

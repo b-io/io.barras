@@ -11,6 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
+import logging
+
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
 from sqlalchemy.engine import URL
@@ -18,7 +20,9 @@ from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
 
-from nutil.common import *
+from nutil.scalar.date import *
+from nutil.scalar.string import *
+from nutil.struct.util import *
 
 ## DB CONSTANTS ##########################################################################
 
@@ -227,7 +231,7 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
         return "NULL"
     elif is_collection(value):
         return par(collist(apply(value, format, is_mssql=is_mssql)))
-    elif is_bool(value):
+    elif is_boolean(value):
         if is_mssql:
             return 1 if value else 0
         return value
@@ -532,7 +536,7 @@ def select_table(
 ):
     """Returns the dataframe read from the specified table (in the specified schema)."""
     if verbose:
-        debug("Select the table", quote(table))
+        logging.debug("Select the table", quote(table))
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
     chunks = pd.read_sql_table(

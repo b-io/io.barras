@@ -62,6 +62,7 @@ def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
     Complexity:
         O(1) for direct indexing; O(n) if flattening.
     """
+    s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
     elif is_null(axis):
@@ -108,7 +109,7 @@ def get_iterator(s: Struct, cycle: bool = False) -> Iterator[Value]:
     """Returns an iterator over `s`, cycling if `cycle` is `True`."""
     if is_element(s):
         s = (s,)
-    return itertools.cycle(s) if cycle else iter(s)
+    return itertools.cycle(s) if cycle else create_iterator(s)
 
 
 def get_next(s: Struct, cycle: bool = False) -> Value:
@@ -720,7 +721,7 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
         O(n) over length of `new_index`.
     """
     s = ungroup(s, axis=1)
-    if is_empty(s) or not is_subscriptable(s):
+    if not is_subscriptable(s):
         return s
     if is_table(new_index):
         new_index_names = get_names(new_index.index)
@@ -735,7 +736,7 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
             new_index_names = resize_list(new_index_names, len(new_index[0]))
             s.index = pd.MultiIndex.from_tuples(new_index, names=new_index_names)
         else:
-            rename(s, index=dict(zip(s.index, new_index)))
+            s.index = new_index
     else:
         set_keys(s, new_index)
     set_index_name(s, index_name)
@@ -1601,42 +1602,19 @@ def apply(
             cols = []
             for k in keys:
                 col = s.loc[:, k]
-                try:
-                    col_values = f(col, *args, **kwargs)  # vectorized attempt
-                    cols.append(
-                        pd.Series(
-                            data=(
-                                create_array(len(col), fill=col_values)  # broadcasts the scalar
-                                if is_scalar(col_values)
-                                else get_values(col_values)
-                            ),
-                            index=col.index,
-                            name=k,
-                        )
-                    )
-                except Exception:
-                    cols.append(col.apply(f, args=args, **kwargs))  # fallback per-element
+                cols.append(col.apply(f, args=args, **kwargs))
             return concat_cols(cols)
         cols = s.loc[:, keys]
-        try:
-            return f(cols, *args, **kwargs)  # vectorized attempt
-        except Exception:
-            return cols.apply(f, args=args, axis=axis, **kwargs)  # fallback
+        return cols.apply(f, args=args, axis=axis, **kwargs)
     elif is_series(s):
         rows = s.loc[keys]
-        try:
-            return f(rows, *args, **kwargs)  # vectorized attempt
-        except Exception:
-            return rows.apply(f, args=args, **kwargs)  # fallback
+        return rows.apply(f, args=args, **kwargs)
     elif is_dict(s):
         return {k: f(s[k], *args, **kwargs) for k in keys}
     elif is_array(s):
         a = s[keys]
         if is_null(axis):
-            try:
-                return f(a, *args, **kwargs)  # vectorized attempt
-            except Exception:
-                return np.vectorize(lambda z: f(z, *args, **kwargs))(a)  # fallback
+            return np.vectorize(lambda z: f(z, *args, **kwargs))(a)
         return np.apply_along_axis(f, axis, a, *args, **kwargs)
     return collection_to_type([f(s[k], *args, **kwargs) for k in keys], s)
 
@@ -2505,10 +2483,10 @@ def reduce(
 
 def reduce_and(x: Any, axis: int = 0) -> np.ndarray:
     """Reduces by logical AND along `axis` with empty-axis identity handling."""
-    # Axis=0 and no rows → one True per column
+    # `axis=0` and no rows → one `True` per column
     if axis == 0 and count_rows(x) == 0:
         return np.ones(count_cols(x), dtype=BOOLEAN_ELEMENT_TYPE)
-    # Axis=1 and no columns → one True per row
+    # `axis=1` and no columns → one `True` per row
     elif axis == 1 and count_cols(x) == 0:
         return np.ones(count_rows(x), dtype=BOOLEAN_ELEMENT_TYPE)
     return np.logical_and.reduce(x, axis=axis)
@@ -2516,10 +2494,10 @@ def reduce_and(x: Any, axis: int = 0) -> np.ndarray:
 
 def reduce_or(x: Any, axis: int = 0) -> np.ndarray:
     """Reduces by logical OR along `axis` with empty-axis identity handling."""
-    # Axis=0 and no rows → one False per column
+    # `axis=0` and no rows → one `False` per column
     if axis == 0 and count_rows(x) == 0:
         return np.zeros(count_cols(x), dtype=BOOLEAN_ELEMENT_TYPE)
-    # Axis=1 and no columns → one False per row
+    # `axis=1` and no columns → one `False` per row
     elif axis == 1 and count_cols(x) == 0:
         return np.zeros(count_rows(x), dtype=BOOLEAN_ELEMENT_TYPE)
     return np.logical_or.reduce(x, axis=axis)
@@ -2537,6 +2515,7 @@ def remove_null(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
     """Removes rows/cols with all-null (conservative) or any-null (non-conservative) values."""
+    s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
     if is_null(keys):
@@ -2560,6 +2539,7 @@ def remove_empty(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
     """Removes rows/cols with all-empty (conservative) or any-empty (non-conservative) values."""
+    s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
     if is_null(keys):
@@ -2584,6 +2564,7 @@ def remove_value(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
     """Removes rows/cols with all-`value` (conservative) or any-`value` (non-conservative) values."""
+    s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
     if is_null(keys):
@@ -2771,12 +2752,10 @@ def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
             return s.loc[~s.index.duplicated(keep="last")]
         elif pos is Position.MIDDLE:
 
-            def middle_index(group):
+            def get_middle(group):
                 return group.iloc[len(group) // 2 : len(group) // 2 + 1]
 
-            return (
-                s.groupby(s.index, sort=False).apply(middle_index).reset_index(level=0, drop=True)
-            )
+            return s.groupby(s.index, sort=False).apply(get_middle).reset_index(level=0, drop=True)
     elif is_dict(s):
         return s
     seen: Dict[Any, List[int]] = {}
@@ -3444,7 +3423,7 @@ def unpivot(df: pd.DataFrame, value: Key, names: Optional[Iterable[str]] = None)
     Notes:
         • When `names` is provided, renames the `level_i` columns accordingly.
     """
-    df = filter_not_null(df.unstack().reset_index(name=value), keys=value)
+    df = filter_not_null(df.unstack().reset_index(name=value), keys=[value])
     if not is_null(names):
         df.rename(
             columns={"level_" + str(i): name for i, name in enumerate(to_list(names))}, inplace=True

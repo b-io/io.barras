@@ -152,7 +152,7 @@ def undict(d: Any) -> Union[Any, Tuple[Any, ...]]:
     """
     if is_dict(d):
         if len(d) == 1:
-            return next(iter(d.values()))
+            return next(create_iterator(d.values()))
         return tuple(d.values())
     return d
 
@@ -256,7 +256,7 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
     """
     if is_set(s):
         if len(s) == 1:
-            return next(iter(s))
+            return next(create_iterator(s))
         return tuple(s)
     return s
 
@@ -398,7 +398,7 @@ def has_index(c):
 def compare_length(x: Any, n: int, op) -> bool:
     """
     Compares the length of a collection to a specified number using the given operator.
-    Returns False if `x` is not a valid collection or has no length.
+    Returns `False` if `x` is not a valid collection or has no length.
     """
     if not is_struct(x):
         return False

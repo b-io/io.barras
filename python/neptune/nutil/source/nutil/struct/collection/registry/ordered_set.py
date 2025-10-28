@@ -48,9 +48,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         super().__init__()
         self.elements: OrderedDict[T, None] = OrderedDict.fromkeys(iterable)
 
-    ########################################################
-    # COLLECTION
-    ########################################################
+    ### COLLECTION #########################################
 
     def __len__(self) -> int:
         """
@@ -61,9 +59,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return len(self.elements)
 
-    ########################################################
-    # CONTAINER
-    ########################################################
+    ### CONTAINER ##########################################
 
     def __contains__(self, element: object) -> bool:
         """
@@ -74,9 +70,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return element in self.elements
 
-    ########################################################
-    # ITERABLE
-    ########################################################
+    ### ITERABLE ###########################################
 
     def __iter__(self) -> Iterator[T]:
         """
@@ -86,11 +80,9 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Creation: O(1).
             Traversal: O(n).
         """
-        return iter(self.elements.keys())
+        return create_iterator(self.elements.keys())
 
-    ########################################################
-    # SEQUENCE
-    ########################################################
+    ### SEQUENCE ###########################################
 
     @overload
     def __getitem__(self, index: int) -> T: ...
@@ -152,7 +144,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             Amortized O(1).
         """
         try:
-            return next(iter(self.elements))
+            return next(create_iterator(self.elements))
         except StopIteration:
             raise IndexError("OrderedSet is empty") from None
 
@@ -168,9 +160,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         except StopIteration:
             raise IndexError("OrderedSet is empty") from None
 
-    ########################################################
-    # CONVERTERS
-    ########################################################
+    ### CONVERTERS #########################################
 
     def to_iterable(self) -> Iterable[T]:
         """
@@ -181,9 +171,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return self.elements.keys()
 
-    ########################################################
-    # MUTATORS
-    ########################################################
+    ### MUTATORS ###########################################
 
     def add(self, element: T) -> None:
         """
@@ -228,9 +216,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         self.elements.clear()
 
-    ########################################################
-    # SET ALGEBRA (ORDER-PRESERVING)
-    ########################################################
+    ### SET ALGEBRA (ORDER-PRESERVING) #####################
 
     def __and__(self, other: Iterable[T]) -> "OrderedSet[T]":
         """
@@ -433,9 +419,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return OrderedSet(other).__xor__(self)
 
-    ########################################################
-    # SUBSET / SUPERSET
-    ########################################################
+    ### SUBSET / SUPERSET ##################################
 
     def __le__(self, other: Iterable[T]) -> bool:
         """
@@ -493,9 +477,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return self >= other and self != other
 
-    ########################################################
-    # REPRESENTATION
-    ########################################################
+    ### REPRESENTATION #####################################
 
     REPR_OPEN = "{"
     REPR_CLOSE = "}"
@@ -512,9 +494,7 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
     `AbstractCollectionAdapter` mutators to keep semantics consistent.
     """
 
-    ########################################################
-    # ITERABLE
-    ########################################################
+    ### ITERABLE ###########################################
 
     def to_iterable(self, x: OrderedSet[T]) -> Iterable[T]:
         """
@@ -525,9 +505,7 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
         """
         return x.to_iterable()
 
-    ########################################################
-    # OPTIONAL MUTATORS (MUTABLE)
-    ########################################################
+    ### OPTIONAL MUTATORS (MUTABLE) ########################
 
     def add(self, x: OrderedSet[T], v: T) -> None:
         """

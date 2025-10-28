@@ -110,7 +110,7 @@ def normalize(x, axis: Optional[Axis] = 0, eps=EPS):
 
 
 def softmax(x, axis: Optional[Axis] = 0, eps=EPS):
-    m = np.max(x, axis=axis) if axis is not None else np.max(x)
+    m = np.max(x, axis=axis) if not is_null(axis) else np.max(x)
     return normalize(exp(x - expand_dims(m, x, axis=axis)), axis=axis, eps=eps)
 
 
@@ -503,7 +503,7 @@ def safe_divide(c1, c2, eps=EPS, invalid_default=0, template=None):
     mask = np.isfinite(b2) & (np.abs(b2) > np.asarray(eps, dtype=element_type))
 
     return collection_to_type(
-        np.divide(b1, b2, out=out, where=mask), template if template is not None else c1
+        np.divide(b1, b2, out=out, where=mask), template if not is_null(template) else c1
     )
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,9 +14,9 @@
 from . import common
 from .common import *
 
-## CONSTANTS #############################################################################
+## UTIL INIT #############################################################################
 
-__CONSTANTS_________________________________________________ = ""
+__UTIL_INIT_________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.0.post137"
@@ -26,17 +26,3 @@ __version__ = "1.0.0.post137"
 NAME = "nutil"
 VERSION = __version__
 DESCRIPTION = "Utility library"
-
-
-## MAIN ##################################################################################
-
-__MAIN______________________________________________________ = ""
-
-
-def main():
-    """Starts the application."""
-    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
-
-
-if __name__ == "__main__":
-    main()

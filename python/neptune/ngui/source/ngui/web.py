@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains graphical utility functions for Web
+#   <NAME> - contains graphical user interface utility functions for Web
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,10 +11,14 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-import requests
+import logging
 import socket
-from nutil.common import *
+
+import requests
 from xhtml2pdf import pisa
+
+from nutil.io.file import write_bytes
+from nutil.scalar.string import *
 
 ## WEB FUNCTIONS #########################################################################
 
@@ -510,11 +514,11 @@ def download(url, dir=None):
     """Downloads the file pointed by the specified URL and writes it to the specified directory."""
     if is_null(dir):
         dir = get_dir(".")
-    debug("Download the file", quote(url), "to the directory", quote(dir))
+    logging.debug("Download the file", quote(url), "to the directory", quote(dir))
     try:
         content = requests.get(url).content
         filename = get_filename(url).split("?")[0]
         return write_bytes(collapse(dir, "/", filename), content)
     except Exception as ex:
-        error(ex)
+        logging.error(ex)
         raise

@@ -5,7 +5,7 @@
 rules:
   - id: "hash-banner-length"
     description: "Banner lines must be length 30/60/90/120 with correct leading '#': 1→120, 2→90, 3→60, 4→30. Pure separators (only '#') allowed at any allowed width."
-    pattern: "^(?=\\s*#)(?=.*#{2,})(?!(?:(?=.{120}$)\\s*#\\s+.*|(?=.{90}$)\\s*##\\s+.*|(?=.{60}$)\\s*###\\s+.*|(?=.{30}$)\\s*####\\s+.*|(?=.{120}$)\\s*#+|(?=.{90}$)\\s*#+|(?=.{60}$)\\s*#+|(?=.{30}$)\\s*#+)$).+$"
+    pattern: "^(?=\\s*#)(?=\\s?[^\\s]*\\s?#{2,})(?!(?:(?=.{120}$)\\s*#\\s+.*|(?=.{90}$)\\s*##\\s+.*|(?=.{60}$)\\s*###\\s+.*|(?=.{30}$)\\s*####\\s+.*|(?=.{120}$)\\s*#+|(?=.{90}$)\\s*#+|(?=.{60}$)\\s*#+|(?=.{30}$)\\s*#+)$).+$"
     include: ["**/*.md", "**/*.py", "**/*.rst", "**/*.toml", "**/*.yaml", "**/*.yml"]
     exclude: []
     flags: []
@@ -29,7 +29,7 @@ rules:
 
   - id: "line-comment-trailing-period"
     description: "Line comments must not end with a period."
-    pattern: "^(?=.*\\s#)(?!.*https?://).*\\S\\.$"
+    pattern: "^(?:(?!\\s*#).*?\\S\\s{2,}#.*|\\s*#(?:#.*|(?!\\s{2,}).*))(?<!\\.)\\.(?:\\s*)$"
     include: ["**/*.py"]
     exclude: []
     flags: ["IGNORECASE"]

@@ -84,7 +84,7 @@ class SectionedCache(Generic[V]):
     """
     A sectioned on-disk JSON cache.
 
-    A `section` is a top-level JSON key (e.g., `'en'`, `'fr'`, `'de_def'`). Each section maps `str` keys to `V`
+    A `section` is a top-level JSON key (e.g., `"en"`, `"fr"`, `"de_def"`). Each section maps `str` keys to `V`
     values. The API selects entries by `(section, key)`. Values must be JSON-serializable.
 
     Args:
@@ -139,7 +139,7 @@ class SectionedCache(Generic[V]):
             try:
                 obj = json.loads(path.read_text(encoding="utf-8"))
             except Exception as e:
-                logging.warning("failed to read the cache '%s': %s", path, e)
+                logging.warning("Failed to read the cache '%s': %s", path, e)
 
         cache = cls(
             path=path,

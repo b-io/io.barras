@@ -10,11 +10,14 @@
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
-import random
+
+import logging
 import timeit
 import unittest
 
+from ntest.unit.unittest import Test
 from nutil.math import *
+from nutil.scalar.string import *
 
 ## TEST CONSTANTS ########################################################################
 
@@ -30,59 +33,6 @@ TEST_COUNT = 10
 ## TEST CLASSES ##########################################################################
 
 __TEST_CLASSES______________________________________________ = ""
-
-
-class Test(unittest.TestCase):
-
-    def __init__(self, methodName="runTest"):
-        super().__init__(methodName=methodName)
-
-        random.seed(0)
-        np.random.seed(0)
-
-    def assert_equals(self, first, second, precision=PRECISION, assert_order=False):
-        if is_collection(first):
-            if len(np.shape(first)) > 1:
-                if assert_order:
-                    row_count = count_rows(first)
-                    col_count = count_cols(first)
-                    for i in range(row_count):
-                        for j in range(col_count):
-                            self.assert_equals(
-                                get(get(first, j, axis=1), i, axis=0),
-                                get(get(second, j, axis=1), i, axis=0),
-                                precision=precision,
-                            )
-                else:
-                    keys = get_keys(first)
-                    self.assertEqual(
-                        keys, get_keys(second), msg="The keys of the collections are different"
-                    )
-                    index = get_index(first)
-                    self.assertEqual(
-                        index, get_index(second), msg="The indexes of the collections are different"
-                    )
-                    for k in keys:
-                        for i in index:
-                            self.assert_equals(first[k][i], second[k][i], precision=precision)
-            else:
-                if assert_order:
-                    row_count = count_rows(first)
-                    for i in range(row_count):
-                        self.assert_equals(get(first, i), get(second, i), precision=precision)
-                else:
-                    keys = get_keys(first)
-                    self.assertEqual(
-                        keys, get_keys(second), msg="The keys of the collections are different"
-                    )
-                    for k in keys:
-                        self.assert_equals(first[k], second[k], precision=precision)
-        else:
-            if is_number(first) and is_number(second):
-                if not is_null(first) and not is_null(second):
-                    self.assertAlmostEqual(first, second, places=precision)
-            else:
-                self.assertEqual(first, second)
 
 
 class TestCommon(Test):
@@ -114,14 +64,14 @@ class TestCommon(Test):
 
         f = np.sum
 
-        test("Test the string functions")
+        logging.info("Test the string functions")
         replace(token, "A", "B")
         self.assert_equals(replace_word("Bonjour, world!", "Bonjour", "Hello"), hello)
         self.assert_equals(count(split(hello, ",")), 2)
 
         self.apply(hello, replace, "H", "I")
 
-        test("Test the list functions")
+        logging.info("Test the list functions")
         self.get_items(l1)
         self.get_rows(l1)
         self.get_cols(l1)
@@ -137,7 +87,7 @@ class TestCommon(Test):
         self.tally(l1, [SIZE / 3, 2 * SIZE / 3])
         self.tally(l2, [SIZE / 3, 2 * SIZE / 3])
 
-        test("Test the array functions")
+        logging.info("Test the array functions")
         self.get_items(a)
         self.get_rows(a)
         self.get_cols(a)
@@ -154,7 +104,7 @@ class TestCommon(Test):
 
         self.tally(a, [SIZE / 3, 2 * SIZE / 3])
 
-        test("Test the dictionary functions")
+        logging.info("Test the dictionary functions")
         self.get_items(d1)
 
         self.apply(d1, f)
@@ -166,7 +116,7 @@ class TestCommon(Test):
         self.assert_equals(update(d1.copy(), d2), take(d2, d1))
         self.assert_equals(upsert(d1.copy(), d2), d2)
 
-        test("Test the series functions")
+        logging.info("Test the series functions")
         self.get_items(s1)
         self.get_rows(s1)
         self.get_cols(s1)
@@ -184,7 +134,7 @@ class TestCommon(Test):
         self.tally(s1, [SIZE / 3, 2 * SIZE / 3])
         self.tally(s2, [SIZE / 3, 2 * SIZE / 3])
 
-        test("Test the frame functions")
+        logging.info("Test the frame functions")
         self.get_items(df)
         self.get_rows(df)
         self.get_cols(df)
@@ -205,7 +155,7 @@ class TestCommon(Test):
         self.tally(df1, [SIZE / 3, 2 * SIZE / 3])
         self.tally(df2, [SIZE / 3, 2 * SIZE / 3])
 
-        test("Test the group functions")
+        logging.info("Test the group functions")
         self.get_items(g0)
         self.get_items(g1)
 
@@ -224,15 +174,15 @@ class TestCommon(Test):
             stmt=lambda: get_items(c, inclusion=range(len(c)), exclusion=range(int(len(c) / 2))),
             number=TEST_COUNT,
         )
-        test(len(c), "items retrieved", TEST_COUNT, "times in", round(t), "[s]")
+        logging.info(len(c), "items retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
     def get_rows(self, c):
         t = timeit.timeit(stmt=lambda: get_rows(c), number=TEST_COUNT)
-        test(count_rows(c), "rows retrieved", TEST_COUNT, "times in", round(t), "[s]")
+        logging.info(count_rows(c), "rows retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
     def get_cols(self, c):
         t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
-        test(count_cols(c), "cols retrieved", TEST_COUNT, "times in", round(t), "[s]")
+        logging.info(count_cols(c), "cols retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
     ##########################
 
@@ -240,7 +190,7 @@ class TestCommon(Test):
         t = timeit.timeit(
             stmt=lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT
         )
-        test(
+        logging.info(
             "Applied",
             f.__name__,
             "on",
@@ -254,35 +204,8 @@ class TestCommon(Test):
 
     def tally(self, c, boundaries):
         t = timeit.timeit(stmt=lambda: tally(c, boundaries), number=TEST_COUNT)
-        test(count(c, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]")
-
-
-class TestDB(Test):
-
-    def test(self):
-        df = to_frame([["x", 1.0], ["y", 2.0], ["z", 3.0]], names=["A", "B"])
-        self.assert_equals(
-            str(get_col_types(df)),
-            str(
-                {"index": db.Integer(), "A": db.String(length=8000), "B": db.Float(asdecimal=True)}
-            ),
-        )
-
-        self.assert_equals(
-            create_select_table_where_query("name", filtering_row={"A": 1}),
-            'SELECT * FROM "dbo"."name" WHERE "A"=1;',
-        )
-        self.assert_equals(
-            create_delete_table_query("name", filtering_row={"A": 1}),
-            'DELETE FROM "dbo"."name" WHERE "A"=1;',
-        )
-        self.assert_equals(
-            create_insert_table_query("name", ["A"], {"A": 1}),
-            'INSERT INTO "dbo"."name" ("A") VALUES (1);',
-        )
-        self.assert_equals(
-            create_update_table_query("name", ["A"], {"A": 1}),
-            'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;',
+        logging.info(
+            count(c, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]"
         )
 
 
@@ -307,7 +230,7 @@ class TestMath(Test):
 
     def normalize(self, vector):
         t = timeit.timeit(stmt=lambda: normalize(vector), number=TEST_COUNT)
-        test(
+        logging.info(
             "Normalization of a",
             str(ROW_SIZE) + "-dimensional vector computed",
             TEST_COUNT,
@@ -318,7 +241,7 @@ class TestMath(Test):
 
     def min_distance(self, vector, vectors):
         t = timeit.timeit(stmt=lambda: min_distance(vector, vectors), number=TEST_COUNT)
-        test(
+        logging.info(
             "Minimum distance of a",
             str(ROW_SIZE) + "-dimensional vector to",
             SIZE,

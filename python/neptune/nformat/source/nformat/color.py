@@ -10,14 +10,15 @@
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
-import random
 
 import cv2
 import matplotlib.cm as mcm
 import matplotlib.colors as mcolors
-from nmath.stats import normal
 
+from ngui.common import DEFAULT_COLORS
+from nmath.stats import normal
 from nutil.math import *
+from nutil.scalar.string import *
 
 ## COLOR CONSTANTS #######################################################################
 

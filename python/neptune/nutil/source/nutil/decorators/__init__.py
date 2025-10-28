@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains utility decorators
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,9 +14,8 @@
 from . import common
 from .common import *
 
+## DECORATORS INIT #######################################################################
 
-## CONSTANTS #############################################################################
-
-__CONSTANTS_________________________________________________ = ""
+__DECORATORS_INIT___________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

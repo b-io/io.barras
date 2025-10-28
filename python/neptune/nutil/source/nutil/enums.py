@@ -45,9 +45,7 @@ class IntEnumMeta(EnumMeta):
                 raise TypeError(f"'{name}.{member.name}' has non-int value '{member.value}'")
         return cls
 
-    ########################################################
-    # ACCESSORS
-    ########################################################
+    ### ACCESSORS ##########################################
 
     def from_name(cls: Type[I], name: str) -> I:
         """
@@ -134,9 +132,7 @@ class IntEnumMeta(EnumMeta):
         """
         return {member.value: cast(I, member) for member in cls}
 
-    ########################################################
-    # OPERATORS
-    ########################################################
+    ### OPERATORS ##########################################
 
     def __contains__(cls: Type[I], item: Union[int, str, I]) -> bool:
         """
@@ -177,9 +173,7 @@ class IntEnumMeta(EnumMeta):
         members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
         return f"{cls.__name__}({members})"
 
-    ########################################################
-    # VALIDATORS
-    ########################################################
+    ### VALIDATORS #########################################
 
     def is_valid_name(cls: Type[I], name: str) -> bool:
         """
@@ -240,9 +234,7 @@ class StrEnumMeta(EnumMeta):
                 raise TypeError(f"'{name}.{member.name}' has non-str value '{member.value}'")
         return cls
 
-    ########################################################
-    # ACCESSORS
-    ########################################################
+    ### ACCESSORS ##########################################
 
     def from_name(cls: Type[S], name: str) -> S:
         """
@@ -330,9 +322,7 @@ class StrEnumMeta(EnumMeta):
         """
         return {member.value: cast(S, member) for member in cls}
 
-    ########################################################
-    # OPERATORS
-    ########################################################
+    ### OPERATORS ##########################################
 
     def __contains__(cls: Type[S], item: Union[str, S]) -> bool:
         """
@@ -364,9 +354,7 @@ class StrEnumMeta(EnumMeta):
         members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
         return f"{cls.__name__}({members})"
 
-    ########################################################
-    # VALIDATORS
-    ########################################################
+    ### VALIDATORS #########################################
 
     def is_valid_name(cls: Type[S], name: str) -> bool:
         """
@@ -444,6 +432,30 @@ class Environment(StrEnum):
     PROD = "prod"
     STAGING = "staging"
     TEST = "test"
+
+
+### LOG ####################################################
+
+__LOG_ENUMS_________________________________________________ = ""
+
+
+class LogLevel(StrEnum):
+    CRITICAL = "CRITICAL"
+    DEBUG = "DEBUG"
+    ERROR = "ERROR"
+    INFO = "INFO"
+    WARNING = "WARNING"
+
+
+class SeverityLevel(StrEnum):
+    FAIL = 0
+    ERROR = 1
+    WARN = 2
+    RESULT = 3
+    INFO = 4
+    TEST = 5
+    DEBUG = 6
+    TRACE = 7
 
 
 ### FILE ###################################################
@@ -1053,6 +1065,7 @@ __TIME_SERIES_ENUMS_________________________________________ = ""
 class Aggregation(StrEnum):
     """The common aggregation functions for time series."""
     COUNT = "count"
+    IDENTITY = "identity"  # skips the aggregation
     MIN = "min"
     MAX = "max"
     MEAN = "mean"
@@ -1060,13 +1073,14 @@ class Aggregation(StrEnum):
     STD = "std"
     VAR = "var"
     SUM = "sum"
+    VALUES = "values"  # returns a list of raw values per period (one row per group)
 
 
 class Frequency(StrEnum):
     """The common time series frequencies."""
     DAYS = "D"
     WEEKS = "W"
-    MONTHS = "M"
+    MONTHS = "ME"
     QUARTERS = "Q"
     SEMESTERS = "S"
     YEARS = "Y"

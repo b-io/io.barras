@@ -26,20 +26,16 @@ import inspect
 import logging
 from functools import wraps
 from typing import (
-    Annotated,
     Callable,
-    get_args,
-    get_origin,
 )
 
 from nutil.common import *
 from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get_function_name
+from nutil.typing.hints import expected_for_display, matches_type_hints, resolve_type_hints
 
 ## TYPING DECORATORS #####################################################################
 
 __TYPING_DECORATORS___________________________________________ = ""
-
-from nutil.typing.hints import expected_for_display, matches_type_hints, resolve_type_hints
 
 F = TypeVar("F", bound=Callable[..., Any])
 
@@ -47,7 +43,6 @@ F = TypeVar("F", bound=Callable[..., Any])
 def typesafe(
     *,
     mode: str = "raise",
-    logger: logging.Logger | None = None,
     sample_limit: int = 1,
     max_depth: int = 0,
 ) -> Callable[[F], F]:
@@ -66,7 +61,6 @@ def typesafe(
 
     Args:
         mode: The validation mode, either `"raise"` to raise a `TypeError`, or `"suggest"` to log a warning.
-        logger: The logger for `"suggest"` mode (defaults to `logging.getLogger(__name__)`).
         sample_limit: The maximum number of iterable elements to check per argument.
         max_depth: The maximum container-nesting depth to validate (0 = unlimited).
 
@@ -75,9 +69,6 @@ def typesafe(
     """
     if mode not in ("raise", "suggest"):
         raise ValueError("'mode' must be 'raise' or 'suggest'")
-
-    if logger is None:
-        logger = logging.getLogger(__name__)
 
     def _typesafe(func: F) -> F:
         sig = inspect.signature(func)
@@ -113,7 +104,7 @@ def typesafe(
                 )
                 if mode == "raise":
                     raise err
-                logger.warning("%s", err)  # warns and continues in `"suggest"` mode
+                logging.warning("%s", err)  # warns and continues in `"suggest"` mode
 
             return func(*args, **kwargs)
 

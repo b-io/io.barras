@@ -13,7 +13,10 @@
 
 import base64
 
-import cv2
+from ngui.common import *
+from nutil.constants import DEFAULT_ENCODING
+from nutil.enums import FileType
+from nutil.io.file import read_bytes
 
 ## IMAGE CONSTANTS #######################################################################
 
@@ -29,7 +32,7 @@ __IMAGE_____________________________________________________ = ""
 
 def buffer_to_image(buffer, format, rotate=False):
     """Converts the specified image buffer to an image of the specified format."""
-    if format == SVG_FORMAT:
+    if format == FileType.SVG:
         return buffer
     if rotate:
         buffer = rotate_anti_90(buffer)
@@ -48,7 +51,7 @@ def buffer_to_html(
     """Encodes the specified image buffer to Base64 and returns its HTML code."""
     if is_empty(buffer):
         return ""
-    if format == SVG_FORMAT:
+    if format == FileType.SVG:
         return buffer.decode(encoding)
     if rotate:
         width, height = height, width
@@ -66,7 +69,7 @@ def buffer_to_html(
 
 def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
     """Converts the specified image to an image buffer."""
-    if image[1:4] == SVG_FORMAT.encode(DEFAULT_ENCODING):
+    if image[1:4] == FileType.SVG.encode(DEFAULT_ENCODING):
         return image
     if is_string(image):
         image = read_bytes(image)
@@ -84,7 +87,7 @@ def image_to_html(
     height=DEFAULT_HEIGHT,
 ):
     """Converts the specified image to HTML."""
-    if format == SVG_FORMAT:
+    if format == FileType.SVG:
         return image.decode(encoding)
     return buffer_to_html(
         image_to_buffer(image, mode=mode),

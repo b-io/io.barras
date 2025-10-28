@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains machine learning utility functions
+#   <NAME> - contains machine learning utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,12 +11,9 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.common import *
+## LEARN INIT ############################################################################
 
-
-## LEARN CONSTANTS #######################################################################
-
-__LEARN_CONSTANTS___________________________________________ = ""
+__LEARN_INIT________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.0.post137"
@@ -26,17 +23,3 @@ __version__ = "1.0.0.post137"
 NAME = "nlearn"
 VERSION = __version__
 DESCRIPTION = "Machine learning utility library"
-
-
-## LEARN MAIN ############################################################################
-
-__LEARN_MAIN________________________________________________ = ""
-
-
-def main():
-    """Starts the application."""
-    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
-
-
-if __name__ == "__main__":
-    main()

@@ -12,10 +12,12 @@
 ##########################################################################################
 
 import statsmodels.api as sm
-from ngui.chart import *
 from sklearn.preprocessing import OrdinalEncoder
 
+from ngui import charts
+from ngui.common import *
 from nutil.common import *
+from nutil.struct.util import get_element_types
 
 ## REGRESSION FUNCTIONS ##################################################################
 
@@ -89,9 +91,9 @@ def plot_variables(
     **kwargs,
 ):
     def draw_variables(x, **kwargs):
-        return draw(x, y=y, mode=mode, show_legend=show_legend, **kwargs)
+        return charts.draw(x, y=y, mode=mode, show_legend=show_legend, **kwargs)
 
-    return plot_multi(
+    return charts.plot_multi(
         X,
         draw_variables,
         # Figure

@@ -11,10 +11,12 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from ngui.chart import *
-from nutil.test import *
+import unittest
 
+from ngui.charts import *
 from ngui.image import *
+from ntest.common import *
+from ntest.unit.unittest import Test
 
 ## GUI TEST CONSTANTS ####################################################################
 
@@ -83,23 +85,23 @@ class TestGui(Test):
         )
 
         self.assert_equals(
-            image_to_buffer(buffer_to_image(rgb_buffer, BMP_FORMAT))[0], rgb_buffer[0]
+            image_to_buffer(buffer_to_image(rgb_buffer, FileType.BMP))[0], rgb_buffer[0]
         )
 
         self.assert_equals(
-            buffer_to_html(rgb_buffer, BMP_FORMAT, rotate=True)[-42:-10],
+            buffer_to_html(rgb_buffer, FileType.BMP, rotate=True)[-42:-10],
             "eGSbtiKk/I3KxKINurU+/j0p12l32DAO",
         )
         self.assert_equals(
-            buffer_to_html(rgb_buffer, JPEG_FORMAT, rotate=True)[-42:-10],
+            buffer_to_html(rgb_buffer, FileType.JPEG, rotate=True)[-42:-10],
             "ucPaXnVi+ZyX8GapwfuShaXLJ8zja97W",
         )
         self.assert_equals(
-            buffer_to_html(rgb_buffer, PNG_FORMAT, rotate=True)[-42:-10],
+            buffer_to_html(rgb_buffer, FileType.PNG, rotate=True)[-42:-10],
             "q21NUEUdmYyUW1RCNWQjkhAAAAAElFTk",
         )
         self.assert_equals(
-            buffer_to_html(rgb_buffer, TIFF_FORMAT, rotate=True)[-42:-10],
+            buffer_to_html(rgb_buffer, FileType.TIFF, rotate=True)[-42:-10],
             "B4CAMArTMDAO9eAwA8igMAc7UDAAEAAQ",
         )
 
@@ -112,16 +114,22 @@ class TestGui(Test):
     ########################################################
 
     def evaluate_colorfulness(self, image):
-        t = timeit.timeit(stmt=lambda: evaluate_colorfulness(image), number=TEST_COUNT)
-        test("Evaluate the colorfulness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        t = timed(stmt=lambda: evaluate_colorfulness(image), number=TEST_COUNT)
+        logging.info(
+            "Evaluate the colorfulness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]"
+        )
 
     def evaluate_brightness(self, image):
-        t = timeit.timeit(stmt=lambda: evaluate_brightness(image), number=TEST_COUNT)
-        test("Evaluate the brightness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        t = timed(stmt=lambda: evaluate_brightness(image), number=TEST_COUNT)
+        logging.info(
+            "Evaluate the brightness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]"
+        )
 
     def evaluate_blurriness(self, image):
-        t = timeit.timeit(stmt=lambda: evaluate_blurriness(image), number=TEST_COUNT)
-        test("Evaluate the blurriness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        t = timed(stmt=lambda: evaluate_blurriness(image), number=TEST_COUNT)
+        logging.info(
+            "Evaluate the blurriness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]"
+        )
 
 
 ## GUI TEST MAIN #########################################################################
@@ -130,7 +138,7 @@ __GUI_TEST_MAIN_____________________________________________ = ""
 
 
 def main():
-    """Tests the graphical utility library."""
+    """Tests the graphical user interface utility library."""
     unittest.main()
 
 

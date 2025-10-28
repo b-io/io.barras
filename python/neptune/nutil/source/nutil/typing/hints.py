@@ -163,7 +163,7 @@ def matches_type_hints(
             return True  # accepts the outer tuple only
         if len(args) == 2 and args[1] is Ellipsis:
             (elem_type, _) = args
-            # validates a variable-length `tuple[T, ...]`
+            # Validate a variable-length `tuple[T, ...]`
             return all(
                 matches_type_hints(
                     v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1

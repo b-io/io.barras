@@ -13,7 +13,6 @@
 
 from ngui.chart import *
 
-from nutil.config import CONFIG, load_config
 from nutil.math import *
 
 ## LEARN PROPERTIES ######################################################################

@@ -11,7 +11,7 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from typing import Any, Callable, List, Optional, Type, Union
+from typing import Callable
 
 from nutil.common import *
 
@@ -67,7 +67,7 @@ def create_type_error(
                 *, scalar: Callable[[Any], str]) -> str:
         if isinstance(items, ErrorList):
             return group_separator.join(_format(x, scalar=scalar) for x in items)
-        if isinstance(items, ExpectedTypeList):
+        elif isinstance(items, ExpectedTypeList):
             return set_separator.join(f"'{scalar(t)}'" for t in items)
         return f"'{scalar(items)}'"
 

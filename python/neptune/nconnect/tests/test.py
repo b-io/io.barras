@@ -11,106 +11,39 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nconnect.ts import *
-from nutil.test import *
+from nconnect.db import *
+from ntest.unit.unittest import Test
+from nutil.struct.util import to_frame
+
+## CONNECT TEST CLASSES ##################################################################
+
+__CONNECT_TEST_CLASSES______________________________________ = ""
 
 
-## FIN TEST CONSTANTS ####################################################################
+class TestDB(Test):
 
-__FIN_TEST_CONSTANTS________________________________________ = ""
-
-PRECISION = 14  # decimals
-
-TEST_COUNT = 10
-
-
-## FIN TEST CLASSES ######################################################################
-
-__FIN_TEST_CLASSES__________________________________________ = ""
-
-
-class TestFin(Test):
-
-    def test_time_series(self):
-        date_to = get_date()
-        date_from = date_to - 2 * RELATIVE_YEAR
-        index = create_date_sequence(date_from, date_to)
-        series = rename(
-            to_series(
-                cum_diff(create_random_int_array(-5, len(index), high=6), 0)[:-1], index=index
+    def test(self):
+        df = to_frame([["x", 1.0], ["y", 2.0], ["z", 3.0]], names=["A", "B"])
+        self.assert_equals(
+            str(get_col_types(df)),
+            str(
+                {"index": db.Integer(), "A": db.String(length=8000), "B": db.Float(asdecimal=True)}
             ),
-            "Random walk",
         )
 
-        test("Test the time series transformations")
-        for freq in (
-            Frequency.DAYS,
-            Frequency.WEEKS,
-            Frequency.MONTHS,
-            Frequency.QUARTERS,
-            Frequency.SEMESTERS,
-            Frequency.YEARS,
-        ):
-            for group in (Group.FIRST, Group.LAST):
-                s = transform_series(
-                    series, freq=freq, group=group, transformation=Transformation.DIFF
-                )
-                if freq is Frequency.MONTHS:
-                    if group is Group.FIRST:
-                        test(get_first(get_index(s)), "=", get_next_month_start(date_from))
-                        self.assert_equals(
-                            to_stamp(get_first(get_index(s))),
-                            to_stamp(get_next_month_start(date_from)),
-                        )
-                    else:
-                        test(get_first(get_index(s)), "=", get_next_month_end(date_from))
-                        self.assert_equals(
-                            to_stamp(get_first(get_index(s))),
-                            to_stamp(get_next_month_end(date_from)),
-                        )
-                test(find_nearest_freq(s), "=", freq)
-                self.assert_equals(find_nearest_freq(s).value, freq.value)
-                if freq is not Frequency.DAYS:
-                    test(find_nearest_group(s, freq=freq), "=", group)
-                    self.assert_equals(find_nearest_group(s, freq=freq).value, group.value)
-
-        test("Test the time series forecast")
-        forecasted_series = rename(forecast_series(series, horizon=2), "Forecast")
-        forecasted_series = forecasted_series[forecasted_series.index >= date_to]
-        self.assert_equals(forecasted_series[-1], -153.4974678080443)
-        fig = plot_series(concat_cols(series, forecasted_series), title="Forecasting")
-        fig.show()
-
-        test("Plot the seasonal-trend decomposition")
-        decomposition = decompose_series(series)
-        fig = plot_decomposition(
-            decomposition.trend,
-            decomposition.seasonal,
-            decomposition.resid,
-            name="Random walk",
-            color="blue",
+        self.assert_equals(
+            create_select_table_where_query("name", filtering_row={"A": 1}),
+            'SELECT * FROM "dbo"."name" WHERE "A"=1;',
         )
-        decomposition = decompose_series(forecasted_series)
-        fig = plot_decomposition(
-            decomposition.trend,
-            decomposition.seasonal,
-            decomposition.resid,
-            fig=fig,
-            name="Forecast",
-            color="orange",
+        self.assert_equals(
+            create_delete_table_query("name", filtering_row={"A": 1}),
+            'DELETE FROM "dbo"."name" WHERE "A"=1;',
         )
-        fig.show()
-
-
-## FIN TEST MAIN #########################################################################
-
-__FIN_TEST_MAIN_____________________________________________ = ""
-
-
-def main():
-    """Tests the connectivity utility library."""
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()
+        self.assert_equals(
+            create_insert_table_query("name", ["A"], {"A": 1}),
+            'INSERT INTO "dbo"."name" ("A") VALUES (1);',
+        )
+        self.assert_equals(
+            create_update_table_query("name", ["A"], {"A": 1}),
+            'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;',
+        )

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains I/O utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,12 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from . import common
-from .common import *
+## I/O INIT ##############################################################################
 
-
-## CONSTANTS #############################################################################
-
-__CONSTANTS_________________________________________________ = ""
+__IO_INIT___________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

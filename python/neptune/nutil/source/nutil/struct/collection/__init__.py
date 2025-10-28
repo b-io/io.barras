@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains collection utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,8 +14,8 @@
 from . import common
 from .common import *
 
-## CONSTANTS #############################################################################
+## COLLECTION INIT #######################################################################
 
-__CONSTANTS_________________________________________________ = ""
+__COLLECTION_INIT___________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

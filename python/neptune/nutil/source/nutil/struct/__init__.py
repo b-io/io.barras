@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains struct utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,8 +14,8 @@
 from . import common
 from .common import *
 
-## CONSTANTS #############################################################################
+## STRUCT INIT ###########################################################################
 
-__CONSTANTS_________________________________________________ = ""
+__STRUCT_INIT_______________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

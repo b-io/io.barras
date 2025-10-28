@@ -11,44 +11,20 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nmath.common import (
-    apply,
-    chi2,
-    collist,
-    DEFAULT_CONFIDENCE_LEVEL,
-    Distribution,
-    divide,
-    E,
-    exp,
-    FLOAT_ELEMENT_TYPE,
-    interval_probability,
-    is_null,
-    log,
-    multiply,
-    np,
-    par,
-    PI,
-    sort,
-    sqrt,
-    stats,
-    subtract,
-    t,
-    to_array,
-)
+from nmath.common import *
 from nmath.stats import normal
+from nutil.math import *
+from nutil.scalar.string import *
+from nutil.struct.util import *
 
-##########################################################################################
-# LOG-NORMAL CONSTANTS
-##########################################################################################
+## LOG-NORMAL CONSTANTS ##################################################################
 
 __LOG_NORMAL_CONSTANTS______________________________________ = ""
 
 LOG_NORMAL_NAME = "Log-Normal"
 
 
-##########################################################################################
-# LOG-NORMAL CLASSES
-##########################################################################################
+## LOG-NORMAL CLASSES ####################################################################
 
 __LOG_NORMAL_CLASSES________________________________________ = ""
 
@@ -163,9 +139,7 @@ class LogNormal(Distribution):
         return multiply(self.mean(), margin)
 
 
-##########################################################################################
-# LOG-NORMAL FUNCTIONS
-##########################################################################################
+## LOG-NORMAL FUNCTIONS ##################################################################
 
 __LOG_NORMAL________________________________________________ = ""
 

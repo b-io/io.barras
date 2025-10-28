@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains common graphical utility functions
+#   <NAME> - contains common graphical user interface utility functions
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -12,31 +12,12 @@
 ##########################################################################################
 
 import cv2
-import matplotlib.cm as mcm
 import matplotlib.colors as mcolors
-from nmath import normal
+from matplotlib import colormaps as cm
 
-from nutil.math import (
-    ceil,
-    collist,
-    extract,
-    format_percent,
-    forward_element,
-    get_iterator,
-    is_array,
-    is_collection,
-    is_null,
-    is_string,
-    is_tuple,
-    maximum,
-    min_distance_index,
-    minimum,
-    par,
-    random,
-    round_to_int,
-    to_array,
-    to_float,
-)
+from nmath.stats import normal
+from nutil.math import *
+from nutil.scalar.string import *
 
 ## GUI COMMON CONSTANTS ##################################################################
 
@@ -109,7 +90,7 @@ def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
             r, g, b, alpha = color
     elif is_string(color):
         if "rgb" in color:
-            color = to_float(extract(color, "[0-9\.]+"))
+            color = to_float(extract(color, r"[0-9\.]+"))
             if len(color) == 3:
                 r, g, b = color
             elif len(color) == 4:
@@ -238,8 +219,8 @@ XKCD_COLOR_NAMES = [name for name, _ in mcolors.XKCD_COLORS.items()]
 XKCD_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.XKCD_COLORS.items()])
 XKCD_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.XKCD_COLORS.items()])
 
-RAINBOW_SCALE = mcm.get_cmap(name="rainbow")
-RYG_SCALE = mcm.get_cmap(name="RdYlGn")
+RAINBOW_SCALE = cm.get_cmap("rainbow")
+RYG_SCALE = cm.get_cmap("RdYlGn")
 
 
 ## GUI COMMON FUNCTIONS ##################################################################

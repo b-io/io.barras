@@ -11,36 +11,9 @@
 #   Run with: pytest -q
 ##########################################################################################
 
-import operator
-from typing import Any
-
-import numpy as np
-import pandas as pd
 import pytest
 
-from nutil.struct.common import (
-    compare_length,
-    has_index,
-    has_length_ge,
-    has_length_gt,
-    has_length_le,
-    has_length_lt,
-    is_callable,
-    is_element,
-    is_multidimensional,
-    is_struct,
-    is_subscriptable,
-    to_array,
-    to_dict,
-    to_list,
-    to_set,
-    to_tuple,
-    unarray,
-    undict,
-    ungroup,
-    unlist,
-    unset,
-)
+from nutil.struct.common import *
 
 
 # 1. TEST DOUBLES ######################################################################################################

@@ -15,10 +15,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 from multiprocess.pool import Pool
 
-from nutil.io.log import *
-from nutil.struct.util import apply
-
-
 ## PROCESSORS ############################################################################
 
 __PROCESSORS________________________________________________ = ""

@@ -11,10 +11,13 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.test import *
+import logging
 
-from nmath import binomial, descriptive, lognormal, normal, poisson
+from nmath.stats import *
+
 from nmath.common import *
+from ntest.unit.unittest import Test
+from nutil.common import *
 
 ## MATH TEST CONSTANTS ###################################################################
 
@@ -32,7 +35,7 @@ __MATH_TEST_CLASSES_________________________________________ = ""
 class TestStats(Test):
 
     def test_descriptive(self):
-        test("Test the descriptive statistics")
+        logging.info("Test the descriptive statistics")
         series = [
             to_series(binomial.generate(SIZE, n=10, p=0.2), name="Binomial"),
             to_series(normal.generate(SIZE, mu=10, sigma=1), name="Normal"),
@@ -49,7 +52,7 @@ class TestStats(Test):
     ##########################
 
     def test_binomial(self):
-        test("Test the", binomial.BINOMIAL_NAME, "distribution")
+        logging.info("Test the", binomial.BINOMIAL_NAME, "distribution")
         n = 10
         p = 0.2
         test(par(collist(n, p)))
@@ -59,10 +62,10 @@ class TestStats(Test):
         test(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.binom.interval(DEFAULT_CONFIDENCE_LEVEL, n=n, p=p)
-        test("- Real confidence interval:", interval)
+        logging.info("- Real confidence interval:", interval)
 
     def test_normal(self):
-        test("Test the", normal.NORMAL_NAME, "distribution")
+        logging.info("Test the", normal.NORMAL_NAME, "distribution")
         mu = 100
         sigma = 10
         test(par(collist(mu, sigma)))
@@ -72,10 +75,10 @@ class TestStats(Test):
         test(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.norm.interval(DEFAULT_CONFIDENCE_LEVEL, loc=mu, scale=sigma)
-        test("- Real confidence interval:", interval)
+        logging.info("- Real confidence interval:", interval)
 
     def test_normal_kde(self):
-        test("Test the", normal.NORMAL_KDE_NAME, "distribution")
+        logging.info("Test the", normal.NORMAL_KDE_NAME, "distribution")
         mu = 100
         sigma = 10
         test(par(collist(mu, sigma)))
@@ -85,10 +88,10 @@ class TestStats(Test):
         test(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.norm.interval(DEFAULT_CONFIDENCE_LEVEL, loc=mu, scale=sigma)
-        test("- Real confidence interval:", interval)
+        logging.info("- Real confidence interval:", interval)
 
     def test_log_normal(self):
-        test("Test the", lognormal.LOG_NORMAL_NAME, "distribution")
+        logging.info("Test the", lognormal.LOG_NORMAL_NAME, "distribution")
         mu = 10
         sigma = 1
         test(par(collist(mu, sigma)))
@@ -98,10 +101,10 @@ class TestStats(Test):
         test(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.lognorm.interval(DEFAULT_CONFIDENCE_LEVEL, s=sigma, scale=exp(mu))
-        test("- Real confidence interval:", interval)
+        logging.info("- Real confidence interval:", interval)
 
     def test_poisson(self):
-        test("Test the", poisson.POISSON_NAME, "distribution")
+        logging.info("Test the", poisson.POISSON_NAME, "distribution")
         lam = 10
         test(par(collist(lam)))
         a = poisson.generate(SIZE, lam=lam)
@@ -110,59 +113,59 @@ class TestStats(Test):
         test(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.poisson.interval(DEFAULT_CONFIDENCE_LEVEL, mu=lam)
-        test("- Real confidence interval:", interval)
+        logging.info("- Real confidence interval:", interval)
 
     ########################################################
 
     def assert_dist(self, dist_a, dist_s):
         mean_a, mean_s = dist_a.mean(), dist_s.mean()
-        test("- Mean (with arrays):", mean_a)
-        test("- Mean (with series):", mean_s)
+        logging.info("- Mean (with arrays):", mean_a)
+        logging.info("- Mean (with series):", mean_s)
         self.assert_equals(mean_a, mean_s)
 
         std_a, std_s = dist_a.std(), dist_s.std()
-        test("- Standard deviation (with arrays):", std_a)
-        test("- Standard deviation (with series):", std_s)
+        logging.info("- Standard deviation (with arrays):", std_a)
+        logging.info("- Standard deviation (with series):", std_s)
         self.assert_equals(std_a, std_s)
 
         entropy_a, entropy_s = dist_a.entropy(), dist_s.entropy()
-        test("- Entropy (with arrays):", entropy_a)
-        test("- Entropy (with series):", entropy_s)
+        logging.info("- Entropy (with arrays):", entropy_a)
+        logging.info("- Entropy (with series):", entropy_s)
         self.assert_equals(entropy_a, entropy_s)
 
         pdf_a, pdf_s = dist_a.pdf(1), dist_s.pdf(1)
-        test("- PDF (with arrays):", pdf_a)
-        test("- PDF (with series):", pdf_s)
+        logging.info("- PDF (with arrays):", pdf_a)
+        logging.info("- PDF (with series):", pdf_s)
         self.assert_equals(pdf_a, pdf_s)
 
         cdf_a, cdf_s = dist_a.cdf(0), dist_s.cdf(0)
-        test("- CDF (with arrays):", cdf_a)
-        test("- CDF (with series):", cdf_s)
+        logging.info("- CDF (with arrays):", cdf_a)
+        logging.info("- CDF (with series):", cdf_s)
         self.assert_equals(cdf_a, cdf_s)
 
         inv_cdf_a, inv_cdf_s = dist_a.inv_cdf(0.5), dist_s.inv_cdf(0.5)
-        test("- Inverse CDF (with arrays):", inv_cdf_a)
-        test("- Inverse CDF (with series):", inv_cdf_s)
+        logging.info("- Inverse CDF (with arrays):", inv_cdf_a)
+        logging.info("- Inverse CDF (with series):", inv_cdf_s)
         self.assert_equals(inv_cdf_a, inv_cdf_s)
 
         margin_a, margin_s = dist_a.margin(), dist_s.margin()
-        test("- Margin (with arrays):", margin_a)
-        test("- Margin (with series):", margin_s)
+        logging.info("- Margin (with arrays):", margin_a)
+        logging.info("- Margin (with series):", margin_s)
         self.assert_equals(margin_a, margin_s)
 
         interval_a, interval_s = dist_a.interval(), dist_s.interval()
-        test("- Prediction interval (with arrays):", interval_a)
-        test("- Prediction interval (with series):", interval_s)
+        logging.info("- Prediction interval (with arrays):", interval_a)
+        logging.info("- Prediction interval (with series):", interval_s)
         self.assert_equals(interval_a, interval_s)
 
         interval_a, interval_s = dist_a.interval(is_mean=True), dist_s.interval(is_mean=True)
-        test("- Mean confidence interval (with arrays):", interval_a)
-        test("- Mean confidence interval (with series):", interval_s)
+        logging.info("- Mean confidence interval (with arrays):", interval_a)
+        logging.info("- Mean confidence interval (with series):", interval_s)
         self.assert_equals(interval_a, interval_s)
 
         interval_a, interval_s = dist_a.interval(is_std=True), dist_s.interval(is_std=True)
-        test("- Standard deviation confidence interval (with arrays):", interval_a)
-        test("- Standard deviation confidence interval (with series):", interval_s)
+        logging.info("- Standard deviation confidence interval (with arrays):", interval_a)
+        logging.info("- Standard deviation confidence interval (with series):", interval_s)
         self.assert_equals(interval_a, interval_s)
 
 

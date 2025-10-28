@@ -20,7 +20,7 @@ from math import ceil
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
-from nutil.config import CONFIG
+from nutil.config import *
 from nutil.enums import *
 from nutil.scalar.number import *
 from nutil.scalar.string import *
@@ -60,7 +60,7 @@ DEFAULT_FULL_MONTH_FORMAT = "%B"
 ##############################
 
 # The default aggregation
-DEFAULT_AGGREGATION = None
+DEFAULT_AGGREGATION = Aggregation.IDENTITY
 
 # The default frequency
 DEFAULT_FREQUENCY = Frequency.MONTHS
@@ -163,34 +163,6 @@ FREQUENCY_TO_DAY_COUNT = {
 }
 
 DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
-
-
-## DATE PROPERTIES #######################################################################
-
-__DATE_PROPERTIES___________________________________________ = ""
-
-# The date format
-DATE_FORMAT = CONFIG.get("date", "dateFormat")
-
-# The time format
-TIME_FORMAT = CONFIG.get("date", "timeFormat")
-
-# The date-time format
-DATE_TIME_FORMAT = DATE_FORMAT + " " + TIME_FORMAT
-
-##############################
-
-# The aggregation
-AGGREGATION = Aggregation(CONFIG.get("date", "aggregation"))
-
-# The frequency
-FREQUENCY = Frequency(CONFIG.get("date", "frequency"))
-
-# The period
-PERIOD = CONFIG.get("date", "period")
-
-# The position
-POSITION = Position(CONFIG.get("date", "position"))
 
 
 ## DATE ACCESSORS ########################################################################
@@ -873,6 +845,8 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 
 
 def get_frequency(freq=FREQUENCY, pos=POSITION):
+    if is_null(freq):
+        return None
     f = freq.value
     if pos is Position.START:
         if freq is Frequency.DAYS:
@@ -950,6 +924,23 @@ def get_period_years(d=get_datetime(), period=PERIOD):
 
 __DATE_CONVERTERS___________________________________________ = ""
 
+def parse_date(s):
+    return parser.parse(s).date()
+
+
+def parse_datetime(s):
+    return parser.parse(s)
+
+
+def parse_time(s):
+    return parser.parse(s)
+
+
+def parse_stamp(s):
+    return datetime.fromtimestamp(s)
+
+
+############################################################
 
 def to_date(x, format=DATE_FORMAT):
     if is_null(x):
@@ -1117,7 +1108,7 @@ def create_stamp(y, m, d):
 
 
 def create_date_range(
-    date_from, date_to, periods=None, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION
+    date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION
 ):
     if not is_null(periods):
         return to_date(pd.date_range(date_from, date_to, periods=periods))
@@ -1133,30 +1124,30 @@ def create_date_range(
 
 
 def create_date_sequence(
-    date_from, date_to, periods=None, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION
+    date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION
 ):
-    date_range = create_date_range(date_from, date_to, periods=periods, agg=agg, freq=freq, pos=pos)
+    date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, pos=pos)
     return to_date(date_range)
 
 
 def create_datetime_sequence(
-    date_from, date_to, periods=None, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION
+    date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION
 ):
-    date_range = create_date_range(date_from, date_to, periods=periods, agg=agg, freq=freq, pos=pos)
+    date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, pos=pos)
     return to_datetime(date_range)
 
 
 def create_timestamp_sequence(
-    date_from, date_to, periods=None, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION
+    date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION
 ):
-    date_range = create_date_range(date_from, date_to, periods=periods, agg=agg, freq=freq, pos=pos)
+    date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, pos=pos)
     return to_timestamp(date_range)
 
 
 def create_stamp_sequence(
-    date_from, date_to, periods=None, agg=AGGREGATION, freq=FREQUENCY, pos=POSITION
+    date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION
 ):
-    date_range = create_date_range(date_from, date_to, periods=periods, agg=agg, freq=freq, pos=pos)
+    date_range = create_date_range(date_from, date_to, periods=periods, freq=freq, pos=pos)
     return to_stamp(date_range)
 
 
@@ -1285,24 +1276,6 @@ def find_nearest_period(length, freq=FREQUENCY):
     period_freq = DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
     period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
     return to_period(period_length, period_freq)
-
-##############################
-
-
-def parse_date(s):
-    return parser.parse(s).date()
-
-
-def parse_datetime(s):
-    return parser.parse(s)
-
-
-def parse_time(s):
-    return parser.parse(s)
-
-
-def parse_stamp(s):
-    return datetime.fromtimestamp(s)
 
 
 ##############################

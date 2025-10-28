@@ -11,13 +11,16 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-import pytest
+import logging
 import timeit
-from nutil.common import *
 
-## TEST CONSTANTS ########################################################################
+import pytest
 
-__TEST_CONSTANTS____________________________________________ = ""
+from nutil.struct.util import *
+
+## COMMON TEST CONSTANTS #################################################################
+
+__COMMON_TEST_CONSTANTS_____________________________________ = ""
 
 PRECISION = 14  # decimals
 SIZE = 100
@@ -25,30 +28,9 @@ ROW_SIZE = 10000
 
 TEST_COUNT = 10
 
+## COMMON TEST PROCESSORS ################################################################
 
-## FIXTURES ##############################################################################
-
-
-@pytest.fixture(autouse=True)
-def seed_rng():
-    """Seeds the random number generators for deterministic tests."""
-    random.seed(0)
-    np.random.seed(0)
-
-
-@pytest.fixture
-def precision():
-    """Provides the default numeric precision."""
-    return PRECISION
-
-
-@pytest.fixture
-def test_count():
-    """Provides the default iteration count for timing tests."""
-    return TEST_COUNT
-
-
-## HELPERS ###############################################################################
+__COMMON_TEST_PROCESSORS____________________________________ = ""
 
 
 def assert_equals(first, second, precision=PRECISION, assert_order=False):
@@ -92,35 +74,13 @@ def assert_equals(first, second, precision=PRECISION, assert_order=False):
             assert first == second
 
 
-def _timed(stmt, number):
-    """Computes time for a callable executed a specified number of times."""
-    return timeit.timeit(stmt=stmt, number=number)
-
-
-def get_items_timed(c, test_count):
-    """Gets items with inclusion/exclusion and logs timing via nutil.test."""
-    t = _timed(
-        lambda: get_items(c, inclusion=range(len(c)), exclusion=range(int(len(c) / 2))), test_count
-    )
-    test(len(c), "items retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
-
-
-def get_rows_timed(c, test_count):
-    """Gets rows and logs timing via nutil.test."""
-    t = _timed(lambda: get_rows(c), test_count)
-    test(count_rows(c), "rows retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
-
-
-def get_cols_timed(c, test_count):
-    """Gets columns and logs timing via nutil.test."""
-    t = _timed(lambda: get_cols(c), test_count)
-    test(count_cols(c), "cols retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
+##############################
 
 
 def apply_timed(c, f, test_count, *args, axis=None, inplace=False, **kwargs):
     """Applies a function and logs timing via nutil.test."""
-    t = _timed(lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), test_count)
-    test(
+    t = timed(lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), test_count)
+    logging.info(
         "Applied",
         f.__name__,
         "on",
@@ -133,38 +93,36 @@ def apply_timed(c, f, test_count, *args, axis=None, inplace=False, **kwargs):
     )  # prints/logs
 
 
-def tally_timed(c, boundaries, test_count):
-    """Tallies elements and logs timing via nutil.test."""
-    t = _timed(lambda: tally(c, boundaries), test_count)
-    test(
-        count(c, axis=None), "elements tallied", test_count, "times in", round(t), "[s]"
+##############################
+
+
+def get_items_timed(c, test_count):
+    """Gets items with inclusion/exclusion and logs timing via nutil.test."""
+    t = timed(
+        lambda: get_items(c, inclusion=range(len(c)), exclusion=range(int(len(c) / 2))), test_count
+    )
+    logging.info(len(c), "items retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
+
+
+def get_rows_timed(c, test_count):
+    """Gets rows and logs timing via nutil.test."""
+    t = timed(lambda: get_rows(c), test_count)
+    logging.info(
+        count_rows(c), "rows retrieved", test_count, "times in", round(t), "[s]"
     )  # prints/logs
 
 
-def normalize_timed(vector, test_count):
-    """Normalizes a vector and logs timing via nutil.test."""
-    t = _timed(lambda: normalize(vector), test_count)
-    test(
-        "Normalization of a",
-        str(ROW_SIZE) + "-dimensional vector computed",
-        test_count,
-        "times in",
-        round(t),
-        "[s]",
+def get_cols_timed(c, test_count):
+    """Gets columns and logs timing via nutil.test."""
+    t = timed(lambda: get_cols(c), test_count)
+    logging.info(
+        count_cols(c), "cols retrieved", test_count, "times in", round(t), "[s]"
     )  # prints/logs
 
 
-def min_distance_timed(vector, vectors, test_count):
-    """Computes minimum distance and logs timing via nutil.test."""
-    t = _timed(lambda: min_distance(vector, vectors), test_count)
-    test(
-        "Minimum distance of a",
-        str(ROW_SIZE) + "-dimensional vector to",
-        SIZE,
-        "",
-        str(ROW_SIZE) + "-dimensional vectors computed",
-        test_count,
-        "times in",
-        round(t),
-        "[s]",
-    )  # prints/logs
+##############################
+
+
+def timed(stmt, number):
+    """Computes time for a callable executed a specified number of times."""
+    return timeit.timeit(stmt=stmt, number=number)

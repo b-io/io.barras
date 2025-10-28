@@ -11,49 +11,20 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nmath.descriptive import (
-    any_values,
-    atan2,
-    collapse,
-    create_figure,
-    DEFAULT_COLORS,
-    DEFAULT_CONFIDENCE_LEVEL,
-    DEFAULT_HEIGHT,
-    DEFAULT_LINE_WIDTH,
-    DEFAULT_MARKER_SIZE,
-    DEFAULT_WIDTH,
-    draw,
-    eigh,
-    format_rgb_color,
-    get_col,
-    get_complementary_color,
-    get_index,
-    get_iterator,
-    get_names,
-    is_frame,
-    is_null,
-    normalize,
-    plot_cumulative_distribution,
-    plot_ellipse,
-    RAD_TO_DEG,
-    sort,
-    sqrt,
-    to_array,
-    to_list,
-    to_set,
-    VERBOSE,
-    web,
-)
 from sklearn import mixture
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
+from ngui import charts, web
+from ngui.common import *
+from nmath.common import *
+from nmath.stats.descriptive import plot_cumulative_distribution
+from nutil.struct.collection.registry.ordered_set import to_ordered_set
+
 ## CLUSTERING CONSTANTS ##################################################################
 
 __CLUSTERING_CONSTANTS______________________________________ = ""
-
-from nutil.struct.collection.registry.ordered_set import to_ordered_set
 
 # The default maximum number of iterations
 DEFAULT_MAX_ITERATION_COUNT = 1000
@@ -226,7 +197,7 @@ def plot_clusters(
     if is_null(fig):
         if is_frame(points):
             names = get_names(points)
-            fig = create_figure(
+            fig = charts.create_figure(
                 title=title,
                 title_x=names[0],
                 title_y=names[1],
@@ -235,7 +206,7 @@ def plot_clusters(
                 margin=margin,
             )
         else:
-            fig = create_figure(
+            fig = charts.create_figure(
                 title=title,
                 title_x=title_x,
                 title_y=title_y,
@@ -264,7 +235,7 @@ def plot_clusters(
             cluster_points = points[class_filter]
             cluster_index = index[class_filter] if not is_null(index) else None
             fig.add_trace(
-                draw(
+                charts.draw(
                     x=get_col(cluster_points),
                     y=get_col(cluster_points, 1),
                     # Chart
@@ -305,7 +276,7 @@ def plot_clusters(
             angle = atan2(eigenvector[1], eigenvector[0])
             color = format_rgb_color(get_complementary_color(cluster_color))
             name = collapse(cluster_name, " Tilted At ", round(angle * RAD_TO_DEG, 2), "°")
-            plot_ellipse(
+            charts.plot_ellipse(
                 cluster_mean,
                 a,
                 b,
@@ -452,7 +423,7 @@ def plot_detector(
     """Plots the clusters of the specified points identified by the specified detector and encircles
     them with ellipses."""
     if is_null(fig):
-        fig = create_figure(
+        fig = charts.create_figure(
             title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin
         )
     if is_null(index) and is_frame(points):
@@ -462,7 +433,7 @@ def plot_detector(
     if show_points:
         color = detector.score_samples(points)
         fig.add_trace(
-            draw(
+            charts.draw(
                 x=get_col(points),
                 y=get_col(points, 1),
                 # Chart

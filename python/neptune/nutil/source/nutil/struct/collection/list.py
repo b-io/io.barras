@@ -87,7 +87,7 @@ def flatten_list(l, depth=-1):
 
 
 def mask_list(l, mask):
-    """Returns the values of the specified `list` that are True in the specified mask."""
+    """Returns the values of the specified `list` that are `True` in the specified mask."""
     return [v for i, v in enumerate(l) if mask[i]]
 
 

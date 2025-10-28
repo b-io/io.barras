@@ -120,9 +120,7 @@ class CollectionAdapter(Generic[T], ABC):
     __adapts__: Type[Any]  # bound target type (instance-level)
     __adapter_priority__: int  # instance priority metadata
 
-    ########################################################
-    # COLLECTION
-    ########################################################
+    ### COLLECTION #########################################
 
     def size(self, x: Any) -> int:
         """
@@ -145,9 +143,7 @@ class CollectionAdapter(Generic[T], ABC):
             n += 1
         return n
 
-    ########################################################
-    # CONTAINER
-    ########################################################
+    ### CONTAINER ##########################################
 
     def contains(self, x: Any, v: T) -> bool:
         """
@@ -164,9 +160,7 @@ class CollectionAdapter(Generic[T], ABC):
             return any(e == v for e in self.to_iterable(x))
         return __contains__(v)
 
-    ########################################################
-    # ITERABLE
-    ########################################################
+    ### ITERABLE ###########################################
 
     @abstractmethod
     def to_iterable(self, x: Any) -> Iterable[T]:
@@ -180,9 +174,7 @@ class CollectionAdapter(Generic[T], ABC):
             NotImplementedError: If the adapter does not implement this method.
         """
 
-    ########################################################
-    # ACCESSORS
-    ########################################################
+    ### ACCESSORS ##########################################
 
     @classproperty
     def target_types(cls) -> Tuple[Type[Any], ...]:
@@ -210,9 +202,7 @@ class CollectionAdapter(Generic[T], ABC):
             )
         return target_type
 
-    ########################################################
-    # CONVERTERS
-    ########################################################
+    ### CONVERTERS #########################################
 
     def from_iterable(self, iterable: Iterable[T]) -> Any:
         """
@@ -300,9 +290,7 @@ class CollectionAdapter(Generic[T], ABC):
         """
         return tuple(self.to_iterable(x))
 
-    ########################################################
-    # OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT)
-    ########################################################
+    ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
     def add(self, x: Any, v: T) -> None:
         """Adds the specified element to the specified collection."""
@@ -316,9 +304,7 @@ class CollectionAdapter(Generic[T], ABC):
         """Updates the specified collection with one or more specified `Iterable`."""
         raise TypeError("Collection is immutable")
 
-    ########################################################
-    # VERIFIERS
-    ########################################################
+    ### VERIFIERS ##########################################
 
     def is_instance(self, x: Any) -> bool:
         """Returns whether `x` is an instance of this adapter’s target type."""
@@ -418,9 +404,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
     Mutating operations are optional (raise `TypeError` by default).
     """
 
-    ########################################################
-    # COLLECTION
-    ########################################################
+    ### COLLECTION #########################################
 
     @abstractmethod
     def __len__(self) -> int:
@@ -445,9 +429,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """
         return not self.is_empty()
 
-    ########################################################
-    # CONTAINER
-    ########################################################
+    ### CONTAINER ##########################################
 
     def __contains__(self, key: object) -> bool:
         """
@@ -459,18 +441,14 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         # Short-circuit linear membership by default
         return any(e == key for e in self)
 
-    ########################################################
-    # ITERABLE
-    ########################################################
+    ### ITERABLE ###########################################
 
     @abstractmethod
     def __iter__(self) -> Iterator[T]:
         """Returns an `Iterator` over the elements of this collection."""
         raise NotImplementedError
 
-    ########################################################
-    # OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT)
-    ########################################################
+    ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
     def add(self, v: T) -> None:
         """Adds the specified element to this collection."""
@@ -484,9 +462,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """Updates this collection with one or more specified `Iterable`."""
         raise TypeError("Collection is immutable")
 
-    ########################################################
-    # CONVERTERS
-    ########################################################
+    ### CONVERTERS #########################################
 
     @classmethod
     def from_iterable(cls: Type[C], iterable: Iterable[T]) -> C:
@@ -513,9 +489,6 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         # 1) Idempotent fast-path: if already an instance of this class, return as-is
         if isinstance(iterable, cls):
             return cast(C, iterable)
-
-        # Validate iterability
-        assert_iterability(iterable)
 
         # Duplicate the single-pass `Iterable` so the fallback sees the full stream
         it1, it2 = create_safe_iterables(iterable, 2)
@@ -584,9 +557,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """
         return tuple(self)
 
-    ########################################################
-    # REPRESENTATION
-    ########################################################
+    ### REPRESENTATION #####################################
 
     REPR_OPEN: str = "["  # left enclosure used by `__repr__`
     REPR_CLOSE: str = "]"  # right enclosure used by `__repr__`
@@ -599,7 +570,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
     def __repr__(self) -> str:
         """Returns the canonical string representation of this collection."""
         cls = type(self).__name__
-        it = iter(self)
+        it = create_iterator(self)
         parts = [repr(e) for e in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra element to decide whether to append an ellipsis
         if next(it, None) is not None:
@@ -609,7 +580,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
 
     def __str__(self) -> str:
         """Returns the user-friendly string representation of this collection."""
-        it = iter(self)
+        it = create_iterator(self)
         parts = [repr(e) for e in itertools.islice(it, self.REPR_MAX)]
         if next(it, None) is not None:
             parts.append(self.ELLIPSIS)
@@ -621,9 +592,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
 class AbstractCollectionAdapter(CollectionAdapter[T]):
     """An adapter that delegates to an `AbstractCollection` implementation."""
 
-    ########################################################
-    # ITERABLE
-    ########################################################
+    ### ITERABLE ###########################################
 
     def to_iterable(self, x: AbstractCollection[T]) -> Iterable[T]:
         """
@@ -634,9 +603,7 @@ class AbstractCollectionAdapter(CollectionAdapter[T]):
         """
         return x.to_iterable()
 
-    ########################################################
-    # OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT)
-    ########################################################
+    ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
     def add(self, x: AbstractCollection[T], v: T) -> None:
         """Adds the specified element to the specified collection."""
@@ -662,9 +629,7 @@ class AbstractSequentialCollection(AbstractCollection[T], Sequence[T], ABC):
     semantics. Concrete subclasses still implement `__iter__` and `__len__`.
     """
 
-    ########################################################
-    # SEQUENCE
-    ########################################################
+    ### SEQUENCE ###########################################
 
     @overload
     def __getitem__(self, index: int) -> T: ...
@@ -729,9 +694,7 @@ class AbstractSequentialCollectionAdapter(AbstractCollectionAdapter[T]):
     `__getitem__` (index/slice) and `__reversed__` provided by the specified collection.
     """
 
-    ########################################################
-    # SEQUENCE
-    ########################################################
+    ### SEQUENCE ###########################################
 
     def get_at(self, x: AbstractSequentialCollection[T], index: int) -> T:
         """
@@ -779,9 +742,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     • Mutators are optional and raise `TypeError` by default (immutable-by-default policy).
     """
 
-    ########################################################
-    # CONTAINER
-    ########################################################
+    ### CONTAINER ##########################################
 
     def __contains__(self, key: object) -> bool:
         """
@@ -793,9 +754,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         # Mapping membership is defined on keys
         return MAPPING_TYPE.__contains__(self, key)
 
-    ########################################################
-    # MAPPING
-    ########################################################
+    ### MAPPING ############################################
 
     @abstractmethod
     def __getitem__(self, key: K) -> V:
@@ -817,9 +776,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         return MAPPING_TYPE.get(self, key, default)  # uses Mapping implementation
 
-    ########################################################
-    # OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT)
-    ########################################################
+    ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
     def put(self, key: K, value: V) -> None:
         """
@@ -838,9 +795,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """Updates this mapping collection with the specified key-value pairs."""
         raise TypeError("Mapping collection is immutable")
 
-    ########################################################
-    # CONVERTERS (VALUES BY DEFAULT)
-    ########################################################
+    ### CONVERTERS (VALUES BY DEFAULT) #####################
 
     @classmethod
     def from_iterable(
@@ -926,9 +881,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         return tuple(self.values())
 
-    ########################################################
-    # REPRESENTATION
-    ########################################################
+    ### REPRESENTATION #####################################
 
     REPR_OPEN: str = "{"  # left enclosure used by `__repr__`
     REPR_CLOSE: str = "}"  # right enclosure used by `__repr__`
@@ -936,7 +889,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     def __repr__(self) -> str:
         """Returns the canonical string representation of this mapping collection."""
         cls = type(self).__name__
-        it = iter(self.items())
+        it = create_iterator(self.items())
         parts = [f"{repr(k)}: {repr(v)}" for k, v in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra item to decide whether to append an ellipsis
         if next(it, None) is not None:
@@ -946,7 +899,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
 
     def __str__(self) -> str:
         """Returns the user-friendly string representation of this mapping collection."""
-        it = iter(self.items())
+        it = create_iterator(self.items())
         parts = [f"{repr(k)}: {repr(v)}" for k, v in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra item to decide whether to append an ellipsis
         if next(it, None) is not None:
@@ -965,9 +918,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
     values, and items.
     """
 
-    ########################################################
-    # MAPPING
-    ########################################################
+    ### MAPPING ############################################
 
     @overload
     def get(self, x: AbstractMappingCollection[K, V], key: K) -> Optional[V]: ...
@@ -1015,9 +966,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         """
         return x.items()
 
-    ########################################################
-    # OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT)
-    ########################################################
+    ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
     def put(self, x: AbstractMappingCollection[K, V], key: K, value: V) -> None:
         """
@@ -1050,12 +999,12 @@ MAPPING_TYPE = ABCMapping
 MUTABLE_MAPPING_TYPE = ABCMutableMapping
 
 
-## COMMON COLLECTION REGISTRY ACCESSORS ##################################################
+## COMMON COLLECTION REGISTRY GENERATORS #################################################
 
-__COMMON_COLLECTION_REGISTRY_ACCESSORS______________________ = ""
+__COMMON_COLLECTION_REGISTRY_GENERATORS_____________________ = ""
 
 
-def get_iterator(x: Any, target_type: Union[Type[Any], str]) -> Iterator[Any]:
+def create_iterator(x: Any, *, target_type: Union[Type[Any], str] = "object") -> Iterator[Any]:
     """
     Returns an `Iterator` over `x`.
 
@@ -1074,11 +1023,6 @@ def get_iterator(x: Any, target_type: Union[Type[Any], str]) -> Iterator[Any]:
             else getattr(target_type, "__name__", str(target_type))
         )
         raise TypeError(f"'{name}' expects an 'Iterable', not '{type(x).__name__}'") from e
-
-
-## COMMON COLLECTION REGISTRY GENERATORS #################################################
-
-__COMMON_COLLECTION_REGISTRY_GENERATORS_____________________ = ""
 
 
 def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T], ...]:
@@ -1101,8 +1045,8 @@ def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T
     if n < 1:
         raise ValueError("'n' must be >= 1")
 
-    it = iter(iterable)
-    # Single-pass check by identity (if `iter(x) is x`, then `x` is its own `Iterator`)
+    it = create_iterator(iterable)
+    # Single-pass check by identity (if `create_iterator(x) is x`, then `x` is its own `Iterator`)
     if it is iterable:
         return itertools.tee(it, n)  # produces `n` independent `Iterator` (to avoid consuming `it`)
     return (iterable,) * n  # reuses the same re-`Iterable` reference `n` times
@@ -1121,7 +1065,7 @@ def is_iterator(x: Any) -> bool:
 def is_single_pass_iterator(x: Any) -> bool:
     """Returns whether `x` is a single-pass `Iterator`."""
     try:
-        return iter(x) is x
+        return create_iterator(x) is x
     except TypeError:
         return False
 
@@ -1152,11 +1096,3 @@ def is_abstract_sequential_collection(x: Any) -> bool:
 def is_abstract_mapping_collection(x: Any) -> bool:
     """Returns whether `x` is an `AbstractMappingCollection`."""
     return isinstance(x, AbstractMappingCollection)
-
-
-############################################################
-
-
-def assert_iterability(x: Any, *, target_type: Optional[Union[Type[Any], str]] = None) -> None:
-    """Verifies that `x` is iterable."""
-    _ = get_iterator(x, target_type if target_type is not None else "object")

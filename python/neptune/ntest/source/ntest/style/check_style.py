@@ -22,7 +22,7 @@
 #       severity: "warning"
 #
 # CLI
-#   • `"--config" <path>` (optional; defaults to `'STYLE.yml'`)
+#   • `"--config" <path>` (optional; defaults to `"STYLE.yml"`)
 #   • `"--root" <path>`   (optional; defaults to `"."`)
 #
 # Examples
@@ -34,24 +34,13 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import re
-import sys
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Dict, List, Pattern, Set, Tuple
+from typing import Pattern
 
 import yaml
 
-from common import (
-    dirnames_from_globs,
-    join_posix_paths,
-    merge_globs,
-    resolve_path,
-    should_exclude_dir,
-    should_exclude_file,
-    to_relative_posix_path,
-)
+from nutil.io.file import *
 
 ## CONFIG ################################################################################
 
@@ -174,7 +163,7 @@ def load_config(path: Path) -> Config:
             )
         )
 
-    prune_names = dirnames_from_globs(exclude)
+    prune_names = globs_to_dirs(exclude)
     return Config(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
 
 
@@ -221,7 +210,7 @@ def scan_file(abs_path: Path, rules: List[Rule]) -> List[Tuple[Rule, int, str]]:
 ## RUNNER ################################################################################
 
 
-def run(config_path: Path, root: Path) -> int:
+def run(root: Path, config_path: Path) -> int:
     """
     Executes the regex lint across the repository.
 
@@ -303,8 +292,8 @@ def parse_args() -> argparse.Namespace:
     args = _build_arg_parser().parse_args()
 
     # Resolve the input paths
-    args.config = resolve_path(args.config)
     args.root = resolve_path(args.root)
+    args.config = resolve_path(args.config)
 
     return args
 
@@ -313,8 +302,8 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Regex-based style checks based on 'STYLE.yml' rules.")
     # The paths
-    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
     ap.add_argument("--root", default=".", help="Root directory to scan.")
+    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
     return ap
 
 
@@ -323,4 +312,4 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 if __name__ == "__main__":
     args = parse_args()
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)
-    run(args.config, args.root)
+    run(args.root, args.config)

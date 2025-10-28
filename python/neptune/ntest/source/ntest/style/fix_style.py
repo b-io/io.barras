@@ -5,13 +5,13 @@
 
 # STYLE FIXER ##########################################################################################################
 # Goal
-#   Fix coding-style issues in-place based on the `'STYLE.yml'` rules.
+#   Fix coding-style issues in-place based on the `"STYLE.yml"` rules.
 #   • Pads or trims hash banners to the target widths **30**, **60**, **90**, or **120** based on the leading `#`.
 #     - 1 leading `#` → **120** (section)
 #     - 2 leading `#` → **90**  (subsection)
 #     - 3 leading `#` → **60**  (subsubsection)
 #     - 4+ leading `#` → **30** (subsubsubsection)
-# • Treats a line as a banner only if it starts with `#` (optionally spaced) and contains `##` somewhere. ##############
+#   • Treats a line as a banner only if it starts with `#` (optionally spaced) and contains `##` somewhere.
 #   • Trims only when the overflow past the target consists solely of spaces or `#`.
 #   • Removes a single trailing period from a one-line Python comment.
 #   • Capitalizes the first alphabetic letter in a one-line Python comment.
@@ -32,15 +32,15 @@
 #   rules:
 #     - id: "hash-banner-length"
 #       description: "Pad/trim and normalize hash banners to 30/60/90/120."
-#       pattern: "^\\s*#.*##.*$"
+# Pattern: "^\\s*#.*##.*$" #############################################################################################
 #       include: ["**/*.py"]
 #       exclude: []
 #       flags: ["MULTILINE"]
 #       params: {"allowed_lengths": [30, 60, 90, 120]}
 #
 # CLI
-#   • `"--config" <path>` (optional; defaults to `'STYLE.yml'`)
 #   • `"--root" <path>`   (optional; defaults to `"."`)
+#   • `"--config" <path>` (optional; defaults to `"STYLE.yml"`)
 #   • `"--dry-run"`       (optional; previews changes without writing)
 #
 # Examples
@@ -52,25 +52,13 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import re
-import sys
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Callable, Dict, List, Pattern, Sequence, Set, Tuple
+from typing import Callable, Pattern
 
 import yaml
 
-from common import (
-    dirnames_from_globs,
-    join_posix_paths,
-    merge_globs,
-    resolve_path,
-    should_exclude_dir,
-    should_exclude_file,
-    to_relative_posix_path,
-    write_text,
-)
+from nutil.io.file import *
 
 ## CONFIG ################################################################################
 
@@ -214,7 +202,7 @@ def load_yaml_config(path: Path) -> ConfigSpec:
             )
         )
 
-    prune_names = dirnames_from_globs(exclude)
+    prune_names = globs_to_dirs(exclude)
     return ConfigSpec(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
 
 
@@ -445,19 +433,19 @@ def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
 ## WALKER ################################################################################
 
 
-def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
+def run(root: Path, config: ConfigSpec, dry_run: bool = False) -> int:
     """
     Walks the tree, prunes the excluded directories, and applies the fixes.
 
     Args:
         root: The repository root to scan.
-        cfg: The compiled configuration to use.
+        config: The compiled configuration to use.
         dry_run: Whether to preview changes without writing.
 
     Returns:
         The exit status code `0` for success.
     """
-    fixable_rules = [r for r in cfg.rules if r.id in FIXERS]
+    fixable_rules = [r for r in config.rules if r.id in FIXERS]
     if not fixable_rules:
         logging.info("No known fixer rules found in config. Nothing to do.")
         return 0
@@ -476,10 +464,10 @@ def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
         # Prune the excluded directories in place based on the merged excludes
         kept: List[str] = []
         for dirname in dirnames:
-            if dirname in cfg.prune_names:
+            if dirname in config.prune_names:
                 continue
             rel_child = join_posix_paths(rel_dir, dirname)
-            if should_exclude_dir(rel_child, cfg.exclude):
+            if should_exclude_dir(rel_child, config.exclude):
                 continue
             kept.append(dirname)
         dirnames[:] = kept
@@ -489,7 +477,7 @@ def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
             abs_file = dir_path / name
 
             # Coarse gate: the repo-level include/exclude
-            if should_exclude_file(rel_file, cfg.exclude, cfg.include):
+            if should_exclude_file(rel_file, config.exclude, config.include):
                 continue
 
             # Coarse gate: the union of the rule-level include/exclude
@@ -581,8 +569,8 @@ def parse_args() -> argparse.Namespace:
     """
     args = _build_arg_parser().parse_args()
     # Resolve the paths
-    args.config = load_yaml_config(resolve_path(args.config))
     args.root = resolve_path(args.root)
+    args.config = load_yaml_config(resolve_path(args.config))
     return args
 
 
@@ -592,8 +580,8 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         description="Fix simple coding-style issues based on 'STYLE.yml' rules."
     )
     # The paths
-    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
     ap.add_argument("--root", default=".", help="Root directory to scan.")
+    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
     # The flags
     ap.add_argument(
         "--dry-run",

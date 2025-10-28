@@ -11,11 +11,16 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
+import logging
+
 from gensim.utils import tokenize
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
 
-from nutil.config import CONFIG
+from nutil.config import *
+from nutil.io.file import read_enumerator
+from nutil.math import distances
+from nutil.struct.util import sort, take_at
 
 ## NLP PROPERTIES ########################################################################
 
@@ -309,7 +314,7 @@ class WordEmbeddings:
             if is_null(size):
                 size = len(line) - 1
             if verbose and i % verbose_interval == 0:
-                debug(
+                logging.debug(
                     "Load the",
                     str(size) + "-dimensional pre-trained word vectors",
                     "from",

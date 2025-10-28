@@ -22,10 +22,21 @@ import validators
 from nutil.common import *
 from nutil.struct.util import set_index_name
 
-
 ## FILE CONVERTERS #######################################################################
 
 __FILE_CONVERTERS___________________________________________ = ""
+
+
+def parse_json(s: str) -> Optional[Dict[str, Any]]:
+    """Attempts to parse the response text as JSON and returns the object on success, otherwise `None`."""
+    try:
+        obj = json.loads(s)
+        return obj if isinstance(obj, dict) else None
+    except Exception:
+        return None
+
+
+############################################################
 
 
 def to_json(x: Any) -> Any:
@@ -154,12 +165,12 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwar
 
 ### SEARCHING ##############################################
 
-### GLOBS ####################
+#### GLOBS ###################
 
 
-def find_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
+def globs_to_dirs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
     """
-    Derives the directory basenames from the glob patterns that end with the `suffix`.
+    Derives the directories from the glob patterns that end with the `suffix`.
 
     Strategy:
         - Select the last non-wildcard path segment from patterns ending with the `suffix`.
@@ -169,7 +180,7 @@ def find_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[st
         suffix: The marker suffix that denotes directory patterns (defaults to `"/**"`).
 
     Returns:
-        The set of directory basenames discovered.
+        The set of directories discovered.
     """
     names: Set[str] = set()
     for glob in globs:
@@ -251,7 +262,7 @@ def should_exclude_file(rel_path: str, exclude: List[str], include: List[str]) -
     return False
 
 
-### PATHS ####################
+#### PATHS ###################
 
 
 def join_posix_paths(a: str, b: str) -> str:

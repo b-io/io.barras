@@ -72,7 +72,7 @@ def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
     """
     Returns a `tuple` `(has_item, first_or_none, iterator)` without consuming the first element.
     """
-    it1, it2 = itertools.tee(iter(iterable), 2)
+    it1, it2 = itertools.tee(create_iterator(iterable), 2)
     try:
         return True, next(it1), it2
     except StopIteration:
@@ -117,8 +117,8 @@ def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = 
 
     Notes:
         • Empty iterables are considered `True`.
-        • If `check_all` is False (default), only the first element is checked (O(1)).
-        • If `check_all` is True, all elements are checked (O(n)).
+        • If `check_all` is `False` (default), only the first element is checked (O(1)).
+        • If `check_all` is `True`, all elements are checked (O(n)).
         • Relies on `is_iterable` (which excludes `str`/`bytes`/etc.).
     """
     if not is_iterable(x):

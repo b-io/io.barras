@@ -10,6 +10,7 @@
 #   Copyright © 2013-2025 Florian Barras <https://barras.io>.
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
+
 import random
 import re
 import string
@@ -25,6 +26,22 @@ NEWLINE = "\n"
 BULLET = "•"
 COLON = ":"
 SEMICOLON = ";"
+
+# The basic Latin ranges
+LOWERCASE_LATIN: str = "a-z"
+UPPERCASE_LATIN: str = "A-Z"
+
+# The language-specific letters
+LOWERCASE_DE: str = "äöüß"
+UPPERCASE_DE: str = "ÄÖÜẞ"
+
+LOWERCASE_FR: str = "àâæçéèêëîïôœùûüÿ"
+UPPERCASE_FR: str = "ÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸ"
+
+# The combined sets
+LOWERCASE: str = f"{LOWERCASE_LATIN}{LOWERCASE_DE}{LOWERCASE_FR}"
+UPPERCASE: str = f"{UPPERCASE_LATIN}{UPPERCASE_DE}{UPPERCASE_FR}"
+LETTERS: str = f"{LOWERCASE}{UPPERCASE}"
 
 
 ## STRING CONVERTERS #####################################################################

@@ -11,6 +11,8 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
+from scipy import stats
+
 from ngui.charts import *
 from ngui.common import *
 

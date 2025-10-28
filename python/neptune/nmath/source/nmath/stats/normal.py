@@ -11,32 +11,12 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nmath.common import (
-    add,
-    apply,
-    chi2,
-    collist,
-    DEFAULT_CONFIDENCE_LEVEL,
-    Distribution,
-    E,
-    interval_probability,
-    is_null,
-    log,
-    mean,
-    multiply,
-    np,
-    par,
-    PI,
-    simplify,
-    sort,
-    sqrt,
-    stats,
-    std,
-    subtract,
-    t,
-    z,
-)
 from scipy.special import ndtr
+
+from nmath.common import *
+from nutil.math import *
+from nutil.scalar.string import *
+from nutil.struct.util import *
 
 ## NORMAL CONSTANTS ######################################################################
 

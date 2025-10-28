@@ -159,11 +159,11 @@ def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
         • If `parent` is `True`, returns the parent directory of `path`.
     """
     abs_path = get_path(path)
-    if parent is True:
+    if parent:
         return os.path.dirname(abs_path)
     if os.path.isdir(abs_path):
-        return abs_path  # directory itself
-    return os.path.dirname(abs_path)  # directory containing the file
+        return abs_path  # the directory itself
+    return os.path.dirname(abs_path)  # the directory containing the file
 
 
 def get_filename(path: str = ".") -> str:
@@ -176,28 +176,28 @@ def get_extension(path: str = ".") -> str:
     return os.path.splitext(get_path(path))[1][1:]
 
 
-def format_dir(directory: Optional[str]) -> str:
-    """Returns `directory` normalized with exactly one trailing slash; returns `""` if falsy."""
-    if not directory:
+def format_dir(dir: Optional[str]) -> str:
+    """Returns `dir` normalized with exactly one trailing slash; returns `""` if falsy."""
+    if not dir:
         return ""
-    d = directory[:-1] if directory[-1:] in ("/", "\\") else directory
+    d = dir[:-1] if dir[-1:] in ("/", "\\") else dir
     return d + "/"
 
 
-def find_path(filename: str, directory: Optional[str] = None, subdir: Optional[str] = None) -> str:
+def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
     """
-    Returns a candidate absolute path for `filename`, optionally within `directory` and `subdir`.
+    Returns a candidate absolute path for `filename`, optionally within `dir` and `subdir`.
 
-    If `directory` is `None`, searches upward from the current directory until root, stopping when
+    If `dir` is `None`, searches upward from the current directory until root, stopping when
     `filename` exists inside `subdir`. If not found, returns the last candidate path at root.
     """
-    if is_null(directory):
-        directory = get_dir(get_path())
-        while (not is_file(format_dir(directory) + format_dir(subdir) + filename)) and (not is_root(directory)):
-            directory = get_dir(directory, parent=True)
-    elif is_file(directory):
-        directory = get_dir(directory)
-    return format_dir(directory) + format_dir(subdir) + filename
+    if is_null(dir):
+        dir = get_dir(get_path())
+        while (not is_file(format_dir(dir) + format_dir(subdir) + filename)) and (not is_root(dir)):
+            dir = get_dir(dir, parent=True)
+    elif is_file(dir):
+        dir = get_dir(dir)
+    return format_dir(dir) + format_dir(subdir) + filename
 
 
 ## COMMON CONVERTERS #####################################################################

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains graphical utility functions
+#   <NAME> - contains graphical user interface utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -11,12 +11,9 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from nutil.common import *
+## GUI INIT ##############################################################################
 
-
-## GUI CONSTANTS #########################################################################
-
-__GUI_CONSTANTS_____________________________________________ = ""
+__GUI_INIT__________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.0.post137"
@@ -25,18 +22,4 @@ __version__ = "1.0.0.post137"
 
 NAME = "ngui"
 VERSION = __version__
-DESCRIPTION = "Graphical utility library"
-
-
-## GUI MAIN ##############################################################################
-
-__GUI_MAIN__________________________________________________ = ""
-
-
-def main():
-    """Starts the application."""
-    info("Start %s %s (%s)" % (NAME, VERSION, ENV))
-
-
-if __name__ == "__main__":
-    main()
+DESCRIPTION = "Graphical user interface utility library"

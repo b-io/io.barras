@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 ##########################################################################################
 # NAME
-#   <NAME> - contains utility functions
+#   <NAME> - contains scalar utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,8 +14,8 @@
 from . import common
 from .common import *
 
-## CONSTANTS #############################################################################
+## SCALAR INIT ###########################################################################
 
-__CONSTANTS_________________________________________________ = ""
+__SCALAR_INIT_______________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
