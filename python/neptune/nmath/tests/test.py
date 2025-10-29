@@ -12,12 +12,13 @@
 ##########################################################################################
 
 import logging
-
-from nmath.stats import *
+import unittest
 
 from nmath.common import *
+from nmath.stats import binomial, descriptive, lognormal, normal, poisson
 from ntest.unit.unittest import Test
-from nutil.common import *
+from nutil.math import *
+from nutil.struct.util import *
 
 ## MATH TEST CONSTANTS ###################################################################
 
@@ -55,11 +56,11 @@ class TestStats(Test):
         logging.info("Test the", binomial.BINOMIAL_NAME, "distribution")
         n = 10
         p = 0.2
-        test(par(collist(n, p)))
+        logging.info(par(collist(n, p)))
         a = binomial.generate(SIZE, n=n, p=p)
         s = to_series(a)
         dist_a, dist_s = binomial.Binomial(series=a), binomial.Binomial(series=s)
-        test(dist_a, dist_s)
+        logging.info(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.binom.interval(DEFAULT_CONFIDENCE_LEVEL, n=n, p=p)
         logging.info("- Real confidence interval:", interval)
@@ -68,11 +69,11 @@ class TestStats(Test):
         logging.info("Test the", normal.NORMAL_NAME, "distribution")
         mu = 100
         sigma = 10
-        test(par(collist(mu, sigma)))
+        logging.info(par(collist(mu, sigma)))
         a = normal.generate(SIZE, mu=mu, sigma=sigma)
         s = to_series(a)
         dist_a, dist_s = normal.Normal(series=a), normal.Normal(series=s)
-        test(dist_a, dist_s)
+        logging.info(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.norm.interval(DEFAULT_CONFIDENCE_LEVEL, loc=mu, scale=sigma)
         logging.info("- Real confidence interval:", interval)
@@ -81,11 +82,11 @@ class TestStats(Test):
         logging.info("Test the", normal.NORMAL_KDE_NAME, "distribution")
         mu = 100
         sigma = 10
-        test(par(collist(mu, sigma)))
+        logging.info(par(collist(mu, sigma)))
         a = normal.generate(SIZE, mu=mu, sigma=sigma)
         s = to_series(a)
         dist_a, dist_s = normal.NormalKDE(series=a), normal.NormalKDE(series=s)
-        test(dist_a, dist_s)
+        logging.info(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.norm.interval(DEFAULT_CONFIDENCE_LEVEL, loc=mu, scale=sigma)
         logging.info("- Real confidence interval:", interval)
@@ -94,11 +95,11 @@ class TestStats(Test):
         logging.info("Test the", lognormal.LOG_NORMAL_NAME, "distribution")
         mu = 10
         sigma = 1
-        test(par(collist(mu, sigma)))
+        logging.info(par(collist(mu, sigma)))
         a = lognormal.generate(SIZE, mu=mu, sigma=sigma)
         s = to_series(a)
         dist_a, dist_s = lognormal.LogNormal(series=a), lognormal.LogNormal(series=s)
-        test(dist_a, dist_s)
+        logging.info(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.lognorm.interval(DEFAULT_CONFIDENCE_LEVEL, s=sigma, scale=exp(mu))
         logging.info("- Real confidence interval:", interval)
@@ -106,11 +107,11 @@ class TestStats(Test):
     def test_poisson(self):
         logging.info("Test the", poisson.POISSON_NAME, "distribution")
         lam = 10
-        test(par(collist(lam)))
+        logging.info(par(collist(lam)))
         a = poisson.generate(SIZE, lam=lam)
         s = to_series(a)
         dist_a, dist_s = poisson.Poisson(series=a), poisson.Poisson(series=s)
-        test(dist_a, dist_s)
+        logging.info(dist_a, dist_s)
         self.assert_dist(dist_a, dist_s)
         interval = stats.poisson.interval(DEFAULT_CONFIDENCE_LEVEL, mu=lam)
         logging.info("- Real confidence interval:", interval)

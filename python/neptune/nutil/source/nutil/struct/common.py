@@ -77,9 +77,7 @@ def to_array(
         elif is_array(arg):
             return arg.astype(element_type, copy=False) if element_type is not None else arg
         elif is_iterable(arg):
-            return np.array(
-                tuple(arg), dtype=element_type
-            )  # materializes to avoid consuming single-pass
+            return np.array(arg, dtype=element_type)
         return np.array([arg], dtype=element_type)
     # Convert the arguments
     return np.array(args, dtype=element_type)

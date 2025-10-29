@@ -57,8 +57,8 @@ class TestCommon(Test):
         df3 = concat_cols(df, to_series(list(token), name="C"))
         df4 = unpivot(df3, "C", names=["group", "index"])
 
-        g0 = df.groupby(by=get_index(df), axis=0)
-        g1 = df.groupby(by={k: "group" for k in get_keys(df)}, axis=1)
+        g0 = df.groupby(by=get_index(df))
+        g1 = df.T.groupby({k: "group" for k in get_keys(df)})
 
         a = to_array(df)
 
