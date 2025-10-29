@@ -77,7 +77,7 @@ setup(
     url=URL,  # optional
     # The project classifiers
     #
-    # For a list of valid classifiers, see:
+    # For a `list` of valid classifiers, see:
     #   https://pypi.org/classifiers/
     classifiers=[  # optional
         # The project maturity

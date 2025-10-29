@@ -17,16 +17,11 @@ from gensim.utils import tokenize
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
 
+from nlearn.common import WORD_VECTOR_PATH
 from nutil.config import *
 from nutil.io.file import read_enumerator
 from nutil.math import distances
 from nutil.struct.util import sort, take_at
-
-## NLP PROPERTIES ########################################################################
-
-__NLP_PROPERTIES____________________________________________ = ""
-
-WORD_VECTOR_PATH = CONFIG.get("nlp", "wordVectorPath")
 
 
 ## NLP CONSTANTS #########################################################################
@@ -93,12 +88,12 @@ class WordEmbeddings:
 
     def sentence_to_word_indices(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
-        Converts the specified sentence to a list of word indices.
+        Converts the specified sentence to a `list` of word indices.
 
         :param sentence:       a sentence
         :param max_word_count: the maximum number of words in a sentence
 
-        :return: a list of word indices and the set of unknown words
+        :return: a `list` of word indices and the set of unknown words
         """
         word_indices = []
         unknown_words = set()
@@ -118,7 +113,7 @@ class WordEmbeddings:
         Converts the specified sentences of size m to an array of word indices of shape
         (`m` × `max_word_count`).
 
-        :param sentences:      a list of sentences of size m
+        :param sentences:      a `list` of sentences of size m
         :param max_word_count: the maximum number of words in a sentence
 
         :return: an array of word indices of shape (`m` × `max_word_count`) and the set of unknown words
@@ -140,12 +135,12 @@ class WordEmbeddings:
 
     def sentence_to_word_vectors(self, sentence, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
-        Converts the specified sentence to a list of word vectors.
+        Converts the specified sentence to a `list` of word vectors.
 
         :param sentence:       a sentence
         :param max_word_count: the maximum number of words in a sentence
 
-        :return: a list of word vectors and the set of unknown words
+        :return: a `list` of word vectors and the set of unknown words
         """
         # Get the word indices of the sentence
         (word_indices, unknown_words) = self.sentence_to_word_indices(
@@ -156,12 +151,12 @@ class WordEmbeddings:
 
     def sentences_to_word_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
-        Converts the specified sentences to a list of lists of word vectors.
+        Converts the specified sentences to a `list` of lists of word vectors.
 
-        :param sentences:      a list of sentences
+        :param sentences:      a `list` of sentences
         :param max_word_count: the maximum number of words in a sentence
 
-        :return: a list of lists of word vectors and the set of unknown words
+        :return: a `list` of lists of word vectors and the set of unknown words
         """
         word_vectors = []
         unknown_words = set()
@@ -194,12 +189,12 @@ class WordEmbeddings:
 
     def sentences_to_single_word_vectors(self, sentences, max_word_count=DEFAULT_MAX_WORD_COUNT):
         """
-        Converts the specified sentences to a list of single word vectors.
+        Converts the specified sentences to a `list` of single word vectors.
 
-        :param sentences:      a list of sentences
+        :param sentences:      a `list` of sentences
         :param max_word_count: the maximum number of words in a sentence
 
-        :return: a list of single word vectors and the set of unknown words
+        :return: a `list` of single word vectors and the set of unknown words
         """
         word_vectors = []
         unknown_words = set()

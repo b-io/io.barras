@@ -21,7 +21,7 @@ __LIST_PROCESSORS___________________________________________ = ""
 
 def deduplicate(items: List[str]) -> List[str]:
     """
-    Strips duplicates from a list while preserving the original order.
+    Strips duplicates from a `list` while preserving the original order.
 
     Args:
         items: The sequence of strings to deduplicate.

@@ -84,7 +84,7 @@ def test_getitem_index_type_error_message(s_abc: OrderedSet[str]) -> None:
 
 
 def test_getitem_slice_unit_step_fast_path(s_abc: OrderedSet[str]) -> None:
-    """Verifies slicing with unit step returns a list and uses the fast path."""
+    """Verifies slicing with a unit step returns a `list` and uses the fast path."""
     assert s_abc[0:0] == []
     assert s_abc[0:1] == ["a"]
     assert s_abc[0:2] == ["a", "b"]

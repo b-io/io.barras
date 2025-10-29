@@ -216,7 +216,7 @@ def plot_clusters(
             )
     if is_null(index) and is_frame(points):
         index = to_array(get_index(points))
-    colors = get_iterator(to_tuple(colors), cycle=True)
+    colors = get_iterator(to_list(colors), cycle=True)
 
     # Convert the points, classes and index to arrays
     points = to_array(points)

@@ -24,11 +24,6 @@ import plotly.tools as tls
 import ngui.web as web
 from ngui.image import *
 
-## CHART SETTINGS ########################################################################
-
-pio.renderers.default = "browser"
-
-
 ## CHART CONSTANTS #######################################################################
 
 __CHART_CONSTANTS_____________________________________________ = ""
@@ -79,7 +74,7 @@ def is_matplot(x: Any) -> bool:
 
 def is_plotly(x: Any) -> bool:
     """Returns whether `x` is a Plotly `Figure`."""
-    return isinstance(x, go._figure.Figure)
+    return isinstance(x, go.Figure)
 
 
 ##############################
@@ -103,10 +98,21 @@ def get_grid_size(n, row_count=None, col_count=None):
     return row_count, col_count
 
 
-def get_hover_template(index):
+def get_hover_template(index=None, extra_template=None):
     if not is_empty(index):
-        return collapse("<b>%{customdata}</b><br />", "<b>x:</b> %{x}<br />", "<b>y:</b> %{y}")
-    return collapse("<b>x:</b> %{x}<br />", "<b>y:</b> %{y}")
+        return collapse(
+            "<b>%{customdata}</b><br />",
+            "<b>x:</b> %{x}<br />",
+            "<b>y:</b> %{y}<br />",
+            extra_template,
+            "<extra></extra>",
+        )
+    return collapse(
+        "<b>x:</b> %{x}<br />",
+        "<b>y:</b> %{y}<br />",
+        extra_template,
+        "<extra></extra>",
+    )
 
 
 def get_label(data, transformation=None, yaxis=0, show_date=False, show_name=True):
@@ -186,7 +192,12 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
 
 
 def fig_to_image(
-    fig, format, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None
+    fig,
+    format,
+    width=DEFAULT_WIDTH,
+    height=DEFAULT_HEIGHT,
+    margin=None,
+    scale=DEFAULT_SCALE,
 ):
     """Converts the specified figure to an image buffer with the specified format."""
     update_layout_size(fig, width=width, height=height, margin=margin)
@@ -196,7 +207,7 @@ def fig_to_image(
         buffer.seek(0)
         return buffer.read()
     elif is_plotly(fig):
-        return pio.to_image(fig, format=format, scale=scale, width=width, height=height)
+        return pio.to_image(fig, format=format, width=width, height=height, scale=scale)
 
 
 def fig_to_jpg(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
@@ -692,7 +703,7 @@ def draw(
     if is_null(name):
         name = get_name(data)
     name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
-    hover_template = get_hover_template(index)
+    hover_template = get_hover_template(index=index)
     line = dict(color=color, dash=dash, width=line_width)
     marker = dict(color=color, size=marker_size)
     if mode == "lines":
@@ -848,7 +859,7 @@ def plot_multi(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_tuple(colors), cycle=True)
+    colors = get_iterator(to_list(colors), cycle=True)
 
     # Get the number of series
     series_count = count_cols(df)
@@ -906,7 +917,7 @@ def plot_series(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_tuple(colors), cycle=True)
+    colors = get_iterator(to_list(colors), cycle=True)
 
     for s in to_series(series) if is_frame(series) else [series]:
         fig.add_trace(
@@ -1257,6 +1268,7 @@ def update_layout_axes(
     show_grid_y2=True,
     show_spine=True,
     show_zero_line=True,
+    tick_angle=-45,
     tick_color="black",
     tick_direction=DEFAULT_TICK_DIRECTION,
     tick_length=DEFAULT_TICK_LENGTH,
@@ -1351,7 +1363,7 @@ def update_layout_axes(
         # - Horizontal axis
         if not is_null(title_x):
             fig.update_xaxes(
-                title=dict(font_color=label_color, font_size=label_size, text=to_string(title_x))
+                title=dict(font_color=label_color, font_size=label_size, text=to_string(title_x)),
             )
         # - Primary vertical axis
         if not is_null(title_y):
@@ -1395,6 +1407,7 @@ def update_layout_axes(
             tick0=tick_start_x,
             dtick=tick_step_x,
             tickvals=tick_values_x,
+            tickangle=tick_angle,
             tickcolor=tick_color,
             ticks=tick_direction,
             ticklen=tick_length,

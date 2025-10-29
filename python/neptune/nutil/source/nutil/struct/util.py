@@ -1065,18 +1065,18 @@ def to_struct(*args: Any) -> Struct:
     Behavior:
         • One argument:
             – If it is a `Struct`, returns it unchanged.
-            – Otherwise wraps it into a one-element list.
-        • Multiple arguments: returns a `tuple` via `to_tuple(*args)`.
+            – Otherwise wraps it into a one-element `list`.
+        • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
-        O(1) for single argument; O(n) for materializing `tuple` of n args.
+        O(1) for single argument; O(n) for materializing `list` of n args.
     """
     if len(args) == 1:
         arg = args[0]
         if is_struct(arg):
             return arg
         return [arg]
-    return to_tuple(*args)
+    return to_list(*args)
 
 
 def unstruct(s: Any) -> Any:
@@ -1141,7 +1141,7 @@ def to_collection(*args: Any) -> Collection:
     Behavior:
         • One argument:
             – If it is a collection, returns it unchanged.
-            – Otherwise wraps it into a one-element list.
+            – Otherwise wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1162,7 +1162,7 @@ def to_indexed_collection(*args: Any) -> Collection:
     Behavior:
         • One argument:
             – If it is a collection *and* `has_index(arg)`, returns it unchanged.
-            – Otherwise wraps it into a one-element list.
+            – Otherwise wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1183,7 +1183,7 @@ def to_subscriptable_collection(*args: Any) -> Any:
     Behavior:
         • One argument:
             – If it is subscriptable (`__getitem__`), returns it unchanged.
-            – Otherwise wraps it into a one-element list.
+            – Otherwise wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1306,14 +1306,14 @@ def to_series(
     element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
 ) -> Union["pd.Series", List["pd.Series"]]:
     """
-    Converts the specified collection to a `pd.Series` (or list of `Series` when `data` is a multi-column `DataFrame`).
+    Converts the specified collection to a `pd.Series` or a `list` of `Series` when `data` is a multi-column `DataFrame`.
 
     Dispatch:
         • Empty non-table input → creates empty series with `dtype=OBJECT_TYPE`.
         • `GroupBy`             → unwraps to `.obj`.
         • Scalar-like input     → broadcasts to length of `index` (if provided).
         • `DataFrame`:
-            – If `count_cols(data) > 1`, returns `get_cols(data)` (list of series).
+            – If `count_cols(data) > 1`, returns `get_cols(data)` (a `list` of series).
             – Else returns the single column as a series (or empty series with dtype).
         • `Series`              → returns a copy.
         • Other collections     → constructs `pd.Series(data=data, dtype=element_type)`.
@@ -1323,7 +1323,7 @@ def to_series(
         • If `index` is provided, sets it via `set_index(series, index)`.
 
     Complexity:
-        O(n) to materialize the series or list of series.
+        O(n) to materialize the series or a `list` of series.
     """
     if is_empty(data) and not is_table(data):
         data = []

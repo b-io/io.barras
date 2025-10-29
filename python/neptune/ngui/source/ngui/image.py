@@ -67,9 +67,9 @@ def buffer_to_html(
 
 def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
     """Converts the specified image to an image buffer."""
-    if image[1:4] == FileType.SVG.encode(DEFAULT_ENCODING):
-        return image
     if is_string(image):
+        if image[1:4] == FileType.SVG.encode(DEFAULT_ENCODING):
+            return image
         image = read_bytes(image)
     return cv2.imdecode(np.frombuffer(image, dtype=SHORT_ELEMENT_TYPE), flags=mode)
 

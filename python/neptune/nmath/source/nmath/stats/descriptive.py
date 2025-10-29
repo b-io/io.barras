@@ -61,7 +61,7 @@ def draw_histogram(
         name = get_name(series)
         name = (name + " " if not is_empty(name) else "") + "Histogram"
     name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
-    hover_template = get_hover_template(index)
+    hover_template = get_hover_template(index=index)
     marker = dict(color=color)
     return go.Histogram(
         x=series,
@@ -117,7 +117,7 @@ def plot_histogram(
             height=height,
             margin=margin,
         )
-    colors = get_iterator(to_tuple(colors), cycle=True)
+    colors = get_iterator(to_list(colors), cycle=True)
 
     for s in to_series(df) if is_frame(df) else [df]:
         color = next(colors)
@@ -449,7 +449,7 @@ def plot_cumulative_distribution(
                 height=height,
                 margin=margin,
             )
-    colors = get_iterator(to_tuple(colors), cycle=True)
+    colors = get_iterator(to_list(colors), cycle=True)
 
     # Convert `x` and classes to arrays
     x = to_array(x)

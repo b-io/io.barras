@@ -70,6 +70,7 @@ python-dotenv = "^1.1.0"      # Loading of .env configuration files
 validators = "^0.34.0"        # Lightweight data and URL checks
 
 ### Visualization ##########################################
+kaleido = "^1.1.0"            # Headless engine for Plotly static image export
 matplotlib = "^3.9.4"         # 2D plotting and figures
 plotly = "^6.3.1"             # Interactive charts
 seaborn = "^0.13.2"           # Statistical data visualizations

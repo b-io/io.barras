@@ -13,11 +13,21 @@
 
 import unittest
 
+import matplotlib
+import plotly.graph_objs as go
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
+from nlearn.common import plot_confusion_matrix
 from nlearn.nlp import *
 from ntest.unit.unittest import Test
+
+## LEARN TEST CONFIG #####################################################################
+
+__LEARN_TEST_CONFIG_________________________________________ = ""
+
+matplotlib.use("Agg")
+
 
 ## LEARN TEST CONSTANTS ##################################################################
 
@@ -107,6 +117,31 @@ class TestLearn(Test):
         fig = plot_mixture(
             data, model, title="Dirichlet Process Gaussian Mixture With Five Components"
         )
+        fig.show()
+
+    def test_common(self):
+        # Create a minimal, deterministic sample
+        y_true = np.array([0, 0, 1, 1, 2, 2])
+        y_pred = np.array([0, 1, 1, 1, 2, 0])
+
+        # Build the confusion matrix plot
+        fig = plot_confusion_matrix(
+            y_true,
+            y_pred,
+            normalize=False,
+            title="Confusion Matrix",
+        )
+
+        # Check if the heatmap trace exists
+        assert any(isinstance(trace, go.Heatmap) for trace in fig.data)
+
+        # Check if labels on the heatmap match the number of classes seen
+        labels = sorted(set(y_true) | set(y_pred))
+        heat = next(tr for tr in fig.data if isinstance(tr, go.Heatmap))
+        assert len(list(dict.fromkeys(list(heat.x)))) == len(labels)
+        assert len(list(dict.fromkeys(list(heat.y)))) == len(labels)
+
+        # Show the figure
         fig.show()
 
     def test_nlp(self):

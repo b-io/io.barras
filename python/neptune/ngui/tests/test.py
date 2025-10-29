@@ -33,17 +33,29 @@ __GUI_TEST_CLASSES__________________________________________ = ""
 class TestGui(Test):
 
     def test_chart(self):
-        rgb_buffer = rotate_anti_90(generate_image(300, 200, 3))
+        width, height, channels = 300, 200, 3
+        rgb_buffer = rotate_anti_90(generate_image(width, height, channels))
+        #  show_image(rgb_buffer)
+
         fig = px.imshow(rgb_buffer)
+        margin = 0.1
+        # Check the JPG conversion
+        jpg_image = image_to_buffer(fig_to_jpg(fig, width=width, height=height, margin=margin))
+        #  show_image(jpg_image)
+        self.assert_equals(sum(sum(sum(jpg_image))), 32352698)
+        # Check the PNG conversion
+        png_image = image_to_buffer(fig_to_png(fig, width=width, height=height, margin=margin))
+        #  show_image(png_image)
+        self.assert_equals(sum(sum(sum(png_image))), 47687972)
+        # Check the WebP conversion
+        webp_image = image_to_buffer(fig_to_webp(fig, width=width, height=height, margin=margin))
+        #  show_image(webp_image)
+        self.assert_equals(sum(sum(sum(webp_image))), 32368558)
 
-        self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_jpg(fig))))), 367126580)
-        self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_png(fig))))), 524221335)
-        self.assert_equals(sum(sum(sum(image_to_buffer(fig_to_webp(fig))))), 367221029)
-
-        self.assert_equals(fig_to_jpg_html(fig)[-42:-10], "FABRRRQAUUUUAFFFFABRRRQAUUUUAFFF")
-        self.assert_equals(fig_to_png_html(fig)[-42:-10], "AAAAAg0v8FMImIFolHcksAAAAASUVORK")
+        self.assert_equals(fig_to_jpg_html(fig)[-42:-10], "oAKKKKACiiigAooooAKKKKACiiigAooo")
+        self.assert_equals(fig_to_png_html(fig)[-42:-10], "4QAAAAEOn/AKmlt7PIJQ5AAAAAAElFTk")
         self.assert_equals(fig_to_svg_html(fig)[-42:-10], 'g-xtitle"/><g class="g-ytitle"/>')
-        self.assert_equals(fig_to_webp_html(fig)[-42:-10], "5z/7n/3H/uP/ef+8/95/5z/7n/3H/uv8")
+        self.assert_equals(fig_to_webp_html(fig)[-42:-10], "/Uf+o/9Z/6T/2n/lP/qf/Uf+o/9Z/6T/")
 
     ##########################
 
@@ -74,7 +86,7 @@ class TestGui(Test):
             format_rgb_color(map_to_color(100, normalize=True)), "rgba(0,104,55,1.0)"
         )
 
-        rgb_buffer = generate_image(300, 200, 3)
+        rgb_buffer = generate_image(30, 20, 3)
         hsv_buffer = cv2.cvtColor(rgb_buffer, cv2.COLOR_RGB2HSV)
 
         self.assert_equals(
@@ -90,26 +102,24 @@ class TestGui(Test):
 
         self.assert_equals(
             buffer_to_html(rgb_buffer, FileType.BMP, rotate=True)[-42:-10],
-            "eGSbtiKk/I3KxKINurU+/j0p12l32DAO",
+            "KGD4EM9jXS31CxQJywbVdHZpDT0bEjPC",
         )
         self.assert_equals(
             buffer_to_html(rgb_buffer, FileType.JPEG, rotate=True)[-42:-10],
-            "ucPaXnVi+ZyX8GapwfuShaXLJ8zja97W",
+            "p1pQi7R9nOdltzyxVeMp2/mlFKLlu4pJ",
         )
         self.assert_equals(
             buffer_to_html(rgb_buffer, FileType.PNG, rotate=True)[-42:-10],
-            "q21NUEUdmYyUW1RCNWQjkhAAAAAElFTk",
+            "bFgQj/MR9VQH3x/7viwQAAAABJRU5Erk",
         )
         self.assert_equals(
             buffer_to_html(rgb_buffer, FileType.TIFF, rotate=True)[-42:-10],
-            "B4CAMArTMDAO9eAwA8igMAc7UDAAEAAQ",
+            "MBAwADAAAAtgkAAAAAAAAIAAgACAABAA",
         )
 
-        self.assert_equals(evaluate_colorfulness(rgb_buffer), 112.40, precision=2)
-        self.assert_equals(evaluate_blurriness(rgb_buffer), 108379.74, precision=2)
-        self.assert_equals(evaluate_brightness(rgb_buffer), 190.56, precision=2)
-
-        # Show_image(rgb_buffer)
+        self.assert_equals(evaluate_colorfulness(rgb_buffer), 113.85, precision=2)
+        self.assert_equals(evaluate_blurriness(rgb_buffer), 113665.04, precision=2)
+        self.assert_equals(evaluate_brightness(rgb_buffer), 189.17, precision=2)
 
     ########################################################
 

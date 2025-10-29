@@ -45,21 +45,21 @@ CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
 DEFAULT_CONFIG = {
     "common": {
         # Assert
-        "assert": None,
+        "assert": True,
         # Environment (local, dev, test, model, prod)
-        "env": None,
+        "env": "local",
     },
     "console": {
         # Severity level (0: FAIL, 1: ERROR, 2: WARN, 3: RESULT, 4: INFO, 5: TEST, 6: DEBUG, 7: TRACE)
-        "severityLevel": None,
+        "severityLevel": 5,
         # Verbose
-        "verbose": None,
+        "verbose": True,
     },
     "date": {
         # Date format
-        "dateFormat": None,
+        "dateFormat": "%%Y-%%m-%%d",
         # Time format
-        "timeFormat": None,
+        "timeFormat": "%%H:%%M:%%S.%%f",
     },
     "series": {
         # Aggregation (`count`, `identity`, `min`, `max`, `mean`, `median`, `std`, `var`, `sum`)
@@ -395,9 +395,9 @@ def _redact(option: str, value: str, *, patterns: Iterable[str]) -> str:
 
 def config_to_ini(config: ConfigParser) -> str:
     """Serializes a `ConfigParser` to an INI string (no comments)."""
-    buf = StringIO()
-    config.write(buf, space_around_delimiters=False)
-    return buf.getvalue().rstrip()
+    buffer = StringIO()
+    config.write(buffer, space_around_delimiters=False)
+    return buffer.getvalue().rstrip()
 
 
 def config_to_json(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, indent: int = 2) -> str:

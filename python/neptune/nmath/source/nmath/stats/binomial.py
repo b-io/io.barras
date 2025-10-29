@@ -13,6 +13,8 @@
 
 from nmath.common import *
 from nmath.stats import normal
+from nutil.math import *
+from nutil.scalar.string import *
 
 ## BINOMIAL CONSTANTS ####################################################################
 

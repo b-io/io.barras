@@ -492,7 +492,7 @@ class FileType(StrEnum):
         • Presentations: `ODP`, `PPT`, `PPTX`
         • Data Storage: `DB`, `H5`, `PKL`, `SQLITE`
         • Web: `CSS`, `HTML`, `HTM`, `JS`
-        • Images: `BMP`, `GIF`, `JPEG`, `JPG`, `PNG`, `SVG`, `WEBP`
+        • Images: `BMP`, `GIF`, `JPEG`, `JPG`, `PNG`, `SVG`, `TIFF`, `TIF`, `WEBP`
         • Audio: `FLAC`, `M4A`, `MP3`, `OGG`, `WAV`
         • Video: `AVI`, `MKV`, `MOV`, `MP4`, `WMV`
         • Code: `CPP`, `H`, `JAVA`, `PY`, `SQL`, `TS`
@@ -545,9 +545,11 @@ class FileType(StrEnum):
         `BMP`: Bitmap Image (.bmp) - Uncompressed image format
         `GIF`: Graphics Interchange Format (.gif) - Animated image format
         `JPEG`: JPEG Image (.jpeg) - Compressed image format
-        `JPG`: JPEG Image (.jpg) - Compressed image format
+        `JPG`: JPEG Image (.jpg) - Short extension of `JPEG`
         `PNG`: Portable Network Graphics (.png) - Lossless image format
         `SVG`: Scalable Vector Graphics (.svg) - Vector image format
+        `TIFF`: Tagged Image File Format (.tiff) - Lossless, multi-page image format
+        `TIF`: Tagged Image File Format (.tif) - Short extension of `TIFF`
         `WEBP`: WebP Image (.webp) - Modern web image format
 
         # Audio
@@ -640,6 +642,8 @@ class FileType(StrEnum):
     JPG = "jpg"
     PNG = "png"
     SVG = "svg"
+    TIFF = "tiff"
+    TIF  = "tif"
     WEBP = "webp"
 
     # Audio
@@ -1073,7 +1077,6 @@ class Aggregation(StrEnum):
     STD = "std"
     VAR = "var"
     SUM = "sum"
-    VALUES = "values"  # returns a list of raw values per period (one row per group)
 
 
 class Frequency(StrEnum):

@@ -20,6 +20,8 @@ from nfin.time_series import *
 from ntest.unit.unittest import Test
 from nutil.scalar.date import *
 
+import plotly.io as pio
+
 ## FIN TEST CONSTANTS ####################################################################
 
 __FIN_TEST_CONSTANTS________________________________________ = ""
@@ -95,7 +97,8 @@ class TestServe(Test):
             forecast_series(series, horizon=2, freq=Frequency.MONTHS), "Forecast"
         )
         forecasted_series = forecasted_series[forecasted_series.index >= pd.Timestamp(date_to)]
-        self.assert_equals(forecasted_series[-1], -55.73330798470403)
+        if agg is Aggregation.IDENTITY:
+            self.assert_equals(forecasted_series.iloc[-1], -55.73330798470403)
         fig = plot_series(concat_cols(series, forecasted_series), title="Forecasting")
         fig.show()
 

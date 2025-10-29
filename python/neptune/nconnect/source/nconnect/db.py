@@ -284,7 +284,7 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
     not the specified filtering columns.
     """
     if test:
-        # Test the existence of the columns in the table
+        # Check the existence of the columns in the table
         for col in df:
             if col not in table_cols:
                 warn("The column", quote(col), "does not exist in the table", quote(table))
@@ -305,7 +305,7 @@ def get_filtering_cols(
         if use_only_primary:
             filtering_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
             if test:
-                # Test the existence of the filtering columns in the dataframe
+                # Check the existence of the filtering columns in the dataframe
                 for col in filtering_cols:
                     if col not in df:
                         warn("The filtering column", quote(col), "does not exist in the dataframe")
@@ -313,7 +313,7 @@ def get_filtering_cols(
             filtering_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = include_list(df, filtering_cols)
     if test and is_empty(filtering_cols):
-        # Test the existence of any filtering column in the dataframe
+        # Check the existence of any filtering column in the dataframe
         warn("There is no filtering column")
     return filtering_cols
 
@@ -694,7 +694,7 @@ def delete_table(
     )
 
     if test:
-        # Test the existence of the columns in the table
+        # Check the existence of the columns in the table
         get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
     debug_query("delete", len(df), table, verbose=verbose)
@@ -768,7 +768,7 @@ def bulk_delete_table(
     )
 
     if test:
-        # Test the existence of the columns in the table
+        # Check the existence of the columns in the table
         get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
     # Chunk the bulk query

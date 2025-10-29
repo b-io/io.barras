@@ -513,13 +513,11 @@ def aggregate_series(
         sort: Whether to sort the index before grouping.
         agg: The aggregation to apply (e.g., `Aggregation.MEAN`, `Aggregation.SUM`).
              Use `Aggregation.IDENTITY` to skip the aggregation.
-             Use `Aggregation.VALUES` to return lists of raw values per period (no `pd.MultiIndex`).
         freq: The grouping frequency (e.g., `"D"`, `"W"`, `"M"`), or a `pd.DateOffset`.
         pos: The anchoring policy when ungrouping (e.g., `Position.START` or `Position.END`).
 
     Returns:
         The aggregated `pd.Series`. For `IDENTITY`, returns the (optionally cleaned/sorted) input.
-        For `VALUES`, returns a period-indexed series of `list` values.
 
     Raises:
         ValueError: If `agg` is `None` or unsupported.

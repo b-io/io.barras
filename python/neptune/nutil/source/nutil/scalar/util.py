@@ -13,10 +13,9 @@
 
 from nutil.scalar.boolean import to_boolean
 from nutil.scalar.bytes import to_bytes
-from nutil.scalar.common import *
 from nutil.scalar.date import to_date, to_datetime, to_timestamp
 from nutil.scalar.number import to_float, to_int
-from nutil.scalar.string import to_string
+from nutil.scalar.string import *
 
 ## SCALAR CONVERTERS #####################################################################
 
