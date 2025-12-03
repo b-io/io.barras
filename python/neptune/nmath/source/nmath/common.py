@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   <NAME> - contains common mathematical utility functions
+#   <NAME> - contains common mathematical utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).

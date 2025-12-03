@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   <NAME> - contains common utility functions
+#   <NAME> - contains common utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -14,13 +18,462 @@
 import csv
 import fnmatch
 import json
+import shutil
 from pathlib import Path
+from tempfile import NamedTemporaryFile
+from typing import IO
 from urllib.request import urlopen
 
 import validators
 
 from nutil.common import *
+from nutil.struct.collection.list import deduplicate
 from nutil.struct.util import set_index_name
+
+
+## WRITERS ###############################################################################
+
+
+def flush(path: Union[str, Path]) -> None:
+    """Flushes and `fsync`s the file at the given `path` (best-effort)."""
+    with open(path, "rb+") as fh:
+        flush_handler(fh)
+
+
+def flush_handler(file_handler: IO[Any]) -> None:
+    """Flushes and `fsync`s the already opened file handle (best-effort, ignores errors)."""
+    try:
+        file_handler.flush()
+        os.fsync(file_handler.fileno())
+    except Exception:
+        # Treat the `fsync` failures as non-fatal
+        pass
+
+
+### CSV ####################################################
+
+
+def write_csv(
+    path: Union[str, Path],
+    rows: Iterable[Row],
+    *,
+    # Backup options
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
+    # File options
+    encoding: str = DEFAULT_ENCODING,
+    mode: Optional[int] = None,
+    overwrite: bool = True,
+    # Writing options
+    delimiter=",",
+    doublequote=True,
+    escapechar=None,
+    header: Optional[Row] = None,
+    lineterminator="\n",
+    quotechar='"',
+    quoting=csv.QUOTE_MINIMAL,
+    skipinitialspace=False,
+) -> None:
+    """
+    Writes rows to a CSV file at `path` atomically using a temporary file and `os.replace`.
+
+    The file is first written to a temporary file in the same directory and then swapped into
+    place. This avoids partially written files and makes the operation crash-safe.
+
+    Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
+    **before** it is replaced. By default, the backup is created next to `path` as
+    `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
+
+    Each element of `rows` can be:
+        * a dataclass instance → fields are written in definition order,
+        * a `Mapping`         → `row.values()` are written in insertion order,
+        * any other iterable  → written as-is.
+
+    The optional `header` accepts the same shapes:
+        * dataclass instance → field names in definition order,
+        * `Mapping`          → keys of the mapping,
+        * other iterable     → used directly as the header row.
+
+    Args:
+        path: Destination file path.
+        rows: The rows to write; each row is either an iterable of fields or a `Mapping`.
+
+        backup: If `True`, creates a timestamped backup of the current file (if it exists)
+            before replacing it.
+        backup_dir: Directory in which to store backups. Defaults to `path.parent`.
+
+        encoding: Text encoding for the output file (default: `DEFAULT_ENCODING`, e.g. `"utf-8"`).
+        mode: Optional file-permission bits (e.g., `0o644`) applied to the temporary file
+            before it is swapped into place.
+        overwrite: If `False` and `path` already exists, raises `FileExistsError` instead of
+            overwriting the file.
+
+        delimiter: Field delimiter passed to `csv.writer`.
+        doublequote: Whether to escape quotes by doubling them (see `csv.writer`).
+        escapechar: Escape character for `csv.writer`, or `None` to disable.
+        header: Optional header row to write before `rows`. Interpreted as described
+            above via `get_row_keys`.
+        lineterminator: Line terminator passed to `csv.writer` (default: `"\n"`).
+        quotechar: Quote character for `csv.writer`.
+        quoting: Quoting strategy (e.g., `csv.QUOTE_MINIMAL`).
+        skipinitialspace: Whether to skip whitespace immediately following the delimiter.
+
+    Raises:
+        FileExistsError: If `overwrite` is `False` and `path` already exists.
+        OSError: If directory creation, writing, permission changes, backup move/copy, or the
+            atomic replacement fails.
+        ValueError: If `csv.writer` fails to serialize a row.
+        TypeError: If a row or field has an unsupported type for `csv.writer`.
+    """
+    path: Path = Path(path)
+    if path.exists() and not overwrite:
+        raise FileExistsError(f"File already exists: '{path}'")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = NamedTemporaryFile(
+        "w", delete=False, encoding=encoding, newline="", dir=path.parent
+    )
+    temp_filename = temp_file.name
+    backup_path: Optional[Path] = None
+    backup_moved: bool = False
+
+    try:
+        # Write to the temp file
+        with temp_file as tfh:
+            writer = csv.writer(
+                tfh,
+                delimiter=delimiter,
+                doublequote=doublequote,
+                escapechar=escapechar,
+                lineterminator=lineterminator,
+                quotechar=quotechar,
+                quoting=quoting,
+                skipinitialspace=skipinitialspace,
+            )
+            if header:
+                writer.writerow(get_row_keys(header))
+            for row in rows:
+                writer.writerow(get_row_values(row))
+            flush_handler(tfh)
+
+        # Prepare an optional backup of the existing file
+        if backup and path.exists():
+            bd = backup_dir if backup_dir is not None else path.parent
+            bd.mkdir(parents=True, exist_ok=True)
+
+            ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+            candidate = (
+                bd / f"{path.name}.{ts}.bak"
+            )  # e.g., `"cache.json.20201230-153045.bak"` (or `"… .2.bak"` if needed)
+            i = 1
+            while candidate.exists():
+                i += 1
+                candidate = bd / f"{path.name}.{ts}.{i}.bak"
+            backup_path = candidate
+
+            # Try to atomically move the current file into the backup; if cross-FS, fall back to a copy
+            try:
+                os.replace(path, backup_path)
+                backup_moved = True
+            except OSError:
+                shutil.copy2(path, backup_path)
+                # Keep the original in place; it will be replaced by the new file below
+
+        # Atomically replace the target with the new temp file
+        try:
+            if mode is not None:
+                os.chmod(temp_filename, mode)
+            os.replace(temp_filename, path)
+        except Exception as e:
+            # Best-effort rollback if we moved the original away
+            if backup_moved and backup_path and backup_path.exists():
+                try:
+                    os.replace(backup_path, path)
+                except Exception:
+                    pass
+            raise e
+
+    finally:
+        # Best-effort cleanup of the temp file (if any)
+        try:
+            os.unlink(temp_filename)
+        except Exception:
+            pass
+
+
+### JSON ###################################################
+
+
+def parse_json(s: str) -> Optional[Dict[str, Any]]:
+    """Attempts to parse the response text as JSON and returns the object on success, otherwise `None`."""
+    try:
+        obj = json.loads(s)
+        return obj if isinstance(obj, dict) else None
+    except Exception:
+        return None
+
+
+def write_json(
+    path: Union[str, Path],
+    data: Any,
+    *,
+    # Backup options
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
+    # File options
+    encoding: str = DEFAULT_ENCODING,
+    mode: Optional[int] = None,
+    overwrite: bool = True,
+    # Writing options
+    compact: bool = False,
+) -> None:
+    """
+    Writes JSON to `path` atomically using a temporary file and `os.replace`.
+
+    The file is first written to a temporary file in the same directory and then swapped into
+    place. This avoids partially written files and makes the operation crash-safe.
+
+    Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
+    **before** it is replaced. By default, the backup is created next to `path` as
+    `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
+
+    JSON specifics:
+        • Normalizes containers via `to_json(data)` so that `tuple` → `list`, `set` → sorted `list`,
+          and nested containers are JSON-friendly.
+        • Uses `ensure_ascii=False` to preserve non-ASCII characters.
+        • Uses `default=str` to stringify non-JSON-native objects (e.g., `Path`, `datetime`).
+        • With `compact=True`, uses minimal separators `(",", ":")`; otherwise pretty-prints with
+          `indent=2`.
+
+    Args:
+        path: Destination file path.
+        data: Payload to serialize. Containers are normalized via `to_json`.
+
+        backup: If `True`, creates a timestamped backup of the current file (if it exists)
+            before replacing it.
+        backup_dir: Directory in which to store backups. Defaults to `path.parent`.
+
+        encoding: Text encoding for the output file (default: `DEFAULT_ENCODING`, e.g. `"utf-8"`).
+        mode: Optional file-permission bits (e.g., `0o644`) applied to the temporary file
+            before it is swapped into place.
+        overwrite: If `False` and `path` already exists, raises `FileExistsError` instead of
+            overwriting the file.
+
+        compact: If `True`, writes compact JSON; otherwise writes pretty-printed JSON.
+
+    Raises:
+        FileExistsError: If `overwrite` is `False` and `path` already exists.
+        OSError: If directory creation, writing, permission changes, backup move/copy, or the
+            atomic replacement fails.
+        ValueError: If `json.dump` fails to serialize `data`.
+        TypeError: If `json.dump` encounters unsupported types even after `to_json`.
+    """
+    path: Path = Path(path)
+    if path.exists() and not overwrite:
+        raise FileExistsError(f"File already exists: '{path}'")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = NamedTemporaryFile(
+        "w", delete=False, encoding=encoding, newline="", dir=path.parent
+    )
+    temp_filename = temp_file.name
+    backup_path: Optional[Path] = None
+    backup_moved: bool = False
+
+    try:
+        # Write to the temp file
+        with temp_file as tfh:
+            payload = to_json(data)
+            if compact:
+                json.dump(payload, tfh, ensure_ascii=False, separators=(",", ":"), default=str)
+            else:
+                json.dump(payload, tfh, ensure_ascii=False, indent=2, default=str)
+            flush_handler(tfh)
+
+        # Prepare an optional backup of the existing file
+        if backup and path.exists():
+            bd = backup_dir if backup_dir is not None else path.parent
+            bd.mkdir(parents=True, exist_ok=True)
+
+            ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+            candidate = (
+                bd / f"{path.name}.{ts}.bak"
+            )  # e.g., `"cache.json.20201230-153045.bak"` (or `"… .2.bak"` if needed)
+            i = 1
+            while candidate.exists():
+                i += 1
+                candidate = bd / f"{path.name}.{ts}.{i}.bak"
+            backup_path = candidate
+
+            # Try to atomically move the current file into the backup; if cross-FS, fall back to a copy
+            try:
+                os.replace(path, backup_path)
+                backup_moved = True
+            except OSError:
+                shutil.copy2(path, backup_path)
+                # Keep the original in place; it will be replaced by the new file below
+
+        # Atomically replace the target with the new temp file
+        try:
+            if mode is not None:
+                os.chmod(temp_filename, mode)
+            os.replace(temp_filename, path)
+        except Exception as e:
+            # Best-effort rollback if we moved the original away
+            if backup_moved and backup_path and backup_path.exists():
+                try:
+                    os.replace(backup_path, path)
+                except Exception:
+                    pass
+            raise e
+
+    finally:
+        # Best-effort cleanup of the temp file (if any)
+        try:
+            os.unlink(temp_filename)
+        except Exception:
+            pass
+
+
+def to_json(x: Any) -> Any:
+    """
+    Converts arbitrary Python containers into JSON-friendly structures.
+
+    Transforms the nested containers so they can be serialized by `json.dump` / `json.dumps`
+    without a custom encoder. Specifically:
+      * `dict` → the same structure with values converted recursively (the keys are left as is).
+      * `list` / `tuple` → a `list` with the elements converted recursively.
+      * `set` → a **sorted** `list` of the converted elements; if the natural ordering fails,
+        the elements are sorted by `repr` for deterministic output.
+
+    Notes:
+        - The dictionary keys are **not** coerced to strings. JSON requires string keys; use
+          `json.dump(…, skipkeys=True)` or normalize the keys beforehand if needed.
+
+    Args:
+        x: An arbitrary Python object or structure.
+
+    Returns:
+        A structure composed of `dict`, `list`, and JSON-native scalars suitable for
+        the standard JSON serialization.
+    """
+    if isinstance(x, dict):
+        return {k: to_json(v) for k, v in x.items()}
+    elif isinstance(x, (list, tuple)):
+        return [to_json(item) for item in x]
+    elif isinstance(x, set):
+        items = [to_json(item) for item in x]
+        try:
+            items.sort()  # try the natural ordering
+        except TypeError:
+            items.sort(key=repr)  # the deterministic fallback
+        return items
+    return x
+
+
+### TEXT ###################################################
+
+
+def write_text(
+    path: Union[str, Path],
+    text: str,
+    *,
+    # Backup options
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
+    # File options
+    encoding: str = DEFAULT_ENCODING,
+    mode: Optional[int] = None,
+    overwrite: bool = True,
+) -> None:
+    """
+    Writes plain text to `path` atomically using a temporary file and `os.replace`.
+
+    The file is first written to a temporary file in the same directory and then swapped into
+    place. This avoids partially written files and makes the operation crash-safe.
+
+    Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
+    **before** it is replaced. By default, the backup is created next to `path` as
+    `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
+
+    Args:
+        path: Destination file path.
+        text: Full file contents to write.
+
+        backup: If `True`, creates a timestamped backup of the current file (if it exists)
+            before replacing it.
+        backup_dir: Directory in which to store backups. Defaults to `path.parent`.
+
+        encoding: Text encoding for the output file (default: `DEFAULT_ENCODING`, e.g. `"utf-8"`).
+        mode: Optional file-permission bits (e.g., `0o644`) applied to the temporary file
+            before it is swapped into place.
+        overwrite: If `False` and `path` already exists, raises `FileExistsError` instead of
+            overwriting the file.
+
+    Raises:
+        FileExistsError: If `overwrite` is `False` and `path` already exists.
+        OSError: If directory creation, writing, permission changes, backup move/copy, or the
+            atomic replacement fails.
+    """
+    path: Path = Path(path)
+    if path.exists() and not overwrite:
+        raise FileExistsError(f"File already exists: '{path}'")
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_file = NamedTemporaryFile(
+        "w", delete=False, encoding=encoding, newline="", dir=path.parent
+    )
+    temp_filename = temp_file.name
+    backup_path: Optional[Path] = None
+    backup_moved: bool = False
+
+    try:
+        # Write to the temp file
+        with temp_file as tfh:
+            tfh.write(text)
+            flush_handler(tfh)
+
+        # Optional backup of the existing file
+        if backup and path.exists():
+            bd = backup_dir if backup_dir is not None else path.parent
+            bd.mkdir(parents=True, exist_ok=True)
+
+            ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+            candidate = bd / f"{path.name}.{ts}.bak"
+            i = 1
+            while candidate.exists():
+                i += 1
+                candidate = bd / f"{path.name}.{ts}.{i}.bak"
+            backup_path = candidate
+
+            # Try an atomic move; fall back to a copy across filesystems
+            try:
+                os.replace(path, backup_path)
+                backup_moved = True
+            except OSError:
+                shutil.copy2(path, backup_path)
+
+        # Atomically replace the target with the new temp file
+        try:
+            if mode is not None:
+                os.chmod(temp_filename, mode)
+            os.replace(temp_filename, path)
+        except Exception as e:
+            # Best-effort rollback if we moved the original away
+            if backup_moved and backup_path and backup_path.exists():
+                try:
+                    os.replace(backup_path, path)
+                except Exception:
+                    pass
+            raise e
+
+    finally:
+        # Best-effort cleanup of the temp file
+        try:
+            os.unlink(temp_filename)
+        except Exception:
+            pass
+
 
 ## FILE CONVERTERS #######################################################################
 
@@ -168,19 +621,19 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwar
 #### GLOBS ###################
 
 
-def globs_to_dirs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
+def dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
     """
-    Derives the directories from the glob patterns that end with the `suffix`.
+    Derives the directory basenames from the glob patterns that end with the `suffix`.
 
     Strategy:
-        - Select the last non-wildcard path segment from patterns ending with the `suffix`.
+        - Selects the last non-wildcard path segment from the patterns ending with the `suffix`.
 
     Args:
         globs: The list of repository-level glob patterns.
-        suffix: The marker suffix that denotes directory patterns (defaults to `"/**"`).
+        suffix: The marker suffix that denotes the directory patterns (defaults to `"/**"`).
 
     Returns:
-        The set of directories discovered.
+        The set of directory basenames discovered.
     """
     names: Set[str] = set()
     for glob in globs:
@@ -194,10 +647,10 @@ def globs_to_dirs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
 
 def match_any_globs(rel_path: str, globs: Iterable[str]) -> bool:
     """
-    Matches a POSIX relative path against any glob pattern.
+    Matches a POSIX relative path against any of the glob patterns.
 
     Args:
-        rel_path: The relative path (POSIX separators).
+        rel_path: The relative path (uses the POSIX separators).
         globs: The iterable of glob patterns.
 
     Returns:
@@ -212,38 +665,18 @@ def match_any_globs(rel_path: str, globs: Iterable[str]) -> bool:
     return False
 
 
-def merge_globs(primary: List[str], extra: List[str]) -> List[str]:
-    """
-    Merges two glob lists, preserving order and removing duplicates.
-
-    Args:
-        primary: The primary list of patterns.
-        extra: The additional list of patterns.
-
-    Returns:
-        The merged list of unique patterns in first-seen order.
-    """
-    seen: Set[str] = set()
-    merged: List[str] = []
-    for g in [*primary, *extra]:
-        if g not in seen:
-            merged.append(g)
-            seen.add(g)
-    return merged
-
-
-def should_exclude_dir(rel_dir: str, exclude: List[str]) -> bool:
+def exclude_dir(rel_dir: str, exclude: List[str]) -> bool:
     """
     Decides whether a directory should be pruned based on the exclude globs.
 
     Notes:
-        A trailing slash is appended to make `"**/dir/**"` style patterns work reliably.
+        The trailing slash is appended to make `"**/dir/**"`-style patterns work reliably.
     """
     rel_path = rel_dir.rstrip("/") + "/"
     return match_any_globs(rel_path, exclude)
 
 
-def should_exclude_file(rel_path: str, exclude: List[str], include: List[str]) -> bool:
+def exclude_file(rel_path: str, exclude: List[str], include: List[str]) -> bool:
     """
     Decides whether a file should be excluded based on the include/exclude globs.
 

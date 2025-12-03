@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   <NAME> - contains common utility functions
+#   <NAME> - contains common utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -19,22 +23,27 @@ from nutil.common import *
 __LIST_PROCESSORS___________________________________________ = ""
 
 
-def deduplicate(items: List[str]) -> List[str]:
+def deduplicate(items: List[Any]) -> List[Any]:
     """
-    Strips duplicates from a `list` while preserving the original order.
+    Removes the duplicate `items` while preserving their original order.
 
     Args:
-        items: The sequence of strings to deduplicate.
+        items: The list of items to deduplicate.
 
     Returns:
         The deduplicated list with preserved order.
     """
-    out: List[str] = []
-    seen: Set[str] = set()
-    for x in items:
-        if x and x not in seen:
-            out.append(x)
-            seen.add(x)
+    out: List[Any] = []
+    seen: Set[Any] = set()
+
+    for item in items:
+        try:
+            is_already_seen = item in seen
+        except TypeError as e:
+            raise TypeError(f"Item {item!r} is not hashable") from e
+        if not is_already_seen:
+            out.append(item)
+            seen.add(item)
     return out
 
 

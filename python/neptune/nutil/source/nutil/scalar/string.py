@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   <NAME> - contains common utility functions
+#   <NAME> - contains common utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -43,20 +47,24 @@ LOWERCASE: str = f"{LOWERCASE_LATIN}{LOWERCASE_DE}{LOWERCASE_FR}"
 UPPERCASE: str = f"{UPPERCASE_LATIN}{UPPERCASE_DE}{UPPERCASE_FR}"
 LETTERS: str = f"{LOWERCASE}{UPPERCASE}"
 
+# The allowed digits (e.g., `"MP3"`)
+DIGITS: str = "0-9"
+ALPHA_NUMERIC_CHARS: str = f"{LETTERS}{DIGITS}"
+
 
 ## STRING CONVERTERS #####################################################################
 
 __STRING_CONVERTERS_________________________________________ = ""
 
 
-def to_string(x: Any, delimiter=","):
+def to_string(x: Any, *, default: str="", delimiter=",", strip: Optional[str] = None):
     if is_null(x):
-        return None
+        return default
     elif is_collection(x):
         if hasattr(x, "astype"):
             return x.astype(STRING_ELEMENT_TYPE)
-        return collapse(x, delimiter=delimiter)
-    return str(x)
+        return collapse(x, default=default, delimiter=delimiter, strip=strip)
+    return str(x).strip(strip) if strip is not None else str(x)
 
 
 ## STRING GENERATORS #####################################################################

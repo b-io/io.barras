@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   <NAME> - contains common utility functions
+#   <NAME> - contains common utilities
 #
 # AUTHOR
 #   Written by Florian Barras (florian@barras.io).
@@ -236,20 +240,47 @@ def invert(x: Any) -> Any:
 
 __COMMON_SCALAR_PROCESSORS__________________________________ = ""
 
+def collapse(
+    *args: Any,
+    default: str = "",
+    delimiter: str = "",
+    strip: Optional[str] = None,
+) -> str:
+    """Returns the string computed by joining the specified arguments with the specified delimiter.
 
-def collapse(*args: Any, delimiter: str = "", append: bool = False) -> str:
-    """Returns the string computed by joining the specified arguments with the specified delimiter."""
-    return delimiter.join(map(str, to_list(*args))) + (delimiter if append else "")
+    Args:
+        *args: The values to be converted to strings and joined.
+        default: The string used when a value is `None`.
+        delimiter: The delimiter inserted between the collapsed values.
+        strip: The characters to strip from both ends of each value before joining.
+            If `None`, no stripping is performed.
+
+    Returns:
+        The collapsed string.
+    """
+    return delimiter.join(
+        map(lambda x: stringify(x, default=default, strip=strip), to_list(*args))
+    )
 
 
-def collist(*args: Any) -> str:
+def collist(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
     """Returns the string computed by joining the specified arguments with a comma."""
-    return collapse(*args, delimiter=",")
+    return collapse(*args, default=default, delimiter=",", strip=strip)
 
 
-def paste(*args: Any) -> str:
-    """Returns the string computed by joining the specified arguments with a space."""
-    return collapse([s for s in map(str, to_list(*args)) if s != ""], delimiter=" ")
+def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
+    """Returns the string computed by joining the specified arguments with a space.
+
+    If `default` is empty, falsy arguments are removed before collapsing.
+    """
+    return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
+
+def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
+    """Returns the string representation of `x`."""
+    s = str(x) if x is not None else default
+    if strip is not None:
+        s = s.strip(strip)
+    return s
 
 
 ## COMMON VERIFIERS ######################################################################

@@ -1,7 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
 ##########################################################################################
 # NAME
-#   util - contains struct utilities
+#   util - contains structure utilities
 #
 # DESCRIPTION
 #   Provides a uniform API to access, convert, filter, transform, and combine heterogeneous
@@ -45,6 +49,7 @@ from nutil.scalar.util import *
 from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
+
 
 ## STRUCT ACCESSORS ######################################################################
 
@@ -499,7 +504,7 @@ def get_value(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Value:
-    """Returns a simplified single value (or struct of values) under filters."""
+    """Returns a simplified single value (or structure of values) under filters."""
     return simplify(
         get_values(
             s, element_type=element_type, keys=keys, inclusion=inclusion, exclusion=exclusion
@@ -745,7 +750,7 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
 
 def set_index_name(s: Struct, index_name: Any) -> Any:
     """
-    Sets the index name(s) on a `pd.DataFrame` in place; returns the struct.
+    Sets the index name(s) on a `pd.DataFrame` in place; returns the structure.
 
     Notes:
         • If `s.index` is a `pd.MultiIndex`, accepts either a sequence of names or a single base
@@ -1453,6 +1458,17 @@ def to_time_frame(
 ## STRUCT GENERATORS #####################################################################
 
 __STRUCT_GENERATORS_________________________________________ = ""
+
+
+def create_empty(t: Union[Type[dict], Type[list], Type[set]]) -> Union[dict, list, set]:
+    """Returns an empty structure that matches the expected type."""
+    if t is dict:
+        return dict()
+    elif t is list:
+        return list()
+    elif t is set:
+        return set()
+    raise ValueError(f"Unexpected structure type '{t}'")
 
 
 def create_mask(
@@ -3043,7 +3059,7 @@ def find_last_with(
 ) -> Optional[int]:
     """Returns the last index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
     i = find_with(l[::-1], f, *args, **kwargs)
-    return None if i is None else len(l) - i - 1
+    return len(l) - i - 1 if i is not None else None
 
 
 def find_last_not_with(
@@ -3054,7 +3070,7 @@ def find_last_not_with(
 ) -> Optional[int]:
     """Returns the last index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
     i = find_not_with(l[::-1], f, *args, **kwargs)
-    return None if i is None else len(l) - i - 1
+    return len(l) - i - 1 if i is not None else None
 
 
 ### TABLE ##################################################
