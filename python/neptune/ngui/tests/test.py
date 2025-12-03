@@ -26,7 +26,7 @@ from ntest.unit.unittest import Test
 
 __GUI_TEST_CONSTANTS________________________________________ = ""
 
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 
 SIZE = 1000
 

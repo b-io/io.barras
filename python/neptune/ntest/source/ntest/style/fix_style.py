@@ -59,7 +59,7 @@ from typing import Callable, Pattern
 import yaml
 
 from nutil.io.file import *
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 
 
 ## DATA CLASSES ##########################################################################

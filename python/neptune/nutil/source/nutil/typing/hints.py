@@ -197,19 +197,6 @@ def matches_type_hints(
             for v in value
         )
 
-    elif is_sequence(origin):
-        if not is_sequence(value):
-            return False
-        if not args or not should_recurse:
-            return True
-        (elem_type,) = args
-        return all(
-            matches_type_hints(
-                v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
-            for v in value
-        )
-
     # Validate the mappings
     elif is_mapping(origin):
         if not is_mapping(value):
@@ -225,6 +212,20 @@ def matches_type_hints(
                 v, val_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
             )
             for k, v in value.items()
+        )
+
+    # Validate the sequences
+    elif is_sequence(origin):
+        if not is_sequence(value):
+            return False
+        if not args or not should_recurse:
+            return True
+        (elem_type,) = args
+        return all(
+            matches_type_hints(
+                v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
+            )
+            for v in value
         )
 
     # Validate the sets

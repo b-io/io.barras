@@ -22,7 +22,7 @@ import pandas as pd
 
 from nfin.time_series import *
 from ntest.unit.unittest import Test
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 from nutil.scalar.date import *
 
 import plotly.io as pio

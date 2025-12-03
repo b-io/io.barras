@@ -360,16 +360,6 @@ def is_struct_type(t: Type[Any]) -> bool:
     return is_collection_type(t) or is_table_type(t) or is_tuple_type(t)
 
 
-def is_element(x: Any) -> bool:
-    """Returns whether `x` is an element."""
-    return not is_iterable(x) or is_byte_like(x) or is_string(x) or is_tuple(x)
-
-
-def is_element_type(t: Type[Any]) -> bool:
-    """Returns whether `t` is an element type."""
-    return not is_iterable_type(t) or is_byte_like_type(t) or is_string_type(t) or is_tuple_type(t)
-
-
 ##############################
 
 

@@ -17,7 +17,7 @@
 
 import unittest
 from ntest.common import *
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 
 from nutil.math import *
 from nutil.scalar.string import *

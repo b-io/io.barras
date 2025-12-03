@@ -189,9 +189,9 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
     ):
         return c1 + c2
     elif is_array(c1):
-        return [collection_to_type(a, c2) for a in np.vstack(c1) + get_values(c2)]
+        return [struct_to_type(a, c2) for a in np.vstack(c1) + get_values(c2)]
     elif is_array(c2):
-        return [collection_to_type(a, c1) for a in get_values(c1) + np.vstack(c2)]
+        return [struct_to_type(a, c1) for a in get_values(c1) + np.vstack(c2)]
     elif is_table(c1):
         return sum_cols(join(c1, get_values(c2)))
     elif is_table(c2):
@@ -203,7 +203,7 @@ def add(c1, c2, numeric_default=None, object_default=None, rename=False):
     v2 = fill_null(
         get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default
     )
-    return collection_to_type(np.add(v1, v2), c1)
+    return struct_to_type(np.add(v1, v2), c1)
 
 
 def subtract_all(*args, numeric_default=None, object_default=None, rename=False):
@@ -276,9 +276,9 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
     ):
         return c1 - c2
     elif is_array(c1):
-        return [collection_to_type(a, c2) for a in np.vstack(c1) - get_values(c2)]
+        return [struct_to_type(a, c2) for a in np.vstack(c1) - get_values(c2)]
     elif is_array(c2):
-        return [collection_to_type(a, c1) for a in get_values(c1) - np.vstack(c2)]
+        return [struct_to_type(a, c1) for a in get_values(c1) - np.vstack(c2)]
     elif is_table(c1):
         return sum_cols(join(c1, -get_values(c2)))
     elif is_table(c2):
@@ -290,7 +290,7 @@ def subtract(c1, c2, numeric_default=None, object_default=None, rename=False):
     v2 = fill_null(
         get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default
     )
-    return collection_to_type(np.subtract(v1, v2), c1)
+    return struct_to_type(np.subtract(v1, v2), c1)
 
 
 def multiply_all(*args, numeric_default=None, object_default=None, rename=False):
@@ -363,9 +363,9 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
     ):
         return c1 * c2
     elif is_array(c1):
-        return [collection_to_type(a, c2) for a in np.vstack(c1) * get_values(c2)]
+        return [struct_to_type(a, c2) for a in np.vstack(c1) * get_values(c2)]
     elif is_array(c2):
-        return [collection_to_type(a, c1) for a in get_values(c1) * np.vstack(c2)]
+        return [struct_to_type(a, c1) for a in get_values(c1) * np.vstack(c2)]
     elif is_table(c1):
         return product_cols(join(c1, get_values(c2)))
     elif is_table(c2):
@@ -377,7 +377,7 @@ def multiply(c1, c2, numeric_default=None, object_default=None, rename=False):
     v2 = fill_null(
         get_values(c2, keys=keys), numeric_default=numeric_default, object_default=object_default
     )
-    return collection_to_type(np.multiply(v1, v2), c1)
+    return struct_to_type(np.multiply(v1, v2), c1)
 
 
 def divide_all(*args, numeric_default=None, object_default=None, rename=False):
@@ -454,14 +454,14 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
         v1 = np.vstack(c1)
         v2 = get_values(c2)
         return [
-            collection_to_type(a, c2) for a in safe_divide(v1, v2, invalid_default=numeric_default)
+            struct_to_type(a, c2) for a in safe_divide(v1, v2, invalid_default=numeric_default)
         ]
     elif is_array(c2):
         # Align shapes then safe divide per chunk
         v1 = get_values(c1)
         v2 = np.vstack(c2)
         return [
-            collection_to_type(a, c1) for a in safe_divide(v1, v2, invalid_default=numeric_default)
+            struct_to_type(a, c1) for a in safe_divide(v1, v2, invalid_default=numeric_default)
         ]
     elif is_table(c1):
         # Avoid 1 / 0 when forming reciprocals
@@ -506,7 +506,7 @@ def safe_divide(c1, c2, eps=EPS, invalid_default=0, template=None):
     out = np.full(b1.shape, np.asarray(invalid_default, dtype=element_type), dtype=element_type)
     mask = np.isfinite(b2) & (np.abs(b2) > np.asarray(eps, dtype=element_type))
 
-    return collection_to_type(
+    return struct_to_type(
         np.divide(b1, b2, out=out, where=mask), template if not is_null(template) else c1
     )
 

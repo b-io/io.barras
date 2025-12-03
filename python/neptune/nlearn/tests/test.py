@@ -30,7 +30,7 @@ from ntest.unit.unittest import Test
 
 __LEARN_TEST_CONFIG_________________________________________ = ""
 
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 
 matplotlib.use("Agg")
 

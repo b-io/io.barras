@@ -1134,6 +1134,78 @@ def to_element_type(x: Any, t: Type[Any]) -> Any:
     return x
 
 
+def struct_to_type(
+    s: Struct,
+    template: Any,
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+) -> Any:
+    """
+    Converts collection `s` to match the *container type* of `template`.
+
+    Dispatch:
+        • `pd.DataFrame` → `to_frame(s, names=template, index=template)`
+        • `pd.Series`    → `to_series(s, name=template, index=template)`
+        • `dict`         → `dict(zip(get_keys(template), s))`
+        • `OrderedSet`   → `to_ordered_set(s)`
+        • `set`          → `to_set(s)`
+        • `np.ndarray`   → `to_array(s, element_type=element_type)`
+        • `list`         → `to_list(s)`
+        • Fallback       → `s` unchanged
+
+    Complexity:
+        O(n) to materialize the target container.
+    """
+    if is_frame(template):
+        return to_frame(s, names=template, index=template)
+    elif is_series(template):
+        return to_series(s, name=template, index=template)
+    elif is_dict(template):
+        return dict(zip(get_keys(template), s))
+    elif is_ordered_set(template):
+        return to_ordered_set(s)
+    elif is_set(template):
+        return to_set(s)
+    elif is_array(template):
+        return to_array(s, element_type=element_type)
+    elif is_list(template):
+        return to_list(s)
+    return s
+
+
+def struct_to_common_type(s: Struct, template: Any) -> Any:
+    """
+    Converts collection `s` to a *common* container type compatible with `template`.
+
+    Dispatch:
+        • `pd.DataFrame` → `to_frame(s)`
+        • `pd.Series`    → `to_series(s)`
+        • `dict`         → `to_dict(s)`
+        • `OrderedSet`   → `to_ordered_set(s)`
+        • `set`          → `to_set(s)`
+        • `np.ndarray`   → `to_array(s)`
+        • `list`         → `to_list(s)`
+        • Fallback       → `s` unchanged
+
+    Complexity:
+        O(n) to materialize the target container.
+    """
+    if is_frame(template):
+        return to_frame(s)
+    elif is_series(template):
+        return to_series(s)
+    elif is_dict(template):
+        return to_dict(s)
+    elif is_ordered_set(template):
+        return to_ordered_set(s)
+    elif is_set(template):
+        return to_set(s)
+    elif is_array(template):
+        return to_array(s)
+    elif is_list(template):
+        return to_list(s)
+    return s
+
+
 ### COLLECTION #############################################
 
 __COLLECTION_CONVERTERS_____________________________________ = ""
@@ -1219,81 +1291,6 @@ def uncollect(c: Any) -> Any:
         if len(c) == 1:
             return get_next(c)
         return tuple(c)
-    return c
-
-
-##############################
-
-
-def collection_to_type(
-    c: Collection,
-    template: Any,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
-) -> Any:
-    """
-    Converts collection `c` to match the *container type* of `template`.
-
-    Dispatch:
-        • `pd.DataFrame` → `to_frame(c, names=template, index=template)`
-        • `pd.Series`    → `to_series(c, name=template, index=template)`
-        • `dict`         → `dict(zip(get_keys(template), c))`
-        • `OrderedSet`   → `to_ordered_set(c)`
-        • `set`          → `to_set(c)`
-        • `np.ndarray`   → `to_array(c, element_type=element_type)`
-        • `list`         → `to_list(c)`
-        • Fallback       → `c` unchanged
-
-    Complexity:
-        O(n) to materialize the target container.
-    """
-    if is_frame(template):
-        return to_frame(c, names=template, index=template)
-    elif is_series(template):
-        return to_series(c, name=template, index=template)
-    elif is_dict(template):
-        return dict(zip(get_keys(template), c))
-    elif is_ordered_set(template):
-        return to_ordered_set(c)
-    elif is_set(template):
-        return to_set(c)
-    elif is_array(template):
-        return to_array(c, element_type=element_type)
-    elif is_list(template):
-        return to_list(c)
-    return c
-
-
-def collection_to_common_type(c: Collection, template: Any) -> Any:
-    """
-    Converts collection `c` to a *common* container type compatible with `template`.
-
-    Dispatch:
-        • `pd.DataFrame` → `to_frame(c)`
-        • `pd.Series`    → `to_series(c)`
-        • `dict`         → `to_dict(c)`
-        • `OrderedSet`   → `to_ordered_set(c)`
-        • `set`          → `to_set(c)`
-        • `np.ndarray`   → `to_array(c)`
-        • `list`         → `to_list(c)`
-        • Fallback       → `c` unchanged
-
-    Complexity:
-        O(n) to materialize the target container.
-    """
-    if is_frame(template):
-        return to_frame(c)
-    elif is_series(template):
-        return to_series(c)
-    elif is_dict(template):
-        return to_dict(c)
-    elif is_ordered_set(template):
-        return to_ordered_set(c)
-    elif is_set(template):
-        return to_set(c)
-    elif is_array(template):
-        return to_array(c)
-    elif is_list(template):
-        return to_list(c)
     return c
 
 
@@ -1513,33 +1510,30 @@ def create_empty(
             try:
                 return factory([])
             except TypeError:
-                # Signature mismatch → fall back to no-arg constructor / structural rules
+                # Signature mismatch → fall back to the no-arg constructor
                 pass
         try:
             return t()
         except TypeError:
-            # Continue to structural fallbacks
+            # Continue to the structural fallbacks
             pass
 
     # 2) Explicit known structures
-    if t is pd.DataFrame:
+    if is_frame_type(t):
         return pd.DataFrame()
-    if t is pd.Series:
-        dtype = element_type if not is_null(element_type) else OBJECT_TYPE
-        return pd.Series(dtype=dtype)
-    if t is np.ndarray:
+    elif is_series_type(t):
+        return pd.Series(dtype=element_type if not is_null(element_type) else OBJECT_TYPE)
+    elif is_array_type(t):
         return to_array(element_type=element_type)
-    if t is OrderedSet:
-        return OrderedSet()
 
     # 3) Structural fallbacks via ABCs
     if is_mapping_type(t):
         return dict()
-    if is_sequence_type(t) and not is_string_type(t):
+    elif is_sequence_type(t):
         return list()
-    if issubclass(t, AbcMutableSet) or issubclass(t, AbcSet):
+    elif is_set_type(t):
         return set()
-    if issubclass(t, AbcIterable):
+    elif is_iterable_type(t):
         return tuple()
 
     # 4) Last resort: try a bare no-arg constructor before failing
@@ -1574,7 +1568,7 @@ def create_mask(
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
 
     # 1) Allocate the mask container aligned to `s`, pre-filled (e.g., `True`)
-    mask = collection_to_type(
+    mask = struct_to_type(
         create_array(get_shape(s), fill=fill, element_type=BOOLEAN_ELEMENT_TYPE), s
     )
 
@@ -1658,7 +1652,7 @@ def apply(
         • `pd.Series`       → vectorizes on series; fallback to `.apply`.
         • `np.ndarray`      → vectorizes; fallback to `np.apply_along_axis` / element-wise.
         • `dict`            → loops over `keys`.
-        • Generic           → loops and `collection_to_type(...)`.
+        • Generic           → loops and `struct_to_type(...)`.
 
     Complexity:
         • Vectorized: ~O(n) with C-level ops on the selected slice.
@@ -1710,7 +1704,7 @@ def apply(
         if is_null(axis):
             return np.vectorize(lambda z: f(z, *args, **kwargs))(a)
         return np.apply_along_axis(f, axis, a, *args, **kwargs)
-    return collection_to_type([f(s[k], *args, **kwargs) for k in keys], s)
+    return struct_to_type([f(s[k], *args, **kwargs) for k in keys], s)
 
 
 def fill_with(
@@ -1854,7 +1848,7 @@ def filter(
         return {k: s[k] for k in keys}
     elif is_array(s):
         return s[keys]
-    return collection_to_type([s[k] for k in keys], s)
+    return struct_to_type([s[k] for k in keys], s)
 
 
 def include(s: Struct, inclusion: Iterable[Key]) -> Any:
@@ -1932,7 +1926,7 @@ def filter_with(
         return s.loc[mask]
     elif is_dict(s):
         return {k: s[k] for k in keys if f(s[k], *args, **kwargs)}
-    return collection_to_type([s[k] for k in keys if f(s[k], *args, **kwargs)], s)
+    return struct_to_type([s[k] for k in keys if f(s[k], *args, **kwargs)], s)
 
 
 def filter_not_with(
@@ -1960,7 +1954,7 @@ def filter_not_with(
         return s.loc[mask]
     elif is_dict(s):
         return {k: s[k] for k in keys if not f(s[k], *args, **kwargs)}
-    return collection_to_type([s[k] for k in keys if not f(s[k], *args, **kwargs)], s)
+    return struct_to_type([s[k] for k in keys if not f(s[k], *args, **kwargs)], s)
 
 
 def filter_any_with(
@@ -1988,7 +1982,7 @@ def filter_any_with(
         return s.loc[mask]
     elif is_dict(s):
         return {k: s[k] for k in keys if f(s[k], *args, **kwargs)}
-    return collection_to_type([s[k] for k in keys if f(s[k], *args, **kwargs)], s)
+    return struct_to_type([s[k] for k in keys if f(s[k], *args, **kwargs)], s)
 
 
 def filter_any_not_with(
@@ -2016,7 +2010,7 @@ def filter_any_not_with(
         return s.loc[mask]
     elif is_dict(s):
         return {k: s[k] for k in keys if not f(s[k], *args, **kwargs)}
-    return collection_to_type([s[k] for k in keys if not f(s[k], *args, **kwargs)], s)
+    return struct_to_type([s[k] for k in keys if not f(s[k], *args, **kwargs)], s)
 
 
 ##############################
@@ -2476,7 +2470,7 @@ def insert_rows(
         keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
-    c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+    c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         c1 = concat_rows(
             c1,
@@ -2511,7 +2505,7 @@ def insert_cols(
         keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
-    c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+    c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         c1 = concat_cols(
             c1,
@@ -2779,7 +2773,7 @@ def take_at(s: Struct, indices: Iterable[int], axis: int = 0) -> Any:
         return s.iloc[:, indices]
     elif is_dict(s):
         return {k: v for i, (k, v) in enumerate(s.items()) if i in indices or i - len(s) in indices}
-    return collection_to_type([s[i] for i in indices], s)
+    return struct_to_type([s[i] for i in indices], s)
 
 
 def take_not_at(s: Struct, indices: Iterable[int], axis: int = 0) -> Any:
@@ -2895,7 +2889,7 @@ def update(
         keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
-    c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+    c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         element_types = get_element_types(c2)
         c1.update(c2.fillna(NA_NAME))
@@ -2953,7 +2947,7 @@ def upsert(
     """Upserts `c1` with `c2` by updating then inserting for `keys`."""
     if is_null(keys):
         keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
-    c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+    c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     return insert(
         update(c1, c2),
         c2,
@@ -2978,7 +2972,7 @@ def upsert_rows(
     """Upserts rows of `c1` with rows of `c2` for `keys`."""
     if is_null(keys):
         keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
-    c2 = collection_to_common_type(filter(c2, keys=keys), c1)
+    c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     return insert_rows(
         update(c1, c2),
         c2,

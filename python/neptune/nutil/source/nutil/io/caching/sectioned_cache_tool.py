@@ -28,7 +28,7 @@ from typing import Iterable, List, Optional, Tuple
 from nutil.caching.common import CachePolicy
 from nutil.caching.sectioned_cache import SectionedCache
 from nutil.io.file import resolve_path
-from nutil.io.log import configure_logging
+from nutil.io.logging import configure_logging
 
 
 ## RUNNER ################################################################################

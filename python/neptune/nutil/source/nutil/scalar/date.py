@@ -223,8 +223,8 @@ def get_microseconds(s, use_index=False):
             return to_timestamp(get_index(s)).microsecond
         elif is_dict(s):
             return get_microseconds(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_microsecond(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_microsecond(d) for d in s], s)
 
 
 def get_second(d=get_datetime()):
@@ -242,8 +242,8 @@ def get_seconds(s, use_index=False):
             return to_timestamp(get_index(s)).second
         elif is_dict(s):
             return get_seconds(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_second(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_second(d) for d in s], s)
 
 
 def get_minute(d=get_datetime()):
@@ -261,8 +261,8 @@ def get_minutes(s, use_index=False):
             return to_timestamp(get_index(s)).minute
         elif is_dict(s):
             return get_minutes(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_minute(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_minute(d) for d in s], s)
 
 
 def get_hour(d=get_datetime()):
@@ -280,8 +280,8 @@ def get_hours(s, use_index=False):
             return to_timestamp(get_index(s)).hour
         elif is_dict(s):
             return get_hours(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_hour(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_hour(d) for d in s], s)
 
 
 def get_day(d=get_datetime(), week=False, year=False):
@@ -300,8 +300,8 @@ def get_days(s, use_index=False, week=False, year=False):
             return index.weekday if week else index.dayofyear if year else index.day
         elif is_dict(s):
             return get_days(get_index(s), week=week, year=year)
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_day(d, week=week, year=year) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_day(d, week=week, year=year) for d in s], s)
 
 
 def get_weekday(d=get_datetime()):
@@ -336,8 +336,8 @@ def get_weeks(s, use_index=False):
             return to_timestamp(get_index(s)).week
         elif is_dict(s):
             return get_weeks(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_week(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_week(d) for d in s], s)
 
 
 def get_year_week(d=get_datetime()):
@@ -356,8 +356,8 @@ def get_year_weeks(s, use_index=False):
             return pd.MultiIndex.from_tuples(get_year_weeks(get_index(s)), names=["year", "week"])
         elif is_dict(s):
             return get_year_weeks(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_year_week(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_year_week(d) for d in s], s)
 
 
 def get_month(d=get_datetime()):
@@ -375,8 +375,8 @@ def get_months(s, use_index=False):
             return to_timestamp(get_index(s)).month
         elif is_dict(s):
             return get_months(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_month(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_month(d) for d in s], s)
 
 
 def get_quarter(d=get_datetime()):
@@ -394,8 +394,8 @@ def get_quarters(s, use_index=False):
             return to_timestamp(get_index(s)).quarter
         elif is_dict(s):
             return get_quarters(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_quarter(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_quarter(d) for d in s], s)
 
 
 def get_semester(d=get_datetime()):
@@ -413,8 +413,8 @@ def get_semesters(s, use_index=False):
         elif is_dict(s):
             from nutil.struct.util import get_index
             return get_semesters(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_semester(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_semester(d) for d in s], s)
 
 
 def get_year(d=get_datetime()):
@@ -432,8 +432,8 @@ def get_years(s, use_index=False):
             return to_timestamp(get_index(s)).year
         elif is_dict(s):
             return get_years(get_index(s))
-    from nutil.struct.util import collection_to_type
-    return collection_to_type([get_year(d) for d in s], s)
+    from nutil.struct.util import struct_to_type
+    return struct_to_type([get_year(d) for d in s], s)
 
 
 ##############################
@@ -1362,8 +1362,8 @@ def shift_dates(
             ): s[d]
             for d in s
         }
-    from nutil.struct.util import collection_to_type
-    return collection_to_type(
+    from nutil.struct.util import struct_to_type
+    return struct_to_type(
         [
             shift_date(
                 d,

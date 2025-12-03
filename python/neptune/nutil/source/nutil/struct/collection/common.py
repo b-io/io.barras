@@ -26,9 +26,6 @@ from collections.abc import (
     Set as ABCSet,
 )
 
-from nutil.struct import is_element_type
-
-from nutil import is_element
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
@@ -91,6 +88,19 @@ def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
 __COMMON_COLLECTION_VERIFIERS_______________________________ = ""
 
 
+def is_element(x: Any) -> bool:
+    """Returns whether `x` is an element."""
+    return not isinstance(x, ITERABLE_TYPE) or is_byte_like(x) or is_string(x)
+
+
+def is_element_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an element type."""
+    return not issubclass(t, ITERABLE_TYPE) or is_byte_like_type(t) or is_string_type(t)
+
+
+##############################
+
+
 def is_collection(x: Any) -> bool:
     """
     Returns whether `x` is a generic collection (1-D container) excluding:
@@ -120,7 +130,7 @@ def is_iterable(x: Any) -> bool:
         • byte-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
     """
-    return isinstance(x, ITERABLE_TYPE) and not is_byte_like(x) and not is_string(x)
+    return isinstance(x, ITERABLE_TYPE) and not is_element(x)
 
 
 def is_iterable_type(t: Type[Any]) -> bool:
@@ -129,7 +139,7 @@ def is_iterable_type(t: Type[Any]) -> bool:
         • byte-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
     """
-    return issubclass(t, ITERABLE_TYPE) and not is_byte_like_type(t) and not is_string_type(t)
+    return issubclass(t, ITERABLE_TYPE) and not is_element_type(t)
 
 
 def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = False) -> bool:
