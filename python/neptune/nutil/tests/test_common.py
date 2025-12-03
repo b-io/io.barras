@@ -73,7 +73,7 @@ class TestCommon(Test):
         self.assert_equals(replace_word("Bonjour, world!", "Bonjour", "Hello"), hello)
         self.assert_equals(count(split(hello, ",")), 2)
 
-        self.apply(hello, replace, "H", "I")
+        self.apply(hello.split(), replace, "H", "I")
 
         logging.info("Test the list functions")
         self.get_items(l1)

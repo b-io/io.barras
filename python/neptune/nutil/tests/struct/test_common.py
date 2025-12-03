@@ -17,6 +17,8 @@ from nutil.struct.common import *
 
 
 # 1. TEST DOUBLES ######################################################################################################
+
+
 class _DelegateAll:
     """A delegate that provides `to_array`, `to_dict`, `to_list`, `to_set`, `to_tuple`."""
 
@@ -47,6 +49,8 @@ class _CallableProbe:
 
 
 # 2. CONVERTERS & UNWRAPPERS ###########################################################################################
+
+
 @pytest.mark.parametrize(
     "arg, dtype, expected, expected_dtype",
     [
@@ -202,6 +206,8 @@ def test_to_tuple_delegation():
 
 
 # 3. UNGROUP (PANDAS GroupBy) ##########################################################################################
+
+
 def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     """Verifies `ungroup` returns `.obj`, `.groups`, or passthrough depending on `mode` and axis."""
     df = pd.DataFrame({"k": ["a", "a", "b"], "v": [1, 2, 3]})
@@ -223,6 +229,8 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
 
 
 # 4. VERIFIERS & UTILITIES #############################################################################################
+
+
 def test_is_struct_and_is_element():
     """Verifies `is_struct` for collection, table, tuple; `is_element` for scalars and tuples."""
     assert is_struct([1, 2, 3]) is True
@@ -233,7 +241,8 @@ def test_is_struct_and_is_element():
     assert is_struct(42) is False
 
     assert is_element(42) is True
-    assert is_element((1, 2)) is True
+    assert is_element("42") is True
+    assert is_element((1, 2)) is False
     assert is_element([1, 2]) is False
 
 
