@@ -138,7 +138,14 @@ boolean format_specifier_to_string(const character* source, va_list* args, strin
 				{
 					const character* value = va_arg(*args, character*);
 
-					string_to_string(value, target);
+					if (value == NULL)
+					{
+						string_to_string(_NULL_STRING, target);
+					}
+					else
+					{
+						string_to_string(value, target);
+					}
 					return _TRUE;
 				}
 				case _C('S'):
