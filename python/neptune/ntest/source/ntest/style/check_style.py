@@ -34,14 +34,84 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import re
+import sys
 from dataclasses import dataclass
-from typing import Pattern
+from pathlib import Path
+from typing import Dict, List, Set, Tuple
 
 import yaml
-
-from nutil.io.file import *
+from nutil.constants import DEFAULT_ENCODING
+from nutil.io.file import (
+    exclude_dir,
+    exclude_file,
+    get_dirnames_from_globs,
+    join_posix_paths,
+    resolve_path,
+    to_relative_posix_path,
+)
 from nutil.io.logging import configure_logging
+from nutil.struct.collection.list import deduplicate
+from nutil.struct.table.util import get_row_string
+
+## CONFIG ################################################################################
+
+# Configure the logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(module)s] [%(levelname)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+
+
+def load_config(path: Path) -> Config:
+    """
+    Loads the YAML config and compiles the rule regexes.
+
+    Args:
+        path: The config file path.
+
+    Returns:
+        The parsed and compiled `Config`.
+
+    Raises:
+        SystemExit: When the YAML cannot be parsed or a rule regex is invalid.
+    """
+    try:
+        data = yaml.safe_load(path.read_text(encoding=DEFAULT_ENCODING)) or {}
+    except Exception as e:
+        sys.exit(f"Could not read YAML config '{path}': {e}")
+
+    include = list(data.get("include") or ["**/*"])
+
+    # Merge defaults with user excludes, then deduplicate while preserving order
+    exclude_yaml = list(data.get("exclude") or [])
+    exclude = deduplicate(DEFAULT_EXCLUDES + exclude_yaml)
+
+    rules: List[Rule] = []
+    for r in data.get("rules") or []:
+        rid = str(r.get("id") or "unnamed")
+        flags_val = 0
+        for f in r.get("flags") or []:
+            flags_val |= FLAG_MAP.get(str(f).upper(), 0)
+        try:
+            pattern: re.Pattern[str] = re.compile(str(r["pattern"]), flags_val)
+        except Exception as e:
+            sys.exit(f"Invalid regex for rule '{rid}': {e}")
+        rules.append(
+            Rule(
+                id=rid,
+                description=get_row_string(r, "description"),
+                severity=str(r.get("severity") or "error").casefold(),
+                pattern=pattern,
+                include=list(r.get("include") or ["**/*"]),
+                exclude=list(r.get("exclude") or []),
+            )
+        )
+
+    prune_names = get_dirnames_from_globs(exclude)
+    return Config(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
 
 
 ## DATA CLASSES ##########################################################################
@@ -64,7 +134,7 @@ class Rule:
     id: str
     description: str
     severity: str  # choices: `"error"` or `"warning"`
-    pattern: Pattern[str]
+    pattern: re.Pattern[str]
     include: List[str]
     exclude: List[str]
 
@@ -100,109 +170,17 @@ DEFAULT_EXCLUDES: List[str] = [
 ]
 
 FLAG_MAP: Dict[str, int] = {
-    "IGNORECASE": re.IGNORECASE,
+    "IGNORECASE": re.I,
     "MULTILINE": re.MULTILINE,
     "DOTALL": re.DOTALL,
     "VERBOSE": re.VERBOSE,
 }
 
 
-## CONFIG LOADING ########################################################################
-
-
-def load_config(path: Path) -> Config:
-    """
-    Loads the YAML config and compiles the rule regexes.
-
-    Args:
-        path: The config file path.
-
-    Returns:
-        The parsed and compiled `Config`.
-
-    Raises:
-        SystemExit: If the YAML cannot be parsed or a rule regex is invalid.
-    """
-    try:
-        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    except Exception as e:
-        sys.exit(f"Could not read YAML config '{path}': {e}")
-
-    include = list(data.get("include") or ["**/*"])
-
-    # Merge defaults with user excludes, then deduplicate while preserving order
-    exclude_yaml = list(data.get("exclude") or [])
-    exclude = merge_globs(DEFAULT_EXCLUDES, exclude_yaml)
-
-    rules: List[Rule] = []
-    for r in data.get("rules") or []:
-        rid = str(r.get("id") or "unnamed")
-        flags_val = 0
-        for f in r.get("flags") or []:
-            flags_val |= FLAG_MAP.get(str(f).upper(), 0)
-        try:
-            pat = re.compile(str(r["pattern"]), flags_val)
-        except Exception as e:
-            sys.exit(f"Invalid regex for rule '{rid}': {e}")
-        rules.append(
-            Rule(
-                id=rid,
-                description=str(r.get("description") or ""),
-                severity=str(r.get("severity") or "error").lower(),
-                pattern=pat,
-                include=list(r.get("include") or ["**/*"]),
-                exclude=list(r.get("exclude") or []),
-            )
-        )
-
-    prune_names = globs_to_dirs(exclude)
-    return Config(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
-
-
-## SCANNER ###############################################################################
-
-
-def scan_file(abs_path: Path, rules: List[Rule]) -> List[Tuple[Rule, int, str]]:
-    """
-    Scans a text file with applicable rules and returns the violations.
-
-    Args:
-        abs_path: The absolute file path.
-        rules: The list of compiled regex rules to apply.
-
-    Returns:
-        The list of `(rule, line_number, line_text)` tuples for each match.
-    """
-    violations: List[Tuple[Rule, int, str]] = []
-    try:
-        with abs_path.open("r", encoding="utf-8", errors="ignore") as fh:
-            for ln, line in enumerate(fh, 1):
-                for rule in rules:
-                    if rule.pattern.search(line):
-                        violations.append((rule, ln, line.rstrip("\n")))
-    except Exception as e:
-        # Treat unreadable files as warnings (report but do not fail the run)
-        violations.append(
-            (
-                Rule(
-                    id="read-error",
-                    description=f"Could not read file '{abs_path}': {e}",
-                    severity="warning",
-                    pattern=re.compile("$^"),
-                    include=["**/*"],
-                    exclude=[],
-                ),
-                0,
-                "",
-            )
-        )
-    return violations
-
-
 ## RUNNER ################################################################################
 
 
-def run(root: Path, config_path: Path) -> int:
+def run(config_path: Path, root: Path) -> int:
     """
     Executes the regex lint across the repository.
 
@@ -227,7 +205,7 @@ def run(root: Path, config_path: Path) -> int:
             if d in cfg.prune_names:
                 continue
             rel_child = join_posix_paths(rel_dir, d)
-            if should_exclude_dir(rel_child, cfg.exclude):
+            if exclude_dir(rel_child, cfg.exclude):
                 continue
             kept.append(d)
         dirnames[:] = kept
@@ -236,12 +214,12 @@ def run(root: Path, config_path: Path) -> int:
             rel_file = join_posix_paths(rel_dir, name)
 
             # Apply the coarse gate: global file-level include/exclude
-            if should_exclude_file(rel_file, cfg.exclude, cfg.include):
+            if exclude_file(rel_file, cfg.exclude, cfg.include):
                 continue
 
             # Select only rules that apply to this file by the rule-level include/exclude
             active_rules: List[Rule] = [
-                r for r in cfg.rules if not should_exclude_file(rel_file, r.exclude, r.include)
+                r for r in cfg.rules if not exclude_file(rel_file, r.exclude, r.include)
             ]
             if not active_rules:
                 # Skip the file if no rule targets it (avoid PDFs and binaries)
@@ -253,9 +231,9 @@ def run(root: Path, config_path: Path) -> int:
                 for rule, ln, text in violations:
                     loc = f"{rel_file}:{ln}" if ln else rel_file
                     level = logging.ERROR if rule.severity == "error" else logging.WARNING
-                    logging.log(level, "[%s] [%s] %s", rule.id, loc, rule.description)
+                    logging.log(level, "[%s] [%s] %s", loc, rule.id, rule.description)
                     if text:
-                        logging.log(level, "%s", text)
+                        logging.log(level, "[%s] [%s] %s", loc, rule.id, text)
                     if rule.severity == "error":
                         any_error = True
                 total_violations += len(violations)
@@ -266,6 +244,46 @@ def run(root: Path, config_path: Path) -> int:
         logging.warning("CODING STYLE: %d violation(s) found", total_violations)
 
     return 1 if any_error else 0
+
+
+## SCANNER ###############################################################################
+
+
+def scan_file(abs_path: Path, rules: List[Rule]) -> List[Tuple[Rule, int, str]]:
+    """
+    Scans a text file with applicable rules and returns the violations.
+
+    Args:
+        abs_path: The absolute file path.
+        rules: The list of compiled regex rules to apply.
+
+    Returns:
+        The list of `(rule, line_number, line_text)` tuples for each match.
+    """
+    violations: List[Tuple[Rule, int, str]] = []
+    try:
+        with abs_path.open("r", encoding=DEFAULT_ENCODING, errors="ignore") as fh:
+            for line_number, line in enumerate(fh, 1):
+                for rule in rules:
+                    if rule.pattern.search(line):
+                        violations.append((rule, line_number, line.rstrip("\n\r")))
+    except Exception as e:
+        # Treat unreadable files as warnings (report but do not fail the run)
+        violations.append(
+            (
+                Rule(
+                    id="read-error",
+                    description=f"Could not read file '{abs_path}': {e}",
+                    severity="warning",
+                    pattern=re.compile("$^"),
+                    include=["**/*"],
+                    exclude=[],
+                ),
+                0,
+                "",
+            )
+        )
+    return violations
 
 
 ## CLI ###################################################################################
@@ -279,23 +297,27 @@ def parse_args() -> argparse.Namespace:
         An `argparse.Namespace` with resolved paths and options.
 
     Raises:
-        FileNotFoundError: If the input paths are invalid.
+        FileNotFoundError: When the input paths are invalid.
     """
-    args = _build_arg_parser().parse_args()
+    ap: argparse.ArgumentParser = _build_arg_parser()
+    args: argparse.Namespace = ap.parse_args()
 
-    # Resolve the input paths
-    args.root = resolve_path(args.root)
+    # Resolve the path(s)
     args.config = resolve_path(args.config)
+    args.root = resolve_path(args.root)
 
     return args
+
+
+### HELPERS ################################################
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Regex-based style checks based on 'STYLE.yml' rules.")
-    # The paths
-    ap.add_argument("--root", default=".", help="Root directory to scan.")
-    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
+    # Add the path(s)
+    ap.add_argument("--config", help="Path to YAML config.", default="STYLE.yml")
+    ap.add_argument("--root", help="Root directory to scan.", default=".")
     return ap
 
 
@@ -303,11 +325,10 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 
 
 def main():
-    """Runs the check style tool."""
     configure_logging()
     args = parse_args()
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)
-    run(args.root, args.config)
+    run(args.config, args.root)
 
 
 if __name__ == "__main__":

@@ -304,7 +304,7 @@ def ungroup_series(
     return series
 
 
-### TIME SERIES PRUNING
+### TIME SERIES PRUNING ####################################
 
 __TIME_SERIES_PRUNING_______________________________________ = ""
 

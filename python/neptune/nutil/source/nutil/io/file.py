@@ -621,7 +621,7 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwar
 #### GLOBS ###################
 
 
-def dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
+def get_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
     """
     Derives the directory basenames from the glob patterns that end with the `suffix`.
 

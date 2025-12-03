@@ -52,14 +52,27 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 import re
+import sys
 from dataclasses import dataclass
-from typing import Callable, Pattern
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Sequence, Set, Tuple
 
 import yaml
-
-from nutil.io.file import *
+from nutil.constants import DEFAULT_ENCODING
+from nutil.io.file import (
+    exclude_dir,
+    exclude_file,
+    get_dirnames_from_globs,
+    join_posix_paths,
+    resolve_path,
+    to_relative_posix_path,
+    write_text,
+)
 from nutil.io.logging import configure_logging
+from nutil.struct.collection.list import deduplicate
+from nutil.struct.table.util import get_row_string
 
 
 ## DATA CLASSES ##########################################################################
@@ -83,7 +96,7 @@ class RuleSpec:
     id: str
     description: str
     severity: str
-    pattern: Pattern[str]
+    pattern: re.Pattern[str]
     include: List[str]
     exclude: List[str]
     params: Dict[str, Any]
@@ -121,7 +134,7 @@ DEFAULT_EXCLUDES: List[str] = [
 
 FLAG_MAP: Dict[str, int] = {
     "DOTALL": re.DOTALL,
-    "IGNORECASE": re.IGNORECASE,
+    "IGNORECASE": re.I,
     "MULTILINE": re.MULTILINE,
     "VERBOSE": re.VERBOSE,
 }
@@ -143,8 +156,8 @@ def load_yaml_config(path: Path) -> ConfigSpec:
     Loads and compiles the YAML configuration.
 
     Behavior:
-        - Always merges the YAML `exclude:` with `DEFAULT_EXCLUDES` (order-preserving and deduplicated).
-        - Computes the `prune_names` set from the merged `exclude` list (patterns ending with `"/**"`).
+        • Always merges the YAML `exclude:` with `DEFAULT_EXCLUDES` (order-preserving and deduplicated).
+        • Computes the `prune_names` set from the merged `exclude` list (patterns ending with `"/**"`).
 
     Args:
         path: The path to the YAML configuration file.
@@ -153,10 +166,10 @@ def load_yaml_config(path: Path) -> ConfigSpec:
         The compiled `ConfigSpec`.
 
     Raises:
-        SystemExit: If the YAML file cannot be read or parsed, or a rule regex is invalid.
+        SystemExit: When the YAML file cannot be read or parsed, or a rule regex is invalid.
     """
     try:
-        text = path.read_text(encoding="utf-8")
+        text = path.read_text(encoding=DEFAULT_ENCODING)
     except Exception as e:
         sys.exit(f"Could not read YAML config '{path}': {e}")
 
@@ -169,7 +182,7 @@ def load_yaml_config(path: Path) -> ConfigSpec:
 
     # Always merge the defaults with the user excludes (even when the user specifies an empty list)
     exclude_yaml = list(data.get("exclude") or [])
-    exclude = merge_globs(DEFAULT_EXCLUDES, exclude_yaml)
+    exclude = deduplicate(DEFAULT_EXCLUDES + exclude_yaml)
 
     rules: List[RuleSpec] = []
     for r in data.get("rules") or []:
@@ -178,23 +191,23 @@ def load_yaml_config(path: Path) -> ConfigSpec:
         for f in r.get("flags") or []:
             flags_val |= FLAG_MAP.get(str(f).upper(), 0)
         try:
-            pat = re.compile(str(r["pattern"]), flags_val)
+            pattern: re.Pattern[str] = re.compile(str(r["pattern"]), flags_val)
         except Exception as e:
             sys.exit(f"Invalid regex for rule '{rid}': {e}")
 
         rules.append(
             RuleSpec(
                 id=rid,
-                description=str(r.get("description") or ""),
-                severity=str(r.get("severity") or "warning").lower(),
-                pattern=pat,
+                description=get_row_string(r, "description"),
+                severity=str(r.get("severity") or "warning").casefold(),
+                pattern=pattern,
                 include=list(r.get("include") or ["**/*"]),
                 exclude=list(r.get("exclude") or []),
                 params=dict(r.get("params") or {}),
             )
         )
 
-    prune_names = globs_to_dirs(exclude)
+    prune_names = get_dirnames_from_globs(exclude)
     return ConfigSpec(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
 
 
@@ -211,8 +224,6 @@ def fix_hash_banner_length(line: str, rule: RuleSpec) -> Tuple[str, bool]:
         - Chooses the trailing hash count so that the total width equals the target (30/60/90/120).
 
     Additionally:
-        - If the `title` (text between leading and trailing `#`) is empty, selects the closest
-          target width among {30, 60, 90, 120}; on ties, prefers the larger width.
         - If the current line length is already one of 30, 60, 90, or 120, it corrects the leading
           `#` count for that width and rebalances the trailing `#` run to preserve the width.
 
@@ -235,57 +246,51 @@ def fix_hash_banner_length(line: str, rule: RuleSpec) -> Tuple[str, bool]:
     if not re.match(r"^\s*#", body) or "##" not in body:
         return line, False
 
-    m = re.match(r"^(\s*)(#{1,})(.*)$", body)
+    m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
     if not m:
         return line, False
 
     indent, hashes, rest = m.groups()
     leading = len(hashes)
-    current_length = len(body)
+    cur_len = len(body)
 
-    # Extract the title (content after the leading hashes, without trailing hashes/spaces)
+    # The title is the content after the leading hashes, without the trailing hashes or spaces
     title = rest.lstrip()
-    title = re.sub(r"[#\s]+$", "", title)
+    title = re.sub(r"[\s#]+$", "", title)
 
-    # Mapping: exact target width → desired leading hash count
-    exact_target_lengths: Dict[int, int] = {120: 1, 90: 2, 60: 3, 30: 4}
-
-    # Choose the target width and desired leading hash count
-    if not title:
-        # No title: pick the closest target; break ties toward the larger width
-        targets: Tuple[int, ...] = tuple(exact_target_lengths.keys())
-        target_length = min(targets, key=lambda L: (abs(L - current_length), -L))
-        desired_leading = exact_target_lengths[target_length]
-    elif current_length in exact_target_lengths:
-        target_length = current_length
-        desired_leading = exact_target_lengths[current_length]
+    # Choose the target width and the desired leading hash count
+    exact_targets = {120: 1, 90: 2, 60: 3, 30: 4}
+    if cur_len in exact_targets:
+        target = cur_len
+        desired_leading = exact_targets[cur_len]
     else:
-        # Title exists: use leading count to choose the canonical target
         if leading == 1:
-            target_length, desired_leading = 120, 1
+            target, desired_leading = 120, 1
         elif leading == 2:
-            target_length, desired_leading = 90, 2
+            target, desired_leading = 90, 2
         elif leading == 3:
-            target_length, desired_leading = 60, 3
+            target, desired_leading = 60, 3
         else:
-            target_length, desired_leading = 30, 4
+            target, desired_leading = 30, 4
 
-    # Build the normalized prefix with one space after the leading hashes and one before trailing hashes
+    # Build the normalized prefix with one space after the leading hashes and one before the trailing hashes
     base = f"{indent}{'#' * desired_leading}" + (f" {title} " if title else "")
 
     # Compute the trailing hash count to reach the target width
-    hash_count = target_length - len(base)
+    hash_count = target - len(base)
 
     if hash_count < 0:
-        # Fall back to safe trim at the target only if the overflow is purely spaces or '#'
-        if len(body) > target_length and set(body[target_length:]) <= {"#", " "}:
-            return body[:target_length] + nl, True
+        # Fall back to the original width if trimming is safe (only spaces or `"#"`)
+        if len(body) > target and set(body[target:]) <= {"#", " "}:
+            return body[:target] + nl, True
         return line, False
 
     new_body = f"{base}{'#' * hash_count}"
 
+    # If nothing changed, return the original line
     if new_body == body:
         return line, False
+
     return new_body + nl, True
 
 
@@ -306,7 +311,7 @@ def fix_line_comment_capitalized(line: str, rule: RuleSpec) -> Tuple[str, bool]:
         return line, False
     nl = "\n" if line.endswith("\n") else ""
     body = line[:-1] if nl else line
-    m = re.match(r"^(\s*#\s*)([a-z])(.*)$", body)
+    m = re.match(r"^(\s*#\s*)([a-z])([^\n]*)$", body)
     if not m:
         return line, False
     prefix, first, rest = m.groups()
@@ -355,11 +360,11 @@ def fix_inline_comment_lowercase(line: str, rule: RuleSpec) -> Tuple[str, bool]:
     nl = "\n" if line.endswith("\n") else ""
     body = line[:-1] if nl else line
 
-    m = re.match(r"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[A-Z])(?P<rest>.*)$", body)
+    m = re.match(r"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[A-Z])(?P<rest>[^\n]*)$", body)
     if not m:
         return line, False
     left, first, rest = m.group("left"), m.group("first"), m.group("rest")
-    return f"{left}{first.lower()}{rest}{nl}", True
+    return f"{left}{first.casefold()}{rest}{nl}", True
 
 
 ## FIXER REGISTRY ########################################################################
@@ -389,7 +394,7 @@ def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
         The dictionary of `{rule_id: count_of_line_changes}`.
     """
     try:
-        orig = path.read_text(encoding="utf-8", errors="ignore")
+        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
     except Exception as e:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
@@ -425,19 +430,19 @@ def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
 ## WALKER ################################################################################
 
 
-def run(root: Path, config: ConfigSpec, dry_run: bool = False) -> int:
+def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
     """
     Walks the tree, prunes the excluded directories, and applies the fixes.
 
     Args:
         root: The repository root to scan.
-        config: The compiled configuration to use.
+        cfg: The compiled configuration to use.
         dry_run: Whether to preview changes without writing.
 
     Returns:
         The exit status code `0` for success.
     """
-    fixable_rules = [r for r in config.rules if r.id in FIXERS]
+    fixable_rules = [r for r in cfg.rules if r.id in FIXERS]
     if not fixable_rules:
         logging.info("No known fixer rules found in config. Nothing to do.")
         return 0
@@ -456,10 +461,10 @@ def run(root: Path, config: ConfigSpec, dry_run: bool = False) -> int:
         # Prune the excluded directories in place based on the merged excludes
         kept: List[str] = []
         for dirname in dirnames:
-            if dirname in config.prune_names:
+            if dirname in cfg.prune_names:
                 continue
             rel_child = join_posix_paths(rel_dir, dirname)
-            if should_exclude_dir(rel_child, config.exclude):
+            if exclude_dir(rel_child, cfg.exclude):
                 continue
             kept.append(dirname)
         dirnames[:] = kept
@@ -469,16 +474,16 @@ def run(root: Path, config: ConfigSpec, dry_run: bool = False) -> int:
             abs_file = dir_path / name
 
             # Coarse gate: the repo-level include/exclude
-            if should_exclude_file(rel_file, config.exclude, config.include):
+            if exclude_file(rel_file, cfg.exclude, cfg.include):
                 continue
 
             # Coarse gate: the union of the rule-level include/exclude
-            if should_exclude_file(rel_file, rule_union_excludes, rule_union_includes):
+            if exclude_file(rel_file, rule_union_excludes, rule_union_includes):
                 continue
 
             # Determine the active rules for this file (the rule-level include/exclude)
             active_rules = [
-                r for r in fixable_rules if not should_exclude_file(rel_file, r.exclude, r.include)
+                r for r in fixable_rules if not exclude_file(rel_file, r.exclude, r.include)
             ]
             if not active_rules:
                 continue
@@ -517,7 +522,7 @@ def preview_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
         The dictionary of `{rule_id: count_of_line_changes}`.
     """
     try:
-        orig = path.read_text(encoding="utf-8", errors="ignore")
+        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
     except Exception as e:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
@@ -557,13 +562,18 @@ def parse_args() -> argparse.Namespace:
         An `argparse.Namespace` with resolved paths and options.
 
     Raises:
-        FileNotFoundError: If the input paths are invalid.
+        FileNotFoundError: When the paths are invalid.
     """
-    args = _build_arg_parser().parse_args()
-    # Resolve the paths
-    args.root = resolve_path(args.root)
+    ap: argparse.ArgumentParser = _build_arg_parser()
+    args: argparse.Namespace = ap.parse_args()
+
+    # Resolve the path(s)
     args.config = load_yaml_config(resolve_path(args.config))
+    args.root = resolve_path(args.root)
     return args
+
+
+### HELPERS ################################################
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
@@ -571,14 +581,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
         description="Fix simple coding-style issues based on 'STYLE.yml' rules."
     )
-    # The paths
-    ap.add_argument("--root", default=".", help="Root directory to scan.")
-    ap.add_argument("--config", default="STYLE.yml", help="Path to YAML config.")
-    # The flags
+    # Add the path(s)
+    ap.add_argument("--config", help="Path to YAML config.", default="STYLE.yml")
+    ap.add_argument("--root", help="Root directory to scan.", default=".")
+    # Add the save parameter(s)
     ap.add_argument(
         "--dry-run",
-        action="store_true",
         help="Report changes without writing files.",
+        action="store_true",
     )
     return ap
 

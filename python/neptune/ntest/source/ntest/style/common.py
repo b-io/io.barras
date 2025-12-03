@@ -11,7 +11,7 @@
 #
 # What This Module Offers
 #   • Globs & Matching
-#       - `dirnames_from_globs(globs, suffix="/**")`        → directory base names implied by directory globs
+#       - `get_dirnames_from_globs(globs, suffix="/**")`        → directory base names implied by directory globs
 #       - `match_any_globs(rel_path, globs)`                → POSIX path vs. glob list (treats leading `"**/"` as optional)
 #       - `merge_globs(primary, extra)`                     → stable merge (preserve order, drop dups)
 #       - `should_exclude_dir(rel_dir, exclude)`            → prune directories by exclude patterns
