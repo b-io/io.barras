@@ -1066,6 +1066,11 @@ def is_iterator(x: Any) -> bool:
     return isinstance(x, ITERATOR_TYPE)
 
 
+def is_iterator_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `Iterator` type."""
+    return issubclass(t, ITERATOR_TYPE)
+
+
 def is_single_pass_iterator(x: Any) -> bool:
     """Returns whether `x` is a single-pass `Iterator`."""
     try:
@@ -1079,9 +1084,19 @@ def is_mapping(x: Any) -> bool:
     return isinstance(x, MAPPING_TYPE)
 
 
+def is_mapping_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `Mapping` type (including `dict`)."""
+    return issubclass(t, MAPPING_TYPE)
+
+
 def is_mutable_mapping(x: Any) -> bool:
     """Returns whether `x` is a `MutableMapping` (including `dict`)."""
     return isinstance(x, MUTABLE_MAPPING_TYPE)
+
+
+def is_mutable_mapping_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `MutableMapping` type (including `dict`)."""
+    return issubclass(t, MUTABLE_MAPPING_TYPE)
 
 
 ##############################
@@ -1092,11 +1107,26 @@ def is_abstract_collection(x: Any) -> bool:
     return isinstance(x, AbstractCollection)
 
 
+def is_abstract_collection_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `AbstractCollection` type."""
+    return issubclass(t, AbstractCollection)
+
+
 def is_abstract_sequential_collection(x: Any) -> bool:
     """Returns whether `x` is an `AbstractSequentialCollection`."""
     return isinstance(x, AbstractSequentialCollection)
 
 
+def is_abstract_sequential_collection_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `AbstractSequentialCollection` type."""
+    return issubclass(t, AbstractSequentialCollection)
+
+
 def is_abstract_mapping_collection(x: Any) -> bool:
     """Returns whether `x` is an `AbstractMappingCollection`."""
     return isinstance(x, AbstractMappingCollection)
+
+
+def is_abstract_mapping_collection_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `AbstractMappingCollection` type."""
+    return issubclass(t, AbstractMappingCollection)

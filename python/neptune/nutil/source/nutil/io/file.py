@@ -27,7 +27,7 @@ from urllib.request import urlopen
 import validators
 
 from nutil.common import *
-from nutil.struct.collection.list import deduplicate
+from nutil.struct.table.util import get_row_keys, get_row_values, Row
 from nutil.struct.util import set_index_name
 
 
@@ -697,7 +697,6 @@ def exclude_file(rel_path: str, exclude: List[str], include: List[str]) -> bool:
 
 #### PATHS ###################
 
-
 def join_posix_paths(a: str, b: str) -> str:
     """Joins two POSIX path fragments into a clean relative path."""
     return "/".join(p for p in (a, b) if p)
@@ -708,9 +707,9 @@ def resolve_path(path: Union[str, Path], *, must_exist: bool = True) -> Path:
     Resolves a `path` relative to the current working directory (and its parents), then returns an absolute `Path`.
 
     Behavior:
-        - When `must_exist` is `True` (default), searches the CWD and all parent directories for an existing match;
+        • When `must_exist` is `True` (default), searches the CWD and all the parent directories for an existing match;
           raises `FileNotFoundError` if not found.
-        - When `must_exist` is `False`, does not search and does not require existence; returns an absolute path
+        • When `must_exist` is `False`, does not search and does not require existence; returns an absolute path
           composed against the CWD if the input was relative.
 
     Args:
@@ -743,7 +742,7 @@ def resolve_path(path: Union[str, Path], *, must_exist: bool = True) -> Path:
     return p.resolve() if p.exists() else p
 
 
-def to_relative_posix_path(path: Path, root: Path) -> str:
+def to_relative_posix_path(path: Union[str, Path], root: Path) -> str:
     """
     Converts a path to a POSIX-style relative string.
 

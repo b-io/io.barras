@@ -26,7 +26,7 @@ from nutil.struct.collection.common import *
 __COMMON_TYPING_ACCESSORS___________________________________ = ""
 
 
-def get_type_name(t: Any) -> str:
+def get_type_name(t: Type[Any]) -> str:
     """Returns the simple type name for a `type`, or the instance type name for values."""
     return t.__name__ if isinstance(t, type) else type(t).__name__
 

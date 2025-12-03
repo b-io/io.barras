@@ -15,7 +15,7 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ##########################################################################################
 
-from typing import Any, Optional
+from typing import Any, Optional, Type
 
 ## COMMON TUPLE CONSTANTS ################################################################
 
@@ -29,9 +29,14 @@ TUPLE_TYPE = tuple
 __COMMON_TUPLE_VERIFIERS____________________________________ = ""
 
 
-def is_tuple(x: Any):
+def is_tuple(x: Any) -> bool:
     """Returns whether `x` is a `tuple`."""
     return isinstance(x, TUPLE_TYPE)
+
+
+def is_tuple_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `tuple` type."""
+    return issubclass(t, TUPLE_TYPE)
 
 
 def is_valid_tuple(x: Any, size: Optional[int] = None) -> bool:

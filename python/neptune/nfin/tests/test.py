@@ -22,6 +22,7 @@ import pandas as pd
 
 from nfin.time_series import *
 from ntest.unit.unittest import Test
+from nutil.io.log import configure_logging
 from nutil.scalar.date import *
 
 import plotly.io as pio
@@ -134,6 +135,7 @@ __FIN_TEST_MAIN_____________________________________________ = ""
 
 def main():
     """Tests the financial utility library."""
+    configure_logging()
     unittest.main()
 
 

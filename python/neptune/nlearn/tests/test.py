@@ -30,6 +30,8 @@ from ntest.unit.unittest import Test
 
 __LEARN_TEST_CONFIG_________________________________________ = ""
 
+from nutil.io.log import configure_logging
+
 matplotlib.use("Agg")
 
 
@@ -160,6 +162,7 @@ __LEARN_TEST_MAIN___________________________________________ = ""
 
 def main():
     """Tests the machine learning utility library."""
+    configure_logging()
     unittest.main()
 
 

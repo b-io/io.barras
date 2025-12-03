@@ -26,6 +26,8 @@ from ntest.unit.unittest import Test
 
 __GUI_TEST_CONSTANTS________________________________________ = ""
 
+from nutil.io.log import configure_logging
+
 SIZE = 1000
 
 
@@ -153,6 +155,7 @@ __GUI_TEST_MAIN_____________________________________________ = ""
 
 def main():
     """Tests the graphical user interface utility library."""
+    configure_logging()
     unittest.main()
 
 

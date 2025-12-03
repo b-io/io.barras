@@ -130,14 +130,14 @@ def get_enum(section: str, option: str, enum_cls: Type[TEnum]) -> Optional[TEnum
 
     # 1) Try by name (case-insensitive)
     try:
-        return enum_cls[raw.upper()]  # type: ignore[index]
+        return enum_cls[raw.upper()]
     except Exception:
         pass
 
     # 2) Try by value with type-aware coercion
     coerced = _coerce_to_value_type(raw, enum_cls)
     try:
-        return enum_cls(coerced)  # type: ignore[call-arg]
+        return enum_cls(coerced)
     except Exception:
         raise ValueError(f"'{raw}' is not a valid value for '{enum_cls.__name__}'")
 

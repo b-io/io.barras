@@ -25,17 +25,10 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Iterable, List, Optional, Tuple
 
-from util.common import CachePolicy, resolve_path, to_string
-from util.sectioned_cache import SectionedCache
-
-## CONFIG ################################################################################
-
-# Configure the logging
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(module)s] [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
+from nutil.caching.common import CachePolicy
+from nutil.caching.sectioned_cache import SectionedCache
+from nutil.io.file import resolve_path
+from nutil.io.log import configure_logging
 
 
 ## RUNNER ################################################################################
@@ -294,21 +287,43 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Maintain a generic sectioned JSON cache.")
     ap.add_argument("--cache", help="Path to the JSON cache.", required=True)
-    ap.add_argument("--sections", help="Section to operate on (repeatable).", action="append", metavar="NAME")
+    ap.add_argument(
+        "--sections", help="Section to operate on (repeatable).", action="append", metavar="NAME"
+    )
     # Queries
     ap.add_argument("--list", help="Print the entry counts per section.", action="store_true")
-    ap.add_argument("--show", help="Show entries (with optional --filter/--prefix).", action="store_true")
+    ap.add_argument(
+        "--show", help="Show entries (with optional --filter/--prefix).", action="store_true"
+    )
     ap.add_argument("--filter", help="Regex filter for --show.")
     ap.add_argument("--prefix", help="Prefix filter for --show.")
     # Editions
-    ap.add_argument("--rename", help="Rename a key within a section.", nargs=2, metavar=("OLD", "NEW"))
-    ap.add_argument("--merge", help="Merge list-valued sources into the target: TARGET SRC …", nargs="+", metavar="KEY")
+    ap.add_argument(
+        "--rename", help="Rename a key within a section.", nargs=2, metavar=("OLD", "NEW")
+    )
+    ap.add_argument(
+        "--merge",
+        help="Merge list-valued sources into the target: TARGET SRC …",
+        nargs="+",
+        metavar="KEY",
+    )
     # Deletions
-    ap.add_argument("--delete-keys", help="Delete exact keys (repeatable across sections).", nargs="+", metavar="KEY")
-    ap.add_argument("--delete-prefix", help="Delete keys starting with any prefix.", nargs="+", metavar="PFX")
+    ap.add_argument(
+        "--delete-keys",
+        help="Delete exact keys (repeatable across sections).",
+        nargs="+",
+        metavar="KEY",
+    )
+    ap.add_argument(
+        "--delete-prefix", help="Delete keys starting with any prefix.", nargs="+", metavar="PFX"
+    )
     ap.add_argument("--delete-empty", help="Delete entries with [] or ''.", action="store_true")
-    ap.add_argument("--only-list-empty", help="With --delete-empty, delete [] only.", action="store_true")
-    ap.add_argument("--only-str-empty", help="With --delete-empty, delete '' only.", action="store_true")
+    ap.add_argument(
+        "--only-list-empty", help="With --delete-empty, delete [] only.", action="store_true"
+    )
+    ap.add_argument(
+        "--only-str-empty", help="With --delete-empty, delete '' only.", action="store_true"
+    )
     ap.add_argument("--clear", help="Clear selected sections.", action="store_true")
     # Load
     ap.add_argument(
@@ -324,16 +339,31 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         default=0,
     )
     # Save
-    ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
+    ap.add_argument(
+        "--dry-run", help="Do not write changes; only log results.", action="store_true"
+    )
     ap.add_argument("--compact", help="Write compact JSON on save.", action="store_true")
-    ap.add_argument("--backup", help="Create a timestamped backup of the previous file on save.", action="store_true")
-    ap.add_argument("--backup-dir", help="Directory to store backups (defaults to the cache file's directory).")
+    ap.add_argument(
+        "--backup",
+        help="Create a timestamped backup of the previous file on save.",
+        action="store_true",
+    )
+    ap.add_argument(
+        "--backup-dir", help="Directory to store backups (defaults to the cache file's directory)."
+    )
     return ap
 
 
 ## MAIN ##################################################################################
 
-if __name__ == "__main__":
+
+def main():
+    """Runs the sectioned cache tool."""
+    configure_logging()
     args = parse_args()
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)
     run_with_args(args)
+
+
+if __name__ == "__main__":
+    main()

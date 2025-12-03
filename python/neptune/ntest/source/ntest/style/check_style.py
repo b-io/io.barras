@@ -41,15 +41,7 @@ from typing import Pattern
 import yaml
 
 from nutil.io.file import *
-
-## CONFIG ################################################################################
-
-# The default logging configuration
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
+from nutil.io.log import configure_logging
 
 
 ## DATA CLASSES ##########################################################################
@@ -309,7 +301,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 
 ## MAIN ##################################################################################
 
-if __name__ == "__main__":
+
+def main():
+    """Runs the check style tool."""
+    configure_logging()
     args = parse_args()
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)
     run(args.root, args.config)
+
+
+if __name__ == "__main__":
+    main()

@@ -350,25 +350,35 @@ def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
 __COMMON_STRUCT_VERIFIERS_______________________________ = ""
 
 
-def is_struct(x: Any):
+def is_struct(x: Any) -> bool:
     """Returns whether `x` is a structure (a collection, a table, or a `tuple`)."""
     return is_collection(x) or is_table(x) or is_tuple(x)
 
 
+def is_struct_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a structure type (a collection, a table, or a `tuple`)."""
+    return is_collection_type(t) or is_table_type(t) or is_tuple_type(t)
+
+
 def is_element(x: Any) -> bool:
-    """Returns whether `x` is an element (non-iterable or a `tuple` treated as atomic)."""
-    return not is_iterable(x) or is_tuple(x)
+    """Returns whether `x` is an element."""
+    return not is_iterable(x) or is_byte_like(x) or is_string(x) or is_tuple(x)
+
+
+def is_element_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an element type."""
+    return not is_iterable_type(t) or is_byte_like_type(t) or is_string_type(t) or is_tuple_type(t)
 
 
 ##############################
 
 
-def is_multidimensional(x: Any):
+def is_multidimensional(x: Any) -> bool:
     """Returns whether `x` is multidimensional (a Pandas table or a NumPy array)."""
     return is_table(x) or is_array(x)
 
 
-def is_subscriptable(x: Any):
+def is_subscriptable(x: Any) -> bool:
     """Returns whether `x` is subscriptable (defines `__getitem__`)."""
     return hasattr(x, "__getitem__")
 

@@ -88,9 +88,14 @@ def count_cols(df):
 __COMMON_TABLE_VERIFIERS____________________________________ = ""
 
 
-def is_table(x: Any):
+def is_table(x: Any) -> bool:
     """Returns whether `x` is a Pandas `Series` or `DataFrame`."""
     return is_series(x) or is_frame(x)
+
+
+def is_table_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `Series` or `DataFrame` type."""
+    return is_series_type(t) or is_frame_type(t)
 
 
 ### DATAFRAME ##############################################
@@ -98,25 +103,40 @@ def is_table(x: Any):
 __COMMON_DATAFRAME_VERIFIERS________________________________ = ""
 
 
-def is_series(x: Any):
+def is_series(x: Any) -> bool:
     """Returns whether `x` is a Pandas `Series`."""
-    return isinstance(x, SERIES_TYPE) or isinstance(x, SERIES_GROUP_BY_TYPE)
+    return isinstance(x, (SERIES_TYPE, SERIES_GROUP_BY_TYPE))
 
 
-def is_frame(x: Any):
+def is_series_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `Series` type."""
+    return issubclass(t, (SERIES_TYPE, SERIES_GROUP_BY_TYPE))
+
+
+def is_frame(x: Any) -> bool:
     """Returns whether `x` is a Pandas `DataFrame`."""
-    return isinstance(x, FRAME_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
+    return isinstance(x, (FRAME_TYPE, FRAME_GROUP_BY_TYPE))
 
 
-def is_group_by(x: Any):
+def is_frame_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `DataFrame` type."""
+    return issubclass(t, (FRAME_TYPE, FRAME_GROUP_BY_TYPE))
+
+
+def is_group_by(x: Any) -> bool:
     """Returns whether `x` is a Pandas `DataSeriesGroupBy` or `DataFrameGroupBy`."""
-    return isinstance(x, SERIES_GROUP_BY_TYPE) or isinstance(x, FRAME_GROUP_BY_TYPE)
+    return isinstance(x, (SERIES_GROUP_BY_TYPE, FRAME_GROUP_BY_TYPE))
+
+
+def is_group_by_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `DataSeriesGroupBy` or `DataFrameGroupBy` type."""
+    return issubclass(t, (SERIES_GROUP_BY_TYPE, FRAME_GROUP_BY_TYPE))
 
 
 ##############################
 
 
-def is_time_series(x: Any):
+def is_time_series(x: Any) -> bool:
     """Returns whether `x` is a Pandas `Series` or `DataFrame` with a Pandas `DatetimeIndex`."""
     if is_group_by(x):
         x = x.obj
@@ -126,11 +146,21 @@ def is_time_series(x: Any):
 ##############################
 
 
-def is_index(x: Any):
+def is_index(x: Any) -> bool:
     """Returns whether `x` is a Pandas `Index`."""
     return isinstance(x, INDEX_TYPE)
 
 
-def is_time_index(x: Any):
+def is_index_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `Index` type."""
+    return issubclass(t, INDEX_TYPE)
+
+
+def is_time_index(x: Any) -> bool:
     """Returns whether `x` is a Pandas `DatetimeIndex`."""
     return isinstance(x, TIME_INDEX_TYPE)
+
+
+def is_time_index_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a Pandas `DatetimeIndex` type."""
+    return issubclass(t, TIME_INDEX_TYPE)

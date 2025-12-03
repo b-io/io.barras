@@ -45,6 +45,7 @@ from typing import (
 from typing_extensions import TypeAlias
 
 from nutil.caching.common import CachePolicy
+from nutil.scalar.string import to_string
 
 ## SECTIONED CACHING CLASSES #############################################################
 

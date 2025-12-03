@@ -21,6 +21,7 @@ import unittest
 from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
 from ntest.unit.unittest import Test
+from nutil.io.log import configure_logging
 from nutil.math import *
 from nutil.struct.util import *
 
@@ -181,6 +182,7 @@ __MATH_TEST_MAIN____________________________________________ = ""
 
 def main():
     """Tests the mathematical utility library."""
+    configure_logging()
     unittest.main()
 
 

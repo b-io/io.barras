@@ -17,6 +17,7 @@
 
 import unittest
 from ntest.common import *
+from nutil.io.log import configure_logging
 
 from nutil.math import *
 from nutil.scalar.string import *
@@ -87,6 +88,7 @@ __TEST_MAIN_________________________________________________ = ""
 
 def main():
     """Tests the utility library."""
+    configure_logging()
     unittest.main()
 
 

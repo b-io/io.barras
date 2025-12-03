@@ -67,6 +67,65 @@ def to_string(x: Any, *, default: str="", delimiter=",", strip: Optional[str] = 
     return str(x).strip(strip) if strip is not None else str(x)
 
 
+### LETTERS ################################################
+
+def to_greek_letter(n: int) -> str:
+    """Converts `1` → `"α"`, `2` → `"β"`, … using a 24-letter cycle (supports >24 as `"αα"`, `"αβ"`, …)."""
+    if n <= 0:
+        return ""
+
+    # Greek lowercase letters (24 letters, excluding final sigma)
+    greek_letters = "αβγδεζηθικλμνξοπρστυφχψω"
+
+    letters = []
+    x = n
+    while x > 0:
+        x -= 1
+        letters.append(greek_letters[x % 24])
+        x //= 24
+    return "".join(reversed(letters))
+
+
+def to_latin_letter(n: int) -> str:
+    """Converts `1` → `"a"`, `2` → `"b"`, … using a 26-letter cycle (supports >26 as `"aa"`, `"ab"`, …)."""
+    if n <= 0:
+        return ""
+    letters = []
+    x = n
+    while x > 0:
+        x -= 1
+        letters.append(chr(ord("a") + (x % 26)))
+        x //= 26
+    return "".join(reversed(letters))
+
+
+def to_roman(n: int) -> str:
+    """Converts an integer `n` (>= 1) to a Roman numeral."""
+    vals = [
+        (1000, "M"),
+        (900, "CM"),
+        (500, "D"),
+        (400, "CD"),
+        (100, "C"),
+        (90, "XC"),
+        (50, "L"),
+        (40, "XL"),
+        (10, "X"),
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I"),
+    ]
+    out = []
+    x = n
+    for v, s in vals:
+        if x == 0:
+            break
+        q, x = divmod(x, v)
+        out.append(s * q)
+    return "".join(out)
+
+
 ## STRING GENERATORS #####################################################################
 
 __STRING_GENERATORS_________________________________________ = ""

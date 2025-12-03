@@ -26,6 +26,9 @@ from collections.abc import (
     Set as ABCSet,
 )
 
+from nutil.struct import is_element_type
+
+from nutil import is_element
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
@@ -95,12 +98,17 @@ def is_collection(x: Any) -> bool:
         • `str` (treated as scalar text)
         • `tuple` (treated as an atomic element)
     """
-    return (
-        isinstance(x, COLLECTION_TYPE)
-        and not is_byte_like(x)
-        and not is_string(x)
-        and not is_tuple(x)
-    )
+    return isinstance(x, COLLECTION_TYPE) and not is_element(x)
+
+
+def is_collection_type(t: Type[Any]) -> bool:
+    """
+    Returns whether `t` is a generic collection (1-D container) type excluding:
+        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • `str` (treated as scalar text)
+        • `tuple` (treated as an atomic element)
+    """
+    return issubclass(t, COLLECTION_TYPE) and not is_element_type(t)
 
 
 ##############################
@@ -113,6 +121,15 @@ def is_iterable(x: Any) -> bool:
         • `str` (treated as scalar text)
     """
     return isinstance(x, ITERABLE_TYPE) and not is_byte_like(x) and not is_string(x)
+
+
+def is_iterable_type(t: Type[Any]) -> bool:
+    """
+    Returns whether `t` is an `Iterable` type excluding:
+        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • `str` (treated as scalar text)
+    """
+    return issubclass(t, ITERABLE_TYPE) and not is_byte_like_type(t) and not is_string_type(t)
 
 
 def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = False) -> bool:
@@ -149,12 +166,22 @@ def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = 
 
 def is_sequence(x: Any) -> bool:
     """Returns whether `x` is a `Sequence`."""
-    return isinstance(x, SEQUENCE_TYPE)
+    return isinstance(x, SEQUENCE_TYPE) and not is_element(x)
+
+
+def is_sequence_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `Sequence` type."""
+    return issubclass(t, SEQUENCE_TYPE) and not is_element_type(t)
 
 
 def is_mutable_sequence(x: Any) -> bool:
     """Returns whether `x` is a `MutableSequence`."""
-    return isinstance(x, MUTABLE_SEQUENCE_TYPE)
+    return isinstance(x, MUTABLE_SEQUENCE_TYPE) and not is_element(x)
+
+
+def is_mutable_sequence_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `MutableSequence` type."""
+    return issubclass(t, MUTABLE_SEQUENCE_TYPE) and not is_element_type(t)
 
 
 ### ARRAY ##################################################
@@ -167,6 +194,11 @@ def is_array(x: Any) -> bool:
     return isinstance(x, ARRAY_TYPE)
 
 
+def is_array_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a NumPy `ndarray` type."""
+    return issubclass(t, ARRAY_TYPE)
+
+
 ### DICT ###################################################
 
 __COMMON_DICT_VERIFIERS_____________________________________ = ""
@@ -175,6 +207,11 @@ __COMMON_DICT_VERIFIERS_____________________________________ = ""
 def is_dict(x: Any) -> bool:
     """Returns whether `x` is a `dict`."""
     return isinstance(x, DICT_TYPE)
+
+
+def is_dict_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `dict` type."""
+    return issubclass(t, DICT_TYPE)
 
 
 ### LIST ###################################################
@@ -187,6 +224,11 @@ def is_list(x: Any) -> bool:
     return isinstance(x, LIST_TYPE)
 
 
+def is_list_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `list` type."""
+    return issubclass(t, LIST_TYPE)
+
+
 ### SET ####################################################
 
 __COMMON_SET_VERIFIERS______________________________________ = ""
@@ -197,11 +239,26 @@ def is_set(x: Any) -> bool:
     return isinstance(x, SET_TYPE)
 
 
+def is_set_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `Set` type (including `set` and `frozenset`)."""
+    return issubclass(t, SET_TYPE)
+
+
 def is_frozen_set(x: Any) -> bool:
     """Returns whether `x` is a `frozenset`."""
     return isinstance(x, FROZENSET_TYPE)
 
 
+def is_frozen_set_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `frozenset` type."""
+    return issubclass(t, FROZENSET_TYPE)
+
+
 def is_mutable_set(x: Any) -> bool:
     """Returns whether `x` is a `MutableSet` (including `set`)."""
     return isinstance(x, MUTABLE_SET_TYPE)
+
+
+def is_mutable_set_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a `MutableSet` type (including `set`)."""
+    return issubclass(t, MUTABLE_SET_TYPE)

@@ -637,3 +637,8 @@ __ORDERED_SET_VERIFIERS_____________________________________ = ""
 def is_ordered_set(x: Any) -> bool:
     """Returns whether `x` is an `OrderedSet`."""
     return isinstance(x, ORDERED_SET_TYPE)
+
+
+def is_ordered_set_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `OrderedSet` type."""
+    return issubclass(t, ORDERED_SET_TYPE)

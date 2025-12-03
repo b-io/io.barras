@@ -1107,7 +1107,7 @@ def unstruct(s: Any) -> Any:
 ##############################
 
 
-def to_element_type(x: Any, t: Any) -> Any:
+def to_element_type(x: Any, t: Type[Any]) -> Any:
     """
     Converts `x` to the specified element type `t`.
 
@@ -1453,22 +1453,100 @@ def to_time_frame(
     )
 
 
-# Struct_processors.py — refactored processors & helpers (drop-in)
-
 ## STRUCT GENERATORS #####################################################################
 
 __STRUCT_GENERATORS_________________________________________ = ""
 
 
-def create_empty(t: Union[Type[dict], Type[list], Type[set]]) -> Union[dict, list, set]:
-    """Returns an empty structure that matches the expected type."""
-    if t is dict:
+def create_empty(
+    t: Union[Any, Type[Any]],
+    *,
+    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    registry: Optional[CollectionRegistry] = None,
+) -> Any:
+    """
+    Returns an empty structure compatible with the specified container type.
+
+    Behavior:
+        • If `t` is an instance, derives its type via `type(t)`.
+        • If `registry` is `None`, uses the global `CollectionRegistry` singleton.
+        • If an adapter is registered for `t`, tries to construct an empty instance of
+          the resolved type:
+            – If the type defines `from_iterable`, calls it with an empty `list`.
+            – Otherwise tries the no-arg constructor.
+        • If no adapter is found or construction fails, falls back to structural rules:
+            – `Mapping` / `MutableMapping` → `dict()`
+            – `MutableSequence` or non-string `Sequence` → `list()`
+            – `MutableSet` / `Set` → `set()`
+            – `np.ndarray` → `to_array(element_type=element_type)`
+            – `pd.DataFrame` → `pd.DataFrame()`
+            – `pd.Series` → `pd.Series(dtype=element_type or OBJECT_TYPE)`
+            – Generic `Iterable` → `tuple()`.
+
+    Args:
+        t: The container type or instance whose empty counterpart is required.
+        element_type: Optional NumPy dtype or element type used for array-like
+            outputs (`np.ndarray`, `pd.Series`). When `None`, uses a default for
+            the target type.
+        registry: Optional collection registry. When `None`, uses the global
+            `CollectionRegistry` singleton.
+
+    Returns:
+        An empty structure compatible with `t`.
+
+    Raises:
+        ValueError: If `t` cannot be mapped to an empty structure.
+    """
+    # Normalize to a type so both types and instances are accepted
+    t: Type[Any] = t if isinstance(t, type) else type(t)
+
+    # 1) Resolve registry and ask it for an adapter
+    if is_null(registry):
+        registry = CollectionRegistry()
+
+    adapter = registry.get(t) if registry is not None else None
+
+    if adapter is not None:
+        # Prefer constructing the specified type, not the adapter base type, so subclasses can override `from_iterable`
+        factory = getattr(t, "from_iterable", None)
+        if callable(factory):
+            try:
+                return factory([])
+            except TypeError:
+                # Signature mismatch → fall back to no-arg constructor / structural rules
+                pass
+        try:
+            return t()
+        except TypeError:
+            # Continue to structural fallbacks
+            pass
+
+    # 2) Explicit known structures
+    if t is pd.DataFrame:
+        return pd.DataFrame()
+    if t is pd.Series:
+        dtype = element_type if not is_null(element_type) else OBJECT_TYPE
+        return pd.Series(dtype=dtype)
+    if t is np.ndarray:
+        return to_array(element_type=element_type)
+    if t is OrderedSet:
+        return OrderedSet()
+
+    # 3) Structural fallbacks via ABCs
+    if is_mapping_type(t):
         return dict()
-    elif t is list:
+    if is_sequence_type(t) and not is_string_type(t):
         return list()
-    elif t is set:
+    if issubclass(t, AbcMutableSet) or issubclass(t, AbcSet):
         return set()
-    raise ValueError(f"Unexpected structure type '{t}'")
+    if issubclass(t, AbcIterable):
+        return tuple()
+
+    # 4) Last resort: try a bare no-arg constructor before failing
+    try:
+        return t()
+    except TypeError as e:
+        raise ValueError(f"Unexpected structure type '{t}'") from e
 
 
 def create_mask(

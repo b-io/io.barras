@@ -8,9 +8,9 @@
 #   Provide table utilities.
 ##########################################################################################
 
+from dataclasses import fields, is_dataclass
 from typing import (
     Any,
-    Callable,
     Container,
     Iterable,
     List,
@@ -19,10 +19,8 @@ from typing import (
     Protocol,
     Set,
     Tuple,
-    Type,
     Union,
 )
-from dataclasses import fields, is_dataclass
 
 from nutil.scalar.string import to_string
 
