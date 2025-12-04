@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains collection registry utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide collection registry utilities.
 ##########################################################################################
 
 from . import common

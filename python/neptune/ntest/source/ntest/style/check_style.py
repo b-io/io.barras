@@ -29,7 +29,7 @@ import re
 from pathlib import Path
 from typing import List, Tuple
 
-from ntest.style.common import StyleConfig, StyleRule, load_yaml_config
+from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
 from nutil.constants import DEFAULT_ENCODING
 from nutil.io.file import (
     exclude_dir,
@@ -39,16 +39,6 @@ from nutil.io.file import (
     to_relative_posix_path,
 )
 from nutil.io.logging import configure_logging
-
-
-## CONFIG ################################################################################
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(module)s] [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
-
 
 ## RUNNER ################################################################################
 

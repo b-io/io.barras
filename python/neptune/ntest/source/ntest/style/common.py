@@ -123,7 +123,7 @@ from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate
 from nutil.struct.table.util import get_row_string
 
-## STYLE CONSTANTS ######################################################################################################
+## STYLE CONSTANTS #######################################################################
 
 DEFAULT_EXCLUDES: List[str] = [
     "**/__pycache__/**",
@@ -143,7 +143,7 @@ FLAG_MAP: Dict[str, int] = {
 }
 
 
-## STYLE CLASSES ########################################################################################################
+## STYLE CLASSES #########################################################################
 
 
 @dataclass
@@ -154,11 +154,11 @@ class StyleRule:
     The layout mirrors the STYLE configuration:
         • `id`
         • `description`
-        • `pattern`   (compiled)
+        • `pattern` (compiled)
         • `include`
         • `exclude`
-        • `flags`     (string names from the YAML: `"IGNORECASE"`, `"MULTILINE"`, ...)
-        • `severity`  (`"error"` or `"warning"`)
+        • `flags` (string names from the YAML: `"IGNORECASE"`, `"MULTILINE"`, ...)
+        • `severity` (`"error"` or `"warning"`)
 
     Args:
         id: The rule identifier.
@@ -236,28 +236,28 @@ def load_yaml_config(path: Path) -> StyleConfig:
     exclude = deduplicate(DEFAULT_EXCLUDES + exclude_yaml)
 
     rules: List[StyleRule] = []
-    for r in data.get("rules") or []:
-        rid = str(r.get("id") or "unnamed")
+    for rule in data.get("rules") or []:
+        rule_id = str(rule.get("id") or "unnamed")
 
-        raw_flags: List[str] = list(r.get("flags") or [])
+        raw_flags: List[str] = list(rule.get("flags") or [])
         flags_val = 0
         for f in raw_flags:
             flags_val |= FLAG_MAP.get(str(f).upper(), 0)
 
         try:
-            pattern: re.Pattern[str] = re.compile(str(r["pattern"]), flags_val)
+            pattern: re.Pattern[str] = re.compile(str(rule["pattern"]), flags_val)
         except Exception as e:
-            sys.exit(f"Invalid regex for rule '{rid}': {e}")
+            sys.exit(f"Invalid regex for rule '{rule_id}': {e}")
 
         rules.append(
             StyleRule(
-                id=rid,
-                description=get_row_string(r, "description"),
+                id=rule_id,
+                description=get_row_string(rule, "description"),
                 pattern=pattern,
-                include=list(r.get("include") or ["**/*"]),
-                exclude=list(r.get("exclude") or []),
+                include=list(rule.get("include") or ["**/*"]),
+                exclude=list(rule.get("exclude") or []),
                 flags=[str(f).upper() for f in raw_flags],
-                severity=str(r.get("severity") or "warning").casefold(),
+                severity=str(rule.get("severity") or "warning").casefold(),
             )
         )
 

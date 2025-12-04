@@ -4,22 +4,14 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains mathematical utilities for normal distributions
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide mathematical utilities for normal distributions.
 ##########################################################################################
 
 from scipy.special import ndtr
 
 from nmath.common import *
 from nutil.math import *
-from nutil.scalar.string import *
 from nutil.struct.util import *
 
 ## NORMAL CONSTANTS ######################################################################

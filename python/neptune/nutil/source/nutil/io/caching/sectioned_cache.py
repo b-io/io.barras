@@ -27,25 +27,13 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import (
-    Any,
-    Callable,
-    ClassVar,
-    Dict,
-    Generic,
-    Iterable,
-    List,
-    Optional,
-    Pattern,
-    Tuple,
-    TypeVar,
-    Union,
-)
+from typing import (Callable, Pattern, )
 
 from typing_extensions import TypeAlias
 
-from nutil.caching.common import CachePolicy
-from nutil.scalar.string import to_string
+from nutil.common import *
+from nutil.io.caching.common import CachePolicy
+from nutil.io.file import write_json
 
 ## SECTIONED CACHING CLASSES #############################################################
 
@@ -154,14 +142,14 @@ class SectionedCache(Generic[V]):
         """
         Returns the `(key, value)` pairs in the `section`, filtered by the `prefix` and/or the regex `pattern`.
         """
-        m = self.map(section)
-        pref = to_string(prefix)
+        bucket = self.map(section)
+        prefix = stringify(prefix)
         if isinstance(pattern, str) and pattern:
             pattern = re.compile(pattern, flags=re.I)
 
         out: List[Tuple[str, V]] = []
-        for k, v in m.items():
-            if pref and not k.startswith(pref):
+        for k, v in bucket.items():
+            if prefix and not k.startswith(prefix):
                 continue
             if pattern and not pattern.search(k):
                 continue
@@ -246,8 +234,8 @@ class SectionedCache(Generic[V]):
         # Work on a new list to trigger the `set` equality detection (avoid the in-place mutation)
         new_list: List[Any] = target_list.copy()
 
-        for s in sources or ():
-            key = to_string(s)
+        for source in sources or ():
+            key = stringify(source)
             if key and key in m and key != target:
                 src_val = m[key]
                 if isinstance(src_val, list):
@@ -292,7 +280,7 @@ class SectionedCache(Generic[V]):
         """Deletes the exact `keys` from the `section` and returns the number removed."""
         removed = 0
         for key in keys or ():
-            k = to_string(key)
+            k = stringify(key)
             if k and self.delete(section, k):
                 removed += 1
         return removed

@@ -14,7 +14,6 @@ import logging
 import re
 from typing import Callable, List, Match, Optional, Set, Tuple, Union
 
-
 ## STRING COMPARATORS ####################################################################
 
 

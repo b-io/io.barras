@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains machine learning utilities for multivariate regressions
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide machine learning utilities for multivariate regressions.
 ##########################################################################################
 
 import statsmodels.api as sm

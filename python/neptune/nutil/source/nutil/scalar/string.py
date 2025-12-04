@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common utilities.
 ##########################################################################################
 
 import random
@@ -57,17 +50,18 @@ ALPHA_NUMERIC_CHARS: str = f"{LETTERS}{DIGITS}"
 __STRING_CONVERTERS_________________________________________ = ""
 
 
-def to_string(x: Any, *, default: str="", delimiter=",", strip: Optional[str] = None):
+def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] = None):
     if is_null(x):
         return default
     elif is_collection(x):
         if hasattr(x, "astype"):
             return x.astype(STRING_ELEMENT_TYPE)
         return collapse(x, default=default, delimiter=delimiter, strip=strip)
-    return str(x).strip(strip) if strip is not None else str(x)
+    return stringify(x, default=default, strip=strip)
 
 
 ### LETTERS ################################################
+
 
 def to_greek_letter(n: int) -> str:
     """Converts `1` → `"α"`, `2` → `"β"`, … using a 24-letter cycle (supports >24 as `"αα"`, `"αβ"`, …)."""
@@ -184,6 +178,7 @@ def split(s, delimiter=",", empty_filter=True):
     """
     if empty_filter:
         from nutil.struct.util import remove_empty
+
         return remove_empty(re.split(delimiter, s))
     return re.split(delimiter, s)
 
@@ -215,6 +210,7 @@ def wrap(content, left, right=None):
         right = left
     if is_collection(content):
         from nutil.struct.util import apply
+
         return apply(content, wrap, left, right=right)
     return collapse(left, content, right)
 

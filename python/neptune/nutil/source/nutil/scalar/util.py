@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains scalar converters
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide scalar converters.
 ##########################################################################################
 
 from nutil.scalar.boolean import to_boolean
@@ -24,6 +17,7 @@ from nutil.scalar.string import *
 ## SCALAR CONVERTERS #####################################################################
 
 __SCALAR_CONVERTERS_________________________________________ = ""
+
 
 def to_scalar(x, t):
     if type(x) is t:

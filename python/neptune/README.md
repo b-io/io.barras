@@ -12,6 +12,7 @@ and core utilities — all built on top of **NumPy**, **Pandas**, **Matplotlib**
 ## 🚀 Installation ########################################################################
 
 Clone the repository and navigate to the NEPTUNE module:
+
 ```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/python/neptune/
@@ -24,11 +25,13 @@ cd io.barras/python/neptune/
 ### 🐍 1. Install and Configure Poetry ######################
 
 Install Poetry:
+
 ```bash
 pip install poetry
 ```
 
 Ensure Poetry uses your active Conda environment (or system Python):
+
 ```bash
 poetry config virtualenvs.create false --local
 poetry env info
@@ -37,12 +40,14 @@ poetry env info
 ### 📦 2. Install Project Dependencies ######################
 
 Lock and install dependencies:
+
 ```bash
 poetry lock
 poetry install
 ```
 
 View resolved packages:
+
 ```bash
 poetry show --tree
 ```
@@ -50,11 +55,13 @@ poetry show --tree
 ### 📤 3. Export Requirements (Optional) ####################
 
 Install the export plugin:
+
 ```bash
 poetry self add poetry-plugin-export
 ```
 
 Export grouped dependencies for use with `pip`:
+
 ```bash
 poetry export --without-hashes --with lint,test,docs --format=requirements.txt > requirements.txt
 pip install -r requirements.txt

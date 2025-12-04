@@ -4,24 +4,15 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - tests the utility library
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide unittest utilities.
 ##########################################################################################
 
 import unittest
 from ntest.common import *
-from nutil.io.logging import configure_logging
 
 from nutil.math import *
 from nutil.scalar.string import *
-
 
 ## TEST CLASSES ##########################################################################
 
@@ -79,18 +70,3 @@ class Test(unittest.TestCase):
                     self.assertAlmostEqual(first, second, places=precision)
             else:
                 self.assertEqual(first, second)
-
-
-## TEST MAIN #############################################################################
-
-__TEST_MAIN_________________________________________________ = ""
-
-
-def main():
-    """Tests the utility library."""
-    configure_logging()
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

@@ -14,7 +14,6 @@ from typing import List
 
 from nutil.enums import StrEnum
 
-
 ## COMMON CACHING CLASSES ################################################################
 
 __COMMON_CACHING_CLASSES____________________________________ = ""

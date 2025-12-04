@@ -148,8 +148,9 @@ def get_int(section: str, option: str) -> Optional[int]:
     return int(raw) if raw.strip() != "" else None
 
 
-def get_int_strict(section: str, option: str, *, min_value: Optional[int] = None,
-                   max_value: Optional[int] = None) -> int:
+def get_int_strict(
+    section: str, option: str, *, min_value: Optional[int] = None, max_value: Optional[int] = None
+) -> int:
     """Selects an option as an integer and validates optional bounds.
 
     Args:
@@ -261,6 +262,7 @@ def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RE
 
 ##############################
 
+
 def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) -> None:
     """Reads a nested mapping after coercing all option values to strings.
 
@@ -268,8 +270,10 @@ def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) ->
         config: The target `ConfigParser`.
         data: The nested defaults (sections → options).
     """
-    sanitized: Dict[str, Dict[str, str]] = {section: {opt: format_value(val) for opt, val in options.items()} for
-                                            section, options in data.items()}
+    sanitized: Dict[str, Dict[str, str]] = {
+        section: {opt: format_value(val) for opt, val in options.items()}
+        for section, options in data.items()
+    }
     config.read_dict(sanitized)
 
 
@@ -310,7 +314,9 @@ VERBOSE: bool = get_bool("console", "verbose") or False
 # Date
 DATE_FORMAT: Optional[str] = get_str("date", "dateFormat")
 TIME_FORMAT: Optional[str] = get_str("date", "timeFormat")
-DATE_TIME_FORMAT: Optional[str] = (f"{DATE_FORMAT} {TIME_FORMAT}" if DATE_FORMAT and TIME_FORMAT else None)
+DATE_TIME_FORMAT: Optional[str] = (
+    f"{DATE_FORMAT} {TIME_FORMAT}" if DATE_FORMAT and TIME_FORMAT else None
+)
 
 # Series
 AGGREGATION: Optional[Aggregation] = get_enum("series", "aggregation", Aggregation)
@@ -321,7 +327,10 @@ POSITION: Optional[Position] = get_enum("series", "position", Position)
 
 ## CONFIG VIEW ###########################################################################
 
-def render_config(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, align: bool = True) -> str:
+
+def render_config(
+    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, align: bool = True
+) -> str:
     """
     Renders a readable, aligned multi-line string of the configuration.
 
@@ -350,7 +359,9 @@ def render_config(config: ConfigParser, *, resolve_env: bool = True, redact: boo
     return "\n".join(lines).rstrip()  # no trailing spaces, no extra trailing newline
 
 
-def config_to_dict(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True) -> Dict[str, Dict[str, str]]:
+def config_to_dict(
+    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True
+) -> Dict[str, Dict[str, str]]:
     """
     Converts a `ConfigParser` to a nested dict for inspection.
 
@@ -362,7 +373,16 @@ def config_to_dict(config: ConfigParser, *, resolve_env: bool = True, redact: bo
     Returns:
         A nested dict of sections → options → string values.
     """
-    secret_markers = ("password", "passwd", "secret", "token", "apikey", "api_key", "access_key", "private_key")
+    secret_markers = (
+        "password",
+        "passwd",
+        "secret",
+        "token",
+        "apikey",
+        "api_key",
+        "access_key",
+        "private_key",
+    )
     snapshot: Dict[str, Dict[str, str]] = {}
     for section in config.sections():
         opts: Dict[str, str] = {}
@@ -400,7 +420,9 @@ def config_to_ini(config: ConfigParser) -> str:
     return buffer.getvalue().rstrip()
 
 
-def config_to_json(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, indent: int = 2) -> str:
+def config_to_json(
+    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, indent: int = 2
+) -> str:
     """
     Serializes a `ConfigParser` snapshot to a JSON string.
 
@@ -413,7 +435,11 @@ def config_to_json(config: ConfigParser, *, resolve_env: bool = True, redact: bo
     Returns:
         A JSON string.
     """
-    return json.dumps(config_to_dict(config, resolve_env=resolve_env, redact=redact), indent=indent, ensure_ascii=False)
+    return json.dumps(
+        config_to_dict(config, resolve_env=resolve_env, redact=redact),
+        indent=indent,
+        ensure_ascii=False,
+    )
 
 
 # CONFIG MAIN ##########################################################################################################

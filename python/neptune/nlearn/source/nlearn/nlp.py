@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains machine learning utilities for natural language processing (NLP)
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide machine learning utilities for natural language processing (NLP).
 ##########################################################################################
 
 import logging
@@ -26,7 +19,6 @@ from nutil.config import *
 from nutil.io.file import read_enumerator
 from nutil.math import distances
 from nutil.struct.util import sort, take_at
-
 
 ## NLP CONSTANTS #########################################################################
 

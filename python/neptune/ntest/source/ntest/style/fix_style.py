@@ -18,7 +18,7 @@
 #   • Optionally lowercases the first letter of an inline end-of-line comment (when a matching rule exists).
 #
 # Behavior
-#   • Reads rule regexes and file globs from the YAML file; applies a fixer only when the rule’s `pattern` matches.
+#   • Reads rule regexes and file globs from the YAML file; applies a fixer only when the rule `pattern` matches.
 #   • Merges repository excludes with defaults and prunes directories derived from excludes ending in `"/**"`.
 #   • Processes only files selected by the repo-level and rule-level include/exclude globs.
 #
@@ -41,7 +41,7 @@ import re
 from pathlib import Path
 from typing import Callable, Dict, List, Sequence, Tuple
 
-from ntest.style.common import StyleConfig, StyleRule, load_yaml_config
+from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
 from nutil.constants import DEFAULT_ENCODING
 from nutil.io.file import (
     exclude_dir,
@@ -52,7 +52,6 @@ from nutil.io.file import (
     write_text,
 )
 from nutil.io.logging import configure_logging
-
 
 ## FIXERS ################################################################################
 
@@ -161,29 +160,6 @@ def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]
     return f"{prefix}{first.upper()}{rest}{nl}", True
 
 
-def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Removes a single trailing `.` in a one-line Python comment.
-
-    Triggered only when the `rule.pattern` matches (e.g., URL exclusions handled in YAML).
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-    r = body.rstrip()
-    if r.endswith(".") and not r.endswith(".."):
-        return r[:-1] + body[len(r) :] + nl, True
-    return line, False
-
-
 def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Lowercases the first letter of an inline (end-of-line) comment.
@@ -208,6 +184,29 @@ def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]
         return line, False
     left, first, rest = m.group("left"), m.group("first"), m.group("rest")
     return f"{left}{first.casefold()}{rest}{nl}", True
+
+
+def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Removes a single trailing `.` in a one-line Python comment.
+
+    Triggered only when the `rule.pattern` matches (e.g., URL exclusions handled in YAML).
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+    nl = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if nl else line
+    r = body.rstrip()
+    if r.endswith(".") and not r.endswith(".."):
+        return r[:-1] + body[len(r) :] + nl, True
+    return line, False
 
 
 ## FIXER REGISTRY ########################################################################
@@ -268,7 +267,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     return counts
 
 
-## WALKER ################################################################################
+## RUNNER ################################################################################
 
 
 def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:

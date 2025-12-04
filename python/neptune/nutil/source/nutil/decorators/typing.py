@@ -5,8 +5,8 @@
 
 # TYPING DECORATORS ####################################################################################################
 # Goal
-#   Provide a decorator that enforces a function’s type annotations at runtime, with optional depth control for
-#   nested containers and bounded sampling for iterables.
+#   Provide a decorator that enforces function type annotations at runtime, with optional depth control for nested
+#   containers and bounded sampling for iterables.
 #
 # Terminology
 #   • an `annotation` is a type hint attached to a function parameter or to the special `return` slot.
@@ -25,9 +25,7 @@ from __future__ import annotations
 import inspect
 import logging
 from functools import wraps
-from typing import (
-    Callable,
-)
+from typing import Callable
 
 from nutil.common import *
 from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get_function_name

@@ -25,11 +25,11 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Iterable, List, Optional, Tuple
 
-from nutil.caching.common import CachePolicy
-from nutil.caching.sectioned_cache import SectionedCache
+from nutil.common import stringify
+from nutil.io.caching.common import CachePolicy
+from nutil.io.caching.sectioned_cache import SectionedCache
 from nutil.io.file import resolve_path
 from nutil.io.logging import configure_logging
-
 
 ## RUNNER ################################################################################
 
@@ -145,7 +145,7 @@ def run_with_args(args: argparse.Namespace) -> None:
             logging.info("'%s' entries: %d", section, n)
 
     if args.show:
-        prefix = to_string(args.prefix) or None
+        prefix = stringify(args.prefix) or None
         pattern = re.compile(args.filter, flags=re.I) if args.filter else None
         for section in _get_selected_sections():
             for k, v in cache.items(section, prefix=prefix, pattern=pattern):

@@ -3,11 +3,11 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-from typing import Iterable, Optional
 import re
-
+from typing import Iterable, Optional
 
 ## REGEX #################################################################################
+
 
 def build_alternation_regex(
     alternatives: Iterable[str],

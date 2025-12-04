@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains utilities for mathematics
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide utilities for mathematics.
 ##########################################################################################
 
 from math import cos, sin
@@ -125,7 +118,11 @@ __MATH_ARITHMETIC___________________________________________ = ""
 
 def add_all(*args, numeric_default=None, object_default=None, rename=False):
     return reduce(
-        args, add, numeric_default=numeric_default, object_default=object_default, rename=rename,
+        args,
+        add,
+        numeric_default=numeric_default,
+        object_default=object_default,
+        rename=rename,
     )
 
 
@@ -453,16 +450,12 @@ def divide(c1, c2, numeric_default=None, object_default=None, rename=False):
         # Align shapes then safe divide per chunk
         v1 = np.vstack(c1)
         v2 = get_values(c2)
-        return [
-            struct_to_type(a, c2) for a in safe_divide(v1, v2, invalid_default=numeric_default)
-        ]
+        return [struct_to_type(a, c2) for a in safe_divide(v1, v2, invalid_default=numeric_default)]
     elif is_array(c2):
         # Align shapes then safe divide per chunk
         v1 = get_values(c1)
         v2 = np.vstack(c2)
-        return [
-            struct_to_type(a, c1) for a in safe_divide(v1, v2, invalid_default=numeric_default)
-        ]
+        return [struct_to_type(a, c1) for a in safe_divide(v1, v2, invalid_default=numeric_default)]
     elif is_table(c1):
         # Avoid 1 / 0 when forming reciprocals
         return product_cols(

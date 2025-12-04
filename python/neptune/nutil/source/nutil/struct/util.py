@@ -4,7 +4,7 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
+# Goal
 #   util - contains structure utilities
 #
 # DESCRIPTION
@@ -26,13 +26,7 @@
 #       • “index” = row index
 #       • “keys” = indices or mapping keys (for non-tabular containers)
 #       • `axis=None` → element-wise; `axis=0` → rows; `axis=1` → columns
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+
 ##########################################################################################
 
 from __future__ import annotations
@@ -49,7 +43,6 @@ from nutil.scalar.util import *
 from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
-
 
 ## STRUCT ACCESSORS ######################################################################
 
@@ -949,7 +942,7 @@ def get_row(df: Struct, i: int = 0) -> Value:
         • Negative indices follow the native semantics of the underlying container.
 
     Returns:
-        A one-row `pd.DataFrame` for `DataFrame` input; otherwise the container’s native row object.
+        A one-row `pd.DataFrame` for `DataFrame` input; otherwise the container native row object.
     """
     if is_group_by(df):
         df = get_values(df)
@@ -1012,7 +1005,7 @@ def get_col(df: Struct, j: int = 0) -> Value:
         • Negative `j` is supported per the underlying container semantics.
 
     Returns:
-        The selected column as the container’s native column object (e.g., `pd.Series`).
+        The selected column as the container native column object (e.g., `pd.Series`).
     """
     if is_group_by(df):
         df = get_values(df)

@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains utility enums
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide utility enums.
 ##########################################################################################
 
 from __future__ import annotations
@@ -26,6 +19,7 @@ from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 __ENUMS_____________________________________________________ = ""
 
 I = TypeVar("I", bound="IntEnum")
+
 
 class IntEnumMeta(EnumMeta):
     """
@@ -203,6 +197,7 @@ class IntEnumMeta(EnumMeta):
         """
         return value in cls._value2member_map_  # o(1)
 
+
 class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
     """
     The base class for enums whose members are integers.
@@ -212,9 +207,11 @@ class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
         """Returns the string value of the enum member."""
         return str(self.value)
 
+
 ############################################################
 
 S = TypeVar("S", bound="StrEnum")
+
 
 class StrEnumMeta(EnumMeta):
     """
@@ -316,7 +313,6 @@ class StrEnumMeta(EnumMeta):
         """
         return dict(cls.__members__)
 
-
     def by_value(cls: Type[S]) -> Dict[str, S]:
         """
         Maps the values of the enum members to the corresponding enum members.
@@ -384,6 +380,7 @@ class StrEnumMeta(EnumMeta):
         """
         return value in cls._value2member_map_  # o(1)
 
+
 class StrEnum(str, Enum, metaclass=StrEnumMeta):
     """
     The base class for enums whose members are strings.
@@ -392,6 +389,7 @@ class StrEnum(str, Enum, metaclass=StrEnumMeta):
     def __str__(self) -> str:
         """Returns the string value of the enum member."""
         return self.value
+
 
 ### DISPLAY ################################################
 
@@ -647,7 +645,7 @@ class FileType(StrEnum):
     PNG = "png"
     SVG = "svg"
     TIFF = "tiff"
-    TIF  = "tif"
+    TIF = "tif"
     WEBP = "webp"
 
     # Audio
@@ -992,6 +990,7 @@ class RegionCode(StrEnum):
 
 class MimeCategory(StrEnum):
     """The top-level MIME categories."""
+
     APPLICATION = "application"
     AUDIO = "audio"
     FONT = "font"
@@ -1008,6 +1007,7 @@ class MimeCategory(StrEnum):
 
 class AudioType(StrEnum):
     """The audio MIME types."""
+
     AAC = "audio/aac"
     FLAC = "audio/flac"
     MP3 = "audio/mpeg"
@@ -1021,6 +1021,7 @@ class AudioType(StrEnum):
 
 class ImageType(StrEnum):
     """The image MIME types."""
+
     AVIF = "image/avif"
     BMP = "image/bmp"
     GIF = "image/gif"
@@ -1034,6 +1035,7 @@ class ImageType(StrEnum):
 
 class MediaType(StrEnum):
     """The common media (MIME) types."""
+
     # Generic / structured
     APPLICATION_JSON = "application/json"
     APPLICATION_PDF = "application/pdf"
@@ -1053,6 +1055,7 @@ class MediaType(StrEnum):
 
 class VideoType(StrEnum):
     """The common video MIME types."""
+
     GPP = "video/3gpp"
     MP4 = "video/mp4"
     MPEG = "video/mpeg"
@@ -1072,6 +1075,7 @@ __TIME_SERIES_ENUMS_________________________________________ = ""
 
 class Aggregation(StrEnum):
     """The common aggregation functions for time series."""
+
     COUNT = "count"
     IDENTITY = "identity"  # skips the aggregation
     MIN = "min"
@@ -1085,6 +1089,7 @@ class Aggregation(StrEnum):
 
 class Frequency(StrEnum):
     """The common time series frequencies."""
+
     DAYS = "D"
     WEEKS = "W"
     MONTHS = "ME"
@@ -1095,6 +1100,7 @@ class Frequency(StrEnum):
 
 class Position(StrEnum):
     """The common positional options."""
+
     AUTO = "auto"
     START = "start"
     MIDDLE = "middle"
@@ -1106,6 +1112,7 @@ class Position(StrEnum):
 
 class CloudProvider(StrEnum):
     """The major cloud providers."""
+
     AWS = "aws"
     AZURE = "azure"
     GCP = "gcp"
@@ -1121,6 +1128,7 @@ class HttpContentEncoding(StrEnum):
     As defined in `RFC 7231` section `3.1.2.2` and in the IANA HTTP Content Coding Registry.
     See: https://tools.ietf.org/html/rfc7231#section-3.1.2.2
     """
+
     BR = "br"
     COMPRESS = "compress"
     DEFLATE = "deflate"
@@ -1130,6 +1138,7 @@ class HttpContentEncoding(StrEnum):
 
 class HttpMethod(StrEnum):
     """The HTTP request methods."""
+
     CONNECT = "CONNECT"
     DELETE = "DELETE"
     GET = "GET"
@@ -1143,6 +1152,7 @@ class HttpMethod(StrEnum):
 
 class HttpStatusCode(IntEnum):
     """The common HTTP status codes."""
+
     # 1xx — Informational
     CONTINUE = 100
     SWITCHING_PROTOCOLS = 101

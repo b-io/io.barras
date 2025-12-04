@@ -1,0 +1,24 @@
+#!/bin/sh
+####################################################################################################
+# NAME
+#   <NAME> - install nutil
+#
+# SYNOPSIS
+#   <NAME>
+#
+# AUTHOR
+#   Written by Florian Barras (florian@barras.io).
+#
+# COPYRIGHT
+#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
+#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+####################################################################################################
+
+# 1. Upgrade Poetry and pip to ensure latest tools are used
+python -m pip install --user --upgrade pip poetry
+
+# 2. Install project dependencies and create a lockfile
+poetry lock
+
+# 3. Build the package (creates the .whl and .tar.gz files in the dist/ directory)
+poetry build

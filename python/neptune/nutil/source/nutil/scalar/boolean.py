@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains boolean utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide boolean utilities.
 ##########################################################################################
 
 from distutils.util import strtobool
@@ -23,6 +16,7 @@ from nutil.scalar.number import *
 
 __BOOLEAN_CONVERTERS________________________________________ = ""
 
+
 def to_boolean(x: Any):
     if is_null(x):
         return NAN
@@ -30,6 +24,7 @@ def to_boolean(x: Any):
         if hasattr(x, "astype"):
             return x.astype(BOOLEAN_ELEMENT_TYPE)
         from nutil.struct.util import apply
+
         return apply(x, to_boolean)
     elif is_string(x):
         return bool(strtobool(x))

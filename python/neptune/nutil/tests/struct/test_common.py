@@ -1,6 +1,6 @@
 # Tests/struct/test_common.py
 ##########################################################################################
-# NAME
+# Goal
 #   test_common - contains unit tests for the `OrderedSet` implementation and helpers
 #
 # DESCRIPTION
@@ -14,7 +14,6 @@
 import pytest
 
 from nutil.struct.common import *
-
 
 # 1. TEST DOUBLES ######################################################################################################
 

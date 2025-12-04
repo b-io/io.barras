@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common utilities.
 ##########################################################################################
 
 from __future__ import annotations
@@ -22,6 +15,7 @@ from nutil.common import *
 ## BYTES CONVERTERS ######################################################################
 
 __BYTES_CONVERTERS__________________________________________ = ""
+
 
 def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -> Any:
     """
@@ -55,9 +49,11 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
         if x.dtype == np.uint8:
             return x.tobytes()
         from nutil.struct.util import apply
+
         return apply(x, lambda e: to_bytes(e, encoding, errors))
     elif is_collection(x):
         from nutil.struct.util import apply
+
         return apply(x, lambda e: to_bytes(e, encoding, errors))
     elif is_callable(x, "__bytes__"):
         try:

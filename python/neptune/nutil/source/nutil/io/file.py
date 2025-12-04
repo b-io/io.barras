@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common utilities.
 ##########################################################################################
 
 import csv
@@ -29,7 +22,6 @@ import validators
 from nutil.common import *
 from nutil.struct.table.util import get_row_keys, get_row_values, Row
 from nutil.struct.util import set_index_name
-
 
 ## WRITERS ###############################################################################
 
@@ -696,6 +688,7 @@ def exclude_file(rel_path: str, exclude: List[str], include: List[str]) -> bool:
 
 
 #### PATHS ###################
+
 
 def join_posix_paths(a: str, b: str) -> str:
     """Joins two POSIX path fragments into a clean relative path."""

@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains utilities for databases
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide utilities for databases.
 ##########################################################################################
 
 import logging
@@ -25,7 +18,6 @@ from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
 
 from nutil.scalar.date import *
-from nutil.scalar.string import *
 from nutil.struct.util import *
 
 ## DB CONSTANTS ##########################################################################

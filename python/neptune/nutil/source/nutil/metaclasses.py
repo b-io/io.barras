@@ -152,6 +152,7 @@ class FinalSingletonMeta(type):
 
 ### OVERWRITABLE SINGLETON #################################
 
+
 class SingletonMeta(type):
     """
     A metaclass that provides a per-subclass singleton instance with controlled overwrite and thread
@@ -289,8 +290,8 @@ class SingletonMeta(type):
 
     def set(cls: Type[T], *args: Any, **kwargs: Any) -> T:
         """
-        Creates the singleton instance if it does not exist yet using the specified constructor
-        arguments, and stores those constructor arguments for future resets.
+        Creates the singleton instance if it does not exist yet using the specified constructor arguments and stores
+        them for future resets.
         """
         with cls._lock:
             if cls._instance is None:

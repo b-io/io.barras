@@ -2,17 +2,11 @@
 # -*- coding: utf-8 -*-
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
+import unittest
 
 ##########################################################################################
-# NAME
-#   <NAME> - tests the connectivity utility library
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Test the connectivity utility library.
 ##########################################################################################
 
 from nconnect.db import *
@@ -51,3 +45,17 @@ class TestDB(Test):
             create_update_table_query("name", ["A"], {"A": 1}),
             'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;',
         )
+
+
+## CONNECT TEST MAIN #####################################################################
+
+__CONNECT_TEST_MAIN_________________________________________ = ""
+
+
+def main():
+    """Tests the connectivity utility library."""
+    unittest.main()
+
+
+if __name__ == "__main__":
+    main()

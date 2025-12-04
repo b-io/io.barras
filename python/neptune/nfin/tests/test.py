@@ -4,28 +4,17 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - tests the financial utility library
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Test the financial utility library.
 ##########################################################################################
 
 import logging
 import unittest
 
-import pandas as pd
-
 from nfin.time_series import *
 from ntest.unit.unittest import Test
 from nutil.io.logging import configure_logging
 from nutil.scalar.date import *
-
-import plotly.io as pio
 
 ## FIN TEST CONSTANTS ####################################################################
 

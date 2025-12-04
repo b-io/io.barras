@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains utility formatters
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide utility formatters.
 ##########################################################################################
 
 from nutil.scalar.string import *
@@ -20,6 +13,7 @@ from nutil.scalar.string import *
 ## FORMATTER PROCESSORS ##################################################################
 
 __FORMATTER_PROCESSORS______________________________________ = ""
+
 
 def format_bulleted_value(value):
     return collapse(NEWLINE, BULLET, " ", round(value) if is_number(value) else value)

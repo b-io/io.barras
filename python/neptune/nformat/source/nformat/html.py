@@ -3,14 +3,9 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-from typing import (
-    Container,
-    List,
-    Optional,
-)
+from typing import Container, List, Optional
 
 from bs4 import NavigableString, Tag
-
 
 ## HTML ##################################################################################
 

@@ -1,6 +1,6 @@
 # Tests/test_ordered_set.py
 ##########################################################################################
-# NAME
+# Goal
 #   test_ordered_set - contains unit tests for the `OrderedSet` implementation and helpers
 #
 # DESCRIPTION
@@ -16,7 +16,6 @@ from __future__ import annotations
 import pytest
 
 from nutil.struct.collection.registry.ordered_set import *
-
 
 ## FIXTURES ##############################################################################
 

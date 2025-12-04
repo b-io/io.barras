@@ -24,7 +24,6 @@ from typing import (
 
 from nutil.scalar.string import to_string
 
-
 ## TABLE CLASSES #########################################################################
 
 ### ROWS ###################################################

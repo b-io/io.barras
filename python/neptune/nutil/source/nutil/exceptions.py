@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains utility exceptions
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide utility exceptions.
 ##########################################################################################
 
 from typing import Callable
@@ -33,6 +26,7 @@ class ErrorList(List[Any]):
 ### TYPE ERROR #############################################
 
 __TYPE_ERROR_CLASSES________________________________________ = ""
+
 
 class ExpectedTypeList(List[Type[Any]]):
     """A specialized `list` for expected types."""
@@ -67,16 +61,19 @@ def create_type_error(
     has_multiple_inputs = isinstance(input_names, ErrorList) and len(input_names) > 1
     has_parallel_expected = isinstance(expected_types, ErrorList) and len(expected_types) > 1
 
-    def _format(items: Union[Any, ErrorList[Any], ExpectedTypeList[Type[Any]]],
-                *, scalar: Callable[[Any], str]) -> str:
+    def _format(
+        items: Union[Any, ErrorList[Any], ExpectedTypeList[Type[Any]]],
+        *,
+        scalar: Callable[[Any], str],
+    ) -> str:
         if isinstance(items, ErrorList):
             return group_separator.join(_format(x, scalar=scalar) for x in items)
         elif isinstance(items, ExpectedTypeList):
             return set_separator.join(f"'{scalar(t)}'" for t in items)
         return f"'{scalar(items)}'"
 
-    input_names_str    = _format(input_names,    scalar=str)
-    input_types_str    = _format(input_values,   scalar=get_type_name)
+    input_names_str = _format(input_names, scalar=str)
+    input_types_str = _format(input_values, scalar=get_type_name)
     expected_types_str = _format(expected_types, scalar=get_type_name)
 
     return TypeError(

@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common utilities.
 ##########################################################################################
 
 from __future__ import annotations
@@ -58,12 +51,11 @@ def get_exec_info() -> Optional[Type[BaseException]]:
 ##############################
 
 def get_frame(level: int = 0) -> types.FrameType:
-    """Returns the caller’s `FrameType` at the specified `level` above this function."""
+    """Returns the caller `FrameType` at the specified `level` above this function."""
     if level < 0:
         raise ValueError("'level' must be non-negative")
     try:
-        # +1 skips this helper’s own frame
-        return sys._getframe(1 + level)
+        return sys._getframe(1 + level)  # adds 1 to skip this frame
     except ValueError as e:
         raise IndexError(f"'level'={level} exceeds call stack depth") from e
 
@@ -71,7 +63,7 @@ def get_function_name(level: int = 0, *, qualified: bool = False, module: bool =
                       default: str = DEFAULT_UNKNOWN) -> str:
     """Returns the function name at the specified `level` (0 = immediate caller of this helper)."""
     try:
-        f = get_frame(level + 1)
+        f = get_frame(level + 1)  # adds 1 to skip this frame
     except IndexError:
         return default
 
@@ -97,7 +89,7 @@ def get_function_name(level: int = 0, *, qualified: bool = False, module: bool =
 def get_script_name(level: int = 0, default:str = DEFAULT_UNKNOWN) -> str:
     """Returns the script file name at the specified call `level`."""
     try:
-        f = get_frame(level + 1)
+        f = get_frame(level + 1)  # adds 1 to skip this frame
         return os.path.basename(f.f_code.co_filename)
     except IndexError:
         return default
@@ -105,7 +97,7 @@ def get_script_name(level: int = 0, default:str = DEFAULT_UNKNOWN) -> str:
 def get_line_number(level: int = 0) -> int:
     """Returns the line number at the specified call `level`."""
     try:
-        return get_frame(level + 1).f_lineno
+        return get_frame(level + 1).f_lineno  # adds 1 to skip this frame
     except IndexError:
         return -1
 
@@ -123,7 +115,7 @@ def get_class_name(x: Any) -> str:
 
 
 def get_full_class_name(x: Any) -> str:
-    """Returns the fully-qualified class name of `x` (module + class)."""
+    """Returns the fully qualified class name of `x` (module + class)."""
     module_name = get_module_name(x)
     if is_null(module_name) or module_name == get_module_name(str):
         return get_class_name(x)
@@ -275,6 +267,7 @@ def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
     """
     return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
 
+
 def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
     """Returns the string representation of `x`."""
     s = str(x) if x is not None else default
@@ -372,13 +365,13 @@ def is_any_not_value(value: Any, *args: Any) -> bool:
 
 def exists(name: str, *, level: int = 0) -> bool:
     """
-    Returns whether an identifier `name` exists in the caller’s scope or builtins.
-    0 = immediate caller of this helper; walks up `level` frames.
+    Returns whether an identifier `name` exists in the caller scope or builtins.
+    Walks up `level` frames (`0` for the immediate caller).
     """
     if level < 0:
         raise ValueError("'level' must be non-negative")
     try:
-        f = get_frame(level + 1)
+        f = get_frame(level + 1)  # adds 1 to skip this frame
     except IndexError:
         return hasattr(builtins, name)
 

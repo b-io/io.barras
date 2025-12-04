@@ -4,19 +4,10 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common machine learning utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common machine learning utilities.
 ##########################################################################################
 
-import matplotlib.cm as mcm
-import matplotlib.pyplot as mplot
 import plotly.graph_objs as go
 
 from ngui.charts import create_figure, get_hover_template, update_layout_size

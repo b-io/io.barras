@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains common utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide common utilities.
 ##########################################################################################
 
 from nutil.common import *
@@ -41,6 +34,7 @@ def to_int(x: Any):
         if hasattr(x, "astype"):
             return x.astype(INT_ELEMENT_TYPE)
         from nutil.struct.util import apply
+
         return apply(x, to_int)
     return int(x)
 
@@ -52,6 +46,7 @@ def to_float(x: Any):
         if hasattr(x, "astype"):
             return x.astype(FLOAT_ELEMENT_TYPE)
         from nutil.struct.util import apply
+
         return apply(x, to_float)
     return float(x)
 
@@ -144,6 +139,7 @@ def nearest(c, value):
         return None
     elif is_series(c) or is_array(c):
         from nutil.struct.util import get
+
         return get(c, abs(c - value).argmin())
     return min(to_list(c), key=lambda x: abs(x - value))
 
@@ -153,6 +149,7 @@ def farthest(c, value):
         return None
     elif is_series(c) or is_array(c):
         from nutil.struct.util import get
+
         return get(c, abs(c - value).argmax())
     return max(to_list(c), key=lambda x: abs(x - value))
 
@@ -160,6 +157,7 @@ def farthest(c, value):
 ## NUMBER VERIFIERS ######################################################################
 
 __NUMBER_VERIFIERS__________________________________________ = ""
+
 
 def equals(x, y):
     return is_null(x) and is_null(y) or x == y

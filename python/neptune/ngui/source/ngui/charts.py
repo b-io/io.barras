@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains graphical user interface utilities for charts
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide graphical user interface utilities for charts.
 ##########################################################################################
 
 import io
@@ -535,7 +528,7 @@ def create_figures(
         cols=col_count,
         shared_xaxes=share_x,
         shared_yaxes=share_y,
-        subplot_titles=apply(subtitles, to_string),
+        subplot_titles=apply(subtitles, stringify),
         x_title=title_x,
         y_title=title_y,
     )
@@ -1299,10 +1292,10 @@ def update_layout_axes(
             # Set the titles
             # - Horizontal axis
             if not is_null(title_x):
-                ax.set_xlabel(to_string(title_x))
+                ax.set_xlabel(stringify(title_x))
             # - Vertical axis
             if not is_null(title_y):
-                ax.set_ylabel(to_string(title_y))
+                ax.set_ylabel(stringify(title_y))
             # Set the spines
             for _, spine in ax.spines.items():
                 spine.set_color(axis_color)
@@ -1367,21 +1360,21 @@ def update_layout_axes(
         # - Horizontal axis
         if not is_null(title_x):
             fig.update_xaxes(
-                title=dict(font_color=label_color, font_size=label_size, text=to_string(title_x)),
+                title=dict(font_color=label_color, font_size=label_size, text=stringify(title_x)),
             )
         # - Primary vertical axis
         if not is_null(title_y):
             update_axis_y(
                 fig,
                 yaxis=1,
-                title=dict(font_color=label_color, font_size=label_size, text=to_string(title_y)),
+                title=dict(font_color=label_color, font_size=label_size, text=stringify(title_y)),
             )
         # - Secondary vertical axis
         if not is_null(title_y2):
             update_axis_y(
                 fig,
                 yaxis=2,
-                title=dict(font_color=label_color, font_size=label_size, text=to_string(title_y2)),
+                title=dict(font_color=label_color, font_size=label_size, text=stringify(title_y2)),
             )
         # Set the scale
         if not is_null(scale_ratio_y):

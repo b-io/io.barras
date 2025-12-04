@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains a common collection registry
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide a common collection registry.
 ##########################################################################################
 
 from __future__ import annotations
@@ -66,7 +59,7 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
     Class decorator that:
         • Sets class-level metadata:
             – `__adapts__`: a `tuple` of all supported target types.
-            – `__adapter_priority__`: the adapter’s priority value.
+            – `__adapter_priority__`: the adapter priority value.
         • Sets instance-level metadata for each registered adapter:
             – `__adapts__`: the single bound target type for that instance.
             – `__adapter_priority__`: the same priority value.
@@ -210,8 +203,7 @@ class CollectionAdapter(Generic[T], ABC):
 
     def from_iterable(self, iterable: Iterable[T]) -> Any:
         """
-        Returns a new instance of this adapter’s target type constructed from the specified
-        `Iterable`.
+        Returns a new instance of this adapter target type constructed from the specified `Iterable`.
 
         Resolution order:
             1) Uses `target_type.from_iterable(iterable)` if present (e.g., `AbstractCollection`).
@@ -311,7 +303,7 @@ class CollectionAdapter(Generic[T], ABC):
     ### VERIFIERS ##########################################
 
     def is_instance(self, x: Any) -> bool:
-        """Returns whether `x` is an instance of this adapter’s target type."""
+        """Returns whether `x` is an instance of this adapter target type."""
         return isinstance(x, self.target_type)
 
 
@@ -326,7 +318,7 @@ class CollectionRegistry(metaclass=FinalSingletonMeta):
     2) Otherwise, inspect the method resolution order (MRO) of the type:
        • Among all registered base types that appear in the MRO, pick the base with the
          smallest index (i.e., the nearest ancestor).
-       • Within that base’s adapters, prefer the highest-priority adapter.
+       • Within these base adapters, prefer the highest-priority adapter.
        • If multiple adapters share the same priority, the earliest registered is chosen.
     """
 

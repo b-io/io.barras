@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - contains io utility sanitizers
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Provide io utility sanitizers.
 ##########################################################################################
 
 import html
@@ -23,7 +16,6 @@ import ftfy
 import unicodedata
 
 from nutil.scalar.string import *
-
 
 ## SANITIZERS ############################################################################
 
@@ -90,9 +82,9 @@ PUNCTUATION_NORMALIZATION: Dict[int, Union[str, int]] = str.maketrans(
         "\u2011": "-",  # non-breaking hyphen
         "\u2010": "-",  # hyphen
         "\u2212": "-",  # minus sign
-        "\u25B6": "-",  # ▶ black right-pointing triangle
-        "\u25BA": "-",  # ► black right-pointing pointer
-        "\u25B8": "-",  # ▸ small right-pointing triangle
+        "\u25b6": "-",  # ▶ black right-pointing triangle
+        "\u25ba": "-",  # ► black right-pointing pointer
+        "\u25b8": "-",  # ▸ small right-pointing triangle
         # The quotes
         "“": '"',
         "”": '"',
@@ -116,7 +108,7 @@ NO_BREAK_OR_THIN_SPACE_PATTERN: re.Pattern[str] = re.compile(
 )  # nbsp, narrow no-break, figure, thin/hair
 
 # The regex pattern to recognize discretionary soft hyphens (to be removed)
-SOFT_HYPHEN_PATTERN: re.Pattern[str] = re.compile("\u00AD")
+SOFT_HYPHEN_PATTERN: re.Pattern[str] = re.compile("\u00ad")
 
 # The regex pattern to recognize form-feed controls (to be normalized to a newline)
 FORM_FEED_CHARS_PATTERN: re.Pattern[str] = re.compile(r"[\f]+")
@@ -129,10 +121,13 @@ MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(r"\n{2,}")
 
 # The regex patterns to recognize hyphens across lines (to be collapsed to a single line)
 ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(r"(?<=\w)-\n(?=\w)")
-LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])")
+LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(
+    rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])"
+)
 
 
 ### TEXT ###################################################
+
 
 def clean_text(
     text: str,
@@ -169,7 +164,7 @@ def clean_text(
 
     # 2) Remove the zero-width & BiDi markers; normalize the NBSP-like spaces
     s = ZERO_WIDTH_AND_BIDI_MARKS_PATTERN.sub("", s)
-    s = s.replace("&nbsp;", "\u00A0")
+    s = s.replace("&nbsp;", "\u00a0")
     s = NO_BREAK_OR_THIN_SPACE_PATTERN.sub(" ", s)
 
     # 3) Remove the soft hyphen; normalize the newlines
@@ -190,7 +185,9 @@ def clean_text(
 
     # 6) Whitespace normalization while preserving the line structure
     s = FORM_FEED_CHARS_PATTERN.sub("\n", s)  # form feed → newline
-    s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(" ", s)  # collapse horizontal whitespace runs
+    s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(
+        " ", s
+    )  # collapse horizontal whitespace runs
     if sanitize_config.collapse_blank_lines:
         s = MULTIPLE_NEWLINES_PATTERN.sub("\n", s)  # normalize multiple newlines
 
@@ -250,6 +247,7 @@ def to_ascii(text: str) -> str:
 
 
 ### HTML ###################################################
+
 
 def minify_html(html_text: Optional[str], *, new_line: str = " ") -> Optional[str]:
     """

@@ -4,15 +4,8 @@
 #  SPDX-License-Identifier: MIT
 
 ##########################################################################################
-# NAME
-#   <NAME> - tests the graphical utilities
-#
-# AUTHOR
-#   Written by Florian Barras (florian@barras.io).
-#
-# COPYRIGHT
-#   Copyright © 2013-2025 Florian Barras <https://barras.io>.
-#   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
+# Goal
+#   Test the graphical user interface (GUI) utility library.
 ##########################################################################################
 
 import unittest
@@ -154,7 +147,7 @@ __GUI_TEST_MAIN_____________________________________________ = ""
 
 
 def main():
-    """Tests the graphical user interface utility library."""
+    """Tests the graphical user interface (GUI) utility library."""
     configure_logging()
     unittest.main()
 
