@@ -101,9 +101,9 @@ def run(root: Path, config: StyleConfig) -> int:
                 total_violations += len(violations)
 
     if total_violations == 0:
-        logging.info("CODING STYLE: no violations found ✅")
+        logging.info("✅ No coding style violations found")
     else:
-        logging.warning("CODING STYLE: %d violation(s) found", total_violations)
+        logging.warning("❌ %d coding style violation(s) found", total_violations)
 
     return 1 if any_error else 0
 

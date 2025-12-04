@@ -395,7 +395,7 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
 
     parts = [f"{k}: {v}" for k, v in sorted(total_counts.items())]
     logging.info(
-        "%s %d file(s)%s",
+        "✅ %s %d file(s)%s",
         ("[DRY RUN] " if dry_run else "") + "Fixed the coding style of",
         total_files,
         (" | " + ", ".join(parts)) if parts else "",
