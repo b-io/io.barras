@@ -1,7 +1,7 @@
 ## 1. PROJECT METADATA ###################################################################
 [tool.poetry]
 name = "neptune"
-version = "1.0.0.post137"
+version = "1.0.1a1"
 description = "NEPTUNE is a collection of decoupled Python modules for robust application development"
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]

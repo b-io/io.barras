@@ -17,7 +17,7 @@ from setuptools import find_packages, setup
 __SETUP_CONSTANTS___________________________________________ = ""
 
 NAME = "nformat"
-VERSION = "1.0.0.post137"
+VERSION = "1.0.1a1"
 DESCRIPTION = "Formatting utility library"
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, "README.md"), encoding="utf-8") as f:

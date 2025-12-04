@@ -1,7 +1,7 @@
 ## 1. PROJECT METADATA ###################################################################
 [tool.poetry]
 name = "nformat"
-version = "1.0.0.post137"
+version = "1.0.1a1"
 description = "Formatting utility library for Python"
 keywords = ["neptune", "utilities", "connectivity", "sql"]
 authors = ["Florian Barras <florian@barras.io>"]
