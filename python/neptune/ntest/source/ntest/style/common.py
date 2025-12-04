@@ -109,7 +109,6 @@
 #   • Docstrings sometimes use articles with identifiers for readability (e.g., “the `pattern`”), which is intentional.
 ########################################################################################################################
 
-
 from __future__ import annotations
 
 import re

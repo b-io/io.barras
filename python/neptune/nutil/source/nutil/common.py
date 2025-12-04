@@ -212,6 +212,46 @@ __COMMON_CONVERTERS_________________________________________ = ""
 __COMMON_PROCESSORS_________________________________________ = ""
 
 
+def deep_hash(x: Any, default: int = 0) -> int:
+    """Returns the structural hash value of `x`.
+
+    Uses a recursive strategy for containers so that unhashable but structurally
+    equal objects (like lists, dicts, nested structures) produce the same hash.
+    """
+    # Explicit `None` handling
+    if x is None:
+        return default
+
+    # Use a callable `hash` method on `x` if present
+    elif is_callable(x, "hash"):
+        return x.hash()
+
+    # Handle scalars: delegate directly to the built-in hash
+    elif is_scalar(x):
+        return builtins.hash(x)
+
+    # Handle mappings: order-independent, recurse on keys and values
+    elif is_mapping(x):
+        # (key_hash, value_hash) pairs, sorted by key_hash for stability
+        items = tuple(sorted((deep_hash(k, default), deep_hash(v, default)) for k, v in x.items()))
+        # Include the type to avoid collisions between different mapping types
+        return builtins.hash((type(x), items))
+
+    # Handle tuples: order-dependent, recurse on elements
+    elif is_tuple(x):
+        return builtins.hash(tuple(deep_hash(v, default) for v in x))
+
+    # Handle other iterables (lists, sets, etc.): order-dependent but type-tagged
+    elif is_iterable(x):
+        return builtins.hash((type(x), tuple(deep_hash(v, default) for v in x)))
+
+    # Fall back to the built-in hash or to a type-tagged representation
+    try:
+        return builtins.hash(x)
+    except TypeError:
+        return builtins.hash((type(x).__qualname__, repr(x)))
+
+
 def forward(*args: Any) -> Any:
     """
     Returns the single argument if one is specified; otherwise returns the `list` of arguments.

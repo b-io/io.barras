@@ -28,14 +28,13 @@ from functools import wraps
 from typing import Callable
 
 from nutil.common import *
+from nutil.decorators import F
 from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get_function_name
 from nutil.typing.hints import expected_for_display, matches_type_hints, resolve_type_hints
 
 ## TYPING DECORATORS #####################################################################
 
 __TYPING_DECORATORS_________________________________________ = ""
-
-F = TypeVar("F", bound=Callable[..., Any])
 
 
 def typesafe(
@@ -83,26 +82,26 @@ def typesafe(
             bad_expected: ErrorList[Union[Type[Any], ExpectedTypeList[Any]]] = ErrorList()
 
             for name, value in bound.arguments.items():
-                ann = type_hints.get(name)
-                if ann is None:
+                annotation = type_hints.get(name)
+                if annotation is None:
                     continue
                 if not matches_type_hints(
-                    value, ann, sample_limit=sample_limit, max_depth=max_depth
+                    value, annotation, sample_limit=sample_limit, max_depth=max_depth
                 ):
                     bad_names.append(name)
                     bad_values.append(value)
-                    bad_expected.append(expected_for_display(ann))
+                    bad_expected.append(expected_for_display(annotation))
 
             if bad_names:
-                err = create_type_error(
+                type_error = create_type_error(
                     input_names=bad_names if len(bad_names) > 1 else bad_names[0],
                     input_values=bad_values if len(bad_values) > 1 else bad_values[0],
                     expected_types=bad_expected if len(bad_expected) > 1 else bad_expected[0],
                     function_name=get_function_name(level=1),
                 )
                 if mode == "raise":
-                    raise err
-                logging.warning("%s", err)  # warns and continues in `"suggest"` mode
+                    raise type_error
+                logging.warning("%s", type_error)  # warns and continues in `"suggest"` mode
 
             return func(*args, **kwargs)
 
