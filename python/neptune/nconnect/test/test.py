@@ -14,9 +14,11 @@ from nconnect.db import *
 from ntest.unit.unittest import Test
 from nutil.struct.util import to_frame
 
-## CONNECT TEST CASES ##################################################################
+## CONNECT TEST CASES ####################################################################
 
-__CONNECT_TEST_CASES______________________________________ = ""
+__CONNECT_TEST_CASES________________________________________ = ""
+
+### DB CONNECTOR ###########################################
 
 
 class TestDB(Test):

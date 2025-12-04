@@ -25,12 +25,12 @@ PRECISION = 14  # decimals
 TEST_COUNT = 10
 
 
-## FIN TEST CASES ######################################################################
+## FIN TEST CASES ########################################################################
 
-__FIN_TEST_CASES__________________________________________ = ""
+__FIN_TEST_CASES____________________________________________ = ""
 
 
-class TestServe(Test):
+class TestFin(Test):
 
     def test_time_series(self):
         date_to = get_date()
