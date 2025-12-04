@@ -25,9 +25,9 @@ PRECISION = 14  # decimals
 TEST_COUNT = 10
 
 
-## FIN TEST CLASSES ######################################################################
+## FIN TEST CASES ######################################################################
 
-__FIN_TEST_CLASSES__________________________________________ = ""
+__FIN_TEST_CASES__________________________________________ = ""
 
 
 class TestServe(Test):
@@ -123,7 +123,7 @@ __FIN_TEST_MAIN_____________________________________________ = ""
 
 
 def main():
-    """Tests the financial utility library."""
+    """Tests the financial utilities."""
     configure_logging()
     unittest.main()
 

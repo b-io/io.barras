@@ -16,9 +16,9 @@ from ntest.unit.unittest import Test
 from nutil.math import *
 from nutil.scalar.string import *
 
-## TEST CONSTANTS ########################################################################
+## COMMON TEST CONSTANTS #################################################################
 
-__TEST_CONSTANTS____________________________________________ = ""
+__COMMON_TEST_CONSTANTS_____________________________________ = ""
 
 PRECISION = 14  # decimals
 SIZE = 100
@@ -27,9 +27,9 @@ ROW_SIZE = 10000
 TEST_COUNT = 10
 
 
-## TEST CLASSES ##########################################################################
+## COMMON TEST CASES ###################################################################
 
-__TEST_CLASSES______________________________________________ = ""
+__COMMON_TEST_CASES_______________________________________ = ""
 
 
 class TestCommon(Test):
@@ -251,13 +251,13 @@ class TestMath(Test):
         )
 
 
-## TEST MAIN #############################################################################
+## COMMON TEST MAIN ######################################################################
 
-__TEST_MAIN_________________________________________________ = ""
+__COMMON_TEST_MAIN__________________________________________ = ""
 
 
 def main():
-    """Tests the utility library."""
+    """Tests the common utilities."""
     unittest.main()
 
 

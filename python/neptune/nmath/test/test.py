@@ -26,9 +26,9 @@ PRECISION = 14  # decimals
 SIZE = 1000
 
 
-## MATH TEST CLASSES #####################################################################
+## MATH TEST CASES #####################################################################
 
-__MATH_TEST_CLASSES_________________________________________ = ""
+__MATH_TEST_CASES_________________________________________ = ""
 
 
 class TestStats(Test):
@@ -174,7 +174,7 @@ __MATH_TEST_MAIN____________________________________________ = ""
 
 
 def main():
-    """Tests the mathematical utility library."""
+    """Tests the mathematical utilities."""
     configure_logging()
     unittest.main()
 

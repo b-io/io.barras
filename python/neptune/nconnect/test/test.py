@@ -14,9 +14,9 @@ from nconnect.db import *
 from ntest.unit.unittest import Test
 from nutil.struct.util import to_frame
 
-## CONNECT TEST CLASSES ##################################################################
+## CONNECT TEST CASES ##################################################################
 
-__CONNECT_TEST_CLASSES______________________________________ = ""
+__CONNECT_TEST_CASES______________________________________ = ""
 
 
 class TestDB(Test):
@@ -54,7 +54,7 @@ __CONNECT_TEST_MAIN_________________________________________ = ""
 
 
 def main():
-    """Tests the connectivity utility library."""
+    """Tests the connectivity utilities."""
     unittest.main()
 
 

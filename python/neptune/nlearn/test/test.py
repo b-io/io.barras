@@ -35,9 +35,9 @@ __LEARN_TEST_CONSTANTS______________________________________ = ""
 SIZE = 1000
 
 
-## LEARN TEST CLASSES ####################################################################
+## LEARN TEST CASES ####################################################################
 
-__LEARN_TEST_CLASSES________________________________________ = ""
+__LEARN_TEST_CASES________________________________________ = ""
 
 
 class TestLearn(Test):
@@ -154,7 +154,7 @@ __LEARN_TEST_MAIN___________________________________________ = ""
 
 
 def main():
-    """Tests the machine learning utility library."""
+    """Tests the machine learning utilities."""
     configure_logging()
     unittest.main()
 

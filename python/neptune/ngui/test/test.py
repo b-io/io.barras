@@ -24,9 +24,9 @@ from nutil.io.logging import configure_logging
 SIZE = 1000
 
 
-## GUI TEST CLASSES ######################################################################
+## GUI TEST CASES ######################################################################
 
-__GUI_TEST_CLASSES__________________________________________ = ""
+__GUI_TEST_CASES__________________________________________ = ""
 
 
 class TestGui(Test):
@@ -147,7 +147,7 @@ __GUI_TEST_MAIN_____________________________________________ = ""
 
 
 def main():
-    """Tests the graphical user interface (GUI) utility library."""
+    """Tests the graphical user interface (GUI) utilities."""
     configure_logging()
     unittest.main()
 

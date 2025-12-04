@@ -14,9 +14,9 @@ from ntest.common import *
 from nutil.math import *
 from nutil.scalar.string import *
 
-## TEST CLASSES ##########################################################################
+## UNIT TEST CLASSES #####################################################################
 
-__TEST_CLASSES______________________________________________ = ""
+__UNIT_TEST_CLASSES_________________________________________ = ""
 
 
 class Test(unittest.TestCase):
