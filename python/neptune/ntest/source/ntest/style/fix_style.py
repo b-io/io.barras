@@ -65,12 +65,6 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
           then the trailing `#` run.
         • Chooses the trailing hash count so that the total width equals the target (30/60/90/120).
 
-    Additionally:
-        • If the current line length is already one of 30, 60, 90, or 120, it corrects the leading
-          `#` count for that width and rebalances the trailing `#` run to preserve the width.
-
-    Trim is performed only when the overflow past the target consists solely of spaces or `#`.
-
     Args:
         line: The input line to check and possibly modify.
         rule: The `StyleRule` whose `pattern` gates execution.
@@ -84,8 +78,8 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
     nl = "\n" if line.endswith("\n") else ""
     body = line[:-1] if nl else line
 
-    # Match the lines that start with `#` and contain two consecutive `#`
-    if not re.match(r"^\s*#", body) or "##" not in body:
+    # Match the lines that start with `#`
+    if not re.match(r"^\s*#", body):
         return line, False
 
     m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
@@ -94,42 +88,36 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
 
     indent, hashes, rest = m.groups()
     leading = len(hashes)
-    cur_len = len(body)
 
     # The title is the content after the leading hashes, without the trailing hashes or spaces
     title = rest.lstrip()
     title = re.sub(r"[\s#]+$", "", title)
 
-    # Choose the target width and the desired leading hash count
-    exact_targets = {120: 1, 90: 2, 60: 3, 30: 4}
-    if cur_len in exact_targets:
-        target = cur_len
-        desired_leading = exact_targets[cur_len]
+    # Choose the target width based only on the number of leading hashes
+    if leading == 1:
+        target = 120
+    elif leading == 2:
+        target = 90
+    elif leading == 3:
+        target = 60
     else:
-        if leading == 1:
-            target, desired_leading = 120, 1
-        elif leading == 2:
-            target, desired_leading = 90, 2
-        elif leading == 3:
-            target, desired_leading = 60, 3
-        else:
-            target, desired_leading = 30, 4
+        target = 30
 
     # Build the normalized prefix with one space after the leading hashes and one before the trailing hashes
-    base = f"{indent}{'#' * desired_leading}" + (f" {title} " if title else "")
+    base = f"{indent}{'#' * leading}" + (f" {title} " if title else "")
 
     # Compute the trailing hash count to reach the target width
     hash_count = target - len(base)
 
     if hash_count < 0:
-        # Fall back to the original width if trimming is safe (only spaces or `"#"`)
+        # Only trim when the extra characters are spaces or hashes
         if len(body) > target and set(body[target:]) <= {"#", " "}:
             return body[:target] + nl, True
+        # Cannot safely fix; leave unchanged
         return line, False
 
     new_body = f"{base}{'#' * hash_count}"
 
-    # If nothing changed, return the original line
     if new_body == body:
         return line, False
 
