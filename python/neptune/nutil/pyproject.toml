@@ -143,11 +143,11 @@ filterwarnings = [
 markers = [
     "integration_test: identifies tests that are part of the integration testing.",
 ]
-testpaths = ["tests"]
+testpaths = ["test"]
 
 [tool.coverage.report]
 omit = [
-    "tests/*", # Test file exclusion from coverage reporting
+    "test/*", # Test file exclusion from coverage reporting
 ]
 
 [tool.coverage.run]
