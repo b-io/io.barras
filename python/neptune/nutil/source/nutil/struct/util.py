@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-##########################################################################################
+########################################################################################################################
 # Goal
 #   util - contains structure utilities
 #
@@ -26,8 +26,7 @@
 #       • “index” = row index
 #       • “keys” = indices or mapping keys (for non-tabular containers)
 #       • `axis=None` → element-wise; `axis=0` → rows; `axis=1` → columns
-
-##########################################################################################
+########################################################################################################################
 
 from __future__ import annotations
 

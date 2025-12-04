@@ -3,10 +3,10 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-##########################################################################################
+########################################################################################################################
 # Goal
 #   Provide common utilities.
-##########################################################################################
+########################################################################################################################
 
 from __future__ import annotations
 
@@ -50,6 +50,7 @@ def get_exec_info() -> Optional[Type[BaseException]]:
 
 ##############################
 
+
 def get_frame(level: int = 0) -> types.FrameType:
     """Returns the caller `FrameType` at the specified `level` above this function."""
     if level < 0:
@@ -59,8 +60,10 @@ def get_frame(level: int = 0) -> types.FrameType:
     except ValueError as e:
         raise IndexError(f"'level'={level} exceeds call stack depth") from e
 
-def get_function_name(level: int = 0, *, qualified: bool = False, module: bool = False,
-                      default: str = DEFAULT_UNKNOWN) -> str:
+
+def get_function_name(
+    level: int = 0, *, qualified: bool = False, module: bool = False, default: str = DEFAULT_UNKNOWN
+) -> str:
     """Returns the function name at the specified `level` (0 = immediate caller of this helper)."""
     try:
         f = get_frame(level + 1)  # adds 1 to skip this frame
@@ -86,13 +89,15 @@ def get_function_name(level: int = 0, *, qualified: bool = False, module: bool =
             name = f"{mod}.{name}"
     return name
 
-def get_script_name(level: int = 0, default:str = DEFAULT_UNKNOWN) -> str:
+
+def get_script_name(level: int = 0, default: str = DEFAULT_UNKNOWN) -> str:
     """Returns the script file name at the specified call `level`."""
     try:
         f = get_frame(level + 1)  # adds 1 to skip this frame
         return os.path.basename(f.f_code.co_filename)
     except IndexError:
         return default
+
 
 def get_line_number(level: int = 0) -> int:
     """Returns the line number at the specified call `level`."""
@@ -103,6 +108,7 @@ def get_line_number(level: int = 0) -> int:
 
 
 ##############################
+
 
 def get_module_name(x: Any) -> str:
     """Returns the module name of the class of `x`."""
@@ -135,7 +141,7 @@ def get_all_attributes(x: Any) -> List[str]:
     return [a for a in dir(x) if not a.startswith("_")]
 
 
-### IO #####################################################
+### I/O ####################################################
 
 __COMMON_IO_ACCESSORS_______________________________________ = ""
 
@@ -205,6 +211,7 @@ __COMMON_CONVERTERS_________________________________________ = ""
 
 __COMMON_PROCESSORS_________________________________________ = ""
 
+
 def forward(*args: Any) -> Any:
     """
     Returns the single argument if one is specified; otherwise returns the `list` of arguments.
@@ -232,6 +239,7 @@ def invert(x: Any) -> Any:
 
 __COMMON_SCALAR_PROCESSORS__________________________________ = ""
 
+
 def collapse(
     *args: Any,
     default: str = "",
@@ -250,9 +258,7 @@ def collapse(
     Returns:
         The collapsed string.
     """
-    return delimiter.join(
-        map(lambda x: stringify(x, default=default, strip=strip), to_list(*args))
-    )
+    return delimiter.join(map(lambda x: stringify(x, default=default, strip=strip), to_list(*args)))
 
 
 def collist(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
@@ -265,7 +271,9 @@ def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
 
     If `default` is empty, falsy arguments are removed before collapsing.
     """
-    return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
+    return " ".join(
+        s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s
+    )
 
 
 def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
@@ -305,13 +313,17 @@ def is_any_not_null(*args: Any) -> bool:
     """Returns whether at least one of the specified arguments is not `null`."""
     return not is_all_null(*args)
 
+
 ##############################
+
 
 def is_type(x: Any) -> bool:
     """Returns whether `x` is a `type`."""
     return isinstance(x, type)
 
+
 ##############################
+
 
 def is_empty(x: Any) -> bool:
     """Returns whether `x` is semantically empty (null, zero-length, or empty frame)."""
@@ -342,6 +354,7 @@ def is_any_not_empty(*args: Any) -> bool:
 
 ##############################
 
+
 def is_all_value(value: Any, *args: Any) -> bool:
     """Returns whether all specified arguments equal `value`."""
     return all(value == arg for arg in to_list(*args))
@@ -361,7 +374,9 @@ def is_any_not_value(value: Any, *args: Any) -> bool:
     """Returns whether at least one of the specified arguments does not equal `value`."""
     return not is_all_value(value, *args)
 
+
 ############################################################
+
 
 def exists(name: str, *, level: int = 0) -> bool:
     """
@@ -377,7 +392,8 @@ def exists(name: str, *, level: int = 0) -> bool:
 
     return (name in f.f_locals) or (name in f.f_globals) or hasattr(builtins, name)
 
-### IO #####################################################
+
+### I/O ####################################################
 
 __COMMON_IO_VERIFIERS_______________________________________ = ""
 

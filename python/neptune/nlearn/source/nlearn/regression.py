@@ -3,10 +3,10 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-##########################################################################################
+########################################################################################################################
 # Goal
 #   Provide machine learning utilities for multivariate regressions.
-##########################################################################################
+########################################################################################################################
 
 import statsmodels.api as sm
 from sklearn.preprocessing import OrdinalEncoder

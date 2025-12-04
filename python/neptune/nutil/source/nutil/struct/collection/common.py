@@ -3,10 +3,10 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-##########################################################################################
+########################################################################################################################
 # Goal
 #   Provide common utilities.
-##########################################################################################
+########################################################################################################################
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
 
-## COMMON COLLECTION CONSTANTS
+## COMMON COLLECTION CONSTANTS ###########################################################
 
 __COMMON_COLLECTION_CONSTANTS_______________________________ = ""
 
@@ -60,7 +60,7 @@ SET_TYPE = ABCSet
 FROZENSET_TYPE = frozenset
 MUTABLE_SET_TYPE = ABCMutableSet
 
-## COMMON COLLECTION ACCESSORS
+## COMMON COLLECTION ACCESSORS ###########################################################
 
 __COMMON_COLLECTION_ACCESSORS_______________________________ = ""
 
@@ -76,7 +76,7 @@ def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
         return False, None, it2
 
 
-## COMMON COLLECTION VERIFIERS
+## COMMON COLLECTION VERIFIERS ###########################################################
 
 __COMMON_COLLECTION_VERIFIERS_______________________________ = ""
 

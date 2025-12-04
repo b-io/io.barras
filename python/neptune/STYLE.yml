@@ -3,6 +3,14 @@
 # Regex-based coding-style checks.
 # Each rule matches *violations* and CI fails if any rule finds at least one match.
 rules:
+  - id: "constant-bar-width"
+    description: "Constant bar lines must start with '__', use uppercase letters/underscores, be assigned to \"\" and have total width 65."
+    pattern: "^(?=\\s*__[A-Za-z_]+_+ = \"\"$)(?!(?=.{65}$)\\s*__[A-Z_]+_+ = \"\"$).+$"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
   - id: "hash-banner-length"
     description: "Banner lines must be length 30/60/90/120 with correct leading '#': 1→120, 2→90, 3→60, 4→30. Pure separators (only '#') allowed at any allowed width."
     pattern: "^(?=\\s*#)(?=\\s?[^\\s]*\\s?#{2,})(?!(?:(?=.{120}$)\\s*#\\s+.*|(?=.{90}$)\\s*##\\s+.*|(?=.{60}$)\\s*###\\s+.*|(?=.{30}$)\\s*####\\s+.*|(?=.{120}$)\\s*#+|(?=.{90}$)\\s*#+|(?=.{60}$)\\s*#+|(?=.{30}$)\\s*#+)$).+$"
@@ -11,17 +19,17 @@ rules:
     flags: [ ]
     severity: "warning"
 
-  - id: 'inline-comment-lowercase'
-    description: "Inline comments (after code) must start with a lowercase letter."
-    pattern: "^(?!\\s*#).*?\\S[ \\t]{2,}#[ \\t]+(?!noqa\\b|type:\\s*ignore\\b|pylint:|mypy:|pyright:|isort:|fmt:|pragma\\b|TODO\\b|FIXME\\b|NOTE\\b)(?-i:[A-Z])"
+  - id: "line-comment-capitalized"
+    description: "Line comments must not start with a lowercase letter (uppercase/digits/symbols allowed). Only the first line of a contiguous block is enforced."
+    pattern: "^(?=\\s*#)(?!\\s*#\\s*(?:!|-\\*-|coding:|region\\b|pragma\\b|todo\\b|fixme\\b|note\\b|noqa\\b|pylint:|mypy:|pyright:|isort:|fmt:))\\s*#\\s[a-z]"
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ ]
     severity: "warning"
 
-  - id: "line-comment-capitalized"
-    description: "Line comments must not start with a lowercase letter (uppercase/digits/symbols allowed). Only the first line of a contiguous block is enforced."
-    pattern: "^(?=\\s*#)(?!\\s*#\\s*(?:!|-\\*-|coding:|region\\b|pragma\\b|todo\\b|fixme\\b|note\\b|noqa\\b|pylint:|mypy:|pyright:|isort:|fmt:))\\s*#\\s[a-z]"
+  - id: 'inline-comment-lowercase'
+    description: "Inline comments (after code) must start with a lowercase letter."
+    pattern: "^(?!\\s*#).*?\\S[ \\t]{2,}#[ \\t]+(?!noqa\\b|type:\\s*ignore\\b|pylint:|mypy:|pyright:|isort:|fmt:|pragma\\b|TODO\\b|FIXME\\b|NOTE\\b)(?-i:[A-Z])"
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ ]

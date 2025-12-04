@@ -1,5 +1,9 @@
-# Tests/test_ordered_set.py
-##########################################################################################
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
+########################################################################################################################
 # Goal
 #   test_ordered_set - contains unit tests for the `OrderedSet` implementation and helpers
 #
@@ -9,7 +13,7 @@
 #
 # USAGE
 #   Run with: pytest -q
-##########################################################################################
+########################################################################################################################
 
 from __future__ import annotations
 
@@ -100,7 +104,7 @@ def test_getitem_slice_general_step_materializes(s_abc: OrderedSet[str]) -> None
     assert s_abc[2:0:-1] == as_list[2:0:-1]
 
 
-##########################################################################################
+############################################################
 
 
 def test_numpy_fancy_indexing_with_ordered_set_1d() -> None:

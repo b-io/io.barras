@@ -56,6 +56,73 @@ from nutil.io.logging import configure_logging
 ## FIXERS ################################################################################
 
 
+def fix_constant_bar_width(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Normalizes constant bar lines of the form `__NAME____ = ""`.
+
+    Behavior:
+        • Applies only when the `rule.pattern` matches (the YAML gate for constant-bar-width).
+        • Preserves the leading indentation.
+        • Ensures the symbolic name:
+            - starts with `"__"`,
+            - uses only uppercase letters and single underscores between tokens
+              (all letters uppercased, underscore runs collapsed),
+            - has no leading/trailing underscores beyond the `"__"` prefix.
+        • Reconstructs the tail as exactly ` = ""` (one space on each side of `"="`).
+        • Pads with underscore bar characters or truncates the name+bar so that the total
+          line length is exactly 65 characters (excluding the newline).
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    nl = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if nl else line
+
+    # Indent   "__"     symbolic name (letters/underscores)     bar underscores   spaces  = ""  spaces
+    m = re.match(r"^(\s*)(__)([A-Za-z_]+?)(_*)(\s*)=\s*\"\"(\s*)$", body)
+    if not m:
+        return line, False
+
+    indent, prefix, name_raw, bar_raw, _pre_eq_spaces, _post_eq_spaces = m.groups()
+
+    # Normalize the symbolic part: uppercase letters, collapse underscore runs, strip stray underscores
+    symbolic = re.sub(r"_+", "_", name_raw.upper()).strip("_")
+    if not symbolic:
+        # Nothing meaningful to normalize; leave unchanged
+        return line, False
+
+    base_name = prefix + symbolic  # always starts with "__"
+    tail = ' = ""'
+    target = 65
+
+    # Available width for name + bar after indent and tail
+    available = target - len(indent) - len(tail)
+    if available <= 0:
+        # Pathological case: no space left for the name; keep the original line
+        return line, False
+
+    if len(base_name) >= available:
+        # Name (with "__") is too long; truncate from the right to fit exactly
+        name_and_bar = base_name[:available]
+    else:
+        # Pad with underscores as a bar to reach the target width
+        bar_len = available - len(base_name)
+        name_and_bar = base_name + "_" * bar_len
+
+    new_body = f"{indent}{name_and_bar}{tail}"
+    if new_body == body:
+        return line, False
+
+    return new_body + nl, True
+
+
 def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Pads or trims the banner line to the target width and normalizes the spacing.
@@ -202,10 +269,11 @@ def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, b
 FixerFn = Callable[[str, StyleRule], Tuple[str, bool]]
 
 FIXERS: Dict[str, FixerFn] = {
+    "constant-bar-width": fix_constant_bar_width,
     "hash-banner-length": fix_hash_banner_length,
     "line-comment-capitalized": fix_line_comment_capitalized,
     "line-comment-trailing-period": fix_line_comment_trailing_period,
-    "inline-comment-lowercase": fix_inline_comment_lowercase,  # optional rule
+    "inline-comment-lowercase": fix_inline_comment_lowercase,
 }
 
 

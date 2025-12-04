@@ -3,10 +3,10 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-##########################################################################################
+########################################################################################################################
 # Goal
 #   Provide financial utilities for time series.
-##########################################################################################
+########################################################################################################################
 
 from __future__ import annotations
 
@@ -420,7 +420,7 @@ def find_nearest_index(index: pd.DatetimeIndex, anchor: pd.Timestamp) -> int:
     return int(candidates[0])
 
 
-### TIME SERIES TRANSFORMATION
+### TIME SERIES TRANSFORMATION #############################
 
 __TIME_SERIES_TRANSFORMATION________________________________ = ""
 

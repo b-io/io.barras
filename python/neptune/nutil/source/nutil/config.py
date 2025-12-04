@@ -12,6 +12,7 @@
 #   • a `section` is a top-level group in the properties file (e.g., 'common', 'console').
 #   • an `option` is the key inside a section (e.g., 'env', 'severityLevel').
 #   • a `value` is the string stored by `ConfigParser` (we coerce Python inputs to strings at the boundary).
+########################################################################################################################
 
 from __future__ import annotations
 

@@ -33,7 +33,7 @@ from nutil.typing.hints import expected_for_display, matches_type_hints, resolve
 
 ## TYPING DECORATORS #####################################################################
 
-__TYPING_DECORATORS___________________________________________ = ""
+__TYPING_DECORATORS_________________________________________ = ""
 
 F = TypeVar("F", bound=Callable[..., Any])
 

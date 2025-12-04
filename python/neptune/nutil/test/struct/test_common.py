@@ -1,5 +1,9 @@
-# Tests/struct/test_common.py
-##########################################################################################
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
+#  SPDX-License-Identifier: MIT
+
+########################################################################################################################
 # Goal
 #   test_common - contains unit tests for the `OrderedSet` implementation and helpers
 #
@@ -9,7 +13,7 @@
 #
 # USAGE
 #   Run with: pytest -q
-##########################################################################################
+########################################################################################################################
 
 import pytest
 

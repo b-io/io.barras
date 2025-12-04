@@ -28,7 +28,7 @@
 #       Defaults:
 #         `DEFAULT_USER_AGENT`, `DEFAULT_ACCEPT`, `DEFAULT_TIMEOUT`, `DEFAULT_THROTTLE`
 #
-#   • IO
+#   • I/O
 #       - `to_json(obj)`            → JSON-friendly projection (e.g., set → sorted list)
 #       - `write_text(path, text)`  → atomic write with fsync best-effort
 #
