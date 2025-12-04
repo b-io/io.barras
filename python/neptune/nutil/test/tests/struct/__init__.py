@@ -8,6 +8,7 @@
 #   Test the structures.
 ########################################################################################################################
 
-from . import test_struct_common, test_struct_util
+from .test_struct_common import *
+from .test_struct_util import *
 
-from collection import *
+from .collection import *

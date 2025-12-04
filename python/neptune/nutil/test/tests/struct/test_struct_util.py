@@ -18,9 +18,9 @@ from typing import Any, Mapping
 import numpy as np
 import pandas as pd
 
-import nutil.struct.util as util
 from nutil.config import BOOLEAN_ELEMENT_TYPE, FLOAT_ELEMENT_TYPE
 from nutil.enums import Aggregation, Position
+from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
 ## STRUCT UTIL TEST CASES ###############################################################

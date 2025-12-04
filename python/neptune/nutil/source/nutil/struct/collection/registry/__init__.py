@@ -8,7 +8,6 @@
 #   Provide collection registry utilities.
 ########################################################################################################################
 
-from . import common
 from .common import *
 
 ## COLLECTION REGISTRY INIT ##############################################################

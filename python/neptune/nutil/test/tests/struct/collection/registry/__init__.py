@@ -8,4 +8,4 @@
 #   Test the collection registry.
 ########################################################################################################################
 
-from . import test_ordered_set
+from .test_ordered_set import *

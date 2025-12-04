@@ -8,4 +8,4 @@
 #   Test the decorators.
 ########################################################################################################################
 
-from . import test_decorators
+from .test_decorators import *
