@@ -1324,7 +1324,7 @@ def to_series(
         element_type = OBJECT_TYPE
     elif is_group_by(data):
         data = data.obj
-    elif not is_collection(data):
+    elif not is_collection(data) and not is_null(index):
         data = create_array(len(get_index(index)), fill=data, element_type=element_type)
     if is_frame(data):
         if count_cols(data) > 1:
@@ -1396,7 +1396,7 @@ def to_frame(
         element_type = OBJECT_TYPE
     elif is_group_by(data):
         data = data.obj
-    elif not is_collection(data):
+    elif not is_collection(data) and not is_null(index) and not is_null(names):
         data = create_array(
             (len(get_index(index)), len(get_names(names))),
             fill=data,
@@ -2989,7 +2989,7 @@ def where(
 ) -> List[Key]:
     """Returns the keys in `s` where `condition(value, *args, **kwargs)` is `True`."""
     if is_empty(s) or not is_subscriptable(s):
-        return s
+        return []
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     return [k for k in keys if condition(s[k], *args, **kwargs)]
