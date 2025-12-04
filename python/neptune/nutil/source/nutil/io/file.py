@@ -73,7 +73,7 @@ def write_csv(
     place. This avoids partially written files and makes the operation crash-safe.
 
     Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
-    **before** it is replaced. By default, the backup is created next to `path` as
+    *before* it is replaced. By default, the backup is created next to `path` as
     `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
 
     Each element of `rows` can be:
@@ -226,7 +226,7 @@ def write_json(
     place. This avoids partially written files and makes the operation crash-safe.
 
     Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
-    **before** it is replaced. By default, the backup is created next to `path` as
+    *before* it is replaced. By default, the backup is created next to `path` as
     `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
 
     JSON specifics:
@@ -335,11 +335,11 @@ def to_json(x: Any) -> Any:
     without a custom encoder. Specifically:
       * `dict` → the same structure with values converted recursively (the keys are left as is).
       * `list` / `tuple` → a `list` with the elements converted recursively.
-      * `set` → a **sorted** `list` of the converted elements; if the natural ordering fails,
+      * `set` → a *sorted* `list` of the converted elements; if the natural ordering fails,
         the elements are sorted by `repr` for deterministic output.
 
     Notes:
-        • The dictionary keys are **not** coerced to strings. JSON requires string keys; use
+        • The dictionary keys are *not* coerced to strings. JSON requires string keys; use
           `json.dump(…, skipkeys=True)` or normalize the keys beforehand if needed.
 
     Args:
@@ -385,7 +385,7 @@ def write_text(
     place. This avoids partially written files and makes the operation crash-safe.
 
     Additionally, when `backup` is `True`, a **dated backup** of the previous file is created
-    **before** it is replaced. By default, the backup is created next to `path` as
+    *before* it is replaced. By default, the backup is created next to `path` as
     `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
 
     Args:

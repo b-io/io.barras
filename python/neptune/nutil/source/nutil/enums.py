@@ -1092,7 +1092,7 @@ class Frequency(StrEnum):
 
     DAYS = "D"
     WEEKS = "W"
-    MONTHS = "ME"
+    MONTHS = "M"
     QUARTERS = "Q"
     SEMESTERS = "S"
     YEARS = "Y"

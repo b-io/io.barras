@@ -36,7 +36,6 @@ PACKAGES = [
     "psutil",
     "python-dateutil",
     "requests",
-    "sqlalchemy",
     "tabulate",
     "validators",
 ]

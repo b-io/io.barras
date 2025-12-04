@@ -866,18 +866,57 @@ def get_end_timestamp(d=get_datetime(), freq=Frequency.DAYS):
 ##############################
 
 
-def get_frequency(freq=FREQUENCY, pos=POSITION):
-    if is_null(freq):
-        return None
-    f = freq.value
-    if pos is Position.START:
-        if freq is Frequency.DAYS:
-            pass
-        elif freq is Frequency.WEEKS:
-            f += "-" + WEEKDAY_NAMES[MON]
-        else:
-            f += "S"
-    return f
+def get_frequency(
+    freq: Union[str, Frequency, pd.DateOffset] = FREQUENCY,
+    pos: Position = POSITION,
+) -> Union[str, pd.DateOffset]:
+    """
+    Map project `Frequency` / `Position` to a Pandas-compatible frequency alias.
+
+    Behavior:
+        • DAYS      → `"D"`
+        • WEEKS     → `"W"`
+        • MONTHS    → `"M"`  or `"MS"` (for `Position.START`)
+        • QUARTERS  → `"Q"`  or `"QS"` (for `Position.START`)
+        • SEMESTERS → `"2Q"` or `"2QS"` (for `Position.START`)
+        • YEARS     → `"A"`  or `"AS"` (for `Position.START`)
+
+    If `freq` is already a `pd.DateOffset`, it is returned unchanged.
+    Unknown `freq` strings are returned as-is.
+    """
+    # 1) Preserve explicit DateOffset
+    if isinstance(freq, pd.DateOffset):
+        return freq
+
+    # 2) Normalize to an upper-case code
+    if isinstance(freq, Frequency):
+        code = freq.value.upper()
+    else:
+        code = str(freq).upper()
+
+    # 3) Map our internal codes to a *base* Pandas alias
+    if code == Frequency.DAYS.value:
+        base = Frequency.DAYS.value
+    elif code == Frequency.WEEKS.value:
+        base = Frequency.WEEKS.value
+    elif code in {Frequency.MONTHS.value, "ME", "MES"}:
+        base = Frequency.MONTHS.value
+    elif code in {Frequency.QUARTERS.value, "QE", "QES"}:
+        base = Frequency.QUARTERS.value
+    elif code in {Frequency.SEMESTERS.value, "SE", "SES"}:
+        base = "2Q"  # semester = 2 quarters
+    elif code in {Frequency.YEARS.value, "YE", "YES"}:
+        base = "A"
+    else:
+        # Assume a valid Pandas alias
+        return freq
+
+    # 4) Apply a generic start-of-period rule where Pandas supports it
+    if pos is Position.START and base not in {Frequency.DAYS.value, Frequency.WEEKS.value}:
+        return base + "S"
+
+    # END and MIDDLE both use the end-of-period alias
+    return base
 
 
 ##############################

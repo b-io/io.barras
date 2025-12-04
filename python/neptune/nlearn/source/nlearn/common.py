@@ -97,8 +97,8 @@ def plot_confusion_matrix(
     Builds an interactive confusion-matrix heatmap using Plotly and the GUI helpers.
 
     Args:
-        target: The true labels (array-like / pandas Series).
-        prediction: The predicted labels (array-like / pandas Series).
+        target: The true labels (array-like / Pandas Series).
+        prediction: The predicted labels (array-like / Pandas Series).
         normalize: Whether to normalize the confusion matrix (delegated to `get_confusion_matrix`).
         title: The chart title.
         labels: The class order to enforce on both axes.

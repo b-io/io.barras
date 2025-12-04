@@ -111,8 +111,8 @@ def get_enum(section: str, option: str, enum_cls: Type[TEnum]) -> Optional[TEnum
     """Selects an option as an optional enum instance.
 
     Accepts either:
-      • the enum **name** (case-insensitive): e.g., `"INFO"`, `"info"`
-      • the enum **value** coerced to the enum"s value type: e.g., `"4"` → 4 for `IntEnum`
+      • the enum *name* (case-insensitive): e.g., `"INFO"`, `"info"`
+      • the enum *value* coerced to the enum"s value type: e.g., `"4"` → 4 for `IntEnum`
 
     Args:
         section: The config section name.
