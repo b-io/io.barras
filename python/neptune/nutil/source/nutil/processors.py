@@ -60,7 +60,7 @@ def multithread(c, f, *args, asynchronous=False, max_workers=CORE_COUNT, timeout
 
 
 def multithread_map(c, f, asynchronous=False, max_workers=CORE_COUNT, timeout=None):
-    if is_empty(c) or not is_collection(c):
+    if is_empty(c) or is_element(c):
         return []
     max_workers = min(max_workers, len(c))
     trace(
@@ -112,7 +112,7 @@ def multiprocess_map(
     callback=None,
     error_callback=None,
 ):
-    if is_empty(c) or not is_collection(c):
+    if is_empty(c) or is_element(c):
         return []
     max_workers = min(max_workers, len(c))
     if is_null(chunk_size):

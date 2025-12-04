@@ -74,7 +74,7 @@ def exclude_list(l, exclusion):
 def flatten_list(l, depth=-1):
     if is_empty(l):
         return []
-    if not is_collection(l) or depth == 0:
+    if is_element(l) or depth == 0:
         return to_list(l)
     elif depth == 1:
         return [v for sl in l for v in sl]

@@ -66,8 +66,8 @@ def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
         return simplify(flatten(s, axis=axis)[index])
     elif is_multidimensional(s):
         if axis == 0:
-            return simplify(get_row(s, index))
-        return simplify(get_col(s, index))
+            return get_row(s, index)
+        return get_col(s, index)
     elif is_dict(s):
         return simplify(s[get_keys(s)[index]])
     return simplify(s[index])
@@ -182,7 +182,7 @@ def get_names(
         s = s.names() if callable(s.names) else s.names
     elif hasattr(s, "name"):
         s = s.name() if callable(s.name) else s.name
-    elif is_collection(s):
+    elif is_struct(s):
         if has_index(s):
             s = range(len(s))
         else:
@@ -755,7 +755,7 @@ def set_index_name(s: Struct, index_name: Any) -> Any:
         if isinstance(s.index, pd.MultiIndex):
             s.index.names = (
                 index_name
-                if is_collection(index_name)
+                if is_struct(index_name)
                 else [index_name + str(i + 1) for i in range(len(s.index.names))]
             )
         else:
@@ -799,7 +799,7 @@ def set_values(
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return s
-    if is_collection(new_values):
+    if is_struct(new_values):
         new_values = get_values(new_values)
     else:
         if not is_multidimensional(s) or is_null(mask):
@@ -872,7 +872,7 @@ def set_element_types(
     if is_empty(keys):
         return s
     if not is_dict(new_element_types):
-        if is_collection(new_element_types):
+        if is_struct(new_element_types):
             new_element_types = get_element_types(new_element_types, keys=keys)
         elif not is_series(s) and not is_array(s):
             new_element_types = {k: new_element_types for k in keys}
@@ -1324,7 +1324,7 @@ def to_series(
         element_type = OBJECT_TYPE
     elif is_group_by(data):
         data = data.obj
-    elif not is_collection(data) and not is_null(index):
+    elif is_element(data) and not is_null(index):
         data = create_array(len(get_index(index)), fill=data, element_type=element_type)
     if is_frame(data):
         if count_cols(data) > 1:
@@ -1396,7 +1396,7 @@ def to_frame(
         element_type = OBJECT_TYPE
     elif is_group_by(data):
         data = data.obj
-    elif not is_collection(data) and not is_null(index) and not is_null(names):
+    elif is_element(data) and not is_null(index) and not is_null(names):
         data = create_array(
             (len(get_index(index)), len(get_names(names))),
             fill=data,
@@ -2286,7 +2286,7 @@ def groupby(
 def count(*args: Any, axis: Optional[int] = 0) -> Any:
     """Counts elements along `axis` (or total when `axis is None`)."""
     s = forward(*args)
-    if not is_collection(s):
+    if is_element(s):
         return 1
     if is_null(axis):
         return np.size(get_values(s))
@@ -2681,7 +2681,7 @@ def reverse(s: Struct, axis: int = 0) -> Any:
 
 def simplify(s: Any) -> Any:
     """Simplifies a one-element collection by returning its single element recursively."""
-    if is_collection(s):
+    if is_struct(s):
         if len(s) == 1:
             return simplify(get_next(s))
     return s
