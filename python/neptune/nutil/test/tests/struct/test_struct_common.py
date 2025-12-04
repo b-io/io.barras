@@ -7,11 +7,11 @@
 # Goal
 #   test_common - contains unit tests for the `OrderedSet` implementation and helpers
 #
-# DESCRIPTION
+# Description
 #   Validates construction, iteration, indexing/slicing, mutators, order-preserving set algebra,
 #   subset/superset relations, converters, processors, and verifiers for `OrderedSet`.
 #
-# USAGE
+# Usage
 #   Run with: pytest -q
 ########################################################################################################################
 
@@ -19,7 +19,7 @@ import pytest
 
 from nutil.struct.common import *
 
-# 1. TEST DOUBLES ######################################################################################################
+## 1. TEST DOUBLES #######################################################################
 
 
 class _DelegateAll:
@@ -51,7 +51,7 @@ class _CallableProbe:
         return "pong"
 
 
-# 2. CONVERTERS & UNWRAPPERS ###########################################################################################
+## 2. CONVERTERS & UNWRAPPERS ############################################################
 
 
 @pytest.mark.parametrize(
@@ -208,7 +208,7 @@ def test_to_tuple_delegation():
     assert to_tuple(src) == (10, 20)
 
 
-# 3. UNGROUP (PANDAS GroupBy) ##########################################################################################
+## 3. UNGROUP (PANDAS GroupBy) ###########################################################
 
 
 def test_ungroup_modes_obj_groups_auto_rows_and_columns():
@@ -231,7 +231,7 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     assert ungroup(123) == 123
 
 
-# 4. VERIFIERS & UTILITIES #############################################################################################
+## 4. VERIFIERS & UTILITIES ##############################################################
 
 
 def test_is_struct_and_is_element():

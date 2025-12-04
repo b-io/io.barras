@@ -15,9 +15,8 @@ from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input
 from tensorflow.keras.models import Model
 
 from nlearn.common import WORD_VECTOR_PATH
-from nutil.config import *
 from nutil.io.file import read_enumerator
-from nutil.math import distances
+from nutil.math import *
 from nutil.struct.util import sort, take_at
 
 ## NLP CONSTANTS #########################################################################

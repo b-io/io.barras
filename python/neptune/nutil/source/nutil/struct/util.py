@@ -7,7 +7,7 @@
 # Goal
 #   util - contains structure utilities
 #
-# DESCRIPTION
+# Description
 #   Provides a uniform API to access, convert, filter, transform, and combine heterogeneous
 #   containers such as lists, tuples, dicts, NumPy arrays, Pandas Series/DataFrames, and Pandas
 #   GroupBy objects. Functions are designed to handle empty inputs, scalar fallbacks, and mixed

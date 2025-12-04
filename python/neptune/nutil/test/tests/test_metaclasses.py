@@ -12,7 +12,9 @@ import logging
 from types import MappingProxyType
 
 import pytest
+import unittest
 
+from nutil.io.logging import configure_logging
 from nutil.metaclasses import (
     combine_metaclasses,
     FinalSingletonMeta,
@@ -385,9 +387,7 @@ __METACLASSES_TEST_MAIN_____________________________________ = ""
 
 def main() -> None:
     """Tests the metaclasses."""
-    import unittest
-
-    logging.basicConfig(level=logging.DEBUG)
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

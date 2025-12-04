@@ -7,11 +7,11 @@
 # Goal
 #   test_ordered_set - contains unit tests for the `OrderedSet` implementation and helpers
 #
-# DESCRIPTION
+# Description
 #   Validates construction, iteration, indexing/slicing, mutators, order-preserving set algebra,
 #   subset/superset relations, converters, processors, and verifiers for `OrderedSet`.
 #
-# USAGE
+# Usage
 #   Run with: pytest -q
 ########################################################################################################################
 
