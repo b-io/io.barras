@@ -347,7 +347,7 @@ def to_json(x: Any) -> Any:
         the elements are sorted by `repr` for deterministic output.
 
     Notes:
-        - The dictionary keys are **not** coerced to strings. JSON requires string keys; use
+        • The dictionary keys are **not** coerced to strings. JSON requires string keys; use
           `json.dump(…, skipkeys=True)` or normalize the keys beforehand if needed.
 
     Args:
@@ -626,7 +626,7 @@ def get_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str
     Derives the directory basenames from the glob patterns that end with the `suffix`.
 
     Strategy:
-        - Selects the last non-wildcard path segment from the patterns ending with the `suffix`.
+        • Selects the last non-wildcard path segment from the patterns ending with the `suffix`.
 
     Args:
         globs: The list of repository-level glob patterns.

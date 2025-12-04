@@ -185,9 +185,9 @@ def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
     """Coerces `raw` to the enum's underlying value type.
 
     Notes:
-        - Detects the value type from the first member.
-        - Supports `int`, `float`, `bool`, and `str`.
-        - Falls back to the original `raw` if type is unknown.
+        • Detects the value type from the first member.
+        • Supports `int`, `float`, `bool`, and `str`.
+        • Falls back to the original `raw` if type is unknown.
 
     Args:
         raw: The string read from `ConfigParser`.

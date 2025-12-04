@@ -159,14 +159,14 @@ def deduplicate_rows(rows: Iterable[Row], keys: Optional[Container[str]] = None)
     Args:
         rows:
             The rows to deduplicate. Each row may be:
-              • a dataclass instance (or class),
-              • a mapping (`Mapping[str, Any]`),
-              • or any other iterable of field values.
+                - a dataclass instance (or class),
+                - a mapping (`Mapping[str, Any]`),
+                - or any other iterable of field values.
         keys:
             Optional list of column names defining the row identity.
             When provided:
-              • for dataclasses, they are matched against field names;
-              • for mappings, against mapping keys.
+                - for dataclasses, they are matched against field names;
+                - for mappings, against mapping keys.
             When `None` or empty, the full value sequence (`get_row_values(row)`) defines the identity.
             Rows that expose no values for the selected `keys` are skipped.
 

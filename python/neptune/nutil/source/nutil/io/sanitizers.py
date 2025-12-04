@@ -202,7 +202,7 @@ def minify_text(text: Optional[str], *, new_line: str = " ") -> Optional[str]:
     Returns a compact string by normalizing whitespace without changing the semantic spaces between text fragments.
 
     Behavior:
-      - Collapses runs of whitespace (including newlines) to a single space.
+        • Collapses runs of whitespace (including newlines) to a single space.
 
     Args:
         text: The string to minify. If falsy, returns it unchanged.
@@ -256,10 +256,10 @@ def minify_html(html_text: Optional[str], *, new_line: str = " ") -> Optional[st
     Returns a compact HTML string by normalizing whitespace without changing the semantic spaces between text fragments.
 
     Behavior:
-      - Collapses runs of whitespace (including newlines) to a single space.
-      - Normalizes `"&nbsp;"` to a regular space.
-      - Keeps spaces that separate text across tags (e.g. `"</b> <i>"`) so that stripping tags does not join words.
-      - Leaves the attribute/element order intact.
+        • Collapses runs of whitespace (including newlines) to a single space.
+        • Normalizes `"&nbsp;"` to a regular space.
+        • Keeps spaces that separate text across tags (e.g. `"</b> <i>"`) so that stripping tags does not join words.
+        • Leaves the attribute/element order intact.
 
     Args:
         html_text: The HTML string to minify. If falsy, returns it unchanged.

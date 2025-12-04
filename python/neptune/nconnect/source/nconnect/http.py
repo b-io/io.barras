@@ -66,8 +66,8 @@ class RateLimitError(RuntimeError):
         message: The optional explicit message (overrides the default formatting).
 
     Examples:
-        - `RateLimitError()` → `"Rate limit reached"`.
-        - `RateLimitError(api="PONS")` → `"Rate limit reached (PONS)"`.
+        • `RateLimitError()` → `"Rate limit reached"`.
+        • `RateLimitError(api="PONS")` → `"Rate limit reached (PONS)"`.
     """
 
     def __init__(self, api: Optional[str] = None, message: Optional[str] = None) -> None:

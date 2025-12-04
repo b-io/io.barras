@@ -22,25 +22,9 @@
 #   • Merges repository excludes with defaults and prunes directories derived from excludes ending in `"/**"`.
 #   • Processes only files selected by the repo-level and rule-level include/exclude globs.
 #
-# Fix Order
-#   1) `"hash-banner-length"`
-#   2) `"line-comment-capitalized"`
-#   3) `"line-comment-trailing-period"`
-#   4) `"inline-comment-lowercase"` (optional rule)
-#
-# YAML Config (excerpt)
-#   rules:
-#     - id: "hash-banner-length"
-#       description: "Pad/trim and normalize hash banners to 30/60/90/120."
-# Pattern: "^\\s*#.*##.*$" #############################################################################################
-#       include: ["**/*.py"]
-#       exclude: []
-#       flags: ["MULTILINE"]
-#       params: {"allowed_lengths": [30, 60, 90, 120]}
-#
 # CLI
 #   • `"--root" <path>`   (optional; defaults to `"."`)
-#   • `"--config" <path>` (optional; defaults to `"STYLE.yml"`)
+#   • `"--config" <path"` (optional; defaults to `"STYLE.yml"`)
 #   • `"--dry-run"`       (optional; previews changes without writing)
 #
 # Examples
@@ -54,184 +38,43 @@ import argparse
 import logging
 import os
 import re
-import sys
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Sequence, Set, Tuple
+from typing import Callable, Dict, List, Sequence, Tuple
 
-import yaml
+from ntest.style.common import StyleConfig, StyleRule, load_yaml_config
 from nutil.constants import DEFAULT_ENCODING
 from nutil.io.file import (
     exclude_dir,
     exclude_file,
-    get_dirnames_from_globs,
     join_posix_paths,
     resolve_path,
     to_relative_posix_path,
     write_text,
 )
 from nutil.io.logging import configure_logging
-from nutil.struct.collection.list import deduplicate
-from nutil.struct.table.util import get_row_string
-
-
-## DATA CLASSES ##########################################################################
-
-
-@dataclass
-class RuleSpec:
-    """
-    A compiled fixer rule loaded from the YAML config.
-
-    Args:
-        id: The rule identifier.
-        description: The short rule summary.
-        severity: The severity string (`"error"` or `"warning"`).
-        pattern: The compiled regex pattern that matches violations to be fixed.
-        include: The list of file-glob patterns this rule applies to.
-        exclude: The list of file-glob patterns this rule should ignore.
-        params: Optional key–value pairs for rule-specific behavior (e.g., `"allowed_lengths"`).
-    """
-
-    id: str
-    description: str
-    severity: str
-    pattern: re.Pattern[str]
-    include: List[str]
-    exclude: List[str]
-    params: Dict[str, Any]
-
-
-@dataclass
-class ConfigSpec:
-    """
-    A compiled configuration for the fixer.
-
-    Args:
-        include: The repository-level include globs (coarse gate).
-        exclude: The repository-level exclude globs (coarse gate), merged with the defaults.
-        prune_names: The directory basenames to prune during traversal (derived from the excludes).
-        rules: The list of compiled `RuleSpec` instances.
-    """
-
-    include: List[str]
-    exclude: List[str]
-    prune_names: Set[str]
-    rules: List[RuleSpec]
-
-
-## CONSTANTS #############################################################################
-
-DEFAULT_EXCLUDES: List[str] = [
-    "**/__pycache__/**",
-    "**/.git/**",
-    "**/.venv/**",
-    "**/build/**",
-    "**/dist/**",
-    "**/node_modules/**",
-    "**/venv/**",
-]
-
-FLAG_MAP: Dict[str, int] = {
-    "DOTALL": re.DOTALL,
-    "IGNORECASE": re.I,
-    "MULTILINE": re.MULTILINE,
-    "VERBOSE": re.VERBOSE,
-}
-
-# The fixer IDs in a sensible order (banner → caps → trailing dot → inline lowercase)
-FIX_ORDER: Tuple[str, ...] = (
-    "hash-banner-length",
-    "line-comment-capitalized",
-    "line-comment-trailing-period",
-    "inline-comment-lowercase",
-)
-
-
-## YAML LOADING ##########################################################################
-
-
-def load_yaml_config(path: Path) -> ConfigSpec:
-    """
-    Loads and compiles the YAML configuration.
-
-    Behavior:
-        • Always merges the YAML `exclude:` with `DEFAULT_EXCLUDES` (order-preserving and deduplicated).
-        • Computes the `prune_names` set from the merged `exclude` list (patterns ending with `"/**"`).
-
-    Args:
-        path: The path to the YAML configuration file.
-
-    Returns:
-        The compiled `ConfigSpec`.
-
-    Raises:
-        SystemExit: When the YAML file cannot be read or parsed, or a rule regex is invalid.
-    """
-    try:
-        text = path.read_text(encoding=DEFAULT_ENCODING)
-    except Exception as e:
-        sys.exit(f"Could not read YAML config '{path}': {e}")
-
-    try:
-        data = yaml.safe_load(text) or {}
-    except Exception as e:
-        sys.exit(f"Invalid YAML in '{path}': {e}")
-
-    include = list(data.get("include") or ["**/*"])
-
-    # Always merge the defaults with the user excludes (even when the user specifies an empty list)
-    exclude_yaml = list(data.get("exclude") or [])
-    exclude = deduplicate(DEFAULT_EXCLUDES + exclude_yaml)
-
-    rules: List[RuleSpec] = []
-    for r in data.get("rules") or []:
-        rid = str(r.get("id") or "unnamed")
-        flags_val = 0
-        for f in r.get("flags") or []:
-            flags_val |= FLAG_MAP.get(str(f).upper(), 0)
-        try:
-            pattern: re.Pattern[str] = re.compile(str(r["pattern"]), flags_val)
-        except Exception as e:
-            sys.exit(f"Invalid regex for rule '{rid}': {e}")
-
-        rules.append(
-            RuleSpec(
-                id=rid,
-                description=get_row_string(r, "description"),
-                severity=str(r.get("severity") or "warning").casefold(),
-                pattern=pattern,
-                include=list(r.get("include") or ["**/*"]),
-                exclude=list(r.get("exclude") or []),
-                params=dict(r.get("params") or {}),
-            )
-        )
-
-    prune_names = get_dirnames_from_globs(exclude)
-    return ConfigSpec(include=include, exclude=exclude, prune_names=prune_names, rules=rules)
 
 
 ## FIXERS ################################################################################
 
 
-def fix_hash_banner_length(line: str, rule: RuleSpec) -> Tuple[str, bool]:
+def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Pads or trims the banner line to the target width and normalizes the spacing.
 
     Normalization (applies only to the banner line that matches the `rule.pattern`):
-        - Ensures exactly one space after the leading hashes, then the title, then one space,
+        • Ensures exactly one space after the leading hashes, then the title, then one space,
           then the trailing `#` run.
-        - Chooses the trailing hash count so that the total width equals the target (30/60/90/120).
+        • Chooses the trailing hash count so that the total width equals the target (30/60/90/120).
 
     Additionally:
-        - If the current line length is already one of 30, 60, 90, or 120, it corrects the leading
+        • If the current line length is already one of 30, 60, 90, or 120, it corrects the leading
           `#` count for that width and rebalances the trailing `#` run to preserve the width.
 
     Trim is performed only when the overflow past the target consists solely of spaces or `#`.
 
     Args:
         line: The input line to check and possibly modify.
-        rule: The `RuleSpec` whose `pattern` gates execution.
+        rule: The `StyleRule` whose `pattern` gates execution.
 
     Returns:
         A tuple of `(possibly_modified_line, did_change)`.
@@ -294,7 +137,7 @@ def fix_hash_banner_length(line: str, rule: RuleSpec) -> Tuple[str, bool]:
     return new_body + nl, True
 
 
-def fix_line_comment_capitalized(line: str, rule: RuleSpec) -> Tuple[str, bool]:
+def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Capitalizes the first alphabetic character in a one-line Python comment.
 
@@ -302,7 +145,7 @@ def fix_line_comment_capitalized(line: str, rule: RuleSpec) -> Tuple[str, bool]:
 
     Args:
         line: The input line to check and possibly modify.
-        rule: The `RuleSpec` whose `pattern` gates execution.
+        rule: The `StyleRule` whose `pattern` gates execution.
 
     Returns:
         A tuple of `(possibly_modified_line, did_change)`.
@@ -318,7 +161,7 @@ def fix_line_comment_capitalized(line: str, rule: RuleSpec) -> Tuple[str, bool]:
     return f"{prefix}{first.upper()}{rest}{nl}", True
 
 
-def fix_line_comment_trailing_period(line: str, rule: RuleSpec) -> Tuple[str, bool]:
+def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Removes a single trailing `.` in a one-line Python comment.
 
@@ -326,7 +169,7 @@ def fix_line_comment_trailing_period(line: str, rule: RuleSpec) -> Tuple[str, bo
 
     Args:
         line: The input line to check and possibly modify.
-        rule: The `RuleSpec` whose `pattern` gates execution.
+        rule: The `StyleRule` whose `pattern` gates execution.
 
     Returns:
         A tuple of `(possibly_modified_line, did_change)`.
@@ -341,16 +184,16 @@ def fix_line_comment_trailing_period(line: str, rule: RuleSpec) -> Tuple[str, bo
     return line, False
 
 
-def fix_inline_comment_lowercase(line: str, rule: RuleSpec) -> Tuple[str, bool]:
+def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
     Lowercases the first letter of an inline (end-of-line) comment.
 
     Triggered only when the `rule.pattern` matches.
-    A typical pattern is `^(?!\s*#).*?\S[ \t]{2,}#\s+[A-Z]`.
+    A typical pattern is `^(?!\\s*#).*?\\S[ \\t]{2,}#\\s+[A-Z]`.
 
     Args:
         line: The input line to check and possibly modify.
-        rule: The `RuleSpec` whose `pattern` gates execution.
+        rule: The `StyleRule` whose `pattern` gates execution.
 
     Returns:
         A tuple of `(possibly_modified_line, did_change)`.
@@ -369,7 +212,7 @@ def fix_inline_comment_lowercase(line: str, rule: RuleSpec) -> Tuple[str, bool]:
 
 ## FIXER REGISTRY ########################################################################
 
-FixerFn = Callable[[str, RuleSpec], Tuple[str, bool]]
+FixerFn = Callable[[str, StyleRule], Tuple[str, bool]]
 
 FIXERS: Dict[str, FixerFn] = {
     "hash-banner-length": fix_hash_banner_length,
@@ -382,13 +225,13 @@ FIXERS: Dict[str, FixerFn] = {
 ## FILE PROCESSOR ########################################################################
 
 
-def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
+def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     """
     Applies all active rule fixes to a file.
 
     Args:
         path: The file path to process.
-        rules: The ordered sequence of active `RuleSpec` instances.
+        rules: The ordered sequence of active `StyleRule` instances.
 
     Returns:
         The dictionary of `{rule_id: count_of_line_changes}`.
@@ -399,10 +242,8 @@ def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
 
-    ordered = sorted(
-        [r for r in rules if r.id in FIXERS],
-        key=lambda r: (FIX_ORDER.index(r.id) if r.id in FIX_ORDER else len(FIX_ORDER), r.id),
-    )
+    # Preserve the rule order as defined in the YAML configuration
+    ordered: List[StyleRule] = [r for r in rules if r.id in FIXERS]
 
     counts: Dict[str, int] = {}
     changed = False
@@ -430,19 +271,19 @@ def process_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
 ## WALKER ################################################################################
 
 
-def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
+def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
     """
     Walks the tree, prunes the excluded directories, and applies the fixes.
 
     Args:
         root: The repository root to scan.
-        cfg: The compiled configuration to use.
+        config: The compiled style configuration to use.
         dry_run: Whether to preview changes without writing.
 
     Returns:
         The exit status code `0` for success.
     """
-    fixable_rules = [r for r in cfg.rules if r.id in FIXERS]
+    fixable_rules = [r for r in config.rules if r.id in FIXERS]
     if not fixable_rules:
         logging.info("No known fixer rules found in config. Nothing to do.")
         return 0
@@ -461,10 +302,10 @@ def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
         # Prune the excluded directories in place based on the merged excludes
         kept: List[str] = []
         for dirname in dirnames:
-            if dirname in cfg.prune_names:
+            if dirname in config.prune_names:
                 continue
             rel_child = join_posix_paths(rel_dir, dirname)
-            if exclude_dir(rel_child, cfg.exclude):
+            if exclude_dir(rel_child, config.exclude):
                 continue
             kept.append(dirname)
         dirnames[:] = kept
@@ -474,7 +315,7 @@ def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
             abs_file = dir_path / name
 
             # Coarse gate: the repo-level include/exclude
-            if exclude_file(rel_file, cfg.exclude, cfg.include):
+            if exclude_file(rel_file, config.exclude, config.include):
                 continue
 
             # Coarse gate: the union of the rule-level include/exclude
@@ -510,13 +351,13 @@ def run(root: Path, cfg: ConfigSpec, dry_run: bool = False) -> int:
 ## CLI ###################################################################################
 
 
-def preview_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
+def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     """
     Reports what would change for a file without writing.
 
     Args:
         path: The file path to preview.
-        rules: The ordered sequence of active `RuleSpec` instances.
+        rules: The ordered sequence of active `StyleRule` instances.
 
     Returns:
         The dictionary of `{rule_id: count_of_line_changes}`.
@@ -527,11 +368,7 @@ def preview_file(path: Path, rules: Sequence[RuleSpec]) -> Dict[str, int]:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
 
-    ordered = sorted(
-        [r for r in rules if r.id in FIXERS],
-        key=lambda r: (FIX_ORDER.index(r.id) if r.id in FIX_ORDER else len(FIX_ORDER), r.id),
-    )
-
+    ordered: List[StyleRule] = [r for r in rules if r.id in FIXERS]
     counts: Dict[str, int] = {}
 
     for line in orig.splitlines(keepends=True):
@@ -562,14 +399,16 @@ def parse_args() -> argparse.Namespace:
         An `argparse.Namespace` with resolved paths and options.
 
     Raises:
-        FileNotFoundError: When the paths are invalid.
+        FileNotFoundError: When the input paths are invalid.
     """
     ap: argparse.ArgumentParser = _build_arg_parser()
     args: argparse.Namespace = ap.parse_args()
 
-    # Resolve the path(s)
-    args.config = load_yaml_config(resolve_path(args.config))
+    # Resolve the paths and load the configuration
+    config_path = resolve_path(args.config)
+    args.config = load_yaml_config(config_path)
     args.root = resolve_path(args.root)
+
     return args
 
 
