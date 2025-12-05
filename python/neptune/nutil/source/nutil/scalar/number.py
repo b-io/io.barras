@@ -134,24 +134,24 @@ def mod(x, y):
 ##############################
 
 
-def nearest(c, value):
-    if is_empty(c):
+def nearest(s, value):
+    if is_empty(s):
         return None
-    elif is_series(c) or is_array(c):
+    elif is_series(s) or is_array(s):
         from nutil.struct.util import get
 
-        return get(c, abs(c - value).argmin())
-    return min(to_list(c), key=lambda x: abs(x - value))
+        return get(s, abs(s - value).argmin())
+    return min(to_list(s), key=lambda x: abs(x - value))
 
 
-def farthest(c, value):
-    if is_empty(c):
+def farthest(s, value):
+    if is_empty(s):
         return None
-    elif is_series(c) or is_array(c):
+    elif is_series(s) or is_array(s):
         from nutil.struct.util import get
 
-        return get(c, abs(c - value).argmax())
-    return max(to_list(c), key=lambda x: abs(x - value))
+        return get(s, abs(s - value).argmax())
+    return max(to_list(s), key=lambda x: abs(x - value))
 
 
 ## NUMBER VERIFIERS ######################################################################

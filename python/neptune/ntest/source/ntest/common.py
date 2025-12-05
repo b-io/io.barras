@@ -74,14 +74,14 @@ def assert_equals(first, second, precision=PRECISION, assert_order=False):
 ##############################
 
 
-def apply_timed(c, f, test_count, *args, axis=None, inplace=False, **kwargs):
+def apply_timed(s, f, test_count, *args, axis=None, inplace=False, **kwargs):
     """Applies a function and logs timing via nutil.test."""
-    t = timed(lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), test_count)
+    t = timed(lambda: apply(s, f, *args, axis=axis, inplace=inplace, **kwargs), test_count)
     logging.info(
         "Applied",
         f.__name__,
         "on",
-        count(c, axis=None),
+        count(s, axis=None),
         "items",
         test_count,
         "times in",
@@ -93,27 +93,27 @@ def apply_timed(c, f, test_count, *args, axis=None, inplace=False, **kwargs):
 ##############################
 
 
-def get_items_timed(c, test_count):
+def get_items_timed(s, test_count):
     """Gets items with inclusion/exclusion and logs timing via nutil.test."""
     t = timed(
-        lambda: get_items(c, inclusion=range(len(c)), exclusion=range(int(len(c) / 2))), test_count
+        lambda: get_items(s, inclusion=range(len(s)), exclusion=range(int(len(s) / 2))), test_count
     )
-    logging.info(len(c), "items retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
+    logging.info(len(s), "items retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
 
 
-def get_rows_timed(c, test_count):
+def get_rows_timed(s, test_count):
     """Gets rows and logs timing via nutil.test."""
-    t = timed(lambda: get_rows(c), test_count)
+    t = timed(lambda: get_rows(s), test_count)
     logging.info(
-        count_rows(c), "rows retrieved", test_count, "times in", round(t), "[s]"
+        count_rows(s), "rows retrieved", test_count, "times in", round(t), "[s]"
     )  # prints/logs
 
 
-def get_cols_timed(c, test_count):
+def get_cols_timed(s, test_count):
     """Gets columns and logs timing via nutil.test."""
-    t = timed(lambda: get_cols(c), test_count)
+    t = timed(lambda: get_cols(s), test_count)
     logging.info(
-        count_cols(c), "cols retrieved", test_count, "times in", round(t), "[s]"
+        count_cols(s), "cols retrieved", test_count, "times in", round(t), "[s]"
     )  # prints/logs
 
 

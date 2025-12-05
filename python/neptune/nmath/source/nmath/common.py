@@ -112,8 +112,8 @@ __MATH_STATISTICS___________________________________________ = ""
 
 
 def mode(*args, axis: Optional[Axis] = None):
-    c = forward(*args)
-    return calculate(c, f=stats.mode, axis=axis)
+    s = forward(*args)
+    return calculate(s, f=stats.mode, axis=axis)
 
 
 def cor(c1, c2):
@@ -129,22 +129,22 @@ def cov(c1, c2, dof=1):
 
 
 def skew(*args, axis: Optional[Axis] = 0):
-    c = forward(*args)
-    if is_group_by(c):
-        return c.skew()
-    elif is_frame(c):
-        return c.skew(axis=axis)
-    return stats.skew(get_values(c), axis=axis)
+    s = forward(*args)
+    if is_group_by(s):
+        return s.skew()
+    elif is_frame(s):
+        return s.skew(axis=axis)
+    return stats.skew(get_values(s), axis=axis)
 
 
 def kurtosis(*args, axis: Optional[Axis] = 0):
-    c = forward(*args)
-    return calculate(c, f=stats.kurtosis, axis=axis)
+    s = forward(*args)
+    return calculate(s, f=stats.kurtosis, axis=axis)
 
 
 def entropy(*args, axis: Optional[Axis] = 0):
-    c = forward(*args)
-    return calculate(c, f=stats.entropy, axis=axis)
+    s = forward(*args)
+    return calculate(s, f=stats.entropy, axis=axis)
 
 
 def margin(cl=DEFAULT_CONFIDENCE_LEVEL, tail=2):

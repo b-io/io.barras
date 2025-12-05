@@ -91,6 +91,19 @@ def is_scalar(x: Any) -> bool:
     )
 
 
+def is_scalar_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is one of the supported scalar types."""
+    return (
+        is_boolean_type(t)
+        or is_bytes_type(t)
+        or is_date_type(t)
+        or is_datetime_type(t)
+        or is_timestamp_type(t)
+        or is_number_type(t)
+        or is_string_type(t)
+    )
+
+
 ### BOOLEAN ################################################
 
 __COMMON_BOOLEAN_VERIFIERS__________________________________ = ""

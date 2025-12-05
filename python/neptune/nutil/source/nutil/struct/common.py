@@ -383,8 +383,8 @@ def is_callable(x: Any, name: str) -> bool:
 ############################################################
 
 
-def has_index(c):
-    return is_array(c) or is_index(c) or is_sequence(c)
+def has_index(s):
+    return is_array(s) or is_index(s) or is_sequence(s)
 
 
 ##############################

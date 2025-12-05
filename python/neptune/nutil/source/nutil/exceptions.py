@@ -67,9 +67,9 @@ def create_type_error(
         scalar: Callable[[Any], str],
     ) -> str:
         if isinstance(items, ErrorList):
-            return group_separator.join(_format(x, scalar=scalar) for x in items)
+            return group_separator.join(_format(item, scalar=scalar) for item in items)
         elif isinstance(items, ExpectedTypeList):
-            return set_separator.join(f"'{scalar(t)}'" for t in items)
+            return set_separator.join(f"'{scalar(item)}'" for item in items)
         return f"'{scalar(items)}'"
 
     input_names_str = _format(input_names, scalar=str)

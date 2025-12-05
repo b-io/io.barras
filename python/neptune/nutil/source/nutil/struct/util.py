@@ -910,7 +910,7 @@ def set_element_types(
             # Intersect the keys with the element type keys
             keys = get_keys(new_element_types) & keys
             new_element_types = get_element_types(new_element_types, keys=keys)
-        else:
+        elif not is_series(s) and not is_array(s):
             new_element_types = {k: new_element_types for k in keys}
     if is_empty(new_element_types):
         return s
@@ -922,7 +922,8 @@ def set_element_types(
             copy=False,
         )
         date_cols = [k for k, t in new_element_types.items() if is_date_type(t)]
-        s[date_cols] = s.loc[:, date_cols].apply(pd.to_datetime)
+        if not is_empty(date_cols):
+            s[date_cols] = s.loc[:, date_cols].apply(pd.to_datetime)
     elif is_series(s) or is_array(s):
         if is_dict(new_element_types):
             new_element_types = get_value(new_element_types)
@@ -1136,7 +1137,7 @@ def to_element_type(x: Any, t: Type[Any]) -> Any:
     Behavior:
         • If `type(x) is t`, returns `x` unchanged.
         • If `t` is a `tuple` (shape-like/type-spec), converts to `tuple` via `to_tuple(x)`.
-        • Else if `t` is a scalar *type* or scalar-like spec, converts via `to_scalar(x)`.
+        • Else if `t` is a scalar *type* or scalar-like spec, converts via `to_scalar(x, t)`.
         • Otherwise returns `x`.
 
     Notes:
@@ -1149,10 +1150,10 @@ def to_element_type(x: Any, t: Type[Any]) -> Any:
     """
     if type(x) is t:
         return x
-    if is_tuple(t):
+    if is_tuple_type(t):
         return to_tuple(x)
-    elif is_scalar(t):
-        return to_scalar(x)
+    elif is_scalar_type(t):
+        return to_scalar(x, t)
     return x
 
 

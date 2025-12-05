@@ -166,32 +166,32 @@ class TestCommon(Test):
 
     ########################################################
 
-    def get_items(self, c):
+    def get_items(self, s):
         t = timeit.timeit(
-            stmt=lambda: get_items(c, inclusion=range(len(c)), exclusion=range(int(len(c) / 2))),
+            stmt=lambda: get_items(s, inclusion=range(len(s)), exclusion=range(int(len(s) / 2))),
             number=TEST_COUNT,
         )
-        logging.info(len(c), "items retrieved", TEST_COUNT, "times in", round(t), "[s]")
+        logging.info(len(s), "items retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
-    def get_rows(self, c):
-        t = timeit.timeit(stmt=lambda: get_rows(c), number=TEST_COUNT)
-        logging.info(count_rows(c), "rows retrieved", TEST_COUNT, "times in", round(t), "[s]")
+    def get_rows(self, s):
+        t = timeit.timeit(stmt=lambda: get_rows(s), number=TEST_COUNT)
+        logging.info(count_rows(s), "rows retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
-    def get_cols(self, c):
-        t = timeit.timeit(stmt=lambda: get_cols(c), number=TEST_COUNT)
-        logging.info(count_cols(c), "cols retrieved", TEST_COUNT, "times in", round(t), "[s]")
+    def get_cols(self, s):
+        t = timeit.timeit(stmt=lambda: get_cols(s), number=TEST_COUNT)
+        logging.info(count_cols(s), "cols retrieved", TEST_COUNT, "times in", round(t), "[s]")
 
     ##########################
 
-    def apply(self, c, f, *args, axis: Optional[Axis] = None, inplace=False, **kwargs):
+    def apply(self, s, f, *args, axis: Optional[Axis] = None, inplace=False, **kwargs):
         t = timeit.timeit(
-            stmt=lambda: apply(c, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT
+            stmt=lambda: apply(s, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT
         )
         logging.info(
             "Applied",
             f.__name__,
             "on",
-            count(c, axis=None),
+            count(s, axis=None),
             "items",
             TEST_COUNT,
             "times in",
@@ -199,10 +199,10 @@ class TestCommon(Test):
             "[s]",
         )
 
-    def tally(self, c, boundaries):
-        t = timeit.timeit(stmt=lambda: tally(c, boundaries), number=TEST_COUNT)
+    def tally(self, s, boundaries):
+        t = timeit.timeit(stmt=lambda: tally(s, boundaries), number=TEST_COUNT)
         logging.info(
-            count(c, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]"
+            count(s, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]"
         )
 
 
