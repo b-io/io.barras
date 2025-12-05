@@ -131,7 +131,7 @@ def test_common_and_uncommon_names_and_keys() -> None:
 
 def test_get_item_items_and_values_for_dict_and_dataframe() -> None:
     d = OrderedDict([("x", 1), ("y", 2)])
-    assert util.get_item(d) == ("x", 1)
+    assert util.get_item(d, keys=["x"]) == ("x", 1)
 
     items = util.get_items(d)
     assert items == [("x", 1), ("y", 2)]

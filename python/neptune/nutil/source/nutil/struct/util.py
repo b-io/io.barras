@@ -64,7 +64,8 @@ def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
         return s
     elif is_null(axis):
         return simplify(flatten(s, axis=axis)[index])
-    elif is_multidimensional(s):
+
+    if is_multidimensional(s):
         if axis == 0:
             return get_row(s, index)
         return get_col(s, index)
@@ -267,10 +268,13 @@ def get_keys(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return OrderedSet()
+
+    # Resolve the inclusion and the exclusion
     if is_table(inclusion):
         inclusion = get_keys(inclusion)
     if is_table(exclusion):
         exclusion = get_keys(exclusion)
+
     if is_series(s):
         s = s.index
     elif has_index(s):
@@ -472,13 +476,17 @@ def get_items(
         return []
     elif not is_subscriptable(s):
         return to_list(s)
+
     if not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion):
         if (is_table(s) and not is_group_by(s)) or is_dict(s):
             return to_list(s.items())
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return []
+
     if is_group_by(s):
         if s.axis == 0:
             return [(k, filter(v, keys=keys)) for k, v in s]
@@ -528,10 +536,13 @@ def get_values(
         return to_array(element_type=element_type)
     elif not is_subscriptable(s):
         return to_array(s, element_type=element_type)
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return to_array(element_type=element_type)
+
     if is_group_by(s):
         if s.axis == 0:
             return to_array([filter(v, keys=keys).values for k, v in s], element_type=element_type)
@@ -579,11 +590,14 @@ def get_element_types(
         return {}
     elif not is_subscriptable(s):
         return {i: type(x) for i, x in enumerate(to_list(s))}
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return {}
-    elif is_frame(s):
+
+    if is_frame(s):
         return to_dict(filter(s, keys=keys).dtypes)
     elif is_series(s) or is_array(s):
         return s.dtype
@@ -634,12 +648,15 @@ def set_names(s: Struct, new_names: Any) -> Any:
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Normalize the names
     if is_table(new_names):
         new_names = get_names(new_names)
     else:
         new_names = to_list(new_names)
     if is_empty(new_names):
         return s
+
     if is_frame(s):
         s.columns = new_names
     elif is_series(s):
@@ -676,16 +693,21 @@ def set_keys(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return s
+
+    # Normalize the keys
     if is_table(new_keys):
         new_keys = get_keys(new_keys)
     else:
         new_keys = to_ordered_set(new_keys)
     if is_empty(new_keys):
         return s
+
     if is_frame(s):
         s.loc[:, keys].columns = new_keys
     elif is_series(s):
@@ -720,6 +742,8 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
     s = ungroup(s, axis=1)
     if not is_subscriptable(s):
         return s
+
+    # Normalize the index
     if is_table(new_index):
         new_index_names = get_names(new_index.index)
         new_index = new_index.index
@@ -728,6 +752,7 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
         new_index = to_list(new_index)
     if is_empty(new_index):
         return s
+
     if is_table(s):
         if not is_empty(new_index) and is_tuple(new_index[0]):
             new_index_names = resize_list(new_index_names, len(new_index[0]))
@@ -795,15 +820,20 @@ def set_values(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return s
+
+    # Normalize the values
     if is_struct(new_values):
         new_values = get_values(new_values)
     else:
         if not is_multidimensional(s) or is_null(mask):
             new_values = create_array(get_shape(s, keys=keys), fill=new_values)
+
     if not is_null(mask):
         if is_multidimensional(s):
             s[mask] = new_values
@@ -867,10 +897,15 @@ def set_element_types(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+    keys = get_keys(new_element_types, keys=keys)
     if is_empty(keys):
         return s
+
+    # Normalize the element types
     if not is_dict(new_element_types):
         if is_struct(new_element_types):
             new_element_types = get_element_types(new_element_types, keys=keys)
@@ -878,8 +913,10 @@ def set_element_types(
             new_element_types = {k: new_element_types for k in keys}
     if is_empty(new_element_types):
         return s
+
+    # Filter the new element types
     if is_frame(s):
-        s = s.astype(
+        s.loc[:, keys] = s.loc[:, keys].astype(
             {
                 k: t
                 for k, t in new_element_types.items()
@@ -896,7 +933,7 @@ def set_element_types(
     elif is_series(s) or is_array(s):
         if is_dict(new_element_types):
             new_element_types = get_value(new_element_types)
-        s = s.astype(new_element_types, copy=False)
+        s.loc[keys] = s.loc[keys].astype(new_element_types, copy=False)
     elif is_dict(s):
         upsert(
             s,
@@ -1391,6 +1428,7 @@ def to_frame(
     Complexity:
         O(n) to materialize the frame and assign names/index.
     """
+    # Normalize the data
     if is_empty(data) and not is_table(data):
         data = []
         element_type = OBJECT_TYPE
@@ -1402,6 +1440,7 @@ def to_frame(
             fill=data,
             element_type=element_type,
         )
+
     if is_frame(data):
         frame = data.copy()
     elif is_series(data):
@@ -1410,6 +1449,7 @@ def to_frame(
         frame = pd.DataFrame.from_dict(data, dtype=element_type, orient="index")
     else:
         frame = pd.DataFrame(data=data, dtype=element_type)
+
     if not is_null(names):
         set_names(frame, names)
     if not is_null(index):
@@ -1556,6 +1596,7 @@ def create_mask(
         • Vectorized: ~O(n) on the selected entries.
         • Fallback:   O(n) Python loop over selected entries.
     """
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
 
@@ -1650,12 +1691,15 @@ def apply(
         • Vectorized: ~O(n) with C-level ops on the selected slice.
         • Fallback:   O(n) Python-level, slower than vectorized.
     """
-    if not is_subscriptable(s):
-        return f(s, *args, **kwargs)
-    elif is_empty(s):
+    if is_empty(s):
         return s
+    elif not is_subscriptable(s):
+        return f(s, *args, **kwargs)
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if inplace:
         return set_values(s, apply(s, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
     if is_group_by(s):
@@ -1786,8 +1830,11 @@ def fill_null(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     for k in keys:
         if is_frame(s):
             col = s.loc[:, k]
@@ -1826,8 +1873,11 @@ def filter(
         or not has_filter(keys=keys, inclusion=inclusion, exclusion=exclusion)
     ):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if is_group_by(s):
         if s.axis == 0:
             keys = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -1905,8 +1955,11 @@ def filter_with(
     """Returns entries whose values return `True` with `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if is_group_by(s):
         if s.axis == 0:
             keys = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -1933,8 +1986,11 @@ def filter_not_with(
     """Returns entries whose values return `False` with `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if is_group_by(s):
         if s.axis == 0:
             keys = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -1961,8 +2017,11 @@ def filter_any_with(
     """Returns entries whose values return `True` with `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if is_group_by(s):
         if s.axis == 0:
             keys = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -1989,8 +2048,11 @@ def filter_any_not_with(
     """Returns entries whose values return `False` with `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if is_group_by(s):
         if s.axis == 0:
             keys = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -2245,6 +2307,7 @@ def flatten(
     """Returns a flattened `array` view of `s` respecting the specified `axis` order."""
     if is_empty(s):
         return to_array(element_type=element_type)
+
     if element_type is OBJECT_TYPE:
         return to_array(flatten_list(s), element_type=element_type)
     return get_values(s, element_type=element_type).flatten(
@@ -2458,10 +2521,13 @@ def insert_rows(
         return c1
     if is_table(c2):
         c2 = exclude_index(c2, c1)
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
+
     c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         c1 = concat_rows(
@@ -2493,10 +2559,13 @@ def insert_cols(
         return c1
     if is_table(c2):
         c2 = include_index(c2, c2)
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_uncommon_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
+
     c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         c1 = concat_cols(
@@ -2556,6 +2625,7 @@ def reduce(
     """Reduces the specified iterable to a single value by left-folding `f`."""
     if is_empty(s):
         return initializer
+
     if not is_null(initializer):
         return functools.reduce(lambda x, y: f(x, y, *args, **kwargs), s, initializer)
     return functools.reduce(lambda x, y: f(x, y, *args, **kwargs), s)
@@ -2598,8 +2668,11 @@ def remove_null(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if axis == 0:
         if conservative:
             return filter_any_not_null(s, keys=keys)
@@ -2622,8 +2695,11 @@ def remove_empty(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if axis == 0:
         if conservative:
             return filter_any_not_empty(s, keys=keys)
@@ -2647,8 +2723,11 @@ def remove_value(
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     if axis == 0:
         if conservative:
             return filter_any_not_value(s, value, keys=keys)
@@ -2877,10 +2956,13 @@ def update(
     """
     if is_table(c2):
         c2 = include_index(c2, c1)
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_common_keys(c2, c1, inclusion=inclusion, exclusion=exclusion)
     if is_empty(keys):
         return c1
+
     c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     if is_table(c1):
         element_types = get_element_types(c2)
@@ -2937,8 +3019,10 @@ def upsert(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
     """Upserts `c1` with `c2` by updating then inserting for `keys`."""
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
+
     c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     return insert(
         update(c1, c2),
@@ -2962,8 +3046,10 @@ def upsert_rows(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
     """Upserts rows of `c1` with rows of `c2` for `keys`."""
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(c2, inclusion=inclusion, exclusion=exclusion)
+
     c2 = struct_to_common_type(filter(c2, keys=keys), c1)
     return insert_rows(
         update(c1, c2),
@@ -2990,8 +3076,11 @@ def where(
     """Returns the keys in `s` where `condition(value, *args, **kwargs)` is `True`."""
     if is_empty(s) or not is_subscriptable(s):
         return []
+
+    # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
     return [k for k in keys if condition(s[k], *args, **kwargs)]
 
 
@@ -3578,6 +3667,7 @@ def rotate_rows(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> p
     """Rotates rows by moving last→first (`prepend=True`) or first→last (`prepend=False`)."""
     if is_empty(df):
         return df
+
     if prepend:
         df = concat_rows(get_last_row(df), df)
         if drop:
@@ -3593,6 +3683,7 @@ def rotate_cols(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> p
     """Rotates columns by moving last→first (`prepend=True`) or first→last (`prepend=False`)."""
     if is_empty(df):
         return df
+
     if prepend:
         df = concat_cols(get_last_col(df), df)
         if drop:
