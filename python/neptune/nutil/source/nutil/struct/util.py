@@ -877,10 +877,10 @@ def set_element_types(
     Sets element type(s) on the specified `Struct` under filters, converting values in place.
 
     Dispatch:
-        • `pd.DataFrame`                → vectorized `.astype(...)` per column (dates handled via `pd.to_datetime`).
-        • `pd.Series` / `np.ndarray`    → `.astype(...)`.
-        • `dict`                        → rebuilds values using `to_element_type`.
-        • Fallback                      → updates per key using `to_element_type`.
+        • `pd.DataFrame`             → vectorized `.astype(...)` per column (dates handled via `pd.to_datetime`).
+        • `pd.Series` / `np.ndarray` → `.astype(...)`.
+        • `dict`                     → rebuilds values using `to_element_type`.
+        • Fallback                   → updates per key using `to_element_type`.
 
     Notes:
         • `new_element_types` can be:
@@ -901,39 +901,32 @@ def set_element_types(
     # Resolve the keys
     if is_null(keys):
         keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
-    keys = get_keys(new_element_types, keys=keys)
     if is_empty(keys):
         return s
 
-    # Normalize the element types
+    # Normalize the element types and align the keys
     if not is_dict(new_element_types):
-        if is_struct(new_element_types):
+        if is_iterable(new_element_types):
+            # Intersect the keys with the element type keys
+            keys = get_keys(new_element_types) & keys
             new_element_types = get_element_types(new_element_types, keys=keys)
-        elif not is_series(s) and not is_array(s):
+        else:
             new_element_types = {k: new_element_types for k in keys}
     if is_empty(new_element_types):
         return s
 
     # Filter the new element types
     if is_frame(s):
-        s.loc[:, keys] = s.loc[:, keys].astype(
-            {
-                k: t
-                for k, t in new_element_types.items()
-                if t is not DATE_TYPE and t is not DATETIME_TYPE and t is not TIMESTAMP_TYPE
-            },
+        s[to_list(keys)] = s.loc[:, keys].astype(
+            {k: t for k, t in new_element_types.items() if not is_date_type(t)},
             copy=False,
         )
-        date_cols = [
-            k
-            for k, t in new_element_types.items()
-            if t is DATE_TYPE or t is DATETIME_TYPE or t is TIMESTAMP_TYPE
-        ]
-        set_values(s, s[date_cols].apply(pd.to_datetime), keys=date_cols)
+        date_cols = [k for k, t in new_element_types.items() if is_date_type(t)]
+        s[date_cols] = s.loc[:, date_cols].apply(pd.to_datetime)
     elif is_series(s) or is_array(s):
         if is_dict(new_element_types):
             new_element_types = get_value(new_element_types)
-        s.loc[keys] = s.loc[keys].astype(new_element_types, copy=False)
+        s = s.astype(new_element_types, copy=False)
     elif is_dict(s):
         upsert(
             s,

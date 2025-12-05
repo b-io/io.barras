@@ -45,6 +45,27 @@ class IntEnumMeta(EnumMeta):
 
     ### ACCESSORS ##########################################
 
+    def from_name_or_value(cls, name_or_value: str) -> I:
+        """
+        Retrieves the enum member matching the given string as either a `name` or a `value`.
+
+        The method first attempts to resolve `name_or_value` as a member name; if that fails,
+        it attempts to resolve it as a member value.
+
+        Args:
+            name_or_value: The candidate member name or member value.
+
+        Returns:
+            The corresponding enum member.
+
+        Raises:
+            ValueError: If `name_or_value` is neither a valid name nor a valid value for the enum.
+        """
+        try:
+            return cls.from_name(name_or_value)
+        except ValueError:
+            return cls.from_value(name_or_value)
+
     def from_name(cls: Type[I], name: str) -> I:
         """
         Retrieves the enum member with the specified `name`.
@@ -236,6 +257,27 @@ class StrEnumMeta(EnumMeta):
         return cls
 
     ### ACCESSORS ##########################################
+
+    def from_name_or_value(cls, name_or_value: str) -> S:
+        """
+        Retrieves the enum member matching the given string as either a `name` or a `value`.
+
+        The method first attempts to resolve `name_or_value` as a member name; if that fails,
+        it attempts to resolve it as a member value.
+
+        Args:
+            name_or_value: The candidate member name or member value.
+
+        Returns:
+            The corresponding enum member.
+
+        Raises:
+            ValueError: If `name_or_value` is neither a valid name nor a valid value for the enum.
+        """
+        try:
+            return cls.from_name(name_or_value)
+        except ValueError:
+            return cls.from_value(name_or_value)
 
     def from_name(cls: Type[S], name: str) -> S:
         """

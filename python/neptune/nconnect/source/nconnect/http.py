@@ -8,6 +8,7 @@
 #   Provide utilities for HTTP clients.
 ########################################################################################################################
 
+import json
 import logging
 import random
 import time
@@ -19,7 +20,8 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from nutil.common import *
-from nutil.enums import StrEnum
+from nutil.enums import HttpStatusCode, StrEnum
+from nutil.struct.util import create_empty
 
 ## HTTP CONSTANTS ########################################################################
 
@@ -32,9 +34,16 @@ DEFAULT_USER_AGENT: str = (
 # The default `Accept` header used across the HTTP helpers (the output format negotiation)
 DEFAULT_ACCEPT: str = "*/*"
 # The default empty HTTP statuses
-DEFAULT_EMPTY_STATUSES: Tuple[int, ...] = (204, 404, 410)
+DEFAULT_EMPTY_STATUSES: Tuple[int, ...] = (
+    HttpStatusCode.NO_CONTENT,
+    HttpStatusCode.NOT_FOUND,
+    HttpStatusCode.GONE,
+)
 # The default rate limit HTTP statuses
-DEFAULT_RATE_LIMIT_STATUSES: Tuple[int, ...] = (429, 503)
+DEFAULT_RATE_LIMIT_STATUSES: Tuple[int, ...] = (
+    HttpStatusCode.TOO_MANY_REQUESTS,
+    HttpStatusCode.SERVICE_UNAVAILABLE,
+)
 
 # The polite delay after successful calls
 DEFAULT_THROTTLE: float = 0.25  # [s]
@@ -99,7 +108,15 @@ def build_session_with_retries(
     accept_value: str = accept or os.environ.get("HTTP_ACCEPT") or DEFAULT_ACCEPT
     allowed_methods = frozenset(m.upper() for m in (allowed_methods or {"GET"}))
     status_forcelist = frozenset(
-        status_forcelist or (DEFAULT_RATE_LIMIT_STATUSES + (500, 502, 504))
+        status_forcelist
+        or (
+            DEFAULT_RATE_LIMIT_STATUSES
+            + (
+                HttpStatusCode.INTERNAL_SERVER_ERROR,
+                HttpStatusCode.BAD_GATEWAY,
+                HttpStatusCode.GATEWAY_TIMEOUT,
+            )
+        )
     )
 
     retry = Retry(
@@ -430,13 +447,13 @@ def lookup_json(
         suffix_parts.append(f"[{context}]")
     log_suffix = (" for " + " ".join(suffix_parts)) if suffix_parts else ""
 
-    def _preview_payload(obj: Any, *, max_chars: int = 200) -> str:
+    def _preview_payload(x: Any, *, max_chars: int = 200) -> str:
         if not preview_payload:
             return ""
         try:
-            s = json.dumps(obj, ensure_ascii=False, separators=(",", ":"), default=str)
+            s = json.dumps(x, ensure_ascii=False, separators=(",", ":"), default=str)
         except Exception:
-            s = repr(obj)
+            s = repr(x)
         if len(s) > max_chars:
             s = s[: max_chars - 1] + "…"
         return f", payload={s}"

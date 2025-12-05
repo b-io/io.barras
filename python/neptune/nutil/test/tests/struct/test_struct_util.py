@@ -23,6 +23,9 @@ from nutil.enums import Aggregation, Position
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
+from nutil.config import DATE_TYPE
+from pandas.api.types import is_datetime64_any_dtype
+
 ## STRUCT UTIL TEST CASES ###############################################################
 
 __STRUCT_UTIL_TEST_CASES____________________________________ = ""
@@ -232,12 +235,25 @@ def test_set_element_types_for_dataframe_series_array_and_dict() -> None:
     assert np.issubdtype(df["a"].dtype, np.floating)
     assert np.issubdtype(df["b"].dtype, np.floating)
 
+    # Date conversion on a DataFrame
+    df_dates = pd.DataFrame(
+        {
+            "d": ["2024-01-01", "2024-01-02"],
+            "x": [1, 2],
+        }
+    )
+    util.set_element_types(df_dates, {"d": DATE_TYPE, "x": np.float64})
+    # `set_element_types` should have converted `d` via `pd.to_datetime(...)`
+    assert is_datetime64_any_dtype(df_dates["d"].dtype)
+    assert df_dates["d"].iloc[0] == pd.Timestamp("2024-01-01")
+    assert np.issubdtype(df_dates["x"].dtype, np.floating)
+
     s = pd.Series([1, 2, 3])
-    util.set_element_types(s, np.float64)
+    s = util.set_element_types(s, np.float64)
     assert np.issubdtype(s.dtype, np.floating)
 
     arr = np.array([1, 2, 3])
-    util.set_element_types(arr, np.float64)
+    arr = util.set_element_types(arr, np.float64)
     assert np.issubdtype(arr.dtype, np.floating)
 
     d = {"a": "1", "b": "2"}

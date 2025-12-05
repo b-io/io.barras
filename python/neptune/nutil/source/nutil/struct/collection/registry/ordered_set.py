@@ -474,6 +474,24 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         """
         return self >= other and self != other
 
+    ### HASH ###############################################
+
+    def __hash__(self) -> int:
+        """
+        Returns a hash value consistent with the set-like equality.
+
+        Notes:
+            • Uses a `frozenset` of the elements, so the hash is independent of order,
+              matching the set-like equality semantics.
+            • This ordered set is mutable. Do not mutate it while it is being used
+              as a key in a dictionary or as an element in another set; treat such
+              instances as effectively immutable.
+
+        Complexity:
+            Let `n = len(self)`. Building the `frozenset` and hashing it is O(n).
+        """
+        return hash(frozenset(self.elements.keys()))
+
     ### REPRESENTATION #####################################
 
     REPR_OPEN = "{"

@@ -9,49 +9,27 @@
 ########################################################################################################################
 
 from concurrent.futures import ThreadPoolExecutor
+import logging
 
 from multiprocess.pool import Pool
+from nutil.common import *
+from nutil.scalar.number import ceil
+
+from nutil.scalar.string import quote
+from nutil.struct.util import apply
 
 ## PROCESSORS ############################################################################
 
 __PROCESSORS________________________________________________ = ""
-
-
-### CONFIG #################################################
-
-__COMMON_CONFIG_PROCESSORS__________________________________ = ""
-
-
-def escape_property(property):
-    return property.replace("%", "%%") if not is_null(property) else None
-
-
-def merge_config_with_defaults(config: Dict[str, Any], defaults: Dict[str, Any]) -> Dict[str, Any]:
-    """
-    Merges the specified config with defaults, replacing None with defaults.
-
-    Args:
-        config: The base configuration (may contain None values).
-        defaults: The submodule defaults.
-
-    Returns:
-        A new dictionary with defaults applied.
-    """
-    merged: Dict[str, Any] = dict(config)
-    for key, default in defaults.items():
-        value = merged.get(key)
-        merged[key] = default if is_null(value) else value
-    return merged
-
 
 ### THREAD #################################################
 
 __THREAD_PROCESSORS_________________________________________ = ""
 
 
-def multithread(c, f, *args, asynchronous=False, max_workers=CORE_COUNT, timeout=None, **kwargs):
+def multithread(s, f, *args, asynchronous=False, max_workers=CORE_COUNT, timeout=None, **kwargs):
     return multithread_map(
-        c,
+        s,
         lambda x: apply(x, f, *args, **kwargs),
         asynchronous=asynchronous,
         max_workers=max_workers,
@@ -59,27 +37,27 @@ def multithread(c, f, *args, asynchronous=False, max_workers=CORE_COUNT, timeout
     )
 
 
-def multithread_map(c, f, asynchronous=False, max_workers=CORE_COUNT, timeout=None):
-    if is_empty(c) or is_element(c):
+def multithread_map(s, f, asynchronous=False, max_workers=CORE_COUNT, timeout=None):
+    if is_empty(s) or is_element(s):
         return []
-    max_workers = min(max_workers, len(c))
-    trace(
+    max_workers = min(max_workers, len(s))
+    logging.trace(
         "Apply the function",
         quote(f.__name__),
         "to the collection of size",
-        len(c),
+        len(s),
         "(multithreading)",
     )
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit the tasks and collect the results
-        results = executor.map(f, c, timeout=timeout)
+        results = executor.map(f, s, timeout=timeout)
         if asynchronous:
             return results
         return to_list(results)
 
 
 def multiprocess(
-    c,
+    s,
     f,
     *args,
     asynchronous=False,
@@ -91,7 +69,7 @@ def multiprocess(
     **kwargs,
 ):
     return multiprocess_map(
-        c,
+        s,
         lambda x: apply(x, f, *args, **kwargs),
         asynchronous=asynchronous,
         chunk_size=chunk_size,
@@ -103,7 +81,7 @@ def multiprocess(
 
 
 def multiprocess_map(
-    c,
+    s,
     f,
     asynchronous=False,
     chunk_size=None,
@@ -112,22 +90,22 @@ def multiprocess_map(
     callback=None,
     error_callback=None,
 ):
-    if is_empty(c) or is_element(c):
+    if is_empty(s) or is_element(s):
         return []
-    max_workers = min(max_workers, len(c))
+    max_workers = min(max_workers, len(s))
     if is_null(chunk_size):
-        chunk_size = ceil(len(c) / max_workers)
-    trace(
+        chunk_size = ceil(len(s) / max_workers)
+    logging.trace(
         "Apply the function",
         quote(f.__name__),
         "to the collection of size",
-        len(c),
+        len(s),
         "(multiprocessing)",
     )
     with Pool(processes=max_workers) as executor:
         # Submit the tasks and collect the results
         results = executor.map_async(
-            f, c, chunksize=chunk_size, callback=callback, error_callback=error_callback
+            f, s, chunksize=chunk_size, callback=callback, error_callback=error_callback
         )
         if asynchronous:
             return results

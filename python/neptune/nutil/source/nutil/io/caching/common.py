@@ -32,37 +32,3 @@ class CachePolicy(StrEnum):
     READ_ONLY: str = "read_only"
     WRITE_MISS_ONLY: str = "write_miss_only"
     OVERWRITE: str = "overwrite"
-
-    @classmethod
-    def from_value_or_name(cls, value: str) -> "CachePolicy":
-        """Parses a member by value, then by name, and raises a uniform error on failure."""
-        try:
-            return cls.from_value(value)
-        except ValueError:
-            return cls.from_name(value.upper())
-
-    @classmethod
-    def from_value(cls, value: str) -> "CachePolicy":
-        """Parses a member by value, raising a uniform error on failure."""
-        try:
-            return cls(value)
-        except ValueError as e:
-            raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'") from e
-
-    @classmethod
-    def from_name(cls, name: str) -> "CachePolicy":
-        """Parses a member by name, raising a uniform error on failure."""
-        try:
-            return cls[name]
-        except KeyError as e:
-            raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'") from e
-
-    @classmethod
-    def names(cls) -> List[str]:
-        """Returns the list of member names."""
-        return list(cls.__members__.keys())
-
-    @classmethod
-    def values(cls) -> List[str]:
-        """Returns the list of member values."""
-        return [m.value for m in cls]

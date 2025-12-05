@@ -298,7 +298,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         return {}
 
     # Preserve the rule order as defined in the YAML configuration
-    ordered: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
 
     counts: Dict[str, int] = {}
     changed = False
@@ -306,7 +306,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
 
     for line in orig.splitlines(keepends=True):
         current = line
-        for rule in ordered:
+        for rule in rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
@@ -423,12 +423,12 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
 
-    ordered: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
     counts: Dict[str, int] = {}
 
     for line in orig.splitlines(keepends=True):
         current = line
-        for rule in ordered:
+        for rule in rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue

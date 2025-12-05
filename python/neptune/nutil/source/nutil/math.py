@@ -8,8 +8,6 @@
 #   Provide utilities for mathematics.
 ########################################################################################################################
 
-from math import cos, sin
-
 from nutil.scalar.number import *
 from nutil.struct.util import *
 

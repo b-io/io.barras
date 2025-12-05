@@ -267,26 +267,26 @@ def matches_type_hints(
         return False
 
 
-def resolve_type_hints(obj: Any) -> Dict[str, Any]:
+def resolve_type_hints(x: Any) -> Dict[str, Any]:
     """
-    Returns the resolved type hints for `obj`, handling forward references robustly.
+    Returns the resolved type hints for `x`, handling forward references robustly.
 
-    Prefers `inspect.get_annotations(obj, eval_str=True)` on Python 3.10+, and falls back to `typing.get_type_hints`
+    Prefers `inspect.get_annotations(x, eval_str=True)` on Python 3.10+, and falls back to `typing.get_type_hints`
     with the function globals.
 
     Args:
-        obj: The object whose annotations to resolve.
+        x: The object whose annotations are to be resolved.
 
     Returns:
         A `dict` of parameter names (and optionally `"return"`) to resolved annotations.
     """
     try:
-        return inspect.get_annotations(obj, eval_str=True)
+        return inspect.get_annotations(x, eval_str=True)
     except (AttributeError, TypeError, NameError):
         from typing import get_type_hints
 
-        glb = getattr(obj, "__globals__", None)
+        glb = getattr(x, "__globals__", None)
         try:
-            return get_type_hints(obj, globalns=glb)
+            return get_type_hints(x, globalns=glb)
         except Exception:
             return {}

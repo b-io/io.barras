@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from calendar import monthrange
 from datetime import timezone
-from math import ceil
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta

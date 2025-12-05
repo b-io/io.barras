@@ -23,7 +23,7 @@ from io import StringIO
 from nutil.common import *
 from nutil.enums import *
 
-# CONFIG CLASSES #######################################################################################################
+## CONFIG CLASSES ########################################################################
 
 __CONFIG_CLASSES____________________________________________ = ""
 
@@ -36,7 +36,7 @@ class EnvInterpolation(BasicInterpolation):
         return os.path.expandvars(value)
 
 
-# CONFIG CONSTANTS #####################################################################################################
+## CONFIG CONSTANTS ######################################################################
 
 __CONFIG_CONSTANTS__________________________________________ = ""
 
@@ -230,21 +230,9 @@ def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
     return s
 
 
-# CONFIG PROCESSORS ####################################################################################################
+## CONFIG LOADING ########################################################################
 
-__CONFIG_PROCESSORS_________________________________________ = ""
-
-
-def escape_property(prop: Optional[str]) -> Optional[str]:
-    """Escapes percent signs in a property value for `ConfigParser` interpolation.
-
-    Args:
-        prop: The string to escape, or `None`.
-
-    Returns:
-        The escaped string with `"%"` doubled, or `None` if unspecified.
-    """
-    return prop.replace("%", "%%") if not is_null(prop) else None
+__CONFIG_LOADING____________________________________________ = ""
 
 
 def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> List[str]:
@@ -261,6 +249,23 @@ def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RE
     return CONFIG.read(get_config_path(filename, dir=dir, subdir=subdir))
 
 
+## CONFIG PROCESSORS #####################################################################
+
+__CONFIG_PROCESSORS_________________________________________ = ""
+
+
+def escape_property(property: Optional[str]) -> Optional[str]:
+    """Escapes percent signs in a property value for `ConfigParser` interpolation.
+
+    Args:
+        property: The string to escape, or `None`.
+
+    Returns:
+        The escaped string with `"%"` doubled, or `None` if unspecified.
+    """
+    return property.replace("%", "%%") if not is_null(property) else None
+
+
 ##############################
 
 
@@ -271,11 +276,11 @@ def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) ->
         config: The target `ConfigParser`.
         data: The nested defaults (sections → options).
     """
-    sanitized: Dict[str, Dict[str, str]] = {
+    sanitized_config: Dict[str, Dict[str, str]] = {
         section: {opt: format_value(val) for opt, val in options.items()}
         for section, options in data.items()
     }
-    config.read_dict(sanitized)
+    config.read_dict(sanitized_config)
 
 
 def format_value(value: Any) -> str:
@@ -298,7 +303,7 @@ def format_value(value: Any) -> str:
     return str(value)
 
 
-# CONFIG PROPERTIES ####################################################################################################
+## CONFIG PROPERTIES #####################################################################
 
 __CONFIG_PROPERTIES_________________________________________ = ""
 
@@ -443,7 +448,7 @@ def config_to_json(
     )
 
 
-# CONFIG MAIN ##########################################################################################################
+## CONFIG MAIN ###########################################################################
 
 __CONFIG_MAIN_______________________________________________ = ""
 

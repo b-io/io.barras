@@ -15,6 +15,7 @@ from enum import Enum
 import ftfy
 import unicodedata
 
+from nutil.enums import StrEnum
 from nutil.scalar.string import *
 
 ## SANITIZERS ############################################################################
@@ -22,38 +23,12 @@ from nutil.scalar.string import *
 ### CONFIG #################################################
 
 
-class DehyphenationMode(Enum):
+class DehyphenationMode(StrEnum):
     """An enum for the dehyphenation strategies."""
 
     OFF: str = "off"
     CONSERVATIVE: str = "conservative"  # only joins lowercase-to-lowercase across a line break
     AGGRESSIVE: str = "aggressive"  # joins any letter-to-letter across a line break
-
-    @classmethod
-    def from_value(cls, value: str) -> "DehyphenationMode":
-        """Parses a member by value, raising a uniform error on failure."""
-        try:
-            return cls(value)
-        except ValueError as e:
-            raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'") from e
-
-    @classmethod
-    def from_name(cls, name: str) -> "DehyphenationMode":
-        """Parses a member by name, raising a uniform error on failure."""
-        try:
-            return cls[name]
-        except KeyError as e:
-            raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'") from e
-
-    @classmethod
-    def names(cls) -> List[str]:
-        """Returns the list of member names."""
-        return list(cls.__members__.keys())
-
-    @classmethod
-    def values(cls) -> List[str]:
-        """Returns the list of member values."""
-        return [m.value for m in cls]
 
 
 @dataclass(frozen=True)

@@ -127,7 +127,7 @@ def write_csv(
     )
     temp_filename = temp_file.name
     backup_path: Optional[Path] = None
-    backup_moved: bool = False
+    is_backup_moved: bool = False
 
     try:
         # Write to the temp file
@@ -166,7 +166,7 @@ def write_csv(
             # Try to atomically move the current file into the backup; if cross-FS, fall back to a copy
             try:
                 os.replace(path, backup_path)
-                backup_moved = True
+                is_backup_moved = True
             except OSError:
                 shutil.copy2(path, backup_path)
                 # Keep the original in place; it will be replaced by the new file below
@@ -178,7 +178,7 @@ def write_csv(
             os.replace(temp_filename, path)
         except Exception as e:
             # Best-effort rollback if we moved the original away
-            if backup_moved and backup_path and backup_path.exists():
+            if is_backup_moved and backup_path and backup_path.exists():
                 try:
                     os.replace(backup_path, path)
                 except Exception:
@@ -270,7 +270,7 @@ def write_json(
     )
     temp_filename = temp_file.name
     backup_path: Optional[Path] = None
-    backup_moved: bool = False
+    is_backup_moved: bool = False
 
     try:
         # Write to the temp file
@@ -300,7 +300,7 @@ def write_json(
             # Try to atomically move the current file into the backup; if cross-FS, fall back to a copy
             try:
                 os.replace(path, backup_path)
-                backup_moved = True
+                is_backup_moved = True
             except OSError:
                 shutil.copy2(path, backup_path)
                 # Keep the original in place; it will be replaced by the new file below
@@ -312,7 +312,7 @@ def write_json(
             os.replace(temp_filename, path)
         except Exception as e:
             # Best-effort rollback if we moved the original away
-            if backup_moved and backup_path and backup_path.exists():
+            if is_backup_moved and backup_path and backup_path.exists():
                 try:
                     os.replace(backup_path, path)
                 except Exception:
@@ -417,7 +417,7 @@ def write_text(
     )
     temp_filename = temp_file.name
     backup_path: Optional[Path] = None
-    backup_moved: bool = False
+    is_backup_moved: bool = False
 
     try:
         # Write to the temp file
@@ -441,7 +441,7 @@ def write_text(
             # Try an atomic move; fall back to a copy across filesystems
             try:
                 os.replace(path, backup_path)
-                backup_moved = True
+                is_backup_moved = True
             except OSError:
                 shutil.copy2(path, backup_path)
 
@@ -452,7 +452,7 @@ def write_text(
             os.replace(temp_filename, path)
         except Exception as e:
             # Best-effort rollback if we moved the original away
-            if backup_moved and backup_path and backup_path.exists():
+            if is_backup_moved and backup_path and backup_path.exists():
                 try:
                     os.replace(backup_path, path)
                 except Exception:

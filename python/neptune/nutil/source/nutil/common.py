@@ -62,7 +62,11 @@ def get_frame(level: int = 0) -> types.FrameType:
 
 
 def get_function_name(
-    level: int = 0, *, qualified: bool = False, module: bool = False, default: str = DEFAULT_UNKNOWN
+    level: int = 0,
+    *,
+    default: str = DEFAULT_UNKNOWN,
+    module: bool = False,
+    use_qualified_name: bool = False,
 ) -> str:
     """Returns the function name at the specified `level` (0 = immediate caller of this helper)."""
     try:
@@ -72,7 +76,7 @@ def get_function_name(
 
     name = f.f_code.co_name  # bare name
 
-    if qualified:
+    if use_qualified_name:
         # Best-effort class qualification via locals
         cls = None
         loc = f.f_locals
