@@ -114,7 +114,7 @@ def matches_type_hints(
 
     origin = get_origin(annotation)
     args = get_args(annotation)
-    should_recurse = (max_depth == 0) or (_depth < max_depth)
+    recurse = (max_depth == 0) or (_depth < max_depth)
 
     # Handle a bare type or a PEP 604 union surfaced as `types.UnionType`
     if origin is None:
@@ -156,7 +156,7 @@ def matches_type_hints(
     elif is_tuple(origin):
         if not isinstance(value, tuple):
             return False
-        if not should_recurse:
+        if not recurse:
             return True  # accepts the outer tuple only
         if len(args) == 2 and args[1] is Ellipsis:
             (elem_type, _) = args
@@ -180,7 +180,7 @@ def matches_type_hints(
     elif is_list(origin):
         if not is_list(value):
             return False
-        if not args or not should_recurse:
+        if not args or not recurse:
             return True
         (elem_type,) = args
         return all(
@@ -194,7 +194,7 @@ def matches_type_hints(
     elif is_mapping(origin):
         if not is_mapping(value):
             return False
-        if not args or not should_recurse:
+        if not args or not recurse:
             return True
         key_type, val_type = args
         return all(
@@ -211,7 +211,7 @@ def matches_type_hints(
     elif is_sequence(origin):
         if not is_sequence(value):
             return False
-        if not args or not should_recurse:
+        if not args or not recurse:
             return True
         (elem_type,) = args
         return all(
@@ -225,7 +225,7 @@ def matches_type_hints(
     elif is_set(origin):
         if not is_set(value):
             return False
-        if not args or not should_recurse:
+        if not args or not recurse:
             return True
         (elem_type,) = args
         return all(
@@ -239,7 +239,7 @@ def matches_type_hints(
     elif is_iterable(origin):
         if not is_iterable(value):
             return False
-        if not args or not should_recurse:
+        if not args or not recurse:
             return True
         (elem_type,) = args
         has_item, first_item, it = peek(value)

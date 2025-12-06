@@ -13,18 +13,14 @@ from __future__ import annotations
 import math
 import unittest
 from collections import OrderedDict
-from typing import Any, Mapping
 
-import numpy as np
-import pandas as pd
+from pandas.api.types import is_datetime64_any_dtype
 
-from nutil.config import BOOLEAN_ELEMENT_TYPE, FLOAT_ELEMENT_TYPE
+from nutil.common import *
+from nutil.config import BOOLEAN_ELEMENT_TYPE, DATE_TYPE, FLOAT_ELEMENT_TYPE
 from nutil.enums import Aggregation, Position
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
-
-from nutil.config import DATE_TYPE
-from pandas.api.types import is_datetime64_any_dtype
 
 ## STRUCT UTIL TEST CASES ###############################################################
 
@@ -326,6 +322,7 @@ def test_to_series_and_to_time_series() -> None:
     assert s.name == "value"
     assert np.issubdtype(s.dtype, np.floating)
 
+    idx = ["2000-01-01", "2000-01-02", "2000-01-03"]
     ts = util.to_time_series(data, name="ts", index=idx)
     assert isinstance(ts.index, pd.DatetimeIndex)
     assert ts.name == "ts"
@@ -391,15 +388,17 @@ def test_create_mask_vectorized_and_fallback() -> None:
 
 
 def test_all_any_values_helpers() -> None:
-    arr = np.array([True, True, False])
+    all_true = np.array([True, True, True])
+    any_true = np.array([True, True, False])
     df = pd.DataFrame({"a": [1, 0, 1]})
 
-    assert util.all_values(arr)
+    assert util.all_values(all_true)
     assert not util.all_values(df["a"] > 0)
 
+    assert util.any_values(any_true)
     assert util.any_values(df["a"] == 0)
-    assert util.any_not_values(np.array([True, True, False]))
-    assert not util.all_not_values(np.array([True, False]))
+    assert util.any_not_values(any_true)
+    assert not util.all_not_values(any_true)
 
 
 def test_apply_on_dataframe_series_array_and_dict() -> None:
@@ -426,7 +425,7 @@ def test_apply_on_dataframe_series_array_and_dict() -> None:
 
 def test_fill_with_and_fill_null_with() -> None:
     s = pd.Series([1, None, 3])
-    filled = util.fill_with(s, -1, condition=lambda x: x is None)
+    filled = util.fill_with(s, -1, condition=is_null)
     assert list(filled) == [1, -1, 3]
 
     s2 = pd.Series([None, 2])

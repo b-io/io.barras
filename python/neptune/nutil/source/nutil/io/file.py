@@ -576,7 +576,7 @@ def read_csv(
     delimiter=",",
     ignore=False,
     index_cols=None,
-    index_name="index",
+    index_name: Optional[str] = None,
     na_values=[""],
     newline=None,
     element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
@@ -593,7 +593,7 @@ def read_csv(
         na_values=na_values,
         **kwargs,
     )
-    if not index_cols:
+    if index_name and not index_cols:
         set_index_name(df, index_name)
     return df
 

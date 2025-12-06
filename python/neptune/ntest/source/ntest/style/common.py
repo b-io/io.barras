@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-from nutil.common import *  # existing import kept as-is
+from nutil.common import *
 from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate
 from nutil.struct.table.util import get_row_string

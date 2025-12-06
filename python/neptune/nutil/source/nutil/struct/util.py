@@ -719,7 +719,7 @@ def set_keys(
     return s
 
 
-def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
+def set_index(s: Struct, new_index: Any, index_name: Optional[str] = None) -> Any:
     """
     Sets the index (indices/keys/index) on the specified `Struct`.
 
@@ -761,7 +761,8 @@ def set_index(s: Struct, new_index: Any, index_name: str = "index") -> Any:
             s.index = new_index
     else:
         set_keys(s, new_index)
-    set_index_name(s, index_name)
+    if index_name:
+        set_index_name(s, index_name)
     return s
 
 
@@ -1436,20 +1437,21 @@ def to_frame(
         )
 
     if is_frame(data):
-        frame = data.copy()
+        df = data.copy()
     elif is_series(data):
-        frame = data.to_frame()
+        df = data.to_frame()
     elif is_dict(data):
-        frame = pd.DataFrame.from_dict(data, dtype=element_type, orient="index")
+        df = pd.DataFrame.from_dict(data, dtype=element_type, orient="index")
     else:
-        frame = pd.DataFrame(data=data, dtype=element_type)
+        df = pd.DataFrame(data=data, dtype=element_type)
 
     if not is_null(names):
-        set_names(frame, names)
+        set_names(df, names)
     if not is_null(index):
-        set_index(frame, index)
-    set_index_name(frame, index_name)
-    return frame
+        set_index(df, index)
+    if index_name:
+        set_index_name(df, index_name)
+    return df
 
 
 def to_time_frame(
@@ -3512,10 +3514,10 @@ def join(
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
     """Joins `left` with `right` on index (or `on`), preserving `index_name`."""
-    return set_index_name(
-        to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix, validate=validate),
-        index_name,
-    )
+    df = to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix, validate=validate)
+    if index_name:
+        set_index_name(df, index_name)
+    return df
 
 
 ##############################
@@ -3551,24 +3553,24 @@ def merge(
     right: Any,
     how: str = "inner",
     on: Optional[Union[Key, List[Key]]] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     suffixes: Tuple[Optional[str], Optional[str]] = (None, "2"),
     indicator: Optional[Union[bool, str]] = None,
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
     """Merges `left` with `right` on columns `on` (or index names if `on` is `None`)."""
-    return set_index_name(
-        to_frame(left).merge(
-            to_frame(right),
-            copy=False,
-            how=how,
-            on=on if not is_null(on) else get_names(left.index),
-            suffixes=suffixes,
-            indicator=indicator,
-            validate=validate,
-        ),
-        index_name,
+    df = to_frame(left).merge(
+        to_frame(right),
+        copy=False,
+        how=how,
+        on=on if not is_null(on) else get_names(left.index),
+        suffixes=suffixes,
+        indicator=indicator,
+        validate=validate,
     )
+    if index_name:
+        set_index_name(df, index_name)
+    return df
 
 
 ##############################

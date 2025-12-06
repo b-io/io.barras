@@ -184,7 +184,7 @@ def get_extension(path: str = ".") -> str:
 
 def format_dir(dir: Optional[str]) -> str:
     """Returns `dir` normalized with exactly one trailing slash; returns `""` if falsy."""
-    if not dir:
+    if is_empty(dir):
         return ""
     d = dir[:-1] if dir[-1:] in ("/", "\\") else dir
     return d + "/"
