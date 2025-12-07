@@ -116,6 +116,8 @@ def is_boolean(x: Any) -> bool:
 
 def is_boolean_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a boolean type (Python or NumPy)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (BOOLEAN_TYPE, BOOLEAN_ELEMENT_TYPE))
 
 
@@ -131,6 +133,8 @@ def is_bytes(x: Any) -> bool:
 
 def is_bytes_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a bytes type (Python or NumPy)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (BYTES_TYPE, BYTES_ELEMENT_TYPE))
 
 
@@ -156,6 +160,8 @@ def is_date(x: Any) -> bool:
 
 def is_date_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a `date` type (without time)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, DATE_TYPE)
 
 
@@ -166,6 +172,8 @@ def is_datetime(x: Any) -> bool:
 
 def is_datetime_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a `datetime` type."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, DATETIME_TYPE)
 
 
@@ -176,6 +184,8 @@ def is_timestamp(x: Any) -> bool:
 
 def is_timestamp_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a Pandas `Timestamp` type."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, TIMESTAMP_TYPE)
 
 
@@ -206,6 +216,8 @@ def is_float(x: Any) -> bool:
 
 def is_float_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a floating-point type (Python or NumPy)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (FLOAT_TYPE, FLOAT_ELEMENT_TYPE))
 
 
@@ -216,6 +228,8 @@ def is_int(x: Any) -> bool:
 
 def is_int_type(t: Type[Any]) -> bool:
     """Returns whether `t` is an integer type (Python or NumPy)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (INT_TYPE, INT_ELEMENT_TYPE))
 
 
@@ -226,6 +240,8 @@ def is_long(x: Any) -> bool:
 
 def is_long_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a long-integer type (alias of `int`, NumPy unsigned width-mapped)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (LONG_TYPE, LONG_ELEMENT_TYPE))
 
 
@@ -236,6 +252,8 @@ def is_short(x: Any) -> bool:
 
 def is_short_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a short-integer type (NumPy `uint8`)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (SHORT_TYPE, SHORT_ELEMENT_TYPE))
 
 
@@ -273,4 +291,6 @@ def is_string(x: Any) -> bool:
 
 def is_string_type(t: Type[Any]) -> bool:
     """Returns whether `t` is a string type (Python or NumPy)."""
+    if isinstance(t, np.dtype):
+        t = t.type
     return issubclass(t, (STRING_TYPE, STRING_ELEMENT_TYPE))

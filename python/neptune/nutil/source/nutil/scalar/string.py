@@ -54,7 +54,7 @@ def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] 
     if is_null(x):
         return default
     elif is_collection(x):
-        if hasattr(x, "astype"):
+        if has_callable(x, "astype"):
             return x.astype(STRING_ELEMENT_TYPE)
         return collapse(x, default=default, delimiter=delimiter, strip=strip)
     return stringify(x, default=default, strip=strip)

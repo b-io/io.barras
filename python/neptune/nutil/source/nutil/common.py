@@ -227,7 +227,7 @@ def deep_hash(x: Any, default: int = 0) -> int:
         return default
 
     # Use a callable `hash` method on `x` if present
-    elif is_callable(x, "hash"):
+    elif has_callable(x, "hash"):
         return x.hash()
 
     # Handle scalars: delegate directly to the built-in hash

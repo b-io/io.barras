@@ -45,7 +45,7 @@ class _DelegateAll:
 
 
 class _CallableProbe:
-    """A probe with a callable attribute `ping` to validate `is_callable`."""
+    """A probe with a callable attribute `ping` to validate `has_callable`."""
 
     def ping(self) -> str:
         return "pong"
@@ -220,7 +220,7 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
 
     groups = ungroup(g_rows, mode="groups")  # prettyDict wrapper
     groups = dict(groups)  # unwrap
-    groups = {k: (v.tolist() if hasattr(v, "tolist") else list(v)) for k, v in groups.items()}
+    groups = {k: (v.tolist() if has_callable(v, "tolist") else list(v)) for k, v in groups.items()}
     assert groups == {"a": [0, 1], "b": [2]}
     assert ungroup(g_rows, mode="auto").equals(df)
 
@@ -259,11 +259,11 @@ def test_is_multidimensional_and_is_subscriptable():
     assert is_subscriptable(123) is False
 
 
-def test_is_callable_probe():
-    """Verifies `is_callable` detects callable attribute `ping` and not missing ones."""
+def test_has_callable_probe():
+    """Verifies `has_callable` detects callable attribute `ping` and not missing ones."""
     probe = _CallableProbe()
-    assert is_callable(probe, "ping") is True
-    assert is_callable(probe, "missing") is False
+    assert has_callable(probe, "ping") is True
+    assert has_callable(probe, "missing") is False
 
 
 def test_has_index():

@@ -224,9 +224,8 @@ class CollectionAdapter(Generic[T], ABC):
         target_type = self.target_type
 
         # 1) Canonical hook for the target types implementing `from_iterable`
-        factory = getattr(target_type, "from_iterable", None)
-        if callable(factory):
-            return factory(iterable)
+        if has_callable(target_type, "from_iterable"):
+            return target_type.from_iterable(iterable)
 
         # Duplicate the single-pass `Iterable` so the fallback sees the full stream
         it1, it2 = create_safe_iterables(iterable, 2)
@@ -1122,3 +1121,17 @@ def is_abstract_mapping_collection(x: Any) -> bool:
 def is_abstract_mapping_collection_type(t: Type[Any]) -> bool:
     """Returns whether `t` is an `AbstractMappingCollection` type."""
     return issubclass(t, AbstractMappingCollection)
+
+
+############################################################
+
+
+def has_callable(x: Any, attribute: str) -> bool:
+    """
+    Returns whether `x` has a callable `attribute` (function or method).
+
+    Example:
+        if has_callable(df, "to_dict"):
+            return df.to_dict()
+    """
+    return callable(getattr(x, attribute, None))

@@ -21,7 +21,7 @@ def to_boolean(x: Any):
     if is_null(x):
         return NAN
     elif is_struct(x):
-        if hasattr(x, "astype"):
+        if has_callable(x, "astype"):
             return x.astype(BOOLEAN_ELEMENT_TYPE)
         from nutil.struct.util import apply
 

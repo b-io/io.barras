@@ -65,7 +65,7 @@ def to_array(
         # Unwrap `GroupBy`
         arg = ungroup(arg)
         # Convert the argument
-        if is_callable(arg, "to_array"):
+        if has_callable(arg, "to_array"):
             return arg.to_array()
         elif is_scalar(arg):
             return np.array([arg], dtype=element_type)
@@ -121,7 +121,7 @@ def to_dict(*args: Any) -> Dict[Any, Any]:
         # Unwrap `GroupBy`
         arg = ungroup(arg)
         # Convert the argument
-        if is_callable(arg, "to_dict"):
+        if has_callable(arg, "to_dict"):
             return arg.to_dict()
         elif is_scalar(arg):
             return {0: arg}
@@ -175,7 +175,7 @@ def to_list(*args: Any) -> List[Any]:
         # Unwrap `GroupBy`
         arg = ungroup(arg)
         # Convert the argument
-        if is_callable(arg, "to_list"):
+        if has_callable(arg, "to_list"):
             return arg.to_list()
         elif is_scalar(arg):
             return [arg]
@@ -227,7 +227,7 @@ def to_set(*args: Any) -> Set[Any]:
         # Unwrap `GroupBy`
         arg = ungroup(arg)
         # Convert the argument
-        if is_callable(arg, "to_set"):
+        if has_callable(arg, "to_set"):
             return arg.to_set()
         elif is_scalar(arg):
             return {arg}
@@ -305,7 +305,7 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
         # Unwrap `GroupBy`
         arg = ungroup(arg)
         # Convert the argument
-        if is_callable(arg, "to_tuple"):
+        if has_callable(arg, "to_tuple"):
             return arg.to_tuple()
         elif is_scalar(arg):
             return (arg,)
@@ -363,21 +363,7 @@ def is_multidimensional(x: Any) -> bool:
 
 def is_subscriptable(x: Any) -> bool:
     """Returns whether `x` is subscriptable (defines `__getitem__`)."""
-    return hasattr(x, "__getitem__")
-
-
-##############################
-
-
-def is_callable(x: Any, name: str) -> bool:
-    """
-    Returns whether `x` has a callable attribute with the specified `name`.
-
-    Example:
-        if is_callable(df, "to_dict"):
-            return df.to_dict()
-    """
-    return callable(getattr(x, name, None))
+    return has_callable(x, "__getitem__")
 
 
 ############################################################

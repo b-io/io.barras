@@ -55,7 +55,7 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
         from nutil.struct.util import apply
 
         return apply(x, lambda e: to_bytes(e, encoding, errors))
-    elif is_callable(x, "__bytes__"):
+    elif has_callable(x, "__bytes__"):
         try:
             return bytes(x)
         except Exception:

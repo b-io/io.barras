@@ -166,10 +166,10 @@ def get_names(
     Returns names (column labels) under filters.
 
     Dispatch:
-        • `pd.DataFrame` / `pd.Series` → `.columns` / `.name` (call if callable)
-        • Collections with index       → `range(len(s))`
-        • Generic collection           → `[get_name(x) for x in s]`
-        • Scalar                       → `[to_string(s)]`
+        • `pd.DataFrame` / `pd.Series` → `.columns` / `.name`
+        • Collections with index         → `range(len(s))`
+        • Generic collection             → `[get_name(x) for x in s]`
+        • Scalar                         → `[to_string(s)]`
 
     Complexity:
         O(n) over container elements.
@@ -179,12 +179,14 @@ def get_names(
         inclusion = get_names(inclusion)
     if is_table(exclusion):
         exclusion = get_names(exclusion)
-    if hasattr(s, "names"):
-        s = s.names() if callable(s.names) else s.names
-    elif hasattr(s, "name"):
-        s = s.name() if callable(s.name) else s.name
+    if has_callable(s, "names"):
+        s = s.names()
+    elif has_callable(s, "name"):
+        s = s.name()
     elif is_struct(s):
-        if has_index(s):
+        if is_series(s):
+            s = s.name
+        elif has_index(s):
             s = range(len(s))
         else:
             s = [get_name(x) for x in s]
@@ -1401,7 +1403,7 @@ def to_frame(
     data: Any,
     names: Optional[Any] = None,
     index: Optional[Any] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
 ) -> "pd.DataFrame":
     """
@@ -1458,7 +1460,7 @@ def to_time_frame(
     data: Any,
     names: Optional[Any] = None,
     index: Optional[Any] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     element_type: Any = FLOAT_ELEMENT_TYPE,
 ) -> "pd.DataFrame":
     """
@@ -1533,13 +1535,8 @@ def create_empty(
 
     if adapter is not None:
         # Prefer constructing the specified type, not the adapter base type, so subclasses can override `from_iterable`
-        factory = getattr(t, "from_iterable", None)
-        if callable(factory):
-            try:
-                return factory([])
-            except TypeError:
-                # Signature mismatch → fall back to the no-arg constructor
-                pass
+        if has_callable(t, "from_iterable"):
+            return t.from_iterable([])
         try:
             return t()
         except TypeError:
@@ -3491,7 +3488,7 @@ def join_all(
     *args: Any,
     how: str = "inner",
     on: Optional[Union[Key, List[Key]]] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     suffix: str = "2",
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
@@ -3509,7 +3506,7 @@ def join(
     right: Any,
     how: str = "inner",
     on: Optional[Union[Key, List[Key]]] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     suffix: str = "2",
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
@@ -3527,7 +3524,7 @@ def merge_all(
     *args: Any,
     how: str = "inner",
     on: Optional[Union[Key, List[Key]]] = None,
-    index_name: str = "index",
+    index_name: Optional[str] = None,
     suffixes: Tuple[Optional[str], Optional[str]] = (None, "2"),
     indicator: Optional[Union[bool, str]] = None,
     validate: Optional[str] = "m:m",

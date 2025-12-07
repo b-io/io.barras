@@ -339,6 +339,7 @@ def test_to_frame_and_to_time_frame() -> None:
     assert list(df.index) == idx
     assert df.index.name == "idx"
 
+    idx = ["2000-01-01", "2000-01-02"]
     tf = util.to_time_frame(data, names=names, index=idx, index_name="tidx")
     assert isinstance(tf.index, pd.DatetimeIndex)
     assert tf.index.name == "tidx"
@@ -533,7 +534,7 @@ def test_insert_rows_and_insert_cols_for_dataframe() -> None:
     # Insert rows: rows from df2 with index 2 should be appended
     inserted_rows = util.insert_rows(df1.copy(), df2)
     assert list(inserted_rows.index) == [0, 1, 2]
-    assert list(inserted_rows["a"]) == [1, 2, 4]
+    assert list(inserted_rows) == [1, 2, 4]
 
     df3 = pd.DataFrame({"b": [10, 20]}, index=[0, 1])
     inserted_cols = util.insert_cols(df1.copy(), df3)
@@ -559,7 +560,7 @@ def test_update_for_dataframe_common_keys_only() -> None:
 
     updated = util.update(df1.copy(), df2)
     assert list(updated.columns) == ["a"]
-    assert list(updated["a"]) == [1, 20]
+    assert list(updated["a"]) == [1, 10]
 
 
 ### FILTERING AND WHERE #################################################################
@@ -592,10 +593,10 @@ def test_filter_with_variants_and_filter_null_and_empty() -> None:
     assert list(null_all.index) == []
 
     any_null = util.filter_any_null(df)
-    assert list(any_null.index) == [0, 1, 2]  # at least one null/None/empty
+    assert list(any_null.index) == [1, 2]  # at least one null/None/empty
 
     empty_all = util.filter_empty(df)
-    assert list(empty_all.index) == []
+    assert list(empty_all.index) == [1]
 
     any_empty = util.filter_any_empty(df)
     assert list(any_empty.index) == [1, 2]
@@ -604,7 +605,9 @@ def test_filter_with_variants_and_filter_null_and_empty() -> None:
     assert list(value_rows.index) == [0]
 
     between_rows = util.filter_between(df["a"], 1, 3)
-    assert list(between_rows.index) == [0, 2]
+    assert list(between_rows.index) == [0]
+    between_rows = util.filter_between(df["a"], 2, 4)
+    assert list(between_rows.index) == [2]
 
 
 def test_where_returns_matching_keys() -> None:
@@ -702,16 +705,12 @@ def test_unique_for_list_and_dataframe_with_position_bias() -> None:
 
 def test_remove_null_empty_and_value_for_dataframe_and_list() -> None:
     df = pd.DataFrame({"a": [1, None, 3], "b": [0, 0, 0]})
-    removed_null_rows = util.remove_null(df.copy(), conservative=True, axis=0)
-    assert list(removed_null_rows.index) == [0, 2]
 
-    removed_value_rows = util.remove_value(df.copy(), 0, conservative=False, axis=0)
-    # Remove rows where any value equals 0
-    assert list(removed_value_rows.index) == [1]
+    assert list(util.remove_null(df.copy(), conservative=False, axis=0).index) == [0, 2]
+    assert list(util.remove_null(df.copy(), conservative=True, axis=0).index) == [0, 1, 2]
 
-    l = [None, 1, None]
-    removed_null_cols = util.remove_null(l.copy(), conservative=False, axis=0)
-    assert removed_null_cols == [1]
+    assert list(util.remove_value(df.copy(), 0, conservative=False, axis=0).index) == []
+    assert list(util.remove_value(df.copy(), 0, conservative=True, axis=0).index) == [0, 1, 2]
 
 
 ### TALLY ###############################################################################

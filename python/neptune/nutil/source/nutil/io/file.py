@@ -486,7 +486,7 @@ def parse_json(s: str) -> Optional[Dict[str, Any]]:
 
 def to_json(x: Any) -> Any:
     """Serializes arbitrary containers into JSON-friendly structures (e.g., a `set` → a sorted `list`)."""
-    if hasattr(x, "to_json"):
+    if has_callable(x, "to_json"):
         return x.to_json()
     elif isinstance(x, dict):
         return {k: to_json(v) for k, v in x.items()}
