@@ -30,7 +30,7 @@ __NUMBER_CONVERTERS_________________________________________ = ""
 def to_int(x: Any):
     if is_null(x):
         return NAN
-    elif is_collection(x):
+    elif is_struct(x):
         if has_callable(x, "astype"):
             return x.astype(INT_ELEMENT_TYPE)
         from nutil.struct.util import apply
@@ -42,7 +42,7 @@ def to_int(x: Any):
 def to_float(x: Any):
     if is_null(x):
         return NAN
-    elif is_collection(x):
+    elif is_struct(x):
         if has_callable(x, "astype"):
             return x.astype(FLOAT_ELEMENT_TYPE)
         from nutil.struct.util import apply

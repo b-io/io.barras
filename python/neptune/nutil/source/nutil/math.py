@@ -73,7 +73,7 @@ def sqrt(x: Any):
 
 def scale(x: Any, base=10, eps=EPS):
     """Returns `x` scaled so its magnitude is stable across orders of magnitude."""
-    if is_collection(x):
+    if is_struct(x):
         return apply(x, scale, axis=1, base=base, eps=eps)
     return x / base ** floor(log(maximum(abs(x)) + eps) / log(base))
 

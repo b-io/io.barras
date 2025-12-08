@@ -86,7 +86,7 @@ def is_multi_plot(x: Any) -> bool:
 
 
 def get_grid_size(n, row_count=None, col_count=None):
-    if is_collection(n):
+    if is_struct(n):
         n = max(1, count_cols(n))
     if is_null(col_count):
         col_count = round_to_int(sqrt(n))
@@ -130,7 +130,7 @@ def get_label(data, transformation=None, yaxis=0, show_date=False, show_name=Tru
     else:
         date_range = ""
     if show_name and not is_empty(data):
-        name = get_names(data)[0] if is_collection(data) else data
+        name = get_names(data)[0] if is_struct(data) else data
         name = str(name).title() if not is_null(name) else ""
     else:
         name = ""

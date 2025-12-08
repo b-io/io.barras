@@ -53,7 +53,7 @@ __STRING_CONVERTERS_________________________________________ = ""
 def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] = None):
     if is_null(x):
         return default
-    elif is_collection(x):
+    elif is_struct(x):
         if has_callable(x, "astype"):
             return x.astype(STRING_ELEMENT_TYPE)
         return collapse(x, default=default, delimiter=delimiter, strip=strip)
@@ -208,7 +208,7 @@ def wrap(content, left, right=None):
         return content
     elif is_null(right):
         right = left
-    if is_collection(content):
+    if is_struct(content):
         from nutil.struct.util import apply
 
         return apply(content, wrap, left, right=right)

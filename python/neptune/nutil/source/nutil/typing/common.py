@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from nutil.struct.collection.common import *
+from nutil.struct.common import *
 
 ## COMMON TYPING ACCESSORS ###############################################################
 
@@ -52,7 +52,7 @@ def assert_element_types(
     Complexity:
         O(len(allowed_types)) `isinstance` checks.
     """
-    is_allowed_collection = collection_predicate or is_collection
+    is_allowed_collection = collection_predicate or is_struct
     if is_allowed_collection(value):
         scalars = get_type_names(allowed_types)
         raise TypeError(
@@ -93,7 +93,7 @@ def assert_types(
         if isinstance(value, t):
             return
 
-    is_allowed_collection = collection_predicate or is_collection
+    is_allowed_collection = collection_predicate or is_struct
     if is_allowed_collection(value):
         if allowed_collection_types:
             raise TypeError(

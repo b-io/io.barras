@@ -78,7 +78,7 @@ DEFAULT_BG_COLOR = TRANSPARENT
 
 def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
     color = forward_element(*args)
-    if is_collection(color) or is_tuple(color):
+    if is_struct(color) or is_tuple(color):
         if is_array(color):
             r, g, b = cv2.split(to_float(color))
         elif len(color) == 3:
@@ -111,7 +111,7 @@ def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
 
 def to_hsv(*args, h=0, s=0, v=0, alpha=None, scale=None):
     color = forward_element(*args)
-    if is_collection(color) or is_tuple(color):
+    if is_struct(color) or is_tuple(color):
         if is_array(color):
             h, s, v = cv2.split(to_float(color))
         elif len(color) == 3:

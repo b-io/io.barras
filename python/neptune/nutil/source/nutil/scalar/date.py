@@ -512,7 +512,7 @@ def get_month_start(d=get_datetime()):
 
 
 def get_month_end(d=get_datetime()):
-    if is_collection(d):
+    if is_struct(d):
         from nutil.struct.util import apply
 
         return apply(d, get_month_end)
@@ -1007,7 +1007,7 @@ def parse_stamp(s):
 def to_date(x, format=DATE_FORMAT):
     if is_null(x):
         return None
-    elif is_collection(x):
+    elif is_struct(x):
         from nutil.struct.util import apply
 
         return apply(x, to_date, format=format)
@@ -1027,7 +1027,7 @@ def to_date(x, format=DATE_FORMAT):
 def to_datetime(x, format=DATE_TIME_FORMAT):
     if is_null(x):
         return None
-    elif is_collection(x):
+    elif is_struct(x):
         from nutil.struct.util import apply
 
         return apply(x, to_datetime, format=format)
@@ -1067,7 +1067,7 @@ def to_timestamp(d):
 def to_stamp(x: Any):
     if is_null(x):
         return None
-    elif is_collection(x):
+    elif is_struct(x):
         from nutil.struct.util import apply
 
         return apply(x, to_stamp)
@@ -1081,7 +1081,7 @@ def to_stamp(x: Any):
 
 def timestamp_to_type(t, template):
     """Converts the specified timestamp to the type of the specified variable."""
-    if is_collection(t):
+    if is_struct(t):
         from nutil.struct.util import apply
 
         return apply(t, timestamp_to_type, template)

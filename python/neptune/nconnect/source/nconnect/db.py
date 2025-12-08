@@ -184,7 +184,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAUL
                     (
                         " IS "
                         if is_null(filtering_row[col])
-                        else " IN " if is_collection(filtering_row[col]) else "="
+                        else " IN " if is_struct(filtering_row[col]) else "="
                     ),
                     format(filtering_row[col], is_mssql=is_mssql),
                 )
@@ -225,7 +225,7 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
     """Formats the specified value (for either MSSQL or PostgreSQL)."""
     if is_null(value):
         return "NULL"
-    elif is_collection(value):
+    elif is_struct(value):
         return par(collist(apply(value, format, is_mssql=is_mssql)))
     elif is_boolean(value):
         if is_mssql:
@@ -708,7 +708,7 @@ def delete_table(
         # Execute the query
         try:
             result = execute(engine, query)
-            result_count = len(result) if is_collection(result) else result
+            result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 delete_count += result_count
                 trace_row("delete", index, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -806,7 +806,7 @@ def bulk_delete_table(
     # Execute the bulk query
     try:
         result = execute(engine, query)
-        result_count = len(result) if is_collection(result) else result
+        result_count = len(result) if is_struct(result) else result
         if result_count > 0:
             delete_count = len(df)
         else:
@@ -893,7 +893,7 @@ def insert_table(
         # Execute the query
         try:
             result = execute(engine, query)
-            result_count = len(result) if is_collection(result) else result
+            result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 insert_count += result_count
                 trace_row("insert", index, table, cols=primary_cols, row=row, verbose=verbose)
@@ -984,7 +984,7 @@ def bulk_insert_table(
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
     try:
         result = execute(engine, query)
-        result_count = len(result) if is_collection(result) else result
+        result_count = len(result) if is_struct(result) else result
         if result_count > 0:
             insert_count = len(df)
         else:
@@ -1083,7 +1083,7 @@ def update_table(
         # Execute the query
         try:
             result = execute(engine, query)
-            result_count = len(result) if is_collection(result) else result
+            result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 update_count += result_count
                 trace_row("update", index, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -1175,7 +1175,7 @@ def bulk_update_table(
     # Execute the bulk query
     try:
         result = execute(engine, query)
-        result_count = len(result) if is_collection(result) else result
+        result_count = len(result) if is_struct(result) else result
         if result_count > 0:
             update_count = len(df)
         else:

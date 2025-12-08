@@ -28,7 +28,7 @@ class Test(unittest.TestCase):
         np.random.seed(0)
 
     def assert_equals(self, first, second, precision=PRECISION, assert_order=False):
-        if is_collection(first):
+        if is_struct(first):
             if len(np.shape(first)) > 1:
                 if assert_order:
                     row_count = count_rows(first)

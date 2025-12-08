@@ -32,7 +32,7 @@ __COMMON_TEST_PROCESSORS____________________________________ = ""
 
 def assert_equals(first, second, precision=PRECISION, assert_order=False):
     """Asserts that two structures are equal with custom collection/number logic."""
-    if is_collection(first):
+    if is_struct(first):
         if len(np.shape(first)) > 1:
             if assert_order:
                 row_count = count_rows(first)
