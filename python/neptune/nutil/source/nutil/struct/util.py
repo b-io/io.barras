@@ -63,15 +63,15 @@ def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
     if is_empty(s) or not is_subscriptable(s):
         return s
     elif is_null(axis):
-        return simplify(flatten(s, axis=axis)[index])
+        return flatten(s, axis=axis)[index]
 
     if is_multidimensional(s):
         if axis == 0:
             return get_row(s, index)
         return get_col(s, index)
     elif is_dict(s):
-        return simplify(s[get_keys(s)[index]])
-    return simplify(s[index])
+        return s[get_keys(s)[index]]
+    return s[index]
 
 
 def get_first(s: Struct, axis: Optional[int] = 0) -> Value:

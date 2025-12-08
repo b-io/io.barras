@@ -37,11 +37,13 @@ def assert_equals(first, second, precision=PRECISION, assert_order=False):
             if assert_order:
                 row_count = count_rows(first)
                 col_count = count_cols(first)
-                for i in range(row_count):
-                    for j in range(col_count):
+                for j in range(col_count):
+                    first_col = get(first, j, axis=1)
+                    second_col = get(second, j, axis=1)
+                    for i in range(row_count):
                         assert_equals(
-                            get(get(first, j, axis=1), i, axis=0),
-                            get(get(second, j, axis=1), i, axis=0),
+                            simplify(get(first_col, i, axis=0)),
+                            simplify(get(second_col, i, axis=0)),
                             precision=precision,
                         )
             else:
