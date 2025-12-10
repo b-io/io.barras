@@ -21,6 +21,7 @@ import pytest
 
 from nutil.struct.collection.registry.ordered_set import *
 
+
 ## FIXTURES ##############################################################################
 
 

@@ -7,6 +7,7 @@ from typing import Container, List, Optional
 
 from bs4 import NavigableString, Tag
 
+
 ## HTML ##################################################################################
 
 ### HTML TAGS ##############################################

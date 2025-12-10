@@ -17,6 +17,7 @@ from typing import (
 from nutil.common import *
 from nutil.scalar.string import to_string
 
+
 ## TABLE CLASSES #########################################################################
 
 ### ROWS ###################################################
