@@ -10,9 +10,9 @@
 
 import unittest
 
-from ntest.common import *
 from nutil.math import *
 from nutil.scalar.string import *
+from nutil.test.util import PRECISION
 
 ## UNIT TEST CLASSES #####################################################################
 

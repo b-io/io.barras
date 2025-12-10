@@ -11,11 +11,10 @@
 import logging
 import unittest
 
-from ntest.unit.unittest import Test
-
 from nfin.time_series import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.date import *
+from nutil.test.unittest import Test
 
 ## FIN TEST CONSTANTS ####################################################################
 

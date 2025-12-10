@@ -11,13 +11,12 @@
 import logging
 import unittest
 
-from ntest.unit.unittest import Test
-
 from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
 from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.struct.util import *
+from nutil.test.unittest import Test
 
 ## MATH TEST CONSTANTS ###################################################################
 

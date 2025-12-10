@@ -8,13 +8,13 @@
 #   Test the graphical user interface (GUI) utilities.
 ########################################################################################################################
 
+import logging
 import unittest
-
-from ntest.unit.unittest import Test
 
 from ngui.charts import *
 from ngui.image import *
-from ntest.common import *
+from nutil.test.unittest import Test
+from nutil.test.util import TEST_COUNT, timed
 
 ## GUI TEST CONSTANTS ####################################################################
 

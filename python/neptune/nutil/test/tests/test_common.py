@@ -12,11 +12,10 @@ import logging
 import timeit
 import unittest
 
-from ntest.unit.unittest import Test
-
 from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.scalar.string import *
+from nutil.test.unittest import Test
 
 ## COMMON TEST CONSTANTS #################################################################
 

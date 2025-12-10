@@ -10,8 +10,10 @@
 
 import random
 
-from ntest.common import *
+import pytest
+
 from nutil.struct.util import *
+from nutil.test.util import PRECISION, TEST_COUNT
 
 ## FIXTURES ##############################################################################
 
