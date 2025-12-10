@@ -37,7 +37,7 @@ from typing import Callable
 from pandas.core.dtypes.common import is_numeric_dtype
 
 from nutil.config import *
-from nutil.enums import *
+from nutil.enums import Aggregation, Position
 from nutil.scalar.util import *
 from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *

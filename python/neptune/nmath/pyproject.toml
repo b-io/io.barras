@@ -33,6 +33,7 @@ python = ">=3.9,<4.0"
 scipy = "^1.13.1"             # Scientific computing and numerical tools
 
 ### Neptune Utilities ######################################
+ngui = "^1.0.0a1"             # Neptune graphical utility library
 nutil = "^1.0.0a1"            # Neptune utility library
 
 

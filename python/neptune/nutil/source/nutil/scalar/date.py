@@ -17,7 +17,7 @@ from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
 from nutil.config import *
-from nutil.enums import *
+from nutil.enums import Aggregation, Frequency, Position
 from nutil.scalar.number import *
 from nutil.scalar.string import *
 

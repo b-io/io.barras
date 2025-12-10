@@ -77,7 +77,7 @@ pip install -r requirements.txt
 ### 1. Utility Function: Apply Across Collections ##########
 
 ```python
-from nutil.common import apply
+from nutil.struct.util import apply
 
 # Apply a lambda function to square values in a dictionary
 data = {"a": 1, "b": 2, "c": 3}

@@ -10,7 +10,7 @@
 
 from distutils.util import strtobool
 
-from nutil.scalar.number import *
+from nutil.common import *
 
 ## BOOLEAN CONVERTERS ####################################################################
 

@@ -49,6 +49,8 @@ scikit-lego = "^0.6.13"       # Extra estimators, transformers, and tools extend
 tensorflow = "^2.20.0"        # Deep learning framework for building and training neural networks
 
 ### Neptune Utilities ######################################
+ngui = "^1.0.0a1"             # Neptune graphical utility library
+nmath = "^1.0.0a1"            # Neptune mathematical utility library
 nutil = "^1.0.0a1"            # Neptune utility library
 
 

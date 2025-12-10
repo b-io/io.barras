@@ -37,6 +37,7 @@ beautifulsoup4 = "^4.12.3"    # HTML/XML parsing
 
 ### Neptune Utilities ######################################
 ngui = "^1.0.0a1"             # Neptune graphical utility library
+nmath = "^1.0.0a1"            # Neptune mathematical utility library
 nutil = "^1.0.0a1"            # Neptune utility library
 
 ### Visualization ##########################################

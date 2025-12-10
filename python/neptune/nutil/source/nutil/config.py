@@ -21,7 +21,7 @@ from configparser import BasicInterpolation, ConfigParser
 from io import StringIO
 
 from nutil.common import *
-from nutil.enums import *
+from nutil.enums import Aggregation, Environment, Frequency, Position, SeverityLevel
 
 ## CONFIG CLASSES ########################################################################
 

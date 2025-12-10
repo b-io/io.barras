@@ -20,6 +20,8 @@ import plotly.tools as tls
 
 import ngui.web as web
 from ngui.image import *
+from nutil.enums import FileType
+from nutil.math import *
 
 ## CHART CONSTANTS #######################################################################
 

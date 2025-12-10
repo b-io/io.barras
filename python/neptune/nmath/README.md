@@ -8,7 +8,8 @@
 * ngui,
 * nlearn,
 * nmath,
-* nserve, and
+* nserve,
+* ntest, and
 * nutil.
 
 The library **nmath** contains mathematical utility functions; among them:

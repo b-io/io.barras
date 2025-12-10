@@ -29,8 +29,14 @@ include = [
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
+### Computer Vision ########################################
+opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
+
 ### Neptune Utilities ######################################
 nutil = "^1.0.0a1"            # Neptune utility library
+
+### Reporting  #############################################
+xhtml2pdf = "^0.2.17"         # HTML/CSS to PDF generation (ReportLab-based)
 
 ### Visualization ##########################################
 kaleido = "^1.1.0"            # Headless engine for Plotly static image export

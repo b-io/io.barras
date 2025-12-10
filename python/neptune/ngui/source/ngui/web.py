@@ -8,13 +8,8 @@
 #   Provide graphical user interface (GUI) utilities for Web.
 ########################################################################################################################
 
-import logging
-import socket
-
 from xhtml2pdf import pisa
 
-from nconnect.internet.http import request
-from nutil.io.file import write_bytes
 from nutil.scalar.string import *
 
 ## WEB FUNCTIONS #########################################################################
@@ -485,37 +480,3 @@ def video(value, attributes=None):
 
 def wbr(value, attributes=None):
     return tag("wbr", value, attributes)
-
-
-### WEB NETWORK ############################################
-
-__WEB_NETWORK_______________________________________________ = ""
-
-
-def get_host_ip():
-    """Returns the IP of the host."""
-    return socket.gethostbyname(get_host_name())
-
-
-def get_host_name():
-    """Returns the name of the host."""
-    return socket.gethostname()
-
-
-### WEB QUERY ##############################################
-
-__WEB_QUERY_________________________________________________ = ""
-
-
-def download(url, dir=None):
-    """Downloads the file pointed by the specified URL and writes it to the specified directory."""
-    if is_null(dir):
-        dir = get_dir(".")
-    logging.debug("Download the file", quote(url), "to the directory", quote(dir))
-    try:
-        status, response = request(url)
-        filename = get_filename(url).split("?")[0]
-        return write_bytes(collapse(dir, "/", filename), content)
-    except Exception as ex:
-        logging.error(ex)
-        raise

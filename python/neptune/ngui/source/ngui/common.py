@@ -12,8 +12,8 @@ import cv2
 import matplotlib.colors as mcolors
 from matplotlib import colormaps as cm
 
-from nmath.stats import normal
-from nutil.math import *
+from nutil.struct.util import *
+from nutil.scalar.number import round_to_int
 from nutil.scalar.string import *
 
 ## GUI COMMON CONSTANTS ##################################################################

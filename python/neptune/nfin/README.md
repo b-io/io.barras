@@ -8,7 +8,8 @@
 * ngui,
 * nlearn,
 * nmath,
-* nserve, and
+* nserve,
+* ntest, and
 * nutil.
 
 The library **nfin** contains financial utility functions; among them:

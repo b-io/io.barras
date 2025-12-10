@@ -8,7 +8,8 @@
 * ngui,
 * nlearn,
 * nmath,
-* nserve, and
+* nserve,
+* ntest, and
 * nutil.
 
 The library **nlearn** contains machine learning utility functions; among them:

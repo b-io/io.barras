@@ -21,6 +21,16 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.barras.neptune</groupId>
+			<artifactId>ngui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.neptune</groupId>
+			<artifactId>nmath</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.neptune</groupId>
 			<artifactId>nutil</artifactId>
 			<version>${project.version}</version>
 		</dependency>

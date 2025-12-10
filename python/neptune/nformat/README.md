@@ -8,7 +8,8 @@
 * ngui,
 * nlearn,
 * nmath,
-* nserve, and
+* nserve,
+* ntest, and
 * nutil.
 
 The library **nformat** contains formatting utility functions; among them:
