@@ -27,7 +27,10 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import (Callable, Pattern, )
+from typing import (
+    Callable,
+    Pattern,
+)
 
 from typing_extensions import TypeAlias
 

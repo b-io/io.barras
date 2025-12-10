@@ -8,8 +8,7 @@
 #   Test the utilities.
 ########################################################################################################################
 
-from .test_common import *
-from .test_metaclasses import *
-
 from .decorators import *
 from .struct import *
+from .test_common import *
+from .test_metaclasses import *

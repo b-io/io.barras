@@ -8,9 +8,8 @@
 #   Test the utilities.
 ########################################################################################################################
 
-from tests import *
-
 from nutil.io.logging import configure_logging
+from tests import *
 
 ## UTIL TEST MAIN ########################################################################
 

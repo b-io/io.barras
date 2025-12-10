@@ -6,7 +6,7 @@
 
 	<groupId>io.barras</groupId>
 	<artifactId>io.barras</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1a1</version>
 	<packaging>pom</packaging>
 
 	<name>io.barras</name>
@@ -226,7 +226,7 @@
 					<version>${maven.exec.version}</version>
 					<executions>
 						<execution>
-							<id>exec</id>
+							<id>install</id>
 							<phase>install</phase>
 							<goals>
 								<goal>exec</goal>
@@ -235,7 +235,35 @@
 								<executable>sh</executable>
 								<workingDirectory>${project.basedir}</workingDirectory>
 								<arguments>
-									<argument>${project.basedir}/install</argument>
+									<argument>${project.basedir}/install.sh</argument>
+								</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>test</id>
+							<phase>test</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>sh</executable>
+								<workingDirectory>${project.basedir}</workingDirectory>
+								<arguments>
+									<argument>${project.basedir}/test.sh</argument>
+								</arguments>
+							</configuration>
+						</execution>
+						<execution>
+							<id>deploy</id>
+							<phase>deploy</phase>
+							<goals>
+								<goal>exec</goal>
+							</goals>
+							<configuration>
+								<executable>sh</executable>
+								<workingDirectory>${project.basedir}</workingDirectory>
+								<arguments>
+									<argument>${project.basedir}/deploy.sh</argument>
 								</arguments>
 							</configuration>
 						</execution>

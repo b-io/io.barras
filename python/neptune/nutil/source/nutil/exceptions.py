@@ -11,12 +11,11 @@
 from typing import Callable
 
 from nutil.common import *
+from nutil.typing import get_type_name
 
 ## EXCEPTION CLASSES #####################################################################
 
 __EXCEPTION_CLASSES_________________________________________ = ""
-
-from nutil.typing import get_type_name
 
 
 class ErrorList(List[Any]):

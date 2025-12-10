@@ -11,8 +11,9 @@
 import logging
 import unittest
 
-from nfin.time_series import *
 from ntest.unit.unittest import Test
+
+from nfin.time_series import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.date import *
 

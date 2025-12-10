@@ -19,6 +19,7 @@ import pytest
 
 from nutil.struct.common import *
 
+
 ## 1. TEST DOUBLES #######################################################################
 
 

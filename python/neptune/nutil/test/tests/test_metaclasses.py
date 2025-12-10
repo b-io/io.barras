@@ -9,10 +9,10 @@
 ########################################################################################################################
 
 import logging
+import unittest
 from types import MappingProxyType
 
 import pytest
-import unittest
 
 from nutil.io.logging import configure_logging
 from nutil.metaclasses import (

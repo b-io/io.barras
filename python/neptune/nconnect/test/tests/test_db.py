@@ -13,13 +13,11 @@ import unittest
 from nconnect.db import *
 from nutil.io.logging import configure_logging
 from nutil.struct.util import to_frame
+from nutil.test.unittest import Test
 
 ## DB TEST CASES #########################################################################
 
 __DB_TEST_CASES_____________________________________________ = ""
-
-from nutil.test.unittest import Test
-
 
 ### DB CONNECTOR ###########################################
 

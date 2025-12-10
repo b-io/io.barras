@@ -3,7 +3,7 @@
 name = "nmath"
 version = "1.0.1a1"
 description = "Mathematical utility library for Python"
-keywords = ["neptune", "math", "utilities"]
+keywords = ["neptune", "mathematics", "utilities", "statistics"]
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"

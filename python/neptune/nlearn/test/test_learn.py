@@ -12,12 +12,12 @@ import unittest
 
 import matplotlib
 import plotly.graph_objs as go
+from ntest.unit.unittest import Test
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
 from nlearn.common import plot_confusion_matrix
 from nlearn.nlp import *
-from ntest.unit.unittest import Test
 
 ## LEARN TEST CONFIG #####################################################################
 

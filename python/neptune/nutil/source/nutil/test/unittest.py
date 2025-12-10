@@ -9,8 +9,8 @@
 ########################################################################################################################
 
 import unittest
-from ntest.common import *
 
+from ntest.common import *
 from nutil.math import *
 from nutil.scalar.string import *
 

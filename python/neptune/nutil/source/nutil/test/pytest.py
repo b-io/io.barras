@@ -13,7 +13,6 @@ import random
 from ntest.common import *
 from nutil.struct.util import *
 
-
 ## FIXTURES ##############################################################################
 
 

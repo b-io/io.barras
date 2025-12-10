@@ -8,13 +8,13 @@
 #   Provide processor utilities.
 ########################################################################################################################
 
-from concurrent.futures import ThreadPoolExecutor
 import logging
+from concurrent.futures import ThreadPoolExecutor
 
 from multiprocess.pool import Pool
+
 from nutil.common import *
 from nutil.scalar.number import ceil
-
 from nutil.scalar.string import quote
 from nutil.struct.util import apply
 

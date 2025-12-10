@@ -10,10 +10,11 @@
 
 import unittest
 
+from ntest.unit.unittest import Test
+
 from ngui.charts import *
 from ngui.image import *
 from ntest.common import *
-from ntest.unit.unittest import Test
 
 ## GUI TEST CONSTANTS ####################################################################
 

@@ -11,8 +11,6 @@
 import logging
 import socket
 
-import requests
-from requests import sessions
 from xhtml2pdf import pisa
 
 from nconnect.internet.http import request

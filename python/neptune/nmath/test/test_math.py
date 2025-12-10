@@ -11,9 +11,10 @@
 import logging
 import unittest
 
+from ntest.unit.unittest import Test
+
 from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
-from ntest.unit.unittest import Test
 from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.struct.util import *

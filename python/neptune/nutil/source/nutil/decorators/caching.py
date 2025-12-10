@@ -12,8 +12,9 @@ from __future__ import annotations
 
 import functools
 from typing import Callable, OrderedDict
-from nutil.decorators import F
+
 from nutil.common import *
+from nutil.decorators import F
 
 ## CACHING DECORATORS ####################################################################
 

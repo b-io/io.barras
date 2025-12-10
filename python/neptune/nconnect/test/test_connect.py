@@ -8,9 +8,6 @@
 #   Test the connecting utilities.
 ########################################################################################################################
 
-import logging
-
-from nutil.io.logging import configure_logging
 from tests import *
 
 ## CONNECTING TEST MAIN ##################################################################

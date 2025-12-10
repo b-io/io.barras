@@ -3,7 +3,7 @@
 name = "ntest"
 version = "1.0.1a1"
 description = "Testing utility library for Python"
-keywords = ["neptune", "format", "utilities"]
+keywords = ["neptune", "test", "utilities"]
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"

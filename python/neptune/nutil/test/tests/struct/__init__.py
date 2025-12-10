@@ -8,7 +8,6 @@
 #   Test the structures.
 ########################################################################################################################
 
+from .collection import *
 from .test_struct_common import *
 from .test_struct_util import *
-
-from .collection import *
