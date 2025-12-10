@@ -15,9 +15,7 @@ from nutil.common import *
 __ARRAY_GENERATORS__________________________________________ = ""
 
 
-def create_array(
-    *shape, fill=0, order="C", element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
-):
+def create_array(*shape, fill=0, order="C", element_type: Optional[ElementType] = None):
     return np.full(to_tuple(*shape), fill, dtype=element_type, order=order)
 
 

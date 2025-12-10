@@ -579,7 +579,7 @@ def read_csv(
     index_name: Optional[str] = None,
     na_values=[""],
     newline=None,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
     **kwargs,
 ):
     df = pd.read_csv(

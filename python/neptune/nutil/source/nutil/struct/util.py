@@ -501,7 +501,7 @@ def get_items(
 
 def get_value(
     s: Struct,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
     keys: Optional[Iterable[Key]] = None,
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
@@ -516,7 +516,7 @@ def get_value(
 
 def get_values(
     s: Struct,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
     keys: Optional[Iterable[Key]] = None,
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
@@ -566,7 +566,7 @@ def get_element_type(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Value:
     """Returns the simplified element type(s) under filters."""
-    return simplify(get_element_types(s, keys=keys, inclusion=inclusion, exclusion=exclusion))
+    return get_value(get_element_types(s, keys=keys, inclusion=inclusion, exclusion=exclusion))
 
 
 def get_element_types(
@@ -574,7 +574,7 @@ def get_element_types(
     keys: Optional[Iterable[Key]] = None,
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
-):
+) -> Dict[Key, ElementType]:
     """
     Returns element type(s) under filters.
 
@@ -1163,7 +1163,7 @@ def to_element_type(x: Any, t: Type[Any]) -> Any:
 def struct_to_type(
     s: Struct,
     template: Any,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
 ) -> Any:
     """
     Converts collection `s` to match the *container type* of `template`.
@@ -1331,7 +1331,7 @@ def to_series(
     data: Any,
     name: Optional[Any] = None,
     index: Optional[Any] = None,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
 ) -> Union["pd.Series", List["pd.Series"]]:
     """
     Converts the specified collection to a `pd.Series` or a `list` of `Series` when `data` is a multi-column `DataFrame`.
@@ -1404,7 +1404,7 @@ def to_frame(
     names: Optional[Any] = None,
     index: Optional[Any] = None,
     index_name: Optional[str] = None,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
 ) -> "pd.DataFrame":
     """
     Converts the specified collection to a `pd.DataFrame`.
@@ -1488,7 +1488,7 @@ __STRUCT_GENERATORS_________________________________________ = ""
 def create_empty(
     t: Union[Any, Type[Any]],
     *,
-    element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None,
+    element_type: Optional[ElementType] = None,
     registry: Optional[CollectionRegistry] = None,
 ) -> Any:
     """
@@ -2294,9 +2294,7 @@ def filter_any_not_between(
 ##############################
 
 
-def flatten(
-    s: Struct, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None, axis: int = 0
-) -> np.ndarray:
+def flatten(s: Struct, element_type: Optional[ElementType] = None, axis: int = 0) -> np.ndarray:
     """Returns a flattened `array` view of `s` respecting the specified `axis` order."""
     if is_empty(s):
         return to_array(element_type=element_type)

@@ -98,6 +98,9 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
 
 __COMMON_COLLECTION_REGISTRY_CLASSES________________________ = ""
 
+# Typing alias for any supported element types across `Struct`
+ElementType = Union[Type[Any], np.dtype[Any]]
+
 T = TypeVar("T")
 
 
@@ -247,9 +250,7 @@ class CollectionAdapter(Generic[T], ABC):
 
     ##########################
 
-    def to_array(
-        self, x, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
-    ) -> np.ndarray:
+    def to_array(self, x, element_type: Optional[ElementType] = None) -> np.ndarray:
         """
         Returns an `array` built from the specified collection.
 
@@ -514,9 +515,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """
         return self  # instances are iterable by contract
 
-    def to_array(
-        self, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
-    ) -> np.ndarray:
+    def to_array(self, element_type: Optional[ElementType] = None) -> np.ndarray:
         """
         Returns an `array` built from this collection.
 
@@ -838,9 +837,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
 
     ##########################
 
-    def to_array(
-        self, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
-    ) -> np.ndarray:
+    def to_array(self, element_type: Optional[ElementType] = None) -> np.ndarray:
         """
         Returns an `array` built from the values of this mapping collection.
 

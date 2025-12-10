@@ -152,22 +152,22 @@ def test_get_item_items_and_values_for_dict_and_dataframe() -> None:
 
 def test_get_element_types_on_dataframe_series_array_and_scalar() -> None:
     df = pd.DataFrame({"a": [1, 2], "b": [1.0, 2.0]})
-    types_df = util.get_element_types(df)
-    assert set(types_df.keys()) == {"a", "b"}
-    assert np.issubdtype(types_df["a"], np.integer)
-    assert np.issubdtype(types_df["b"], np.floating)
+    element_types = util.get_element_types(df)
+    assert set(element_types.keys()) == {"a", "b"}
+    assert np.issubdtype(element_types["a"], np.integer)
+    assert np.issubdtype(element_types["b"], np.floating)
 
     s = pd.Series([1.0, 2.0])
-    t_series = util.get_element_types(s)
-    assert np.issubdtype(t_series, np.floating)
+    element_type = util.get_element_type(s)
+    assert np.issubdtype(element_type, np.floating)
 
     arr = np.array([1, 2, 3], dtype=np.int64)
-    t_arr = util.get_element_types(arr)
-    assert np.issubdtype(t_arr, np.integer)
+    element_type = util.get_element_type(arr)
+    assert np.issubdtype(element_type, np.integer)
 
     # Non-subscriptable scalar
-    types_scalar = util.get_element_types(42)
-    assert types_scalar[0] is int
+    element_type = util.get_element_type(42)
+    assert element_type is int
 
 
 def test_get_min_element_type_promotes_safely() -> None:

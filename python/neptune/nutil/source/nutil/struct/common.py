@@ -43,9 +43,7 @@ __COMMON_STRUCT_CONVERTERS__________________________________ = ""
 ### COLLECTION #############################################
 
 
-def to_array(
-    *args: Any, element_type: Optional[Union[np.dtype[Any], Type[Any]]] = None
-) -> np.ndarray:
+def to_array(*args: Any, element_type: Optional[ElementType] = None) -> np.ndarray:
     """
     Returns an `array` from the specified arguments.
 
