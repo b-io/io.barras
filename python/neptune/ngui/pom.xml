@@ -21,12 +21,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.barras.neptune</groupId>
-			<artifactId>ntest</artifactId>
-			<version>${project.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.barras.neptune</groupId>
 			<artifactId>nutil</artifactId>
 			<version>${project.version}</version>
 		</dependency>
