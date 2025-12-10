@@ -100,22 +100,22 @@ def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERB
             prefix += " to " + str(index_to)
         if not is_empty(prefix):
             prefix = "processing rows" + prefix + ", "
-        debug((prefix + get_query_message(verb, count, table)).capitalize())
+        logging.debug((prefix + get_query_message(verb, count, table)).capitalize())
 
 
 def warn_query(verb, table, ex=None, verbose=VERBOSE):
     if verbose:
-        warn(
+        logging.warning(
             paste("No row has been", verb, "in the table", quote(table)),
             par(get_full_class_name(ex)) if not is_null(ex) else "",
         )
         if not is_null(ex):
-            trace(ex)
+            logging.trace(ex)
 
 
 def error_query(verb, table, ex=None, verbose=VERBOSE):
     if not isinstance(ex, IntegrityError):
-        error(
+        logging.error(
             paste("No row has been", verb, "in the table", quote(table)),
             par(ex) if not is_null(ex) else "",
         )
@@ -142,22 +142,22 @@ def get_row_message(verb, index, table, cols=None, row=None):
 
 def trace_row(verb, index, table, cols=None, row=None, verbose=VERBOSE):
     if verbose:
-        trace("-", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
+        logging.trace("-", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
 
 
 def warn_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
     if verbose:
-        warn(
+        logging.warning(
             paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
             par(get_full_class_name(ex)) if not is_null(ex) else "",
         )
         if not is_null(ex):
-            trace(ex)
+            logging.trace(ex)
 
 
 def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
     if not is_null(ex) and not isinstance(ex, IntegrityError):
-        error(
+        logging.error(
             paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
             par(ex) if not is_null(ex) else "",
         )
@@ -283,7 +283,9 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
         # Check the existence of the columns in the table
         for col in df:
             if col not in table_cols:
-                warn("The column", quote(col), "does not exist in the table", quote(table))
+                logging.warning(
+                    "The column", quote(col), "does not exist in the table", quote(table)
+                )
     return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
@@ -304,13 +306,15 @@ def get_filtering_cols(
                 # Check the existence of the filtering columns in the dataframe
                 for col in filtering_cols:
                     if col not in df:
-                        warn("The filtering column", quote(col), "does not exist in the dataframe")
+                        logging.warning(
+                            "The filtering column", quote(col), "does not exist in the dataframe"
+                        )
         else:
             filtering_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = include_list(df, filtering_cols)
     if test and is_empty(filtering_cols):
         # Check the existence of any filtering column in the dataframe
-        warn("There is no filtering column")
+        logging.warning("There is no filtering column")
     return filtering_cols
 
 
@@ -515,7 +519,7 @@ def create_select_table_where_query(
 def select_query(engine, query, chunk_size=DEFAULT_CHUNK_SIZE, index_cols=None, verbose=VERBOSE):
     """Returns the dataframe read from the specified query."""
     if verbose:
-        debug("Select the query", quote(query))
+        logging.debug("Select the query", quote(query))
     return pd.read_sql(query, engine, chunksize=chunk_size, index_col=index_cols)
 
 
@@ -580,7 +584,7 @@ def select_table_where(
     in a dataframe."""
     if verbose:
         filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
-        debug(
+        logging.debug(
             "Select the columns",
             "*" if is_empty(cols) else format_cols(cols),
             "from the table",
@@ -775,7 +779,9 @@ def bulk_delete_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                debug("Chunk the bulk-delete query from", index_from + 1, "to", index_to, "rows")
+                logging.debug(
+                    "Chunk the bulk-delete query from", index_from + 1, "to", index_to, "rows"
+                )
             delete_count += bulk_delete_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -884,7 +890,7 @@ def insert_table(
 
     debug_query("insert", len(df), table, verbose=verbose)
 
-    if insert_id:
+    if not is_null(insert_id):
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
     for index, row in df.iterrows():
         # Build the query
@@ -910,7 +916,7 @@ def insert_table(
                 index_to=index + 1,
                 verbose=verbose,
             )
-    if insert_id:
+    if not is_null(insert_id):
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
 
@@ -947,7 +953,7 @@ def bulk_insert_table(
 
     # Chunk the bulk query
     if len(df) > chunk_size:
-        if insert_id:
+        if not is_null(insert_id):
             set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
         chunk_count = ceil(len(df) / chunk_size)
         index_to = 0
@@ -955,7 +961,9 @@ def bulk_insert_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                debug("Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows")
+                logging.debug(
+                    "Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows"
+                )
             insert_count += bulk_insert_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -968,7 +976,7 @@ def bulk_insert_table(
                 test=False,
                 verbose=verbose,
             )
-        if insert_id:
+        if not is_null(insert_id):
             set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
         return insert_count
 
@@ -980,7 +988,7 @@ def bulk_insert_table(
         query += create_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
     # Execute the bulk query
-    if insert_id:
+    if not is_null(insert_id):
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
     try:
         result = execute(engine, query)
@@ -991,7 +999,7 @@ def bulk_insert_table(
             warn_query("bulk-inserted", table, verbose=verbose)
     except Exception as ex:
         error_query("bulk-inserted", table, ex=ex, verbose=verbose)
-    if insert_id:
+    if not is_null(insert_id):
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
 
@@ -1064,7 +1072,7 @@ def update_table(
     # Get the columns to update
     cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
     if is_empty(cols):
-        warn(
+        logging.warning(
             "The dataframe contains only the filtering columns",
             par(filtering_cols),
             "or no column of the table",
@@ -1148,7 +1156,9 @@ def bulk_update_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                debug("Chunk the bulk-update query from", index_from + 1, "to", index_to, "rows")
+                logging.debug(
+                    "Chunk the bulk-update query from", index_from + 1, "to", index_to, "rows"
+                )
             update_count += bulk_update_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -1265,7 +1275,7 @@ def upsert_table(
         if upsert_count == 0:
             warn_query("update/insert", table, verbose=verbose)
         elif upsert_count < len(df):
-            warn(
+            logging.warning(
                 "Update/insert",
                 collapse(update_count, "/", insert_count),
                 "rows in the table",
@@ -1276,7 +1286,7 @@ def upsert_table(
                 par(len(df)),
             )
         elif upsert_count > len(df):
-            warn(
+            logging.warning(
                 "Update/insert",
                 collapse(update_count, "/", insert_count),
                 "rows in the table",
@@ -1320,7 +1330,7 @@ def migrate(
     if drop or create:
         metadata = create_metadata(engine_from, schema=schema)
         for table in tables:
-            debug(
+            logging.debug(
                 "Recreate" if drop and create else "Drop" if drop else "Create",
                 "the table",
                 quote(table),
@@ -1342,7 +1352,7 @@ def migrate(
     # Fill the tables
     if fill:
         for table in tables:
-            debug("Fill the table", quote(table))
+            logging.debug("Fill the table", quote(table))
             if is_null(filtering_row):
                 df = select_table(
                     engine_from, table, chunk_size=chunk_size, schema=schema, verbose=verbose

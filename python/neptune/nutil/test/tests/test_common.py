@@ -13,6 +13,7 @@ import timeit
 import unittest
 
 from ntest.unit.unittest import Test
+from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.scalar.string import *
 
@@ -37,7 +38,7 @@ class TestCommon(Test):
     def test(self):
         # Initialize
         hello = "Hello, world!"
-        token = generate_string(SIZE, digits=False)
+        token = generate_string(SIZE, include_digits=False)
 
         l1 = to_list(reverse(range(SIZE)))
         l2 = to_list(np.random.randint(0, SIZE, size=SIZE))
@@ -256,8 +257,9 @@ class TestMath(Test):
 __COMMON_TEST_MAIN__________________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the common utilities."""
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

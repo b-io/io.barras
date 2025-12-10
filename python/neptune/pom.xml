@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.python</groupId>
 		<artifactId>io.barras.python</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1a1</version>
 	</parent>
 
 	<groupId>io.barras.neptune</groupId>
@@ -27,6 +27,7 @@
 		<module>nlearn</module>
 		<module>nmath</module>
 		<module>nserve</module>
+		<module>ntest</module>
 		<module>nutil</module>
 	</modules>
 </project>

@@ -122,9 +122,9 @@ class TestFin(Test):
 __FIN_TEST_MAIN_____________________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the financial utilities."""
-    configure_logging()
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

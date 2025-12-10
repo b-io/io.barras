@@ -1,7 +1,7 @@
 #!/bin/sh
 ####################################################################################################
 # NAME
-#   <NAME> - install nformat
+#   <NAME> - test nserve
 #
 # SYNOPSIS
 #   <NAME>
@@ -14,11 +14,10 @@
 #   The MIT License (MIT) <https://opensource.org/licenses/MIT>.
 ####################################################################################################
 
-# 1. Upgrade Poetry and pip to ensure latest tools are used
+set -eu
+
+# 1. Ensure Poetry is available
 python -m pip install --user --upgrade pip poetry
 
-# 2. Install project dependencies and create a lockfile
-poetry lock
-
-# 3. Build the package (creates the .whl and .tar.gz files in the dist/ directory)
-poetry build
+# 2. Run the test suite
+poetry run pytest test

@@ -51,10 +51,10 @@ def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
             elif len(color) == 4:
                 r, g, b, alpha = color
         else:
-            if not is_null(alpha):
-                r, g, b, alpha = mcolors.to_rgba(color, alpha=alpha)
-            else:
+            if is_null(alpha):
                 r, g, b = mcolors.to_rgb(color)
+            else:
+                r, g, b, alpha = mcolors.to_rgba(color, alpha=alpha)
     if not is_null(scale):
         r, g, b = unscale_color(r, g, b)
         if scale:

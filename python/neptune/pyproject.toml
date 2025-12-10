@@ -18,6 +18,7 @@ packages = [
     { include = "nlearn", from = "nlearn/source" },
     { include = "nmath", from = "nmath/source" },
     { include = "nserve", from = "nserve/source" },
+    { include = "ntest", from = "ntest/source" },
     { include = "nutil", from = "nutil/source" },
 ]
 
@@ -33,7 +34,7 @@ opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
 psutil = "^5.9.8"             # System and process resource monitoring
 
-### Connectors #############################################
+### Databases ##############################################
 sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
 
 ### DataFrames & Tables ####################################
@@ -43,17 +44,25 @@ polars = "^0.20.31"           # Arrow-based DataFrame engine
 tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
 
 ### File & Data I/O ########################################
+beautifulsoup4 = "^4.14.3"    # HTML/XML parsing
 chardet = "^4.0.0"            # Text encoding detection
 openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
 orjson = "^3.10.18"           # Fast JSON serialization and parsing
 pyyaml = "^6.0.2"             # YAML encoding and decoding
 xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
-### Machine Learning & Stats ###############################
+### Machine Learning #######################################
 gensim = "^4.4.0"             # Topic modelling & embeddings
 scikit-learn = "^1.6.1"       # Algorithms for machine learning
+scikit-lego = "^0.6.13"       # Extra estimators, transformers, and tools extending scikit-learn
+tensorflow = "^2.20.0"        # Deep learning framework for building and training neural networks
+
+### Mathematics ############################################
 scipy = "^1.13.1"             # Scientific computing and numerical tools
 statsmodels = "^0.14.4"       # Statistical modeling and inference
+
+### Reporting  #############################################
+xhtml2pdf = "^0.2.17"         # HTML/CSS to PDF generation (ReportLab-based)
 
 ### Utilities ##############################################
 annotated-types = "^0.6.0"    # Metadata for static type checkers
@@ -81,7 +90,7 @@ asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
 fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
 uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
 
-# Web HTTP #############################################################################################################
+### Web HTTP ###############################################
 httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
 httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
 python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
@@ -92,13 +101,13 @@ urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
 ## 3. OTHER DEPENDENCIES #################################################################
 
 [tool.poetry.group.docs.dependencies]
-# Documentation ########################################################################################################
+### Documentation ##########################################
 docutils = "^0.21.2"              # reStructuredText parsing and rendering
 myst-parser = "^3.0.1"            # Markdown parser for Sphinx
 sphinx = "^7.4.7"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
 black = "^24.10.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
@@ -109,7 +118,7 @@ isort = "^6.0.1"                  # Import sorting and grouping
 mypy = "^1.16.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
-# Testing ##############################################################################################################
+### Testing ################################################
 coverage = "^7.9.1"               # Code coverage reporting
 pytest = "^8.4.1"                 # Unit testing framework
 
@@ -132,9 +141,9 @@ requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# 6. TOOL-SPECIFIC CONFIGURATION #######################################################################################
+## 6. TOOL-SPECIFIC CONFIGURATION ########################################################
 
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 [tool.black]
 line-length = 100
 target-version = ["py39"]
@@ -152,6 +161,7 @@ known_first_party = [
     "nlearn",
     "nmath",
     "nserve",
+    "ntest",
     "nutil",
 ]
 line_length = 100
@@ -164,6 +174,7 @@ src_paths = [
     "nlearn/source",
     "nmath/source",
     "nserve/source",
+    "ntest/source",
     "nutil/source",
 ]
 
@@ -182,7 +193,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 
 
-# Testing ##############################################################################################################
+### Testing ################################################
 [tool.pytest.ini_options]
 addopts = "--strict-markers"
 filterwarnings = [
@@ -208,5 +219,6 @@ source = [
     "nlearn",
     "nmath",
     "nserve",
+    "ntest",
     "nutil"
 ]

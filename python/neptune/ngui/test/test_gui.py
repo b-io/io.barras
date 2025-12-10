@@ -146,9 +146,9 @@ class TestGui(Test):
 __GUI_TEST_MAIN_____________________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the graphical user interface (GUI) utilities."""
-    configure_logging()
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

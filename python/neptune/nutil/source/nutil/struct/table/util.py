@@ -10,19 +10,13 @@
 
 from dataclasses import fields, is_dataclass
 from typing import (
-    Any,
     Container,
-    Iterable,
-    List,
-    Mapping,
-    Optional,
     Protocol,
-    Set,
-    Tuple,
-    Union,
 )
 
+from nutil.common import *
 from nutil.scalar.string import to_string
+
 
 ## TABLE CLASSES #########################################################################
 
@@ -60,11 +54,11 @@ def get_row_keys(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, 
     if isinstance(row, type):
         return get_annotations_keys(row, keys)
     elif is_dataclass(row):
-        if keys:
+        if not is_null(keys):
             return tuple(f.name for f in fields(row) if f.name in keys)
         return tuple(f.name for f in fields(row))
     elif isinstance(row, Mapping):
-        if keys:
+        if not is_null(keys):
             return tuple(k for k in row.keys() if k in keys)
         return tuple(row.keys())
     elif isinstance(row, Iterable):
@@ -76,7 +70,7 @@ def get_annotations_keys(x: Any, keys: Optional[Container[str]] = None) -> Tuple
     annotations = getattr(x, "__annotations__", None)
     if annotations is None:
         raise TypeError(f"Unsupported type '{type(x)!r}'")
-    if keys:
+    if not is_null(keys):
         return tuple(k for k in annotations.keys() if k in keys)
     return tuple(annotations.keys())
 
@@ -125,11 +119,11 @@ def get_row_values(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any
     if isinstance(row, type):
         return get_annotations_values(row, keys)
     elif is_dataclass(row):
-        if keys:
+        if not is_null(keys):
             return tuple(getattr(row, f.name) for f in fields(row) if f.name in keys)
         return tuple(getattr(row, f.name) for f in fields(row))
     elif isinstance(row, Mapping):
-        if keys:
+        if not is_null(keys):
             return tuple(row.get(k) for k in row.keys() if k in keys)
         return tuple(row.values())
     elif isinstance(row, Iterable):
@@ -141,7 +135,7 @@ def get_annotations_values(x: Any, keys: Optional[Container[str]] = None) -> Tup
     annotations = getattr(x, "__annotations__", None)
     if annotations is None:
         raise TypeError(f"Unsupported type '{type(x)!r}'")
-    if keys:
+    if not is_null(keys):
         return tuple(annotations.get(k) for k in annotations.keys() if k in keys)
     return tuple(annotations.values())
 

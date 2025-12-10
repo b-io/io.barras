@@ -165,7 +165,7 @@ def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
         • If `parent` is `True`, returns the parent directory of `path`.
     """
     abs_path = get_path(path)
-    if parent:
+    if not is_null(parent):
         return os.path.dirname(abs_path)
     if os.path.isdir(abs_path):
         return abs_path  # the directory itself

@@ -153,9 +153,9 @@ class TestLearn(Test):
 __LEARN_TEST_MAIN___________________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the machine learning utilities."""
-    configure_logging()
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

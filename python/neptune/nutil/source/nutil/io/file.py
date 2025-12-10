@@ -593,7 +593,7 @@ def read_csv(
         na_values=na_values,
         **kwargs,
     )
-    if index_name and not index_cols:
+    if not is_null(index_name) and not index_cols:
         set_index_name(df, index_name)
     return df
 

@@ -16,6 +16,7 @@ from _pytest.logging import LogCaptureFixture
 
 from nutil.decorators.caching import hash_cache
 from nutil.decorators.typing import typesafe
+from nutil.io.logging import configure_logging
 from nutil.math import *
 
 ## DECORATORS TEST CASES #################################################################
@@ -133,8 +134,9 @@ def test_typesafe_suggest_mode_does_not_raise(caplog: LogCaptureFixture) -> None
 __DECORATOR_TEST_MAIN_______________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the decorators."""
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

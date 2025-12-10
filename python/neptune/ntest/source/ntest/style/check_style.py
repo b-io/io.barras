@@ -24,12 +24,11 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import re
 from pathlib import Path
-from typing import List, Tuple
 
 from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
+from nutil.common import *
 from nutil.constants import DEFAULT_ENCODING
 from nutil.io.file import (
     exclude_dir,
@@ -39,6 +38,7 @@ from nutil.io.file import (
     to_relative_posix_path,
 )
 from nutil.io.logging import configure_logging
+
 
 ## RUNNER ################################################################################
 
@@ -89,13 +89,13 @@ def run(root: Path, config: StyleConfig) -> int:
 
             abs_file = dir_path / name
             violations = scan_file(abs_file, active_rules)
-            if violations:
-                for rule, ln, text in violations:
-                    loc = f"{rel_file}:{ln}" if ln else rel_file
+            if not is_empty(violations):
+                for rule, line_number, line_text in violations:
+                    location = f"{rel_file}:{line_number}" if line_number else rel_file
                     level = logging.ERROR if rule.severity == "error" else logging.WARNING
-                    logging.log(level, "[%s] [%s] %s", loc, rule.id, rule.description)
-                    if text:
-                        logging.log(level, "[%s] [%s] %s", loc, rule.id, text)
+                    logging.log(level, "[%s] [%s] %s", location, rule.id, rule.description)
+                    if line_text:
+                        logging.log(level, "[%s] [%s] %s", location, rule.id, line_text)
                     if rule.severity == "error":
                         any_error = True
                 total_violations += len(violations)
@@ -188,7 +188,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 ## MAIN ##################################################################################
 
 
-def main():
+def main() -> None:
     configure_logging()
     args = parse_args()
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)

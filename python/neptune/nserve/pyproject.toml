@@ -1,0 +1,133 @@
+## 1. PROJECT METADATA ###################################################################
+[tool.poetry]
+name = "nserve"
+version = "1.0.1a1"
+description = "Web-serving utility library for Python"
+keywords = ["neptune", "format", "utilities"]
+authors = ["Florian Barras <florian@barras.io>"]
+maintainers = ["Florian Barras <florian@barras.io>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/b-io/io.barras/tree/master/python/neptune/nserve"
+
+packages = [
+    { include = "nserve", from = "source" },
+]
+
+# Include specific resource files
+include = [
+    "resources/common.properties"
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/b-io/io.barras/issues"
+"Documentation" = "https://repo.barras.io/io.barras.python/neptune/nserve/index.html"
+"Source Code" = "https://github.com/b-io/io.barras/tree/master/python/neptune/nserve"
+
+
+## 2. MAIN DEPENDENCIES ##################################################################
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+
+### Neptune Utilities ######################################
+nutil = "^1.0.0a1"            # Neptune utility library
+
+### Web ASGI ###############################################
+asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
+fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
+uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
+
+
+## 3. OTHER DEPENDENCIES #################################################################
+
+[tool.poetry.group.docs.dependencies]
+### Documentation ##########################################
+docutils = "^0.21.2"              # reStructuredText parsing and rendering
+myst-parser = "^3.0.1"            # Markdown parser for Sphinx
+sphinx = "^7.4.7"                 # Static documentation generation
+
+[tool.poetry.group.lint.dependencies]
+### Code Quality ###########################################
+autoflake = "^2.3.1"              # Removal of unused imports and variables
+black = "^24.10.0"                # Automatic code formatting
+flake8 = "^7.3.0"                 # Style and quality checks
+flake8-bugbear = "^24.12.12"      # Detection of likely bugs and design issues
+flake8-comprehensions = "^3.16.0" # Comprehension style simplification
+flake8-simplify = "^0.22.0"       # Simplification of overly complex constructs
+isort = "^6.0.1"                  # Import sorting and grouping
+mypy = "^1.16.1"                  # Static type checking
+
+[tool.poetry.group.test.dependencies]
+### Testing ################################################
+coverage = "^7.9.1"               # Code coverage reporting
+
+
+## 4. PACKAGE SOURCES ####################################################################
+
+# You can configure additional or internal package sources below.
+# Uncomment and customize if your company uses a private PyPI repository or proxy.
+
+# [[tool.poetry.source]]
+# name = "company"                        # A short, unique name for your repository
+# url = "https://pypi.company.com/simple" # The base URL to your internal PyPI-compatible index
+# priority = "primary"                    # Valid options: 'primary', 'supplemental', 'explicit'
+
+
+## 5. BUILD SYSTEM #######################################################################
+
+[build-system]
+requires = ["poetry-core>=1.8.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+## 6. TOOL-SPECIFIC CONFIGURATION ########################################################
+
+### Code Quality ###########################################
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.flake8]
+extend-ignore = ["E203", "W503"]
+max-line-length = 100
+
+[tool.isort]
+known_first_party = ["nserve"]
+line_length = 100
+profile = "black"
+src_paths = ["source"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
+
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_ignores = true
+
+
+### Testing ################################################
+[tool.pytest.ini_options]
+addopts = "--strict-markers"
+filterwarnings = [
+    "error",
+]
+markers = [
+    "integration_test: identifies tests that are part of the integration testing.",
+]
+testpaths = ["test"]
+
+[tool.coverage.report]
+omit = [
+    "test/*", # Test file exclusion from coverage reporting
+]
+
+[tool.coverage.run]
+branch = true
+source = ["nserve"]

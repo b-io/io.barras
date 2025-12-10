@@ -125,12 +125,12 @@ def to_roman(n: int) -> str:
 __STRING_GENERATORS_________________________________________ = ""
 
 
-def generate_string(length, case_sensitive=False, digits=True):
+def generate_string(length, case_sensitive=False, include_digits=True):
     """Generates a pseudorandom, uniformly distributed string of the specified length."""
     choices = string.ascii_uppercase
     if case_sensitive:
         choices += string.ascii_lowercase
-    if digits:
+    if include_digits:
         choices += string.digits
     return collapse(random.choices(choices, k=length))
 

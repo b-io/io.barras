@@ -92,7 +92,7 @@ def typesafe(
                     bad_values.append(value)
                     bad_expected.append(expected_for_display(annotation))
 
-            if bad_names:
+            if not is_empty(bad_names):
                 type_error = create_type_error(
                     input_names=bad_names if len(bad_names) > 1 else bad_names[0],
                     input_values=bad_values if len(bad_values) > 1 else bad_values[0],

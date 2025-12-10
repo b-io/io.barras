@@ -95,7 +95,7 @@ class StyleConfig:
     rules: List[StyleRule]
 
 
-## COMMON STYLE LOADING ###################################################################
+## COMMON STYLE LOADING ##################################################################
 
 
 def load_yaml_config(path: Path) -> StyleConfig:

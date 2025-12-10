@@ -18,7 +18,7 @@ __SETUP_CONSTANTS___________________________________________ = ""
 
 NAME = "nserve"
 VERSION = "1.0.1a1"
-DESCRIPTION = "Web serving utility library"
+DESCRIPTION = "Web-serving utility library"
 DIR = path.abspath(path.dirname(__file__))
 with open(path.join(DIR, "README.md"), encoding="utf-8") as f:
     LONG_DESCRIPTION = f.read()

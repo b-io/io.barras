@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-########################################################################################################################
+# HTTP #################################################################################################################
 # Goal
 #   Provide utilities for HTTP clients.
 ########################################################################################################################
@@ -16,11 +16,12 @@ from dataclasses import dataclass
 from typing import Callable
 
 import requests
+from requests import sessions
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 from nutil.common import *
-from nutil.enums import HttpStatusCode, StrEnum
+from nutil.enums import HttpMethod, HttpStatusCode, StrEnum
 from nutil.struct.util import create_empty
 
 ## HTTP CONSTANTS ########################################################################
@@ -34,13 +35,13 @@ DEFAULT_USER_AGENT: str = (
 # The default `Accept` header used across the HTTP helpers (the output format negotiation)
 DEFAULT_ACCEPT: str = "*/*"
 # The default empty HTTP statuses
-DEFAULT_EMPTY_STATUSES: Tuple[int, ...] = (
+DEFAULT_EMPTY_STATUSES: Tuple[HttpStatusCode, ...] = (
     HttpStatusCode.NO_CONTENT,
     HttpStatusCode.NOT_FOUND,
     HttpStatusCode.GONE,
 )
 # The default rate limit HTTP statuses
-DEFAULT_RATE_LIMIT_STATUSES: Tuple[int, ...] = (
+DEFAULT_RATE_LIMIT_STATUSES: Tuple[HttpStatusCode, ...] = (
     HttpStatusCode.TOO_MANY_REQUESTS,
     HttpStatusCode.SERVICE_UNAVAILABLE,
 )
@@ -137,16 +138,16 @@ def build_session_with_retries(
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     session.headers.update({"User-Agent": ua_value, "Accept": accept_value})
-    if headers:
+    if not is_null(headers):
         session.headers.update(headers)
     return session
 
 
 def request(
-    session: requests.Session,
     url: str,
     *,
-    method: str = "GET",
+    session: Optional[requests.Session] = None,
+    method: HttpMethod = HttpMethod.GET,
     params: Optional[Dict[str, Any]] = None,
     headers: Optional[Dict[str, str]] = None,
     data: Optional[Union[Dict[str, Any], List[Tuple[str, Any]], bytes, str]] = None,
@@ -164,7 +165,7 @@ def request(
     Performs an HTTP request using a session with adapter-managed retries and returns the raw response.
 
     Behavior:
-        • Uses `session.request(method, …)` so any HTTP verb is supported (defaults to `"GET"`).
+        • Uses `session.request(method.value, …)` (defaults to `HttpMethod.GET`).
         • Sleeps the `throttle` seconds after each attempt (success or failure).
         • On transport failure (no response), logs a warning and returns `(0, None)`.
         • If `status ∈ accept_empty_statuses`, returns `(status, response)` without error.
@@ -172,9 +173,9 @@ def request(
         • If `raise_on_http_error=True`, non-2xx statuses raise `requests.HTTPError` via `response.raise_for_status()`.
 
     Args:
-        session: The `requests.Session` (with retries configured via adapters).
         url: The full URL.
-        method: The HTTP method (e.g., `"GET"`, `"POST"`, `"HEAD"`, …). Case-insensitive.
+        session: The `requests.Session` (with retries configured via adapters).
+        method: The HTTP method (e.g., `HttpMethod.GET`, `HttpMethod.POST`, …).
         params: The querystring parameters.
         headers: The extra request headers.
         data: The form data / bytes payload.
@@ -196,54 +197,67 @@ def request(
         requests.HTTPError: When `raise_on_http_error=True` and status is non-2xx (not in `accept_empty_statuses`).
     """
     try:
-        resp = session.request(
-            url=url,
-            method=method.upper(),
-            params=params,
-            headers=headers,
-            data=data,
-            files=files,
-            json=json,
-            timeout=timeout,
-        )
+        if is_null(session):
+            with sessions.Session() as session:
+                response = session.request(
+                    method=method.value,
+                    url=url,
+                    params=params,
+                    headers=headers,
+                    data=data,
+                    files=files,
+                    json=json,
+                    timeout=timeout,
+                )
+        else:
+            response = session.request(
+                method=method.value,
+                url=url,
+                params=params,
+                headers=headers,
+                data=data,
+                files=files,
+                json=json,
+                timeout=timeout,
+            )
     except requests.RequestException as e:
-        logging.warning("%s '%s' raised '%s'", method.upper(), url, e)
+        logging.warning("%s '%s' raised '%s'", method.value, url, e)
         return 0, None
     finally:
         # Always throttle, even on exceptions
         if throttle and throttle > 0:
             time.sleep(throttle + random.uniform(0, 0.1))
 
-    status = resp.status_code
+    status = response.status_code
 
     # Handle accepted empty payloads (no error)
     if status in accept_empty_statuses:
-        return status, resp
+        return status, response
 
     # Handle rate limitations
     if status in rate_limit_statuses:
         if raise_on_rate_limit:
             raise RateLimitError(api=api_name)
-        return status, resp
+        return status, response
 
     # Handle non-2xx statuses
     if not (200 <= status < 300):
         if raise_on_http_error:
-            resp.raise_for_status()
-        return status, resp
+            response.raise_for_status()
+        return status, response
 
     # Handle 2xx statuses
-    return status, resp
+    return status, response
 
 
 ############################################################
 
 
 def request_json(
-    session: requests.Session,
     url: str,
     *,
-    method: str = "GET",
+    session: Optional[requests.Session] = None,
+    method: HttpMethod = HttpMethod.GET,
     params: Optional[Dict[str, Any]] = None,
     headers: Optional[Dict[str, str]] = None,
     data: Optional[Union[Dict[str, Any], List[Tuple[str, Any]], bytes, str]] = None,
@@ -273,8 +287,8 @@ def request_json(
     """
     headers = {"Accept": "application/json", **(headers or {})}
     status, resp = request(
-        session,
         url,
+        session=session,
         method=method,
         params=params,
         headers=headers,
@@ -290,7 +304,7 @@ def request_json(
         raise_on_http_error=raise_on_http_error,
     )
     if resp is None:
-        raise requests.RequestException(f"{method.upper()} '{url}' failed after retries")
+        raise requests.RequestException(f"{method.value} '{url}' failed after retries")
 
     if status in accept_empty_statuses:
         return status, None
@@ -302,10 +316,10 @@ def request_json(
 
 
 def request_text(
-    session: requests.Session,
     url: str,
     *,
-    method: str = "GET",
+    session: Optional[requests.Session] = None,
+    method: HttpMethod = HttpMethod.GET,
     params: Optional[Dict[str, Any]] = None,
     headers: Optional[Dict[str, str]] = None,
     data: Optional[Union[Dict[str, Any], List[Tuple[str, Any]], bytes, str]] = None,
@@ -334,8 +348,8 @@ def request_text(
       `(status_code, text_or_None)`.
     """
     status, resp = request(
-        session,
         url,
+        session=session,
         method=method,
         params=params,
         headers=headers,
@@ -351,7 +365,7 @@ def request_text(
         raise_on_http_error=raise_on_http_error,
     )
     if resp is None:
-        raise requests.RequestException(f"{method.upper()} '{url}' failed after retries")
+        raise requests.RequestException(f"{method.value} '{url}' failed after retries")
 
     if status in accept_empty_statuses:
         return status, None
@@ -382,7 +396,6 @@ class ProviderResult:
 
 
 def lookup_json(
-    session: requests.Session,
     url: str,
     *,
     accept_empty_response: bool = True,
@@ -409,7 +422,6 @@ def lookup_json(
         • Classifies any other status as `Outcome.UNEXPECTED_STATUS` and returns an empty payload.
 
     Args:
-        session: The configured `requests.Session`.
         url: The target endpoint.
         accept_empty_response: Indicates whether an empty JSON payload for OK statuses is considered valid.
         accept_ok_statuses: The HTTP statuses to treat as OK (defaults to `(200,)`; e.g., `(200, 201, 202)`).
@@ -419,7 +431,7 @@ def lookup_json(
         context: The short log context (e.g., `"de → en"`, route).
         response_type: The expected top-level JSON type (`dict` or `list`).
         preview_payload: Appends a compact payload preview to the logs when `True`.
-        **kwargs: Forwards the extra parameters to `request_json` (method, params, headers, …).
+        **kwargs: Forwards the extra parameters to `request_json` (session, method, params, headers, …).
 
     Returns:
         `ProviderResult(payload=<Any>, status=<int>, outcome=<Outcome>)`.
@@ -441,9 +453,9 @@ def lookup_json(
 
     # Build the optional log suffix
     suffix_parts: List[str] = []
-    if name:
+    if not is_null(name):
         suffix_parts.append(f"'{name}'")
-    if context:
+    if not is_null(context):
         suffix_parts.append(f"[{context}]")
     log_suffix = (" for " + " ".join(suffix_parts)) if suffix_parts else ""
 
@@ -461,7 +473,7 @@ def lookup_json(
     # Perform the request
     status: int = 0
     try:
-        status, data = request_json(session, url, **kwargs)
+        status, data = request_json(url, **kwargs)
     except Exception as e:
         logging.warning(
             "Transport failure%s → status=%s, outcome=%s, error=%s",

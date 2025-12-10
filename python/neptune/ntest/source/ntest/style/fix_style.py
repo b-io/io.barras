@@ -36,12 +36,12 @@ from __future__ import annotations
 
 import argparse
 import logging
-import os
 import re
 from pathlib import Path
-from typing import Callable, Dict, List, Sequence, Tuple
+from typing import Callable
 
 from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
+from nutil.common import *
 from nutil.constants import DEFAULT_ENCODING
 from nutil.io.file import (
     exclude_dir,
@@ -52,6 +52,7 @@ from nutil.io.file import (
     write_text,
 )
 from nutil.io.logging import configure_logging
+
 
 ## FIXERS ################################################################################
 
@@ -301,23 +302,23 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
 
     counts: Dict[str, int] = {}
-    changed = False
+    has_changed = False
     out_lines: List[str] = []
 
     for line in orig.splitlines(keepends=True):
-        current = line
+        current_line = line
         for rule in rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
-            fixed, did = fixer(current, rule)
-            if did:
+            fixed_line, has_changed = fixer(current_line, rule)
+            if has_changed:
                 counts[rule.id] = counts.get(rule.id, 0) + 1
-                current = fixed
-        changed = changed or (current != line)
-        out_lines.append(current)
+                current_line = fixed_line
+        has_changed = has_changed or (current_line != line)
+        out_lines.append(current_line)
 
-    if changed:
+    if has_changed:
         write_text(path, "".join(out_lines))
 
     return counts
@@ -427,17 +428,17 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     counts: Dict[str, int] = {}
 
     for line in orig.splitlines(keepends=True):
-        current = line
+        current_line = line
         for rule in rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
-            fixed, did = fixer(current, rule)
-            if did:
+            fixed_line, has_changed = fixer(current_line, rule)
+            if has_changed:
                 counts[rule.id] = counts.get(rule.id, 0) + 1
-                current = fixed
+                current_line = fixed_line
 
-    if counts:
+    if not is_empty(counts):
         logging.info(
             "[DRY RUN] '%s' → %s",
             path,
@@ -490,7 +491,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 ## MAIN ##################################################################################
 
 
-def main():
+def main() -> None:
     """Runs the fix style tool."""
     configure_logging()
     args = parse_args()

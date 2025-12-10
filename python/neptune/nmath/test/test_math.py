@@ -176,9 +176,9 @@ class TestStats(Test):
 __MATH_TEST_MAIN____________________________________________ = ""
 
 
-def main():
+def main() -> None:
     """Tests the mathematical utilities."""
-    configure_logging()
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

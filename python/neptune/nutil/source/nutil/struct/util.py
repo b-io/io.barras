@@ -602,11 +602,11 @@ def get_element_types(
     if is_frame(s):
         return to_dict(filter(s, keys=keys).dtypes)
     elif is_series(s) or is_array(s):
-        return s.dtype
+        return to_dict(s.dtype)
     elif hasattr(s, "dtypes"):
         return to_dict(s.dtypes)
     elif hasattr(s, "dtype"):
-        return {get_name(s): s.dtype}
+        return to_dict(s.dtype)
     return {k: type(s[k]) for k in keys}
 
 
@@ -763,7 +763,7 @@ def set_index(s: Struct, new_index: Any, index_name: Optional[str] = None) -> An
             s.index = new_index
     else:
         set_keys(s, new_index)
-    if index_name:
+    if not is_null(index_name):
         set_index_name(s, index_name)
     return s
 
@@ -1451,7 +1451,7 @@ def to_frame(
         set_names(df, names)
     if not is_null(index):
         set_index(df, index)
-    if index_name:
+    if not is_null(index_name):
         set_index_name(df, index_name)
     return df
 
@@ -3512,7 +3512,7 @@ def join(
 ) -> pd.DataFrame:
     """Joins `left` with `right` on index (or `on`), preserving `index_name`."""
     df = to_frame(left).join(to_frame(right), how=how, on=on, rsuffix=suffix, validate=validate)
-    if index_name:
+    if not is_null(index_name):
         set_index_name(df, index_name)
     return df
 
@@ -3565,7 +3565,7 @@ def merge(
         indicator=indicator,
         validate=validate,
     )
-    if index_name:
+    if not is_null(index_name):
         set_index_name(df, index_name)
     return df
 

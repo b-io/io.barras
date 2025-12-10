@@ -2,8 +2,8 @@
 [tool.poetry]
 name = "nconnect"
 version = "1.0.1a1"
-description = "Connectivity utility library for Python"
-keywords = ["neptune", "utilities", "connectivity", "sql"]
+description = "Connecting utility library for Python"
+keywords = ["neptune", "connectivity", "utilities", "cloud", "database", "internet"]
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"
@@ -29,23 +29,30 @@ include = [
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Data Handling ########################################################################################################
-sqlalchemy = "^2.0.41"        # SQL toolkit and ORM
+### Databases ##############################################
+sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
 
-# Utilities ############################################################################################################
-nutil = "^1.0.0"              # Neptune utility library
+### Neptune Utilities ######################################
+nutil = "^1.0.0a1"            # Neptune utility library
+
+### Web HTTP ###############################################
+httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
+httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
+python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
+requests = "^2.32.4"          # Synchronous HTTP client for APIs and websites
+urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
 
 
 ## 3. OTHER DEPENDENCIES #################################################################
 
 [tool.poetry.group.docs.dependencies]
-# Documentation ########################################################################################################
+### Documentation ##########################################
 docutils = "^0.21.2"              # reStructuredText parsing and rendering
 myst-parser = "^3.0.1"            # Markdown parser for Sphinx
 sphinx = "^7.4.7"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
 black = "^24.10.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
@@ -56,9 +63,8 @@ isort = "^6.0.1"                  # Import sorting and grouping
 mypy = "^1.16.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
-# Testing ##############################################################################################################
+### Testing ################################################
 coverage = "^7.9.1"               # Code coverage reporting
-pytest = "^8.4.1"                 # Unit testing framework
 
 
 ## 4. PACKAGE SOURCES ####################################################################
@@ -79,9 +85,9 @@ requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# 6. TOOL-SPECIFIC CONFIGURATION #######################################################################################
+## 6. TOOL-SPECIFIC CONFIGURATION ########################################################
 
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 [tool.black]
 line-length = 100
 target-version = ["py39"]
@@ -111,7 +117,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 
 
-# Testing ##############################################################################################################
+### Testing ################################################
 [tool.pytest.ini_options]
 addopts = "--strict-markers"
 filterwarnings = [

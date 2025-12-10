@@ -164,7 +164,7 @@ def run_with_args(args: argparse.Namespace) -> None:
         if args.delete_keys:
             n = cache.delete_keys(section, args.delete_keys)
             changed |= n > 0
-            if n:
+            if n > 0:
                 logging.info(
                     "Removed %d key%s from '%s' (exact)",
                     n,
@@ -176,7 +176,7 @@ def run_with_args(args: argparse.Namespace) -> None:
         if args.delete_prefix:
             n = cache.delete_prefixes(section, args.delete_prefix)
             changed |= n > 0
-            if n:
+            if n > 0:
                 logging.info(
                     "Removed %d key%s from '%s' (prefix match)",
                     n,
@@ -192,7 +192,7 @@ def run_with_args(args: argparse.Namespace) -> None:
                 delete_str_empty=not args.only_list_empty,
             )
             changed |= n > 0
-            if n:
+            if n > 0:
                 logging.info(
                     "Removed %d empty entr%s from '%s'",
                     n,
@@ -356,7 +356,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
 ## MAIN ##################################################################################
 
 
-def main():
+def main() -> None:
     """Runs the sectioned cache tool."""
     configure_logging()
     args = parse_args()

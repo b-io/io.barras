@@ -12,8 +12,10 @@ import logging
 import socket
 
 import requests
+from requests import sessions
 from xhtml2pdf import pisa
 
+from nconnect.internet.http import request
 from nutil.io.file import write_bytes
 from nutil.scalar.string import *
 
@@ -513,7 +515,7 @@ def download(url, dir=None):
         dir = get_dir(".")
     logging.debug("Download the file", quote(url), "to the directory", quote(dir))
     try:
-        content = requests.get(url).content
+        status, response = request(url)
         filename = get_filename(url).split("?")[0]
         return write_bytes(collapse(dir, "/", filename), content)
     except Exception as ex:

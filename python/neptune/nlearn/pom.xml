@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>io.barras.neptune</groupId>
 		<artifactId>neptune</artifactId>
-		<version>1.0.0</version>
+		<version>1.0.1a1</version>
 	</parent>
 
 	<artifactId>nlearn</artifactId>
@@ -17,22 +17,28 @@
 	<description>Machine learning utility library for Python</description>
 	<url>https://github.com/b-io/io.barras/tree/master/python/neptune/nlearn</url>
 
+	<!-- Project Settings -->
+	<dependencies>
+		<dependency>
+			<groupId>io.barras.neptune</groupId>
+			<artifactId>ntest</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.neptune</groupId>
+			<artifactId>nutil</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
 	<!-- Build Settings -->
 	<build>
 		<plugins>
-			<!-- Execute the installation -->
+			<!-- Execute the installation and test scripts -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>exec</id>
-						<phase>install</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

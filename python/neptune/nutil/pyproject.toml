@@ -28,23 +28,27 @@ include = [
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 
-# Concurrency & System #################################################################################################
+### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
 psutil = "^5.9.8"             # System and process resource monitoring
 
-# DataFrames & Tables ##################################################################################################
+### DataFrames & Tables ####################################
 numpy = "^1.26.4"             # Array computing and linear algebra
 pandas = "^2.3.0"             # Labeled data structures and analysis
 tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
 
-# File & Data I/O ######################################################################################################
+### File & Data I/O ########################################
+beautifulsoup4 = "^4.12.3"    # HTML/XML parsing
 chardet = "^4.0.0"            # Text encoding detection
 openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
 orjson = "^3.10.18"           # Fast JSON serialization and parsing
 pyyaml = "^6.0.2"             # YAML encoding and decoding
 xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
 
-# Utilities ############################################################################################################
+### Testing ################################################
+pytest = "^8.4.2"             # Unit testing framework
+
+### Utilities ##############################################
 annotated-types = "^0.6.0"    # Metadata for static type checkers
 cffi = "^1.17.1"              # Interface for calling C code
 deprecated = "^1.2.18"        # Runtime deprecation warnings
@@ -62,13 +66,13 @@ validators = "^0.34.0"        # Lightweight data and URL checks
 ## 3. OTHER DEPENDENCIES #################################################################
 
 [tool.poetry.group.docs.dependencies]
-# Documentation ########################################################################################################
+### Documentation ##########################################
 docutils = "^0.21.2"              # reStructuredText parsing and rendering
 myst-parser = "^3.0.1"            # Markdown parser for Sphinx
 sphinx = "^7.4.7"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
 black = "^24.10.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
@@ -79,9 +83,8 @@ isort = "^6.0.1"                  # Import sorting and grouping
 mypy = "^1.16.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
-# Testing ##############################################################################################################
+### Testing ################################################
 coverage = "^7.9.1"               # Code coverage reporting
-pytest = "^8.4.1"                 # Unit testing framework
 
 
 ## 4. PACKAGE SOURCES ####################################################################
@@ -102,9 +105,9 @@ requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
 
 
-# 6. TOOL-SPECIFIC CONFIGURATION #######################################################################################
+## 6. TOOL-SPECIFIC CONFIGURATION ########################################################
 
-# Code Quality #########################################################################################################
+### Code Quality ###########################################
 [tool.black]
 line-length = 100
 target-version = ["py39"]
@@ -134,7 +137,7 @@ warn_unreachable = true
 warn_unused_ignores = true
 
 
-# Testing ##############################################################################################################
+### Testing ################################################
 [tool.pytest.ini_options]
 addopts = "--strict-markers"
 filterwarnings = [

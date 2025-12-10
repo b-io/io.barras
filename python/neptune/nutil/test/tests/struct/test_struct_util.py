@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import logging
 import math
 import unittest
 from collections import OrderedDict
@@ -19,15 +20,16 @@ from pandas.api.types import is_datetime64_any_dtype
 from nutil.common import *
 from nutil.config import BOOLEAN_ELEMENT_TYPE, DATE_TYPE, FLOAT_ELEMENT_TYPE
 from nutil.enums import Aggregation, Position
+from nutil.io.logging import configure_logging
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
-## STRUCT UTIL TEST CASES ###############################################################
+## STRUCT UTIL TEST CASES ################################################################
 
 __STRUCT_UTIL_TEST_CASES____________________________________ = ""
 
 
-### BASIC ACCESSORS ######################################################################
+### BASIC ACCESSORS ########################################
 
 
 def test_get_on_list_and_array_and_dict() -> None:
@@ -81,7 +83,7 @@ def test_get_iterator_and_get_next() -> None:
     assert next(cycle_it) == 1  # wrapped
 
 
-### NAMES / KEYS / INDEX ################################################################
+### NAMES / KEYS / INDEX ###################################
 
 
 def test_get_names_and_keys_for_dataframe_and_series() -> None:
@@ -145,7 +147,7 @@ def test_get_item_items_and_values_for_dict_and_dataframe() -> None:
     assert isinstance(single_value, np.ndarray)
 
 
-### ELEMENT TYPES ########################################################################
+### ELEMENT TYPES ##########################################
 
 
 def test_get_element_types_on_dataframe_series_array_and_scalar() -> None:
@@ -176,7 +178,7 @@ def test_get_min_element_type_promotes_safely() -> None:
     assert t == np.dtype(FLOAT_ELEMENT_TYPE) or np.issubdtype(t, np.float64)
 
 
-### SET NAMES / KEYS / INDEX / VALUES / TYPES ###########################################
+### SET NAMES / KEYS / INDEX / VALUES / TYPES ##############
 
 
 def test_set_names_for_dataframe_and_series_and_generic() -> None:
@@ -257,7 +259,7 @@ def test_set_element_types_for_dataframe_series_array_and_dict() -> None:
     assert d == {"a": 1, "b": 2}
 
 
-### STRUCT / COLLECTION CONVERTERS ######################################################
+### STRUCT / COLLECTION CONVERTERS #########################
 
 
 def test_to_struct_and_unstruct() -> None:
@@ -345,7 +347,7 @@ def test_to_frame_and_to_time_frame() -> None:
     assert tf.index.name == "tidx"
 
 
-### STRUCT GENERATORS ###################################################################
+### STRUCT GENERATORS ######################################
 
 
 def test_create_empty_for_builtin_types_and_pandas_and_numpy() -> None:
@@ -385,7 +387,7 @@ def test_create_mask_vectorized_and_fallback() -> None:
     np.testing.assert_array_equal(mask_fb, np.array([True, False, True, False]))
 
 
-### STRUCT PROCESSORS: ALL/ANY, APPLY, CALCULATE ########################################
+### STRUCT PROCESSORS: ALL/ANY, APPLY, CALCULATE ###########
 
 
 def test_all_any_values_helpers() -> None:
@@ -446,7 +448,7 @@ def test_calculate_preserves_labels_for_dataframe() -> None:
     pd.testing.assert_series_equal(result_axis1, expected1)
 
 
-### FLATTEN / GROUPBY / REDUCE / LOGICAL REDUCE #########################################
+### FLATTEN / GROUPBY / REDUCE / LOGICAL REDUCE ############
 
 
 def test_flatten_array_respects_axis_order() -> None:
@@ -499,7 +501,7 @@ def test_reduce_with_initializer_and_without() -> None:
     assert util.reduce([], lambda x, y: x + y, initializer=None) is None
 
 
-### CONCAT / INSERT / UPDATE / UPSERT ###################################################
+### CONCAT / INSERT / UPDATE / UPSERT ######################
 
 
 def test_concat_for_lists_dicts_sets_arrays_and_tables() -> None:
@@ -563,7 +565,7 @@ def test_update_for_dataframe_common_keys_only() -> None:
     assert list(updated["a"]) == [1, 10]
 
 
-### FILTERING AND WHERE #################################################################
+### FILTERING AND WHERE ####################################
 
 
 def test_filter_and_filter_index_for_dataframe_and_dict() -> None:
@@ -616,7 +618,7 @@ def test_where_returns_matching_keys() -> None:
     assert keys == [1, 3]  # positions of 2 and 4
 
 
-### FILL NULL HELPERS ###################################################################
+### FILL NULL HELPERS ######################################
 
 
 def test_fill_null_for_dataframe_numeric_vs_object_defaults() -> None:
@@ -640,7 +642,7 @@ def test_fill_null_rows_and_cols_align_to_model() -> None:
     assert list(filled_cols["b"]) == [0.0]
 
 
-### TAKE / SLICE / REVERSE / UNIQUE #####################################################
+### TAKE / SLICE / REVERSE / UNIQUE ########################
 
 
 def test_take_take_not_take_at_and_take_not_at_for_dataframe_and_list() -> None:
@@ -700,7 +702,7 @@ def test_unique_for_list_and_dataframe_with_position_bias() -> None:
     assert middle.loc["a", "v"] == 20
 
 
-### REMOVE NULL / EMPTY / VALUE #########################################################
+### REMOVE NULL / EMPTY / VALUE ############################
 
 
 def test_remove_null_empty_and_value_for_dataframe_and_list() -> None:
@@ -713,7 +715,7 @@ def test_remove_null_empty_and_value_for_dataframe_and_list() -> None:
     assert list(util.remove_value(df.copy(), 0, conservative=True, axis=0).index) == [0, 1, 2]
 
 
-### TALLY ###############################################################################
+### TALLY ##################################################
 
 
 def test_tally_into_intervals() -> None:
@@ -724,7 +726,7 @@ def test_tally_into_intervals() -> None:
     assert list(tallied) == [0, 0, 1, 2]
 
 
-### LIST FIND HELPERS ###################################################################
+### LIST FIND HELPERS ######################################
 
 
 def test_find_all_and_find_not_and_with_variants() -> None:
@@ -746,7 +748,7 @@ def test_find_all_and_find_not_and_with_variants() -> None:
     assert util.find_last_not_in(l, {2, 3}) == 0
 
 
-### DATAFRAME COMBINE / CONCAT ROWS / CONCAT COLS ######################################
+### DATAFRAME COMBINE / CONCAT ROWS / CONCAT COLS ##########
 
 
 def test_combine_and_combine_all() -> None:
@@ -777,7 +779,7 @@ def test_concat_rows_and_concat_cols() -> None:
     assert list(cols.columns) == ["a", "b"]
 
 
-### ROW-LEVEL FILTERS ###################################################################
+### ROW-LEVEL FILTERS ######################################
 
 
 def _row_mapping(df: pd.DataFrame, **vals: Any) -> Mapping[Any, Any]:
@@ -818,7 +820,7 @@ def test_filter_rows_with_in_not_in_any_variants() -> None:
     assert list(rows_any_not_in.index) == [1, 2]
 
 
-### JOIN / MERGE / PIVOT / UNPIVOT ######################################################
+### JOIN / MERGE / PIVOT / UNPIVOT #########################
 
 
 def test_join_and_join_all() -> None:
@@ -887,7 +889,7 @@ def test_pivot_and_unpivot() -> None:
     assert not long["val"].isna().any()
 
 
-### ROW / COLUMN REMOVAL / RENAMING / ROTATION ##########################################
+### ROW / COLUMN REMOVAL / RENAMING / ROTATION #############
 
 
 def test_remove_row_and_col_and_at_variants() -> None:
@@ -937,7 +939,7 @@ def test_rotate_rows_and_cols_for_dataframe_with_multiple_columns() -> None:
     assert list(rotated_cols_prepend.columns) == ["b", "a"]
 
 
-### SUM / PRODUCT HELPERS ################################################################
+### SUM / PRODUCT HELPERS ##################################
 
 
 def test_sum_rows_and_sum_cols_and_product_rows_and_cols() -> None:
@@ -954,13 +956,14 @@ def test_sum_rows_and_sum_cols_and_product_rows_and_cols() -> None:
     pd.testing.assert_series_equal(prod_c, df.product(axis=1))
 
 
-## STRUCT UTIL TEST MAIN ################################################################
+## STRUCT UTIL TEST MAIN #################################################################
 
 __STRUCT_UTIL_TEST_MAIN_____________________________________ = ""
 
 
 def main() -> None:
     """Tests the structure utilities."""
+    configure_logging(level=logging.DEBUG)
     unittest.main()
 
 

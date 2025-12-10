@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Callable
 
-from nutil.struct.common import *
+from nutil.common import *
 
 ## COMMON TYPING ACCESSORS ###############################################################
 
@@ -95,7 +95,7 @@ def assert_types(
 
     is_allowed_collection = collection_predicate or is_struct
     if is_allowed_collection(value):
-        if allowed_collection_types:
+        if not is_empty(allowed_collection_types):
             raise TypeError(
                 f"'{name}' must be one of {{{get_type_names(allowed_collection_types)}}}; "
                 f"got {type(value).__name__}"

@@ -5,59 +5,23 @@
 
 ########################################################################################################################
 # Goal
-#   Test the connectivity utilities.
+#   Test the connecting utilities.
 ########################################################################################################################
 
-import unittest
+import logging
 
-from nconnect.db import *
-from ntest.unit.unittest import Test
-from nutil.struct.util import to_frame
+from nutil.io.logging import configure_logging
+from tests import *
 
-## CONNECT TEST CASES ####################################################################
+## CONNECTING TEST MAIN ##################################################################
 
-__CONNECT_TEST_CASES________________________________________ = ""
-
-### DB CONNECTOR ###########################################
+__CONNECTING_TEST_MAIN______________________________________ = ""
 
 
-class TestDB(Test):
-
-    def test(self):
-        df = to_frame([["x", 1.0], ["y", 2.0], ["z", 3.0]], names=["A", "B"])
-        self.assert_equals(
-            str(get_col_types(df)),
-            str(
-                {"index": db.Integer(), "A": db.String(length=8000), "B": db.Float(asdecimal=True)}
-            ),
-        )
-
-        self.assert_equals(
-            create_select_table_where_query("name", filtering_row={"A": 1}),
-            'SELECT * FROM "dbo"."name" WHERE "A"=1;',
-        )
-        self.assert_equals(
-            create_delete_table_query("name", filtering_row={"A": 1}),
-            'DELETE FROM "dbo"."name" WHERE "A"=1;',
-        )
-        self.assert_equals(
-            create_insert_table_query("name", ["A"], {"A": 1}),
-            'INSERT INTO "dbo"."name" ("A") VALUES (1);',
-        )
-        self.assert_equals(
-            create_update_table_query("name", ["A"], {"A": 1}),
-            'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;',
-        )
-
-
-## CONNECT TEST MAIN #####################################################################
-
-__CONNECT_TEST_MAIN_________________________________________ = ""
-
-
-def main():
-    """Tests the connectivity utilities."""
-    unittest.main()
+def main() -> None:
+    """Tests the connecting utilities."""
+    configure_logging(level=logging.DEBUG)
+    test_db.main()
 
 
 if __name__ == "__main__":
