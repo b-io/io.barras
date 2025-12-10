@@ -550,7 +550,7 @@ def get_values(
             return to_array([filter(v, keys=keys).values for k, v in s], element_type=element_type)
         return to_array([v.values for k, v in s if k in keys], element_type=element_type)
     elif is_table(s):
-        return filter(s, keys=keys).values
+        return filter(s, keys=keys).to_numpy(dtype=element_type)
     elif is_array(s):
         return s[keys]
     return to_array([s[k] for k in keys], element_type=element_type)
@@ -848,6 +848,7 @@ def set_values(
         if is_empty(new_values):
             return s
         if is_frame(s):
+            set_element_types(s, get_element_type(new_values), keys=keys)
             chained_assignment = pd.options.mode.chained_assignment
             try:
                 pd.options.mode.chained_assignment = None
@@ -855,6 +856,7 @@ def set_values(
             finally:
                 pd.options.mode.chained_assignment = chained_assignment
         elif is_series(s):
+            set_element_types(s, get_element_type(new_values), keys=keys)
             chained_assignment = pd.options.mode.chained_assignment
             try:
                 pd.options.mode.chained_assignment = None
