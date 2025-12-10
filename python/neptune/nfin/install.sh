@@ -24,3 +24,7 @@ poetry lock
 
 # 3. Build the package (create the `.whl` and `.tar.gz` files in the `dist` directory)
 poetry build
+
+# 4. Install the latest built wheel
+LATEST_WHEEL=$(ls -1 dist/*.whl | sort | tail -n 1)
+python -m pip install --upgrade --force-reinstall "$LATEST_WHEEL"

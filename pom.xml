@@ -50,7 +50,7 @@
 		<build.scriptFolder>scripts</build.scriptFolder>
 		<build.resourceFolder>resources</build.resourceFolder>
 		<build.testFolder>test</build.testFolder>
-		<build.targetFolder>target</build.targetFolder>
+		<build.targetFolder>dist</build.targetFolder>
 		<build.targetFilename>${project.artifactId}-${project.version}</build.targetFilename>
 		<!-- Compilation -->
 		<architecture.option />
