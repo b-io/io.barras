@@ -17,8 +17,10 @@ from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
 from ngui.charts import *
+from nutil.enums import StrEnum
 from nutil.math import *
 from nutil.scalar.date import *
+from nutil.scalar.string import generate_string
 
 ## TIME SERIES ENUMS #####################################################################
 
@@ -47,9 +49,7 @@ class Transformation(StrEnum):
 __TIME_SERIES_ACCESSORS_____________________________________ = ""
 
 
-def get_average_duration(
-    series: pd.Series, per: Union[timedelta, np.timedelta64, pd.Timedelta] = DAY
-) -> float:
+def get_average_duration(series: pd.Series, per: Union[timedelta, np.timedelta64, pd.Timedelta] = DAY) -> float:
     """
     Computes the average spacing between consecutive index timestamps normalized by `per`.
 
@@ -65,9 +65,7 @@ def get_average_duration(
     """
     # Coerce the index to datetimes and drop invalids
     index: pd.DatetimeIndex = (
-        series.index
-        if is_time_index(series.index)
-        else pd.to_datetime(series.index, errors="coerce")
+        series.index if is_time_index(series.index) else pd.to_datetime(series.index, errors="coerce")
     )
     index = index[~index.isna()]
     if len(index) < 2:
@@ -109,9 +107,108 @@ def to_time_index(series, format="%Y-%m-%d"):
     series.index = pd.to_datetime(series.index, format=format, errors="raise")
 
 
-## TIME SERIES FUNCTIONS #################################################################
+## TIME SERIES FIGURES ###################################################################
 
-__TIME_SERIES_______________________________________________ = ""
+__TIME_SERIES_FIGURES_______________________________________ = ""
+
+
+def plot_decomposition(
+    trend,
+    seasonal,
+    residual,
+    # Figure
+    fig=None,
+    title="Seasonal-Trend Decomposition",
+    title_x="Time",
+    title_y=None,
+    width=DEFAULT_WIDTH,
+    height=DEFAULT_HEIGHT,
+    margin=None,
+    # Chart
+    color="black",
+    trend_color="red",
+    seasonal_color="gray",
+    residual_color="lightgray",
+    line_width=DEFAULT_LINE_WIDTH,
+    marker_size=DEFAULT_MARKER_SIZE,
+    name=None,
+    stackgroup=None,
+    yaxis=0,
+    # Flags
+    show_legend=False,
+):
+    if is_null(fig):
+        fig = create_figure(title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin)
+    if is_null(stackgroup):
+        stackgroup = generate_string(10)
+    fig.add_trace(
+        draw(
+            x=trend.index,
+            y=get_col(trend),
+            # Chart
+            color=trend_color,
+            fill="none",
+            line_width=line_width,
+            marker_size=marker_size,
+            name=paste(name, "(Trend Component)"),
+            stackgroup=stackgroup,
+            yaxis=yaxis,
+            # Flags
+            show_legend=show_legend,
+        )
+    )
+    fig.add_trace(
+        draw(
+            x=seasonal.index,
+            y=get_col(seasonal),
+            # Chart
+            color=seasonal_color,
+            fill="tonexty",
+            line_width=line_width,
+            marker_size=marker_size,
+            name=paste(name, "(Seasonal Component)"),
+            stackgroup=stackgroup,
+            yaxis=yaxis,
+            # Flags
+            show_legend=show_legend,
+        )
+    )
+    fig.add_trace(
+        draw(
+            x=residual.index,
+            y=get_col(residual),
+            # Chart
+            color=residual_color,
+            fill="tonexty",
+            line_width=line_width,
+            marker_size=marker_size,
+            name=paste(name, "(Residual Component)"),
+            stackgroup=stackgroup,
+            yaxis=yaxis,
+            # Flags
+            show_legend=show_legend,
+        )
+    )
+    series = trend + seasonal + residual
+    fig.add_trace(
+        draw(
+            x=series.index,
+            y=get_col(series),
+            # Chart
+            color=color,
+            line_width=line_width,
+            marker_size=marker_size,
+            name=name,
+            yaxis=yaxis,
+        )
+    )
+    return fig
+
+
+## TIME SERIES PROCESSORS ################################################################
+
+__TIME_SERIES_PROCESSORS____________________________________ = ""
+
 
 ### TIME SERIES IMPUTATION #################################
 
@@ -122,9 +219,7 @@ def clean_series(series, pos=POSITION):
     return sort_index(unique(remove_null(series), pos=pos))
 
 
-def prepare_series(
-    series, date_from=None, date_to=None, fill=False, interpolate=True, freq=FREQUENCY, pos=POSITION
-):
+def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True, freq=FREQUENCY, pos=POSITION):
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
     series = transform_series(series, freq=freq, pos=pos)
     if is_null(date_from):
@@ -132,10 +227,7 @@ def prepare_series(
     if is_null(date_to):
         date_to = get_last(series.index)
     series = fill_null_rows(
-        series[
-            (series.index >= date_from - FREQUENCY_TO_RELATIVE_DURATION[freq])
-            & (series.index <= date_to)
-        ],
+        series[(series.index >= date_from - FREQUENCY_TO_RELATIVE_DURATION[freq]) & (series.index <= date_to)],
         create_datetime_sequence(date_from, date_to, freq=freq, pos=pos),
     )
     set_freq(series, freq=freq, pos=pos)
@@ -357,9 +449,7 @@ def prune_series(
     return pruned.sort_index()
 
 
-def get_anchor_for_key(
-    key: Tuple[int, ...], freq: Frequency = FREQUENCY, pos: Position = POSITION
-) -> pd.Timestamp:
+def get_anchor_for_key(key: Tuple[int, ...], freq: Frequency = FREQUENCY, pos: Position = POSITION) -> pd.Timestamp:
     """
     Selects an anchor timestamp (start/middle/end) for a grouped index `key` at `freq`.
 
@@ -688,9 +778,7 @@ def forecast_series(
     """Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
     series = prepare_series(series, freq=freq, pos=pos)
-    seasonal_period_length = seasonal_period * get_period_length(
-        get_date(), period=period, freq=freq
-    )
+    seasonal_period_length = seasonal_period * get_period_length(get_date(), period=period, freq=freq)
     predictions = set_index(to_frame([]), series.index)
     for s in to_series(series) if is_frame(series) else [series]:
         model = ExponentialSmoothing(
@@ -703,103 +791,3 @@ def forecast_series(
         prediction = set_names(model.forecast(steps=horizon * seasonal_period_length), s)
         predictions = concat_cols(predictions, concat_rows(s, prediction))
     return predictions
-
-
-### TIME SERIES FIGURE #####################################
-
-__TIME_SERIES_FIGURE________________________________________ = ""
-
-
-def plot_decomposition(
-    trend,
-    seasonal,
-    residual,
-    # Figure
-    fig=None,
-    title="Seasonal-Trend Decomposition",
-    title_x="Time",
-    title_y=None,
-    width=DEFAULT_WIDTH,
-    height=DEFAULT_HEIGHT,
-    margin=None,
-    # Chart
-    color="black",
-    trend_color="red",
-    seasonal_color="gray",
-    residual_color="lightgray",
-    line_width=DEFAULT_LINE_WIDTH,
-    marker_size=DEFAULT_MARKER_SIZE,
-    name=None,
-    stackgroup=None,
-    yaxis=0,
-    # Flags
-    show_legend=False,
-):
-    if is_null(fig):
-        fig = create_figure(
-            title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin
-        )
-    if is_null(stackgroup):
-        stackgroup = generate_string(10)
-    fig.add_trace(
-        draw(
-            x=trend.index,
-            y=get_col(trend),
-            # Chart
-            color=trend_color,
-            fill="none",
-            line_width=line_width,
-            marker_size=marker_size,
-            name=paste(name, "(Trend Component)"),
-            stackgroup=stackgroup,
-            yaxis=yaxis,
-            # Flags
-            show_legend=show_legend,
-        )
-    )
-    fig.add_trace(
-        draw(
-            x=seasonal.index,
-            y=get_col(seasonal),
-            # Chart
-            color=seasonal_color,
-            fill="tonexty",
-            line_width=line_width,
-            marker_size=marker_size,
-            name=paste(name, "(Seasonal Component)"),
-            stackgroup=stackgroup,
-            yaxis=yaxis,
-            # Flags
-            show_legend=show_legend,
-        )
-    )
-    fig.add_trace(
-        draw(
-            x=residual.index,
-            y=get_col(residual),
-            # Chart
-            color=residual_color,
-            fill="tonexty",
-            line_width=line_width,
-            marker_size=marker_size,
-            name=paste(name, "(Residual Component)"),
-            stackgroup=stackgroup,
-            yaxis=yaxis,
-            # Flags
-            show_legend=show_legend,
-        )
-    )
-    series = trend + seasonal + residual
-    fig.add_trace(
-        draw(
-            x=series.index,
-            y=get_col(series),
-            # Chart
-            color=color,
-            line_width=line_width,
-            marker_size=marker_size,
-            name=name,
-            yaxis=yaxis,
-        )
-    )
-    return fig

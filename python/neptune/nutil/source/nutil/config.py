@@ -40,7 +40,8 @@ class EnvInterpolation(BasicInterpolation):
 
 __CONFIG_CONSTANTS__________________________________________ = ""
 
-CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
+
+### DEFAULTS ###############################################
 
 # The default configuration (values are coerced to strings for `ConfigParser`)
 DEFAULT_CONFIG = {
@@ -73,6 +74,20 @@ DEFAULT_CONFIG = {
         "position": Position.AUTO,
     },
 }
+
+DEFAULT_SECRET_MARKERS: Tuple[str, ...] = (
+    "password",
+    "secret",
+    "token",
+    "access_key",
+    "api_key",
+    "private_key",
+)
+
+
+### GLOBALS ################################################
+
+CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
 
 
 ## CONFIG ACCESSORS ######################################################################
@@ -277,8 +292,7 @@ def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) ->
         data: The nested defaults (sections → options).
     """
     sanitized_config: Dict[str, Dict[str, str]] = {
-        section: {opt: format_value(val) for opt, val in options.items()}
-        for section, options in data.items()
+        section: {opt: format_value(val) for opt, val in options.items()} for section, options in data.items()
     }
     config.read_dict(sanitized_config)
 
@@ -320,9 +334,7 @@ VERBOSE: bool = get_bool("console", "verbose") or False
 # Date
 DATE_FORMAT: Optional[str] = get_str("date", "dateFormat")
 TIME_FORMAT: Optional[str] = get_str("date", "timeFormat")
-DATE_TIME_FORMAT: Optional[str] = (
-    f"{DATE_FORMAT} {TIME_FORMAT}" if DATE_FORMAT and TIME_FORMAT else None
-)
+DATE_TIME_FORMAT: Optional[str] = f"{DATE_FORMAT} {TIME_FORMAT}" if DATE_FORMAT and TIME_FORMAT else None
 
 # Series
 AGGREGATION: Optional[Aggregation] = get_enum("series", "aggregation", Aggregation)
@@ -331,12 +343,12 @@ PERIOD: Optional[str] = get_str("series", "period")
 POSITION: Optional[Position] = get_enum("series", "position", Position)
 
 
-## CONFIG VIEW ###########################################################################
+## CONFIG CONVERTERS #####################################################################
+
+__CONFIG_CONVERTERS_________________________________________ = ""
 
 
-def render_config(
-    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, align: bool = True
-) -> str:
+def render_config(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, align: bool = True) -> str:
     """
     Renders a readable, aligned multi-line string of the configuration.
 
@@ -365,8 +377,15 @@ def render_config(
     return "\n".join(lines).rstrip()  # no trailing spaces, no extra trailing newline
 
 
+##############################
+
+
 def config_to_dict(
-    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True
+    config: ConfigParser,
+    *,
+    resolve_env: bool = True,
+    redact: bool = True,
+    secret_markers: Iterable[str] = DEFAULT_SECRET_MARKERS,
 ) -> Dict[str, Dict[str, str]]:
     """
     Converts a `ConfigParser` to a nested dict for inspection.
@@ -379,16 +398,26 @@ def config_to_dict(
     Returns:
         A nested dict of sections → options → string values.
     """
-    secret_markers = (
-        "password",
-        "passwd",
-        "secret",
-        "token",
-        "apikey",
-        "api_key",
-        "access_key",
-        "private_key",
-    )
+
+    def _redact(option: str, value: str, *, patterns: Iterable[str]) -> str:
+        """
+        Redacts a value when its `option` name matches one of the specified patterns.
+
+        Args:
+            option: The option key (e.g., `"password"`, `"token"`).
+            value: The resolved string value.
+            patterns: The iterable of case-insensitive substrings to match in `option`.
+
+        Returns:
+            The redacted value if matched; otherwise the original `value`.
+        """
+        opt = option.lower()
+        for p in patterns:
+            if p in opt:
+                # Keep the length hint for debugging without leaking the value
+                return f"<redacted:{len(value)}>"
+        return value
+
     snapshot: Dict[str, Dict[str, str]] = {}
     for section in config.sections():
         opts: Dict[str, str] = {}
@@ -399,26 +428,6 @@ def config_to_dict(
     return snapshot
 
 
-def _redact(option: str, value: str, *, patterns: Iterable[str]) -> str:
-    """
-    Redacts a value when its `option` name matches one of the specified patterns.
-
-    Args:
-        option: The option key (e.g., `"password"`, `"token"`).
-        value: The resolved string value.
-        patterns: The iterable of case-insensitive substrings to match in `option`.
-
-    Returns:
-        The redacted value if matched; otherwise the original `value`.
-    """
-    opt = option.lower()
-    for p in patterns:
-        if p in opt:
-            # Keep the length hint for debugging without leaking the value
-            return f"<redacted:{len(value)}>"
-    return value
-
-
 def config_to_ini(config: ConfigParser) -> str:
     """Serializes a `ConfigParser` to an INI string (no comments)."""
     buffer = StringIO()
@@ -426,9 +435,7 @@ def config_to_ini(config: ConfigParser) -> str:
     return buffer.getvalue().rstrip()
 
 
-def config_to_json(
-    config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, indent: int = 2
-) -> str:
+def config_to_json(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, indent: int = 2) -> str:
     """
     Serializes a `ConfigParser` snapshot to a JSON string.
 

@@ -17,12 +17,17 @@ from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
 
-from nutil.scalar.date import *
+from nutil.scalar.date import DEFAULT_DATE_TIME_FORMAT
+from nutil.scalar.number import ceil
+from nutil.scalar.string import dquote, par, quote
 from nutil.struct.util import *
 
 ## DB CONSTANTS ##########################################################################
 
 __DB_CONSTANTS______________________________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 # The default flag specifying whether the DB is Microsoft SQL Server
 DEFAULT_IS_MSSQL = True
@@ -41,9 +46,10 @@ DEFAULT_CHUNK_SIZE = 100
 DEFAULT_DEBUG_INTERVAL = 1000
 
 
-## DB FUNCTIONS ##########################################################################
+## DB PROCESSORS #########################################################################
 
-__DB________________________________________________________ = ""
+__DB_PROCESSORS_____________________________________________ = ""
+
 
 ### DB CONNECT #############################################
 
@@ -181,11 +187,7 @@ def create_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAUL
             [
                 collapse(
                     format_name(col),
-                    (
-                        " IS "
-                        if is_null(filtering_row[col])
-                        else " IN " if is_struct(filtering_row[col]) else "="
-                    ),
+                    " IS " if is_null(filtering_row[col]) else " IN " if is_struct(filtering_row[col]) else "=",
                     format(filtering_row[col], is_mssql=is_mssql),
                 )
                 for col in cols
@@ -266,9 +268,7 @@ def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
 
 def get_full_table_name(table, schema=DEFAULT_SCHEMA):
     """Returns the full table name (in the specified schema)."""
-    return collapse(
-        collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table)
-    )
+    return collapse(collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table))
 
 
 ##############################
@@ -283,9 +283,7 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
         # Check the existence of the columns in the table
         for col in df:
             if col not in table_cols:
-                logging.warning(
-                    "The column", quote(col), "does not exist in the table", quote(table)
-                )
+                logging.warning("The column", quote(col), "does not exist in the table", quote(table))
     return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
@@ -306,9 +304,7 @@ def get_filtering_cols(
                 # Check the existence of the filtering columns in the dataframe
                 for col in filtering_cols:
                     if col not in df:
-                        logging.warning(
-                            "The filtering column", quote(col), "does not exist in the dataframe"
-                        )
+                        logging.warning("The filtering column", quote(col), "does not exist in the dataframe")
         else:
             filtering_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = include_list(df, filtering_cols)
@@ -368,9 +364,7 @@ def get_col_types(
         if "bool" in col_type_name:
             col_types.update({col: db.Boolean()})
         elif "datetime" in col_type_name:
-            col_types.update(
-                {col: (db.Date(timezone=timezone) if to_date else db.DateTime(timezone=timezone))}
-            )
+            col_types.update({col: (db.Date(timezone=timezone) if to_date else db.DateTime(timezone=timezone))})
         elif "float" in col_type_name:
             col_types.update(
                 {
@@ -499,14 +493,8 @@ def create_select_table_where_query(
             "*" if is_empty(cols) else format_cols(cols),
             "FROM",
             get_full_table_name(table, schema=schema),
-            create_where_clause(
-                filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql
-            ),
-            (
-                paste("ORDER BY", format_cols(order_cols, suffixes=order_directions))
-                if not is_empty(order_cols)
-                else ""
-            ),
+            create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql),
+            (paste("ORDER BY", format_cols(order_cols, suffixes=order_directions)) if not is_empty(order_cols) else ""),
             paste("LIMIT", n) if not is_null(n) and not is_mssql else "",
         )
         + ";"
@@ -539,9 +527,7 @@ def select_table(
         logging.debug("Select the table", quote(table))
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
-    chunks = pd.read_sql_table(
-        table, engine, chunksize=chunk_size, columns=cols, index_col=index_cols, schema=schema
-    )
+    chunks = pd.read_sql_table(table, engine, chunksize=chunk_size, columns=cols, index_col=index_cols, schema=schema)
     if is_null(chunk_size):
         if row_count >= 0 and len(chunks) >= row_count:
             return chunks.head(row_count)
@@ -589,11 +575,7 @@ def select_table_where(
             "*" if is_empty(cols) else format_cols(cols),
             "from the table",
             quote(table),
-            (
-                paste("filtering on", format_cols(filtering_cols))
-                if not is_empty(filtering_cols)
-                else ""
-            ),
+            (paste("filtering on", format_cols(filtering_cols)) if not is_empty(filtering_cols) else ""),
         )
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
@@ -648,9 +630,7 @@ def create_delete_table_query(
         paste(
             "DELETE FROM",
             get_full_table_name(table, schema=schema),
-            create_where_clause(
-                filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql
-            ),
+            create_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql),
         )
         + ";"
     )
@@ -779,9 +759,7 @@ def bulk_delete_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                logging.debug(
-                    "Chunk the bulk-delete query from", index_from + 1, "to", index_to, "rows"
-                )
+                logging.debug("Chunk the bulk-delete query from", index_from + 1, "to", index_to, "rows")
             delete_count += bulk_delete_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -884,9 +862,7 @@ def insert_table(
     # Get the columns to insert
     cols = get_common_cols(df, table, table_cols, test=test)
     if is_null(insert_id):
-        insert_id = not is_empty(
-            include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql))
-        )
+        insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
 
     debug_query("insert", len(df), table, verbose=verbose)
 
@@ -947,9 +923,7 @@ def bulk_insert_table(
     # Get the columns to insert
     cols = get_common_cols(df, table, table_cols, test=test)
     if is_null(insert_id):
-        insert_id = not is_empty(
-            include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql))
-        )
+        insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
 
     # Chunk the bulk query
     if len(df) > chunk_size:
@@ -961,9 +935,7 @@ def bulk_insert_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                logging.debug(
-                    "Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows"
-                )
+                logging.debug("Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows")
             insert_count += bulk_insert_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -1009,9 +981,7 @@ def bulk_insert_table(
 __DB_UPDATE_________________________________________________ = ""
 
 
-def create_update_table_query(
-    table, cols, row, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA
-):
+def create_update_table_query(table, cols, row, filtering_cols=None, is_mssql=DEFAULT_IS_MSSQL, schema=DEFAULT_SCHEMA):
     """Creates the query to update the rows matching the rows of the specified dataframe at the
     specified filtering columns of the specified table (in the specified schema)."""
     return (
@@ -1019,15 +989,8 @@ def create_update_table_query(
             "UPDATE",
             get_full_table_name(table, schema=schema),
             "SET",
-            collist(
-                [
-                    collapse(format_name(col), "=", format(row[col], is_mssql=is_mssql))
-                    for col in cols
-                ]
-            ),
-            create_where_clause(
-                filtering_cols=filtering_cols, filtering_row=row, is_mssql=is_mssql
-            ),
+            collist([collapse(format_name(col), "=", format(row[col], is_mssql=is_mssql)) for col in cols]),
+            create_where_clause(filtering_cols=filtering_cols, filtering_row=row, is_mssql=is_mssql),
         )
         + ";"
     )
@@ -1156,9 +1119,7 @@ def bulk_update_table(
             index_from = index_to
             index_to = minimum(index_from + chunk_size, len(df))
             if verbose:
-                logging.debug(
-                    "Chunk the bulk-update query from", index_from + 1, "to", index_to, "rows"
-                )
+                logging.debug("Chunk the bulk-update query from", index_from + 1, "to", index_to, "rows")
             update_count += bulk_update_table(
                 engine,
                 df.iloc[index_from:index_to],
@@ -1269,9 +1230,7 @@ def upsert_table(
             )
             for index, row in df.iterrows():
                 if is_empty(filter_rows(t, row)):
-                    warn_row(
-                        "update/insert", index, table, cols=filtering_cols, row=row, verbose=verbose
-                    )
+                    warn_row("update/insert", index, table, cols=filtering_cols, row=row, verbose=verbose)
         if upsert_count == 0:
             warn_query("update/insert", table, verbose=verbose)
         elif upsert_count < len(df):
@@ -1335,13 +1294,9 @@ def migrate(
                 "the table",
                 quote(table),
             )
-            table_metadata = get_table_metadata(
-                engine_from, table, metadata=metadata, schema=schema
-            )
+            table_metadata = get_table_metadata(engine_from, table, metadata=metadata, schema=schema)
             for col in table_metadata.columns:
-                update_col(
-                    col, collation=collation, is_mssql_from=is_mssql_from, is_mssql_to=is_mssql_to
-                )
+                update_col(col, collation=collation, is_mssql_from=is_mssql_from, is_mssql_to=is_mssql_to)
         if is_mssql_from and not is_mssql_to:
             metadata_to_lowercase(metadata)
         if drop:
@@ -1354,9 +1309,7 @@ def migrate(
         for table in tables:
             logging.debug("Fill the table", quote(table))
             if is_null(filtering_row):
-                df = select_table(
-                    engine_from, table, chunk_size=chunk_size, schema=schema, verbose=verbose
-                )
+                df = select_table(engine_from, table, chunk_size=chunk_size, schema=schema, verbose=verbose)
             else:
                 df = select_table_where(
                     engine_from,
@@ -1413,9 +1366,7 @@ def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_
     if hasattr(col.server_default, "arg") and isinstance(col.server_default.arg, TextClause):
         if is_mssql_from and not is_mssql_to:
             if isinstance(col.type, mssql.base.BIT):
-                col.server_default.arg.text = col.server_default.arg.text.replace(
-                    "0", "FALSE"
-                ).replace("1", "TRUE")
+                col.server_default.arg.text = col.server_default.arg.text.replace("0", "FALSE").replace("1", "TRUE")
             elif (
                 isinstance(col.type, mssql.base.DATE)
                 or isinstance(col.type, mssql.base.DATETIME)
@@ -1427,13 +1378,9 @@ def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_
                 col.server_default.arg.text = col.server_default.arg.text.replace("getdate", "now")
         elif not is_mssql_from and is_mssql_to:
             if isinstance(col.type, db.BOOLEAN):
-                col.server_default.arg.text = col.server_default.arg.text.replace(
-                    "FALSE", "0"
-                ).replace("TRUE", "1")
+                col.server_default.arg.text = col.server_default.arg.text.replace("FALSE", "0").replace("TRUE", "1")
             elif (
-                isinstance(col.type, db.DATE)
-                or isinstance(col.type, db.DATETIME)
-                or isinstance(col.type, db.TIMESTAMP)
+                isinstance(col.type, db.DATE) or isinstance(col.type, db.DATETIME) or isinstance(col.type, db.TIMESTAMP)
             ):
                 col.server_default.arg.text = col.server_default.arg.text.replace("now", "getdate")
 

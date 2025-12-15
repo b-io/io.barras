@@ -17,6 +17,7 @@ import numpy as np
 
 __CONSTANTS_________________________________________________ = ""
 
+
 ### DEFAULTS ###############################################
 
 # The default encoding
@@ -44,6 +45,7 @@ DEFAULT_SEVERITY_LEVEL = 4
 # The default flag specifying whether to enable the verbose mode
 DEFAULT_VERBOSE = True
 
+
 ### GLOBALS ################################################
 
 BIT_COUNT = 8 * struct.calcsize("P")
@@ -58,6 +60,7 @@ NA_NAME = "N/A"
 
 INF = np.inf
 NAN = np.nan
+
 
 ### TYPES ##################################################
 

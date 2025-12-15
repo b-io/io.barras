@@ -8,7 +8,8 @@
 #   Provide utility formatters.
 ########################################################################################################################
 
-from nutil.scalar.string import *
+from nutil.common import *
+from nutil.scalar.string import BULLET, COLON, NEWLINE
 
 ## FORMATTER PROCESSORS ##################################################################
 

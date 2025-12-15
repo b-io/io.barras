@@ -9,18 +9,22 @@
 ########################################################################################################################
 
 import html
+import re
 from dataclasses import dataclass
+from typing import Dict, Optional, Union
 
 import ftfy
 import unicodedata
 
 from nutil.enums import StrEnum
-from nutil.scalar.string import *
+from nutil.scalar.string import LOWERCASE
+
+## SANITIZERS CONFIG #####################################################################
+
+__SANITIZERS_CONFIG_________________________________________ = ""
 
 
-## SANITIZERS ############################################################################
-
-### CONFIG #################################################
+### DEHYPHENATION ##########################################
 
 
 class DehyphenationMode(StrEnum):
@@ -96,9 +100,7 @@ MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(r"\n{2,}")
 
 # The regex patterns to recognize hyphens across lines (to be collapsed to a single line)
 ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(r"(?<=\w)-\n(?=\w)")
-LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(
-    rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])"
-)
+LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])")
 
 
 ### TEXT ###################################################
@@ -160,9 +162,7 @@ def clean_text(
 
     # 6) Whitespace normalization while preserving the line structure
     s = FORM_FEED_CHARS_PATTERN.sub("\n", s)  # form feed → newline
-    s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(
-        " ", s
-    )  # collapse horizontal whitespace runs
+    s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(" ", s)  # collapse horizontal whitespace runs
     if sanitize_config.collapse_blank_lines:
         s = MULTIPLE_NEWLINES_PATTERN.sub("\n", s)  # normalize multiple newlines
 

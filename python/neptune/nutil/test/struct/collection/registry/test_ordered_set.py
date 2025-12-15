@@ -21,8 +21,9 @@ import pytest
 
 from nutil.struct.collection.registry.ordered_set import *
 
+## ORDERED SET TEST FIXTURES #############################################################
 
-## FIXTURES ##############################################################################
+__ORDERED_SET_TEST_FIXTURES_________________________________ = ""
 
 
 @pytest.fixture
@@ -37,7 +38,9 @@ def s_bcd() -> OrderedSet[str]:
     return OrderedSet(["b", "c", "d"])
 
 
-## CONSTRUCTION & BASICS #################################################################
+## ORDERED SET TESTS #####################################################################
+
+__ORDERED_SET_TESTS_________________________________________ = ""
 
 
 def test_construct_deduplicates_and_preserves_order() -> None:
@@ -56,7 +59,7 @@ def test_to_iterable_zero_copy_reflects_updates(s_abc: OrderedSet[str]) -> None:
     assert list(view) == ["a", "b", "c", "d"]
 
 
-## ITERATION, INDEXING, SLICING, REVERSAL ################################################
+### ITERATION, INDEXING, SLICING, REVERSAL #################
 
 
 def test_iter_and_reversed(s_abc: OrderedSet[str]) -> None:
@@ -124,7 +127,7 @@ def test_numpy_fancy_indexing_with_ordered_set_2d() -> None:
     assert np.array_equal(A[:, list(cols)], [[10, 12], [20, 22], [30, 32], [40, 42]])
 
 
-## FIRST / LAST ##########################################################################
+### FIRST / LAST ###########################################
 
 
 def test_first_last_non_empty(s_abc: OrderedSet[str]) -> None:
@@ -144,7 +147,7 @@ def test_first_last_empty_raise() -> None:
     assert "OrderedSet is empty" in str(e2.value)
 
 
-## MUTATORS ##############################################################################
+### MUTATORS ###############################################
 
 
 def test_add_discard_clear(s_abc: OrderedSet[str]) -> None:
@@ -171,7 +174,7 @@ def test_update_with_iterables_and_orderedset() -> None:
     assert list(s) == ["a", "b", "c", "d", "e"]
 
 
-## ORDER-PRESERVING SET ALGEBRA ##########################################################
+### ORDER-PRESERVING SET ALGEBRA ###########################
 
 
 def test_intersection_ordered(s_abc: OrderedSet[str], s_bcd: OrderedSet[str]) -> None:
@@ -222,7 +225,7 @@ def test_inplace_set_ops_preserve_documented_order() -> None:
     assert list(s) == ["c", "e", "y"]
 
 
-## SUBSET / SUPERSET #####################################################################
+### SUBSET / SUPERSET ######################################
 
 
 def test_subset_superset_relations() -> None:
@@ -236,7 +239,7 @@ def test_subset_superset_relations() -> None:
     assert not (s < OrderedSet([1, 2, 3]))
 
 
-## CONVERTERS / PROCESSORS / VERIFIERS ###################################################
+### CONVERTERS / PROCESSORS / VERIFIERS ####################
 
 
 def test_to_ordered_set_variants() -> None:

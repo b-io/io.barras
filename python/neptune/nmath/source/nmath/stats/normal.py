@@ -12,7 +12,8 @@ from scipy.special import ndtr
 
 from nmath.common import *
 from nutil.math import *
-from nutil.struct.util import *
+from nutil.scalar.string import par
+from nutil.struct.util import apply, mean, simplify, sort, std
 
 ## NORMAL CONSTANTS ######################################################################
 
@@ -184,9 +185,9 @@ class NormalKDE(Distribution):
         return add(self.mean(), margin)
 
 
-## NORMAL FUNCTIONS ######################################################################
+## NORMAL PROCESSORS #####################################################################
 
-__NORMAL____________________________________________________ = ""
+__NORMAL_PROCESSORS_________________________________________ = ""
 
 
 def generate(size=1, mu=0, sigma=1):

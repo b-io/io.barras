@@ -17,8 +17,10 @@ from typing import (
 from nutil.common import *
 from nutil.scalar.string import to_string
 
-
 ## TABLE CLASSES #########################################################################
+
+__TABLE_CLASSES_____________________________________________ = ""
+
 
 ### ROWS ###################################################
 
@@ -33,6 +35,9 @@ Row = Union[Dataclass, Iterable[Any], Mapping[str, Any], type]
 
 
 ## TABLE ACCESSORS #######################################################################
+
+__TABLE_ACCESSORS___________________________________________ = ""
+
 
 ### ROWS ###################################################
 
@@ -142,6 +147,9 @@ def get_annotations_values(x: Any, keys: Optional[Container[str]] = None) -> Tup
 
 ## TABLE PROCESSORS ######################################################################
 
+__TABLE_PROCESSORS__________________________________________ = ""
+
+
 ### ROWS ###################################################
 
 
@@ -176,9 +184,7 @@ def deduplicate_rows(rows: Iterable[Row], keys: Optional[Container[str]] = None)
         try:
             is_already_seen = identity in seen
         except TypeError as e:
-            raise TypeError(
-                f"Row identity {identity!r} derived from row {row!r} is not hashable"
-            ) from e
+            raise TypeError(f"Row identity {identity!r} derived from row {row!r} is not hashable") from e
         if not is_already_seen:
             out.append(row)
             seen.add(identity)

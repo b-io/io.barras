@@ -111,14 +111,10 @@ from nfin.time_series import transform_series, Transformation
 import pandas as pd
 
 # Simulated price series
-prices = pd.Series([100, 102, 105, 103, 108],
-                   index=pd.date_range("2024-01-01", periods=5))
+prices = pd.Series([100, 102, 105, 103, 108], index=pd.date_range("2024-01-01", periods=5))
 
 # Compute log returns, grouped by month and using mean aggregation
-log_returns = transform_series(
-    prices,
-    transf=Transformation.LOG_RETURNS
-)
+log_returns = transform_series(prices, transf=Transformation.LOG_RETURNS)
 
 print(log_returns)  # output: log return series
 ```
@@ -129,12 +125,8 @@ print(log_returns)  # output: log return series
 from nlearn.nlp import TextClassifier
 
 # Train a simple text classifier
-texts = [
-    "Python is great for data science.",
-    "Neural networks are a part of deep learning.",
-    "Stocks and bonds are financial assets.",
-    "Portfolio diversification reduces risk."
-]
+texts = ["Python is great for data science.", "Neural networks are a part of deep learning.",
+        "Stocks and bonds are financial assets.", "Portfolio diversification reduces risk."]
 labels = ["tech", "tech", "finance", "finance"]
 
 classifier = TextClassifier()
@@ -153,10 +145,7 @@ from ngui.charts import plot_multi_series
 
 # Generate multiple time series
 dates = pd.date_range("2024-01-01", periods=5)
-df = pd.DataFrame({
-    "CPU": [10, 15, 12, 18, 14],
-    "RAM": [30, 35, 32, 36, 31]
-}, index=dates)
+df = pd.DataFrame({"CPU": [10, 15, 12, 18, 14], "RAM": [30, 35, 32, 36, 31]}, index=dates)
 
 # Plot both series on the same chart
 plot_multi_series(df, title="System Metrics", show_legend=True, show_date=True)

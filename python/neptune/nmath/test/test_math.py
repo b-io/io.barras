@@ -15,7 +15,8 @@ from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
 from nutil.io.logging import configure_logging
 from nutil.math import *
-from nutil.struct.util import *
+from nutil.scalar.string import par
+from nutil.struct.util import concat_cols, get_col, to_series
 from nutil.test.unittest import Test
 
 ## MATH TEST CONSTANTS ###################################################################
@@ -31,7 +32,7 @@ SIZE = 1000
 __MATH_TEST_CASES___________________________________________ = ""
 
 
-### STATISTICS #############################################
+### STATISTICS TEST ########################################
 
 
 class TestStats(Test):

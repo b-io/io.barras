@@ -66,9 +66,7 @@ class FinalSingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(
-                    f"Create the final singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Create the final singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._instance = super(FinalSingletonMeta, cls).__call__(*args, **kwargs)
             elif args or kwargs:
                 logging.debug(
@@ -186,9 +184,7 @@ class SingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(
-                    f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._args = args
                 cls._kwargs = kwargs
             else:
@@ -305,9 +301,7 @@ class SingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(
-                    f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._args = args
                 cls._kwargs = kwargs
                 cls._instance = super(SingletonMeta, cls).__call__(*args, **kwargs)
@@ -331,9 +325,7 @@ class SingletonMeta(type):
         """Deletes the singleton instance if it exists (does nothing otherwise)."""
         with cls._lock:
             if cls._instance is not None:
-                logging.debug(
-                    f"Delete the singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Delete the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._instance = None
 
 
@@ -359,9 +351,7 @@ class TempSingletonMeta(type):
         """Returns the temp singleton; (re)creates it and refreshes its timestamp."""
         with cls._lock:
             if cls._instance is None:
-                logging.debug(
-                    f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._args = args
                 cls._kwargs = kwargs
             else:
@@ -483,9 +473,7 @@ class TempSingletonMeta(type):
     def set(cls: Type[T], *args: Any, _lifespan: Optional[int] = None, **kwargs: Any) -> T:
         """Creates or replaces the temp singleton instance and (optionally) sets the lifespan."""
         with cls._lock:
-            logging.debug(
-                f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-            )
+            logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
             cls._args = args
             cls._kwargs = kwargs
             if _lifespan is not None:
@@ -518,9 +506,7 @@ class TempSingletonMeta(type):
         """Deletes the temp singleton instance if it exists and clears its creation timestamp."""
         with cls._lock:
             if cls._instance is not None:
-                logging.debug(
-                    f"Delete the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'."
-                )
+                logging.debug(f"Delete the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
                 cls._instance = None
                 cls._created_at = 0
 
@@ -531,9 +517,7 @@ class TempSingletonMeta(type):
         if cls._lifespan <= 0:
             return True
         age = cls._now() - cls._created_at
-        logging.debug(
-            f"Current lifespan of '{cls.__module__}.{cls.__qualname__}': {age}s (max {cls._lifespan}s)"
-        )
+        logging.debug(f"Current lifespan of '{cls.__module__}.{cls.__qualname__}': {age}s (max {cls._lifespan}s)")
         return age < cls._lifespan
 
     @staticmethod

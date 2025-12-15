@@ -10,13 +10,14 @@
 
 import random
 
+import numpy as np
 import pytest
 
-from nutil.struct.util import *
 from nutil.test.util import PRECISION, TEST_COUNT
 
+## PYTEST FIXTURES #######################################################################
 
-## FIXTURES ##############################################################################
+__PYTEST_FIXTURES___________________________________________ = ""
 
 
 @pytest.fixture(autouse=True)

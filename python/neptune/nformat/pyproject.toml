@@ -35,10 +35,11 @@ opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
 ### File & Data I/O ########################################
 beautifulsoup4 = "^4.12.3"    # HTML/XML parsing
 
+### Mathematics ############################################
+scipy = "^1.13.1"             # Scientific computing and numerical tools
+
 ### Neptune Utilities ######################################
-ngui = "^1.0.0a1"             # Neptune graphical utility library
-nmath = "^1.0.0a1"            # Neptune mathematical utility library
-nutil = "^1.0.0a1"            # Neptune utility library
+nutil = { path = "../nutil", develop = true }               # Neptune utility library
 
 ### Visualization ##########################################
 matplotlib = "^3.9.4"         # 2D plotting and figures

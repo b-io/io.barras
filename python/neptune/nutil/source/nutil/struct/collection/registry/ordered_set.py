@@ -111,9 +111,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         try:
             index = operator.index(index)  # accepts int-like types (e.g., numpy.int64)
         except TypeError as e:
-            raise TypeError(
-                f"Collection indices must be integers or slices, not '{type(index).__name__}'"
-            ) from e
+            raise TypeError(f"Collection indices must be integers or slices, not '{type(index).__name__}'") from e
 
         n = len(self.elements)
         if index < 0:
@@ -244,9 +242,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             other_set = set(other)
         except TypeError:
             other_list = list(other)
-            self.elements = OrderedDict(
-                (k, None) for k in self.elements if any(k == y for y in other_list)
-            )
+            self.elements = OrderedDict((k, None) for k in self.elements if any(k == y for y in other_list))
         else:
             self.elements = OrderedDict((k, None) for k in self.elements if k in other_set)
         return self
@@ -338,9 +334,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
             other_set = set(other)
         except TypeError:
             other_list = list(other)
-            self.elements = OrderedDict(
-                (k, None) for k in self.elements if not any(k == y for y in other_list)
-            )
+            self.elements = OrderedDict((k, None) for k in self.elements if not any(k == y for y in other_list))
         else:
             self.elements = OrderedDict((k, None) for k in self.elements if k not in other_set)
         return self

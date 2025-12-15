@@ -10,14 +10,9 @@
 
 from __future__ import annotations
 
-from collections.abc import (
-    Collection as ABCCollection,
-    Iterable as ABCIterable,
-    MutableSequence as ABCMutableSequence,
-    MutableSet as ABCMutableSet,
-    Sequence as ABCSequence,
-    Set as ABCSet,
-)
+from collections.abc import (Collection as ABCCollection, Iterable as ABCIterable,
+                             MutableSequence as ABCMutableSequence, MutableSet as ABCMutableSet,
+                             Sequence as ABCSequence, Set as ABCSet, )
 
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
@@ -34,11 +29,13 @@ ITERABLE_TYPE = ABCIterable
 SEQUENCE_TYPE = ABCSequence
 MUTABLE_SEQUENCE_TYPE = ABCMutableSequence
 
+
 ### ARRAY ##################################################
 
 __COMMON_ARRAY_CONSTANTS____________________________________ = ""
 
 ARRAY_TYPE = np.ndarray
+
 
 ### DICT ###################################################
 
@@ -46,11 +43,13 @@ __COMMON_DICT_CONSTANTS_____________________________________ = ""
 
 DICT_TYPE = dict
 
+
 ### LIST ###################################################
 
 __COMMON_LIST_CONSTANTS_____________________________________ = ""
 
 LIST_TYPE = list
+
 
 ### SET ####################################################
 
@@ -59,6 +58,7 @@ __COMMON_SET_CONSTANTS______________________________________ = ""
 SET_TYPE = ABCSet
 FROZENSET_TYPE = frozenset
 MUTABLE_SET_TYPE = ABCMutableSet
+
 
 ## COMMON COLLECTION ACCESSORS ###########################################################
 

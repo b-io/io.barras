@@ -11,7 +11,8 @@
 from nmath.common import *
 from nmath.stats import normal
 from nutil.math import *
-from nutil.struct.util import *
+from nutil.scalar.string import par
+from nutil.struct.util import sort
 
 ## LOG-NORMAL CONSTANTS ##################################################################
 
@@ -102,29 +103,19 @@ class LogNormal(Distribution):
                     if tail == -1:
                         q = t(cl=cl, tail=-1, dof=self.size - 1)
                     elif tail == 1:
-                        q = sqrt(
-                            self.size
-                            / 2
-                            * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1)
-                        )
+                        q = sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1))
                     elif tail == 2:
                         cl = 0.5 + cl / 2
                         q = to_array(
                             t(cl=cl, tail=-1, dof=self.size - 1),
-                            sqrt(
-                                self.size
-                                / 2
-                                * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1)
-                            ),
+                            sqrt(self.size / 2 * ((self.size - 1) / chi2(self.size - 1, cl=cl, tail=-1) - 1)),
                             element_type=FLOAT_ELEMENT_TYPE,
                         )
                     sigma2 = self.sigma**2
                     s = sqrt((sigma2 + sigma2**2 / 2) / self.size)
                 return exp(multiply(q, s))
             elif is_std:
-                return sort(
-                    exp(subtract(multiply(sqrt((self.size - 1) / q), self.sigma), self.sigma))
-                )
+                return sort(exp(subtract(multiply(sqrt((self.size - 1) / q), self.sigma), self.sigma)))
         # Prediction interval
         return divide(interval(cl=cl, tail=tail, mu=self.mu, sigma=self.sigma), self.mean())
 
@@ -135,9 +126,9 @@ class LogNormal(Distribution):
         return multiply(self.mean(), margin)
 
 
-## LOG-NORMAL FUNCTIONS ##################################################################
+## LOG-NORMAL PROCESSORS #################################################################
 
-__LOG_NORMAL________________________________________________ = ""
+__LOG_NORMAL_PROCESSORS_____________________________________ = ""
 
 
 def generate(size=1, mu=0, sigma=1):

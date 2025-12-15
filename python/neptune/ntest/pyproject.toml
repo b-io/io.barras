@@ -30,7 +30,7 @@ include = [
 python = ">=3.9,<4.0"
 
 ### Neptune Utilities ######################################
-nutil = "^1.0.0a1"            # Neptune utility library
+nutil = { path = "../nutil", develop = true }               # Neptune utility library
 
 
 ## 3. OTHER DEPENDENCIES #################################################################

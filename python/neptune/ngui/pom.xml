@@ -21,6 +21,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>io.barras.neptune</groupId>
+			<artifactId>nformat</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.barras.neptune</groupId>
 			<artifactId>nutil</artifactId>
 			<version>${project.version}</version>
 		</dependency>

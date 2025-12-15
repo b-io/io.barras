@@ -11,7 +11,8 @@
 from nmath.common import *
 from nmath.stats import normal
 from nutil.math import *
-from nutil.scalar.string import *
+from nutil.scalar.string import par
+from nutil.struct.util import apply, maximum, mean, sort, var
 
 ## BINOMIAL CONSTANTS ####################################################################
 
@@ -103,9 +104,9 @@ class Binomial(Distribution):
         return add(self.mean(), margin)
 
 
-## BINOMIAL FUNCTIONS ####################################################################
+## BINOMIAL PROCESSORS ###################################################################
 
-__BINOMIAL__________________________________________________ = ""
+__BINOMIAL_PROCESSORS_______________________________________ = ""
 
 
 def generate(size=1, n=1, p=0.5):

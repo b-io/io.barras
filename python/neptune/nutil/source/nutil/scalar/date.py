@@ -12,18 +12,22 @@ from __future__ import annotations
 
 from calendar import monthrange
 from datetime import timezone
+from math import ceil
 
 from dateutil import parser
 from dateutil.relativedelta import relativedelta
 
 from nutil.config import *
 from nutil.enums import Aggregation, Frequency, Position
-from nutil.scalar.number import *
-from nutil.scalar.string import *
+from nutil.scalar.number import nearest, round_to_int
+from nutil.scalar.string import trim
 
 ## DATE CONSTANTS ########################################################################
 
 __DATE_CONSTANTS____________________________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 DEFAULT_TIME_ZONE = timezone.utc
 
@@ -67,7 +71,8 @@ DEFAULT_PERIOD = "1" + Frequency.YEARS.value
 # The default position
 DEFAULT_POSITION = Position.END
 
-############################################################
+
+### GLOBALS ################################################
 
 # The weekdays
 MON, TUE, WED, THU, FRI, SAT, SUN = WEEKDAYS = tuple(i for i in range(7))
@@ -985,6 +990,9 @@ def get_period_years(d=get_datetime(), period=PERIOD):
 __DATE_CONVERTERS___________________________________________ = ""
 
 
+### PARSERS ################################################
+
+
 def parse_date(s):
     return parser.parse(s).date()
 
@@ -1296,9 +1304,7 @@ def filter_year_weeks(s, year_weeks):
     """Filters the collection by matching its date-time index with the specified year-weeks."""
     from nutil.struct.util import find_all_in, take_at
 
-    indices = find_all_in(
-        get_year_weeks(s, use_index=True), get_year_weeks(year_weeks, use_index=True)
-    )
+    indices = find_all_in(get_year_weeks(s, use_index=True), get_year_weeks(year_weeks, use_index=True))
     return take_at(s, indices)
 
 
@@ -1322,9 +1328,7 @@ def filter_semesters(s, semesters):
     """Filters the collection by matching its date-time index with the specified semesters."""
     from nutil.struct.util import find_all_in, take_at
 
-    indices = find_all_in(
-        get_semesters(s, use_index=True), get_semesters(semesters, use_index=True)
-    )
+    indices = find_all_in(get_semesters(s, use_index=True), get_semesters(semesters, use_index=True))
     return take_at(s, indices)
 
 

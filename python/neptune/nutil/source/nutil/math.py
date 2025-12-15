@@ -24,9 +24,9 @@ DEG_TO_RAD = PI / 180
 RAD_TO_DEG = 180 / PI
 
 
-## MATH FUNCTIONS ########################################################################
+## MATH PROCESSORS #######################################################################
 
-__MATH______________________________________________________ = ""
+__MATH_PROCESSORS___________________________________________ = ""
 
 
 def is_negative(x: Any) -> bool:
@@ -127,19 +127,9 @@ def add_all(*args, numeric_default=None, object_default=None, rename=False):
 def add(s1, s2, numeric_default=None, object_default=None, rename=False):
     """Returns the addition of the specified collections."""
     if is_list(s1):
-        return [
-            add(
-                s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s1
-        ]
+        return [add(s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s1]
     elif is_list(s2):
-        return [
-            add(
-                s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s2
-        ]
+        return [add(s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s2]
     elif is_table(s1) and is_table(s2):
         if is_frame(s1) and not is_frame(s2):
             return concat_cols(
@@ -170,9 +160,9 @@ def add(s1, s2, numeric_default=None, object_default=None, rename=False):
         if rename:
             names = get_names(s2)
             rename_all(s1, s2, names=get_names(s1))
-        result = fill_null_all(
-            s1, s2, numeric_default=numeric_default, object_default=object_default
-        ) + fill_null_all(s2, s1, numeric_default=numeric_default, object_default=object_default)
+        result = fill_null_all(s1, s2, numeric_default=numeric_default, object_default=object_default) + fill_null_all(
+            s2, s1, numeric_default=numeric_default, object_default=object_default
+        )
         if rename:
             set_names(s2, names)
         return result
@@ -192,12 +182,8 @@ def add(s1, s2, numeric_default=None, object_default=None, rename=False):
     elif is_table(s2):
         return sum_cols(join(s2, get_values(s1)))
     keys = get_common_keys(s1, s2)
-    v1 = fill_null(
-        get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
-    v2 = fill_null(
-        get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
+    v1 = fill_null(get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default)
+    v2 = fill_null(get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default)
     return struct_to_type(np.add(v1, v2), s1)
 
 
@@ -215,17 +201,11 @@ def subtract(s1, s2, numeric_default=None, object_default=None, rename=False):
     """Returns the subtraction of the specified collections."""
     if is_list(s1):
         return [
-            subtract(
-                s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s1
+            subtract(s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s1
         ]
     elif is_list(s2):
         return [
-            subtract(
-                s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s2
+            subtract(s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s2
         ]
     elif is_table(s1) and is_table(s2):
         if is_frame(s1) and not is_frame(s2):
@@ -257,9 +237,9 @@ def subtract(s1, s2, numeric_default=None, object_default=None, rename=False):
         if rename:
             names = get_names(s2)
             rename_all(s1, s2, names=get_names(s1))
-        result = fill_null_all(
-            s1, s2, numeric_default=numeric_default, object_default=object_default
-        ) - fill_null_all(s2, s1, numeric_default=numeric_default, object_default=object_default)
+        result = fill_null_all(s1, s2, numeric_default=numeric_default, object_default=object_default) - fill_null_all(
+            s2, s1, numeric_default=numeric_default, object_default=object_default
+        )
         if rename:
             set_names(s2, names)
         return result
@@ -279,12 +259,8 @@ def subtract(s1, s2, numeric_default=None, object_default=None, rename=False):
     elif is_table(s2):
         return sum_cols(join(-s2, get_values(s1)))
     keys = get_common_keys(s1, s2)
-    v1 = fill_null(
-        get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
-    v2 = fill_null(
-        get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
+    v1 = fill_null(get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default)
+    v2 = fill_null(get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default)
     return struct_to_type(np.subtract(v1, v2), s1)
 
 
@@ -302,17 +278,11 @@ def multiply(s1, s2, numeric_default=None, object_default=None, rename=False):
     """Returns the multiplication of the specified collections."""
     if is_list(s1):
         return [
-            multiply(
-                s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s1
+            multiply(s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s1
         ]
     elif is_list(s2):
         return [
-            multiply(
-                s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s2
+            multiply(s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s2
         ]
     elif is_table(s1) and is_table(s2):
         if is_frame(s1) and not is_frame(s2):
@@ -344,9 +314,9 @@ def multiply(s1, s2, numeric_default=None, object_default=None, rename=False):
         if rename:
             names = get_names(s2)
             rename_all(s1, s2, names=get_names(s1))
-        result = fill_null_all(
-            s1, s2, numeric_default=numeric_default, object_default=object_default
-        ) * fill_null_all(s2, s1, numeric_default=numeric_default, object_default=object_default)
+        result = fill_null_all(s1, s2, numeric_default=numeric_default, object_default=object_default) * fill_null_all(
+            s2, s1, numeric_default=numeric_default, object_default=object_default
+        )
         if rename:
             set_names(s2, names)
         return result
@@ -366,12 +336,8 @@ def multiply(s1, s2, numeric_default=None, object_default=None, rename=False):
     elif is_table(s2):
         return product_cols(join(s2, get_values(s1)))
     keys = get_common_keys(s1, s2)
-    v1 = fill_null(
-        get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
-    v2 = fill_null(
-        get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
+    v1 = fill_null(get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default)
+    v2 = fill_null(get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default)
     return struct_to_type(np.multiply(v1, v2), s1)
 
 
@@ -389,17 +355,11 @@ def divide(s1, s2, numeric_default=None, object_default=None, rename=False):
     """Returns the division of the specified collections."""
     if is_list(s1):
         return [
-            divide(
-                s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s1
+            divide(s, s2, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s1
         ]
     elif is_list(s2):
         return [
-            divide(
-                s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename
-            )
-            for s in s2
+            divide(s1, s, numeric_default=numeric_default, object_default=object_default, rename=rename) for s in s2
         ]
     elif is_table(s1) and is_table(s2):
         if is_frame(s1) and not is_frame(s2):
@@ -431,9 +391,9 @@ def divide(s1, s2, numeric_default=None, object_default=None, rename=False):
         if rename:
             names = get_names(s2)
             rename_all(s1, s2, names=get_names(s1))
-        result = fill_null_all(
-            s1, s2, numeric_default=numeric_default, object_default=object_default
-        ) / fill_null_all(s2, s1, numeric_default=numeric_default, object_default=object_default)
+        result = fill_null_all(s1, s2, numeric_default=numeric_default, object_default=object_default) / fill_null_all(
+            s2, s1, numeric_default=numeric_default, object_default=object_default
+        )
         if rename:
             set_names(s2, names)
         return result
@@ -456,22 +416,14 @@ def divide(s1, s2, numeric_default=None, object_default=None, rename=False):
         return [struct_to_type(a, s1) for a in safe_divide(v1, v2, invalid_default=numeric_default)]
     elif is_table(s1):
         # Avoid 1 / 0 when forming reciprocals
-        return product_cols(
-            join(s1, safe_reciprocal(get_values(s2), invalid_default=numeric_default))
-        )
+        return product_cols(join(s1, safe_reciprocal(get_values(s2), invalid_default=numeric_default)))
     elif is_table(s2):
         # Avoid 1 / 0 when forming reciprocals
-        return product_cols(
-            join(s2, safe_reciprocal(get_values(s1), invalid_default=numeric_default))
-        )
+        return product_cols(join(s2, safe_reciprocal(get_values(s1), invalid_default=numeric_default)))
     # Dict/series-like fallthrough: compute on aligned numeric arrays
     keys = get_common_keys(s1, s2)
-    v1 = fill_null(
-        get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
-    v2 = fill_null(
-        get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default
-    )
+    v1 = fill_null(get_values(s1, keys=keys), numeric_default=numeric_default, object_default=object_default)
+    v2 = fill_null(get_values(s2, keys=keys), numeric_default=numeric_default, object_default=object_default)
     return safe_divide(v1, v2, invalid_default=numeric_default, template=s1)
 
 
@@ -497,9 +449,7 @@ def safe_divide(s1, s2, eps=EPS, invalid_default=0, template=None):
     out = np.full(b1.shape, np.asarray(invalid_default, dtype=element_type), dtype=element_type)
     mask = np.isfinite(b2) & (np.abs(b2) > np.asarray(eps, dtype=element_type))
 
-    return struct_to_type(
-        np.divide(b1, b2, out=out, where=mask), template if not is_null(template) else s1
-    )
+    return struct_to_type(np.divide(b1, b2, out=out, where=mask), template if not is_null(template) else s1)
 
 
 def safe_reciprocal(s, element_type=FLOAT_ELEMENT_TYPE, invalid_default=0, template=None):

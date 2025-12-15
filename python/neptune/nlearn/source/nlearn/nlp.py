@@ -23,6 +23,9 @@ from nutil.struct.util import sort, take_at
 
 __NLP_CONSTANTS_____________________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 # The default maximum number of words
 DEFAULT_MAX_WORD_COUNT = 20
 
@@ -120,9 +123,7 @@ class WordEmbeddings:
             (sentence_word_indices, sentence_unknown_words) = self.sentence_to_word_indices(
                 sentence, max_word_count=max_word_count
             )
-            word_indices[i, : min(len(sentence_word_indices), max_word_count)] = (
-                sentence_word_indices
-            )
+            word_indices[i, : min(len(sentence_word_indices), max_word_count)] = sentence_word_indices
             unknown_words = unknown_words.union(sentence_unknown_words)
         return word_indices, unknown_words
 
@@ -138,9 +139,7 @@ class WordEmbeddings:
         :return: a `list` of word vectors and the set of unknown words
         """
         # Get the word indices of the sentence
-        (word_indices, unknown_words) = self.sentence_to_word_indices(
-            sentence, max_word_count=max_word_count
-        )
+        (word_indices, unknown_words) = self.sentence_to_word_indices(sentence, max_word_count=max_word_count)
         # Get the corresponding word vectors
         return take_at(self.word_vectors, word_indices), unknown_words
 
@@ -176,9 +175,7 @@ class WordEmbeddings:
         :return: a single word vector and the set of unknown words
         """
         # Get the word vectors of the sentence
-        (word_vectors, unknown_words) = self.sentence_to_word_vectors(
-            sentence, max_word_count=max_word_count
-        )
+        (word_vectors, unknown_words) = self.sentence_to_word_vectors(sentence, max_word_count=max_word_count)
         # Sum the corresponding word vectors
         return sum(word_vectors), unknown_words
 

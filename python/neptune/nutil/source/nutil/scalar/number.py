@@ -14,10 +14,14 @@ from nutil.common import *
 
 __NUMBER_CONSTANTS__________________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 # The default maximum number of decimals
 DEFAULT_MAX_DECIMALS = 8
 
-############################################################
+
+### GLOBALS ################################################
 
 EPS = np.finfo(FLOAT_TYPE).eps
 

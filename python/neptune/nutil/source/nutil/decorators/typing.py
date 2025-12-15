@@ -85,9 +85,7 @@ def typesafe(
                 annotation = type_hints.get(name)
                 if annotation is None:
                     continue
-                if not matches_type_hints(
-                    value, annotation, sample_limit=sample_limit, max_depth=max_depth
-                ):
+                if not matches_type_hints(value, annotation, sample_limit=sample_limit, max_depth=max_depth):
                     bad_names.append(name)
                     bad_values.append(value)
                     bad_expected.append(expected_for_display(annotation))

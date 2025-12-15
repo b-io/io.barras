@@ -13,21 +13,25 @@ from scipy import stats
 from nutil.math import *
 from nutil.struct.util import Axis
 
-## MATH COMMON CONSTANTS #################################################################
+## COMMON MATH CONSTANTS #################################################################
 
-__MATH_COMMON_CONSTANTS_____________________________________ = ""
+__COMMON_MATH_CONSTANTS_____________________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 # The default confidence level
 DEFAULT_CONFIDENCE_LEVEL = 0.95
 
 
-## MATH COMMON CLASSES ###################################################################
+## COMMON MATH CLASSES ###################################################################
 
-__MATH_COMMON_CLASSES_______________________________________ = ""
+__COMMON_MATH_CLASSES_______________________________________ = ""
 
-### MATH STATISTICS CLASSES ################################
 
-__MATH_STATISTICS_CLASSES___________________________________ = ""
+### COMMON STATISTICS CLASSES ##############################
+
+__COMMON_STATISTICS_CLASSES_________________________________ = ""
 
 
 class Distribution(ABC):
@@ -102,13 +106,14 @@ class Distribution(ABC):
         pass
 
 
-## MATH COMMON FUNCTIONS #################################################################
+## COMMON MATH PROCESSORS ################################################################
 
-__MATH_COMMON_______________________________________________ = ""
+__COMMON_MATH_PROCESSORS____________________________________ = ""
 
-### MATH STATISTICS ########################################
 
-__MATH_STATISTICS___________________________________________ = ""
+### COMMON MATH STATISTICS #################################
+
+__COMMON_MATH_STATISTICS____________________________________ = ""
 
 
 def mode(*args, axis: Optional[Axis] = None):

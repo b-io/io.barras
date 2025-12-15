@@ -19,7 +19,9 @@ import plotly.subplots as sp
 import plotly.tools as tls
 
 import ngui.web as web
-from ngui.image import *
+from nformat.color import format_rgb_color, get_RYG
+from nformat.common import *
+from nformat.image import *
 from nutil.enums import FileType
 from nutil.math import *
 
@@ -27,13 +29,17 @@ from nutil.math import *
 
 __CHART_CONSTANTS___________________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 # The default tick length
 DEFAULT_TICK_LENGTH = 4
 
 # The default tick direction
 DEFAULT_TICK_DIRECTION = "outside"
 
-############################################################
+
+### GLOBALS ################################################
 
 MAP_PROJECTIONS = [
     "equirectangular",
@@ -61,9 +67,9 @@ MAP_PROJECTIONS = [
 ]
 
 
-## CHART FUNCTIONS #######################################################################
+## CHART PROCESSORS ######################################################################
 
-__CHART_____________________________________________________ = ""
+__CHART_PROCESSORS__________________________________________ = ""
 
 
 def is_matplot(x: Any) -> bool:
@@ -159,14 +165,7 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
             if k not in x:
                 x[k] = (
                     DEFAULT_MARGIN_WITH_TITLE[k]
-                    if (
-                        has_title
-                        and k == "t"
-                        or has_title_x
-                        and k == "b"
-                        or has_title_y
-                        and k in ("l", "r")
-                    )
+                    if (has_title and k == "t" or has_title_x and k == "b" or has_title_y and k in ("l", "r"))
                     else DEFAULT_MARGIN[k]
                 )
         return x
@@ -1332,9 +1331,7 @@ def update_layout_axes(
             if not is_null(tick_number_x):
                 ax.xaxis.set_major_locator(mticker.MaxNLocator(tick_number_x))
             elif not is_null(tick_start_x):
-                ax.xaxis.set_major_locator(
-                    mticker.IndexLocator(base=tick_step_x, offset=tick_start_x)
-                )
+                ax.xaxis.set_major_locator(mticker.IndexLocator(base=tick_step_x, offset=tick_start_x))
             elif not is_null(tick_step_x):
                 ax.xaxis.set_major_locator(mticker.MultipleLocator(base=tick_step_x))
             elif not is_null(tick_values_x):
@@ -1345,9 +1342,7 @@ def update_layout_axes(
             if not is_null(tick_number_y):
                 ax.yaxis.set_major_locator(mticker.MaxNLocator(tick_number_y))
             elif not is_null(tick_start_y):
-                ax.yaxis.set_major_locator(
-                    mticker.IndexLocator(base=tick_step_y, offset=tick_start_y)
-                )
+                ax.yaxis.set_major_locator(mticker.IndexLocator(base=tick_step_y, offset=tick_start_y))
             elif not is_null(tick_step_y):
                 ax.yaxis.set_major_locator(mticker.MultipleLocator(base=tick_step_y))
             elif not is_null(tick_values_y):
@@ -1512,9 +1507,7 @@ def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=N
     margin = get_margin(margin, fig=fig)
     if is_matplot(fig):
         fig.set_size_inches(width / 100, height / 100)
-        fig.subplots_adjust(
-            left=margin["l"], right=1 - margin["r"], bottom=margin["b"], top=1 - margin["t"]
-        )
+        fig.subplots_adjust(left=margin["l"], right=1 - margin["r"], bottom=margin["b"], top=1 - margin["t"])
     elif is_plotly(fig):
         margin = margin.copy()
         margin["l"] *= width

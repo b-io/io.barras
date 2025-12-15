@@ -25,6 +25,7 @@ ROW_SIZE = 10000
 
 TEST_COUNT = 10
 
+
 ## COMMON TEST PROCESSORS ################################################################
 
 __COMMON_TEST_PROCESSORS____________________________________ = ""
@@ -97,26 +98,20 @@ def apply_timed(s, f, test_count, *args, axis=None, inplace=False, **kwargs):
 
 def get_items_timed(s, test_count):
     """Gets items with inclusion/exclusion and logs timing via nutil.test."""
-    t = timed(
-        lambda: get_items(s, inclusion=range(len(s)), exclusion=range(int(len(s) / 2))), test_count
-    )
+    t = timed(lambda: get_items(s, inclusion=range(len(s)), exclusion=range(int(len(s) / 2))), test_count)
     logging.info(len(s), "items retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
 
 
 def get_rows_timed(s, test_count):
     """Gets rows and logs timing via nutil.test."""
     t = timed(lambda: get_rows(s), test_count)
-    logging.info(
-        count_rows(s), "rows retrieved", test_count, "times in", round(t), "[s]"
-    )  # prints/logs
+    logging.info(count_rows(s), "rows retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
 
 
 def get_cols_timed(s, test_count):
     """Gets columns and logs timing via nutil.test."""
     t = timed(lambda: get_cols(s), test_count)
-    logging.info(
-        count_cols(s), "cols retrieved", test_count, "times in", round(t), "[s]"
-    )  # prints/logs
+    logging.info(count_cols(s), "cols retrieved", test_count, "times in", round(t), "[s]")  # prints/logs
 
 
 ##############################

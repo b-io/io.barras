@@ -23,6 +23,11 @@ from nutil.struct.table.util import get_row_string
 
 ## COMMON STYLE CONSTANTS ################################################################
 
+__COMMON_STYLE_CONSTANTS____________________________________ = ""
+
+
+### DEFAULTS ###############################################
+
 DEFAULT_EXCLUDES: List[str] = [
     "**/__pycache__/**",
     "**/.git/**",
@@ -33,6 +38,9 @@ DEFAULT_EXCLUDES: List[str] = [
     "**/venv/**",
 ]
 
+
+### GLOBALS ################################################
+
 FLAG_MAP: Dict[str, int] = {
     "DOTALL": re.DOTALL,
     "IGNORECASE": re.I,
@@ -42,6 +50,8 @@ FLAG_MAP: Dict[str, int] = {
 
 
 ## COMMON STYLE CLASSES ##################################################################
+
+__COMMON_STYLE_CLASSES______________________________________ = ""
 
 
 @dataclass
@@ -96,6 +106,8 @@ class StyleConfig:
 
 
 ## COMMON STYLE LOADING ##################################################################
+
+__COMMON_STYLE_LOADING______________________________________ = ""
 
 
 def load_yaml_config(path: Path) -> StyleConfig:

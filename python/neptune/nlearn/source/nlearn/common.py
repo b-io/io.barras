@@ -10,13 +10,16 @@
 
 import plotly.graph_objs as go
 
+from nformat.common import DEFAULT_HEIGHT, DEFAULT_WIDTH
 from ngui.charts import create_figure, get_hover_template, update_layout_size
-from ngui.common import DEFAULT_HEIGHT, DEFAULT_WIDTH
 from nutil.math import *
 
-## LEARN CONFIG PROPERTIES ###############################################################
+## COMMON LEARN CONFIG PROPERTIES ########################################################
 
-__LEARN_CONFIG_PROPERTIES___________________________________ = ""
+__COMMON_LEARN_CONFIG_PROPERTIES____________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 # The default LEARN configuration
 DEFAULT_LEARN_CONFIG = {
@@ -25,59 +28,19 @@ DEFAULT_LEARN_CONFIG = {
         "wordVectorPath": ""
     }
 }
+
+
+### GLOBALS ################################################
+
 CONFIG.read_dict(DEFAULT_LEARN_CONFIG)
 load_config("learn")
 
 WORD_VECTOR_PATH = CONFIG.get("nlp", "wordVectorPath")
 
 
-## LEARN COMMON FUNCTIONS ################################################################
+## COMMON LEARN FIGURES ##################################################################
 
-__LEARN_COMMON______________________________________________ = ""
-
-
-def get_confusion_matrix(target, prediction, normalize=False):
-    target = np.asarray(target).reshape(-1)
-    prediction = np.asarray(prediction).reshape(-1)
-    cm = pd.crosstab(
-        target,
-        prediction,
-        rownames=["Target"],
-        colnames=["Prediction"],
-        margins=False,
-    )
-    if normalize:
-        cm /= cm.sum(axis=1)
-    return cm
-
-
-############################################################
-
-
-def to_one_hot(Y, size):
-    """
-    Converts the specified array of vectors Y to an array of one-hot vectors of the specified size.
-
-    :param Y:    an array of vectors
-    :param size: the size of the one-hot vectors
-
-    :return: an array of one-hot vectors of the specified size
-    """
-    return np.eye(size)[Y.reshape(-1)]
-
-
-############################################################
-
-
-def softmax(x: Any):
-    """Returns the softmax values for every set of scores in `x`."""
-    e_x = np.exp(x - np.max(x))
-    return e_x / e_x.sum()
-
-
-### LEARN FIGURE ###########################################
-
-__LEARN_FIGURE______________________________________________ = ""
+__COMMON_LEARN_FIGURES______________________________________ = ""
 
 
 def plot_confusion_matrix(
@@ -124,9 +87,7 @@ def plot_confusion_matrix(
     y_title = cm.index.name or "True Label"
 
     # Create a figure
-    fig = create_figure(
-        title=title, title_x=x_title, title_y=y_title, width=width, height=height, margin=margin
-    )
+    fig = create_figure(title=title, title_x=x_title, title_y=y_title, width=width, height=height, margin=margin)
 
     # Optionally annotate the cells
     if show_values:
@@ -147,9 +108,7 @@ def plot_confusion_matrix(
             colorbar=dict(title="Proportion" if normalize else "Count"),
             text=text,
             texttemplate=text_template,
-            hovertemplate=get_hover_template(
-                extra_template="Proportion: %{z:.2f}" if normalize else "Count: %{z}"
-            ),
+            hovertemplate=get_hover_template(extra_template="Proportion: %{z:.2f}" if normalize else "Count: %{z}"),
         )
     )
 
@@ -157,3 +116,47 @@ def plot_confusion_matrix(
 
     update_layout_size(fig, width=width, height=height, margin=margin)
     return fig
+
+
+## COMMON LEARN PROCESSORS ###############################################################
+
+__COMMON_LEARN_PROCESSORS___________________________________ = ""
+
+
+def get_confusion_matrix(target, prediction, normalize=False):
+    target = np.asarray(target).reshape(-1)
+    prediction = np.asarray(prediction).reshape(-1)
+    cm = pd.crosstab(
+        target,
+        prediction,
+        rownames=["Target"],
+        colnames=["Prediction"],
+        margins=False,
+    )
+    if normalize:
+        cm /= cm.sum(axis=1)
+    return cm
+
+
+############################################################
+
+
+def to_one_hot(Y, size):
+    """
+    Converts the specified array of vectors Y to an array of one-hot vectors of the specified size.
+
+    :param Y:    an array of vectors
+    :param size: the size of the one-hot vectors
+
+    :return: an array of one-hot vectors of the specified size
+    """
+    return np.eye(size)[Y.reshape(-1)]
+
+
+############################################################
+
+
+def softmax(x: Any):
+    """Returns the softmax values for every set of scores in `x`."""
+    e_x = np.exp(x - np.max(x))
+    return e_x / e_x.sum()

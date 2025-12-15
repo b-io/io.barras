@@ -30,8 +30,9 @@ from nutil.io.caching.sectioned_cache import SectionedCache
 from nutil.io.file import resolve_path
 from nutil.io.logging import configure_logging
 
+## SECTIONED CACHE TOOL RUNNER ###########################################################
 
-## RUNNER ################################################################################
+__SECTIONED_CACHE_TOOL_RUNNER_______________________________ = ""
 
 
 def run(
@@ -258,7 +259,9 @@ def run_with_args(args: argparse.Namespace) -> None:
         logging.info("No changes")
 
 
-## CLI ###################################################################################
+## SECTIONED CACHE TOOL CLI ##############################################################
+
+__SECTIONED_CACHE_TOOL_CLI__________________________________ = ""
 
 
 def parse_args() -> argparse.Namespace:
@@ -287,20 +290,14 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Maintain a generic sectioned JSON cache.")
     ap.add_argument("--cache", help="Path to the JSON cache.", required=True)
-    ap.add_argument(
-        "--sections", help="Section to operate on (repeatable).", action="append", metavar="NAME"
-    )
+    ap.add_argument("--sections", help="Section to operate on (repeatable).", action="append", metavar="NAME")
     # Queries
     ap.add_argument("--list", help="Print the entry counts per section.", action="store_true")
-    ap.add_argument(
-        "--show", help="Show entries (with optional --filter/--prefix).", action="store_true"
-    )
+    ap.add_argument("--show", help="Show entries (with optional --filter/--prefix).", action="store_true")
     ap.add_argument("--filter", help="Regex filter for --show.")
     ap.add_argument("--prefix", help="Prefix filter for --show.")
     # Editions
-    ap.add_argument(
-        "--rename", help="Rename a key within a section.", nargs=2, metavar=("OLD", "NEW")
-    )
+    ap.add_argument("--rename", help="Rename a key within a section.", nargs=2, metavar=("OLD", "NEW"))
     ap.add_argument(
         "--merge",
         help="Merge list-valued sources into the target: TARGET SRC …",
@@ -314,16 +311,10 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         nargs="+",
         metavar="KEY",
     )
-    ap.add_argument(
-        "--delete-prefix", help="Delete keys starting with any prefix.", nargs="+", metavar="PFX"
-    )
+    ap.add_argument("--delete-prefix", help="Delete keys starting with any prefix.", nargs="+", metavar="PFX")
     ap.add_argument("--delete-empty", help="Delete entries with [] or ''.", action="store_true")
-    ap.add_argument(
-        "--only-list-empty", help="With --delete-empty, delete [] only.", action="store_true"
-    )
-    ap.add_argument(
-        "--only-str-empty", help="With --delete-empty, delete '' only.", action="store_true"
-    )
+    ap.add_argument("--only-list-empty", help="With --delete-empty, delete [] only.", action="store_true")
+    ap.add_argument("--only-str-empty", help="With --delete-empty, delete '' only.", action="store_true")
     ap.add_argument("--clear", help="Clear selected sections.", action="store_true")
     # Load
     ap.add_argument(
@@ -339,22 +330,20 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         default=0,
     )
     # Save
-    ap.add_argument(
-        "--dry-run", help="Do not write changes; only log results.", action="store_true"
-    )
+    ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
     ap.add_argument("--compact", help="Write compact JSON on save.", action="store_true")
     ap.add_argument(
         "--backup",
         help="Create a timestamped backup of the previous file on save.",
         action="store_true",
     )
-    ap.add_argument(
-        "--backup-dir", help="Directory to store backups (defaults to the cache file's directory)."
-    )
+    ap.add_argument("--backup-dir", help="Directory to store backups (defaults to the cache file's directory).")
     return ap
 
 
-## MAIN ##################################################################################
+## SECTIONED CACHE TOOL MAIN #############################################################
+
+__SECTIONED_CACHE_TOOL_MAIN_________________________________ = ""
 
 
 def main() -> None:

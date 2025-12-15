@@ -10,21 +10,31 @@
 
 import base64
 
-from ngui.common import *
+import cv2
+
+from nformat.color import rgb_to_hsv
+from nformat.common import DEFAULT_HEIGHT, DEFAULT_WIDTH
+from nutil.common import *
 from nutil.constants import DEFAULT_ENCODING
 from nutil.enums import FileType
 from nutil.io.file import read_bytes
+from nutil.scalar.number import to_float
+from nutil.struct.collection.array import create_random_short_array
+from nutil.struct.util import mean, simplify
 
 ## IMAGE CONSTANTS #######################################################################
 
 __IMAGE_CONSTANTS___________________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 DEFAULT_IMAGE_MODE = cv2.IMREAD_UNCHANGED
 
 
-## IMAGE FUNCTIONS #######################################################################
+## IMAGE PROCESSORS ######################################################################
 
-__IMAGE_____________________________________________________ = ""
+__IMAGE_PROCESSORS__________________________________________ = ""
 
 
 def buffer_to_image(buffer, format, rotate=False):
@@ -66,9 +76,9 @@ def buffer_to_html(
 
 def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
     """Converts the specified image to an image buffer."""
-    if image[1:4] == FileType.SVG.encode(DEFAULT_ENCODING):
-        return image
     if is_string(image):
+        if is_svg(image):
+            return image
         image = read_bytes(image)
     return cv2.imdecode(np.frombuffer(image, dtype=SHORT_ELEMENT_TYPE), flags=mode)
 
@@ -182,3 +192,13 @@ def show_image(buffer, title="Image"):
 
 def write_image(path, buffer):
     return cv2.imwrite(path, buffer)
+
+
+## IMAGE VERIFIERS #######################################################################
+
+__IMAGE_VERIFIERS___________________________________________ = ""
+
+
+def is_svg(x: Any) -> bool:
+    """Returns whether `x` is an SVG image."""
+    return is_string(x) and x[1:4] == FileType.SVG.encode(DEFAULT_ENCODING)

@@ -11,57 +11,14 @@
 import statsmodels.api as sm
 from sklearn.preprocessing import OrdinalEncoder
 
+from nformat.common import DEFAULT_COLORS, DEFAULT_HEIGHT, DEFAULT_WIDTH
 from ngui import charts
-from ngui.common import *
 from nutil.common import *
 from nutil.struct.util import get_element_types
 
-## REGRESSION FUNCTIONS ##################################################################
+## REGRESSION FIGURES ####################################################################
 
-__REGRESSION________________________________________________ = ""
-
-
-def get_categorical_variables(X):
-    return [
-        k
-        for k, v in get_element_types(X).items()
-        if v in (OBJECT_ELEMENT_TYPE, STRING_ELEMENT_TYPE)
-    ]
-
-
-############################################################
-
-
-def encode_categorical_variables(X, element_type=INT_ELEMENT_TYPE):
-    categorical_variables = get_categorical_variables(X)
-    X[categorical_variables] = OrdinalEncoder(dtype=element_type).fit_transform(
-        X[categorical_variables]
-    )
-    return X
-
-
-def fit(X, y):
-    """Fits the model of the OLS regression of the specified endogenous variable `y` on the specified
-    exogenous variables `X`."""
-    X = sm.add_constant(X)
-    return sm.OLS(y, X).fit()
-
-
-def predict(model, X):
-    """Predicts the endogenous variable `y` of the specified model on the specified exogenous
-    variables `X`."""
-    return model.predict(X).ravel()
-
-
-def summarize(X, y):
-    """Summarizes the results of the OLS regression of the specified endogenous variable `y` on the
-    specified exogenous variables `X`."""
-    return fit(X, y).summary()
-
-
-### REGRESSION FIGURE ######################################
-
-__REGRESSION_FIGURE_________________________________________ = ""
+__REGRESSION_FIGURES________________________________________ = ""
 
 
 def plot_variables(
@@ -110,3 +67,40 @@ def plot_variables(
         colors=colors,
         **kwargs,
     )
+
+
+## REGRESSION PROCESSORS #################################################################
+
+__REGRESSION_PROCESSORS_____________________________________ = ""
+
+
+def get_categorical_variables(X):
+    return [k for k, v in get_element_types(X).items() if v in (OBJECT_ELEMENT_TYPE, STRING_ELEMENT_TYPE)]
+
+
+############################################################
+
+
+def encode_categorical_variables(X, element_type=INT_ELEMENT_TYPE):
+    categorical_variables = get_categorical_variables(X)
+    X[categorical_variables] = OrdinalEncoder(dtype=element_type).fit_transform(X[categorical_variables])
+    return X
+
+
+def fit(X, y):
+    """Fits the model of the OLS regression of the specified endogenous variable `y` on the specified
+    exogenous variables `X`."""
+    X = sm.add_constant(X)
+    return sm.OLS(y, X).fit()
+
+
+def predict(model, X):
+    """Predicts the endogenous variable `y` of the specified model on the specified exogenous
+    variables `X`."""
+    return model.predict(X).ravel()
+
+
+def summarize(X, y):
+    """Summarizes the results of the OLS regression of the specified endogenous variable `y` on the
+    specified exogenous variables `X`."""
+    return fit(X, y).summary()

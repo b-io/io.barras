@@ -19,8 +19,9 @@ import pytest
 
 from nutil.struct.common import *
 
+## COMMON STRUCT TESTS ###################################################################
 
-## 1. TEST DOUBLES #######################################################################
+__COMMON_STRUCT_TESTS_______________________________________ = ""
 
 
 class _DelegateAll:
@@ -52,7 +53,7 @@ class _CallableProbe:
         return "pong"
 
 
-## 2. CONVERTERS & UNWRAPPERS ############################################################
+### 1. CONVERTERS & UNWRAPPERS #############################
 
 
 @pytest.mark.parametrize(
@@ -209,7 +210,7 @@ def test_to_tuple_delegation():
     assert to_tuple(src) == (10, 20)
 
 
-## 3. UNGROUP (PANDAS GroupBy) ###########################################################
+### 2. UNGROUP (PANDAS GroupBy) ############################
 
 
 def test_ungroup_modes_obj_groups_auto_rows_and_columns():
@@ -232,7 +233,7 @@ def test_ungroup_modes_obj_groups_auto_rows_and_columns():
     assert ungroup(123) == 123
 
 
-## 4. VERIFIERS & UTILITIES ##############################################################
+### 3. VERIFIERS & UTILITIES ###############################
 
 
 def test_is_struct_and_is_element():

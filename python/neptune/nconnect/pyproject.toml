@@ -33,7 +33,7 @@ python = ">=3.9,<4.0"
 sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
 
 ### Neptune Utilities ######################################
-nutil = "^1.0.0a1"            # Neptune utility library
+nutil = { path = "../nutil", develop = true }               # Neptune utility library
 
 ### Web HTTP ###############################################
 httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers

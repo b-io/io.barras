@@ -13,36 +13,11 @@ from __future__ import annotations
 import itertools
 import operator
 from abc import ABC, abstractmethod
-from collections.abc import (
-    Iterator as ABCIterator,
-    Mapping as ABCMapping,
-    MutableMapping as ABCMutableMapping,
-)
+from collections.abc import (Iterator as ABCIterator, Mapping as ABCMapping, MutableMapping as ABCMutableMapping, )
 from functools import lru_cache
 from threading import RLock
-from typing import (
-    Any,
-    cast,
-    ClassVar,
-    Collection,
-    Dict,
-    Generic,
-    ItemsView,
-    Iterable,
-    Iterator,
-    KeysView,
-    List,
-    Mapping,
-    Optional,
-    overload,
-    Sequence,
-    Set,
-    Tuple,
-    Type,
-    TypeVar,
-    Union,
-    ValuesView,
-)
+from typing import (Any, cast, ClassVar, Collection, Dict, Generic, ItemsView, Iterable, Iterator, KeysView, List,
+                    Mapping, Optional, overload, Sequence, Set, Tuple, Type, TypeVar, Union, ValuesView, )
 
 import numpy as np
 
@@ -335,9 +310,7 @@ class CollectionRegistry(metaclass=FinalSingletonMeta):
         with self._LOCK:
             return self._resolve_adapter_for_type(t)
 
-    def register(
-        self, t: Type[Any], adapter: CollectionAdapter[Any], *, override: bool = False
-    ) -> None:
+    def register(self, t: Type[Any], adapter: CollectionAdapter[Any], *, override: bool = False) -> None:
         """Registers the specified collection type with the specified adapter."""
         if not isinstance(adapter, CollectionAdapter):
             raise TypeError("Adapter must be an instance of 'CollectionAdapter' (not the class)")
@@ -387,7 +360,7 @@ class CollectionRegistry(metaclass=FinalSingletonMeta):
         return best_adapter
 
 
-############################################################
+### ABSTRACT COLLECTION ####################################
 
 C = TypeVar("C", bound="AbstractCollection")
 
@@ -657,9 +630,7 @@ class AbstractSequentialCollection(AbstractCollection[T], Sequence[T], ABC):
         try:
             index = operator.index(index)  # accepts int-like types (e.g., numpy.int64)
         except TypeError as e:
-            raise TypeError(
-                f"Collection indices must be integers or slices, not '{type(index).__name__}'"
-            ) from e
+            raise TypeError(f"Collection indices must be integers or slices, not '{type(index).__name__}'") from e
 
         n = len(self)
         if index < 0:
@@ -792,9 +763,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     ### CONVERTERS (VALUES BY DEFAULT) #####################
 
     @classmethod
-    def from_iterable(
-        cls: Type[CMap], iterable: Union[Iterable[Tuple[K, V]], Mapping[K, V]]
-    ) -> CMap:
+    def from_iterable(cls: Type[CMap], iterable: Union[Iterable[Tuple[K, V]], Mapping[K, V]]) -> CMap:
         """
         Returns an instance of this mapping collection type built from the specified `Iterable` of
         pairs or from the specified mapping. Class-level converter.
@@ -918,9 +887,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
     @overload
     def get(self, x: AbstractMappingCollection[K, V], key: K, default: D) -> Union[D, V]: ...
 
-    def get(
-        self, x: AbstractMappingCollection[K, V], key: K, default: Optional[D] = None
-    ) -> Optional[Union[D, V]]:
+    def get(self, x: AbstractMappingCollection[K, V], key: K, default: Optional[D] = None) -> Optional[Union[D, V]]:
         """
         Returns the value associated with the specified key, or the specified default.
 
@@ -974,9 +941,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         """
         x.discard_key(key)
 
-    def update_pairs(
-        self, x: AbstractMappingCollection[K, V], pairs: Iterable[Tuple[K, V]]
-    ) -> None:
+    def update_pairs(self, x: AbstractMappingCollection[K, V], pairs: Iterable[Tuple[K, V]]) -> None:
         """Updates the specified mapping collection with the specified key-value pairs."""
         x.update_pairs(pairs)
 
@@ -1009,11 +974,7 @@ def create_iterator(x: Any, *, target_type: Union[Type[Any], str] = "object") ->
     try:
         return iter(x)
     except TypeError as e:
-        name = (
-            target_type
-            if isinstance(target_type, str)
-            else getattr(target_type, "__name__", str(target_type))
-        )
+        name = target_type if isinstance(target_type, str) else getattr(target_type, "__name__", str(target_type))
         raise TypeError(f"'{name}' expects an 'Iterable', not '{type(x).__name__}'") from e
 
 

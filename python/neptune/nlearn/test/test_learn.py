@@ -17,13 +17,12 @@ from sklearn.datasets import make_blobs
 from nlearn.clustering import *
 from nlearn.common import plot_confusion_matrix
 from nlearn.nlp import *
+from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
 ## LEARN TEST CONFIG #####################################################################
 
 __LEARN_TEST_CONFIG_________________________________________ = ""
-
-from nutil.io.logging import configure_logging
 
 matplotlib.use("Agg")
 
@@ -83,9 +82,7 @@ class TestLearn(Test):
         fig.show()
         # - Dirichlet process Gaussian mixture
         model = create_bayesian_gaussian_mixture(data, n=5)
-        fig = plot_mixture(
-            data, model, title="Dirichlet Process Gaussian Mixture With Five Components"
-        )
+        fig = plot_mixture(data, model, title="Dirichlet Process Gaussian Mixture With Five Components")
         fig.show()
 
         logging.info("Fit a Gaussian mixture with one component")
@@ -113,9 +110,7 @@ class TestLearn(Test):
             0.7 * np.random.randn(SIZE, 2) + np.array([-6, 3]),
         ]
         model = create_bayesian_gaussian_mixture(data, n=5)
-        fig = plot_mixture(
-            data, model, title="Dirichlet Process Gaussian Mixture With Five Components"
-        )
+        fig = plot_mixture(data, model, title="Dirichlet Process Gaussian Mixture With Five Components")
         fig.show()
 
     def test_common(self):

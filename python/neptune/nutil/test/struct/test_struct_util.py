@@ -17,8 +17,7 @@ from collections import OrderedDict
 
 from pandas.api.types import is_datetime64_any_dtype
 
-from nutil.common import *
-from nutil.config import BOOLEAN_ELEMENT_TYPE, DATE_TYPE, FLOAT_ELEMENT_TYPE
+from nutil.config import *
 from nutil.enums import Aggregation, Position
 from nutil.io.logging import configure_logging
 from nutil.struct import util
@@ -171,9 +170,7 @@ def test_get_element_types_on_dataframe_series_array_and_scalar() -> None:
 
 
 def test_get_min_element_type_promotes_safely() -> None:
-    t = util.get_min_element_type(
-        np.array([1, 2], dtype=np.int32), np.array([1.5], dtype=np.float64)
-    )
+    t = util.get_min_element_type(np.array([1, 2], dtype=np.int32), np.array([1.5], dtype=np.float64))
     assert np.issubdtype(t, np.floating)
     assert t == np.dtype(FLOAT_ELEMENT_TYPE) or np.issubdtype(t, np.float64)
 

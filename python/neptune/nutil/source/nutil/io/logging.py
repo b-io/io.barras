@@ -5,11 +5,21 @@
 
 import logging
 
-## LOGGING CONFIG ########################################################################
+## LOGGING CONSTANTS #####################################################################
+
+__LOGGING_CONSTANTS_________________________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 DEFAULT_LOG_LEVEL = logging.INFO
 DEFAULT_LOG_FORMAT = "%(asctime)s [%(module)s] [%(levelname)s] %(message)s"
 DEFAULT_LOG_DATE_FORMAT = "%H:%M:%S"
+
+
+## LOGGING CONFIG ########################################################################
+
+__LOGGING_CONFIG____________________________________________ = ""
 
 
 def configure_logging(

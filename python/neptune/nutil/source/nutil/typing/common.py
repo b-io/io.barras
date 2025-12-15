@@ -62,9 +62,7 @@ def assert_element_types(
         )
     if allowed_types and not isinstance(value, allowed_types):
         scalars = get_type_names(allowed_types)
-        raise TypeError(
-            f"'{name}' must be an instance of {{{scalars}}}; got {type(value).__name__}"
-        )
+        raise TypeError(f"'{name}' must be an instance of {{{scalars}}}; got {type(value).__name__}")
 
 
 def assert_types(
@@ -104,6 +102,5 @@ def assert_types(
 
     if allowed_types and not isinstance(value, allowed_types):
         raise TypeError(
-            f"'{name}' must be an instance of {{{get_type_names(allowed_types)}}}; "
-            f"got {type(value).__name__}"
+            f"'{name}' must be an instance of {{{get_type_names(allowed_types)}}}; " f"got {type(value).__name__}"
         )

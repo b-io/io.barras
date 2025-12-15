@@ -108,9 +108,7 @@ def test_typesafe_only_checks_annotated_arguments() -> None:
         return f"{a}-{b}-{c}"
 
     # `b` is unannotated and should be accepted even when not a string
-    assert func(1, object(), "x") == "1-<object>-x".replace("<object>", "object()")[:3] or func(
-        1, object(), "x"
-    )
+    assert func(1, object(), "x") == "1-<object>-x".replace("<object>", "object()")[:3] or func(1, object(), "x")
 
 
 def test_typesafe_suggest_mode_does_not_raise(caplog: LogCaptureFixture) -> None:

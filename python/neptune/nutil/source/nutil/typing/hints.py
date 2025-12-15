@@ -118,14 +118,9 @@ def matches_type_hints(
 
     # Handle a bare type or a PEP 604 union surfaced as `types.UnionType`
     if origin is None:
-        if (
-            getattr(annotation, "__module__", "") == "types"
-            and getattr(annotation, "__qualname__", "") == "UnionType"
-        ):
+        if getattr(annotation, "__module__", "") == "types" and getattr(annotation, "__qualname__", "") == "UnionType":
             return any(
-                matches_type_hints(
-                    value, a, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth
-                )
+                matches_type_hints(value, a, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth)
                 for a in args
             )
         try:
@@ -135,17 +130,12 @@ def matches_type_hints(
 
     # Handle the wrappers that do not increase the container depth
     elif origin is Annotated:
-        return matches_type_hints(
-            value, args[0], sample_limit=sample_limit, max_depth=max_depth, _depth=_depth
-        )
+        return matches_type_hints(value, args[0], sample_limit=sample_limit, max_depth=max_depth, _depth=_depth)
     elif origin is Literal:
         return any(value == a for a in args)
     elif origin is Union:
         return any(
-            matches_type_hints(
-                value, a, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth
-            )
-            for a in args
+            matches_type_hints(value, a, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth) for a in args
         )
 
     # Validate a `Type[T]`
@@ -162,17 +152,13 @@ def matches_type_hints(
             (elem_type, _) = args
             # Validate a variable-length `tuple[T, ...]`
             return all(
-                matches_type_hints(
-                    v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-                )
+                matches_type_hints(v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
                 for v in value
             )
         if len(args) != len(value):
             return False
         return all(
-            matches_type_hints(
-                v, t, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
+            matches_type_hints(v, t, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
             for v, t in zip(value, args)
         )
 
@@ -184,9 +170,7 @@ def matches_type_hints(
             return True
         (elem_type,) = args
         return all(
-            matches_type_hints(
-                v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
+            matches_type_hints(v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
             for v in value
         )
 
@@ -198,12 +182,8 @@ def matches_type_hints(
             return True
         key_type, val_type = args
         return all(
-            matches_type_hints(
-                k, key_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
-            and matches_type_hints(
-                v, val_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
+            matches_type_hints(k, key_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
+            and matches_type_hints(v, val_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
             for k, v in value.items()
         )
 
@@ -215,9 +195,7 @@ def matches_type_hints(
             return True
         (elem_type,) = args
         return all(
-            matches_type_hints(
-                v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
+            matches_type_hints(v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
             for v in value
         )
 
@@ -229,9 +207,7 @@ def matches_type_hints(
             return True
         (elem_type,) = args
         return all(
-            matches_type_hints(
-                v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            )
+            matches_type_hints(v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
             for v in value
         )
 
@@ -251,9 +227,7 @@ def matches_type_hints(
             return False
         checked = 1
         for x in it:
-            if not matches_type_hints(
-                x, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1
-            ):
+            if not matches_type_hints(x, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1):
                 return False
             checked += 1
             if checked >= sample_limit:

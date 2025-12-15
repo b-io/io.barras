@@ -14,7 +14,9 @@ import logging
 import re
 from typing import Callable, List, Match, Optional, Set, Tuple, Union
 
-## STRING COMPARATORS ####################################################################
+## COMMON COMPARATORS ####################################################################
+
+__COMMON_COMPARATORS________________________________________ = ""
 
 
 def get_text_window(
@@ -240,8 +242,7 @@ def is_acceptable_diff(
             # A text is replaced from `a` (expected) to `b` (actual)
             replaced_text = (a[i1:i2], b[j1:j2])
             if replaced_text in acceptable_replacements or (
-                replaced_text[0] in acceptable_deletions
-                and replaced_text[1] in acceptable_insertions
+                replaced_text[0] in acceptable_deletions and replaced_text[1] in acceptable_insertions
             ):
                 continue
             else:

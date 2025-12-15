@@ -20,11 +20,17 @@ from nutil.struct.common import *
 
 ## COMMON SETTINGS #######################################################################
 
+__COMMON_SETTINGS___________________________________________ = ""
+
 warnings.simplefilter(action="ignore", category=FutureWarning)
+
 
 ## COMMON CONSTANTS ######################################################################
 
 __COMMON_CONSTANTS__________________________________________ = ""
+
+
+### DEFAULTS ###############################################
 
 DEFAULT_UNKNOWN = "unknown"
 
@@ -315,9 +321,7 @@ def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
 
     If `default` is empty, falsy arguments are removed before collapsing.
     """
-    return " ".join(
-        s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s
-    )
+    return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
 
 
 def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
@@ -371,9 +375,7 @@ def is_type(x: Any) -> bool:
 
 def is_empty(x: Any) -> bool:
     """Returns whether `x` is semantically empty (null, zero-length, or empty frame)."""
-    return is_null(x) or (
-        (hasattr(x, "__len__") and len(x) == 0) or (is_frame(x) and count_cols(x) == 0)
-    )
+    return is_null(x) or ((hasattr(x, "__len__") and len(x) == 0) or (is_frame(x) and count_cols(x) == 0))
 
 
 def is_all_empty(*args: Any) -> bool:

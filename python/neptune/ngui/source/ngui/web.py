@@ -10,11 +10,13 @@
 
 from xhtml2pdf import pisa
 
-from nutil.scalar.string import *
+from nutil.common import *
+from nutil.scalar.string import dquote, replace
 
-## WEB FUNCTIONS #########################################################################
+## WEB PROCESSORS ########################################################################
 
-__WEB_______________________________________________________ = ""
+__WEB_PROCESSORS____________________________________________ = ""
+
 
 ### WEB HTML ###############################################
 

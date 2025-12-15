@@ -53,8 +53,9 @@ from nutil.io.file import (
 )
 from nutil.io.logging import configure_logging
 
+## FIX STYLE FIXERS ######################################################################
 
-## FIXERS ################################################################################
+__FIX_STYLE_FIXERS__________________________________________ = ""
 
 
 def fix_constant_bar_width(line: str, rule: StyleRule) -> Tuple[str, bool]:
@@ -265,7 +266,7 @@ def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, b
     return line, False
 
 
-## FIXER REGISTRY ########################################################################
+### REGISTRY ###############################################
 
 FixerFn = Callable[[str, StyleRule], Tuple[str, bool]]
 
@@ -278,7 +279,49 @@ FIXERS: Dict[str, FixerFn] = {
 }
 
 
-## FILE PROCESSOR ########################################################################
+## FIX STYLE PROCESSORS ##################################################################
+
+__FIX_STYLE_PROCESSORS______________________________________ = ""
+
+
+def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
+    """
+    Reports what would change for a file without writing.
+
+    Args:
+        path: The file path to preview.
+        rules: The ordered sequence of active `StyleRule` instances.
+
+    Returns:
+        The dictionary of `{rule_id: count_of_line_changes}`.
+    """
+    try:
+        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
+    except Exception as e:
+        logging.warning("Could not read '%s': %s", path, e)
+        return {}
+
+    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    counts: Dict[str, int] = {}
+
+    for line in orig.splitlines(keepends=True):
+        current_line = line
+        for rule in rules:
+            fixer = FIXERS.get(rule.id)
+            if not fixer:
+                continue
+            fixed_line, has_changed = fixer(current_line, rule)
+            if has_changed:
+                counts[rule.id] = counts.get(rule.id, 0) + 1
+                current_line = fixed_line
+
+    if not is_empty(counts):
+        logging.info(
+            "[DRY RUN] '%s' → %s",
+            path,
+            ", ".join(f"{k}: {v}" for k, v in sorted(counts.items())),
+        )
+    return counts
 
 
 def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
@@ -302,29 +345,34 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
 
     counts: Dict[str, int] = {}
-    has_changed = False
+    has_file_changed = False
     out_lines: List[str] = []
 
     for line in orig.splitlines(keepends=True):
         current_line = line
+
         for rule in rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
-            fixed_line, has_changed = fixer(current_line, rule)
-            if has_changed:
+
+            fixed_line, has_line_changed = fixer(current_line, rule)
+            if has_line_changed:
                 counts[rule.id] = counts.get(rule.id, 0) + 1
                 current_line = fixed_line
-        has_changed = has_changed or (current_line != line)
+                has_file_changed = True
+
         out_lines.append(current_line)
 
-    if has_changed:
+    if has_file_changed:
         write_text(path, "".join(out_lines))
 
     return counts
 
 
-## RUNNER ################################################################################
+## FIX STYLE RUNNER ######################################################################
+
+__FIX_STYLE_RUNNER__________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
@@ -379,9 +427,7 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
                 continue
 
             # Determine the active rules for this file (the rule-level include/exclude)
-            active_rules = [
-                r for r in fixable_rules if not exclude_file(rel_file, r.exclude, r.include)
-            ]
+            active_rules = [r for r in fixable_rules if not exclude_file(rel_file, r.exclude, r.include)]
             if not active_rules:
                 continue
 
@@ -404,47 +450,9 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
     return 0
 
 
-## CLI ###################################################################################
+## FIX STYLE CLI #########################################################################
 
-
-def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
-    """
-    Reports what would change for a file without writing.
-
-    Args:
-        path: The file path to preview.
-        rules: The ordered sequence of active `StyleRule` instances.
-
-    Returns:
-        The dictionary of `{rule_id: count_of_line_changes}`.
-    """
-    try:
-        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
-    except Exception as e:
-        logging.warning("Could not read '%s': %s", path, e)
-        return {}
-
-    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
-    counts: Dict[str, int] = {}
-
-    for line in orig.splitlines(keepends=True):
-        current_line = line
-        for rule in rules:
-            fixer = FIXERS.get(rule.id)
-            if not fixer:
-                continue
-            fixed_line, has_changed = fixer(current_line, rule)
-            if has_changed:
-                counts[rule.id] = counts.get(rule.id, 0) + 1
-                current_line = fixed_line
-
-    if not is_empty(counts):
-        logging.info(
-            "[DRY RUN] '%s' → %s",
-            path,
-            ", ".join(f"{k}: {v}" for k, v in sorted(counts.items())),
-        )
-    return counts
+__FIX_STYLE_CLI_____________________________________________ = ""
 
 
 def parse_args() -> argparse.Namespace:
@@ -473,9 +481,7 @@ def parse_args() -> argparse.Namespace:
 
 def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
-    ap = argparse.ArgumentParser(
-        description="Fix simple coding-style issues based on 'STYLE.yml' rules."
-    )
+    ap = argparse.ArgumentParser(description="Fix simple coding-style issues based on 'STYLE.yml' rules.")
     # Add the path(s)
     ap.add_argument("--config", help="Path to YAML config.", default="STYLE.yml")
     ap.add_argument("--root", help="Root directory to scan.", default=".")
@@ -488,7 +494,9 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return ap
 
 
-## MAIN ##################################################################################
+## FIX STYLE MAIN ########################################################################
+
+__FIX_STYLE_MAIN____________________________________________ = ""
 
 
 def main() -> None:

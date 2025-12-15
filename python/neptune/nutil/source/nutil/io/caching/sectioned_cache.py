@@ -38,7 +38,9 @@ from nutil.common import *
 from nutil.io.caching.common import CachePolicy
 from nutil.io.file import write_json
 
-## SECTIONED CACHING CLASSES #############################################################
+## SECTIONED CACHE CLASSES ###############################################################
+
+__SECTIONED_CACHE_CLASSES___________________________________ = ""
 
 V = TypeVar("V")
 
@@ -425,9 +427,7 @@ class SectionedCache(Generic[V]):
 
         return cache
 
-    def save(
-        self, *, compact: bool = False, backup: bool = False, backup_dir: Optional[Path] = None
-    ) -> None:
+    def save(self, *, compact: bool = False, backup: bool = False, backup_dir: Optional[Path] = None) -> None:
         """
         Saves the cache atomically to the disk (includes the active `self.POLICY_KEY` at the top level).
 
@@ -475,9 +475,7 @@ class SectionedCache(Generic[V]):
     def _require_section(self, section: Section) -> Bucket:
         """Selects the mutable bucket for the `section`, creating it if missing, and validating the contract."""
         if self.sections and (section not in self.sections):
-            raise KeyError(
-                f"'{section}' is not a valid name for '{self.__class__.__name__}.sections'"
-            )
+            raise KeyError(f"'{section}' is not a valid name for '{self.__class__.__name__}.sections'")
         if section not in self._store:
             self._store[section] = {}
         return self._store[section]

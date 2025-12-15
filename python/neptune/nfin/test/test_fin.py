@@ -13,7 +13,6 @@ import unittest
 
 from nfin.time_series import *
 from nutil.io.logging import configure_logging
-from nutil.scalar.date import *
 from nutil.test.unittest import Test
 
 ## FIN TEST CONSTANTS ####################################################################
@@ -37,9 +36,7 @@ class TestFin(Test):
         date_from = date_to - 2 * RELATIVE_YEAR
         index = create_date_sequence(date_from, date_to)
         series = rename(
-            to_series(
-                cum_diff(create_random_int_array(-5, len(index), high=6), 0)[:-1], index=index
-            ),
+            to_series(cum_diff(create_random_int_array(-5, len(index), high=6), 0)[:-1], index=index),
             "Random walk",
         )
 
@@ -65,17 +62,13 @@ class TestFin(Test):
                     )
                     if freq is Frequency.MONTHS:
                         if pos is Position.START:
-                            logging.info(
-                                get_first(get_index(s)), "=", get_next_month_start(date_from)
-                            )
+                            logging.info(get_first(get_index(s)), "=", get_next_month_start(date_from))
                             self.assert_equals(
                                 to_stamp(get_first(get_index(s))),
                                 to_stamp(get_next_month_start(date_from)),
                             )
                         elif pos is Position.END:
-                            logging.info(
-                                get_first(get_index(s)), "=", get_next_month_end(date_from)
-                            )
+                            logging.info(get_first(get_index(s)), "=", get_next_month_end(date_from))
                             self.assert_equals(
                                 to_stamp(get_first(get_index(s))),
                                 to_stamp(get_next_month_end(date_from)),
@@ -87,9 +80,7 @@ class TestFin(Test):
                         self.assert_equals(find_nearest_position(s, freq=freq).value, pos.value)
 
         logging.info("Test the time series forecast")
-        forecasted_series = rename(
-            forecast_series(series, horizon=2, freq=Frequency.MONTHS), "Forecast"
-        )
+        forecasted_series = rename(forecast_series(series, horizon=2, freq=Frequency.MONTHS), "Forecast")
         forecasted_series = forecasted_series[forecasted_series.index >= pd.Timestamp(date_to)]
         if agg is Aggregation.IDENTITY:
             self.assert_equals(forecasted_series.iloc[-1], -55.73330798470403)

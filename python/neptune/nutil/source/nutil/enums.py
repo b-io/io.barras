@@ -18,6 +18,9 @@ from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 
 __ENUMS_____________________________________________________ = ""
 
+
+### INTEGER ################################################
+
 I = TypeVar("I", bound="IntEnum")
 
 
@@ -229,7 +232,7 @@ class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
         return str(self.value)
 
 
-############################################################
+### STRING ################################################
 
 S = TypeVar("S", bound="StrEnum")
 

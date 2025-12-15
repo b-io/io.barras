@@ -39,8 +39,9 @@ from nutil.io.file import (
 )
 from nutil.io.logging import configure_logging
 
+## CHECK STYLE RUNNER ####################################################################
 
-## RUNNER ################################################################################
+__CHECK_STYLE_RUNNER________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig) -> int:
@@ -55,6 +56,7 @@ def run(root: Path, config: StyleConfig) -> int:
         Exit code `0` on success (no `"error"`-severity violations), `1` otherwise.
     """
     any_error = False
+    total_files = 0
     total_violations = 0
 
     for dirpath, dirnames, filenames in os.walk(root):
@@ -99,16 +101,19 @@ def run(root: Path, config: StyleConfig) -> int:
                     if rule.severity == "error":
                         any_error = True
                 total_violations += len(violations)
+            total_files += 1
 
     if total_violations == 0:
-        logging.info("✅ No coding style violations found")
+        logging.info("✅ No coding style violations found in %d file(s)", total_files)
     else:
         logging.warning("❌ %d coding style violation(s) found", total_violations)
 
     return 1 if any_error else 0
 
 
-## SCANNER ###############################################################################
+## CHECK STYLE SCANNER ###################################################################
+
+__CHECK_STYLE_SCANNER_______________________________________ = ""
 
 
 def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, int, str]]:
@@ -149,7 +154,9 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
     return violations
 
 
-## CLI ###################################################################################
+## CHECK STYLE CLI #######################################################################
+
+__CHECK_STYLE_CLI___________________________________________ = ""
 
 
 def parse_args() -> argparse.Namespace:
@@ -185,7 +192,9 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return ap
 
 
-## MAIN ##################################################################################
+## CHECK STYLE MAIN ######################################################################
+
+__CHECK_STYLE_MAIN__________________________________________ = ""
 
 
 def main() -> None:

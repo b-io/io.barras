@@ -22,6 +22,7 @@ from nutil.struct.util import apply
 
 __PROCESSORS________________________________________________ = ""
 
+
 ### THREAD #################################################
 
 __THREAD_PROCESSORS_________________________________________ = ""
@@ -104,9 +105,7 @@ def multiprocess_map(
     )
     with Pool(processes=max_workers) as executor:
         # Submit the tasks and collect the results
-        results = executor.map_async(
-            f, s, chunksize=chunk_size, callback=callback, error_callback=error_callback
-        )
+        results = executor.map_async(f, s, chunksize=chunk_size, callback=callback, error_callback=error_callback)
         if asynchronous:
             return results
         return results.get(timeout=timeout)

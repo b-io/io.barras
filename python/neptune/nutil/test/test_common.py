@@ -185,9 +185,7 @@ class TestCommon(Test):
     ##########################
 
     def apply(self, s, f, *args, axis: Optional[Axis] = None, inplace=False, **kwargs):
-        t = timeit.timeit(
-            stmt=lambda: apply(s, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT
-        )
+        t = timeit.timeit(stmt=lambda: apply(s, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT)
         logging.info(
             "Applied",
             f.__name__,
@@ -202,9 +200,7 @@ class TestCommon(Test):
 
     def tally(self, s, boundaries):
         t = timeit.timeit(stmt=lambda: tally(s, boundaries), number=TEST_COUNT)
-        logging.info(
-            count(s, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]"
-        )
+        logging.info(count(s, axis=None), "elements tallied", TEST_COUNT, "times in", round(t), "[s]")
 
 
 class TestMath(Test):

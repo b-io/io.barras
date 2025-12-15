@@ -20,6 +20,7 @@ from nutil.scalar.common import *
 
 __COMMON_TABLE_CONSTANTS____________________________________ = ""
 
+
 ### DATAFRAME ##############################################
 
 __COMMON_DATAFRAME_CONSTANTS________________________________ = ""
@@ -35,6 +36,7 @@ FRAME_GROUP_BY_TYPE = DataFrameGroupBy
 INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
 
+
 ## COMMON TABLE CLASSES ##################################################################
 
 __COMMON_TABLE_CLASSES______________________________________ = ""
@@ -46,6 +48,7 @@ Table = Union["pd.Series", "pd.DataFrame"]
 ## COMMON TABLE ACCESSORS ################################################################
 
 __COMMON_TABLE_ACCESSORS____________________________________ = ""
+
 
 ### DATAFRAME ##############################################
 

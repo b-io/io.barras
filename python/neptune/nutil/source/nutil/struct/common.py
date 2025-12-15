@@ -40,6 +40,7 @@ Axis = Union[int, str]  # {0, 1, "index", "columns"}
 
 __COMMON_STRUCT_CONVERTERS__________________________________ = ""
 
+
 ### COLLECTION #############################################
 
 
@@ -257,9 +258,7 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
 ### TABLE ##################################################
 
 
-def ungroup(
-    x: Any, *, axis: Optional[Axis] = 0, mode: Literal["auto", "obj", "groups"] = "auto"
-) -> Any:
+def ungroup(x: Any, *, axis: Optional[Axis] = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
     """
     Returns the ungrouped Pandas object or the groups mapping from a `GroupBy`.
 

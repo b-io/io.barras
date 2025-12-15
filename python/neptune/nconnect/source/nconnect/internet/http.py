@@ -31,6 +31,9 @@ from nutil.struct.util import create_empty
 
 __HTTP_CONSTANTS____________________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 # The default user agent per the common API policy (e.g., Wikimedia)
 DEFAULT_USER_AGENT: str = (
     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119 Safari/537.36"
@@ -279,7 +282,7 @@ def request(
     return status, response
 
 
-### CONTENT ################################################
+### HTTP CONTENT ###########################################
 
 
 def request_content(
@@ -362,7 +365,7 @@ def request_content(
     return status, response.content
 
 
-### JSON ###################################################
+### HTTP JSON ##############################################
 
 
 def request_json(
@@ -444,7 +447,7 @@ def request_json(
     return status, json
 
 
-### TEXT ###################################################
+### HTTP TEXT ##############################################
 
 
 def request_text(
@@ -526,7 +529,8 @@ def request_text(
 
 __HTTP_LOOKUPS______________________________________________ = ""
 
-### CONTENT ################################################
+
+### HTTP CONTENT ###########################################
 
 
 def lookup_content(
@@ -575,9 +579,7 @@ def lookup_content(
 
     # Set the defaults for the underlying request
     kwargs.setdefault("raise_on_http_error", False)
-    effective_empty_statuses = kwargs.setdefault(
-        "accept_empty_statuses", to_int(accept_empty_statuses)
-    )
+    effective_empty_statuses = kwargs.setdefault("accept_empty_statuses", to_int(accept_empty_statuses))
 
     # Build the optional log suffix
     suffix_parts: List[str] = []
@@ -618,9 +620,7 @@ def lookup_content(
             Outcome.UNEXPECTED_STATUS.value,
             e,
         )
-        return ProviderResult(
-            payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS
-        )
+        return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
@@ -635,9 +635,7 @@ def lookup_content(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -668,9 +666,7 @@ def lookup_content(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty payload (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -715,7 +711,7 @@ def lookup_content(
     return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
 
-### JSON ###################################################
+### HTTP JSON ##############################################
 
 
 def lookup_json(
@@ -772,9 +768,7 @@ def lookup_json(
 
     # Set the defaults for the underlying request
     kwargs.setdefault("raise_on_http_error", False)
-    effective_empty_statuses = kwargs.setdefault(
-        "accept_empty_statuses", to_int(accept_empty_statuses)
-    )
+    effective_empty_statuses = kwargs.setdefault("accept_empty_statuses", to_int(accept_empty_statuses))
 
     # Build the optional log suffix
     suffix_parts: List[str] = []
@@ -807,9 +801,7 @@ def lookup_json(
             Outcome.UNEXPECTED_STATUS.value,
             e,
         )
-        return ProviderResult(
-            payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS
-        )
+        return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
@@ -824,9 +816,7 @@ def lookup_json(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -841,9 +831,7 @@ def lookup_json(
         if not isinstance(data, response_type):
             actual = type(data).__name__
             expected = response_type.__name__
-            raise RuntimeError(
-                f"Unexpected payload type (expected top-level {expected}, got {actual})"
-            )
+            raise RuntimeError(f"Unexpected payload type (expected top-level {expected}, got {actual})")
 
         # Apply the optional coercion
         payload: Any = data
@@ -865,9 +853,7 @@ def lookup_json(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty payload (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -912,7 +898,7 @@ def lookup_json(
     return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
 
-### TEXT ###################################################
+### HTTP TEXT ##############################################
 
 
 def lookup_text(
@@ -958,9 +944,7 @@ def lookup_text(
 
     # Set the defaults for the underlying request
     kwargs.setdefault("raise_on_http_error", False)
-    effective_empty_statuses = kwargs.setdefault(
-        "accept_empty_statuses", to_int(accept_empty_statuses)
-    )
+    effective_empty_statuses = kwargs.setdefault("accept_empty_statuses", to_int(accept_empty_statuses))
 
     # Build the optional log suffix
     suffix_parts: List[str] = []
@@ -993,9 +977,7 @@ def lookup_text(
             Outcome.UNEXPECTED_STATUS.value,
             e,
         )
-        return ProviderResult(
-            payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS
-        )
+        return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
@@ -1010,9 +992,7 @@ def lookup_text(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -1043,9 +1023,7 @@ def lookup_text(
                     Outcome.EMPTY_OK.value,
                     _preview_payload(empty_payload),
                 )
-                return ProviderResult(
-                    payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK
-                )
+                return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.EMPTY_OK)
             logging.warning(
                 "Empty payload (HTTP %s)%s → status=%s, outcome=%s%s",
                 status,
@@ -1132,9 +1110,7 @@ def download(
     )
 
     if not result.payload:
-        raise requests.RequestException(
-            "No content received for '%s' (HTTP %s)" % (url, result.status)
-        )
+        raise requests.RequestException("No content received for '%s' (HTTP %s)" % (url, result.status))
 
     try:
         return write_bytes(target_path, result.payload)  # type: ignore[arg-type]

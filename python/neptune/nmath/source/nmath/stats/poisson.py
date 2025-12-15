@@ -11,7 +11,8 @@
 from nmath.common import *
 from nmath.stats import normal
 from nutil.math import *
-from nutil.struct.util import *
+from nutil.scalar.string import par
+from nutil.struct.util import apply, mean, sort
 
 ## POISSON CONSTANTS #####################################################################
 
@@ -99,9 +100,9 @@ class Poisson(Distribution):
         return add(self.mean(), margin)
 
 
-## POISSON FUNCTIONS #####################################################################
+## POISSON PROCESSORS ####################################################################
 
-__POISSON___________________________________________________ = ""
+__POISSON_PROCESSORS________________________________________ = ""
 
 
 def generate(size=1, lam=1):

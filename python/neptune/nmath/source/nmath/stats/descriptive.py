@@ -11,32 +11,22 @@
 from scipy import stats
 
 from ngui.charts import *
-from ngui.common import *
+from nutil.struct.util import *
 
 ## DESCRIPTIVE CONSTANTS #################################################################
 
 __DESCRIPTIVE_CONSTANTS_____________________________________ = ""
 
+
+### DEFAULTS ###############################################
+
 # The default number of points
 DEFAULT_POINT_COUNT = 100
 
 
-## DESCRIPTIVE FUNCTIONS #################################################################
+## DESCRIPTIVE FIGURES ###################################################################
 
-__DESCRIPTIVE_______________________________________________ = ""
-
-
-def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None):
-    x = np.linspace(min(series), max(series), num=point_count)
-    kde = stats.gaussian_kde(series, bw_method=method, weights=weights)
-    name = get_name(series)
-    name = (name + " " if not is_empty(name) else "") + "Density"
-    return to_series(kde(x), name=name, index=x)
-
-
-### DESCRIPTIVE FIGURE #####################################
-
-__DESCRIPTIVE_FIGURE________________________________________ = ""
+__DESCRIPTIVE_FIGURES_______________________________________ = ""
 
 
 def draw_histogram(
@@ -522,3 +512,16 @@ def plot_cumulative_distribution(
                 col=1,
             )
     return fig
+
+
+## DESCRIPTIVE PROCESSORS ################################################################
+
+__DESCRIPTIVE_PROCESSORS____________________________________ = ""
+
+
+def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None):
+    x = np.linspace(min(series), max(series), num=point_count)
+    kde = stats.gaussian_kde(series, bw_method=method, weights=weights)
+    name = get_name(series)
+    name = (name + " " if not is_empty(name) else "") + "Density"
+    return to_series(kde(x), name=name, index=x)

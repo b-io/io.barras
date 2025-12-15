@@ -20,12 +20,16 @@ from nutil.constants import *
 
 ## COMMON SCALAR CONSTANTS ###############################################################
 
+__COMMON_SCALAR_CONSTANTS___________________________________ = ""
+
+
 ### BOOLEAN ################################################
 
 __COMMON_BOOLEAN_CONSTANTS__________________________________ = ""
 
 BOOLEAN_TYPE = bool
 BOOLEAN_ELEMENT_TYPE = np.bool_
+
 
 ### BYTES ##################################################
 
@@ -37,6 +41,7 @@ BYTES_ELEMENT_TYPE = np.bytes_
 BYTEARRAY_TYPE = bytearray
 MEMORYVIEW_TYPE = memoryview
 
+
 ### DATE ###################################################
 
 __COMMON_DATE_CONSTANTS_____________________________________ = ""
@@ -44,6 +49,7 @@ __COMMON_DATE_CONSTANTS_____________________________________ = ""
 DATE_TYPE = date
 DATETIME_TYPE = datetime
 TIMESTAMP_TYPE = pd.Timestamp
+
 
 ### NUMBER #################################################
 
@@ -64,6 +70,7 @@ LONG_ELEMENT_TYPE = np.uint32 if BIT_COUNT == 32 else np.uint64 if BIT_COUNT == 
 
 SHORT_TYPE = int
 SHORT_ELEMENT_TYPE = np.uint8
+
 
 ### STRING #################################################
 
