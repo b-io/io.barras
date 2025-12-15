@@ -8,20 +8,12 @@
 #   Test the metaclasses.
 ########################################################################################################################
 
-import logging
 import unittest
-from types import MappingProxyType
 
 import pytest
 
 from nutil.io.logging import configure_logging
-from nutil.metaclasses import (
-    combine_metaclasses,
-    FinalSingletonMeta,
-    NoPublicConstructorMeta,
-    SingletonMeta,
-    TempSingletonMeta,
-)
+from nutil.metaclasses import *
 
 ## METACLASSES TEST CASES ################################################################
 

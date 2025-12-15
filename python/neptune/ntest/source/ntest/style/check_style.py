@@ -25,18 +25,9 @@ from __future__ import annotations
 import argparse
 import logging
 import re
-from pathlib import Path
 
 from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
-from nutil.common import *
-from nutil.constants import DEFAULT_ENCODING
-from nutil.io.file import (
-    exclude_dir,
-    exclude_file,
-    join_posix_paths,
-    resolve_path,
-    to_relative_posix_path,
-)
+from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
 ## CHECK STYLE RUNNER ####################################################################

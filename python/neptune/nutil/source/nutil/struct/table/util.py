@@ -9,10 +9,7 @@
 ########################################################################################################################
 
 from dataclasses import fields, is_dataclass
-from typing import (
-    Container,
-    Protocol,
-)
+from typing import Container, Protocol
 
 from nutil.common import *
 from nutil.scalar.string import to_string
