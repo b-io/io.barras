@@ -13,11 +13,36 @@ from __future__ import annotations
 import itertools
 import operator
 from abc import ABC, abstractmethod
-from collections.abc import (Iterator as ABCIterator, Mapping as ABCMapping, MutableMapping as ABCMutableMapping, )
+from collections.abc import (
+    Iterator as ABCIterator,
+    Mapping as ABCMapping,
+    MutableMapping as ABCMutableMapping,
+)
 from functools import lru_cache
 from threading import RLock
-from typing import (Any, cast, ClassVar, Collection, Dict, Generic, ItemsView, Iterable, Iterator, KeysView, List,
-                    Mapping, Optional, overload, Sequence, Set, Tuple, Type, TypeVar, Union, ValuesView, )
+from typing import (
+    Any,
+    cast,
+    ClassVar,
+    Collection,
+    Dict,
+    Generic,
+    ItemsView,
+    Iterable,
+    Iterator,
+    KeysView,
+    List,
+    Mapping,
+    Optional,
+    overload,
+    Sequence,
+    Set,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+    ValuesView,
+)
 
 import numpy as np
 

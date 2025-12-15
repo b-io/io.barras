@@ -10,9 +10,14 @@
 
 from __future__ import annotations
 
-from collections.abc import (Collection as ABCCollection, Iterable as ABCIterable,
-                             MutableSequence as ABCMutableSequence, MutableSet as ABCMutableSet,
-                             Sequence as ABCSequence, Set as ABCSet, )
+from collections.abc import (
+    Collection as ABCCollection,
+    Iterable as ABCIterable,
+    MutableSequence as ABCMutableSequence,
+    MutableSet as ABCMutableSet,
+    Sequence as ABCSequence,
+    Set as ABCSet,
+)
 
 from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
