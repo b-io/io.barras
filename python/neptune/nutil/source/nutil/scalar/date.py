@@ -875,15 +875,15 @@ def get_frequency(
     pos: Position = POSITION,
 ) -> Union[str, pd.DateOffset]:
     """
-    Map project `Frequency` / `Position` to a Pandas-compatible frequency alias.
+    Maps `Frequency` and `Position` to a Pandas-compatible offset alias.
 
     Behavior:
         • DAYS      → `"D"`
         • WEEKS     → `"W"`
-        • MONTHS    → `"M"`  or `"MS"` (for `Position.START`)
-        • QUARTERS  → `"Q"`  or `"QS"` (for `Position.START`)
-        • SEMESTERS → `"2Q"` or `"2QS"` (for `Position.START`)
-        • YEARS     → `"A"`  or `"AS"` (for `Position.START`)
+        • MONTHS    → `"ME"`  or `"MS"` (for `Position.START`)
+        • QUARTERS  → `"QE"`  or `"QS"` (for `Position.START`)
+        • SEMESTERS → `"2QE"` or `"2QS"` (for `Position.START`)
+        • YEARS     → `"AE"`  or `"AS"` (for `Position.START`)
 
     If `freq` is already a `pd.DateOffset`, it is returned unchanged.
     Unknown `freq` strings are returned as-is.
@@ -916,10 +916,13 @@ def get_frequency(
         return freq
 
     # 4) Apply a generic start-of-period rule where Pandas supports it
-    if pos is Position.START and base not in {Frequency.DAYS.value, Frequency.WEEKS.value}:
-        return base + "S"
+    if base not in {Frequency.DAYS.value, Frequency.WEEKS.value}:
+        if pos is Position.START:
+            return base + "S"
+        elif pos is Position.END:
+            return base + "E"
+        return None
 
-    # END and MIDDLE both use the end-of-period alias
     return base
 
 
@@ -1185,6 +1188,27 @@ def create_stamp(y, m, d):
 def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, pos=POSITION):
     if not is_null(periods):
         return to_date(pd.date_range(date_from, date_to, periods=periods))
+
+    # Handle the `Position.MIDDLE`
+    if pos is Position.MIDDLE:
+        date_from = to_datetime(date_from)
+        date_to = to_datetime(date_to)
+
+        # Start from the period that contains `date_from`
+        start = to_datetime(get_start_date(date_from, freq=freq))
+
+        date_range: List[pd.Timestamp] = []
+        while start <= date_to:
+            end = to_datetime(get_end_date(start, freq=freq))
+
+            middle = pd.Timestamp(start + (end - start) // 2).normalize()
+            if middle >= pd.Timestamp(date_from) and middle <= pd.Timestamp(date_to):
+                date_range.append(middle)
+
+            start = to_datetime(start + FREQUENCY_TO_RELATIVE_DURATION[freq])
+
+        return pd.DatetimeIndex(date_range)
+
     if freq is Frequency.SEMESTERS:
         from nutil.struct.util import filter_with
 
@@ -1193,6 +1217,7 @@ def create_date_range(date_from, date_to, periods=None, freq=FREQUENCY, pos=POSI
             create_date_sequence(date_from, date_to, freq=Frequency.QUARTERS, pos=pos),
             f=lambda d: get_month(d) in months,
         )
+
     f = get_frequency(freq=freq, pos=pos)
     return pd.date_range(date_from, date_to, freq=f)
 

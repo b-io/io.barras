@@ -94,7 +94,9 @@ def get_frequency_and_position(series, freq=FREQUENCY, pos=POSITION):
 
 
 def set_freq(series, freq=FREQUENCY, pos=POSITION):
+    # Resolve the frequency and position from the data if needed
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
+
     series.index.freq = get_frequency(freq=freq, pos=pos)
 
 
@@ -220,7 +222,9 @@ def clean_series(series, pos=POSITION):
 
 
 def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate=True, freq=FREQUENCY, pos=POSITION):
+    # Resolve the frequency and position from the data if needed
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
+
     series = transform_series(series, freq=freq, pos=pos)
     if is_null(date_from):
         date_from = get_first(series.index)
@@ -750,10 +754,13 @@ __TIME_SERIES_DECOMPOSITION_________________________________ = ""
 
 
 def decompose_series(series, seasonal_period=1, freq=FREQUENCY, pos=POSITION):
-    """Decomposes the specified time series into trend and seasonality using the seasonal-trend
-    decomposition procedure STL based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and
-    I. Terpenning (1990)."""
+    """
+    Decomposes the specified time series into trend and seasonality using the seasonal-trend decomposition procedure STL
+    based on LOESS of R. B. Cleveland, W. S. Cleveland, J.E. McRae, and I. Terpenning (1990).
+    """
+    # Resolve the frequency and position from the data if needed
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
+
     series = prepare_series(series, freq=freq, pos=pos)
     seasonal_period_length = seasonal_period * get_period_length(get_date(), freq=freq)
     return STL(series, period=seasonal_period_length).fit()
@@ -776,7 +783,12 @@ def forecast_series(
     pos=POSITION,
 ):
     """Forecasts the specified time series using Holt Winter's Exponential Smoothing (2014)."""
+    # Resolve the frequency and position from the data if needed
     freq, pos = get_frequency_and_position(series, freq=freq, pos=pos)
+    if pos is Position.MIDDLE:
+        # Statsmodels forecasting needs a real frequency
+        pos = Position.END
+
     series = prepare_series(series, freq=freq, pos=pos)
     seasonal_period_length = seasonal_period * get_period_length(get_date(), period=period, freq=freq)
     predictions = set_index(to_frame([]), series.index)

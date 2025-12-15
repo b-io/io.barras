@@ -2793,14 +2793,14 @@ def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
     if is_table(s):
         if pos is Position.START:
             return s.loc[~s.index.duplicated(keep="first")]
-        elif pos is Position.END:
-            return s.loc[~s.index.duplicated(keep="last")]
         elif pos is Position.MIDDLE:
 
             def get_middle(group):
                 return group.iloc[len(group) // 2 : len(group) // 2 + 1]
 
             return s.groupby(s.index, sort=False).apply(get_middle).reset_index(level=0, drop=True)
+        elif pos is Position.END:
+            return s.loc[~s.index.duplicated(keep="last")]
     elif is_dict(s):
         return s
     seen: Dict[Any, List[int]] = {}
@@ -2810,11 +2810,11 @@ def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
         seen[v].append(i)
     if pos is Position.START:
         return [s[seen[k][0]] for k in seen]
-    elif pos is Position.END:
-        return [s[seen[k][-1]] for k in seen]
     elif pos is Position.MIDDLE:
         return [s[seen[k][len(seen[k]) // 2]] for k in seen]
-    return list(dict.fromkeys(s))  # fallback
+    elif pos is Position.END:
+        return [s[seen[k][-1]] for k in seen]
+    return list(dict.fromkeys(s))
 
 
 ##############################
