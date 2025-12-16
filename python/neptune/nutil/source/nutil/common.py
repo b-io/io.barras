@@ -229,7 +229,7 @@ def deep_hash(x: Any, default: int = 0) -> int:
     equal objects (like lists, dicts, nested structures) produce the same hash.
     """
     # Explicit `None` handling
-    if x is None:
+    if is_null(x):
         return default
 
     # Use a callable `hash` method on `x` if present

@@ -78,7 +78,7 @@ def plot_confusion_matrix(
     cm = get_confusion_matrix(target, prediction, normalize=normalize)
 
     # Ensure the square union of labels and the optional order
-    if labels is None:
+    if is_null(labels):
         labels = list(pd.Index(cm.index).union(pd.Index(cm.columns)))
     cm = cm.reindex(index=labels, columns=labels, fill_value=0)
 

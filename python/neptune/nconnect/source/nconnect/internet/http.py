@@ -356,7 +356,7 @@ def request_content(
         raise_on_rate_limit=raise_on_rate_limit,
         raise_on_http_error=raise_on_http_error,
     )
-    if response is None:
+    if is_null(response):
         raise requests.RequestException(f"{method.value} '{url}' failed after retries")
 
     if status in to_int(accept_empty_statuses):
@@ -435,7 +435,7 @@ def request_json(
         raise_on_rate_limit=raise_on_rate_limit,
         raise_on_http_error=raise_on_http_error,
     )
-    if response is None:
+    if is_null(response):
         raise requests.RequestException(f"{method.value} '{url}' failed after retries")
 
     if status in to_int(accept_empty_statuses):
@@ -516,7 +516,7 @@ def request_text(
         raise_on_rate_limit=raise_on_rate_limit,
         raise_on_http_error=raise_on_http_error,
     )
-    if response is None:
+    if is_null(response):
         raise requests.RequestException(f"{method.value} '{url}' failed after retries")
 
     if status in to_int(accept_empty_statuses):
@@ -625,7 +625,7 @@ def lookup_content(
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
         # Handle the OK status with no body
-        if data is None:
+        if is_null(data):
             if accept_empty_response:
                 logging.debug(
                     "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
@@ -648,7 +648,7 @@ def lookup_content(
 
         # Apply the optional coercion
         payload: Any = data
-        if coerce is not None:
+        if not is_null(coerce):
             try:
                 payload = coerce(data)
             except Exception as e:
@@ -806,7 +806,7 @@ def lookup_json(
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
         # Handle the OK status with no body
-        if data is None:
+        if is_null(data):
             if accept_empty_response:
                 logging.debug(
                     "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
@@ -835,7 +835,7 @@ def lookup_json(
 
         # Apply the optional coercion
         payload: Any = data
-        if coerce is not None:
+        if not is_null(coerce):
             try:
                 payload = coerce(data)
             except Exception as e:
@@ -982,7 +982,7 @@ def lookup_text(
     # Treat any accepted OK status like 200
     if status in to_int(accept_ok_statuses):
         # Handle the OK status with no body
-        if data is None:
+        if is_null(data):
             if accept_empty_response:
                 logging.debug(
                     "Empty response (HTTP %s)%s → status=%s, outcome=%s%s",
@@ -1005,7 +1005,7 @@ def lookup_text(
 
         # Apply the optional coercion
         payload: Any = data
-        if coerce is not None:
+        if not is_null(coerce):
             try:
                 payload = coerce(data)
             except Exception as e:

@@ -537,7 +537,7 @@ def write_csv(
 
         # Atomically replace the target with the new temp file
         try:
-            if mode is not None:
+            if not is_null(mode):
                 os.chmod(temp_filename, mode)
             os.replace(temp_filename, path)
         except Exception as e:
@@ -669,7 +669,7 @@ def write_json(
 
         # Atomically replace the target with the new temp file
         try:
-            if mode is not None:
+            if not is_null(mode):
                 os.chmod(temp_filename, mode)
             os.replace(temp_filename, path)
         except Exception as e:
@@ -807,7 +807,7 @@ def write_text(
 
         # Atomically replace the target with the new temp file
         try:
-            if mode is not None:
+            if not is_null(mode):
                 os.chmod(temp_filename, mode)
             os.replace(temp_filename, path)
         except Exception as e:

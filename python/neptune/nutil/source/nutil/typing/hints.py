@@ -117,7 +117,7 @@ def matches_type_hints(
     recurse = (max_depth == 0) or (_depth < max_depth)
 
     # Handle a bare type or a PEP 604 union surfaced as `types.UnionType`
-    if origin is None:
+    if is_null(origin):
         if getattr(annotation, "__module__", "") == "types" and getattr(annotation, "__qualname__", "") == "UnionType":
             return any(
                 matches_type_hints(value, a, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth)

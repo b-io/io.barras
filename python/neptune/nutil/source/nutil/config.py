@@ -306,7 +306,7 @@ def format_value(value: Any) -> str:
     Returns:
         A string that `ConfigParser` accepts for an option.
     """
-    if value is None:
+    if is_null(value):
         return ""  # unspecified
     elif isinstance(value, bool):
         return "true" if value else "false"

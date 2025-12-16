@@ -23,6 +23,9 @@ __DESCRIPTIVE_CONSTANTS_____________________________________ = ""
 # The default number of points
 DEFAULT_POINT_COUNT = 100
 
+# The default maximum fraction of unique values (distinct points) for treating a series as discrete
+DEFAULT_DISCRETE_RELATIVE_THRESHOLD = 0.2
+
 
 ## DESCRIPTIVE FIGURES ###################################################################
 
@@ -519,9 +522,72 @@ def plot_cumulative_distribution(
 __DESCRIPTIVE_PROCESSORS____________________________________ = ""
 
 
-def get_density(series, method=None, point_count=DEFAULT_POINT_COUNT, weights=None):
-    x = np.linspace(min(series), max(series), num=point_count)
-    kde = stats.gaussian_kde(series, bw_method=method, weights=weights)
+def get_density(
+    series,
+    method: Optional[Any] = None,
+    point_count: int = DEFAULT_POINT_COUNT,
+    weights: Optional[np.ndarray] = None,
+    relative_threshold: float = DEFAULT_DISCRETE_RELATIVE_THRESHOLD,
+    absolute_threshold: int = DEFAULT_POINT_COUNT // 2,
+) -> pd.Series:
+    """Estimates a density for continuous data or a PMF for discrete data."""
     name = get_name(series)
-    name = (name + " " if not is_empty(name) else "") + "Density"
-    return to_series(kde(x), name=name, index=x)
+    if not is_empty(name):
+        name += " "
+    values = get_values(series)
+    if weights is not None and len(weights) != len(values):
+        raise ValueError("'weights' must have the same length as 'values'")
+
+    # Treat integer-like data with few unique values as discrete
+    unique_values = np.unique(values)
+    if is_discrete_like(values, relative_threshold=relative_threshold, absolute_threshold=absolute_threshold):
+        # Empirical PMF
+        sorted_unique_values = np.sort(unique_values)
+        if is_null(weights):
+            counts = np.array([(values == v).sum() for v in sorted_unique_values], dtype=float)
+            pmf = counts / counts.sum()
+        else:
+            pmf = np.array([weights[values == v].sum() for v in sorted_unique_values], dtype=float)
+            pmf = pmf / pmf.sum()
+
+        return pd.Series(pmf, index=sorted_unique_values, name=name + "PMF")
+
+    # Continuous KDE
+    if unique_values.size < 2:
+        # `gaussian_kde` fails on a constant series
+        return pd.Series([0.0], index=[float(unique_values[0])], name=name + "Density")
+
+    x = np.linspace(float(values.min()), float(values.max()), num=point_count)
+    kde = stats.gaussian_kde(values, bw_method=method, weights=weights)
+    return pd.Series(kde(x), index=x, name=name + "Density")
+
+
+## DESCRIPTIVE VERIFIERS #################################################################
+
+__DESCRIPTIVE_VERIFIERS_____________________________________ = ""
+
+
+def is_discrete_like(
+    values: np.ndarray,
+    *,
+    tolerance: float = EPS,
+    relative_threshold: float = DEFAULT_DISCRETE_RELATIVE_THRESHOLD,
+    absolute_threshold: int = DEFAULT_POINT_COUNT // 2,
+) -> bool:
+    """Returns whether `values` look discrete enough to prefer a PMF over a KDE."""
+    if is_empty(values) or not is_integer_like(values, tolerance=tolerance):
+        return False
+
+    # Use both a relative cap (`relative_threshold_ratio * n`) and an absolute cap (`absolute_threshold`)
+    unique_values = np.unique(values)
+    relative_cap = max(1, int(round(relative_threshold * values.size)))
+    absolute_cap = max(1, int(absolute_threshold))
+    return bool(unique_values.size <= min(relative_cap, absolute_cap))
+
+
+def is_integer_like(values: np.ndarray, *, tolerance: float = EPS) -> bool:
+    """Returns whether all values are numerically close to integers."""
+    if is_empty(values):
+        return False
+
+    return bool(np.all(np.isclose(values, np.round(values), atol=tolerance)))

@@ -70,7 +70,7 @@ def get_row_keys(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, 
 
 def get_annotations_keys(x: Any, keys: Optional[Container[str]] = None) -> Tuple[str, ...]:
     annotations = getattr(x, "__annotations__", None)
-    if annotations is None:
+    if is_null(annotations):
         raise TypeError(f"Unsupported type '{type(x)!r}'")
     if not is_null(keys):
         return tuple(k for k in annotations.keys() if k in keys)
@@ -101,7 +101,7 @@ def get_row_string(row: Row, key: str) -> str:
 
 def get_annotations_value(x: Any, key: str) -> Optional[Any]:
     annotations = getattr(x, "__annotations__", None)
-    if annotations is None:
+    if is_null(annotations):
         raise TypeError(f"Unsupported type '{type(x)!r}'")
     return annotations.get(key)
 
@@ -135,7 +135,7 @@ def get_row_values(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any
 
 def get_annotations_values(x: Any, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     annotations = getattr(x, "__annotations__", None)
-    if annotations is None:
+    if is_null(annotations):
         raise TypeError(f"Unsupported type '{type(x)!r}'")
     if not is_null(keys):
         return tuple(annotations.get(k) for k in annotations.keys() if k in keys)

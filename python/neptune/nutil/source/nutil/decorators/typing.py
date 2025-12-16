@@ -83,7 +83,7 @@ def typesafe(
 
             for name, value in bound.arguments.items():
                 annotation = type_hints.get(name)
-                if annotation is None:
+                if is_null(annotation):
                     continue
                 if not matches_type_hints(value, annotation, sample_limit=sample_limit, max_depth=max_depth):
                     bad_names.append(name)

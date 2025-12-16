@@ -55,7 +55,7 @@ def create_type_error(
     set_separator: str = "/",
 ) -> TypeError:
     """Constructs a detailed `TypeError` describing input type mismatches."""
-    if function_name is None:
+    if is_null(function_name):
         function_name = get_function_name(level=1)
 
     has_multiple_inputs = isinstance(input_names, ErrorList) and len(input_names) > 1

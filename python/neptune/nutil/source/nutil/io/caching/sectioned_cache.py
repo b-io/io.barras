@@ -101,7 +101,7 @@ class SectionedCache(Generic[V]):
     def get(self, section: Section, key: str) -> Optional[V]:
         """Selects the cached value for the `section/key`, returning `None` on a cache miss."""
         bucket = self._store.get(section)
-        if bucket is None:
+        if is_null(bucket):
             return None
         return bucket.get(key)
 
@@ -112,7 +112,7 @@ class SectionedCache(Generic[V]):
         • `[value]` when `allow_scalar=True` and a non-list scalar is stored (useful for the schema drift).
         """
         v = self.get(section, key)
-        if v is None:
+        if is_null(v):
             return []
         if isinstance(v, list):
             return list(v)  # make the shallow copy to avoid the accidental in-place mutation
