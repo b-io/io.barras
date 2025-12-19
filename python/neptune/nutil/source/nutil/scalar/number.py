@@ -5,14 +5,13 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities for numbers.
+#   Provide scalar utilities for numbers.
 ########################################################################################################################
 
 from nutil.common import *
 
-## NUMBER CONSTANTS ######################################################################
 
-__NUMBER_CONSTANTS__________________________________________ = ""
+__NUMBER_CONSTANTS________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -26,9 +25,7 @@ DEFAULT_MAX_DECIMALS = 8
 EPS = np.finfo(FLOAT_TYPE).eps
 
 
-## NUMBER CONVERTERS #####################################################################
-
-__NUMBER_CONVERTERS_________________________________________ = ""
+__NUMBER_CONVERTERS_______________________________________________________________________ = ""
 
 
 def to_int(x: Any):
@@ -55,9 +52,7 @@ def to_float(x: Any):
     return float(x)
 
 
-## NUMBER FORMATTERS #####################################################################
-
-__NUMBER_FORMATTERS_________________________________________ = ""
+__NUMBER_FORMATTERS_______________________________________________________________________ = ""
 
 
 def format_number(x, decimals=DEFAULT_MAX_DECIMALS):
@@ -82,9 +77,7 @@ def format_percent(x, decimals=DEFAULT_MAX_DECIMALS):
     return format_number(x * 100, decimals=decimals) + "%"
 
 
-## NUMBER GENERATORS #####################################################################
-
-__NUMBER_GENERATORS_________________________________________ = ""
+__NUMBER_GENERATORS_______________________________________________________________________ = ""
 
 
 def create_sequence(start=0, stop=0, step=1, include=False, size=None):
@@ -104,9 +97,7 @@ def create_sequence(start=0, stop=0, step=1, include=False, size=None):
     return sequence
 
 
-## NUMBER PROCESSORS #####################################################################
-
-__NUMBER_PROCESSORS_________________________________________ = ""
+__NUMBER_PROCESSORS_______________________________________________________________________ = ""
 
 
 def ceil(x: Any):
@@ -158,9 +149,7 @@ def farthest(s, value):
     return max(to_list(s), key=lambda x: abs(x - value))
 
 
-## NUMBER VERIFIERS ######################################################################
-
-__NUMBER_VERIFIERS__________________________________________ = ""
+__NUMBER_VALIDATORS_______________________________________________________________________ = ""
 
 
 def equals(x, y):

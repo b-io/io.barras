@@ -19,20 +19,17 @@ from nutil.scalar.string import par
 from nutil.struct.util import concat_cols, get_col, to_series
 from nutil.test.unittest import Test
 
-## MATH TEST CONSTANTS ###################################################################
 
-__MATH_TEST_CONSTANTS_______________________________________ = ""
+__MATH_TEST_CONSTANTS_____________________________________________________________________ = ""
 
 PRECISION = 14  # decimals
 SIZE = 1000
 
 
-## MATH TEST CASES #######################################################################
-
-__MATH_TEST_CASES___________________________________________ = ""
+__MATH_TEST_CASES_________________________________________________________________________ = ""
 
 
-### STATISTICS TEST ########################################
+### STATISTICS #############################################
 
 
 class TestStats(Test):
@@ -172,9 +169,10 @@ class TestStats(Test):
         self.assert_equals(interval_a, interval_s)
 
 
-## MATH TEST MAIN ########################################################################
+__MATH_TEST_RUNNERS_______________________________________________________________________ = ""
 
-__MATH_TEST_MAIN____________________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:

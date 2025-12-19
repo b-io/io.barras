@@ -10,13 +10,10 @@
 
 from __future__ import annotations
 
-from typing import Callable
-
 from nutil.common import *
 
-## COMMON TYPING ACCESSORS ###############################################################
 
-__COMMON_TYPING_ACCESSORS___________________________________ = ""
+__COMMON_TYPING_ACCESSORS_________________________________________________________________ = ""
 
 
 def get_type_name(t: Type[Any]) -> str:
@@ -29,9 +26,7 @@ def get_type_names(ts: Iterable[Any], separator: str = ", ") -> str:
     return separator.join(get_type_name(t) for t in ts)
 
 
-## COMMON TYPING VERIFIERS ###############################################################
-
-__COMMON_TYPING_VERIFIERS___________________________________ = ""
+__COMMON_TYPING_VALIDATORS________________________________________________________________ = ""
 
 
 def assert_element_types(

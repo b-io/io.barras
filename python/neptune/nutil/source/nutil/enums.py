@@ -14,9 +14,8 @@ import enum
 from enum import Enum, EnumMeta
 from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 
-## ENUMS #################################################################################
 
-__ENUMS_____________________________________________________ = ""
+__ENUMS___________________________________________________________________________________ = ""
 
 
 ### INTEGER ################################################
@@ -232,7 +231,7 @@ class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
         return str(self.value)
 
 
-### STRING ################################################
+### STRING #################################################
 
 S = TypeVar("S", bound="StrEnum")
 
@@ -436,9 +435,19 @@ class StrEnum(str, Enum, metaclass=StrEnumMeta):
         return self.value
 
 
-### DISPLAY ################################################
+__FINANCE___________________________________________________ = ""
 
-__DISPLAY_ENUMS_____________________________________________ = ""
+
+class CurrencyCode(StrEnum):
+    """The ISO 4217 currency codes."""
+
+    EUR = "EUR"
+    GBP = "GBP"
+    JPY = "JPY"
+    USD = "USD"
+
+
+__FORMAT____________________________________________________ = ""
 
 
 class ColorCode(StrEnum):
@@ -452,23 +461,7 @@ class ColorCode(StrEnum):
     YELLOW = "#FFFF00"
 
 
-### FINANCE ################################################
-
-__FINANCE_ENUMS_____________________________________________ = ""
-
-
-class CurrencyCode(StrEnum):
-    """The ISO 4217 currency codes."""
-
-    EUR = "EUR"
-    GBP = "GBP"
-    JPY = "JPY"
-    USD = "USD"
-
-
-### ENVIRONMENT ############################################
-
-__ENVIRONMENT_ENUMS_________________________________________ = ""
+__ENVIRONMENT_______________________________________________ = ""
 
 
 class Environment(StrEnum):
@@ -481,33 +474,7 @@ class Environment(StrEnum):
     TEST = "test"
 
 
-### LOG ####################################################
-
-__LOG_ENUMS_________________________________________________ = ""
-
-
-class LogLevel(StrEnum):
-    CRITICAL = "CRITICAL"
-    DEBUG = "DEBUG"
-    ERROR = "ERROR"
-    INFO = "INFO"
-    WARNING = "WARNING"
-
-
-class SeverityLevel(StrEnum):
-    FAIL = 0
-    ERROR = 1
-    WARN = 2
-    RESULT = 3
-    INFO = 4
-    TEST = 5
-    DEBUG = 6
-    TRACE = 7
-
-
-### FILE ###################################################
-
-__FILE_ENUMS________________________________________________ = ""
+__FILE______________________________________________________ = ""
 
 
 class Charset(StrEnum):
@@ -1113,9 +1080,29 @@ class VideoType(StrEnum):
     X_MSVIDEO = "video/x-msvideo"
 
 
-### TIME SERIES ############################################
+__LOG_______________________________________________________ = ""
 
-__TIME_SERIES_ENUMS_________________________________________ = ""
+
+class LogLevel(StrEnum):
+    CRITICAL = "CRITICAL"
+    DEBUG = "DEBUG"
+    ERROR = "ERROR"
+    INFO = "INFO"
+    WARNING = "WARNING"
+
+
+class SeverityLevel(StrEnum):
+    FAIL = 0
+    ERROR = 1
+    WARN = 2
+    RESULT = 3
+    INFO = 4
+    TEST = 5
+    DEBUG = 6
+    TRACE = 7
+
+
+__TIME_SERIES_______________________________________________ = ""
 
 
 class Aggregation(StrEnum):

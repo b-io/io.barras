@@ -18,16 +18,13 @@ import warnings
 
 from nutil.struct.common import *
 
-## COMMON SETTINGS #######################################################################
 
-__COMMON_SETTINGS___________________________________________ = ""
+__COMMON_SETTINGS_________________________________________________________________________ = ""
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
-## COMMON CONSTANTS ######################################################################
-
-__COMMON_CONSTANTS__________________________________________ = ""
+__COMMON_CONSTANTS________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -35,18 +32,14 @@ __COMMON_CONSTANTS__________________________________________ = ""
 DEFAULT_UNKNOWN = "unknown"
 
 
-## COMMON CLASSES ########################################################################
-
-__COMMON_CLASSES____________________________________________ = ""
+__COMMON_CLASSES__________________________________________________________________________ = ""
 
 
 class Object:
     """An Object base class."""
 
 
-## COMMON ACCESSORS ######################################################################
-
-__COMMON_ACCESSORS__________________________________________ = ""
+__COMMON_ACCESSORS________________________________________________________________________ = ""
 
 
 def get_exec_info() -> Optional[Type[BaseException]]:
@@ -151,8 +144,6 @@ def get_all_attributes(x: Any) -> List[str]:
     return [a for a in dir(x) if not a.startswith("_")]
 
 
-### I/O ####################################################
-
 __COMMON_IO_ACCESSORS_______________________________________ = ""
 
 
@@ -212,14 +203,10 @@ def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = 
     return format_dir(dir) + format_dir(subdir) + filename
 
 
-## COMMON CONVERTERS #####################################################################
-
-__COMMON_CONVERTERS_________________________________________ = ""
+__COMMON_CONVERTERS_______________________________________________________________________ = ""
 
 
-## COMMON PROCESSORS #####################################################################
-
-__COMMON_PROCESSORS_________________________________________ = ""
+__COMMON_PROCESSORS_______________________________________________________________________ = ""
 
 
 def deep_hash(x: Any, default: int = 0) -> int:
@@ -285,8 +272,6 @@ def invert(x: Any) -> Any:
     return np.logical_not(x)
 
 
-### SCALAR #################################################
-
 __COMMON_SCALAR_PROCESSORS__________________________________ = ""
 
 
@@ -332,9 +317,7 @@ def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
     return s
 
 
-## COMMON VERIFIERS ######################################################################
-
-__COMMON_VERIFIERS__________________________________________ = ""
+__COMMON_VALIDATORS_______________________________________________________________________ = ""
 
 
 def is_null(x: Any) -> bool:
@@ -439,9 +422,7 @@ def exists(name: str, *, level: int = 0) -> bool:
     return (name in f.f_locals) or (name in f.f_globals) or hasattr(builtins, name)
 
 
-### I/O ####################################################
-
-__COMMON_IO_VERIFIERS_______________________________________ = ""
+__COMMON_IO_VALIDATORS______________________________________ = ""
 
 
 def is_dir(path: str) -> bool:
@@ -459,9 +440,7 @@ def is_root(path: str) -> bool:
     return os.path.dirname(path) == path
 
 
-### STRUCT #################################################
-
-__COMMON_STRUCT_VERIFIERS___________________________________ = ""
+__COMMON_STRUCT_VALIDATORS__________________________________ = ""
 
 
 def has_filter(keys: Any = None, inclusion: Any = None, exclusion: Any = None) -> bool:

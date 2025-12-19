@@ -5,12 +5,11 @@
 
 ########################################################################################################################
 # Goal
-#   Provide connecting utilities.
+#   Provide connectivity utilities.
 ########################################################################################################################
 
-## CONNECT INIT ##########################################################################
 
-__CONNECT_INIT______________________________________________ = ""
+__CONNECT_CONSTANTS_______________________________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.1a1"
@@ -20,4 +19,4 @@ __version__ = "1.0.1a1"
 
 NAME = "nconnect"
 VERSION = __version__
-DESCRIPTION = "Connecting utility library"
+DESCRIPTION = "Connectivity utility library"

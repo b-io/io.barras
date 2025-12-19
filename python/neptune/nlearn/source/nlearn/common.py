@@ -14,9 +14,8 @@ from nformat.common import *
 from ngui import charts
 from nutil.math import *
 
-## COMMON LEARN CONFIG PROPERTIES ########################################################
 
-__COMMON_LEARN_CONFIG_PROPERTIES____________________________ = ""
+__COMMON_LEARN_CONFIG_PROPERTIES__________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -38,9 +37,7 @@ load_config("learn")
 WORD_VECTOR_PATH = CONFIG.get("nlp", "wordVectorPath")
 
 
-## COMMON LEARN FIGURES ##################################################################
-
-__COMMON_LEARN_FIGURES______________________________________ = ""
+__COMMON_LEARN_FIGURES____________________________________________________________________ = ""
 
 
 def plot_confusion_matrix(
@@ -118,9 +115,7 @@ def plot_confusion_matrix(
     return fig
 
 
-## COMMON LEARN PROCESSORS ###############################################################
-
-__COMMON_LEARN_PROCESSORS___________________________________ = ""
+__COMMON_LEARN_PROCESSORS_________________________________________________________________ = ""
 
 
 def get_confusion_matrix(target, prediction, normalize=False):

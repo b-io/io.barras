@@ -3,29 +3,31 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# STYLE FIXER ##########################################################################################################
+########################################################################################################################
 # Goal
 #   Fix coding-style issues in-place based on the `"STYLE.yml"` rules.
-#   • Pads or trims hash banners to the target widths **30**, **60**, **90**, or **120** based on the leading `#`.
-#     - 1 leading `#` → **120** (section)
-#     - 2 leading `#` → **90**  (subsection)
-#     - 3 leading `#` → **60**  (subsubsection)
-#     - 4+ leading `#` → **30** (subsubsubsection)
-#   • Treats a line as a banner only if it starts with `#` (optionally spaced) and contains `##` somewhere.
+#   • Pads or trims hash banners to the target lengths 30/60/90/120 based on the leading `#`:
+#     - 1 leading `#`  → 120 (section),
+#     - 2 leading `#`  → 90  (subsection),
+#     - 3 leading `#`  → 60  (subsubsection),
+#     - 4+ leading `#` → 30  (subsubsubsection).
+#   • Treats a line as a hash banner only if it starts with `#` (optionally spaced) and contains `##` somewhere.
 #   • Trims only when the overflow past the target consists solely of spaces or `#`.
+#   • Normalizes underscore banners to one of the allowed lengths 35/65/95/125 (keeps the current allowed length when
+#     possible, otherwise uses the nearest allowed length).
 #   • Removes a single trailing period from a one-line Python comment.
 #   • Capitalizes the first alphabetic letter in a one-line Python comment.
 #   • Optionally lowercases the first letter of an inline end-of-line comment (when a matching rule exists).
 #
 # Behavior
-#   • Reads rule regexes and file globs from the YAML file; applies a fixer only when the rule `pattern` matches.
-#   • Merges repository excludes with defaults and prunes directories derived from excludes ending in `"/**"`.
+#   • Reads the rule regexes and file globs from the YAML file and applies a fixer only when the rule `pattern` matches.
+#   • Merges repository excludes with defaults and prunes the directories derived from excludes ending in `"/**"`.
 #   • Processes only files selected by the repo-level and rule-level include/exclude globs.
 #
 # CLI
 #   • `"--root" <path>`   (optional; defaults to `"."`)
-#   • `"--config" <path"` (optional; defaults to `"STYLE.yml"`)
-#   • `"--dry-run"`       (optional; previews changes without writing)
+#   • `"--config" <path>` (optional; defaults to `"STYLE.yml"`)
+#   • `"--dry-run"`       (optional; previews the changes without writing)
 #
 # Examples
 #   • `python fix_style.py --config STYLE.yml --root .`
@@ -36,241 +38,26 @@ from __future__ import annotations
 
 import argparse
 import logging
-from typing import Callable
 
 from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
-## FIX STYLE FIXERS ######################################################################
 
-__FIX_STYLE_FIXERS__________________________________________ = ""
+__FIX_STYLE_CONSTANTS_____________________________________________________________________ = ""
 
-
-def fix_constant_bar_width(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Normalizes constant bar lines of the form `__NAME____ = ""`.
-
-    Behavior:
-        • Applies only when the `rule.pattern` matches (the YAML gate for constant-bar-width).
-        • Preserves the leading indentation.
-        • Ensures the symbolic name:
-            - starts with `"__"`,
-            - uses only uppercase letters and single underscores between tokens
-              (all letters uppercased, underscore runs collapsed),
-            - has no leading/trailing underscores beyond the `"__"` prefix.
-        • Reconstructs the tail as exactly ` = ""` (one space on each side of `"="`).
-        • Pads with underscore bar characters or truncates the name+bar so that the total
-          line length is exactly 65 characters (excluding the newline).
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-
-    # Indent   "__"     symbolic name (letters/underscores)     bar underscores   spaces  = ""  spaces
-    m = re.match(r"^(\s*)(__)([A-Za-z_]+?)(_*)(\s*)=\s*\"\"(\s*)$", body)
-    if not m:
-        return line, False
-
-    indent, prefix, name_raw, bar_raw, _pre_eq_spaces, _post_eq_spaces = m.groups()
-
-    # Normalize the symbolic part: uppercase letters, collapse underscore runs, strip stray underscores
-    symbolic = re.sub(r"_+", "_", name_raw.upper()).strip("_")
-    if not symbolic:
-        # Nothing meaningful to normalize; leave unchanged
-        return line, False
-
-    base_name = prefix + symbolic  # always starts with "__"
-    tail = ' = ""'
-    target = 65
-
-    # Available width for name + bar after indent and tail
-    available = target - len(indent) - len(tail)
-    if available <= 0:
-        # Pathological case: no space left for the name; keep the original line
-        return line, False
-
-    if len(base_name) >= available:
-        # Name (with "__") is too long; truncate from the right to fit exactly
-        name_and_bar = base_name[:available]
-    else:
-        # Pad with underscores as a bar to reach the target width
-        bar_len = available - len(base_name)
-        name_and_bar = base_name + "_" * bar_len
-
-    new_body = f"{indent}{name_and_bar}{tail}"
-    if new_body == body:
-        return line, False
-
-    return new_body + nl, True
-
-
-def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Pads or trims the banner line to the target width and normalizes the spacing.
-
-    Normalization (applies only to the banner line that matches the `rule.pattern`):
-        • Ensures exactly one space after the leading hashes, then the title, then one space,
-          then the trailing `#` run.
-        • Chooses the trailing hash count so that the total width equals the target (30/60/90/120).
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-
-    # Match the lines that start with `#`
-    if not re.match(r"^\s*#", body):
-        return line, False
-
-    m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
-    if not m:
-        return line, False
-
-    indent, hashes, rest = m.groups()
-    leading = len(hashes)
-
-    # The title is the content after the leading hashes, without the trailing hashes or spaces
-    title = rest.lstrip()
-    title = re.sub(r"[\s#]+$", "", title)
-
-    # Choose the target width based only on the number of leading hashes
-    if leading == 1:
-        target = 120
-    elif leading == 2:
-        target = 90
-    elif leading == 3:
-        target = 60
-    else:
-        target = 30
-
-    # Build the normalized prefix with one space after the leading hashes and one before the trailing hashes
-    base = f"{indent}{'#' * leading}" + (f" {title} " if title else "")
-
-    # Compute the trailing hash count to reach the target width
-    hash_count = target - len(base)
-
-    if hash_count < 0:
-        # Only trim when the extra characters are spaces or hashes
-        if len(body) > target and set(body[target:]) <= {"#", " "}:
-            return body[:target] + nl, True
-        # Cannot safely fix; leave unchanged
-        return line, False
-
-    new_body = f"{base}{'#' * hash_count}"
-
-    if new_body == body:
-        return line, False
-
-    return new_body + nl, True
-
-
-def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Capitalizes the first alphabetic character in a one-line Python comment.
-
-    Triggered only when the `rule.pattern` matches.
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-    m = re.match(r"^(\s*#\s*)([a-z])([^\n]*)$", body)
-    if not m:
-        return line, False
-    prefix, first, rest = m.groups()
-    return f"{prefix}{first.upper()}{rest}{nl}", True
-
-
-def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Lowercases the first letter of an inline (end-of-line) comment.
-
-    Triggered only when the `rule.pattern` matches.
-    A typical pattern is `^(?!\\s*#).*?\\S[ \\t]{2,}#\\s+[A-Z]`.
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-
-    m = re.match(r"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[A-Z])(?P<rest>[^\n]*)$", body)
-    if not m:
-        return line, False
-    left, first, rest = m.group("left"), m.group("first"), m.group("rest")
-    return f"{left}{first.casefold()}{rest}{nl}", True
-
-
-def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
-    """
-    Removes a single trailing `.` in a one-line Python comment.
-
-    Triggered only when the `rule.pattern` matches (e.g., URL exclusions handled in YAML).
-
-    Args:
-        line: The input line to check and possibly modify.
-        rule: The `StyleRule` whose `pattern` gates execution.
-
-    Returns:
-        A tuple of `(possibly_modified_line, did_change)`.
-    """
-    if not rule.pattern.search(line):
-        return line, False
-    nl = "\n" if line.endswith("\n") else ""
-    body = line[:-1] if nl else line
-    r = body.rstrip()
-    if r.endswith(".") and not r.endswith(".."):
-        return r[:-1] + body[len(r) :] + nl, True
-    return line, False
-
-
-### REGISTRY ###############################################
-
-FixerFn = Callable[[str, StyleRule], Tuple[str, bool]]
-
-FIXERS: Dict[str, FixerFn] = {
-    "constant-bar-width": fix_constant_bar_width,
-    "hash-banner-length": fix_hash_banner_length,
-    "line-comment-capitalized": fix_line_comment_capitalized,
-    "line-comment-trailing-period": fix_line_comment_trailing_period,
-    "inline-comment-lowercase": fix_inline_comment_lowercase,
+HASH_BANNER_TARGET_LENGTH_BY_LEADING: Dict[int, int] = {
+    1: 120,
+    2: 90,
+    3: 60,
+    4: 30,
 }
 
+UNDERSCORE_BANNER_ALLOWED_LENGTHS: Tuple[int, ...] = (35, 65, 95, 125)
+UNDERSCORE_BANNER_TAIL = ' = ""'
 
-## FIX STYLE PROCESSORS ##################################################################
 
-__FIX_STYLE_PROCESSORS______________________________________ = ""
+__FIX_STYLE_PROCESSORS____________________________________________________________________ = ""
 
 
 def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
@@ -290,12 +77,12 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
 
-    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
     counts: Dict[str, int] = {}
 
     for line in orig.splitlines(keepends=True):
         current_line = line
-        for rule in rules:
+        for rule in active_rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
@@ -308,7 +95,7 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         logging.info(
             "[DRY RUN] '%s' → %s",
             path,
-            ", ".join(f"{k}: {v}" for k, v in sorted(counts.items())),
+            ", ".join("%s: %d" % (k, v) for k, v in sorted(counts.items())),
         )
     return counts
 
@@ -331,7 +118,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         return {}
 
     # Preserve the rule order as defined in the YAML configuration
-    rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
 
     counts: Dict[str, int] = {}
     has_file_changed = False
@@ -340,7 +127,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     for line in orig.splitlines(keepends=True):
         current_line = line
 
-        for rule in rules:
+        for rule in active_rules:
             fixer = FIXERS.get(rule.id)
             if not fixer:
                 continue
@@ -359,9 +146,350 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     return counts
 
 
-## FIX STYLE RUNNER ######################################################################
+### BANNERS ################################################
 
-__FIX_STYLE_RUNNER__________________________________________ = ""
+
+def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Pads or trims the hash banner to the target length and normalizes the spacing.
+
+    Normalization (applies only to a hash banner that matches the `rule.pattern`):
+        • Ensures exactly one space after the leading hashes, then the title, then one space,
+          then the trailing `#` run.
+        • Chooses the trailing hash count so that the total length equals the target (30/60/90/120).
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    # Treat a line as a hash banner only if it starts with `#` and contains `##` somewhere
+    if not re.match(r"^\s*#", body):
+        return line, False
+    if "##" not in body:
+        return line, False
+
+    m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
+    if not m:
+        return line, False
+
+    indent, hashes, rest = m.groups()
+    leading = len(hashes)
+
+    # Extract the title without trailing hashes or spaces
+    title = rest.lstrip()
+    title = re.sub(r"[\s#]+$", "", title)
+
+    # Select the target length based only on the number of leading hashes
+    target = _get_target_hash_banner_length(leading)
+
+    # Build the normalized prefix with one space after the leading hashes and one before the trailing hashes
+    base = "%s%s" % (indent, "#" * leading)
+    if title:
+        base = "%s %s " % (base, title)
+
+    # Compute the trailing hash length to reach the target length
+    hash_count = target - len(base)
+
+    if hash_count < 0:
+        # Trim only when the overflow past the target consists solely of spaces or `#`
+        if len(body) > target and set(body[target:]) <= {"#", " "}:
+            trimmed = body[:target]
+            if trimmed == body:
+                return line, False
+            return trimmed + newline, True
+        return line, False
+
+    new_body = "%s%s" % (base, "#" * hash_count)
+    if new_body == body:
+        return line, False
+
+    return new_body + newline, True
+
+
+def fix_underscore_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Normalizes an underscore banner of the form `__NAME________________________ = ""`.
+
+    Behavior:
+        • Applies only when the `rule.pattern` matches (the YAML gate for underscore-banner length and format).
+        • Preserves the leading indentation.
+        • Ensures the symbolic name:
+            - starts with `__`,
+            - uses only uppercase letters/digits/underscores in the stored form,
+            - collapses underscore runs to a single underscore between tokens,
+            - strips stray leading/trailing underscores beyond the `__` prefix.
+        • Reconstructs the tail as exactly ` = ""`.
+        • Chooses the target length as:
+            - the current length if it is one of 35/65/95/125,
+            - otherwise the nearest allowed length (prefers the larger value on ties).
+        • Ensures at least one underscore in the trailing bar.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    # Indent + `__` + name + trailing bar + ' = ""'
+    m = re.match(r"^(\s*)(__)([A-Za-z0-9_]+?)(_+)\s*=\s*\"\"\s*$", body)
+    if not m:
+        return line, False
+
+    indent, prefix, name, trailing_bar = m.groups()
+
+    # Normalize the symbolic part: uppercase letters, collapse underscore runs, strip stray underscores
+    symbolic = re.sub(r"_+", "_", name.upper()).strip("_")
+    if not symbolic:
+        # Nothing meaningful to normalize; leave unchanged
+        return line, False
+
+    base_name = prefix + symbolic
+
+    current_length = len(body)
+    target = _get_nearest_allowed_length(current_length, UNDERSCORE_BANNER_ALLOWED_LENGTHS)
+
+    # Compute the available length for the name and the trailing bar (after the indent and the tail)
+    available = target - len(indent) - len(UNDERSCORE_BANNER_TAIL)
+    if available <= 0:
+        # No space left for the name; keep the original line
+        return line, False
+
+    # Ensure at least one underscore in the trailing bar
+    name_max = max(0, available - 1)
+    if name_max < len(prefix) + 1:
+        return line, False
+
+    normalized_name = base_name if len(base_name) <= name_max else base_name[:name_max]
+    bar_len = available - len(normalized_name)
+    if bar_len < 1:
+        normalized_name = normalized_name[: max(0, available - 1)]
+        bar_len = 1
+
+    # Pad the trailing bar with underscores to reach the target length
+    name_and_bar = "%s%s" % (normalized_name, "_" * bar_len)
+    new_body = "%s%s%s" % (indent, name_and_bar, UNDERSCORE_BANNER_TAIL)
+
+    if new_body == body:
+        return line, False
+
+    return new_body + newline, True
+
+
+#### HELPERS #################
+
+
+def _get_nearest_allowed_length(length: int, allowed: Tuple[int, ...]) -> int:
+    """
+    Selects the nearest allowed length, preferring the larger value on ties.
+
+    Args:
+        length: The measured length to snap.
+        allowed: The ordered allowed lengths.
+
+    Returns:
+        The selected allowed length.
+    """
+    if length in allowed:
+        return length
+    return min(allowed, key=lambda x: (abs(x - length), -x))
+
+
+def _get_target_hash_banner_length(leading_hash_count: int) -> int:
+    """
+    Selects the target hash-banner length from the leading hash count.
+
+    Args:
+        leading_hash_count: The number of leading `#` characters.
+
+    Returns:
+        The target length (30/60/90/120).
+    """
+    if leading_hash_count >= 4:
+        return 30
+    return HASH_BANNER_TARGET_LENGTH_BY_LEADING.get(leading_hash_count, 30)
+
+
+### COMMENTS ###############################################
+
+
+def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Capitalizes the first alphabetic character in a one-line Python comment.
+
+    Triggered only when the `rule.pattern` matches.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    m = re.match(r"^(\s*#\s*)([a-z])([^\n]*)$", body)
+    if not m:
+        return line, False
+
+    prefix, first, rest = m.groups()
+    return "%s%s%s%s" % (prefix, first.upper(), rest, newline), True
+
+
+def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Lowercases the first letter of an inline (end-of-line) comment.
+
+    Triggered only when the `rule.pattern` matches.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    m = re.match(r"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[A-Z])(?P<rest>[^\n]*)$", body)
+    if not m:
+        return line, False
+
+    left, first, rest = m.group("left"), m.group("first"), m.group("rest")
+    return "%s%s%s%s" % (left, first.casefold(), rest, newline), True
+
+
+def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Removes a single trailing `.` in a one-line Python comment.
+
+    Triggered only when the `rule.pattern` matches.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    if not rule.pattern.search(line):
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    r = body.rstrip()
+    if r.endswith(".") and not r.endswith(".."):
+        return r[:-1] + body[len(r) :] + newline, True
+
+    return line, False
+
+
+### MESSAGES ###############################################
+
+
+def fix_error_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Removes a single trailing `.` from an exception message in a `raise ...Error(...)` call.
+
+    Triggered only when the `rule.pattern` matches.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    m = rule.pattern.search(line)
+    if not m:
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    end = m.end()
+    quote = m.group(1)
+
+    if end >= 2 and body[end - 1] == quote and body[end - 2] == ".":
+        new_body = body[: end - 2] + body[end - 1 :]
+        return new_body + newline, True
+
+    return line, False
+
+
+def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
+    """
+    Removes a single trailing `.` from a logging message in a `logging.<level>(...)` call.
+
+    Triggered only when the `rule.pattern` matches.
+
+    Args:
+        line: The input line to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_line, did_change)`.
+    """
+    m = rule.pattern.search(line)
+    if not m:
+        return line, False
+
+    newline = "\n" if line.endswith("\n") else ""
+    body = line[:-1] if newline else line
+
+    end = m.end()
+    quote = m.group(1)
+
+    if end >= 2 and body[end - 1] == quote and body[end - 2] == ".":
+        new_body = body[: end - 2] + body[end - 1 :]
+        return new_body + newline, True
+
+    return line, False
+
+
+__FIX_STYLE_REGISTRIES____________________________________________________________________ = ""
+
+Fixer = Callable[[str, StyleRule], Tuple[str, bool]]
+
+FIXERS: Dict[str, Fixer] = {
+    # Banners
+    "hash-banner-length": fix_hash_banner_length,
+    "underscore-banner-length": fix_underscore_banner_length,
+    # Comments
+    "inline-comment-lowercase": fix_inline_comment_lowercase,
+    "line-comment-capitalized": fix_line_comment_capitalized,
+    "line-comment-trailing-period": fix_line_comment_trailing_period,
+    # Messages
+    "error-message-trailing-period": fix_error_message_trailing_period,
+    "logging-message-trailing-period": fix_logging_message_trailing_period,
+}
+
+
+__FIX_STYLE_RUNNERS_______________________________________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
@@ -378,10 +506,10 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
     """
     fixable_rules = [r for r in config.rules if r.id in FIXERS]
     if not fixable_rules:
-        logging.info("No known fixer rules found in config. Nothing to do.")
+        logging.info("No known fixer rules found in config; nothing to do")
         return 0
 
-    # The union of the rule-level include/exclude (coarse filter to avoid opening irrelevant files)
+    # The union of the rule-level include/exclude (a coarse filter to avoid opening irrelevant files)
     rule_union_includes: List[str] = sorted({g for r in fixable_rules for g in r.include})
     rule_union_excludes: List[str] = sorted({g for r in fixable_rules for g in r.exclude})
 
@@ -421,15 +549,12 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
                 continue
 
             total_files += 1
-            if dry_run:
-                counts = preview_file(abs_file, active_rules)
-            else:
-                counts = process_file(abs_file, active_rules)
+            counts = preview_file(abs_file, active_rules) if dry_run else process_file(abs_file, active_rules)
 
             for k, v in counts.items():
                 total_counts[k] = total_counts.get(k, 0) + v
 
-    parts = [f"{k}: {v}" for k, v in sorted(total_counts.items())]
+    parts = ["%s: %d" % (k, v) for k, v in sorted(total_counts.items())]
     logging.info(
         "✅ %s %d file(s)%s",
         ("[DRY RUN] " if dry_run else "") + "Fixed the coding style of",
@@ -439,9 +564,7 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
     return 0
 
 
-## FIX STYLE CLI #########################################################################
-
-__FIX_STYLE_CLI_____________________________________________ = ""
+### ARGUMENTS ##############################################
 
 
 def parse_args() -> argparse.Namespace:
@@ -465,14 +588,11 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
-### HELPERS ################################################
-
-
 def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Fix simple coding-style issues based on 'STYLE.yml' rules.")
     # Add the path(s)
-    ap.add_argument("--config", help="Path to YAML config.", default="STYLE.yml")
+    ap.add_argument("--config", help="Path to the YAML config.", default="STYLE.yml")
     ap.add_argument("--root", help="Root directory to scan.", default=".")
     # Add the save parameter(s)
     ap.add_argument(
@@ -483,9 +603,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return ap
 
 
-## FIX STYLE MAIN ########################################################################
-
-__FIX_STYLE_MAIN____________________________________________ = ""
+### MAIN ###################################################
 
 
 def main() -> None:

@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities for dates.
+#   Provide scalar utilities for dates.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -22,9 +22,8 @@ from nutil.enums import Aggregation, Frequency, Position
 from nutil.scalar.number import nearest, round_to_int
 from nutil.scalar.string import trim
 
-## DATE CONSTANTS ########################################################################
 
-__DATE_CONSTANTS____________________________________________ = ""
+__DATE_CONSTANTS__________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -166,9 +165,7 @@ FREQUENCY_TO_DAY_COUNT = {
 DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
 
 
-## DATE ACCESSORS ########################################################################
-
-__DATE_ACCESSORS____________________________________________ = ""
+__DATE_ACCESSORS__________________________________________________________________________ = ""
 
 
 def get_date():
@@ -988,9 +985,7 @@ def get_period_years(d=get_datetime(), period=PERIOD):
     return diff_years(subtract_period(d, period), d)
 
 
-## DATE CONVERTERS #######################################################################
-
-__DATE_CONVERTERS___________________________________________ = ""
+__DATE_CONVERTERS_________________________________________________________________________ = ""
 
 
 ### PARSERS ################################################
@@ -1122,9 +1117,7 @@ def to_period_freq(period):
     return Frequency(period[-1].upper())
 
 
-## DATE FORMATTERS #######################################################################
-
-__DATE_FORMATTERS___________________________________________ = ""
+__DATE_FORMATTERS_________________________________________________________________________ = ""
 
 
 def format_date(d=get_datetime()):
@@ -1161,9 +1154,7 @@ def format_time(d=get_datetime()):
     return trim(format_datetime(d, format=TIME_FORMAT))
 
 
-## DATE GENERATORS #######################################################################
-
-__DATE_GENERATORS___________________________________________ = ""
+__DATE_GENERATORS_________________________________________________________________________ = ""
 
 
 def create_date(y, m, d):
@@ -1242,9 +1233,7 @@ def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, pos=
     return to_stamp(date_range)
 
 
-## DATE PROCESSORS #######################################################################
-
-__DATE_PROCESSORS___________________________________________ = ""
+__DATE_PROCESSORS_________________________________________________________________________ = ""
 
 
 def add_period(d=get_datetime(), period=PERIOD):
@@ -1478,9 +1467,7 @@ def shift_dates(
     )
 
 
-## DATE VERIFIERS ########################################################################
-
-__DATE_VERIFIERS____________________________________________ = ""
+__DATE_VALIDATORS_________________________________________________________________________ = ""
 
 
 def is_business_day(x: Any) -> bool:

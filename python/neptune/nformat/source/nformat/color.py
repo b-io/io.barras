@@ -19,9 +19,8 @@ from nutil.math import *
 from nutil.scalar.string import extract, par
 from nutil.struct.util import maximum, minimum
 
-## COLOR CONSTANTS #######################################################################
 
-__COLOR_CONSTANTS___________________________________________ = ""
+__COLOR_CONSTANTS_________________________________________________________________________ = ""
 
 TRANSPARENT = (0, 0, 0, 0)
 
@@ -31,9 +30,7 @@ RAINBOW_SCALE = mcolormaps.get_cmap("rainbow")
 RYG_SCALE = mcolormaps.get_cmap("RdYlGn")
 
 
-## COLOR ACCESSORS #######################################################################
-
-__COLOR_ACCESSORS___________________________________________ = ""
+__COLOR_ACCESSORS_________________________________________________________________________ = ""
 
 
 def get_alternate_colors(n, row_odd_color="white", row_even_color="lightgray"):
@@ -108,9 +105,7 @@ def get_xkcd_color_name(code, is_hsv=False):
     )
 
 
-## COLOR CONVERTERS ######################################################################
-
-__COLOR_CONVERTERS__________________________________________ = ""
+__COLOR_CONVERTERS________________________________________________________________________ = ""
 
 
 def to_rgb(*args, r=0, g=0, b=0, alpha=None, scale=None):
@@ -227,9 +222,7 @@ XKCD_COLOR_RGB_CODES = to_array([to_rgb(color) for _, color in mcolors.XKCD_COLO
 XKCD_COLOR_HSV_CODES = to_array([rgb_to_hsv(color) for _, color in mcolors.XKCD_COLORS.items()])
 
 
-## COLOR PROCESSORS ######################################################################
-
-__COLOR_PROCESSORS__________________________________________ = ""
+__COLOR_PROCESSORS________________________________________________________________________ = ""
 
 
 def format_rgb_color(*args, r=0, g=0, b=0, alpha=1):
@@ -265,9 +258,7 @@ def unscale_color(x, y, z):
     return x, y, z
 
 
-## COLOR VERIFIERS #######################################################################
-
-__COLOR_VERIFIERS___________________________________________ = ""
+__COLOR_VALIDATORS________________________________________________________________________ = ""
 
 
 def is_scaled_color(x, y, z) -> bool:

@@ -3,22 +3,21 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# CACHING DECORATORS ###################################################################################################
+########################################################################################################################
 # Goal
-#   Provide caching decorators.
+#   Provide utility decorators for caching.
 ########################################################################################################################
 
 from __future__ import annotations
 
 import functools
-from typing import Callable, OrderedDict
+from typing import OrderedDict
 
 from nutil.common import *
 from nutil.decorators import F
 
-## CACHING DECORATORS ####################################################################
 
-__CACHING_DECORATORS________________________________________ = ""
+__CACHING_DECORATORS______________________________________________________________________ = ""
 
 
 def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
@@ -26,7 +25,7 @@ def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
 
     The cache:
         • Works with unhashable arguments by hashing their structure via `deep_hash`
-        • Stores results in an `OrderedDict` implementing a simple LRU policy
+        • Stores the results in an `OrderedDict` implementing a simple LRU policy
         • Keeps at most `maxsize` distinct argument structures
 
     Args:

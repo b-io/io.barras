@@ -16,9 +16,8 @@ from ngui import charts
 from nutil.common import *
 from nutil.struct.util import get_element_types
 
-## REGRESSION FIGURES ####################################################################
 
-__REGRESSION_FIGURES________________________________________ = ""
+__REGRESSION_FIGURES______________________________________________________________________ = ""
 
 
 def plot_variables(
@@ -69,9 +68,7 @@ def plot_variables(
     )
 
 
-## REGRESSION PROCESSORS #################################################################
-
-__REGRESSION_PROCESSORS_____________________________________ = ""
+__REGRESSION_PROCESSORS___________________________________________________________________ = ""
 
 
 def get_categorical_variables(X):

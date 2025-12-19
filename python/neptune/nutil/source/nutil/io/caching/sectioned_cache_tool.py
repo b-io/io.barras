@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# SECTIONED CACHE TOOL #################################################################################################
+########################################################################################################################
 # Goal
 #   Maintain a generic sectioned JSON cache via `SectionedCache`. The typical operations:
 #     • List the counts per section.
@@ -30,9 +30,8 @@ from nutil.io.caching.sectioned_cache import SectionedCache
 from nutil.io.file import resolve_path
 from nutil.io.logging import configure_logging
 
-## SECTIONED CACHE TOOL RUNNER ###########################################################
 
-__SECTIONED_CACHE_TOOL_RUNNER_______________________________ = ""
+__SECTIONED_CACHE_TOOL_RUNNERS____________________________________________________________ = ""
 
 
 def run(
@@ -259,9 +258,7 @@ def run_with_args(args: argparse.Namespace) -> None:
         logging.info("No changes")
 
 
-## SECTIONED CACHE TOOL CLI ##############################################################
-
-__SECTIONED_CACHE_TOOL_CLI__________________________________ = ""
+### ARGUMENTS ##############################################
 
 
 def parse_args() -> argparse.Namespace:
@@ -281,9 +278,6 @@ def parse_args() -> argparse.Namespace:
         ap.error("--rename/--merge require exactly one --section")
 
     return args
-
-
-### HELPERS ################################################
 
 
 def _build_arg_parser() -> argparse.ArgumentParser:
@@ -341,9 +335,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return ap
 
 
-## SECTIONED CACHE TOOL MAIN #############################################################
-
-__SECTIONED_CACHE_TOOL_MAIN_________________________________ = ""
+### MAIN ###################################################
 
 
 def main() -> None:

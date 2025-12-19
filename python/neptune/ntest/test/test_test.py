@@ -5,20 +5,22 @@
 
 ########################################################################################################################
 # Goal
-#   Test the testing utilities.
+#   Test the test utilities.
 ########################################################################################################################
 
 import logging
 
 from nutil.io.logging import configure_logging
 
-## TESTING TEST MAIN #####################################################################
 
-__TESTING_TEST_MAIN_________________________________________ = ""
+__TESTING_TEST_RUNNERS____________________________________________________________________ = ""
+
+
+### MAIN ###################################################
 
 
 def main() -> None:
-    """Tests the testing utilities."""
+    """Tests the test utilities."""
     configure_logging(level=logging.DEBUG)
 
 

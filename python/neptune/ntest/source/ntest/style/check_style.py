@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# STYLE CHECKER ########################################################################################################
+########################################################################################################################
 # Goal
 #   Run the repository-wide regex style checks defined in a YAML config.
 #   • Prunes excluded directories during traversal (so `".venv"` is not scanned)
@@ -29,9 +29,49 @@ from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
-## CHECK STYLE RUNNER ####################################################################
 
-__CHECK_STYLE_RUNNER________________________________________ = ""
+__CHECK_STYLE_PROCESSORS__________________________________________________________________ = ""
+
+
+def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, int, str]]:
+    """
+    Scans a text file with applicable rules and returns the violations.
+
+    Args:
+        abs_path: The absolute file path.
+        rules: The list of compiled regex rules to apply.
+
+    Returns:
+        The list of `(rule, line_number, line_text)` tuples for each match.
+    """
+    violations: List[Tuple[StyleRule, int, str]] = []
+    try:
+        with abs_path.open("r", encoding=DEFAULT_ENCODING, errors="ignore") as fh:
+            for line_number, line in enumerate(fh, 1):
+                for rule in rules:
+                    if rule.pattern.search(line):
+                        violations.append((rule, line_number, line.rstrip("\n\r")))
+    except Exception as e:
+        # Treat unreadable files as warnings (report but do not fail the run)
+        violations.append(
+            (
+                StyleRule(
+                    id="read-error",
+                    description=f"Could not read file '{abs_path}': {e}",
+                    pattern=re.compile("$^"),
+                    include=["**/*"],
+                    exclude=[],
+                    flags=[],
+                    severity="warning",
+                ),
+                0,
+                "",
+            )
+        )
+    return violations
+
+
+__CHECK_STYLE_RUNNERS_____________________________________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig) -> int:
@@ -94,59 +134,14 @@ def run(root: Path, config: StyleConfig) -> int:
             total_files += 1
 
     if total_violations == 0:
-        logging.info("✅ No coding style violations found in %d file(s)", total_files)
+        logging.info("✅ No coding-style violations found in %d file(s)", total_files)
     else:
-        logging.warning("❌ %d coding style violation(s) found", total_violations)
+        logging.warning("❌ %d coding-style violation(s) found", total_violations)
 
     return 1 if any_error else 0
 
 
-## CHECK STYLE SCANNER ###################################################################
-
-__CHECK_STYLE_SCANNER_______________________________________ = ""
-
-
-def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, int, str]]:
-    """
-    Scans a text file with applicable rules and returns the violations.
-
-    Args:
-        abs_path: The absolute file path.
-        rules: The list of compiled regex rules to apply.
-
-    Returns:
-        The list of `(rule, line_number, line_text)` tuples for each match.
-    """
-    violations: List[Tuple[StyleRule, int, str]] = []
-    try:
-        with abs_path.open("r", encoding=DEFAULT_ENCODING, errors="ignore") as fh:
-            for line_number, line in enumerate(fh, 1):
-                for rule in rules:
-                    if rule.pattern.search(line):
-                        violations.append((rule, line_number, line.rstrip("\n\r")))
-    except Exception as e:
-        # Treat unreadable files as warnings (report but do not fail the run)
-        violations.append(
-            (
-                StyleRule(
-                    id="read-error",
-                    description=f"Could not read file '{abs_path}': {e}",
-                    pattern=re.compile("$^"),
-                    include=["**/*"],
-                    exclude=[],
-                    flags=[],
-                    severity="warning",
-                ),
-                0,
-                "",
-            )
-        )
-    return violations
-
-
-## CHECK STYLE CLI #######################################################################
-
-__CHECK_STYLE_CLI___________________________________________ = ""
+### ARGUMENTS ##############################################
 
 
 def parse_args() -> argparse.Namespace:
@@ -170,9 +165,6 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
-### HELPERS ################################################
-
-
 def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Regex-based style checks based on 'STYLE.yml' rules.")
@@ -182,9 +174,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     return ap
 
 
-## CHECK STYLE MAIN ######################################################################
-
-__CHECK_STYLE_MAIN__________________________________________ = ""
+### MAIN ###################################################
 
 
 def main() -> None:

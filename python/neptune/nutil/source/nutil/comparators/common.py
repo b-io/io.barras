@@ -3,9 +3,9 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# COMMON COMPARATORS ###################################################################################################
+########################################################################################################################
 # Goal
-#   Provide common comparators.
+#   Provide common utility comparators.
 ########################################################################################################################
 
 import difflib
@@ -14,9 +14,8 @@ import logging
 import re
 from typing import Callable, List, Match, Optional, Set, Tuple, Union
 
-## COMMON COMPARATORS ####################################################################
 
-__COMMON_COMPARATORS________________________________________ = ""
+__COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
 
 
 def get_text_window(
@@ -82,7 +81,7 @@ def get_diffs(old: str, new: str, context_length: int = 20, max_diffs: int = 100
         if tag == "equal":
             continue
 
-        # Choose a window around the `new`-string position for the user-facing context
+        # Select a window around the `new`-string position for the user-facing context
         before = get_text_window(new[:j1], from_index=j1 - context_length)
         after = get_text_window(new[j2:], to_index=context_length)
         old_segment = get_text_window(old[i1:i2])
@@ -136,7 +135,7 @@ def get_diffs_with_pattern(
     """
     out: List[str] = []
     for m in pattern.finditer(text):
-        # Choose a window around the match position for the user-facing context
+        # Select a window around the match position for the user-facing context
         start, end = m.span()
         before = get_text_window(text[:start], from_index=start - context_length)
         after = get_text_window(text[end:], to_index=context_length)
@@ -157,6 +156,53 @@ def get_diffs_with_pattern(
             logging.warning("…(diff truncated)…")
             break
     return out
+
+
+__COMMON_COMPARATOR_PROCESSORS____________________________________________________________ = ""
+
+
+def sub(
+    pattern: str,
+    replacement: Union[str, Callable[[Match[str]], str]],
+    old: str,
+    flags: int = 0,
+    label: str = "",
+) -> str:
+    """
+    Substitutes the regex matches with the replacement while logging the compact previews of the changes.
+
+    Strategy:
+        1) Compiles the pattern with the flags.
+        2) If there is at least one match, emits the preview snippets via `get_diffs_with_pattern`.
+        3) Performs the actual substitution once with `re.sub`.
+
+    Args:
+        pattern: The regular-expression pattern.
+        replacement: The replacement string (supports backreferences) or a callable.
+        old: The original text to transform.
+        flags: The regex flags to pass to `re.compile`.
+        label: The optional label to include in the log messages.
+
+    Returns:
+        The transformed string with all substitutions applied.
+    """
+    pattern: re.Pattern[str] = re.compile(pattern, flags)
+
+    # Peek first to decide whether to log
+    if not pattern.search(old):
+        return old
+
+    # Show the change snippets
+    for snippet in get_diffs_with_pattern(old, pattern, replacement):
+        logging.warning("[clean:%s] %s", label or pattern, snippet)
+
+    # Perform the actual substitution once
+    new, n = pattern.subn(replacement, old)
+    logging.debug("[clean:%s] number of replacements: %d", label or pattern, n)
+    return new
+
+
+__COMMON_COMPARATOR_VALIDATORS____________________________________________________________ = ""
 
 
 def is_acceptable_diff(
@@ -248,44 +294,3 @@ def is_acceptable_diff(
             else:
                 return False
     return True
-
-
-def sub(
-    pattern: str,
-    replacement: Union[str, Callable[[Match[str]], str]],
-    old: str,
-    flags: int = 0,
-    label: str = "",
-) -> str:
-    """
-    Substitutes the regex matches with the replacement while logging the compact previews of the changes.
-
-    Strategy:
-        1) Compiles the pattern with the flags.
-        2) If there is at least one match, emits the preview snippets via `get_diffs_with_pattern`.
-        3) Performs the actual substitution once with `re.sub`.
-
-    Args:
-        pattern: The regular-expression pattern.
-        replacement: The replacement string (supports backreferences) or a callable.
-        old: The original text to transform.
-        flags: The regex flags to pass to `re.compile`.
-        label: The optional label to include in the log messages.
-
-    Returns:
-        The transformed string with all substitutions applied.
-    """
-    pattern: re.Pattern[str] = re.compile(pattern, flags)
-
-    # Peek first to decide whether to log
-    if not pattern.search(old):
-        return old
-
-    # Show the change snippets
-    for snippet in get_diffs_with_pattern(old, pattern, replacement):
-        logging.warning("[clean:%s] %s", label or pattern, snippet)
-
-    # Perform the actual substitution once
-    new, n = pattern.subn(replacement, old)
-    logging.debug("[clean:%s] number of replacements: %d", label or pattern, n)
-    return new

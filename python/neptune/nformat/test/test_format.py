@@ -17,9 +17,8 @@ from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 from nutil.test.util import TEST_COUNT, timed
 
-## FORMAT TEST CASES #####################################################################
 
-__FORMAT_TEST_CASES_________________________________________ = ""
+__FORMAT_TEST_CASES_______________________________________________________________________ = ""
 
 
 class TestFormat(Test):
@@ -101,13 +100,14 @@ class TestFormat(Test):
         logging.info("Evaluate the blurriness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
 
 
-## FORMAT TEST MAIN ######################################################################
+__FORMAT_TEST_RUNNERS_____________________________________________________________________ = ""
 
-__FORMAT_TEST_MAIN__________________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:
-    """Tests the graphical user interface (FORMAT) utilities."""
+    """Tests the formatting utilities."""
     configure_logging(level=logging.DEBUG)
     unittest.main()
 

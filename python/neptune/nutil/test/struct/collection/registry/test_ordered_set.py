@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   test_ordered_set - contains unit tests for the `OrderedSet` implementation and helpers
+#   Test the ordered set implementation with its adapters and utilities.
 #
 # Description
 #   Validates construction, iteration, indexing/slicing, mutators, order-preserving set algebra,
@@ -21,9 +21,8 @@ import pytest
 
 from nutil.struct.collection.registry.ordered_set import *
 
-## ORDERED SET TEST FIXTURES #############################################################
 
-__ORDERED_SET_TEST_FIXTURES_________________________________ = ""
+__ORDERED_SET_TEST_FIXTURES_______________________________________________________________ = ""
 
 
 @pytest.fixture
@@ -38,13 +37,11 @@ def s_bcd() -> OrderedSet[str]:
     return OrderedSet(["b", "c", "d"])
 
 
-## ORDERED SET TESTS #####################################################################
-
-__ORDERED_SET_TESTS_________________________________________ = ""
+__ORDERED_SET_TEST_CASES__________________________________________________________________ = ""
 
 
 def test_construct_deduplicates_and_preserves_order() -> None:
-    """Verifies that construction removes duplicates and preserves the insertion order."""
+    """Verifies that construction removes the duplicates and preserves the insertion order."""
     s = OrderedSet(["a", "b", "a", "c", "b"])
     assert list(s) == ["a", "b", "c"]
     assert len(s) == 3

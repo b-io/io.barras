@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   test_common - contains unit tests for the `OrderedSet` implementation and helpers
+#   Test the common structure utilities.
 #
 # Description
 #   Validates construction, iteration, indexing/slicing, mutators, order-preserving set algebra,
@@ -19,9 +19,8 @@ import pytest
 
 from nutil.struct.common import *
 
-## COMMON STRUCT TESTS ###################################################################
 
-__COMMON_STRUCT_TESTS_______________________________________ = ""
+__COMMON_STRUCT_TEST_CASES________________________________________________________________ = ""
 
 
 class _DelegateAll:

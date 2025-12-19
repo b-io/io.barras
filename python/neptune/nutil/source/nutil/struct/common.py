@@ -16,9 +16,8 @@ from nutil.struct.collection.common import *
 from nutil.struct.table.common import *
 from nutil.struct.tuple.common import *
 
-## COMMON STRUCT CLASSES #################################################################
 
-__COMMON_STRUCT_CLASSES_____________________________________ = ""
+__COMMON_STRUCT_CLASSES___________________________________________________________________ = ""
 
 # Typing alias for any supported `Struct`:
 #   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
@@ -36,9 +35,7 @@ Value = Any
 Axis = Union[int, str]  # {0, 1, "index", "columns"}
 
 
-## COMMON STRUCT CONVERTERS ##############################################################
-
-__COMMON_STRUCT_CONVERTERS__________________________________ = ""
+__COMMON_STRUCT_CONVERTERS________________________________________________________________ = ""
 
 
 ### COLLECTION #############################################
@@ -109,7 +106,7 @@ def to_dict(*args: Any) -> Dict[Any, Any]:
         – If a scalar, returns `{0: arg}` (scalar is not iterable).
         – If a `Mapping`, returns a `dict` (shallow copy if not already one).
         – If an `Iterable` of `(key, value)` pairs, builds a `dict`.
-        – If a generic `Iterable`, enumerates values starting at 0.
+        – If a generic `Iterable`, enumerates the values starting at 0.
         – Otherwise, returns `{0: arg}`.
     • Multiple arguments:
         – If all arguments are `(key, value)` pairs, builds a `dict` from them.
@@ -317,9 +314,7 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
     return tuple(args)
 
 
-## COMMON STRUCT PROCESSORS ##############################################################
-
-__COMMON_STRUCT_PROCESSORS__________________________________ = ""
+__COMMON_STRUCT_PROCESSORS________________________________________________________________ = ""
 
 
 def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
@@ -335,9 +330,7 @@ def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
     return 0 if axis in (0, "index") else 1
 
 
-## COMMON STRUCT VERIFIERS ###############################################################
-
-__COMMON_STRUCT_VERIFIERS___________________________________ = ""
+__COMMON_STRUCT_VALIDATORS________________________________________________________________ = ""
 
 
 def is_struct(x: Any) -> bool:

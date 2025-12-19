@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide io utility sanitizers.
+#   Provide utility sanitizers.
 ########################################################################################################################
 
 import html
@@ -19,12 +19,8 @@ import unicodedata
 from nutil.enums import StrEnum
 from nutil.scalar.string import LOWERCASE
 
-## SANITIZERS CONFIG #####################################################################
 
-__SANITIZERS_CONFIG_________________________________________ = ""
-
-
-### DEHYPHENATION ##########################################
+__SANITIZER_CLASSES_______________________________________________________________________ = ""
 
 
 class DehyphenationMode(StrEnum):
@@ -49,6 +45,9 @@ class SanitizeConfig:
     dehyphenation: DehyphenationMode = DehyphenationMode.CONSERVATIVE
     collapse_blank_lines: bool = True
     normalize_quotes_and_dashes: bool = True
+
+
+__SANITIZER_CONSTANTS_____________________________________________________________________ = ""
 
 
 ### NORMALIZATION ##########################################
@@ -76,6 +75,9 @@ PUNCTUATION_NORMALIZATION: Dict[int, Union[str, int]] = str.maketrans(
     }
 )
 
+
+### PATTERNS ###############################################
+
 # The regex pattern to recognize zero-width and bidirectional (BiDi) control characters (to be removed)
 ZERO_WIDTH_AND_BIDI_MARKS_PATTERN: re.Pattern[str] = re.compile(
     r"[\u200B\u200C\u200D\u2060\uFEFF\u200E\u200F\u202A-\u202E\u2066-\u2069]"
@@ -101,6 +103,9 @@ MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(r"\n{2,}")
 # The regex patterns to recognize hyphens across lines (to be collapsed to a single line)
 ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(r"(?<=\w)-\n(?=\w)")
 LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])")
+
+
+__SANITIZER_PROCESSORS____________________________________________________________________ = ""
 
 
 ### TEXT ###################################################
@@ -169,7 +174,7 @@ def clean_text(
     return s.strip()
 
 
-def minify_text(text: Optional[str], *, new_line: str = " ") -> Optional[str]:
+def minify_text(text: Optional[str], *, newline: str = " ") -> Optional[str]:
     """
     Returns a compact string by normalizing whitespace without changing the semantic spaces between text fragments.
 
@@ -178,7 +183,7 @@ def minify_text(text: Optional[str], *, new_line: str = " ") -> Optional[str]:
 
     Args:
         text: The string to minify. If falsy, returns it unchanged.
-        new_line: The replacement used for newline characters before whitespace collapsing.
+        newline: The replacement used for newline characters before whitespace collapsing.
 
     Returns:
         The minified string (`""` if it becomes empty). If `text` is falsy, it is returned unchanged.
@@ -190,7 +195,7 @@ def minify_text(text: Optional[str], *, new_line: str = " ") -> Optional[str]:
     s = clean_text(text)
 
     # Normalize the newlines explicitly, then collapse all the whitespace runs
-    s = s.replace("\n", new_line)
+    s = s.replace("\n", newline)
     s = re.sub(r"\s{2,}", " ", s)
 
     return s.strip()
@@ -224,7 +229,7 @@ def to_ascii(text: str) -> str:
 ### HTML ###################################################
 
 
-def minify_html(html_text: Optional[str], *, new_line: str = " ") -> Optional[str]:
+def minify_html(html_text: Optional[str], *, newline: str = " ") -> Optional[str]:
     """
     Returns a compact HTML string by normalizing whitespace without changing the semantic spaces between text fragments.
 
@@ -236,7 +241,7 @@ def minify_html(html_text: Optional[str], *, new_line: str = " ") -> Optional[st
 
     Args:
         html_text: The HTML string to minify. If falsy, returns it unchanged.
-        new_line: The replacement used for newline characters before whitespace collapsing.
+        newline: The replacement used for newline characters before whitespace collapsing.
 
     Returns:
         The minified HTML string (`""` if it becomes empty). Returns `None` only when the input is falsy.
@@ -245,7 +250,7 @@ def minify_html(html_text: Optional[str], *, new_line: str = " ") -> Optional[st
         return html_text
 
     # 1) Normalize the entities and the whitespace
-    s = minify_text(html_text, new_line=new_line)
+    s = minify_text(html_text, newline=newline)
     s = s.replace("&nbsp;", " ")
 
     # 2) Fix the invalid `"<p>…<table>"` nesting: close `"<p>"` before a table

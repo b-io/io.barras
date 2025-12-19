@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide mathematical utilities for log-normal distributions.
+#   Provide statistical utilities for log-normal distributions.
 ########################################################################################################################
 
 from nmath.common import *
@@ -14,16 +14,13 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import sort
 
-## LOG-NORMAL CONSTANTS ##################################################################
 
-__LOG_NORMAL_CONSTANTS______________________________________ = ""
+__LOG_NORMAL_CONSTANTS____________________________________________________________________ = ""
 
 LOG_NORMAL_NAME = "Log-Normal"
 
 
-## LOG-NORMAL CLASSES ####################################################################
-
-__LOG_NORMAL_CLASSES________________________________________ = ""
+__LOG_NORMAL_CLASSES______________________________________________________________________ = ""
 
 
 class LogNormal(Distribution):
@@ -126,9 +123,7 @@ class LogNormal(Distribution):
         return multiply(self.mean(), margin)
 
 
-## LOG-NORMAL PROCESSORS #################################################################
-
-__LOG_NORMAL_PROCESSORS_____________________________________ = ""
+__LOG_NORMAL_PROCESSORS___________________________________________________________________ = ""
 
 
 def generate(size=1, mu=0, sigma=1):

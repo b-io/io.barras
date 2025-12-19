@@ -23,9 +23,8 @@ from nutil.io.logging import configure_logging
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
-## STRUCT UTIL TEST CASES ################################################################
 
-__STRUCT_UTIL_TEST_CASES____________________________________ = ""
+__STRUCT_UTIL_TEST_CASES__________________________________________________________________ = ""
 
 
 ### BASIC ACCESSORS ########################################
@@ -260,17 +259,17 @@ def test_set_element_types_for_dataframe_series_array_and_dict() -> None:
 
 
 def test_to_struct_and_unstruct() -> None:
-    # Single argument that is already a struct
+    # Single argument that is already a structure
     s = [1, 2, 3]
     assert util.to_struct(s) is s
 
-    # Single non-struct argument
+    # Single non-structure argument
     assert util.to_struct(42) == [42]
 
     # Multiple arguments
     assert util.to_struct(1, 2, 3) == [1, 2, 3]
 
-    # Unstruct on struct
+    # Unstruct on structure
     assert util.unstruct([42]) == 42
     assert util.unstruct([1, 2]) == (1, 2)
     assert util.unstruct(5) == 5
@@ -615,7 +614,7 @@ def test_where_returns_matching_keys() -> None:
     assert keys == [1, 3]  # positions of 2 and 4
 
 
-### FILL NULL HELPERS ######################################
+### FILL ###################################################
 
 
 def test_fill_null_for_dataframe_numeric_vs_object_defaults() -> None:
@@ -723,7 +722,7 @@ def test_tally_into_intervals() -> None:
     assert list(tallied) == [0, 0, 1, 2]
 
 
-### LIST FIND HELPERS ######################################
+### LIST FIND ##############################################
 
 
 def test_find_all_and_find_not_and_with_variants() -> None:
@@ -936,7 +935,7 @@ def test_rotate_rows_and_cols_for_dataframe_with_multiple_columns() -> None:
     assert list(rotated_cols_prepend.columns) == ["b", "a"]
 
 
-### SUM / PRODUCT HELPERS ##################################
+### SUM / PRODUCT ##########################################
 
 
 def test_sum_rows_and_sum_cols_and_product_rows_and_cols() -> None:
@@ -953,9 +952,10 @@ def test_sum_rows_and_sum_cols_and_product_rows_and_cols() -> None:
     pd.testing.assert_series_equal(prod_c, df.product(axis=1))
 
 
-## STRUCT UTIL TEST MAIN #################################################################
+__STRUCT_UTIL_TEST_RUNNERS________________________________________________________________ = ""
 
-__STRUCT_UTIL_TEST_MAIN_____________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:

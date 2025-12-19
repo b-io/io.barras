@@ -12,9 +12,11 @@ import logging
 
 from nutil.io.logging import configure_logging
 
-## WEB-SERVING TEST MAIN #################################################################
 
-__WEB_SERVING_TEST_MAIN_____________________________________ = ""
+__WEB_SERVING_TEST_RUNNERS________________________________________________________________ = ""
+
+
+### MAIN ###################################################
 
 
 def main() -> None:

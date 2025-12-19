@@ -13,9 +13,8 @@ import pstats
 from io import StringIO
 from pstats import SortKey
 
-## COMMON PROFILE PROCESSORS #############################################################
 
-__COMMON_PROFILE_PROCESSORS_________________________________ = ""
+__COMMON_PROFILE_PROCESSORS_______________________________________________________________ = ""
 
 
 def start_profile():

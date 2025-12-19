@@ -5,15 +5,14 @@
 
 ########################################################################################################################
 # Goal
-#   Provide utilities for mathematics.
+#   Provide mathematical utilities.
 ########################################################################################################################
 
 from nutil.scalar.number import *
 from nutil.struct.util import *
 
-## MATH CONSTANTS ########################################################################
 
-__MATH_CONSTANTS____________________________________________ = ""
+__MATH_CONSTANTS__________________________________________________________________________ = ""
 
 E = np.e
 PI = np.pi
@@ -24,9 +23,7 @@ DEG_TO_RAD = PI / 180
 RAD_TO_DEG = 180 / PI
 
 
-## MATH PROCESSORS #######################################################################
-
-__MATH_PROCESSORS___________________________________________ = ""
+__MATH_PROCESSORS_________________________________________________________________________ = ""
 
 
 def is_negative(x: Any) -> bool:
@@ -108,8 +105,6 @@ def softmax(x, axis: Optional[Axis] = 0, eps=EPS):
     m = np.max(x, axis=axis) if not is_null(axis) else np.max(x)
     return normalize(exp(x - expand_dims(m, x, axis=axis)), axis=axis, eps=eps)
 
-
-### MATH ARITHMETIC ########################################
 
 __MATH_ARITHMETIC___________________________________________ = ""
 
@@ -489,8 +484,6 @@ def farthest_superior(s, value):
         s = to_list(s)
     return farthest(add(filter_with(subtract(s, value), is_non_negative), value), value)
 
-
-### MATH GEOMETRY ##########################################
 
 __MATH_GEOMETRY_____________________________________________ = ""
 

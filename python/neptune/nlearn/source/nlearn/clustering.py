@@ -20,9 +20,8 @@ from nmath.common import *
 from nmath.stats.descriptive import plot_cumulative_distribution
 from nutil.struct.collection.registry.ordered_set import to_ordered_set
 
-## CLUSTERING CONSTANTS ##################################################################
 
-__CLUSTERING_CONSTANTS______________________________________ = ""
+__CLUSTERING_CONSTANTS____________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -31,9 +30,7 @@ __CLUSTERING_CONSTANTS______________________________________ = ""
 DEFAULT_MAX_ITERATION_COUNT = 1000
 
 
-## CLUSTERING FIGURES ####################################################################
-
-__CLUSTERING_FIGURES________________________________________ = ""
+__CLUSTERING_FIGURES______________________________________________________________________ = ""
 
 
 def plot_clusters(
@@ -341,9 +338,7 @@ def plot_detector(
     return fig
 
 
-## CLUSTERING PROCESSORS #################################################################
-
-__CLUSTERING_PROCESSORS_____________________________________ = ""
+__CLUSTERING_PROCESSORS___________________________________________________________________ = ""
 
 
 def create_clustering(

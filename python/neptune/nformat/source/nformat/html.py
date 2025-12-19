@@ -12,9 +12,8 @@ from typing import Container, List, Optional
 
 from bs4 import NavigableString, Tag
 
-## HTML PROCESSORS #######################################################################
 
-__HTML_PROCESSORS___________________________________________ = ""
+__HTML_PROCESSORS_________________________________________________________________________ = ""
 
 
 ### HTML TAGS ##############################################

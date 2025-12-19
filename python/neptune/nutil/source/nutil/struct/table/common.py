@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities.
+#   Provide common table utilities.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -16,12 +16,9 @@ from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *
 
-## COMMON TABLE CONSTANTS ################################################################
 
-__COMMON_TABLE_CONSTANTS____________________________________ = ""
+__COMMON_TABLE_CONSTANTS__________________________________________________________________ = ""
 
-
-### DATAFRAME ##############################################
 
 __COMMON_DATAFRAME_CONSTANTS________________________________ = ""
 
@@ -37,20 +34,14 @@ INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
 
 
-## COMMON TABLE CLASSES ##################################################################
-
-__COMMON_TABLE_CLASSES______________________________________ = ""
+__COMMON_TABLE_CLASSES____________________________________________________________________ = ""
 
 # Typing alias for any supported tables
 Table = Union["pd.Series", "pd.DataFrame"]
 
 
-## COMMON TABLE ACCESSORS ################################################################
+__COMMON_TABLE_ACCESSORS__________________________________________________________________ = ""
 
-__COMMON_TABLE_ACCESSORS____________________________________ = ""
-
-
-### DATAFRAME ##############################################
 
 __COMMON_DATAFRAME_ACCESSORS________________________________ = ""
 
@@ -79,9 +70,7 @@ def count_cols(df):
     return shape[1] if len(shape) >= 2 else 0
 
 
-## COMMON TABLE VERIFIERS ################################################################
-
-__COMMON_TABLE_VERIFIERS____________________________________ = ""
+__COMMON_TABLE_VALIDATORS_________________________________________________________________ = ""
 
 
 def is_table(x: Any) -> bool:
@@ -94,9 +83,7 @@ def is_table_type(t: Type[Any]) -> bool:
     return is_series_type(t) or is_frame_type(t)
 
 
-### DATAFRAME ##############################################
-
-__COMMON_DATAFRAME_VERIFIERS________________________________ = ""
+__COMMON_DATAFRAME_VALIDATORS_______________________________ = ""
 
 
 def is_series(x: Any) -> bool:

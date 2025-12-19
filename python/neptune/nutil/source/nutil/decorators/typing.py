@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# TYPING DECORATORS ####################################################################################################
+########################################################################################################################
 # Goal
 #   Provide a decorator that enforces function type annotations at runtime, with optional depth control for nested
 #   containers and bounded sampling for iterables.
@@ -25,16 +25,15 @@ from __future__ import annotations
 import inspect
 import logging
 from functools import wraps
-from typing import Callable
 
 from nutil.common import *
 from nutil.decorators import F
 from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get_function_name
-from nutil.typing.hints import expected_for_display, matches_type_hints, resolve_type_hints
+from nutil.struct.util import simplify
+from nutil.typing.hints import flatten_expected_types, matches_type_hints, resolve_type_hints
 
-## TYPING DECORATORS #####################################################################
 
-__TYPING_DECORATORS_________________________________________ = ""
+__TYPING_DECORATORS_______________________________________________________________________ = ""
 
 
 def typesafe(
@@ -88,7 +87,7 @@ def typesafe(
                 if not matches_type_hints(value, annotation, sample_limit=sample_limit, max_depth=max_depth):
                     bad_names.append(name)
                     bad_values.append(value)
-                    bad_expected.append(expected_for_display(annotation))
+                    bad_expected.append(simplify(flatten_expected_types(annotation)))
 
             if not is_empty(bad_names):
                 type_error = create_type_error(

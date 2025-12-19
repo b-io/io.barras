@@ -3,7 +3,7 @@
 name = "ngui"
 version = "1.0.1a1"
 description = "Graphical utility library for Python"
-keywords = ["neptune", "graphical user interface", "utilities", "visualization", "matplotlib", "plotly"]
+keywords = ["neptune", "graphical", "utilities", "charts", "graphs", "matplotlib", "plotly"]
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"

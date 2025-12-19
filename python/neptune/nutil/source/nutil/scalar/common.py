@@ -18,20 +18,15 @@ import pandas as pd
 
 from nutil.constants import *
 
-## COMMON SCALAR CONSTANTS ###############################################################
 
-__COMMON_SCALAR_CONSTANTS___________________________________ = ""
+__COMMON_SCALAR_CONSTANTS_________________________________________________________________ = ""
 
-
-### BOOLEAN ################################################
 
 __COMMON_BOOLEAN_CONSTANTS__________________________________ = ""
 
 BOOLEAN_TYPE = bool
 BOOLEAN_ELEMENT_TYPE = np.bool_
 
-
-### BYTES ##################################################
 
 __COMMON_BYTES_CONSTANTS____________________________________ = ""
 
@@ -42,16 +37,12 @@ BYTEARRAY_TYPE = bytearray
 MEMORYVIEW_TYPE = memoryview
 
 
-### DATE ###################################################
-
 __COMMON_DATE_CONSTANTS_____________________________________ = ""
 
 DATE_TYPE = date
 DATETIME_TYPE = datetime
 TIMESTAMP_TYPE = pd.Timestamp
 
-
-### NUMBER #################################################
 
 __COMMON_NUMBER_CONSTANTS___________________________________ = ""
 
@@ -72,17 +63,13 @@ SHORT_TYPE = int
 SHORT_ELEMENT_TYPE = np.uint8
 
 
-### STRING #################################################
-
 __COMMON_STRING_CONSTANTS___________________________________ = ""
 
 STRING_TYPE = str
 STRING_ELEMENT_TYPE = np.str_  # np.string_
 
 
-## COMMON SCALAR VERIFIERS ###############################################################
-
-__COMMON_SCALAR_VERIFIERS___________________________________ = ""
+__COMMON_SCALAR_VALIDATORS________________________________________________________________ = ""
 
 
 def is_scalar(x: Any) -> bool:
@@ -111,9 +98,7 @@ def is_scalar_type(t: Type[Any]) -> bool:
     )
 
 
-### BOOLEAN ################################################
-
-__COMMON_BOOLEAN_VERIFIERS__________________________________ = ""
+__BOOLEAN___________________________________________________ = ""
 
 
 def is_boolean(x: Any) -> bool:
@@ -128,9 +113,7 @@ def is_boolean_type(t: Type[Any]) -> bool:
     return issubclass(t, (BOOLEAN_TYPE, BOOLEAN_ELEMENT_TYPE))
 
 
-### BYTES ##################################################
-
-__COMMON_BYTES_VERIFIERS____________________________________ = ""
+__COMMON_BYTES_VALIDATORS___________________________________ = ""
 
 
 def is_bytes(x: Any) -> bool:
@@ -155,9 +138,7 @@ def is_byte_like_type(t: Type[Any]) -> bool:
     return issubclass(t, (BYTES_TYPE, BYTEARRAY_TYPE, MEMORYVIEW_TYPE))
 
 
-### DATE ###################################################
-
-__COMMON_DATE_VERIFIERS_____________________________________ = ""
+__COMMON_DATE_VALIDATORS____________________________________ = ""
 
 
 def is_date(x: Any) -> bool:
@@ -201,9 +182,7 @@ def is_stamp(x: Any) -> bool:
     return is_number(x) and not is_boolean(x) and np.isfinite(x) and x >= 0
 
 
-### NUMBER #################################################
-
-__COMMON_NUMBER_VERIFIERS___________________________________ = ""
+__COMMON_NUMBER_VALIDATORS__________________________________ = ""
 
 
 def is_number(x: Any) -> bool:
@@ -286,9 +265,7 @@ def is_nan(x: Any) -> bool:
     return False
 
 
-### STRING #################################################
-
-__COMMON_STRING_VERIFIERS___________________________________ = ""
+__COMMON_STRING_VALIDATORS__________________________________ = ""
 
 
 def is_string(x: Any) -> bool:

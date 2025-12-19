@@ -13,9 +13,8 @@ from scipy import stats
 from nutil.math import *
 from nutil.struct.util import Axis
 
-## COMMON MATH CONSTANTS #################################################################
 
-__COMMON_MATH_CONSTANTS_____________________________________ = ""
+__COMMON_MATH_CONSTANTS___________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -24,14 +23,10 @@ __COMMON_MATH_CONSTANTS_____________________________________ = ""
 DEFAULT_CONFIDENCE_LEVEL = 0.95
 
 
-## COMMON MATH CLASSES ###################################################################
-
-__COMMON_MATH_CLASSES_______________________________________ = ""
+__COMMON_MATH_CLASSES_____________________________________________________________________ = ""
 
 
-### COMMON STATISTICS CLASSES ##############################
-
-__COMMON_STATISTICS_CLASSES_________________________________ = ""
+__COMMON_STAT_CLASSES_______________________________________ = ""
 
 
 class Distribution(ABC):
@@ -106,12 +101,8 @@ class Distribution(ABC):
         pass
 
 
-## COMMON MATH PROCESSORS ################################################################
+__COMMON_MATH_PROCESSORS__________________________________________________________________ = ""
 
-__COMMON_MATH_PROCESSORS____________________________________ = ""
-
-
-### COMMON MATH STATISTICS #################################
 
 __COMMON_MATH_STATISTICS____________________________________ = ""
 

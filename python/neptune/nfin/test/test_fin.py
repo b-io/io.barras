@@ -15,18 +15,15 @@ from nfin.time_series import *
 from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
-## FIN TEST CONSTANTS ####################################################################
 
-__FIN_TEST_CONSTANTS________________________________________ = ""
+__FIN_TEST_CONSTANTS______________________________________________________________________ = ""
 
 PRECISION = 14  # decimals
 
 TEST_COUNT = 10
 
 
-## FIN TEST CASES ########################################################################
-
-__FIN_TEST_CASES____________________________________________ = ""
+__FIN_TEST_CASES__________________________________________________________________________ = ""
 
 
 class TestFin(Test):
@@ -84,7 +81,7 @@ class TestFin(Test):
         forecasted_series = forecasted_series[forecasted_series.index >= pd.Timestamp(date_to)]
         if agg is Aggregation.IDENTITY:
             self.assert_equals(forecasted_series.iloc[-1], -55.73330798470403)
-        fig = plot_series(concat_cols(series, forecasted_series), title="Forecasting")
+        fig = charts.plot_series(concat_cols(series, forecasted_series), title="Forecasting")
         fig.show()
 
         logging.info("Plot the seasonal-trend decomposition")
@@ -108,9 +105,10 @@ class TestFin(Test):
         fig.show()
 
 
-## FIN TEST MAIN #########################################################################
+__FIN_TEST_RUNNERS________________________________________________________________________ = ""
 
-__FIN_TEST_MAIN_____________________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:

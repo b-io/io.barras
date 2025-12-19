@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities.
+#   Provide I/O utilities for files.
 ########################################################################################################################
 
 import csv
@@ -23,9 +23,8 @@ from nutil.common import *
 from nutil.struct.table.util import get_row_keys, get_row_values, Row
 from nutil.struct.util import set_index_name
 
-## FILE CONVERTERS #######################################################################
 
-__FILE_CONVERTERS___________________________________________ = ""
+__FILE_CONVERTERS_________________________________________________________________________ = ""
 
 
 ### PARSERS ################################################
@@ -56,9 +55,7 @@ def to_json(x: Any) -> Any:
     return x
 
 
-## FILE GENERATORS #######################################################################
-
-__FILE_GENERATORS___________________________________________ = ""
+__FILE_GENERATORS_________________________________________________________________________ = ""
 
 
 def create_dir(path):
@@ -66,9 +63,7 @@ def create_dir(path):
         os.makedirs(path)
 
 
-## FILE PROCESSORS #######################################################################
-
-__FILE_PROCESSORS___________________________________________ = ""
+__FILE_PROCESSORS_________________________________________________________________________ = ""
 
 
 def format_dir(dir):
@@ -160,6 +155,7 @@ def read_json(path, encoding=DEFAULT_ENCODING, ignore=None, newline=None, **kwar
 
 
 ### SEARCHING ##############################################
+
 
 #### GLOBS ###################
 
@@ -387,9 +383,7 @@ def write_text(path: Path, text: str) -> None:
     temp_path.replace(path)
 
 
-## FILE WRITERS ##########################################################################
-
-__FILE_WRITERS______________________________________________ = ""
+__FILE_WRITERS____________________________________________________________________________ = ""
 
 
 def flush(path: Union[str, Path]) -> None:
@@ -594,7 +588,7 @@ def write_json(
     `"<name>.<YYYYMMDD-HHMMSS>[.<n>].bak"`, or inside `backup_dir` when provided.
 
     JSON specifics:
-        • Normalizes containers via `to_json(data)` so that `tuple` → `list`, `set` → sorted `list`,
+        • Normalizes the containers via `to_json(data)` so that `tuple` → `list`, `set` → sorted `list`,
           and nested containers are JSON-friendly.
         • Uses `ensure_ascii=False` to preserve non-ASCII characters.
         • Uses `default=str` to stringify non-JSON-native objects (e.g., `Path`, `datetime`).

@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide metaclasses.
+#   Provide utility metaclasses.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -15,11 +15,8 @@ from threading import RLock
 from types import MappingProxyType
 from typing import Any, cast, Dict, List, NoReturn, Optional, Tuple, Type, TypeVar
 
-## METACLASSES ###########################################################################
 
-__METACLASSES_______________________________________________ = ""
-
-T = TypeVar("T")
+__METACLASS_BUILDERS______________________________________________________________________ = ""
 
 
 def combine_metaclasses(*metas: Type[type]) -> type:
@@ -31,6 +28,11 @@ def combine_metaclasses(*metas: Type[type]) -> type:
         return type
     name = "".join(m.__name__ for m in metas) or "CombinedMeta"
     return type(name, metas, {})
+
+
+__METACLASS_CLASSES_______________________________________________________________________ = ""
+
+T = TypeVar("T")
 
 
 ### NO PUBLIC CONSTRUCTOR ##################################
@@ -66,12 +68,12 @@ class FinalSingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(f"Create the final singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Create the final singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._instance = super(FinalSingletonMeta, cls).__call__(*args, **kwargs)
             elif args or kwargs:
                 logging.debug(
                     f"Ignored the constructor arguments for the already-initialized final "
-                    f"singleton '{cls.__module__}.{cls.__qualname__}'."
+                    f"singleton '{cls.__module__}.{cls.__qualname__}'"
                 )
             return cast(T, cls._instance)
 
@@ -184,7 +186,7 @@ class SingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._args = args
                 cls._kwargs = kwargs
             else:
@@ -195,12 +197,12 @@ class SingletonMeta(type):
                     cls._kwargs = kwargs
                     logging.debug(
                         f"Recreate the singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the new constructor arguments."
+                        f"with the new constructor arguments"
                     )
                 else:
                     logging.debug(
                         f"Recreate the singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the last stored constructor arguments."
+                        f"with the last stored constructor arguments"
                     )
             cls._instance = super(SingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             return cast(T, cls._instance)
@@ -301,7 +303,7 @@ class SingletonMeta(type):
         """
         with cls._lock:
             if cls._instance is None:
-                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Create the singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._args = args
                 cls._kwargs = kwargs
                 cls._instance = super(SingletonMeta, cls).__call__(*args, **kwargs)
@@ -316,7 +318,7 @@ class SingletonMeta(type):
                 )
             logging.debug(
                 f"Recreate the singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                f"with the last stored constructor arguments."
+                f"with the last stored constructor arguments"
             )
             cls._instance = super(SingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             return cast(T, cls._instance)
@@ -325,11 +327,11 @@ class SingletonMeta(type):
         """Deletes the singleton instance if it exists (does nothing otherwise)."""
         with cls._lock:
             if cls._instance is not None:
-                logging.debug(f"Delete the singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Delete the singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._instance = None
 
 
-# • TEMPORARY SINGLETON (WITH EXPIRATION) ##############################################################################
+### TEMPORARY SINGLETON (WITH EXPIRATION) ##################
 
 
 class TempSingletonMeta(type):
@@ -351,7 +353,7 @@ class TempSingletonMeta(type):
         """Returns the temp singleton; (re)creates it and refreshes its timestamp."""
         with cls._lock:
             if cls._instance is None:
-                logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._args = args
                 cls._kwargs = kwargs
             else:
@@ -362,12 +364,12 @@ class TempSingletonMeta(type):
                     cls._kwargs = kwargs
                     logging.debug(
                         f"Recreate the temp singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the new constructor arguments."
+                        f"with the new constructor arguments"
                     )
                 else:
                     logging.debug(
                         f"Recreate the temp singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                        f"with the last stored constructor arguments."
+                        f"with the last stored constructor arguments"
                     )
             cls._instance = super(TempSingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             cls._created_at = cls._now()
@@ -473,7 +475,7 @@ class TempSingletonMeta(type):
     def set(cls: Type[T], *args: Any, _lifespan: Optional[int] = None, **kwargs: Any) -> T:
         """Creates or replaces the temp singleton instance and (optionally) sets the lifespan."""
         with cls._lock:
-            logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+            logging.debug(f"Create the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'")
             cls._args = args
             cls._kwargs = kwargs
             if _lifespan is not None:
@@ -496,7 +498,7 @@ class TempSingletonMeta(type):
                 )
             logging.debug(
                 f"Recreate the temp singleton instance of '{cls.__module__}.{cls.__qualname__}' "
-                f"with the last stored constructor arguments."
+                f"with the last stored constructor arguments"
             )
             cls._instance = super(TempSingletonMeta, cls).__call__(*cls._args, **cls._kwargs)
             cls._created_at = cls._now()
@@ -506,7 +508,7 @@ class TempSingletonMeta(type):
         """Deletes the temp singleton instance if it exists and clears its creation timestamp."""
         with cls._lock:
             if cls._instance is not None:
-                logging.debug(f"Delete the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'.")
+                logging.debug(f"Delete the temp singleton instance of '{cls.__module__}.{cls.__qualname__}'")
                 cls._instance = None
                 cls._created_at = 0
 

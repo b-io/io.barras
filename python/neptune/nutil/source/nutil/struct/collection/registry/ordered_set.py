@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide an ordered set implementation and its adapter.
+#   Provide an ordered set implementation with its adapters and utilities.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -15,9 +15,8 @@ from typing import MutableSet
 
 from nutil.common import *
 
-## ORDERED SET CLASSES ###################################################################
 
-__ORDERED_SET_CLASSES_______________________________________ = ""
+__ORDERED_SET_CLASSES_____________________________________________________________________ = ""
 
 T = TypeVar("T")
 
@@ -547,16 +546,12 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
         x.update(*iterables)
 
 
-## ORDERED SET CONSTANTS #################################################################
-
-__ORDERED_SET_CONSTANTS_____________________________________ = ""
+__ORDERED_SET_CONSTANTS___________________________________________________________________ = ""
 
 ORDERED_SET_TYPE = OrderedSet
 
 
-## ORDERED SET CONVERTERS ################################################################
-
-__ORDERED_SET_CONVERTERS____________________________________ = ""
+__ORDERED_SET_CONVERTERS__________________________________________________________________ = ""
 
 
 def to_ordered_set(*args: Any) -> OrderedSet[Any]:
@@ -581,9 +576,7 @@ def to_ordered_set(*args: Any) -> OrderedSet[Any]:
     return OrderedSet(args)
 
 
-## ORDERED SET PROCESSORS ################################################################
-
-__ORDERED_SET_PROCESSORS____________________________________ = ""
+__ORDERED_SET_PROCESSORS__________________________________________________________________ = ""
 
 
 def filter_ordered_set(
@@ -634,9 +627,7 @@ def exclude_ordered_set(s: Iterable[T], exclusion: Iterable[T]) -> OrderedSet[T]
     return filter_ordered_set(s, exclusion=exclusion)
 
 
-## ORDERED SET VERIFIERS #################################################################
-
-__ORDERED_SET_VERIFIERS_____________________________________ = ""
+__ORDERED_SET_VALIDATORS__________________________________________________________________ = ""
 
 
 def is_ordered_set(x: Any) -> bool:

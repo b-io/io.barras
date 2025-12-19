@@ -22,9 +22,8 @@ from nutil.scalar.number import to_float
 from nutil.struct.collection.array import create_random_short_array
 from nutil.struct.util import mean, simplify
 
-## IMAGE CONSTANTS #######################################################################
 
-__IMAGE_CONSTANTS___________________________________________ = ""
+__IMAGE_CONSTANTS_________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -32,9 +31,7 @@ __IMAGE_CONSTANTS___________________________________________ = ""
 DEFAULT_IMAGE_MODE = cv2.IMREAD_UNCHANGED
 
 
-## IMAGE PROCESSORS ######################################################################
-
-__IMAGE_PROCESSORS__________________________________________ = ""
+__IMAGE_PROCESSORS________________________________________________________________________ = ""
 
 
 def buffer_to_image(buffer, format, rotate=False):
@@ -194,9 +191,7 @@ def write_image(path, buffer):
     return cv2.imwrite(path, buffer)
 
 
-## IMAGE VERIFIERS #######################################################################
-
-__IMAGE_VERIFIERS___________________________________________ = ""
+__IMAGE_VALIDATORS________________________________________________________________________ = ""
 
 
 def is_svg(x: Any) -> bool:

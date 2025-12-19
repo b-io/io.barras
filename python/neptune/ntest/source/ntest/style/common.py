@@ -3,9 +3,9 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# COMMON UTILITIES #####################################################################################################
+########################################################################################################################
 # Goal
-#   Provide common coding style utilities.
+#   Provide common coding-style utilities.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -21,9 +21,8 @@ from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate
 from nutil.struct.table.util import get_row_string
 
-## COMMON STYLE CONSTANTS ################################################################
 
-__COMMON_STYLE_CONSTANTS____________________________________ = ""
+__COMMON_STYLE_CONSTANTS__________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -49,9 +48,7 @@ FLAG_MAP: Dict[str, int] = {
 }
 
 
-## COMMON STYLE CLASSES ##################################################################
-
-__COMMON_STYLE_CLASSES______________________________________ = ""
+__COMMON_STYLE_CLASSES____________________________________________________________________ = ""
 
 
 @dataclass
@@ -71,7 +68,7 @@ class StyleRule:
     Args:
         id: The rule identifier.
         description: The short rule summary shown in reports.
-        pattern: The compiled `re.Pattern` that matches violations.
+        pattern: The compiled `re.Pattern` that matches the violations.
         include: The list of file-glob patterns this rule applies to.
         exclude: The list of file-glob patterns this rule should ignore.
         flags: The list of textual flag names as specified in the YAML.
@@ -105,9 +102,7 @@ class StyleConfig:
     rules: List[StyleRule]
 
 
-## COMMON STYLE LOADING ##################################################################
-
-__COMMON_STYLE_LOADING______________________________________ = ""
+__COMMON_STYLE_LOADERS____________________________________________________________________ = ""
 
 
 def load_yaml_config(path: Path) -> StyleConfig:

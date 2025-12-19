@@ -10,8 +10,7 @@
 
 from .common import *
 
-## COLLECTION REGISTRY INIT ##############################################################
 
-__COLLECTION_REGISTRY_INIT__________________________________ = ""
+__COLLECTION_REGISTRY_CONSTANTS___________________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

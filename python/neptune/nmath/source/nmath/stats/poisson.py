@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide mathematical utilities for Poisson distributions.
+#   Provide statistical utilities for Poisson distributions.
 ########################################################################################################################
 
 from nmath.common import *
@@ -14,16 +14,13 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import apply, mean, sort
 
-## POISSON CONSTANTS #####################################################################
 
-__POISSON_CONSTANTS_________________________________________ = ""
+__POISSON_CONSTANTS_______________________________________________________________________ = ""
 
 POISSON_NAME = "Poisson"
 
 
-## POISSON CLASSES #######################################################################
-
-__POISSON_CLASSES___________________________________________ = ""
+__POISSON_CLASSES_________________________________________________________________________ = ""
 
 
 class Poisson(Distribution):
@@ -100,9 +97,7 @@ class Poisson(Distribution):
         return add(self.mean(), margin)
 
 
-## POISSON PROCESSORS ####################################################################
-
-__POISSON_PROCESSORS________________________________________ = ""
+__POISSON_PROCESSORS______________________________________________________________________ = ""
 
 
 def generate(size=1, lam=1):

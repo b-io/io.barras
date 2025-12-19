@@ -5,38 +5,29 @@
 
 ########################################################################################################################
 # Goal
-#   Provide utility exceptions.
+#   Provide exception utilities.
 ########################################################################################################################
-
-from typing import Callable
 
 from nutil.common import *
 from nutil.typing import get_type_name
 
-## EXCEPTION CLASSES #####################################################################
 
-__EXCEPTION_CLASSES_________________________________________ = ""
+__EXCEPTION_CLASSES_______________________________________________________________________ = ""
 
 
 class ErrorList(List[Any]):
     """A specialized `list` for error values."""
 
 
-### TYPE ERROR #############################################
-
-__TYPE_ERROR_CLASSES________________________________________ = ""
+__TYPE_ERROR_CLASSES__________ = ""
 
 
 class ExpectedTypeList(List[Type[Any]]):
     """A specialized `list` for expected types."""
 
 
-## EXCEPTION PROCESSORS ##################################################################
+__EXCEPTION_PROCESSORS____________________________________________________________________ = ""
 
-__EXCEPTION_PROCESSORS______________________________________ = ""
-
-
-### TYPE ERROR #############################################
 
 __TYPE_ERROR_PROCESSORS_____________________________________ = ""
 

@@ -3,10 +3,10 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# GENERIC SECTIONED CACHE ##############################################################################################
+########################################################################################################################
 # Goal
-#   Provide a reusable, sectioned, on-disk JSON cache with atomic writes via `write_json`, optional periodic
-#   persistence, and write policies controlled by `CachePolicy`. The keys are strings; the values must be JSON-serializable.
+#   Provide a reusable, sectioned, on-disk JSON cache with atomic writes via `write_json`, optional periodic persistence,
+#   and write policies controlled by `CachePolicy`. The keys are strings; the values must be JSON-serializable.
 #
 # Terminology
 #   • A `section` is a top-level JSON key that groups related entries (e.g., `"en"`, `"fr"`, `"de_def"`).
@@ -14,8 +14,8 @@
 #   • A `value` is the JSON-serializable payload stored for a `key` (e.g., translations or a definition).
 #
 # Behavior
-#   • The namespacing by sections avoids collisions for the same `key` across heterogeneous datasets.
-#   • The API selects entries by `(section, key)`; the missing entries return `None`.
+#   • The namespacing by sections avoids the collisions for the same `key` across heterogeneous datasets.
+#   • The API selects the entries by `(section, key)`; the missing entries return `None`.
 #   • The negative caching is a caller-level choice: empty lists/strings may be stored intentionally.
 #   • The persistence is atomic (via `write_json`); the failures to `fsync` are treated as non-fatal by that helper.
 ########################################################################################################################
@@ -27,7 +27,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable, Pattern
+from typing import Pattern
 
 from typing_extensions import TypeAlias
 
@@ -35,9 +35,8 @@ from nutil.common import *
 from nutil.io.caching.common import *
 from nutil.io.file import write_json
 
-## SECTIONED CACHE CLASSES ###############################################################
 
-__SECTIONED_CACHE_CLASSES___________________________________ = ""
+__SECTIONED_CACHE_CLASSES_________________________________________________________________ = ""
 
 V = TypeVar("V")
 

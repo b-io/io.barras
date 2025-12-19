@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide graphical user interface (GUI) utilities for charts.
+#   Provide graphical utilities for charts.
 ########################################################################################################################
 
 import io
@@ -24,9 +24,8 @@ from ngui import web
 from nutil.enums import FileType
 from nutil.math import *
 
-## CHART CONSTANTS #######################################################################
 
-__CHART_CONSTANTS___________________________________________ = ""
+__CHART_CONSTANTS_________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -66,30 +65,7 @@ MAP_PROJECTIONS = [
 ]
 
 
-## CHART PROCESSORS ######################################################################
-
-__CHART_PROCESSORS__________________________________________ = ""
-
-
-def is_matplot(x: Any) -> bool:
-    """Returns whether `x` is a Matplotlib `Figure`."""
-    return isinstance(x, mfigure.Figure)
-
-
-def is_plotly(x: Any) -> bool:
-    """Returns whether `x` is a Plotly `Figure`."""
-    return isinstance(x, go.Figure)
-
-
-##############################
-
-
-def is_multi_plot(x: Any) -> bool:
-    """Returns whether `x` is a Plotly multi-plot."""
-    return not is_null(getattr(x, "_grid_ref", None))
-
-
-############################################################
+__CHART_ACCESSORS_________________________________________________________________________ = ""
 
 
 def get_grid_size(n, row_count=None, col_count=None):
@@ -171,7 +147,7 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
     return dict(l=x, r=x, b=x, t=x)
 
 
-############################################################
+__CHART_CONVERTERS________________________________________________________________________ = ""
 
 
 def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
@@ -185,7 +161,7 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
     return ptools.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
 
 
-##############################
+############################################################
 
 
 def fig_to_image(
@@ -367,7 +343,7 @@ def fig_to_webp_html(
     )
 
 
-############################################################
+__CHART_GENERATORS________________________________________________________________________ = ""
 
 
 def create_figure(
@@ -668,7 +644,7 @@ def create_choropleth_map(
     return fig
 
 
-############################################################
+__CHART_PROCESSORS________________________________________________________________________ = ""
 
 
 def draw(
@@ -815,7 +791,7 @@ def draw_series(
     )
 
 
-##############################
+############################################################
 
 
 def plot_multi(
@@ -1113,7 +1089,7 @@ def plot_ellipse(
     return fig
 
 
-##############################
+############################################################
 
 
 def update_layout(
@@ -1514,3 +1490,24 @@ def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=N
         margin["b"] *= height
         margin["t"] *= height
         fig.update_layout(width=width, height=height, margin=margin)
+
+
+__CHART_VALIDATORS________________________________________________________________________ = ""
+
+
+def is_matplot(x: Any) -> bool:
+    """Returns whether `x` is a Matplotlib `Figure`."""
+    return isinstance(x, mfigure.Figure)
+
+
+def is_plotly(x: Any) -> bool:
+    """Returns whether `x` is a Plotly `Figure`."""
+    return isinstance(x, go.Figure)
+
+
+##############################
+
+
+def is_multi_plot(x: Any) -> bool:
+    """Returns whether `x` is a Plotly multi-plot."""
+    return not is_null(getattr(x, "_grid_ref", None))

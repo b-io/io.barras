@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide mathematical utilities for binomial distributions.
+#   Provide statistical utilities for binomial distributions.
 ########################################################################################################################
 
 from nmath.common import *
@@ -14,16 +14,13 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import apply, maximum, mean, sort, var
 
-## BINOMIAL CONSTANTS ####################################################################
 
-__BINOMIAL_CONSTANTS________________________________________ = ""
+__BINOMIAL_CONSTANTS______________________________________________________________________ = ""
 
 BINOMIAL_NAME = "Binomial"
 
 
-## BINOMIAL CLASSES ######################################################################
-
-__BINOMIAL_CLASSES__________________________________________ = ""
+__BINOMIAL_CLASSES________________________________________________________________________ = ""
 
 
 class Binomial(Distribution):
@@ -104,9 +101,7 @@ class Binomial(Distribution):
         return add(self.mean(), margin)
 
 
-## BINOMIAL PROCESSORS ###################################################################
-
-__BINOMIAL_PROCESSORS_______________________________________ = ""
+__BINOMIAL_PROCESSORS_____________________________________________________________________ = ""
 
 
 def generate(size=1, n=1, p=0.5):

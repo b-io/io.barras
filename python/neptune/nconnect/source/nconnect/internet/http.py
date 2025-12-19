@@ -3,9 +3,9 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# HTTP #################################################################################################################
+########################################################################################################################
 # Goal
-#   Provide utilities for HTTP clients.
+#   Provide connectivity utilities for HTTP clients.
 ########################################################################################################################
 
 import json
@@ -13,7 +13,6 @@ import logging
 import random
 import time
 from dataclasses import dataclass
-from typing import Callable
 
 import requests
 from requests import sessions
@@ -27,9 +26,8 @@ from nutil.scalar.number import to_int
 from nutil.scalar.string import to_string
 from nutil.struct.util import create_empty
 
-## HTTP CONSTANTS ########################################################################
 
-__HTTP_CONSTANTS____________________________________________ = ""
+__HTTP_CONSTANTS__________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -60,9 +58,7 @@ DEFAULT_THROTTLE: float = 0.25  # [s]
 DEFAULT_TIMEOUT: float = 25  # [s]
 
 
-## HTTP CLASSES ##########################################################################
-
-__HTTP_CLASSES______________________________________________ = ""
+__HTTP_CLASSES____________________________________________________________________________ = ""
 
 
 class Outcome(StrEnum):
@@ -105,9 +101,7 @@ class RateLimitError(RuntimeError):
         super().__init__(msg)
 
 
-## HTTP REQUESTS #########################################################################
-
-__HTTP_REQUESTS_____________________________________________ = ""
+__HTTP_GENERATORS_________________________________________________________________________ = ""
 
 
 def build_session_with_retries(
@@ -173,6 +167,12 @@ def build_session_with_retries(
     if not is_null(headers):
         session.headers.update(headers)
     return session
+
+
+__HTTP_PROCESSORS_________________________________________________________________________ = ""
+
+
+### HTTP REQUESTS ##########################################
 
 
 def request(
@@ -282,7 +282,7 @@ def request(
     return status, response
 
 
-### HTTP CONTENT ###########################################
+#### HTTP CONTENT ############
 
 
 def request_content(
@@ -365,7 +365,7 @@ def request_content(
     return status, response.content
 
 
-### HTTP JSON ##############################################
+#### HTTP JSON ###############
 
 
 def request_json(
@@ -447,7 +447,7 @@ def request_json(
     return status, json
 
 
-### HTTP TEXT ##############################################
+#### HTTP TEXT ###############
 
 
 def request_text(
@@ -525,12 +525,10 @@ def request_text(
     return status, response.text
 
 
-## HTTP LOOKUPS ##########################################################################
-
-__HTTP_LOOKUPS______________________________________________ = ""
+### HTTP LOOKUPS ###########################################
 
 
-### HTTP CONTENT ###########################################
+#### HTTP CONTENT ############
 
 
 def lookup_content(
@@ -711,7 +709,7 @@ def lookup_content(
     return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
 
-### HTTP JSON ##############################################
+#### HTTP JSON ###############
 
 
 def lookup_json(
@@ -898,7 +896,7 @@ def lookup_json(
     return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
 
-### HTTP TEXT ##############################################
+#### HTTP TEXT ###############
 
 
 def lookup_text(
@@ -1068,9 +1066,7 @@ def lookup_text(
     return ProviderResult(payload=empty_payload, status=status, outcome=Outcome.UNEXPECTED_STATUS)
 
 
-## HTTP PROCESSORS #######################################################################
-
-__HTTP_PROCESSORS___________________________________________ = ""
+### HTTP DOWNLOADS #########################################
 
 
 def download(

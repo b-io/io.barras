@@ -5,15 +5,14 @@
 
 ########################################################################################################################
 # Goal
-#   Provide utility formatters.
+#   Provide formatting utilities for structures.
 ########################################################################################################################
 
 from nutil.common import *
 from nutil.scalar.string import BULLET, COLON, NEWLINE
 
-## FORMATTER PROCESSORS ##################################################################
 
-__FORMATTER_PROCESSORS______________________________________ = ""
+__STRUCT_FORMATTER_PROCESSORS_____________________________________________________________ = ""
 
 
 def format_bulleted_value(value):
@@ -28,9 +27,7 @@ def format_bulleted_list(l, f=format_bulleted_value):
 
 
 def format_bulleted_item(key, value):
-    return format_bulleted_value(
-        collapse(key, COLON, " ", round(value) if is_number(value) else value)
-    )
+    return format_bulleted_value(collapse(key, COLON, " ", round(value) if is_number(value) else value))
 
 
 def format_bulleted_dict(d, f=format_bulleted_item):

@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   util - contains structure utilities
+#   Provide structure utilities.
 #
 # Description
 #   Provides a uniform API to access, convert, filter, transform, and combine heterogeneous
@@ -32,7 +32,6 @@ from __future__ import annotations
 
 import functools
 from numbers import Number
-from typing import Callable
 
 from pandas.core.dtypes.common import is_numeric_dtype
 
@@ -43,9 +42,8 @@ from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
 
-## STRUCT ACCESSORS ######################################################################
 
-__STRUCT_ACCESSORS__________________________________________ = ""
+__STRUCT_ACCESSORS________________________________________________________________________ = ""
 
 
 def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
@@ -163,7 +161,7 @@ def get_names(
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Value]:
     """
-    Returns names (column labels) under filters.
+    Returns the names (column labels) under filters.
 
     Dispatch:
         • `pd.DataFrame` / `pd.Series` → `.columns` / `.name`
@@ -213,7 +211,7 @@ def get_common_names(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Value]:
-    """Returns names common to `s1` and `s2` under filters."""
+    """Returns the names common to `s1` and `s2` under filters."""
     return get_names(s1, inclusion=include_list(get_names(s2), inclusion), exclusion=exclusion)
 
 
@@ -222,7 +220,7 @@ def get_all_uncommon_names(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Value]:
-    """Returns names in the first input not present in subsequent ones (left fold)."""
+    """Returns the names in the first input not present in subsequent ones (left fold)."""
     return reduce(
         args,
         lambda s1, s2: get_uncommon_names(s1, s2, inclusion=inclusion, exclusion=exclusion),
@@ -235,7 +233,7 @@ def get_uncommon_names(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Value]:
-    """Returns names of `s1` that are not in `s2` under filters."""
+    """Returns the names of `s1` that are not in `s2` under filters."""
     return get_names(s1, inclusion=inclusion, exclusion=include_list(get_names(s2), exclusion))
 
 
@@ -388,7 +386,7 @@ def get_common_index(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Key]:
-    """Returns indices common to `s1` and `s2` under filters."""
+    """Returns the indices common to `s1` and `s2` under filters."""
     return get_index(s1, inclusion=include_list(get_index(s2), inclusion), exclusion=exclusion)
 
 
@@ -397,7 +395,7 @@ def get_all_uncommon_index(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Key]:
-    """Returns indices in the first input not present in subsequent ones (left fold)."""
+    """Returns the indices in the first input not present in subsequent ones (left fold)."""
     return reduce(
         args,
         lambda s1, s2: get_uncommon_index(s1, s2, inclusion=inclusion, exclusion=exclusion),
@@ -410,7 +408,7 @@ def get_uncommon_index(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> List[Key]:
-    """Returns indices of `s1` that are not in `s2` under filters."""
+    """Returns the indices of `s1` that are not in `s2` under filters."""
     return get_index(s1, inclusion=inclusion, exclusion=include_list(get_index(s2), exclusion))
 
 
@@ -518,7 +516,7 @@ def get_values(
     exclusion: Optional[Iterable[Key]] = None,
 ):
     """
-    Returns values under filters.
+    Returns the values under filters.
 
     Dispatch:
         • `GroupBy(axis=0)` → array of values filtered by row keys
@@ -878,7 +876,7 @@ def set_element_types(
     Dispatch:
         • `pd.DataFrame`             → vectorized `.astype(...)` per column (dates handled via `pd.to_datetime`).
         • `pd.Series` / `np.ndarray` → `.astype(...)`.
-        • `dict`                     → rebuilds values using `to_element_type`.
+        • `dict`                     → rebuilds the values using `to_element_type`.
         • Fallback                   → updates per key using `to_element_type`.
 
     Notes:
@@ -943,18 +941,13 @@ def set_element_types(
 
 ### TABLE ##################################################
 
-__TABLE_ACCESSORS___________________________________________ = ""
-
-
-### DATAFRAME ##############################################
-
 
 def get_row(df: Struct, i: int = 0) -> Value:
     """
     Returns the row at the specified integer position `i`.
 
     Dispatch:
-        • `pd.core.groupby.GroupBy` → extracts values with `get_values(df)` then proceeds.
+        • `pd.core.groupby.GroupBy` → extracts the values with `get_values(df)` then proceeds.
         • `pd.DataFrame`            → returns a single-row `DataFrame` using `.iloc`;
                                        if `i == -1`, returns the last row as `df.iloc[i:]`.
 
@@ -1018,7 +1011,7 @@ def get_col(df: Struct, j: int = 0) -> Value:
     Returns the column at the specified integer position `j`.
 
     Dispatch:
-        • `pd.core.groupby.GroupBy` → extracts values with `get_values(df)` then proceeds.
+        • `pd.core.groupby.GroupBy` → extracts the values with `get_values(df)` then proceeds.
         • `pd.DataFrame`            → `df.iloc[:, j]` (a `Series`).
         • `pd.Series`               → `df.iloc[:]` (the series itself).
 
@@ -1075,9 +1068,7 @@ def get_cols(df: Struct) -> List[Value]:
     return [get_col(df, j) for j in range(count_cols(df))]
 
 
-## STRUCT CONVERTERS #####################################################################
-
-__STRUCT_CONVERTERS_________________________________________ = ""
+__STRUCT_CONVERTERS_______________________________________________________________________ = ""
 
 
 def to_struct(*args: Any) -> Struct:
@@ -1223,8 +1214,6 @@ def struct_to_common_type(s: Struct, template: Any) -> Any:
     return s
 
 
-### COLLECTION #############################################
-
 __COLLECTION_CONVERTERS_____________________________________ = ""
 
 
@@ -1311,12 +1300,7 @@ def uncollect(c: Any) -> Any:
     return c
 
 
-### TABLE ##################################################
-
 __TABLE_CONVERTERS__________________________________________ = ""
-
-
-### DATAFRAME ##############################################
 
 
 def to_series(
@@ -1470,9 +1454,7 @@ def to_time_frame(
     return to_frame(data, names=names, index=index, index_name=index_name, element_type=element_type)
 
 
-## STRUCT GENERATORS #####################################################################
-
-__STRUCT_GENERATORS_________________________________________ = ""
+__STRUCT_GENERATORS_______________________________________________________________________ = ""
 
 
 def create_empty(
@@ -1491,7 +1473,7 @@ def create_empty(
           the resolved type:
             – If the type defines `from_iterable`, calls it with an empty `list`.
             – Otherwise tries the no-arg constructor.
-        • If no adapter is found or construction fails, falls back to structural rules:
+        • If no adapter is found or construction fails, falls back to the structure rules:
             – `Mapping` / `MutableMapping` → `dict()`
             – `MutableSequence` or non-string `Sequence` → `list()`
             – `MutableSet` / `Set` → `set()`
@@ -1530,7 +1512,7 @@ def create_empty(
         try:
             return t()
         except TypeError:
-            # Continue to the structural fallbacks
+            # Continue to the structure fallbacks
             pass
 
     # 2) Explicit known structures
@@ -1616,9 +1598,7 @@ def create_mask(
     return mask
 
 
-## STRUCT PROCESSORS #####################################################################
-
-__STRUCT_PROCESSORS_________________________________________ = ""
+__STRUCT_PROCESSORS_______________________________________________________________________ = ""
 
 
 def all_values(s: Struct) -> bool:
@@ -1875,9 +1855,7 @@ def filter_index(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """
-    Returns entries of `s` restricted by index (`inclusion`/`exclusion` against the index).
-    """
+    """Returns the entries of `s` restricted by index (`inclusion`/`exclusion` against the index)."""
     if is_empty(s) or not is_subscriptable(s) or not has_filter(inclusion=inclusion, exclusion=exclusion):
         return s
     index = get_index(s, inclusion=inclusion, exclusion=exclusion)
@@ -1891,12 +1869,12 @@ def filter_index(
 
 
 def include_index(s: Struct, inclusion: Iterable[Key]) -> Any:
-    """Includes entries by index membership."""
+    """Includes the entries by index membership."""
     return filter_index(s, inclusion=inclusion)
 
 
 def exclude_index(s: Struct, exclusion: Iterable[Key]) -> Any:
-    """Excludes entries by index membership."""
+    """Excludes the entries by index membership."""
     return filter_index(s, exclusion=exclusion)
 
 
@@ -1912,7 +1890,7 @@ def filter_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns entries whose values return `True` with `f` for all selected keys."""
+    """Returns the entries whose values return `True` with `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -1943,7 +1921,7 @@ def filter_not_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns entries whose values return `False` with `f` for all selected keys."""
+    """Returns the entries whose values return `False` with `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -1974,7 +1952,7 @@ def filter_any_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns entries whose values return `True` with `f` for at least one selected key."""
+    """Returns the entries whose values return `True` with `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -2005,7 +1983,7 @@ def filter_any_not_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns entries whose values return `False` with `f` for at least one selected key."""
+    """Returns the entries whose values return `False` with `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -2031,22 +2009,22 @@ def filter_any_not_with(
 
 
 def filter_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are null for all selected keys."""
+    """Returns the entries whose values are null for all selected keys."""
     return filter_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not null for all selected keys."""
+    """Returns the entries whose values are not null for all selected keys."""
     return filter_not_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are null for at least one selected key."""
+    """Returns the entries whose values are null for at least one selected key."""
     return filter_any_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not null for at least one selected key."""
+    """Returns the entries whose values are not null for at least one selected key."""
     return filter_any_not_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2054,22 +2032,22 @@ def filter_any_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusi
 
 
 def filter_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are empty for all selected keys."""
+    """Returns the entries whose values are empty for all selected keys."""
     return filter_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not empty for all selected keys."""
+    """Returns the entries whose values are not empty for all selected keys."""
     return filter_not_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are empty for at least one selected key."""
+    """Returns the entries whose values are empty for at least one selected key."""
     return filter_any_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not empty for at least one selected key."""
+    """Returns the entries whose values are not empty for at least one selected key."""
     return filter_any_not_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2077,22 +2055,22 @@ def filter_any_not_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclus
 
 
 def filter_value(s: Struct, value: Any, keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values equal `value` for all selected keys."""
+    """Returns the entries whose values equal `value` for all selected keys."""
     return filter_with(s, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_value(s: Struct, value: Any, keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values do not equal `value` for all selected keys."""
+    """Returns the entries whose values do not equal `value` for all selected keys."""
     return filter_not_with(s, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_value(s: Struct, value: Any, keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values equal `value` for at least one selected key."""
+    """Returns the entries whose values equal `value` for at least one selected key."""
     return filter_any_with(s, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_value(s: Struct, value: Any, keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values do not equal `value` for at least one selected key."""
+    """Returns the entries whose values do not equal `value` for at least one selected key."""
     return filter_any_not_with(s, lambda v: v == value, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
@@ -2100,25 +2078,25 @@ def filter_any_not_value(s: Struct, value: Any, keys=None, inclusion=None, exclu
 
 
 def filter_in(s: Struct, values: Iterable[Any], keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are in `values` for all selected keys."""
+    """Returns the entries whose values are in `values` for all selected keys."""
     values = to_set(values)
     return filter_with(s, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_not_in(s: Struct, values: Iterable[Any], keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not in `values` for all selected keys."""
+    """Returns the entries whose values are not in `values` for all selected keys."""
     values = to_set(values)
     return filter_not_with(s, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_in(s: Struct, values: Iterable[Any], keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are in `values` for at least one selected key."""
+    """Returns the entries whose values are in `values` for at least one selected key."""
     values = to_set(values)
     return filter_any_with(s, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
 def filter_any_not_in(s: Struct, values: Iterable[Any], keys=None, inclusion=None, exclusion=None) -> Any:
-    """Returns entries whose values are not in `values` for at least one selected key."""
+    """Returns the entries whose values are not in `values` for at least one selected key."""
     values = to_set(values)
     return filter_any_not_with(s, lambda v: v in values, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
@@ -2134,7 +2112,7 @@ def filter_between(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Returns entries where values lie in `[lower, upper)` for all selected keys."""
+    """Returns the entries where values lie in `[lower, upper)` for all selected keys."""
     if is_all_null(lower, upper):
         return s
     elif is_null(lower):
@@ -2152,7 +2130,7 @@ def filter_not_between(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Returns entries where values are NOT in `[lower, upper)` for all selected keys."""
+    """Returns the entries where values are NOT in `[lower, upper)` for all selected keys."""
     if is_all_null(lower, upper):
         return s
     elif is_null(lower):
@@ -2170,7 +2148,7 @@ def filter_any_between(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Returns entries where values lie in `[lower, upper)` for at least one key."""
+    """Returns the entries where values lie in `[lower, upper)` for at least one key."""
     if is_all_null(lower, upper):
         return s
     elif is_null(lower):
@@ -2188,7 +2166,7 @@ def filter_any_not_between(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Returns entries where values are NOT in `[lower, upper)` for at least one key."""
+    """Returns the entries where values are NOT in `[lower, upper)` for at least one key."""
     if is_all_null(lower, upper):
         return s
     elif is_null(lower):
@@ -2215,7 +2193,7 @@ def flatten(s: Struct, element_type: Optional[ElementType] = None, axis: int = 0
 
 
 def groupby(s: Struct, agg: Aggregation = AGGREGATION, pos: Position = POSITION, dof: int = 1, axis: int = 0) -> Any:
-    """Aggregates or selects positions along `axis` according to `agg`/`pos`."""
+    """Aggregates or selects the positions along `axis` according to `agg`/`pos`."""
     if pos is Position.START:
         return get_first(s, axis=axis)
     elif pos is Position.MIDDLE:
@@ -2241,7 +2219,7 @@ def groupby(s: Struct, agg: Aggregation = AGGREGATION, pos: Position = POSITION,
 
 
 def count(*args: Any, axis: Optional[int] = 0) -> Any:
-    """Counts elements along `axis` (or total when `axis is None`)."""
+    """Counts the elements along `axis` (or total when `axis is None`)."""
     s = forward(*args)
     if is_element(s):
         return 1
@@ -2448,7 +2426,7 @@ def insert_cols(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Inserts columns from `c2` into `c1` for keys not present in `c1`."""
+    """Inserts the columns from `c2` into `c1` for keys not present in `c1`."""
     if not is_table(c1) and not is_dict(c1):
         return c1
     if is_table(c2):
@@ -2743,7 +2721,7 @@ def take_not_at(s: Struct, indices: Iterable[int], axis: int = 0) -> Any:
 
 
 def tally(s: Struct, boundaries: Iterable[Any]) -> Any:
-    """Tallies values of `s` into half-open intervals defined by `boundaries`."""
+    """Tallies the values of `s` into half-open intervals defined by `boundaries`."""
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
@@ -2767,7 +2745,7 @@ def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
 
     Dispatch:
         • `pd.DataFrame`    → deduplicates by index (not by row content).
-        • Other containers  → deduplicates values, preserving order.
+        • Other containers  → deduplicates the values, preserving order.
 
     Positional bias:
         • Position.START        → keep first occurrence (default for DataFrames).
@@ -2968,9 +2946,7 @@ def where(
     return [k for k in keys if condition(s[k], *args, **kwargs)]
 
 
-## COLLECTION PROCESSORS #################################################################
-
-__COLLECTION_PROCESSORS_____________________________________ = ""
+__COLLECTION_PROCESSORS___________________________________________________________________ = ""
 
 
 ### LIST ###################################################
@@ -3112,11 +3088,6 @@ def find_last_not_with(
 
 ### TABLE ##################################################
 
-__TABLE_PROCESSORS__________________________________________ = ""
-
-
-### DATAFRAME ##############################################
-
 
 def combine_all(*args: Any, f: Callable[[pd.Series, pd.Series], pd.Series]) -> pd.DataFrame:
     """Combines all frames by folding with `combine(left, right, f)` (left fold)."""
@@ -3172,7 +3143,7 @@ def concat_cols(
     verify_integrity: bool = False,
 ) -> Table:
     """
-    Concatenates columns (stack horizontally) into a DataFrame.
+    Concatenates the columns (stack horizontally) into a DataFrame.
 
     Notes:
         • Inputs are passed as-is (already Series/Frames) via `to_struct`.
@@ -3483,7 +3454,7 @@ def remove_row_at(df: pd.DataFrame, i: int) -> pd.DataFrame:
 
 
 def remove_col(df: pd.DataFrame, names: Any = None, level: Any = None, inplace: bool = False) -> Optional[pd.DataFrame]:
-    """Removes columns by name/level (thin wrapper over `DataFrame.drop`)."""
+    """Removes the columns by name/level (thin wrapper over `DataFrame.drop`)."""
     return df.drop(columns=names, level=level, inplace=inplace)
 
 
@@ -3499,7 +3470,7 @@ def remove_col_at(df: pd.DataFrame, j: int) -> pd.DataFrame:
 
 def rename(df: pd.DataFrame, names: Any = None, index: Any = None, level: Any = None) -> pd.DataFrame:
     """
-    Renames columns or index.
+    Renames the columns or index.
 
     Notes:
         • When both `names` and `index` are empty, sets names to a default integer range.
@@ -3516,7 +3487,7 @@ def rename(df: pd.DataFrame, names: Any = None, index: Any = None, level: Any = 
 
 
 def rename_all(*args: Any, names: Any = None, index: Any = None, level: Any = None) -> None:
-    """Renames columns/index for each frame in `args`."""
+    """Renames the columns/index for each frame in `args`."""
     for arg in args:
         rename(arg, names=names, index=index, level=level)
 
@@ -3541,7 +3512,7 @@ def rotate_rows(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> p
 
 
 def rotate_cols(df: pd.DataFrame, drop: bool = True, prepend: bool = False) -> pd.DataFrame:
-    """Rotates columns by moving last→first (`prepend=True`) or first→last (`prepend=False`)."""
+    """Rotates the columns by moving last→first (`prepend=True`) or first→last (`prepend=False`)."""
     if is_empty(df):
         return df
 

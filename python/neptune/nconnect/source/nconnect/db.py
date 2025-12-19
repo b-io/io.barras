@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide utilities for databases.
+#   Provide connectivity utilities for databases.
 ########################################################################################################################
 
 import logging
@@ -22,9 +22,8 @@ from nutil.scalar.number import ceil
 from nutil.scalar.string import dquote, par, quote
 from nutil.struct.util import *
 
-## DB CONSTANTS ##########################################################################
 
-__DB_CONSTANTS______________________________________________ = ""
+__DB_CONSTANTS____________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -46,12 +45,8 @@ DEFAULT_CHUNK_SIZE = 100
 DEFAULT_DEBUG_INTERVAL = 1000
 
 
-## DB PROCESSORS #########################################################################
+__DB_PROCESSORS___________________________________________________________________________ = ""
 
-__DB_PROCESSORS_____________________________________________ = ""
-
-
-### DB CONNECT #############################################
 
 __DB_CONNECT________________________________________________ = ""
 
@@ -84,8 +79,6 @@ def create_session(engine):
     """Creates a session for the specified engine."""
     return Session(bind=engine)
 
-
-### DB CONSOLE #############################################
 
 __DB_CONSOLE________________________________________________ = ""
 
@@ -171,8 +164,6 @@ def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE)
         warn_row(verb, index, table, ex=ex, cols=cols, row=row, verbose=verbose)
 
 
-### DB FORMAT ##############################################
-
 __DB_FORMAT_________________________________________________ = ""
 
 
@@ -241,8 +232,6 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
         return quote(value.strftime(DEFAULT_DATE_TIME_FORMAT)[:-3])
     return quote(escape(value))
 
-
-### DB METADATA ############################################
 
 __DB_METADATA_______________________________________________ = ""
 
@@ -434,8 +423,6 @@ def transact(engine, query, *args, **kwargs):
         return result.fetchall() if not is_null(result.cursor) else result.rowcount
 
 
-### DB CREATE ##############################################
-
 __DB_CREATE_________________________________________________ = ""
 
 
@@ -466,8 +453,6 @@ def create_table(
         dtype=col_types if not is_null(col_types) else get_col_types(df),
     )
 
-
-### DB SELECT ##############################################
 
 __DB_SELECT_________________________________________________ = ""
 
@@ -615,8 +600,6 @@ def select_table_where(
             return df.head(row_count)
     return df
 
-
-### DB DELETE ##############################################
 
 __DB_DELETE_________________________________________________ = ""
 
@@ -800,8 +783,6 @@ def bulk_delete_table(
     return delete_count
 
 
-### DB INSERT ##############################################
-
 __DB_INSERT_________________________________________________ = ""
 
 
@@ -975,8 +956,6 @@ def bulk_insert_table(
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
 
-
-### DB UPDATE ##############################################
 
 __DB_UPDATE_________________________________________________ = ""
 
@@ -1156,8 +1135,6 @@ def bulk_update_table(
     return update_count
 
 
-### DB UPSERT ##############################################
-
 __DB_UPSERT_________________________________________________ = ""
 
 
@@ -1257,8 +1234,6 @@ def upsert_table(
             )
     return upsert_count
 
-
-### DB MIGRATE #############################################
 
 __DB_MIGRATE________________________________________________ = ""
 

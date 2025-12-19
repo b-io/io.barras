@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Test the graphical user interface (GUI) utilities.
+#   Test the graphical utilities.
 ########################################################################################################################
 
 import logging
@@ -19,16 +19,13 @@ from ngui import charts
 from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
-## GUI TEST CONSTANTS ####################################################################
 
-__GUI_TEST_CONSTANTS________________________________________ = ""
+__GUI_TEST_CONSTANTS______________________________________________________________________ = ""
 
 SIZE = 1000
 
 
-## GUI TEST CASES ########################################################################
-
-__GUI_TEST_CASES____________________________________________ = ""
+__GUI_TEST_CASES__________________________________________________________________________ = ""
 
 
 class TestGui(Test):
@@ -64,13 +61,14 @@ class TestGui(Test):
         self.assert_equals(charts.fig_to_webp_html(fig)[-42:-10], "/Uf+o/9Z/6T/2n/lP/qf/Uf+o/9Z/6T/")
 
 
-## GUI TEST MAIN #########################################################################
+__GUI_TEST_RUNNERS________________________________________________________________________ = ""
 
-__GUI_TEST_MAIN_____________________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:
-    """Tests the graphical user interface (GUI) utilities."""
+    """Tests the graphical utilities."""
     configure_logging(level=logging.DEBUG)
     unittest.main()
 

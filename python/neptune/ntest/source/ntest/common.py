@@ -15,9 +15,8 @@ import pytest
 
 from nutil.struct.util import *
 
-## COMMON TEST CONSTANTS #################################################################
 
-__COMMON_TEST_CONSTANTS_____________________________________ = ""
+__COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
 PRECISION = 14  # decimals
 SIZE = 100
@@ -26,9 +25,7 @@ ROW_SIZE = 10000
 TEST_COUNT = 10
 
 
-## COMMON TEST PROCESSORS ################################################################
-
-__COMMON_TEST_PROCESSORS____________________________________ = ""
+__COMMON_TEST_PROCESSORS__________________________________________________________________ = ""
 
 
 def assert_equals(first, second, precision=PRECISION, assert_order=False):

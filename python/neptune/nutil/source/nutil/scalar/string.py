@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities for strings.
+#   Provide scalar utilities for strings.
 ########################################################################################################################
 
 import random
@@ -14,9 +14,8 @@ import string
 
 from nutil.common import *
 
-## STRING CONSTANTS ######################################################################
 
-__STRING_CONSTANTS__________________________________________ = ""
+__STRING_CONSTANTS________________________________________________________________________ = ""
 
 NEWLINE = "\n"
 
@@ -45,9 +44,7 @@ DIGITS: str = "0-9"
 ALPHA_NUMERIC_CHARS: str = f"{LETTERS}{DIGITS}"
 
 
-## STRING CONVERTERS #####################################################################
-
-__STRING_CONVERTERS_________________________________________ = ""
+__STRING_CONVERTERS_______________________________________________________________________ = ""
 
 
 def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] = None):
@@ -120,9 +117,7 @@ def to_roman(n: int) -> str:
     return "".join(out)
 
 
-## STRING GENERATORS #####################################################################
-
-__STRING_GENERATORS_________________________________________ = ""
+__STRING_GENERATORS_______________________________________________________________________ = ""
 
 
 def generate_string(length, case_sensitive=False, include_digits=True):
@@ -135,9 +130,7 @@ def generate_string(length, case_sensitive=False, include_digits=True):
     return collapse(random.choices(choices, k=length))
 
 
-## STRING PROCESSORS #####################################################################
-
-__STRING_PROCESSORS_________________________________________ = ""
+__STRING_PROCESSORS_______________________________________________________________________ = ""
 
 
 def extract(s, pattern):

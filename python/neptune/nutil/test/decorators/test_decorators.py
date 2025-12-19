@@ -19,9 +19,8 @@ from nutil.decorators.typing import typesafe
 from nutil.io.logging import configure_logging
 from nutil.math import *
 
-## DECORATORS TEST CASES #################################################################
 
-__DECORATORS_TEST_CASES_____________________________________ = ""
+__DECORATOR_TEST_CASES____________________________________________________________________ = ""
 
 
 ### HASH CACHE DECORATOR ###################################
@@ -127,9 +126,10 @@ def test_typesafe_suggest_mode_does_not_raise(caplog: LogCaptureFixture) -> None
     assert any(rec.levelno == logging.WARNING for rec in caplog.records)
 
 
-## DECORATORS TEST MAIN ##################################################################
+__DECORATOR_TEST_RUNNERS__________________________________________________________________ = ""
 
-__DECORATOR_TEST_MAIN_______________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:

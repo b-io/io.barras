@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide a common collection registry.
+#   Provide a common collection registry with its adapters and utilities.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -47,9 +47,8 @@ import numpy as np
 from nutil.decorators.common import *
 from nutil.metaclasses import FinalSingletonMeta
 
-## COMMON COLLECTION REGISTRY ANNOTATIONS ################################################
 
-__COMMON_COLLECTION_REGISTRY_ANNOTATIONS____________________ = ""
+__COMMON_COLLECTION_REGISTRY_DECORATORS___________________________________________________ = ""
 
 
 def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
@@ -92,9 +91,7 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
     return _adapts
 
 
-## COMMON COLLECTION REGISTRY CLASSES ####################################################
-
-__COMMON_COLLECTION_REGISTRY_CLASSES________________________ = ""
+__COMMON_COLLECTION_REGISTRY_CLASSES______________________________________________________ = ""
 
 # Typing alias for any supported element types across `Struct`
 ElementType = Union[Type[Any], np.dtype[Any]]
@@ -969,9 +966,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         x.update_pairs(pairs)
 
 
-## COMMON COLLECTION REGISTRY CONSTANTS ##################################################
-
-__COMMON_COLLECTION_REGISTRY_CONSTANTS______________________ = ""
+__COMMON_COLLECTION_REGISTRY_CONSTANTS____________________________________________________ = ""
 
 ITERATOR_TYPE = ABCIterator
 
@@ -979,9 +974,7 @@ MAPPING_TYPE = ABCMapping
 MUTABLE_MAPPING_TYPE = ABCMutableMapping
 
 
-## COMMON COLLECTION REGISTRY GENERATORS #################################################
-
-__COMMON_COLLECTION_REGISTRY_GENERATORS_____________________ = ""
+__COMMON_COLLECTION_REGISTRY_GENERATORS___________________________________________________ = ""
 
 
 def create_iterator(x: Any, *, target_type: Union[Type[Any], str] = "object") -> Iterator[Any]:
@@ -1028,9 +1021,7 @@ def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T
     return (iterable,) * n  # reuses the same re-`Iterable` reference `n` times
 
 
-## COMMON COLLECTION REGISTRY VERIFIERS ##################################################
-
-__COMMON_COLLECTION_REGISTRY_VERIFIERS______________________ = ""
+__COMMON_COLLECTION_REGISTRY_VALIDATORS___________________________________________________ = ""
 
 
 def is_iterator(x: Any) -> bool:

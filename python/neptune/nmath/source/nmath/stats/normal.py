@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide mathematical utilities for normal distributions.
+#   Provide statistical utilities for normal distributions.
 ########################################################################################################################
 
 from scipy.special import ndtr
@@ -15,17 +15,14 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import apply, mean, simplify, sort, std
 
-## NORMAL CONSTANTS ######################################################################
 
-__NORMAL_CONSTANTS__________________________________________ = ""
+__NORMAL_CONSTANTS________________________________________________________________________ = ""
 
 NORMAL_NAME = "Normal"
 NORMAL_KDE_NAME = "Normal KDE"
 
 
-## NORMAL CLASSES ########################################################################
-
-__NORMAL_CLASSES____________________________________________ = ""
+__NORMAL_CLASSES__________________________________________________________________________ = ""
 
 
 class Normal(Distribution):
@@ -185,9 +182,7 @@ class NormalKDE(Distribution):
         return add(self.mean(), margin)
 
 
-## NORMAL PROCESSORS #####################################################################
-
-__NORMAL_PROCESSORS_________________________________________ = ""
+__NORMAL_PROCESSORS_______________________________________________________________________ = ""
 
 
 def generate(size=1, mu=0, sigma=1):

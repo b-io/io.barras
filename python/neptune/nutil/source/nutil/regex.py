@@ -11,9 +11,8 @@
 import re
 from typing import Iterable, Optional
 
-## REGEX PROCESSORS ######################################################################
 
-__REGEX_PROCESSORS__________________________________________ = ""
+__REGEX_PROCESSORS________________________________________________________________________ = ""
 
 
 def build_alternation_regex(

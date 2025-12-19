@@ -5,16 +5,15 @@
 
 ########################################################################################################################
 # Goal
-#   Provide common utilities.
+#   Provide scalar utilities for bytes.
 ########################################################################################################################
 
 from __future__ import annotations
 
 from nutil.common import *
 
-## BYTES CONVERTERS ######################################################################
 
-__BYTES_CONVERTERS__________________________________________ = ""
+__BYTES_CONVERTERS________________________________________________________________________ = ""
 
 
 def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -> Any:
@@ -24,7 +23,7 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
     Dispatch:
         • Returns `None` if `x` is null (per `is_null`).
         • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
-        • Converts numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
+        • Converts the numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
         • Encodes `str` via `encoding`/`errors`.
         • For NumPy arrays:
             – If `dtype` is `uint8`, returns `x.tobytes()`.

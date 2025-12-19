@@ -12,9 +12,8 @@ from distutils.util import strtobool
 
 from nutil.common import *
 
-## BOOLEAN CONVERTERS ####################################################################
 
-__BOOLEAN_CONVERTERS________________________________________ = ""
+__BOOLEAN_CONVERTERS______________________________________________________________________ = ""
 
 
 def to_boolean(x: Any):

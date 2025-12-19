@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# CONFIGURATION UTILITIES ##############################################################################################
+########################################################################################################################
 # Goal
 #   Provide a robust configuration loader around `configparser.ConfigParser` with environment-variable interpolation,
 #   string-only option coercion, and typed accessors (including enums) that return `Optional[...]` when unspecified.
@@ -23,9 +23,8 @@ from io import StringIO
 from nutil.common import *
 from nutil.enums import Aggregation, Environment, Frequency, Position, SeverityLevel
 
-## CONFIG CLASSES ########################################################################
 
-__CONFIG_CLASSES____________________________________________ = ""
+__CONFIG_CLASSES__________________________________________________________________________ = ""
 
 
 class EnvInterpolation(BasicInterpolation):
@@ -36,9 +35,7 @@ class EnvInterpolation(BasicInterpolation):
         return os.path.expandvars(value)
 
 
-## CONFIG CONSTANTS ######################################################################
-
-__CONFIG_CONSTANTS__________________________________________ = ""
+__CONFIG_CONSTANTS________________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -90,9 +87,7 @@ DEFAULT_SECRET_MARKERS: Tuple[str, ...] = (
 CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
 
 
-## CONFIG ACCESSORS ######################################################################
-
-__CONFIG_ACCESSORS__________________________________________ = ""
+__CONFIG_ACCESSORS________________________________________________________________________ = ""
 
 TEnum = TypeVar("TEnum")
 
@@ -245,9 +240,7 @@ def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
     return s
 
 
-## CONFIG LOADING ########################################################################
-
-__CONFIG_LOADING____________________________________________ = ""
+__CONFIG_LOADERS__________________________________________________________________________ = ""
 
 
 def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> List[str]:
@@ -264,9 +257,7 @@ def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RE
     return CONFIG.read(get_config_path(filename, dir=dir, subdir=subdir))
 
 
-## CONFIG PROCESSORS #####################################################################
-
-__CONFIG_PROCESSORS_________________________________________ = ""
+__CONFIG_PROCESSORS_______________________________________________________________________ = ""
 
 
 def escape_property(property: Optional[str]) -> Optional[str]:
@@ -317,9 +308,7 @@ def format_value(value: Any) -> str:
     return str(value)
 
 
-## CONFIG PROPERTIES #####################################################################
-
-__CONFIG_PROPERTIES_________________________________________ = ""
+__CONFIG_PROPERTIES_______________________________________________________________________ = ""
 
 merge_config(CONFIG, DEFAULT_CONFIG)
 
@@ -343,9 +332,7 @@ PERIOD: Optional[str] = get_str("series", "period")
 POSITION: Optional[Position] = get_enum("series", "position", Position)
 
 
-## CONFIG CONVERTERS #####################################################################
-
-__CONFIG_CONVERTERS_________________________________________ = ""
+__CONFIG_CONVERTERS_______________________________________________________________________ = ""
 
 
 def render_config(config: ConfigParser, *, resolve_env: bool = True, redact: bool = True, align: bool = True) -> str:
@@ -455,11 +442,13 @@ def config_to_json(config: ConfigParser, *, resolve_env: bool = True, redact: bo
     )
 
 
-## CONFIG MAIN ###########################################################################
+__CONFIG_RUNNERS__________________________________________________________________________ = ""
 
-__CONFIG_MAIN_______________________________________________ = ""
 
-if __name__ == "__main__":
+### MAIN ###################################################
+
+
+def main() -> None:
     # Load the defaults only (or call `load_config("app")` first)
     #   load_config("app")
 
@@ -474,3 +463,7 @@ if __name__ == "__main__":
     # 3) Raw INI emission (as `ConfigParser` would write it)
     print("\n# CONFIG (ini)")
     print(config_to_ini(CONFIG))
+
+
+if __name__ == "__main__":
+    main()

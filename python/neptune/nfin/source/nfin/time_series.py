@@ -23,9 +23,8 @@ from nutil.math import *
 from nutil.scalar.date import *
 from nutil.scalar.string import generate_string
 
-## TIME SERIES ENUMS #####################################################################
 
-__TIME_SERIES_ENUMS_________________________________________ = ""
+__TIME_SERIES_ENUMS_______________________________________________________________________ = ""
 
 
 class Transformation(StrEnum):
@@ -45,9 +44,7 @@ class Transformation(StrEnum):
     LOG_RETURNS = "log_returns"
 
 
-## TIME SERIES ACCESSORS #################################################################
-
-__TIME_SERIES_ACCESSORS_____________________________________ = ""
+__TIME_SERIES_ACCESSORS___________________________________________________________________ = ""
 
 
 def get_average_duration(series: pd.Series, per: Union[timedelta, np.timedelta64, pd.Timedelta] = DAY) -> float:
@@ -101,18 +98,14 @@ def set_freq(series, freq=FREQUENCY, pos=POSITION):
     series.index.freq = get_frequency(freq=freq, pos=pos)
 
 
-## TIME SERIES CONVERTERS ################################################################
-
-__TIME_SERIES_CONVERTERS____________________________________ = ""
+__TIME_SERIES_CONVERTERS__________________________________________________________________ = ""
 
 
 def to_time_index(series, format="%Y-%m-%d"):
     series.index = pd.to_datetime(series.index, format=format, errors="raise")
 
 
-## TIME SERIES FIGURES ###################################################################
-
-__TIME_SERIES_FIGURES_______________________________________ = ""
+__TIME_SERIES_FIGURES_____________________________________________________________________ = ""
 
 
 def plot_decomposition(
@@ -210,14 +203,10 @@ def plot_decomposition(
     return fig
 
 
-## TIME SERIES PROCESSORS ################################################################
-
-__TIME_SERIES_PROCESSORS____________________________________ = ""
+__TIME_SERIES_PROCESSORS__________________________________________________________________ = ""
 
 
 ### TIME SERIES IMPUTATION #################################
-
-__TIME_SERIES_IMPUTATION____________________________________ = ""
 
 
 def clean_series(series, pos=POSITION):
@@ -246,8 +235,6 @@ def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate
 
 
 ### TIME SERIES FREQUENCY ADJUSTMENT #######################
-
-__TIME_SERIES_FREQUENCY_ADJUSTMENT__________________________ = ""
 
 
 def find_nearest_freq(series):
@@ -398,8 +385,6 @@ def ungroup_series(
 
 ### TIME SERIES PRUNING ####################################
 
-__TIME_SERIES_PRUNING_______________________________________ = ""
-
 
 def prune_series(
     series: pd.Series,
@@ -519,8 +504,6 @@ def find_nearest_index(index: pd.DatetimeIndex, anchor: pd.Timestamp) -> int:
 
 ### TIME SERIES TRANSFORMATION #############################
 
-__TIME_SERIES_TRANSFORMATION________________________________ = ""
-
 
 def get_diff(series, periods=1):
     if is_table(series):
@@ -586,8 +569,6 @@ def get_period_over_period(series, freq=FREQUENCY):
 
 
 ### TIME SERIES AGGREGATION ################################
-
-__TIME_SERIES_AGGREGATION___________________________________ = ""
 
 
 def aggregate_series(
@@ -657,8 +638,6 @@ def aggregate_series(
 
 
 ### TIME SERIES TRANSFORMATION #############################
-
-__TIME_SERIES_TRANSFORMATION________________________________ = ""
 
 
 def transform_series(
@@ -753,8 +732,6 @@ def untransform_series(series, offset=0, clean=False, transformation=None):
 
 ### TIME SERIES DECOMPOSITION ##############################
 
-__TIME_SERIES_DECOMPOSITION_________________________________ = ""
-
 
 def decompose_series(series, seasonal_period=1, freq=FREQUENCY, pos=POSITION):
     """
@@ -770,8 +747,6 @@ def decompose_series(series, seasonal_period=1, freq=FREQUENCY, pos=POSITION):
 
 
 ### TIME SERIES FORECASTING ################################
-
-__TIME_SERIES_FORECASTING___________________________________ = ""
 
 
 def forecast_series(

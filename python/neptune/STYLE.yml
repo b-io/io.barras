@@ -3,33 +3,54 @@
 # Regex-based coding-style checks.
 # Each rule matches *violations* and CI fails if any rule finds at least one match.
 rules:
-  - id: "constant-bar-width"
-    description: "Constant bar lines must start with '__', use uppercase letters/underscores, be assigned to \"\" and have total width 65."
-    pattern: "^(?=\\s*__[A-Za-z_]+_+ = \"\"$)(?!(?=.{65}$)\\s*__[A-Z_]+_+ = \"\"$).+$"
-    include: [ "**/*.py" ]
-    exclude: [ ]
-    flags: [ ]
-    severity: "warning"
+  ### BANNERS ##############################################
 
   - id: "hash-banner-length"
-    description: "Banner lines must be length 30/60/90/120 with correct leading '#': 1→120, 2→90, 3→60, 4→30. Pure separators (only '#') allowed at any allowed width."
-    pattern: "^(?=\\s*#)(?=\\s?[^\\s]*\\s?#{2,})(?!(?:(?=.{120}$)\\s*#\\s+.*|(?=.{90}$)\\s*##\\s+.*|(?=.{60}$)\\s*###\\s+.*|(?=.{30}$)\\s*####\\s+.*|(?=.{120}$)\\s*#+|(?=.{90}$)\\s*#+|(?=.{60}$)\\s*#+|(?=.{30}$)\\s*#+)$).+$"
+    description: "Hash banners must start with '#', use the correct leading '#': ####→30, ###→60, ##→90, #→120, be either a titled banner or a pure separator (only '#'), and have total length 30/60/90/120."
+    pattern: "^(?=\\s*#)(?=\\s?[^\\s]*\\s?#{2,})(?!(?:(?=.{30}$)\\s*####\\s+.*|(?=.{60}$)\\s*###\\s+.*|(?=.{90}$)\\s*##\\s+.*|(?=.{120}$)\\s*#\\s+.*|(?=.{30}$)\\s*#+|(?=.{60}$)\\s*#+|(?=.{90}$)\\s*#+|(?=.{120}$)\\s*#+)$).+$"
     include: [ "**/*.md", "**/*.py", "**/*.rst", "**/*.toml", "**/*.yaml", "**/*.yml" ]
     exclude: [ ]
     flags: [ ]
     severity: "warning"
 
-  - id: "line-comment-capitalized"
-    description: "Line comments must not start with a lowercase letter (uppercase/digits/symbols allowed). Only the first line of a contiguous block is enforced."
-    pattern: "^(?=\\s*#)(?!\\s*#\\s*(?:!|-\\*-|coding:|region\\b|pragma\\b|todo\\b|fixme\\b|note\\b|noqa\\b|pylint:|mypy:|pyright:|isort:|fmt:))\\s*#\\s[a-z]"
+  - id: "hash-banner-keyword"
+    description: "Level-2 hash banners ('## ... ####' of length 90) must end with an allowed section keyword (the last word before the trailing '#')."
+    pattern: "^(?=\\s*##\\s)(?=.*#{10,}\\s*$)(?!\\s*##\\s+.*\\b(?:ACCESSORS|BUILDERS|CASES|CLASSES|CONSTANTS|CONVERTERS|DECORATORS|ENUMS|FACTORIES|FIGURES|FILTERS|FIXTURES|FORMATTERS|GENERATORS|HANDLERS|LOADERS|LOGGERS|METACLASSES|OPERATORS|PARSERS|PROCESSORS|PROPERTIES|READERS|REGISTRIES|RUNNERS|SCHEMAS|SERIALIZERS|SERVICES|SETTINGS|TYPES|VALIDATORS|WRITERS)\\s+#{10,}\\s*$).+$"
+    include: [ "**/*.bash", "**/*.c", "**/*.h", "**/*.cpp", "**/*.hpp", "**/*.java", "**/*.py", "**/*.scala", "**/*.sh", "**/*.zsh" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "underscore-banner-length"
+    description: "Underscore banners must start with '__', use only uppercase letters/digits/underscores in the name (underscores allowed inside the name), be assigned to \"\", and have total length 35/65/95/125."
+    pattern: "^(?=\\s*__[A-Za-z0-9_]+_+ = \"\"$)(?!(?:(?=.{35}$)|(?=.{65}$)|(?=.{95}$)|(?=.{125}$))\\s*__[A-Z0-9_]+_+ = \"\"$).+$"
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ ]
     severity: "warning"
 
-  - id: 'inline-comment-lowercase'
+  - id: "underscore-banner-keyword"
+    description: "Level-2 underscore banners ('__..._+ = \"\"' of length 95) must end with an allowed section keyword (the last word before the trailing '_')."
+    pattern: "^(?=.{95}$)(?=\\s*__[A-Z0-9_]+_+ = \"\"$)(?!\\s*__(?:[A-Z0-9]+_)*?(?:ACCESSORS|BUILDERS|CASES|CLASSES|CONSTANTS|CONVERTERS|DECORATORS|ENUMS|FACTORIES|FIGURES|FILTERS|FIXTURES|FORMATTERS|GENERATORS|HANDLERS|LOADERS|LOGGERS|METACLASSES|OPERATORS|PARSERS|PROCESSORS|PROPERTIES|READERS|REGISTRIES|RUNNERS|SCHEMAS|SERIALIZERS|SERVICES|SETTINGS|TYPES|VALIDATORS|WRITERS)_+ = \"\"$).+$"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+
+  ### COMMENTS #############################################
+
+  - id: "inline-comment-lowercase"
     description: "Inline comments (after code) must start with a lowercase letter."
     pattern: "^(?!\\s*#).*?\\S[ \\t]{2,}#[ \\t]+(?!noqa\\b|type:\\s*ignore\\b|pylint:|mypy:|pyright:|isort:|fmt:|pragma\\b|TODO\\b|FIXME\\b|NOTE\\b)(?-i:[A-Z])"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "line-comment-capitalized"
+    description: "Line comments must not start with a lowercase letter (uppercase/digits/symbols allowed)."
+    pattern: "^(?=\\s*#)(?!\\s*#\\s*(?:!|-\\*-|coding:|region\\b|pragma\\b|todo\\b|fixme\\b|note\\b|noqa\\b|pylint:|mypy:|pyright:|isort:|fmt:))\\s*#\\s[a-z]"
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ ]
@@ -41,4 +62,23 @@ rules:
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ "IGNORECASE" ]
+    severity: "warning"
+
+
+  ### MESSAGES #############################################
+
+  - id: "error-message-trailing-period"
+    description: "Error messages must not end with a period."
+    pattern: "\\braise\\b\\s+[A-Za-z_][A-Za-z0-9_]*Error\\(\\s*(?:[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*)?(?:[rRuUbBfF]{0,2})?(['\"])(?:\\\\.|(?!\\1).)*?(?<!\\.)\\.\\1"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "logging-message-trailing-period"
+    description: "Logging messages must not end with a period."
+    pattern: "\\blogging\\.(?:debug|info|warning|error|critical|exception)\\(\\s*(?:[A-Za-z_][A-Za-z0-9_]*\\s*=\\s*)?(?:[rRuUbBfF]{0,2})?(['\"])(?:\\\\.|(?!\\1).)*?(?<!\\.)\\.\\1"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
     severity: "warning"

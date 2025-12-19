@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide mathematical utilities for descriptive statistics.
+#   Provide statistical utilities for descriptive statistics.
 ########################################################################################################################
 
 import plotly.graph_objs as go
@@ -16,9 +16,8 @@ from ngui import charts
 from nutil.scalar.number import EPS, format_number
 from nutil.struct.util import *
 
-## DESCRIPTIVE CONSTANTS #################################################################
 
-__DESCRIPTIVE_CONSTANTS_____________________________________ = ""
+__DESCRIPTIVE_CONSTANTS___________________________________________________________________ = ""
 
 
 ### DEFAULTS ###############################################
@@ -30,9 +29,7 @@ DEFAULT_POINT_COUNT = 100
 DEFAULT_DISCRETE_RELATIVE_THRESHOLD = 0.2
 
 
-## DESCRIPTIVE FIGURES ###################################################################
-
-__DESCRIPTIVE_FIGURES_______________________________________ = ""
+__DESCRIPTIVE_FIGURES_____________________________________________________________________ = ""
 
 
 def draw_histogram(
@@ -520,9 +517,7 @@ def plot_cumulative_distribution(
     return fig
 
 
-## DESCRIPTIVE PROCESSORS ################################################################
-
-__DESCRIPTIVE_PROCESSORS____________________________________ = ""
+__DESCRIPTIVE_PROCESSORS__________________________________________________________________ = ""
 
 
 def get_density(
@@ -565,9 +560,7 @@ def get_density(
     return pd.Series(kde(x), index=x, name=name + "Density")
 
 
-## DESCRIPTIVE VERIFIERS #################################################################
-
-__DESCRIPTIVE_VERIFIERS_____________________________________ = ""
+__DESCRIPTIVE_VALIDATORS__________________________________________________________________ = ""
 
 
 def is_discrete_like(

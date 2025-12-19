@@ -5,7 +5,7 @@
 
 ########################################################################################################################
 # Goal
-#   Provide typing hints utilities.
+#   Provide utilities for resolving and validating type hints.
 ########################################################################################################################
 
 from __future__ import annotations
@@ -15,17 +15,8 @@ from typing import Annotated, get_args, get_origin
 
 from nutil.common import *
 
-## TYPING HINTS ##########################################################################
 
-__TYPING_HINTS______________________________________________ = ""
-
-
-def expected_for_display(annotation: Any) -> Union[Type[Any], Tuple[Any, ...]]:
-    """
-    Adapts the flattened alternatives to a shape accepted by `create_type_error`.
-    """
-    flat = flatten_expected_types(annotation)
-    return flat[0] if len(flat) == 1 else flat
+__TYPE_HINT_ACCESSORS_____________________________________________________________________ = ""
 
 
 def get_type_hints(x: Any) -> Dict[str, Any]:

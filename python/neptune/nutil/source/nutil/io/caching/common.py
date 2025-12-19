@@ -3,7 +3,7 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-# COMMON CACHING #######################################################################################################
+########################################################################################################################
 # Goal
 #   Provide common caching utilities.
 ########################################################################################################################
@@ -12,9 +12,8 @@ from __future__ import annotations
 
 from nutil.enums import StrEnum
 
-## COMMON CACHING CLASSES ################################################################
 
-__COMMON_CACHING_CLASSES____________________________________ = ""
+__COMMON_CACHING_CLASSES__________________________________________________________________ = ""
 
 
 class CachePolicy(StrEnum):

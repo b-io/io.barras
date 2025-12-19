@@ -5,12 +5,11 @@
 
 ########################################################################################################################
 # Goal
-#   Provide graphical user interface (GUI) utilities.
+#   Provide graphical utilities.
 ########################################################################################################################
 
-## GUI INIT ##############################################################################
 
-__GUI_INIT__________________________________________________ = ""
+__GUI_CONSTANTS___________________________________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]
 __version__ = "1.0.1a1"
@@ -20,4 +19,4 @@ __version__ = "1.0.1a1"
 
 NAME = "ngui"
 VERSION = __version__
-DESCRIPTION = "Graphical user interface utility library"
+DESCRIPTION = "Graphical utility library"

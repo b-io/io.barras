@@ -15,9 +15,8 @@ import pytest
 from nutil.io.logging import configure_logging
 from nutil.metaclasses import *
 
-## METACLASSES TEST CASES ################################################################
 
-__METACLASSES_TEST_CASES____________________________________ = ""
+__METACLASS_TEST_CASES____________________________________________________________________ = ""
 
 
 ### COMBINE METACLASSES ####################################
@@ -372,9 +371,10 @@ def test_temp_singleton_meta_rejects_negative_lifespan() -> None:
         TempService.set(1, _lifespan=-1)
 
 
-## METACLASSES TEST MAIN #################################################################
+__METACLASS_TEST_RUNNERS__________________________________________________________________ = ""
 
-__METACLASSES_TEST_MAIN_____________________________________ = ""
+
+### MAIN ###################################################
 
 
 def main() -> None:
