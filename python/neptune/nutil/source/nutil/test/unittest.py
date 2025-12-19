@@ -8,6 +8,8 @@
 #   Provide test utilities for unittest.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import random
 import unittest
 

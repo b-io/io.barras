@@ -8,6 +8,8 @@
 #   Provide test utilities for pytest.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import random
 
 import numpy as np

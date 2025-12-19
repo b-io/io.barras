@@ -8,6 +8,8 @@
 #   Provide utility comparators.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from .common import *
 
 

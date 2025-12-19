@@ -8,6 +8,8 @@
 #   Provide structure utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from .common import *
 
 

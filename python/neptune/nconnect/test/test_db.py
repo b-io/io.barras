@@ -8,6 +8,8 @@
 #   Test the connectivity utilities for databases.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import unittest
 
 from nconnect.db import *

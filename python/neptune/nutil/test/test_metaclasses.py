@@ -8,6 +8,8 @@
 #   Test the metaclasses.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import unittest
 
 import pytest

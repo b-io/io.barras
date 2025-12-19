@@ -8,6 +8,8 @@
 #   Test the Web-serving utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import logging
 
 from nutil.io.logging import configure_logging

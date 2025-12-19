@@ -8,6 +8,8 @@
 #   Provide connectivity utilities for databases.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import logging
 
 import sqlalchemy as db

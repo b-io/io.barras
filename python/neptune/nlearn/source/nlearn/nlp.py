@@ -8,6 +8,8 @@
 #   Provide machine learning utilities for natural language processing (NLP).
 ########################################################################################################################
 
+from __future__ import annotations
+
 import logging
 
 from gensim.utils import tokenize

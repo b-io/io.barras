@@ -8,6 +8,8 @@
 #   Provide mathematical utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nutil.scalar.number import *
 from nutil.struct.util import *
 

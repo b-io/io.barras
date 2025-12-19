@@ -8,6 +8,8 @@
 #   Provide boolean utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from distutils.util import strtobool
 
 from nutil.common import *

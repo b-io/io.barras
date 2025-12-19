@@ -8,6 +8,8 @@
 #   Provide formatting utilities for colors.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import random
 
 import cv2

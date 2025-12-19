@@ -8,6 +8,8 @@
 #   Provide utility constants.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import multiprocessing as mp
 import struct
 

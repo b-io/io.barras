@@ -8,6 +8,8 @@
 #   Provide statistical utilities for normal distributions.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from scipy.special import ndtr
 
 from nmath.common import *

@@ -8,6 +8,8 @@
 #   Provide scalar utilities for numbers.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nutil.common import *
 
 

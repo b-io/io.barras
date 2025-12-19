@@ -8,6 +8,8 @@
 #   Provide formatting utilities for HTML.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from typing import Container, List, Optional
 
 from bs4 import NavigableString, Tag

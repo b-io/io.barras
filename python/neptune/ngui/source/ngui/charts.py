@@ -8,6 +8,8 @@
 #   Provide graphical utilities for charts.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import io
 
 import matplotlib.figure as mfigure

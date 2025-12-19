@@ -8,6 +8,8 @@
 #   Provide connectivity utilities for HTTP clients.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import json
 import logging
 import random

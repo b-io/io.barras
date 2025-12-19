@@ -8,6 +8,8 @@
 #   Provide machine learning utilities for multivariate regressions.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import statsmodels.api as sm
 from sklearn.preprocessing import OrdinalEncoder
 

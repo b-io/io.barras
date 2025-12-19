@@ -3,12 +3,14 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-import logging
-
 ########################################################################################################################
 # Goal
 #   Provide logging utilities.
 ########################################################################################################################
+
+from __future__ import annotations
+
+import logging
 
 
 __LOGGING_CONSTANTS_______________________________________________________________________ = ""

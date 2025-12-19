@@ -8,6 +8,8 @@
 #   Provide exception utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nutil.common import *
 from nutil.typing import get_type_name
 

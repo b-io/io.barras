@@ -8,6 +8,8 @@
 #   Provide test utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from . import pytest, unittest
 
 

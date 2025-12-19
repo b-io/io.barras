@@ -8,6 +8,8 @@
 #   Provide collection utilities for sets.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nutil.common import *
 
 

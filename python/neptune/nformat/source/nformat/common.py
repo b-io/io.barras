@@ -3,13 +3,15 @@
 #  SPDX-FileCopyrightText: 2013–2025 Florian Barras <florian@barras.io>
 #  SPDX-License-Identifier: MIT
 
-from nformat.color import TRANSPARENT
-from nutil.struct.util import get_iterator
-
 ########################################################################################################################
 # Goal
 #   Provide common formatting utilities.
 ########################################################################################################################
+
+from __future__ import annotations
+
+from nformat.color import TRANSPARENT
+from nutil.struct.util import get_iterator
 
 
 __COMMON_FORMAT_CONSTANTS_________________________________________________________________ = ""

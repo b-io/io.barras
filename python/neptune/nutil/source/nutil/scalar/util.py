@@ -8,6 +8,8 @@
 #   Provide scalar converters.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nutil.scalar.boolean import to_boolean
 from nutil.scalar.bytes import to_bytes
 from nutil.scalar.common import *

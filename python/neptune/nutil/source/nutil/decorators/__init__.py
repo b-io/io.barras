@@ -8,6 +8,8 @@
 #   Provide utility decorators.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from .common import *
 
 

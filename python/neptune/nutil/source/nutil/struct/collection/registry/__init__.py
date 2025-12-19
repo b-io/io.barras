@@ -8,6 +8,8 @@
 #   Provide collection registry utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from .common import *
 
 

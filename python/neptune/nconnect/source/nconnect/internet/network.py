@@ -8,6 +8,8 @@
 #   Provide connectivity utilities for networks.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import socket
 
 

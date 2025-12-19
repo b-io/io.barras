@@ -8,6 +8,8 @@
 #   Provide table utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from dataclasses import fields, is_dataclass
 from typing import Container, Protocol
 

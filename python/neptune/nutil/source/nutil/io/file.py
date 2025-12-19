@@ -8,6 +8,8 @@
 #   Provide I/O utilities for files.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import csv
 import fnmatch
 import json

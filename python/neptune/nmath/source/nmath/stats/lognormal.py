@@ -8,6 +8,8 @@
 #   Provide statistical utilities for log-normal distributions.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from nmath.common import *
 from nmath.stats import normal
 from nutil.math import *

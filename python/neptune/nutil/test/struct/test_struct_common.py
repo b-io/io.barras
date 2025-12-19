@@ -15,6 +15,8 @@
 #   Run with: pytest -q
 ########################################################################################################################
 
+from __future__ import annotations
+
 import pytest
 
 from nutil.struct.common import *

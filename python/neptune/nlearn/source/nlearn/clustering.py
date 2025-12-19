@@ -8,6 +8,8 @@
 #   Provide machine learning utilities for clustering.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from sklearn import mixture
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.metrics import silhouette_samples

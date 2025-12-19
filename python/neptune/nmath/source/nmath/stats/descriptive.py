@@ -8,6 +8,8 @@
 #   Provide statistical utilities for descriptive statistics.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import plotly.graph_objs as go
 from scipy import stats
 

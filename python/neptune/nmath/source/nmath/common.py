@@ -8,6 +8,8 @@
 #   Provide common mathematical utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from scipy import stats
 
 from nutil.math import *

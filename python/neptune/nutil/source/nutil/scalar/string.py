@@ -8,6 +8,8 @@
 #   Provide scalar utilities for strings.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import random
 import re
 import string

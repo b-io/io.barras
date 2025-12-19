@@ -7,3 +7,5 @@
 # Goal
 #   Provide collection utilities for dictionaries.
 ########################################################################################################################
+
+from __future__ import annotations

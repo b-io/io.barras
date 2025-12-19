@@ -8,6 +8,8 @@
 #   Provide common machine learning utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import plotly.graph_objs as go
 
 from nformat.common import *

@@ -8,6 +8,8 @@
 #   Provide graphical utilities for Web.
 ########################################################################################################################
 
+from __future__ import annotations
+
 from xhtml2pdf import pisa
 
 from nutil.common import *

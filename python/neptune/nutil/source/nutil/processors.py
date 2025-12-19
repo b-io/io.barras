@@ -8,6 +8,8 @@
 #   Provide multithreading and multiprocessing utilities.
 ########################################################################################################################
 
+from __future__ import annotations
+
 import logging
 from concurrent.futures import ThreadPoolExecutor
 
