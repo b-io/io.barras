@@ -8,9 +8,12 @@
 #   Provide mathematical utilities for descriptive statistics.
 ########################################################################################################################
 
+import plotly.graph_objs as go
 from scipy import stats
 
-from ngui.charts import *
+from nformat.common import *
+from ngui import charts
+from nutil.scalar.number import EPS, format_number
 from nutil.struct.util import *
 
 ## DESCRIPTIVE CONSTANTS #################################################################
@@ -50,8 +53,8 @@ def draw_histogram(
     if is_null(name):
         name = get_name(series)
         name = (name + " " if not is_empty(name) else "") + "Histogram"
-    name = get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
-    hover_template = get_hover_template(index=index)
+    name = charts.get_label(name, yaxis=yaxis, show_date=show_date, show_name=show_name)
+    hover_template = charts.get_hover_template(index=index)
     marker = dict(color=color)
     return go.Histogram(
         x=series,
@@ -98,7 +101,7 @@ def plot_histogram(
     show_name=True,
 ):
     if is_null(fig):
-        fig = create_figure(
+        fig = charts.create_figure(
             title=title,
             title_x=title_x,
             title_y=title_y,
@@ -176,7 +179,7 @@ def plot_multi_histogram(
     show_legend=False,
     show_name=True,
 ):
-    return plot_multi(
+    return charts.plot_multi(
         df,
         draw_histogram,
         bins=bins,
@@ -230,7 +233,7 @@ def draw_density(
     show_legend=True,
     show_name=True,
 ):
-    return draw_series(
+    return charts.draw_series(
         series,
         f=get_density,
         method=method,
@@ -286,7 +289,7 @@ def plot_density(
     show_legend=True,
     show_name=True,
 ):
-    return plot_series(
+    return charts.plot_series(
         df,
         f=get_density,
         method=method,
@@ -353,7 +356,7 @@ def plot_multi_density(
     show_legend=False,
     show_name=True,
 ):
-    return plot_multi_series(
+    return charts.plot_multi_series(
         df,
         f=get_density,
         method=method,
@@ -416,7 +419,7 @@ def plot_cumulative_distribution(
     if is_null(fig):
         if is_frame(x):
             names = get_names(x)
-            fig = create_figures(
+            fig = charts.create_figures(
                 len(sorted_unique_classes),
                 1,
                 title=title,
@@ -428,7 +431,7 @@ def plot_cumulative_distribution(
                 margin=margin,
             )
         else:
-            fig = create_figures(
+            fig = charts.create_figures(
                 len(sorted_unique_classes),
                 1,
                 title=title,
@@ -464,7 +467,7 @@ def plot_cumulative_distribution(
         class_color = next(colors)
         class_name = str(labels[c] if not is_null(labels) else c)
         fig.add_trace(
-            draw(
+            charts.draw(
                 x=class_values,
                 y=class_value_range,
                 # Chart

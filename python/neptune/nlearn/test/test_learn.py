@@ -11,11 +11,9 @@
 import unittest
 
 import matplotlib
-import plotly.graph_objs as go
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
-from nlearn.common import plot_confusion_matrix
 from nlearn.nlp import *
 from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test

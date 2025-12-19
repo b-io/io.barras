@@ -14,7 +14,7 @@ from sklearn.metrics import silhouette_samples
 from sklego.mixture import BayesianGMMOutlierDetector, GMMOutlierDetector
 
 from nformat.color import format_rgb_color, get_complementary_color
-from nformat.common import DEFAULT_COLORS, DEFAULT_HEIGHT, DEFAULT_LINE_WIDTH, DEFAULT_MARKER_SIZE, DEFAULT_WIDTH
+from nformat.common import *
 from ngui import charts, web
 from nmath.common import *
 from nmath.stats.descriptive import plot_cumulative_distribution

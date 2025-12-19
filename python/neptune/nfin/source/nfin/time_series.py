@@ -16,7 +16,8 @@ from statistics import mode
 from statsmodels.tsa.api import ExponentialSmoothing
 from statsmodels.tsa.seasonal import STL
 
-from ngui.charts import *
+from nformat.common import *
+from ngui import charts
 from nutil.enums import StrEnum
 from nutil.math import *
 from nutil.scalar.date import *
@@ -140,11 +141,13 @@ def plot_decomposition(
     show_legend=False,
 ):
     if is_null(fig):
-        fig = create_figure(title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin)
+        fig = charts.create_figure(
+            title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin
+        )
     if is_null(stackgroup):
         stackgroup = generate_string(10)
     fig.add_trace(
-        draw(
+        charts.draw(
             x=trend.index,
             y=get_col(trend),
             # Chart
@@ -160,7 +163,7 @@ def plot_decomposition(
         )
     )
     fig.add_trace(
-        draw(
+        charts.draw(
             x=seasonal.index,
             y=get_col(seasonal),
             # Chart
@@ -176,7 +179,7 @@ def plot_decomposition(
         )
     )
     fig.add_trace(
-        draw(
+        charts.draw(
             x=residual.index,
             y=get_col(residual),
             # Chart
@@ -193,7 +196,7 @@ def plot_decomposition(
     )
     series = trend + seasonal + residual
     fig.add_trace(
-        draw(
+        charts.draw(
             x=series.index,
             y=get_col(series),
             # Chart

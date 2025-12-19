@@ -21,7 +21,6 @@ from collections.abc import (
 from functools import lru_cache
 from threading import RLock
 from typing import (
-    Any,
     cast,
     ClassVar,
     Collection,
@@ -39,14 +38,13 @@ from typing import (
     Set,
     Tuple,
     Type,
-    TypeVar,
     Union,
     ValuesView,
 )
 
 import numpy as np
 
-from nutil.decorators.common import classproperty
+from nutil.decorators.common import *
 from nutil.metaclasses import FinalSingletonMeta
 
 ## COMMON COLLECTION REGISTRY ANNOTATIONS ################################################

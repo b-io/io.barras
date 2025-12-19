@@ -13,7 +13,7 @@ import base64
 import cv2
 
 from nformat.color import rgb_to_hsv
-from nformat.common import DEFAULT_HEIGHT, DEFAULT_WIDTH
+from nformat.common import *
 from nutil.common import *
 from nutil.constants import DEFAULT_ENCODING
 from nutil.enums import FileType

@@ -10,8 +10,8 @@
 
 import plotly.graph_objs as go
 
-from nformat.common import DEFAULT_HEIGHT, DEFAULT_WIDTH
-from ngui.charts import create_figure, get_hover_template, update_layout_size
+from nformat.common import *
+from ngui import charts
 from nutil.math import *
 
 ## COMMON LEARN CONFIG PROPERTIES ########################################################
@@ -87,7 +87,7 @@ def plot_confusion_matrix(
     y_title = cm.index.name or "True Label"
 
     # Create a figure
-    fig = create_figure(title=title, title_x=x_title, title_y=y_title, width=width, height=height, margin=margin)
+    fig = charts.create_figure(title=title, title_x=x_title, title_y=y_title, width=width, height=height, margin=margin)
 
     # Optionally annotate the cells
     if show_values:

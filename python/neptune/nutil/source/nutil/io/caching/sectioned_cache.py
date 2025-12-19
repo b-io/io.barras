@@ -32,7 +32,7 @@ from typing import Callable, Pattern
 from typing_extensions import TypeAlias
 
 from nutil.common import *
-from nutil.io.caching.common import CachePolicy
+from nutil.io.caching.common import *
 from nutil.io.file import write_json
 
 ## SECTIONED CACHE CLASSES ###############################################################

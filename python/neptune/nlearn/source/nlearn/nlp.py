@@ -14,7 +14,7 @@ from gensim.utils import tokenize
 from tensorflow.keras.layers import Activation, Dense, Dropout, Embedding, Input, LSTM
 from tensorflow.keras.models import Model
 
-from nlearn.common import WORD_VECTOR_PATH
+from nlearn.common import *
 from nutil.io.file import read_enumerator
 from nutil.math import *
 from nutil.struct.util import sort, take_at

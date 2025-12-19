@@ -15,13 +15,12 @@ import matplotlib.ticker as mticker
 import plotly.express as px
 import plotly.graph_objs as go
 import plotly.io as pio
-import plotly.subplots as sp
-import plotly.tools as tls
+import plotly.subplots as psubplots
+import plotly.tools as ptools
 
-import ngui.web as web
 from nformat.color import format_rgb_color, get_RYG
-from nformat.common import *
 from nformat.image import *
+from ngui import web
 from nutil.enums import FileType
 from nutil.math import *
 
@@ -183,7 +182,7 @@ def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
             collection.get_offset_position = lambda: "screen"
         for _, spine in ax.spines.items():
             spine.is_frame_like = lambda: False
-    return tls.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
+    return ptools.mpl_to_plotly(fig, resize=resize, strip_style=strip_style, verbose=verbose)
 
 
 ##############################
@@ -524,7 +523,7 @@ def create_figures(
         has_title_x=not is_empty(title_x),
         has_title_y=not is_empty(title_y),
     )
-    fig = sp.make_subplots(
+    fig = psubplots.make_subplots(
         rows=row_count,
         cols=col_count,
         shared_xaxes=share_x,

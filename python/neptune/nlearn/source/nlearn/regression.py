@@ -11,7 +11,7 @@
 import statsmodels.api as sm
 from sklearn.preprocessing import OrdinalEncoder
 
-from nformat.common import DEFAULT_COLORS, DEFAULT_HEIGHT, DEFAULT_WIDTH
+from nformat.common import *
 from ngui import charts
 from nutil.common import *
 from nutil.struct.util import get_element_types

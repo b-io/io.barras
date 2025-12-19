@@ -25,7 +25,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from nutil.common import *
-from nutil.io.caching.common import CachePolicy
+from nutil.io.caching.common import *
 from nutil.io.caching.sectioned_cache import SectionedCache
 from nutil.io.file import resolve_path
 from nutil.io.logging import configure_logging

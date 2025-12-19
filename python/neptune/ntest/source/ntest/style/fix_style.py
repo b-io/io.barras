@@ -36,10 +36,9 @@ from __future__ import annotations
 
 import argparse
 import logging
-import re
 from typing import Callable
 
-from ntest.style.common import load_yaml_config, StyleConfig, StyleRule
+from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
