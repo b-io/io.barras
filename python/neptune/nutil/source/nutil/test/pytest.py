@@ -17,7 +17,6 @@ import pytest
 
 from nutil.test.util import PRECISION, TEST_COUNT
 
-
 __PYTEST_FIXTURES_________________________________________________________________________ = ""
 
 

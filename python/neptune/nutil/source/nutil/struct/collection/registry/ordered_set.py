@@ -15,7 +15,6 @@ from typing import MutableSet
 
 from nutil.common import *
 
-
 __ORDERED_SET_CLASSES_____________________________________________________________________ = ""
 
 T = TypeVar("T")

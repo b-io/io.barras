@@ -18,7 +18,6 @@ from ngui import charts
 from nutil.common import *
 from nutil.struct.util import get_element_types
 
-
 __REGRESSION_FIGURES______________________________________________________________________ = ""
 
 

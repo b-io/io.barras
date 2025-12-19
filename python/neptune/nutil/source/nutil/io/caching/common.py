@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from nutil.enums import StrEnum
 
-
 __COMMON_CACHING_CLASSES__________________________________________________________________ = ""
 
 

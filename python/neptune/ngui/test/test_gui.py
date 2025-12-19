@@ -14,13 +14,12 @@ import logging
 import unittest
 
 import plotly.express as px
-import plotly.io as pio
 
 from nformat.image import *
 from ngui import charts
 from nutil.io.logging import configure_logging
+from nutil.struct.util import sum
 from nutil.test.unittest import Test
-
 
 __GUI_TEST_CONSTANTS______________________________________________________________________ = ""
 
@@ -35,7 +34,7 @@ class TestGui(Test):
     def __init__(self, methodName="runTest"):
         super().__init__(methodName=methodName)
 
-        pio.renderers.default = "json"
+        charts.disable_default_rendering()
 
     def test_chart(self):
         width, height, channels = 300, 200, 3

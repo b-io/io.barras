@@ -15,7 +15,6 @@ from scipy import stats
 from nutil.math import *
 from nutil.struct.util import Axis
 
-
 __COMMON_MATH_CONSTANTS___________________________________________________________________ = ""
 
 
@@ -106,7 +105,7 @@ class Distribution(ABC):
 __COMMON_MATH_PROCESSORS__________________________________________________________________ = ""
 
 
-__COMMON_MATH_STATISTICS____________________________________ = ""
+__COMMON_STAT_PROCESSORS____________________________________ = ""
 
 
 def mode(*args, axis: Optional[Axis] = None):

@@ -21,7 +21,6 @@ from nutil.decorators.typing import typesafe
 from nutil.io.logging import configure_logging
 from nutil.math import *
 
-
 __DECORATOR_TEST_CASES____________________________________________________________________ = ""
 
 

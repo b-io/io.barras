@@ -16,7 +16,6 @@ from typing import Container, Protocol
 from nutil.common import *
 from nutil.scalar.string import to_string
 
-
 __TABLE_CLASSES___________________________________________________________________________ = ""
 
 

@@ -18,7 +18,6 @@ import pandas as pd
 
 from nutil.constants import *
 
-
 __COMMON_SCALAR_CONSTANTS_________________________________________________________________ = ""
 
 

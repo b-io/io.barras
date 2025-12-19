@@ -16,7 +16,6 @@ import string
 
 from nutil.common import *
 
-
 __STRING_CONSTANTS________________________________________________________________________ = ""
 
 NEWLINE = "\n"

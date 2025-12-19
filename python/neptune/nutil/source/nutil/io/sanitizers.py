@@ -21,7 +21,6 @@ import unicodedata
 from nutil.enums import StrEnum
 from nutil.scalar.string import LOWERCASE
 
-
 __SANITIZER_CLASSES_______________________________________________________________________ = ""
 
 

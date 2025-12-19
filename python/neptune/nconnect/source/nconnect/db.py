@@ -24,7 +24,6 @@ from nutil.scalar.number import ceil
 from nutil.scalar.string import dquote, par, quote
 from nutil.struct.util import *
 
-
 __DB_CONSTANTS____________________________________________________________________________ = ""
 
 

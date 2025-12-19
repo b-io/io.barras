@@ -21,7 +21,6 @@ import pytest
 
 from nutil.struct.collection.registry.ordered_set import *
 
-
 __ORDERED_SET_TEST_FIXTURES_______________________________________________________________ = ""
 
 

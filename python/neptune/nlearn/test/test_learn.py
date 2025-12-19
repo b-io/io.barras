@@ -20,7 +20,6 @@ from nlearn.nlp import *
 from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
-
 __LEARN_TEST_SETTINGS_____________________________________________________________________ = ""
 
 matplotlib.use("Agg")
@@ -35,6 +34,11 @@ __LEARN_TEST_CASES______________________________________________________________
 
 
 class TestLearn(Test):
+
+    def __init__(self, methodName="runTest"):
+        super().__init__(methodName=methodName)
+
+        charts.disable_default_rendering()
 
     def test_clustering(self):
         logging.info("Cluster")

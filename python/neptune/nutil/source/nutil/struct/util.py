@@ -42,7 +42,6 @@ from nutil.struct.collection.array import *
 from nutil.struct.collection.list import *
 from nutil.struct.collection.registry.ordered_set import *
 
-
 __STRUCT_ACCESSORS________________________________________________________________________ = ""
 
 

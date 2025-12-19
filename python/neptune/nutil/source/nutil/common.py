@@ -18,7 +18,6 @@ import warnings
 
 from nutil.struct.common import *
 
-
 __COMMON_SETTINGS_________________________________________________________________________ = ""
 
 warnings.simplefilter(action="ignore", category=FutureWarning)

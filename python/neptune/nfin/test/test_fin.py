@@ -17,7 +17,6 @@ from nfin.time_series import *
 from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
-
 __FIN_TEST_CONSTANTS______________________________________________________________________ = ""
 
 PRECISION = 14  # decimals
@@ -29,6 +28,11 @@ __FIN_TEST_CASES________________________________________________________________
 
 
 class TestFin(Test):
+
+    def __init__(self, methodName="runTest"):
+        super().__init__(methodName=methodName)
+
+        charts.disable_default_rendering()
 
     def test_time_series(self):
         date_to = get_date()

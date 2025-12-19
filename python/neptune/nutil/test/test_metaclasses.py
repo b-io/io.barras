@@ -17,7 +17,6 @@ import pytest
 from nutil.io.logging import configure_logging
 from nutil.metaclasses import *
 
-
 __METACLASS_TEST_CASES____________________________________________________________________ = ""
 
 

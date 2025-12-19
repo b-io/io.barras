@@ -21,7 +21,6 @@ from nutil.scalar.string import par
 from nutil.struct.util import concat_cols, get_col, to_series
 from nutil.test.unittest import Test
 
-
 __MATH_TEST_CONSTANTS_____________________________________________________________________ = ""
 
 PRECISION = 14  # decimals

@@ -24,7 +24,6 @@ from nutil.scalar.number import to_float
 from nutil.struct.collection.array import create_random_short_array
 from nutil.struct.util import mean, simplify
 
-
 __IMAGE_CONSTANTS_________________________________________________________________________ = ""
 
 

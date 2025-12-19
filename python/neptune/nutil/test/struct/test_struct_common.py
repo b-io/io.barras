@@ -21,7 +21,6 @@ import pytest
 
 from nutil.struct.common import *
 
-
 __COMMON_STRUCT_TEST_CASES________________________________________________________________ = ""
 
 

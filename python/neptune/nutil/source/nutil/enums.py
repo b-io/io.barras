@@ -14,7 +14,6 @@ import enum
 from enum import Enum, EnumMeta
 from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 
-
 __ENUMS___________________________________________________________________________________ = ""
 
 

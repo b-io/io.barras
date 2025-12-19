@@ -16,7 +16,6 @@ import unittest
 from nutil.math import *
 from nutil.test.util import PRECISION
 
-
 __TEST_CLASSES____________________________________________________________________________ = ""
 
 

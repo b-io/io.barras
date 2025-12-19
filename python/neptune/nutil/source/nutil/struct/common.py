@@ -16,7 +16,6 @@ from nutil.struct.collection.common import *
 from nutil.struct.table.common import *
 from nutil.struct.tuple.common import *
 
-
 __COMMON_STRUCT_CLASSES___________________________________________________________________ = ""
 
 # Typing alias for any supported `Struct`:

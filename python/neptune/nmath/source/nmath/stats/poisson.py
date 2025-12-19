@@ -16,7 +16,6 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import apply, mean, sort
 
-
 __POISSON_CONSTANTS_______________________________________________________________________ = ""
 
 POISSON_NAME = "Poisson"

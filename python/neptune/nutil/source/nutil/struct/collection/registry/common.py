@@ -47,7 +47,6 @@ import numpy as np
 from nutil.decorators.common import *
 from nutil.metaclasses import FinalSingletonMeta
 
-
 __COMMON_COLLECTION_REGISTRY_DECORATORS___________________________________________________ = ""
 
 

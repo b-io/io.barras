@@ -43,7 +43,6 @@ from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
-
 __FIX_STYLE_CONSTANTS_____________________________________________________________________ = ""
 
 HASH_BANNER_TARGET_LENGTH_BY_LEADING: Dict[int, int] = {

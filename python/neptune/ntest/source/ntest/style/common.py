@@ -21,7 +21,6 @@ from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate
 from nutil.struct.table.util import get_row_string
 
-
 __COMMON_STYLE_CONSTANTS__________________________________________________________________ = ""
 
 

@@ -23,7 +23,6 @@ from nutil.io.logging import configure_logging
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
-
 __STRUCT_UTIL_TEST_CASES__________________________________________________________________ = ""
 
 

@@ -32,7 +32,6 @@ from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get
 from nutil.struct.util import simplify
 from nutil.typing.hints import flatten_expected_types, matches_type_hints, resolve_type_hints
 
-
 __TYPING_DECORATORS_______________________________________________________________________ = ""
 
 

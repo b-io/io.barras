@@ -21,7 +21,6 @@ from nutil.math import *
 from nutil.scalar.string import extract, par
 from nutil.struct.util import maximum, minimum
 
-
 __COLOR_CONSTANTS_________________________________________________________________________ = ""
 
 TRANSPARENT = (0, 0, 0, 0)

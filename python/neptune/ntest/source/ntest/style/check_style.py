@@ -29,7 +29,6 @@ from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
-
 __CHECK_STYLE_PROCESSORS__________________________________________________________________ = ""
 
 

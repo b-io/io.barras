@@ -17,7 +17,6 @@ from nutil.io.logging import configure_logging
 from nutil.struct.util import to_frame
 from nutil.test.unittest import Test
 
-
 __DB_TEST_CASES___________________________________________________________________________ = ""
 
 

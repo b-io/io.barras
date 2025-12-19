@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from .common import *
 
-
 __TABLE_CONSTANTS_________________________________________________________________________ = ""
 
 __all__ = [s for s in dir() if not s.startswith("_")]

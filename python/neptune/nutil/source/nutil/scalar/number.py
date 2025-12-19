@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from nutil.common import *
 
-
 __NUMBER_CONSTANTS________________________________________________________________________ = ""
 
 

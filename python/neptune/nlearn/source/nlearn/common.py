@@ -16,7 +16,6 @@ from nformat.common import *
 from ngui import charts
 from nutil.math import *
 
-
 __COMMON_LEARN_CONFIG_PROPERTIES__________________________________________________________ = ""
 
 
@@ -66,9 +65,9 @@ def plot_confusion_matrix(
         labels: The class order to enforce on both axes.
         color_scale: The Plotly colorscale to use (e.g., `"Greys"`, `"Viridis"`, or a custom list).
         show_values: Whether to annotate cells with values.
-        width: The figure width (delegated to `update_layout_size`).
-        height: The figure height (delegated to `update_layout_size`).
-        margin: The figure margins (delegated to `update_layout_size`).
+        width: The figure width (delegated to `charts.update_layout_size`).
+        height: The figure height (delegated to `charts.update_layout_size`).
+        margin: The figure margins (delegated to `charts.update_layout_size`).
 
     Returns:
         The created Plotly `go.Figure`.
@@ -107,13 +106,15 @@ def plot_confusion_matrix(
             colorbar=dict(title="Proportion" if normalize else "Count"),
             text=text,
             texttemplate=text_template,
-            hovertemplate=get_hover_template(extra_template="Proportion: %{z:.2f}" if normalize else "Count: %{z}"),
+            hovertemplate=charts.get_hover_template(
+                extra_template="Proportion: %{z:.2f}" if normalize else "Count: %{z}"
+            ),
         )
     )
 
     fig.update_yaxes(autorange="reversed")
 
-    update_layout_size(fig, width=width, height=height, margin=margin)
+    charts.update_layout_size(fig, width=width, height=height, margin=margin)
     return fig
 
 

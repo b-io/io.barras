@@ -14,7 +14,6 @@ from distutils.util import strtobool
 
 from nutil.common import *
 
-
 __BOOLEAN_CONVERTERS______________________________________________________________________ = ""
 
 

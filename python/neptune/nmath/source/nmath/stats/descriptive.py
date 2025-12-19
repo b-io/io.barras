@@ -18,7 +18,6 @@ from ngui import charts
 from nutil.scalar.number import EPS, format_number
 from nutil.struct.util import *
 
-
 __DESCRIPTIVE_CONSTANTS___________________________________________________________________ = ""
 
 

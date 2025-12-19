@@ -17,7 +17,6 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import apply, mean, simplify, sort, std
 
-
 __NORMAL_CONSTANTS________________________________________________________________________ = ""
 
 NORMAL_NAME = "Normal"

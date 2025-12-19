@@ -19,13 +19,13 @@ import plotly.graph_objs as go
 import plotly.io as pio
 import plotly.subplots as psubplots
 import plotly.tools as ptools
+from plotly.io._base_renderers import ExternalRenderer
 
 from nformat.color import format_rgb_color, get_RYG
 from nformat.image import *
 from ngui import web
 from nutil.enums import FileType
 from nutil.math import *
-
 
 __CHART_CONSTANTS_________________________________________________________________________ = ""
 
@@ -1492,6 +1492,56 @@ def update_layout_size(fig, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=N
         margin["b"] *= height
         margin["t"] *= height
         fig.update_layout(width=width, height=height, margin=margin)
+
+
+__CHART_RENDERERS_________________________________________________________________________ = ""
+
+
+class NoneRenderer(ExternalRenderer):
+
+    def render(self, fig):
+        return None
+
+
+pio.renderers["none"] = NoneRenderer()
+
+
+############################################################
+
+
+def disable_default_rendering() -> None:
+    """Disables the default Plotly rendering by setting the default renderer to `"none"`."""
+    register_renderer("none", NoneRenderer())
+    set_default_renderer("none")
+
+
+def register_renderer(key: str, renderer: ExternalRenderer) -> None:
+    """Registers the specified Plotly renderer if it is not already registered."""
+    if key not in pio.renderers:
+        pio.renderers[key] = renderer
+
+
+def set_default_renderer(renderer: Optional[str]) -> None:
+    """
+    Sets the Plotly default renderer.
+
+    Args:
+        renderer: The renderer name (e.g. `"json"`, `"browser"`, `"none"`), or `None`
+            to reset to Plotly's auto-detection.
+    Raises:
+        ValueError: If `renderer` is not `None` and is not registered in `pio.renderers`
+    """
+    if renderer is None:
+        pio.renderers.default = None
+        return
+
+    if renderer == "none":
+        register_renderer("none", NoneRenderer())
+
+    if renderer not in pio.renderers:
+        raise ValueError(f"'{renderer}' is not a registered Plotly renderer")
+
+    pio.renderers.default = renderer
 
 
 __CHART_VALIDATORS________________________________________________________________________ = ""

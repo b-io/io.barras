@@ -22,7 +22,6 @@ from nmath.common import *
 from nmath.stats.descriptive import plot_cumulative_distribution
 from nutil.struct.collection.registry.ordered_set import to_ordered_set
 
-
 __CLUSTERING_CONSTANTS____________________________________________________________________ = ""
 
 

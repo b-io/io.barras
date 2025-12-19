@@ -17,7 +17,6 @@ import pytest
 
 from nutil.struct.util import *
 
-
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
 PRECISION = 14  # decimals

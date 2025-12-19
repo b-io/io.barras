@@ -12,7 +12,6 @@ from __future__ import annotations
 
 from typing import Any, Callable, TypeVar
 
-
 __COMMON_DECORATORS_______________________________________________________________________ = ""
 
 F = TypeVar("F", bound=Callable[..., Any])

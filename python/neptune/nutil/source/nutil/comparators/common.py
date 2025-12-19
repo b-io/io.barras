@@ -11,11 +11,9 @@
 from __future__ import annotations
 
 import difflib
-
 import logging
 import re
 from typing import Callable, List, Match, Optional, Set, Tuple, Union
-
 
 __COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
 

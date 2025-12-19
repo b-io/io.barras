@@ -19,7 +19,6 @@ from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 from nutil.test.util import TEST_COUNT, timed
 
-
 __FORMAT_TEST_CASES_______________________________________________________________________ = ""
 
 

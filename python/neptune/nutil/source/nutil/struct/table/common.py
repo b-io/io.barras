@@ -16,7 +16,6 @@ from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *
 
-
 __COMMON_TABLE_CONSTANTS__________________________________________________________________ = ""
 
 

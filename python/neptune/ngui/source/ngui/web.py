@@ -15,7 +15,6 @@ from xhtml2pdf import pisa
 from nutil.common import *
 from nutil.scalar.string import dquote, replace
 
-
 __WEB_PROCESSORS__________________________________________________________________________ = ""
 
 

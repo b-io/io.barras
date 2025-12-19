@@ -19,7 +19,6 @@ from nutil.math import *
 from nutil.scalar.string import *
 from nutil.test.unittest import Test
 
-
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
 PRECISION = 14  # decimals

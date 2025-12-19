@@ -22,7 +22,6 @@ from nutil.enums import Aggregation, Frequency, Position
 from nutil.scalar.number import nearest, round_to_int
 from nutil.scalar.string import trim
 
-
 __DATE_CONSTANTS__________________________________________________________________________ = ""
 
 

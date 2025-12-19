@@ -15,7 +15,6 @@ from typing import Annotated, get_args, get_origin
 
 from nutil.common import *
 
-
 __TYPE_HINT_ACCESSORS_____________________________________________________________________ = ""
 
 

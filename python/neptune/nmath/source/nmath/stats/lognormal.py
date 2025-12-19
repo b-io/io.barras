@@ -16,7 +16,6 @@ from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import sort
 
-
 __LOG_NORMAL_CONSTANTS____________________________________________________________________ = ""
 
 LOG_NORMAL_NAME = "Log-Normal"

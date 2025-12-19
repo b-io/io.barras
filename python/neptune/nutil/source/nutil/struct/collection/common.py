@@ -23,7 +23,6 @@ from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
 
-
 __COMMON_COLLECTION_CONSTANTS_____________________________________________________________ = ""
 
 COLLECTION_TYPE = ABCCollection

@@ -21,7 +21,6 @@ from nutil.io.file import read_enumerator
 from nutil.math import *
 from nutil.struct.util import sort, take_at
 
-
 __NLP_CONSTANTS___________________________________________________________________________ = ""
 
 

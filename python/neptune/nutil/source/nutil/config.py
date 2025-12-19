@@ -23,7 +23,6 @@ from io import StringIO
 from nutil.common import *
 from nutil.enums import Aggregation, Environment, Frequency, Position, SeverityLevel
 
-
 __CONFIG_CLASSES__________________________________________________________________________ = ""
 
 
