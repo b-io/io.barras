@@ -13,6 +13,7 @@ from __future__ import annotations
 import logging
 import unittest
 
+from ngui import charts
 from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
 from nutil.io.logging import configure_logging
@@ -34,6 +35,11 @@ __MATH_TEST_CASES_______________________________________________________________
 
 
 class TestStats(Test):
+
+    def __init__(self, methodName="runTest"):
+        super().__init__(methodName=methodName)
+
+        charts.disable_default_rendering()
 
     def test_descriptive(self):
         logging.info("Test the descriptive statistics")
