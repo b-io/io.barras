@@ -28,6 +28,7 @@ class Dataclass(Protocol):
     __dataclass_fields__: Mapping[str, Any]
 
 
+# The typing alias for any supported rows
 Row = Union[Dataclass, Iterable[Any], Mapping[str, Any], type]
 
 

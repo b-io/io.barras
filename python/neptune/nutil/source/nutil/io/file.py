@@ -13,15 +13,15 @@ from __future__ import annotations
 import codecs
 import csv
 import fnmatch
+import io
 import json
 import shutil
 from dataclasses import is_dataclass
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import IO
+from typing import IO, Protocol
+from urllib.parse import urlparse
 from urllib.request import urlopen
-
-import validators
 
 from nutil.common import *
 from nutil.scalar.string import NEWLINE
@@ -37,10 +37,21 @@ __FILE_CONSTANTS________________________________________________________________
 DEFAULT_TIMEOUT: float = 10  # seconds
 
 
+__FILE_CLASSES____________________________________________________________________________ = ""
+
+
+class Headers(Protocol):
+    def get_content_charset(self, failobj: Any = None) -> Optional[str]: ...
+
+
+class HasHeaders(Protocol):
+    headers: Headers
+
+
 __FILE_ACCESSORS__________________________________________________________________________ = ""
 
 
-def get_encoding(fh: IO[Any], *, default: str = DEFAULT_ENCODING) -> str:
+def get_encoding(fh: HasHeaders, *, default: str = DEFAULT_ENCODING) -> str:
     """
     Returns the response encoding derived from the HTTP headers.
 
@@ -63,8 +74,24 @@ def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str
     Notes:
         • Uses `codecs.lookup` to validate the codec name.
         • Treats `None` / empty as missing and returns `default`.
+        • Handles bytes-like values best-effort.
     """
-    encoding = default if is_null(encoding) else str(encoding)
+    default = DEFAULT_ENCODING if is_null(default) else str(default).strip()
+    if is_null(default):
+        default = DEFAULT_ENCODING
+
+    if is_null(encoding):
+        encoding = default
+    elif is_byte_like(encoding):
+        try:
+            encoding = bytes(encoding).decode("ascii", errors="ignore")
+        except Exception:
+            encoding = default
+
+    encoding = str(encoding).strip()
+    if is_null(encoding):
+        return default
+
     try:
         codecs.lookup(encoding)
     except Exception:
@@ -290,6 +317,35 @@ def parse_json(s: str) -> Optional[Dict[str, Any]]:
 __FILE_READERS____________________________________________________________________________ = ""
 
 
+def decode_bytes(
+    data: BytesLike,
+    *,
+    encoding: str,
+    fallback_encoding: str = DEFAULT_ENCODING,
+    ignore: bool = False,
+) -> str:
+    """
+    Decodes bytes using `encoding`, falling back to `fallback_encoding` if decoding fails in strict mode.
+
+    Notes:
+        • The `encoding` and `fallback_encoding` are normalized/validated via `normalize_encoding`.
+        • When `ignore=True`, decoding uses `errors="ignore"` and therefore will not raise `UnicodeDecodeError`.
+    """
+    fallback_encoding = normalize_encoding(fallback_encoding)
+    encoding = normalize_encoding(encoding, default=fallback_encoding)
+
+    errors = "ignore" if ignore else "strict"
+    try:
+        return bytes(data).decode(encoding=encoding, errors=errors)
+    except UnicodeDecodeError:
+        if encoding == fallback_encoding:
+            raise
+        return bytes(data).decode(encoding=fallback_encoding, errors=errors)
+
+
+############################################################
+
+
 def read(
     path: Union[str, Path],
     encoding: str = DEFAULT_ENCODING,
@@ -311,9 +367,10 @@ def read(
         The file contents as text.
     """
     if is_url(path):
+        fallback_encoding = normalize_encoding(encoding)
         with urlopen(str(path), timeout=timeout) as fh:
-            encoding = get_encoding(fh, default=normalize_encoding(encoding))
-            return fh.read().decode(encoding=encoding, errors="ignore" if ignore else "strict")
+            url_encoding = get_encoding(fh, default=fallback_encoding)
+            return decode_bytes(fh.read(), encoding=url_encoding, fallback_encoding=fallback_encoding, ignore=ignore)
 
     encoding = normalize_encoding(encoding)
     with open(
@@ -339,6 +396,9 @@ def read_iterator(
     """
     Yields the lines of a local file or URL response.
 
+    Notes:
+        • The generator holds the underlying file/connection open until it is exhausted or explicitly closed.
+
     Args:
         path: The local path or URL.
         encoding: The text encoding for local files or as a fallback for URLs.
@@ -350,10 +410,11 @@ def read_iterator(
         The lines (including their terminators when present).
     """
     if is_url(path):
+        fallback_encoding = normalize_encoding(encoding)
         with urlopen(str(path), timeout=timeout) as fh:
-            encoding = get_encoding(fh, default=normalize_encoding(encoding))
+            url_encoding = get_encoding(fh, default=fallback_encoding)
             for line in fh:
-                yield line.decode(encoding=encoding, errors="ignore" if ignore else "strict")
+                yield decode_bytes(line, encoding=url_encoding, fallback_encoding=fallback_encoding, ignore=ignore)
         return
 
     encoding = normalize_encoding(encoding)
@@ -378,6 +439,9 @@ def read_enumerator(
     """
     Yields `(line_number, line)` for a local file or URL response.
 
+    Notes:
+        • The generator holds the underlying file/connection open until it is exhausted or explicitly closed.
+
     Args:
         path: The local path or URL.
         encoding: The text encoding for local files or as a fallback for URLs.
@@ -389,10 +453,11 @@ def read_enumerator(
         The 0-based line index and the corresponding line string.
     """
     if is_url(path):
+        fallback_encoding = normalize_encoding(encoding)
         with urlopen(str(path), timeout=timeout) as fh:
-            encoding = get_encoding(fh, default=normalize_encoding(encoding))
+            url_encoding = get_encoding(fh, default=fallback_encoding)
             for i, line in enumerate(fh):
-                yield i, line.decode(encoding=encoding, errors="ignore" if ignore else "strict")
+                yield i, decode_bytes(line, encoding=url_encoding, fallback_encoding=fallback_encoding, ignore=ignore)
         return
 
     encoding = normalize_encoding(encoding)
@@ -429,21 +494,27 @@ def read_csv(
     na_values: Optional[Iterable[str]] = None,
     newline: Optional[str] = None,
     element_type: Optional[ElementType] = None,
+    timeout: float = DEFAULT_TIMEOUT,
     **kwargs: Any,
 ):
     """
     Reads a CSV file into a pandas DataFrame.
 
+    Notes:
+        • When `path` is a URL, derives the encoding from HTTP headers, using `encoding` as a fallback.
+
     Args:
         path: The local path or URL.
-        encoding: The text encoding.
+        encoding: The text encoding (for local files or as a fallback for URLs).
         delimiter: The field delimiter.
-        ignore: Skips invalid lines when `True` (maps to `on_bad_lines="skip"`).
+        ignore: Skips invalid lines when `True` (maps to `on_bad_lines="skip"`). For URL reads, also ignores
+            decoding errors when `True`.
         index_cols: The `index_col` argument forwarded to pandas.
         index_name: Sets the index name when `index_cols` is not provided.
         na_values: The NA tokens.
         newline: The line terminator (forwarded as `lineterminator` when provided).
         element_type: The dtype (forwarded as `dtype`).
+        timeout: The URL open timeout (seconds).
         **kwargs: Extra arguments forwarded to `pd.read_csv`.
 
     Returns:
@@ -456,15 +527,35 @@ def read_csv(
     if not is_null(newline):
         read_kwargs.setdefault("lineterminator", newline)
 
-    df = pd.read_csv(
-        path,
-        encoding=normalize_encoding(encoding),
-        delimiter=delimiter,
-        dtype=element_type,
-        index_col=index_cols,
-        na_values=na_values,
-        **read_kwargs,
-    )
+    if is_url(path):
+        fallback_encoding = normalize_encoding(encoding)
+        with urlopen(str(path), timeout=timeout) as fh:
+            url_encoding = get_encoding(fh, default=fallback_encoding)
+            wrapper = io.TextIOWrapper(
+                fh,
+                encoding=url_encoding,
+                errors="ignore" if ignore else "strict",
+                newline="",
+            )
+            df = pd.read_csv(
+                wrapper,
+                delimiter=delimiter,
+                dtype=element_type,
+                index_col=index_cols,
+                na_values=na_values,
+                **read_kwargs,
+            )
+    else:
+        df = pd.read_csv(
+            path,
+            encoding=normalize_encoding(encoding),
+            delimiter=delimiter,
+            dtype=element_type,
+            index_col=index_cols,
+            na_values=na_values,
+            **read_kwargs,
+        )
+
     if not is_null(index_name) and not index_cols:
         set_index_name(df, index_name)
     return df
@@ -493,9 +584,10 @@ def read_json(
         The decoded JSON payload.
     """
     if is_url(path):
+        fallback_encoding = normalize_encoding(encoding)
         with urlopen(str(path), timeout=timeout) as fh:
-            encoding = get_encoding(fh, default=normalize_encoding(encoding))
-            text = fh.read().decode(encoding=encoding, errors="ignore" if ignore else "strict")
+            url_encoding = get_encoding(fh, default=fallback_encoding)
+            text = decode_bytes(fh.read(), encoding=url_encoding, fallback_encoding=fallback_encoding, ignore=ignore)
             return json.loads(text, **kwargs)
 
     encoding = normalize_encoding(encoding)
@@ -709,7 +801,7 @@ def write(
 
 def write_bytes(
     path: Union[str, Path],
-    content: Union[bytes, bytearray, memoryview],
+    content: BytesLike,
     append: bool = False,
     *,
     # Atomic/backup options
@@ -836,7 +928,7 @@ def write_csv(
 
     def _write_rows(fh: IO[Any]) -> None:
         w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
-        if not is_null(header):
+        if header is not None:
             w.writerow(get_row_keys(header))
         for row in _iter_rows(content):
             w.writerow(get_row_values(row))
@@ -1069,6 +1161,7 @@ def is_url(path: Union[str, Path]) -> bool:
     if not isinstance(path, str):
         return False
     try:
-        return bool(validators.url(path))
+        scheme = urlparse(path).scheme.lower()
     except Exception:
         return False
+    return scheme in {"http", "https"}

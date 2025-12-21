@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import Any, Optional, Type
 
-__COMMON_TUPLE_CONSTANTS__________________________________________________________________ = ""
+__COMMON_TUPLE_TYPES______________________________________________________________________ = ""
 
 
 TUPLE_TYPE = tuple

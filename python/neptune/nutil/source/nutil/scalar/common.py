@@ -12,24 +12,27 @@ from __future__ import annotations
 
 import numbers
 from datetime import date, datetime
-from typing import Any, Type
+from typing import Any, Type, Union
 
 import pandas as pd
 
 from nutil.constants import *
 
-__COMMON_SCALAR_CONSTANTS_________________________________________________________________ = ""
+__COMMON_SCALAR_TYPES_____________________________________________________________________ = ""
 
 
-__COMMON_BOOLEAN_CONSTANTS__________________________________ = ""
+__COMMON_BOOLEAN_TYPES______________________________________ = ""
 
 
 BOOLEAN_TYPE = bool
 BOOLEAN_ELEMENT_TYPE = np.bool_
 
 
-__COMMON_BYTES_CONSTANTS____________________________________ = ""
+__COMMON_BYTES_TYPES________________________________________ = ""
 
+
+# The typing alias for any supported bytes-like objects
+BytesLike = Union[bytes, bytearray, memoryview]
 
 BYTES_TYPE = bytes
 BYTES_ELEMENT_TYPE = np.bytes_
@@ -38,7 +41,7 @@ BYTEARRAY_TYPE = bytearray
 MEMORYVIEW_TYPE = memoryview
 
 
-__COMMON_DATE_CONSTANTS_____________________________________ = ""
+__COMMON_DATE_TYPES_________________________________________ = ""
 
 
 DATE_TYPE = date
@@ -46,7 +49,7 @@ DATETIME_TYPE = datetime
 TIMESTAMP_TYPE = pd.Timestamp
 
 
-__COMMON_NUMBER_CONSTANTS___________________________________ = ""
+__COMMON_NUMBER_TYPES_______________________________________ = ""
 
 
 NUMBER_TYPE = numbers.Number
@@ -66,7 +69,7 @@ SHORT_TYPE = int
 SHORT_ELEMENT_TYPE = np.uint8
 
 
-__COMMON_STRING_CONSTANTS___________________________________ = ""
+__COMMON_STRING_TYPES_______________________________________ = ""
 
 
 STRING_TYPE = str
@@ -133,12 +136,12 @@ def is_bytes_type(t: Type[Any]) -> bool:
 
 
 def is_byte_like(x: Any) -> bool:
-    """Returns whether `x` is a byte-like object (Python or NumPy)."""
+    """Returns whether `x` is a bytes-like object (Python or NumPy)."""
     return isinstance(x, (BYTES_TYPE, BYTEARRAY_TYPE, MEMORYVIEW_TYPE))
 
 
 def is_byte_like_type(t: Type[Any]) -> bool:
-    """Returns whether `t` is a byte-like type (Python or NumPy)."""
+    """Returns whether `t` is a bytes-like type (Python or NumPy)."""
     return issubclass(t, (BYTES_TYPE, BYTEARRAY_TYPE, MEMORYVIEW_TYPE))
 
 

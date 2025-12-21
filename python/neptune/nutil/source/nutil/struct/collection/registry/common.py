@@ -95,7 +95,7 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
 __COMMON_COLLECTION_REGISTRY_CLASSES______________________________________________________ = ""
 
 
-# Typing alias for any supported element types across `Struct`
+# The typing alias for any supported element types across `Struct`
 ElementType = Union[Type[Any], DTypeLike]
 
 T = TypeVar("T")
@@ -967,7 +967,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         x.update_pairs(pairs)
 
 
-__COMMON_COLLECTION_REGISTRY_CONSTANTS____________________________________________________ = ""
+__COMMON_COLLECTION_REGISTRY_TYPES________________________________________________________ = ""
 
 
 ITERATOR_TYPE = ABCIterator

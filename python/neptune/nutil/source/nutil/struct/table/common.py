@@ -16,10 +16,14 @@ from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *
 
-__COMMON_TABLE_CONSTANTS__________________________________________________________________ = ""
+__COMMON_TABLE_TYPES______________________________________________________________________ = ""
 
 
-__COMMON_DATAFRAME_CONSTANTS________________________________ = ""
+# The typing alias for any supported tables
+Table = Union["pd.Series", "pd.DataFrame"]
+
+
+__COMMON_DATAFRAME_TYPES____________________________________ = ""
 
 
 SERIES_TYPE = pd.Series
@@ -32,13 +36,6 @@ FRAME_GROUP_BY_TYPE = DataFrameGroupBy
 
 INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
-
-
-__COMMON_TABLE_TYPES______________________________________________________________________ = ""
-
-
-# Typing alias for any supported tables
-Table = Union["pd.Series", "pd.DataFrame"]
 
 
 __COMMON_TABLE_ACCESSORS__________________________________________________________________ = ""

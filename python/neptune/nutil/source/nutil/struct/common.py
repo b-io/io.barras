@@ -25,13 +25,13 @@ __COMMON_STRUCT_TYPES___________________________________________________________
 #   • tuple: `tuple`
 Struct = Iterable[Any]
 
-# Typing alias for any supported keys across `Struct`
+# The typing alias for any supported keys across `Struct`
 Key = Hashable
 
-# Typing alias for any supported values across `Struct`
+# The typing alias for any supported values across `Struct`
 Value = Any
 
-# Typing alias for any supported axes across `Struct`
+# The typing alias for any supported axes across `Struct`
 Axis = Union[int, str]  # `{0, 1, "index", "columns"}`
 
 

@@ -21,7 +21,7 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
 
     Dispatch:
         • Returns `None` if `x` is null (per `is_null`).
-        • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
+        • Returns `bytes(x)` for bytes-like (`bytes`, `bytearray`, `memoryview`).
         • Converts the numbers via `str(x).encode(…)` (avoids `bytes(int)` zero-fill trap).
         • Encodes `str` via `encoding`/`errors`.
         • For NumPy arrays:
@@ -32,7 +32,7 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
         • Otherwise, encodes `str(x)`.
 
     Returns:
-        `bytes` for scalars/byte-like, or the collection with elements converted to `bytes`.
+        `bytes` for scalars/bytes-like, or the collection with elements converted to `bytes`.
         Returns `None` if `x` is null.
     """
     if is_null(x):

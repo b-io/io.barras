@@ -189,8 +189,8 @@ def get_int_strict(
 
 def get_str(section: str, option: str) -> Optional[str]:
     """Selects an option as an optional string (empty or missing → `None`)."""
-    val = CONFIG.get(section, option, fallback="")
-    return val if val.strip() != "" else None
+    value = CONFIG.get(section, option, fallback="")
+    return value if value.strip() != "" else None
 
 
 #### HELPERS #################

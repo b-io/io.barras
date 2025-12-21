@@ -23,7 +23,7 @@ from nutil.scalar.common import *
 from nutil.struct.collection.registry.common import *
 from nutil.struct.tuple.common import *
 
-__COMMON_COLLECTION_CONSTANTS_____________________________________________________________ = ""
+__COMMON_COLLECTION_TYPES_________________________________________________________________ = ""
 
 
 COLLECTION_TYPE = ABCCollection
@@ -34,25 +34,25 @@ SEQUENCE_TYPE = ABCSequence
 MUTABLE_SEQUENCE_TYPE = ABCMutableSequence
 
 
-__COMMON_ARRAY_CONSTANTS____________________________________ = ""
+__COMMON_ARRAY_TYPES________________________________________ = ""
 
 
 ARRAY_TYPE = np.ndarray
 
 
-__COMMON_DICT_CONSTANTS_____________________________________ = ""
+__COMMON_DICT_TYPES_________________________________________ = ""
 
 
 DICT_TYPE = dict
 
 
-__COMMON_LIST_CONSTANTS_____________________________________ = ""
+__COMMON_LIST_TYPES_________________________________________ = ""
 
 
 LIST_TYPE = list
 
 
-__COMMON_SET_CONSTANTS______________________________________ = ""
+__COMMON_SET_TYPES__________________________________________ = ""
 
 
 SET_TYPE = ABCSet
@@ -93,7 +93,7 @@ def is_element_type(t: Type[Any]) -> bool:
 def is_collection(x: Any) -> bool:
     """
     Returns whether `x` is a generic collection (1-D container) excluding:
-        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • bytes-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
         • `tuple` (treated as an atomic element)
     """
@@ -103,7 +103,7 @@ def is_collection(x: Any) -> bool:
 def is_collection_type(t: Type[Any]) -> bool:
     """
     Returns whether `t` is a generic collection (1-D container) type excluding:
-        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • bytes-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
         • `tuple` (treated as an atomic element)
     """
@@ -116,7 +116,7 @@ def is_collection_type(t: Type[Any]) -> bool:
 def is_iterable(x: Any) -> bool:
     """
     Returns whether `x` is an `Iterable` excluding:
-        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • bytes-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
     """
     return isinstance(x, ITERABLE_TYPE) and not is_element(x)
@@ -125,7 +125,7 @@ def is_iterable(x: Any) -> bool:
 def is_iterable_type(t: Type[Any]) -> bool:
     """
     Returns whether `t` is an `Iterable` type excluding:
-        • byte-like types (`bytes`, `bytearray`, `memoryview`)
+        • bytes-like types (`bytes`, `bytearray`, `memoryview`)
         • `str` (treated as scalar text)
     """
     return issubclass(t, ITERABLE_TYPE) and not is_element_type(t)

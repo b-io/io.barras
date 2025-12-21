@@ -161,7 +161,7 @@ def load_yaml_config(path: Path) -> StyleConfig:
                 include=list(rule.get("include") or ["**/*"]),
                 exclude=list(rule.get("exclude") or []),
                 flags=[str(f).upper() for f in raw_flags],
-                severity=str(rule.get("severity") or "warning").casefold(),
+                severity=str(rule.get("severity") or "warning").lower(),
             )
         )
 

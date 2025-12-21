@@ -546,7 +546,7 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
         x.update(*iterables)
 
 
-__ORDERED_SET_CONSTANTS___________________________________________________________________ = ""
+__ORDERED_SET_TYPES_______________________________________________________________________ = ""
 
 
 ORDERED_SET_TYPE = OrderedSet
