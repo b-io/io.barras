@@ -99,10 +99,10 @@ def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str
     return encoding
 
 
-#### GLOBS #################################################
+### GLOBS ##################################################
 
 
-def get_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str]:
+def get_dirnames_from_globs(patterns: List[str], *, suffix: str = "/**") -> Set[str]:
     """
     Derives the directory basenames from the glob patterns that end with the `suffix`.
 
@@ -110,71 +110,21 @@ def get_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str
         • Selects the last non-wildcard path segment from the patterns ending with the `suffix`.
 
     Args:
-        globs: The list of repository-level glob patterns.
+        patterns: The list of repository-level glob patterns.
         suffix: The marker suffix that denotes the directory patterns (defaults to `"/**"`).
 
     Returns:
         The set of directory basenames discovered.
     """
     names: Set[str] = set()
-    for glob in globs:
-        if glob.endswith(suffix):
-            core = glob[: -len(suffix)]
+    for pattern in patterns:
+        if pattern.endswith(suffix):
+            core = pattern[: -len(suffix)]
             segment = core.split("/")[-1]
             # Select a plain segment
             if segment and not any(ch in segment for ch in "*?[]"):
                 names.add(segment)
     return names
-
-
-def match_any_globs(rel_path: str, globs: Iterable[str]) -> bool:
-    """
-    Matches a POSIX relative path against any of the glob patterns.
-
-    Args:
-        rel_path: The relative path (uses the POSIX separators).
-        globs: The iterable of glob patterns.
-
-    Returns:
-        `True` if at least one pattern matches; otherwise `False`.
-    """
-    for glob in globs:
-        if fnmatch.fnmatch(rel_path, glob):
-            return True
-        # Treat `"**/"` as optional so the root-level files match `"**/*.ext"`
-        if glob.startswith("**/") and fnmatch.fnmatch(rel_path, glob[3:]):
-            return True
-    return False
-
-
-def exclude_dir(rel_dir: str, exclude: List[str]) -> bool:
-    """
-    Decides whether a directory should be pruned based on the exclude globs.
-
-    Notes:
-        The trailing slash is appended to make `"**/dir/**"`-style patterns work reliably.
-    """
-    rel_path = rel_dir.rstrip("/") + "/"
-    return match_any_globs(rel_path, exclude)
-
-
-def exclude_file(rel_path: str, exclude: List[str], include: List[str]) -> bool:
-    """
-    Decides whether a file should be excluded based on the include/exclude globs.
-
-    Args:
-        rel_path: The POSIX-style relative path (e.g., `"src/pkg/mod.py"`).
-        exclude: The list of exclude patterns.
-        include: The list of include patterns.
-
-    Returns:
-        `True` if the file should be skipped; otherwise `False`.
-    """
-    if include and not match_any_globs(rel_path, include):
-        return True
-    if exclude and match_any_globs(rel_path, exclude):
-        return True
-    return False
 
 
 ### PATHS ##################################################
@@ -531,20 +481,20 @@ def read_csv(
         fallback_encoding = normalize_encoding(encoding)
         with urlopen(str(path), timeout=timeout) as fh:
             url_encoding = get_encoding(fh, default=fallback_encoding)
-            wrapper = io.TextIOWrapper(
+            with io.TextIOWrapper(
                 fh,
                 encoding=url_encoding,
                 errors="ignore" if ignore else "strict",
                 newline="",
-            )
-            df = pd.read_csv(
-                wrapper,
-                delimiter=delimiter,
-                dtype=element_type,
-                index_col=index_cols,
-                na_values=na_values,
-                **read_kwargs,
-            )
+            ) as wrapper:
+                df = pd.read_csv(
+                    wrapper,
+                    delimiter=delimiter,
+                    dtype=element_type,
+                    index_col=index_cols,
+                    na_values=na_values,
+                    **read_kwargs,
+                )
     else:
         df = pd.read_csv(
             path,
@@ -1154,6 +1104,109 @@ def write_text(
 
 
 __FILE_VALIDATORS_________________________________________________________________________ = ""
+
+
+def is_case_sensitive(case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Normalizes `case_sensitive` into a boolean using a platform default when `None`.
+
+    Args:
+        case_sensitive: The explicit case sensitivity flag, or `None` for the platform default.
+
+    Returns:
+        `True` if matching is case-sensitive; otherwise `False`.
+    """
+    if case_sensitive is None:
+        return os.name != "nt"
+    return bool(case_sensitive)
+
+
+### GLOBS ##################################################
+
+
+def match_glob(rel_path: str, pattern: str, *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Matches `rel_path` against `pattern` with optional case-insensitive behavior.
+
+    Args:
+        rel_path: The POSIX relative path.
+        pattern: The glob pattern.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the pattern matches; otherwise `False`.
+    """
+    if is_case_sensitive(case_sensitive):
+        return fnmatch.fnmatchcase(rel_path, pattern)
+    return fnmatch.fnmatchcase(rel_path.casefold(), pattern.casefold())
+
+
+def match_any_globs(rel_path: str, patterns: Iterable[str], *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Matches a POSIX relative path against any of the glob patterns.
+
+    Args:
+        rel_path: The relative path (uses the POSIX separators).
+        patterns: The iterable of glob patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if at least one pattern matches; otherwise `False`.
+    """
+    for pattern in patterns:
+        if match_glob(rel_path, pattern, case_sensitive=case_sensitive):
+            return True
+        # Treat `"**/"` as optional so the root-level files match `"**/*.ext"`
+        if pattern.startswith("**/") and match_glob(rel_path, pattern[3:], case_sensitive=case_sensitive):
+            return True
+    return False
+
+
+##############################
+
+
+def exclude_dir(rel_dir: str, exclude: List[str], *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Decides whether a directory should be pruned based on the exclude glob patterns.
+
+    Notes:
+        • Appends a trailing slash to make `"**/dir/**"`-style patterns work reliably.
+
+    Args:
+        rel_dir: The POSIX-style relative directory path (e.g., `"src/pkg"` or `"src/pkg/"`).
+        exclude: The list of exclude patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the directory should be skipped (pruned); otherwise `False`.
+    """
+    rel_path = rel_dir.rstrip("/") + "/"
+    return match_any_globs(rel_path, exclude, case_sensitive=case_sensitive)
+
+
+def exclude_file(
+    rel_path: str, exclude: List[str], include: List[str], *, case_sensitive: Optional[bool] = None
+) -> bool:
+    """
+    Decides whether a file should be excluded based on the include/exclude glob patterns.
+
+    Args:
+        rel_path: The POSIX-style relative path (e.g., `"src/pkg/mod.py"`).
+        exclude: The list of exclude patterns.
+        include: The list of include patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the file should be skipped; otherwise `False`.
+    """
+    if include and not match_any_globs(rel_path, include, case_sensitive=case_sensitive):
+        return True
+    if exclude and match_any_globs(rel_path, exclude, case_sensitive=case_sensitive):
+        return True
+    return False
+
+
+### PATHS ##################################################
 
 
 def is_url(path: Union[str, Path]) -> bool:

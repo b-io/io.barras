@@ -181,6 +181,25 @@ def split(s, delimiter=",", empty_filter=True):
     return re.split(delimiter, s)
 
 
+def split_line(line: str) -> Tuple[str, str]:
+    """
+    Splits `line` into `(core, eol)` while preserving the exact line terminator.
+
+    Args:
+        line: The line to split.
+
+    Returns:
+        A tuple `(core, eol)` where `eol` is one of `""`, `"\n"`, `"\r\n"`, or `"\r"`.
+    """
+    if line.endswith("\r\n"):
+        return line[:-2], "\r\n"
+    if line.endswith("\n"):
+        return line[:-1], "\n"
+    if line.endswith("\r"):
+        return line[:-1], "\r"
+    return line, ""
+
+
 ##############################
 
 

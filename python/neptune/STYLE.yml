@@ -65,6 +65,41 @@ rules:
     severity: "warning"
 
 
+### IF / ELIF #############################################
+
+  - id: "elif-subject-mismatch-standalone"
+    description: "Use \"elif\" only if the next condition refers to the same subject variable as the previous \"if\"/\"elif\" (subject = first standalone identifier in the condition, not followed by '.' or '(')."
+    pattern: "(?m)^(?P<indent>[ \\t]*)(?:if|elif)[ \\t]+(?:not[ \\t]+)?(?P<subject>[A-Za-z_][A-Za-z0-9_]*)(?![ \\t]*(?:[.(]))[^\\n]*:[^\\n]*(?:\\n(?:(?P=indent)[ \\t]+.*|(?P=indent)[ \\t]*#.*|[ \\t]*$))*\\n(?P=indent)elif[ \\t]+(?![^\\n]*\\b(?P=subject)\\b)[^\\n]*:"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "elif-subject-mismatch-first-arg"
+    description: "Use \"elif\" only if the next condition refers to the same subject variable as the previous \"if\"/\"elif\" (subject = first positional argument of the first call in the condition)."
+    pattern: "(?m)^(?P<indent>[ \\t]*)(?:if|elif)[ \\t]+[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*[ \\t]*\\([ \\t]*(?P<subject>[A-Za-z_][A-Za-z0-9_]*)\\b[^\\n]*:[^\\n]*(?:\\n(?:(?P=indent)[ \\t]+.*|(?P=indent)[ \\t]*#.*|[ \\t]*$))*\\n(?P=indent)elif[ \\t]+(?![^\\n]*\\b(?P=subject)\\b)[^\\n]*:"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "if-missing-elif-standalone"
+    description: "Use \"elif\" if and only if the next condition refers to the same subject variable as the previous \"if\"/\"elif\" (subject = first standalone identifier in the condition, not followed by '.' or '(')."
+    pattern: "(?m)^(?P<indent>[ \\t]*)(?:if|elif)[ \\t]+(?:not[ \\t]+)?(?P<subject>[A-Za-z_][A-Za-z0-9_]*)(?![ \\t]*(?:[.(]))[^\\n]*:[^\\n]*(?:\\n(?:(?P=indent)[ \\t]+.*|(?P=indent)[ \\t]*#.*|[ \\t]*$))*\\n(?P=indent)if[ \\t]+(?=[^\\n]*\\b(?P=subject)\\b)[^\\n]*:"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+  - id: "if-missing-elif-first-arg"
+    description: "Use \"elif\" if and only if the next condition refers to the same subject variable as the previous \"if\"/\"elif\" (subject = first positional argument of the first call in the condition)."
+    pattern: "(?m)^(?P<indent>[ \\t]*)(?:if|elif)[ \\t]+[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*[ \\t]*\\([ \\t]*(?P<subject>[A-Za-z_][A-Za-z0-9_]*)\\b[^\\n]*:[^\\n]*(?:\\n(?:(?P=indent)[ \\t]+.*|(?P=indent)[ \\t]*#.*|[ \\t]*$))*\\n(?P=indent)if[ \\t]+(?=[^\\n]*\\b(?P=subject)\\b)[^\\n]*:"
+    include: [ "**/*.py" ]
+    exclude: [ ]
+    flags: [ ]
+    severity: "warning"
+
+
   ### MESSAGES #############################################
 
   - id: "error-message-trailing-period"

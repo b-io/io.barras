@@ -282,14 +282,16 @@ def parse_args() -> argparse.Namespace:
 def _build_arg_parser() -> argparse.ArgumentParser:
     """Builds the CLI argument parser."""
     ap = argparse.ArgumentParser(description="Maintain a generic sectioned JSON cache.")
+    # Add the path(s)
     ap.add_argument("--cache", help="Path to the JSON cache.", required=True)
+    # Add the section parameters(s)
     ap.add_argument("--sections", help="Section to operate on (repeatable).", action="append", metavar="NAME")
-    # Queries
+    # Add the query parameters(s)
     ap.add_argument("--list", help="Print the entry counts per section.", action="store_true")
     ap.add_argument("--show", help="Show entries (with optional --filter/--prefix).", action="store_true")
     ap.add_argument("--filter", help="Regex filter for --show.")
     ap.add_argument("--prefix", help="Prefix filter for --show.")
-    # Editions
+    # Add the edition parameters(s)
     ap.add_argument("--rename", help="Rename a key within a section.", nargs=2, metavar=("OLD", "NEW"))
     ap.add_argument(
         "--merge",
@@ -297,7 +299,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         nargs="+",
         metavar="KEY",
     )
-    # Deletions
+    # Add the deletion parameters(s)
     ap.add_argument(
         "--delete-keys",
         help="Delete exact keys (repeatable across sections).",
@@ -309,7 +311,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     ap.add_argument("--only-list-empty", help="With --delete-empty, delete [] only.", action="store_true")
     ap.add_argument("--only-str-empty", help="With --delete-empty, delete '' only.", action="store_true")
     ap.add_argument("--clear", help="Clear selected sections.", action="store_true")
-    # Load
+    # Add the load parameters(s)
     ap.add_argument(
         "--cache-policy",
         help="Select the cache write policy: 'read_only', 'write_miss_only', or 'overwrite'.",
@@ -322,7 +324,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         type=int,
         default=0,
     )
-    # Save
+    # Add the save parameter(s)
     ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
     ap.add_argument("--compact", help="Write compact JSON on save.", action="store_true")
     ap.add_argument(
