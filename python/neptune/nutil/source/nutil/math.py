@@ -430,7 +430,7 @@ def safe_divide(s1, s2, eps=EPS, invalid_default=0, template=None):
 
     Broadcasts s1 and s2, promotes an element type using get_min_element_type, then ensures a
     floating/complex element type for true division. Maps the result back to the specified template
-    (or to s1 if template is None).
+    (or to s1 if template is `None`).
     """
     # Broadcast first (so shapes match)
     b1, b2 = np.broadcast_arrays(s1, s2)

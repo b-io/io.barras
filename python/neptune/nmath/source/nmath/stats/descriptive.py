@@ -534,7 +534,7 @@ def get_density(
     if not is_empty(name):
         name += " "
     values = get_values(series)
-    if weights is not None and len(weights) != len(values):
+    if not is_null(weights) and len(weights) != len(values):
         raise ValueError("'weights' must have the same length as 'values'")
 
     # Treat integer-like data with few unique values as discrete

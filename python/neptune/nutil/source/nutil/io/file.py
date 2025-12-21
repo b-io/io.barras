@@ -10,6 +10,7 @@
 
 from __future__ import annotations
 
+import codecs
 import csv
 import fnmatch
 import json
@@ -27,7 +28,48 @@ from nutil.scalar.string import NEWLINE
 from nutil.struct.table.util import get_row_keys, get_row_values, Row
 from nutil.struct.util import set_index_name
 
+__FILE_CONSTANTS__________________________________________________________________________ = ""
+
+
+### DEFAULTS ###############################################
+
+# The default timeout
+DEFAULT_TIMEOUT: float = 10  # seconds
+
+
 __FILE_ACCESSORS__________________________________________________________________________ = ""
+
+
+def get_encoding(fh: IO[Any], *, default: str = DEFAULT_ENCODING) -> str:
+    """
+    Returns the response encoding derived from the HTTP headers.
+
+    Notes:
+        • If the server does not specify a charset, falls back to `default`.
+        • If the server specifies an unknown charset, falls back to `default`.
+        • Validates the chosen encoding name with `codecs.lookup`.
+    """
+    try:
+        encoding = fh.headers.get_content_charset()  # may be `None`
+    except Exception:
+        encoding = None
+    return normalize_encoding(encoding, default=default)
+
+
+def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str:
+    """
+    Normalizes and validates `encoding`, falling back to `default` when invalid.
+
+    Notes:
+        • Uses `codecs.lookup` to validate the codec name.
+        • Treats `None` / empty as missing and returns `default`.
+    """
+    encoding = default if is_null(encoding) else str(encoding)
+    try:
+        codecs.lookup(encoding)
+    except Exception:
+        return default
+    return encoding
 
 
 #### GLOBS #################################################
@@ -52,7 +94,8 @@ def get_dirnames_from_globs(globs: List[str], *, suffix: str = "/**") -> Set[str
         if glob.endswith(suffix):
             core = glob[: -len(suffix)]
             segment = core.split("/")[-1]
-            if segment and not any(ch in segment for ch in "*?[]"):  # a plain segment
+            # Select a plain segment
+            if segment and not any(ch in segment for ch in "*?[]"):
                 names.add(segment)
     return names
 
@@ -178,15 +221,15 @@ def build_backup_path(path: Path, backup_dir: Optional[Path]) -> Path:
     Builds a unique timestamped backup path for `path`,
     e.g., `"cache.json.20201230-153045.bak"` (or `"….2.bak"` if needed).
     """
-    bd = backup_dir if backup_dir is not None else path.parent
-    bd.mkdir(parents=True, exist_ok=True)
+    backup_dir = backup_dir if not is_null(backup_dir) else path.parent
+    backup_dir.mkdir(parents=True, exist_ok=True)
 
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
-    candidate = bd / f"{path.name}.{ts}.bak"
+    candidate = backup_dir / f"{path.name}.{ts}.bak"
     i = 1
     while candidate.exists():
         i += 1
-        candidate = bd / f"{path.name}.{ts}.{i}.bak"
+        candidate = backup_dir / f"{path.name}.{ts}.{i}.bak"
     return candidate
 
 
@@ -248,7 +291,11 @@ __FILE_READERS__________________________________________________________________
 
 
 def read(
-    path: Union[str, Path], encoding: str = DEFAULT_ENCODING, ignore: bool = False, newline: Optional[str] = None
+    path: Union[str, Path],
+    encoding: str = DEFAULT_ENCODING,
+    ignore: bool = False,
+    newline: Optional[str] = None,
+    timeout: float = DEFAULT_TIMEOUT,
 ) -> str:
     """
     Reads and returns the full text content of a local file or URL.
@@ -258,14 +305,17 @@ def read(
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
+        timeout: The URL open timeout (seconds).
 
     Returns:
         The file contents as text.
     """
     if is_url(path):
-        with urlopen(str(path)) as fh:
-            encoding = encoding if not is_null(encoding) else fh.headers.get_content_charset()
+        with urlopen(str(path), timeout=timeout) as fh:
+            encoding = get_encoding(fh, default=normalize_encoding(encoding))
             return fh.read().decode(encoding=encoding, errors="ignore" if ignore else "strict")
+
+    encoding = normalize_encoding(encoding)
     with open(
         str(path),
         mode="r",
@@ -284,6 +334,7 @@ def read_iterator(
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
+    timeout: float = DEFAULT_TIMEOUT,
 ) -> Iterator[str]:
     """
     Yields the lines of a local file or URL response.
@@ -293,25 +344,28 @@ def read_iterator(
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
+        timeout: The URL open timeout (seconds).
 
     Yields:
         The lines (including their terminators when present).
     """
     if is_url(path):
-        with urlopen(str(path)) as fh:
-            encoding = encoding if not is_null(encoding) else fh.headers.get_content_charset()
+        with urlopen(str(path), timeout=timeout) as fh:
+            encoding = get_encoding(fh, default=normalize_encoding(encoding))
             for line in fh:
                 yield line.decode(encoding=encoding, errors="ignore" if ignore else "strict")
-    else:
-        with open(
-            str(path),
-            mode="r",
-            encoding=encoding,
-            errors="ignore" if ignore else None,
-            newline=newline,
-        ) as fh:
-            for line in fh:
-                yield line
+        return
+
+    encoding = normalize_encoding(encoding)
+    with open(
+        str(path),
+        mode="r",
+        encoding=encoding,
+        errors="ignore" if ignore else None,
+        newline=newline,
+    ) as fh:
+        for line in fh:
+            yield line
 
 
 def read_enumerator(
@@ -319,6 +373,7 @@ def read_enumerator(
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
+    timeout: float = DEFAULT_TIMEOUT,
 ) -> Iterator[Tuple[int, str]]:
     """
     Yields `(line_number, line)` for a local file or URL response.
@@ -328,34 +383,37 @@ def read_enumerator(
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
+        timeout: The URL open timeout (seconds).
 
     Yields:
         The 0-based line index and the corresponding line string.
     """
     if is_url(path):
-        with urlopen(str(path)) as fh:
-            encoding = encoding if not is_null(encoding) else fh.headers.get_content_charset()
+        with urlopen(str(path), timeout=timeout) as fh:
+            encoding = get_encoding(fh, default=normalize_encoding(encoding))
             for i, line in enumerate(fh):
                 yield i, line.decode(encoding=encoding, errors="ignore" if ignore else "strict")
-    else:
-        with open(
-            str(path),
-            mode="r",
-            encoding=encoding,
-            errors="ignore" if ignore else None,
-            newline=newline,
-        ) as fh:
-            for i, line in enumerate(fh):
-                yield i, line
+        return
+
+    encoding = normalize_encoding(encoding)
+    with open(
+        str(path),
+        mode="r",
+        encoding=encoding,
+        errors="ignore" if ignore else None,
+        newline=newline,
+    ) as fh:
+        for i, line in enumerate(fh):
+            yield i, line
 
 
 ##############################
 
 
-def read_bytes(path: Union[str, Path]) -> bytes:
+def read_bytes(path: Union[str, Path], timeout: float = DEFAULT_TIMEOUT) -> bytes:
     """Reads and returns the full bytes content of a local file or URL."""
     if is_url(path):
-        with urlopen(str(path)) as fh:
+        with urlopen(str(path), timeout=timeout) as fh:
             return fh.read()
     with open(str(path), mode="rb") as fh:
         return fh.read()
@@ -391,16 +449,16 @@ def read_csv(
     Returns:
         The parsed DataFrame.
     """
-    na_values = [""] if na_values is None else list(na_values)
+    na_values = [""] if is_null(na_values) else list(na_values)
 
     read_kwargs: Dict[str, Any] = dict(kwargs)
     read_kwargs.setdefault("on_bad_lines", "skip" if ignore else "error")
-    if newline is not None:
+    if not is_null(newline):
         read_kwargs.setdefault("lineterminator", newline)
 
     df = pd.read_csv(
         path,
-        encoding=encoding,
+        encoding=normalize_encoding(encoding),
         delimiter=delimiter,
         dtype=element_type,
         index_col=index_cols,
@@ -417,6 +475,7 @@ def read_json(
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
+    timeout: float = DEFAULT_TIMEOUT,
     **kwargs: Any,
 ) -> Any:
     """
@@ -424,17 +483,22 @@ def read_json(
 
     Args:
         path: The local path or URL.
-        encoding: The text encoding for local files.
-        ignore: Ignores decoding errors when `True` (local file only).
+        encoding: The text encoding for local files or as a fallback for URLs.
+        ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)` (local file only).
-        **kwargs: Extra arguments forwarded to `json.load`.
+        timeout: The URL open timeout (seconds).
+        **kwargs: Extra arguments forwarded to `json.loads` / `json.load`.
 
     Returns:
         The decoded JSON payload.
     """
     if is_url(path):
-        with urlopen(str(path)) as fh:
-            return json.load(fh, **kwargs)
+        with urlopen(str(path), timeout=timeout) as fh:
+            encoding = get_encoding(fh, default=normalize_encoding(encoding))
+            text = fh.read().decode(encoding=encoding, errors="ignore" if ignore else "strict")
+            return json.loads(text, **kwargs)
+
+    encoding = normalize_encoding(encoding)
     with open(
         str(path),
         mode="r",
@@ -468,7 +532,7 @@ def flush_handler(file_handler: IO[Any]) -> None:
         file_handler.flush()
         os.fsync(file_handler.fileno())
     except Exception:
-        # Treat the `fsync` failures as non-fatal
+        # Treat the filesystem-specific failures as non-fatal
         pass
 
 
@@ -490,6 +554,10 @@ def atomic_write(
 ) -> None:
     """
     Writes a file atomically (same-directory temp file + `os.replace`) and optionally makes a timestamped backup.
+
+    Notes:
+        • Durability is not fully crash-safe on POSIX without a directory `fsync`; therefore, fsyncs the parent
+          directory after `os.replace` (best-effort).
 
     Args:
         path: Destination path.
@@ -517,6 +585,7 @@ def atomic_write(
     if is_binary:
         temp_file = NamedTemporaryFile("wb", delete=False, dir=path.parent)
     else:
+        encoding = normalize_encoding(encoding)
         temp_file = NamedTemporaryFile(
             "w",
             delete=False,
@@ -543,29 +612,60 @@ def atomic_write(
             # Try to atomically move the current file into the backup; if cross-filesystem, fall back to a copy
             try:
                 os.replace(path, backup_path)
+                fsync_dir(backup_path.parent)
                 is_backup_moved = True
             except OSError:
                 shutil.copy2(path, backup_path)
-                # Keep the original in place; it will be replaced by the new file below
+                fsync_dir(backup_path.parent)
+                # Keep the original in place; replace it by the new file below
 
         # Atomically replace the target with the new temp file
         try:
             if not is_null(mode):
-                os.chmod(temp_filename, mode)
+                try:
+                    os.chmod(temp_filename, mode)
+                except Exception:
+                    # Treat the filesystem-specific failures as non-fatal
+                    pass
             os.replace(temp_filename, path)
+            fsync_dir(path.parent)
         except Exception as e:
-            # Best-effort rollback if we moved the original away
+            # Perform a best-effort rollback if the original was moved away
             if is_backup_moved and backup_path and backup_path.exists():
                 try:
                     os.replace(backup_path, path)
+                    fsync_dir(path.parent)
                 except Exception:
                     pass
             raise e
 
     finally:
-        # Best-effort cleanup of the temp file (if any)
+        # Perform a best-effort cleanup of the temp file (if any)
         try:
             os.unlink(temp_filename)
+        except Exception:
+            pass
+
+
+def fsync_dir(dir_path: Path) -> None:
+    """Fsyncs the directory entry changes (best-effort, POSIX only)."""
+    if os.name != "posix":
+        return
+    try:
+        flags = os.O_RDONLY
+        if hasattr(os, "O_DIRECTORY"):
+            flags |= os.O_DIRECTORY
+        fd = os.open(str(dir_path), flags)
+    except Exception:
+        return
+    try:
+        os.fsync(fd)
+    except Exception:
+        # Treat the filesystem-specific failures as non-fatal
+        pass
+    finally:
+        try:
+            os.close(fd)
         except Exception:
             pass
 
@@ -595,6 +695,8 @@ def write(
     Returns:
         The number of characters written.
     """
+    encoding = normalize_encoding(encoding)
+
     with open(
         str(path),
         mode="a" if append else "w",
@@ -699,6 +801,7 @@ def write_csv(
         • Otherwise, writes atomically by default (`atomic=True`), with optional backups.
         • When `header` is provided, writes a header row using `get_row_keys(header)`.
         • Always opens CSV files with `newline=""` and uses `lineterminator` to control row endings.
+        • Streams the rows without materializing `content` into memory.
 
     Args:
         path: Destination file path.
@@ -723,13 +826,20 @@ def write_csv(
         OSError: On write, backup, permission, or replace failures.
     """
     path = Path(path)
+    encoding = normalize_encoding(encoding)
 
-    def _iter_rows(x: Union[Row, Iterable[Row]]) -> Iterable[Row]:
+    def _iter_rows(x: Union[Row, Iterable[Row]]) -> Iterator[Row]:
         if is_dict(x) or is_dataclass(x):
-            return [x]
-        return x
+            yield x
+            return
+        yield from x
 
-    rows = list(_iter_rows(content))
+    def _write_rows(fh: IO[Any]) -> None:
+        w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
+        if not is_null(header):
+            w.writerow(get_row_keys(header))
+        for row in _iter_rows(content):
+            w.writerow(get_row_values(row))
 
     if append:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -740,11 +850,7 @@ def write_csv(
             errors="ignore" if ignore else None,
             newline="",
         ) as fh:
-            w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
-            if header is not None:
-                w.writerow(get_row_keys(header))
-            for row in rows:
-                w.writerow(get_row_values(row))
+            _write_rows(fh)
             flush_handler(fh)
         return
 
@@ -759,25 +865,14 @@ def write_csv(
             errors="ignore" if ignore else None,
             newline="",
         ) as fh:
-            w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
-            if header is not None:
-                w.writerow(get_row_keys(header))
-            for row in rows:
-                w.writerow(get_row_values(row))
+            _write_rows(fh)
             flush_handler(fh)
         return
-
-    def _writer(fh: IO[Any]) -> None:
-        w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
-        if header is not None:
-            w.writerow(get_row_keys(header))
-        for row in rows:
-            w.writerow(get_row_values(row))
 
     # Atomically replace the target with a temp file
     atomic_write(
         path,
-        writer=_writer,
+        writer=_write_rows,
         is_binary=False,
         encoding=encoding,
         newline="",
@@ -792,7 +887,6 @@ def write_csv(
 def write_json(
     path: Union[str, Path],
     content: Any,
-    append: bool = False,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     indent: Optional[int] = None,
@@ -813,54 +907,41 @@ def write_json(
 
     Behavior:
         • Normalizes containers via `to_json(content)` for JSON-friendliness.
-        • When `append=True`, writes in append mode (non-atomic).
-        • Otherwise, writes atomically by default (`atomic=True`), with optional backups.
+        • Writes atomically by default (`atomic=True`), with optional backups.
         • When `compact=True`, uses minimal separators and ignores `indent`.
 
     Args:
         path: Destination file path.
         content: The JSON payload.
-        append: Appends when `True` (non-atomic).
         encoding: The output encoding.
         ignore: Ignores encoding errors when `True`.
         indent: The pretty-print indentation; ignored when `compact=True`.
-        newline: The newline policy forwarded to `open(…, newline=…)` in append mode.
-        atomic: Enables atomic replace for non-append writes.
-        backup: Creates a timestamped backup of the previous file (non-append writes only).
+        newline: The newline policy forwarded to the text writer (defaults to `""` when not provided).
+        atomic: Enables atomic replace.
+        backup: Creates a timestamped backup of the previous file.
         backup_dir: Directory in which to store backups.
         mode: Optional file-permission bits applied to the written file (atomic mode only).
-        overwrite: Raises `FileExistsError` when `False` and the file exists (non-append writes only).
+        overwrite: Raises `FileExistsError` when `False` and the file exists.
         compact: Writes compact JSON when `True`.
-        **kwargs: Extra keyword args forwarded to `json.dump`.
+        **kwargs: Extra arguments forwarded to `json.dump`.
 
     Raises:
-        FileExistsError: If `overwrite` is `False` and `path` exists (non-append writes).
+        FileExistsError: If `overwrite` is `False` and `path` exists.
         OSError: On write, backup, permission, or replace failures.
         ValueError/TypeError: When JSON serialization fails.
     """
     path = Path(path)
     payload = to_json(content)
+    encoding = normalize_encoding(encoding)
+    newline = "" if is_null(newline) else newline
 
     def _dump(fh: IO[Any]) -> None:
         if compact:
             json.dump(payload, fh, ensure_ascii=False, separators=(",", ":"), default=str, **kwargs)
         else:
             json.dump(
-                payload, fh, ensure_ascii=False, indent=indent if indent is not None else 2, default=str, **kwargs
+                payload, fh, ensure_ascii=False, indent=indent if not is_null(indent) else 2, default=str, **kwargs
             )
-
-    if append:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(
-            str(path),
-            mode="a",
-            encoding=encoding,
-            errors="ignore" if ignore else None,
-            newline="" if newline is None else newline,
-        ) as fh:
-            _dump(fh)
-            flush_handler(fh)
-        return
 
     if not atomic:
         if path.exists() and not overwrite:
@@ -871,7 +952,7 @@ def write_json(
             mode="w",
             encoding=encoding,
             errors="ignore" if ignore else None,
-            newline="",
+            newline=newline,
         ) as fh:
             _dump(fh)
             flush_handler(fh)
@@ -883,7 +964,7 @@ def write_json(
         writer=_dump,
         is_binary=False,
         encoding=encoding,
-        newline="",
+        newline=newline,
         ignore=ignore,
         mode=mode,
         overwrite=overwrite,
@@ -932,6 +1013,7 @@ def write_text(
         OSError: On write, backup, permission, or replace failures.
     """
     path = Path(path)
+    encoding = normalize_encoding(encoding)
 
     if append:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -970,7 +1052,7 @@ def write_text(
         writer=_writer,
         is_binary=False,
         encoding=encoding,
-        newline="" if newline is None else newline,
+        newline="" if is_null(newline) else newline,
         ignore=ignore,
         mode=mode,
         overwrite=overwrite,

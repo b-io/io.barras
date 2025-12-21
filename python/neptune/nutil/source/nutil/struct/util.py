@@ -2065,7 +2065,7 @@ def find_last_with(
 ) -> Optional[int]:
     """Returns the last index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
     i = find_with(l[::-1], f, *args, **kwargs)
-    return len(l) - i - 1 if i is not None else None
+    return len(l) - i - 1 if not is_null(i) else None
 
 
 def find_last_not_with(
@@ -2076,7 +2076,7 @@ def find_last_not_with(
 ) -> Optional[int]:
     """Returns the last index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
     i = find_not_with(l[::-1], f, *args, **kwargs)
-    return len(l) - i - 1 if i is not None else None
+    return len(l) - i - 1 if not is_null(i) else None
 
 
 __STRUCT_GENERATORS_______________________________________________________________________ = ""
@@ -2128,9 +2128,9 @@ def create_empty(
     if is_null(registry):
         registry = CollectionRegistry()
 
-    adapter = registry.get(t) if registry is not None else None
+    adapter = registry.get(t) if not is_null(registry) else None
 
-    if adapter is not None:
+    if not is_null(adapter):
         # Prefer constructing the specified type, not the adapter base type, so subclasses can override `from_iterable`
         if has_callable(t, "from_iterable"):
             return t.from_iterable([])

@@ -83,7 +83,7 @@ def get_function_name(
             cls = loc["self"].__class__
         elif "cls" in loc and isinstance(loc["cls"], type):
             cls = loc["cls"]
-        if cls is not None:
+        if not is_null(cls):
             name = f"{cls.__name__}.{name}"
 
     if module:
@@ -312,8 +312,8 @@ def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
 
 def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
     """Returns the string representation of `x`."""
-    s = str(x) if x is not None else default
-    if strip is not None:
+    s = str(x) if not is_null(x) else default
+    if not is_null(strip):
         s = s.strip(strip)
     return s
 

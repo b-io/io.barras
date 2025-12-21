@@ -13,9 +13,6 @@
 #   • Selects the newest non-yanked, non-prerelease release compatible with the target Python version
 #   • Prints suggested pins and optionally patches the `pyproject.toml` file atomically
 #
-# Cache (sectioned JSON; negative caching enabled)
-#   • None
-#
 # CLI
 #   • "--pyproject" path to `"pyproject.toml"` (default: `"pyproject.toml"`)
 #   • "--python" target version (default: `"3.10.0"`)
@@ -125,10 +122,10 @@ def get_latest_compatible_version(
         if not supports_python_version(files, target_version):
             continue
 
-        if best is None or ver > best:
+        if is_null(best) or ver > best:
             best = ver
 
-    return str(best) if best is not None else None
+    return str(best) if not is_null(best) else None
 
 
 __POETRY_UPDATER_PARSERS__________________________________________________________________ = ""
@@ -271,7 +268,7 @@ def compute_pins(
         logging.info("Resolving '%s' …", name)
         try:
             data = fetch_pypi_json(session, name)
-            if data is None:
+            if is_null(data):
                 continue
             ver = get_latest_compatible_version(data, target_version, include_prereleases)
         except Exception as e:
@@ -313,7 +310,7 @@ def fetch_pypi_json(session: requests.Session, name: str) -> Optional[Dict[str, 
         logging.warning("Skip '%s' due to a transport failure", name)
         return None
 
-    if payload is None:
+    if is_null(payload):
         logging.warning("Skip '%s' due to an empty response (HTTP %s)", name, status)
         return None
 

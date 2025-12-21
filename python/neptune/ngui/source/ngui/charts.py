@@ -1531,7 +1531,7 @@ def set_default_renderer(renderer: Optional[str]) -> None:
     Raises:
         ValueError: If `renderer` is not `None` and is not registered in `pio.renderers`
     """
-    if renderer is None:
+    if is_null(renderer):
         pio.renderers.default = None
         return
 

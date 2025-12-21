@@ -177,12 +177,12 @@ def get_int_strict(
         ValueError: If missing or out of bounds.
     """
     raw = CONFIG.get(section, option, fallback=None)
-    if raw is None or raw.strip() == "":
+    if is_null(raw) or raw.strip() == "":
         raise ValueError(f"missing required property '{section}.{option}'")
     value = int(raw)
-    if min_value is not None and value < min_value:
+    if not is_null(min_value) and value < min_value:
         raise ValueError(f"'{section}.{option}' must be ≥ {min_value} (got {value})")
-    if max_value is not None and value > max_value:
+    if not is_null(max_value) and value > max_value:
         raise ValueError(f"'{section}.{option}' must be ≤ {max_value} (got {value})")
     return value
 

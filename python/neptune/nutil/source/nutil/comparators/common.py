@@ -13,8 +13,9 @@ from __future__ import annotations
 import difflib
 import logging
 import re
-from typing import Callable, List, Match, Optional, Set, Tuple, Union
+from typing import Match
 
+from nutil.common import *
 from nutil.scalar.string import ELLIPSIS
 
 __COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
@@ -43,7 +44,7 @@ def get_text_window(
     Returns:
         The printable snippet string.
     """
-    if to_index is None:
+    if is_null(to_index):
         to_index = len(text)
     start = max(0, from_index)
     end = min(to_index, len(text))

@@ -493,7 +493,7 @@ def test_reduce_with_initializer_and_without() -> None:
     result_init = util.reduce(data, lambda x, y: x + y, initializer=10)
     assert result_init == 16
 
-    assert util.reduce([], lambda x, y: x + y, initializer=None) is None
+    assert is_null(util.reduce([], lambda x, y: x + y, initializer=None))
 
 
 ### CONCAT / INSERT / UPDATE / UPSERT ######################
@@ -590,7 +590,7 @@ def test_filter_with_variants_and_filter_null_and_empty() -> None:
     assert list(null_all.index) == []
 
     any_null = util.filter_any_null(df)
-    assert list(any_null.index) == [1, 2]  # at least one null/None/empty
+    assert list(any_null.index) == [1, 2]  # at least one `None` or empty
 
     empty_all = util.filter_empty(df)
     assert list(empty_all.index) == [1]

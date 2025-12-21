@@ -1090,11 +1090,11 @@ def download(
     """
     if is_null(dir):
         dir = get_dir(".")
-    assert dir is not None
+    assert not is_null(dir)
 
     if is_null(filename):
         filename = get_filename(url).split("?", 1)[0]
-    assert filename is not None
+    assert not is_null(filename)
 
     target_path = collapse(dir, "/", filename)
 

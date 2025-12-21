@@ -20,14 +20,14 @@ __CONSTANTS_____________________________________________________________________
 
 ### DEFAULTS ###############################################
 
+# The default assert
+DEFAULT_ASSERT = True
+
 # The default encoding
 DEFAULT_ENCODING = "utf-8"
 
 # The default environment
 DEFAULT_ENV = "local"
-
-# The default assert
-DEFAULT_ASSERT = True
 
 ##############################
 

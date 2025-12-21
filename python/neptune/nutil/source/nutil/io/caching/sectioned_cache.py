@@ -90,12 +90,12 @@ class SectionedCache(Generic[V]):
 
     def resolve_sections(self, sections: Optional[Sections] = None) -> Sections:
         """Returns the `sections` if provided; otherwise the declared section names."""
-        return sections if sections is not None else self.get_sections()
+        return sections if not is_null(sections) else self.get_sections()
 
     def has(self, section: Section, key: str) -> bool:
         """Reports whether the `section/key` exists (including the negative-cached empties)."""
         bucket = self._store.get(section)
-        return bucket is not None and key in bucket
+        return not is_null(bucket) and key in bucket
 
     def get(self, section: Section, key: str) -> Optional[V]:
         """Selects the cached value for the `section/key`, returning `None` on a cache miss."""
