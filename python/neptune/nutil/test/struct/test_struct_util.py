@@ -236,7 +236,7 @@ def test_set_element_types_for_dataframe_series_array_and_dict() -> None:
         }
     )
     util.set_element_types(df_dates, {"d": DATE_TYPE, "x": np.float64})
-    # `set_element_types` should have converted `d` via `pd.to_datetime(...)`
+    # `set_element_types` should have converted `d` via `pd.to_datetime(…)`
     assert is_datetime64_any_dtype(df_dates["d"].dtype)
     assert df_dates["d"].iloc[0] == pd.Timestamp("2024-01-01")
     assert np.issubdtype(df_dates["x"].dtype, np.floating)
@@ -717,7 +717,7 @@ def test_tally_into_intervals() -> None:
     s = [1, 2, 5, 7]
     boundaries = [3, 6]
     tallied = util.tally(s, boundaries)
-    # [1, 2) -> bin 0; [3, 6) -> bin 1; >=6 -> bin 2
+    # [1, 2) -> bin 0; [3, 6) -> bin 1; >=6 → bin 2
     assert list(tallied) == [0, 0, 1, 2]
 
 

@@ -16,7 +16,8 @@ from nutil.struct.collection.common import *
 from nutil.struct.table.common import *
 from nutil.struct.tuple.common import *
 
-__COMMON_STRUCT_CLASSES___________________________________________________________________ = ""
+__COMMON_STRUCT_TYPES_____________________________________________________________________ = ""
+
 
 # Typing alias for any supported `Struct`:
 #   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
@@ -31,13 +32,13 @@ Key = Hashable
 Value = Any
 
 # Typing alias for any supported axes across `Struct`
-Axis = Union[int, str]  # {0, 1, "index", "columns"}
+Axis = Union[int, str]  # `{0, 1, "index", "columns"}`
 
 
 __COMMON_STRUCT_CONVERTERS________________________________________________________________ = ""
 
 
-### COLLECTION #############################################
+__COMMON_COLLECTION_CONVERTERS______________________________ = ""
 
 
 def to_array(*args: Any, element_type: Optional[ElementType] = None) -> np.ndarray:
@@ -251,7 +252,7 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
     return s
 
 
-### TABLE ##################################################
+__COMMON_TABLE_CONVERTERS___________________________________ = ""
 
 
 def ungroup(x: Any, *, axis: Optional[Axis] = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:

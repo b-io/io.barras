@@ -18,31 +18,35 @@ from nutil.common import *
 
 __STRING_CONSTANTS________________________________________________________________________ = ""
 
+
 NEWLINE = "\n"
 
 BULLET = "•"
 COLON = ":"
+ELLIPSIS = "…"
 SEMICOLON = ";"
 
 # The basic Latin ranges
-LOWERCASE_LATIN: str = "a-z"
-UPPERCASE_LATIN: str = "A-Z"
+LOWERCASE_LATIN_LETTERS: str = "a-z"
+UPPERCASE_LATIN_LETTERS: str = "A-Z"
 
 # The language-specific letters
-LOWERCASE_DE: str = "äöüß"
-UPPERCASE_DE: str = "ÄÖÜẞ"
+LOWERCASE_DE_LETTERS: str = "äöüß"
+UPPERCASE_DE_LETTERS: str = "ÄÖÜẞ"
 
-LOWERCASE_FR: str = "àâæçéèêëîïôœùûüÿ"
-UPPERCASE_FR: str = "ÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸ"
+LOWERCASE_FR_LETTERS: str = "àâæçéèêëîïôœùûüÿ"
+UPPERCASE_FR_LETTERS: str = "ÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸ"
 
 # The combined sets
-LOWERCASE: str = f"{LOWERCASE_LATIN}{LOWERCASE_DE}{LOWERCASE_FR}"
-UPPERCASE: str = f"{UPPERCASE_LATIN}{UPPERCASE_DE}{UPPERCASE_FR}"
-LETTERS: str = f"{LOWERCASE}{UPPERCASE}"
+LOWERCASE_LETTERS: str = f"{LOWERCASE_LATIN_LETTERS}{LOWERCASE_DE_LETTERS}{LOWERCASE_FR_LETTERS}"
+UPPERCASE_LETTERS: str = f"{UPPERCASE_LATIN_LETTERS}{UPPERCASE_DE_LETTERS}{UPPERCASE_FR_LETTERS}"
+LETTERS: str = f"{LOWERCASE_LETTERS}{UPPERCASE_LETTERS}"
 
 # The allowed digits (e.g., `"MP3"`)
 DIGITS: str = "0-9"
-ALPHA_NUMERIC_CHARS: str = f"{LETTERS}{DIGITS}"
+
+# The combined set of alphanumeric characters
+ALPHANUMERIC_CHARS: str = f"{LETTERS}{DIGITS}"
 
 
 __STRING_CONVERTERS_______________________________________________________________________ = ""

@@ -27,7 +27,7 @@ include = [
 
 ## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.10,<4.0"
 
 ### Computer Vision ########################################
 opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing

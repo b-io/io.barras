@@ -103,24 +103,24 @@ def debug_query(verb, count, table, index_from=None, index_to=None, verbose=VERB
         logging.debug((prefix + get_query_message(verb, count, table)).capitalize())
 
 
-def warn_query(verb, table, ex=None, verbose=VERBOSE):
+def warn_query(verb, table, exception=None, verbose=VERBOSE):
     if verbose:
         logging.warning(
             paste("No row has been", verb, "in the table", quote(table)),
-            par(get_full_class_name(ex)) if not is_null(ex) else "",
+            par(get_full_class_name(exception)) if not is_null(exception) else "",
         )
-        if not is_null(ex):
-            logging.trace(ex)
+        if not is_null(exception):
+            logging.trace(exception)
 
 
-def error_query(verb, table, ex=None, verbose=VERBOSE):
-    if not isinstance(ex, IntegrityError):
+def error_query(verb, table, exception=None, verbose=VERBOSE):
+    if not isinstance(exception, IntegrityError):
         logging.error(
             paste("No row has been", verb, "in the table", quote(table)),
-            par(ex) if not is_null(ex) else "",
+            par(exception) if not is_null(exception) else "",
         )
     else:
-        warn_query(verb, table, ex=ex, verbose=verbose)
+        warn_query(verb, table, exception=exception, verbose=verbose)
 
 
 ############################################################
@@ -145,24 +145,24 @@ def trace_row(verb, index, table, cols=None, row=None, verbose=VERBOSE):
         logging.trace("-", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
 
 
-def warn_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
+def warn_row(verb, index, table, exception=None, cols=None, row=None, verbose=VERBOSE):
     if verbose:
         logging.warning(
             paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
-            par(get_full_class_name(ex)) if not is_null(ex) else "",
+            par(get_full_class_name(exception)) if not is_null(exception) else "",
         )
-        if not is_null(ex):
-            logging.trace(ex)
+        if not is_null(exception):
+            logging.trace(exception)
 
 
-def error_row(verb, index, table, ex=None, cols=None, row=None, verbose=VERBOSE):
-    if not is_null(ex) and not isinstance(ex, IntegrityError):
+def error_row(verb, index, table, exception=None, cols=None, row=None, verbose=VERBOSE):
+    if not is_null(exception) and not isinstance(exception, IntegrityError):
         logging.error(
             paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
-            par(ex) if not is_null(ex) else "",
+            par(exception) if not is_null(exception) else "",
         )
     else:
-        warn_row(verb, index, table, ex=ex, cols=cols, row=row, verbose=verbose)
+        warn_row(verb, index, table, exception=exception, cols=cols, row=row, verbose=verbose)
 
 
 __DB_FORMAT_________________________________________________ = ""
@@ -682,8 +682,8 @@ def delete_table(
                 trace_row("delete", index, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
                 warn_row("delete", index, table, cols=filtering_cols, row=row, verbose=verbose)
-        except Exception as ex:
-            error_row("delete", index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
+        except Exception as e:
+            error_row("delete", index, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
         if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "deleted",
@@ -779,8 +779,8 @@ def bulk_delete_table(
             delete_count = len(df)
         else:
             warn_query("bulk-deleted", table, verbose=verbose)
-    except Exception as ex:
-        error_query("bulk-deleted", table, ex=ex, verbose=verbose)
+    except Exception as e:
+        error_query("bulk-deleted", table, exception=e, verbose=verbose)
     return delete_count
 
 
@@ -863,8 +863,8 @@ def insert_table(
                 trace_row("insert", index, table, cols=primary_cols, row=row, verbose=verbose)
             else:
                 warn_row("insert", index, table, cols=primary_cols, row=row, verbose=verbose)
-        except Exception as ex:
-            error_row("insert", index, table, ex=ex, cols=primary_cols, row=row, verbose=verbose)
+        except Exception as e:
+            error_row("insert", index, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
         if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "inserted",
@@ -951,8 +951,8 @@ def bulk_insert_table(
             insert_count = len(df)
         else:
             warn_query("bulk-inserted", table, verbose=verbose)
-    except Exception as ex:
-        error_query("bulk-inserted", table, ex=ex, verbose=verbose)
+    except Exception as e:
+        error_query("bulk-inserted", table, exception=e, verbose=verbose)
     if not is_null(insert_id):
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
@@ -1040,8 +1040,8 @@ def update_table(
                 trace_row("update", index, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
                 warn_row("update", index, table, cols=filtering_cols, row=row, verbose=verbose)
-        except Exception as ex:
-            error_row("update", index, table, ex=ex, cols=filtering_cols, row=row, verbose=verbose)
+        except Exception as e:
+            error_row("update", index, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
         if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "updated",
@@ -1131,8 +1131,8 @@ def bulk_update_table(
             update_count = len(df)
         else:
             warn_query("bulk-updated", table, verbose=verbose)
-    except Exception as ex:
-        error_query("bulk-updated", table, ex=ex, verbose=verbose)
+    except Exception as e:
+        error_query("bulk-updated", table, exception=e, verbose=verbose)
     return update_count
 
 

@@ -20,6 +20,7 @@ from nutil.struct.common import *
 
 __COMMON_SETTINGS_________________________________________________________________________ = ""
 
+
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
@@ -139,7 +140,7 @@ def get_attributes(x: Any) -> List[str]:
 
 
 def get_all_attributes(x: Any) -> List[str]:
-    """Returns all public attribute names of `x` (via `dir(...)`)."""
+    """Returns all public attribute names of `x` (via `dir(…)`)."""
     return [a for a in dir(x) if not a.startswith("_")]
 
 
@@ -182,8 +183,12 @@ def format_dir(dir: Optional[str]) -> str:
     """Returns `dir` normalized with exactly one trailing slash; returns `""` if falsy."""
     if is_empty(dir):
         return ""
-    d = dir[:-1] if dir[-1:] in ("/", "\\") else dir
-    return d + "/"
+    if dir[-1:] in ("/", "\\"):
+        dir = dir[:-1]
+    return dir + "/"
+
+
+__COMMON_IO_FINDERS_________________________________________ = ""
 
 
 def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
@@ -200,9 +205,6 @@ def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = 
     elif is_file(dir):
         dir = get_dir(dir)
     return format_dir(dir) + format_dir(subdir) + filename
-
-
-__COMMON_CONVERTERS_______________________________________________________________________ = ""
 
 
 __COMMON_PROCESSORS_______________________________________________________________________ = ""

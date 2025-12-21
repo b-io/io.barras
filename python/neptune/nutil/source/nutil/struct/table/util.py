@@ -50,7 +50,7 @@ def get_row_keys(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, 
         • mapping         → mapping keys
         • other iterables → elements returned as-is
 
-    For plain iterables (lists/tuples/...), `keys` is ignored because there are no column names to filter by.
+    For plain iterables (lists/tuples/…), `keys` is ignored because there are no column names to filter by.
     """
     if isinstance(row, type):
         return get_annotations_keys(row, keys)
@@ -115,7 +115,7 @@ def get_row_values(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any
         • mapping         → mapping values
         • other iterables → elements returned as-is
 
-    For plain iterables (lists/tuples/...), `keys` is ignored because there are no column names to filter by.
+    For plain iterables (lists/tuples/…), `keys` is ignored because there are no column names to filter by.
     """
     if isinstance(row, type):
         return get_annotations_values(row, keys)

@@ -26,7 +26,7 @@ include = [
 
 ## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.10,<4.0"
 
 ### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
@@ -51,6 +51,7 @@ pytest = "^8.4.2"             # Unit testing framework
 annotated-types = "^0.6.0"    # Metadata for static type checkers
 cffi = "^1.17.1"              # Interface for calling C code
 deprecated = "^1.2.18"        # Runtime deprecation warnings
+ftfy = "^6.3.1"               # Unicode text fixes (mojibake, broken accents, etc.)
 importlib-metadata = "^8.7.0" # Access to package metadata
 joblib = "^1.5.1"             # Disk caching and parallel execution
 more-itertools = "^10.7.0"    # Utilities extending itertools

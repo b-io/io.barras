@@ -21,6 +21,7 @@ __COMMON_TABLE_CONSTANTS________________________________________________________
 
 __COMMON_DATAFRAME_CONSTANTS________________________________ = ""
 
+
 SERIES_TYPE = pd.Series
 SERIES_GROUP_BY_TYPE = SeriesGroupBy
 
@@ -33,7 +34,8 @@ INDEX_TYPE = pd.Index
 TIME_INDEX_TYPE = pd.DatetimeIndex
 
 
-__COMMON_TABLE_CLASSES____________________________________________________________________ = ""
+__COMMON_TABLE_TYPES______________________________________________________________________ = ""
+
 
 # Typing alias for any supported tables
 Table = Union["pd.Series", "pd.DataFrame"]

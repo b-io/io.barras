@@ -14,10 +14,27 @@ from typing import Container, List, Optional
 
 from bs4 import NavigableString, Tag
 
-__HTML_PROCESSORS_________________________________________________________________________ = ""
+
+__HTML_ACCESSORS__________________________________________________________________________ = ""
 
 
-### HTML TAGS ##############################################
+def get_tag_classes(container: Tag) -> List[str]:
+    """Returns the `"class"` attribute of the tag as a list of strings (empty list when absent)."""
+    classes = container.get("class", [])
+    if isinstance(classes, str):
+        return [classes]
+    return [str(c) for c in classes]
+
+
+__HTML_CONVERTERS_________________________________________________________________________ = ""
+
+
+def tags_to_values(tags: List[Tag]) -> List[str]:
+    """Returns the stripped text content (`.get_text(strip=True)`) for each tag."""
+    return [tag.get_text(strip=True) for tag in tags]
+
+
+__HTML_FINDERS____________________________________________________________________________ = ""
 
 
 def find_tags(
@@ -65,16 +82,3 @@ def find_tags(
         ):
             tags.append(tag)
     return tags
-
-
-def tags_to_values(tags: List[Tag]) -> List[str]:
-    """Returns the stripped text content (`.get_text(strip=True)`) for each tag."""
-    return [tag.get_text(strip=True) for tag in tags]
-
-
-def get_tag_classes(container: Tag) -> List[str]:
-    """Returns the `"class"` attribute of the tag as a list of strings (empty list when absent)."""
-    classes = container.get("class", [])
-    if isinstance(classes, str):
-        return [classes]
-    return [str(c) for c in classes]

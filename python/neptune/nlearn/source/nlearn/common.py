@@ -143,10 +143,12 @@ def to_one_hot(Y, size):
     """
     Converts the specified array of vectors Y to an array of one-hot vectors of the specified size.
 
-    :param Y:    an array of vectors
-    :param size: the size of the one-hot vectors
+    Args:
+        Y: An array of vectors.
+        size: The size of the one-hot vectors.
 
-    :return: an array of one-hot vectors of the specified size
+    Returns:
+        An array of one-hot vectors of the specified size.
     """
     return np.eye(size)[Y.reshape(-1)]
 

@@ -987,28 +987,6 @@ def get_period_years(d=get_datetime(), period=PERIOD):
 __DATE_CONVERTERS_________________________________________________________________________ = ""
 
 
-### PARSERS ################################################
-
-
-def parse_date(s):
-    return parser.parse(s).date()
-
-
-def parse_datetime(s):
-    return parser.parse(s)
-
-
-def parse_time(s):
-    return parser.parse(s)
-
-
-def parse_stamp(s):
-    return datetime.fromtimestamp(s)
-
-
-############################################################
-
-
 def to_date(x, format=DATE_FORMAT):
     if is_null(x):
         return None
@@ -1114,6 +1092,81 @@ def to_period_length(period):
 
 def to_period_freq(period):
     return Frequency(period[-1].upper())
+
+
+__DATE_FILTERS____________________________________________________________________________ = ""
+
+
+def filter_days(s, days, week=False, year=False):
+    """
+    Filters the collection by matching its date-time index with the specified days (week days if
+    week is `True`, days of the year if year is `True`, otherwise days of the month).
+    """
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(
+        get_days(s, use_index=True, week=week, year=year),
+        get_days(days, use_index=True, week=week, year=year),
+    )
+    return take_at(s, indices)
+
+
+def filter_weeks(s, weeks):
+    """Filters the collection by matching its date-time index with the specified weeks."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_weeks(s, use_index=True), get_weeks(weeks, use_index=True))
+    return take_at(s, indices)
+
+
+def filter_year_weeks(s, year_weeks):
+    """Filters the collection by matching its date-time index with the specified year-weeks."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_year_weeks(s, use_index=True), get_year_weeks(year_weeks, use_index=True))
+    return take_at(s, indices)
+
+
+def filter_months(s, months):
+    """Filters the collection by matching its date-time index with the specified months."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_months(s, use_index=True), get_months(months, use_index=True))
+    return take_at(s, indices)
+
+
+def filter_quarters(s, quarters):
+    """Filters the collection by matching its date-time index with the specified quarters."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_quarters(s, use_index=True), get_quarters(quarters, use_index=True))
+    return take_at(s, indices)
+
+
+def filter_semesters(s, semesters):
+    """Filters the collection by matching its date-time index with the specified semesters."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_semesters(s, use_index=True), get_semesters(semesters, use_index=True))
+    return take_at(s, indices)
+
+
+def filter_years(s, years):
+    """Filters the collection by matching its date-time index with the specified years."""
+    from nutil.struct.util import find_all_in, take_at
+
+    indices = find_all_in(get_years(s, use_index=True), get_years(years, use_index=True))
+    return take_at(s, indices)
+
+
+__DATE_FINDERS____________________________________________________________________________ = ""
+
+
+def find_nearest_period(length, freq=FREQUENCY):
+    day_count = get_period_days(None, period=to_period(length, freq=freq))
+    period_freq = DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
+    period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
+    return to_period(period_length, period_freq)
 
 
 __DATE_FORMATTERS_________________________________________________________________________ = ""
@@ -1232,6 +1285,25 @@ def create_stamp_sequence(date_from, date_to, periods=None, freq=FREQUENCY, pos=
     return to_stamp(date_range)
 
 
+__DATE_PARSERS____________________________________________________________________________ = ""
+
+
+def parse_date(s):
+    return parser.parse(s).date()
+
+
+def parse_datetime(s):
+    return parser.parse(s)
+
+
+def parse_time(s):
+    return parser.parse(s)
+
+
+def parse_stamp(s):
+    return datetime.fromtimestamp(s)
+
+
 __DATE_PROCESSORS_________________________________________________________________________ = ""
 
 
@@ -1286,81 +1358,6 @@ def diff_semesters(date_from, date_to):
 
 def diff_years(date_from, date_to):
     return date_to.year - date_from.year
-
-
-##############################
-
-
-def filter_days(s, days, week=False, year=False):
-    """
-    Filters the collection by matching its date-time index with the specified days (week days if
-    week is True, days of the year if year is True, days of the month otherwise).
-    """
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(
-        get_days(s, use_index=True, week=week, year=year),
-        get_days(days, use_index=True, week=week, year=year),
-    )
-    return take_at(s, indices)
-
-
-def filter_weeks(s, weeks):
-    """Filters the collection by matching its date-time index with the specified weeks."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_weeks(s, use_index=True), get_weeks(weeks, use_index=True))
-    return take_at(s, indices)
-
-
-def filter_year_weeks(s, year_weeks):
-    """Filters the collection by matching its date-time index with the specified year-weeks."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_year_weeks(s, use_index=True), get_year_weeks(year_weeks, use_index=True))
-    return take_at(s, indices)
-
-
-def filter_months(s, months):
-    """Filters the collection by matching its date-time index with the specified months."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_months(s, use_index=True), get_months(months, use_index=True))
-    return take_at(s, indices)
-
-
-def filter_quarters(s, quarters):
-    """Filters the collection by matching its date-time index with the specified quarters."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_quarters(s, use_index=True), get_quarters(quarters, use_index=True))
-    return take_at(s, indices)
-
-
-def filter_semesters(s, semesters):
-    """Filters the collection by matching its date-time index with the specified semesters."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_semesters(s, use_index=True), get_semesters(semesters, use_index=True))
-    return take_at(s, indices)
-
-
-def filter_years(s, years):
-    """Filters the collection by matching its date-time index with the specified years."""
-    from nutil.struct.util import find_all_in, take_at
-
-    indices = find_all_in(get_years(s, use_index=True), get_years(years, use_index=True))
-    return take_at(s, indices)
-
-
-##############################
-
-
-def find_nearest_period(length, freq=FREQUENCY):
-    day_count = get_period_days(None, period=to_period(length, freq=freq))
-    period_freq = DAY_COUNT_TO_FREQUENCY[nearest(FREQUENCY_TO_DAY_COUNT, day_count)]
-    period_length = round_to_int(day_count / FREQUENCY_TO_DAY_COUNT[period_freq])
-    return to_period(period_length, period_freq)
 
 
 ##############################

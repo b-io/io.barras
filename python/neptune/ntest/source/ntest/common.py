@@ -13,11 +13,10 @@ from __future__ import annotations
 import logging
 import timeit
 
-import pytest
-
 from nutil.struct.util import *
 
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
+
 
 PRECISION = 14  # decimals
 SIZE = 100

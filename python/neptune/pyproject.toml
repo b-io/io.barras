@@ -25,77 +25,79 @@ packages = [
 
 ## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.10,<4.0"
 
 ### Computer Vision ########################################
-opencv-python = "^4.8.0"      # OpenCV (cv2) for image and video processing
+opencv-python = "^4.12.0.88"  # OpenCV (cv2) for image and video processing
 
 ### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
-psutil = "^5.9.8"             # System and process resource monitoring
+psutil = "^7.1.3"             # System and process resource monitoring
 
 ### Databases ##############################################
-sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
+sqlalchemy = "^2.0.45"        # SQL abstraction and object-relational mapping
 
 ### DataFrames & Tables ####################################
-numpy = "^1.26.4"             # Array computing and linear algebra
-pandas = "^2.3.0"             # Labeled data structures and analysis
-polars = "^0.20.31"           # Arrow-based DataFrame engine
+numpy = "^2.4.0"              # Array computing and linear algebra
+pandas = "^2.3.3"             # Labeled data structures and analysis
+polars = "^1.36.1"            # Arrow-based DataFrame engine
 tabulate = "^0.9.0"           # Pretty tables for CLI and notebooks
 
 ### File & Data I/O ########################################
 beautifulsoup4 = "^4.14.3"    # HTML/XML parsing
 chardet = "^4.0.0"            # Text encoding detection
 openpyxl = "^3.1.5"           # XLSX reader and writer (Excel compatibility)
-orjson = "^3.10.18"           # Fast JSON serialization and parsing
-pyyaml = "^6.0.2"             # YAML encoding and decoding
-xlsxwriter = "^3.2.5"         # XLSX writer with formatting control
+orjson = "^3.11.5"            # Fast JSON serialization and parsing
+pyyaml = "^6.0.3"             # YAML encoding and decoding
+xlsxwriter = "^3.2.9"         # XLSX writer with formatting control
 
 ### Machine Learning #######################################
 gensim = "^4.4.0"             # Topic modelling & embeddings
-scikit-learn = "^1.6.1"       # Algorithms for machine learning
-scikit-lego = "^0.6.13"       # Extra estimators, transformers, and tools extending scikit-learn
+scikit-learn = "^1.8.0"       # Algorithms for machine learning
+scikit-lego = "^0.9.6"        # Extra estimators, transformers, and tools extending scikit-learn
 tensorflow = "^2.20.0"        # Deep learning framework for building and training neural networks
 
 ### Mathematics ############################################
-scipy = "^1.13.1"             # Scientific computing and numerical tools
-statsmodels = "^0.14.4"       # Statistical modeling and inference
+scipy = "^1.15.3"             # Scientific computing and numerical tools
+statsmodels = "^0.14.6"       # Statistical modeling and inference
 
 ### Reporting  #############################################
 xhtml2pdf = "^0.2.17"         # HTML/CSS to PDF generation (ReportLab-based)
 
 ### Utilities ##############################################
-annotated-types = "^0.6.0"    # Metadata for static type checkers
-cffi = "^1.17.1"              # Interface for calling C code
-deprecated = "^1.2.18"        # Runtime deprecation warnings
+annotated-types = "^0.7.0"    # Metadata for static type checkers
+cffi = "^2.0.0"               # Interface for calling C code
+deprecated = "^1.3.1"         # Runtime deprecation warnings
+ftfy = "^6.3.1"               # Unicode text fixes (mojibake, broken accents, etc.)
 importlib-metadata = "^8.7.0" # Access to package metadata
 joblib = "^1.5.1"             # Disk caching and parallel execution
-more-itertools = "^10.7.0"    # Utilities extending itertools
+more-itertools = "^10.8.0"    # Utilities extending itertools
+packaging = "^25.0"           # Core utilities for Python package versions and specifiers
 pydantic = "^2.11.7"          # Data validation and configuration parsing
-pydantic-core = "^2.33.2"     # Core runtime for Pydantic
+pydantic-core = "^2.41.5"     # Core runtime for Pydantic
 pydantic-settings = "^2.10.0" # Environment-based settings management
 python-dateutil = "^2.9.0"    # Date and time parsing and manipulation
-python-dotenv = "^1.1.0"      # Loading of .env configuration files
+python-dotenv = "^1.2.1"      # Loading of .env configuration files
 validators = "^0.34.0"        # Lightweight data and URL checks
 
 ### Visualization ##########################################
-kaleido = "^1.1.0"            # Headless engine for Plotly static image export
-matplotlib = "^3.9.4"         # 2D plotting and figures
-plotly = "^6.3.1"             # Interactive charts
+kaleido = "^1.2.0"            # Headless engine for Plotly static image export
+matplotlib = "^3.10.8"        # 2D plotting and figures
+plotly = "^6.5.0"             # Interactive charts
 seaborn = "^0.13.2"           # Statistical data visualizations
 tqdm = "^4.67.1"              # Terminal progress bars
 
 ### Web ASGI ###############################################
-asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
-fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
-uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
+asgiref = "^3.11.0"           # ASGI reference and sync/async adapter utilities
+fastapi = "^0.126.0"          # ASGI web framework built on Starlette and powered by Pydantic
+uvicorn = "^0.38.0"           # ASGI server for running ASGI applications
 
 ### Web HTTP ###############################################
 httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
 httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
-python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
-requests = "^2.32.4"          # Synchronous HTTP client for APIs and websites
-urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
+python-multipart = "^0.0.21"  # Parser for multipart/form-data requests
+requests = "^2.32.5"          # Synchronous HTTP client for APIs and websites
+urllib3 = "^2.6.2"            # HTTP connection pooling and retry handling
 
 
 ## 3. OTHER DEPENDENCIES #################################################################

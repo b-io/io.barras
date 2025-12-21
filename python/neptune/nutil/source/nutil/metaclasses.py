@@ -29,7 +29,8 @@ def combine_metaclasses(*metas: Type[type]) -> type:
     return type(name, metas, {})
 
 
-__METACLASS_CLASSES_______________________________________________________________________ = ""
+__METACLASSES_____________________________________________________________________________ = ""
+
 
 T = TypeVar("T")
 
@@ -48,10 +49,7 @@ class NoPublicConstructorMeta(type):
 
 
 class FinalSingletonMeta(type):
-    """
-    A metaclass that enforces a final, per-subclass singleton instance with thread-safe
-    initialization.
-    """
+    """A metaclass that enforces a final, per-subclass singleton instance with thread-safe initialization."""
 
     def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
@@ -119,14 +117,14 @@ class FinalSingletonMeta(type):
             # Early init: behave as not initialized yet
             raise RuntimeError(
                 f"Final singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
-                f"call '{cls.__qualname__}(...)' first"
+                f"call '{cls.__qualname__}(…)' first"
             ) from e
         with lock:
             instance = super().__getattribute__("_instance")
             if instance is None:
                 raise RuntimeError(
                     f"Final singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
-                    f"call '{cls.__qualname__}(...)' first"
+                    f"call '{cls.__qualname__}(…)' first"
                 )
             # Do not catch `AttributeError` here; if the instance lacks `name`, let it propagate
             return getattr(instance, name)
@@ -137,7 +135,7 @@ class FinalSingletonMeta(type):
         with cls._lock:
             instance = cls._instance
             if instance is not None:
-                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                # Include the slots, properties, and dynamic attributes visible via `dir(…)`
                 names.update(dir(instance))
         return sorted(names)
 
@@ -154,7 +152,7 @@ class FinalSingletonMeta(type):
             if cls._instance is None:
                 raise RuntimeError(
                     f"Final singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
-                    f"call '{cls.__qualname__}(...)' first"
+                    f"call '{cls.__qualname__}(…)' first"
                 )
             return cast(T, cls._instance)
 
@@ -163,10 +161,7 @@ class FinalSingletonMeta(type):
 
 
 class SingletonMeta(type):
-    """
-    A metaclass that provides a per-subclass singleton instance with controlled overwrite and thread
-    safety.
-    """
+    """A metaclass that provides a per-subclass singleton instance with controlled overwrite and thread safety."""
 
     def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
@@ -190,7 +185,7 @@ class SingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # Otherwise reuse the last stored ones
+                # Otherwise, reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -261,7 +256,7 @@ class SingletonMeta(type):
             # Early init: behave as not initialized yet
             raise RuntimeError(
                 f"Singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
-                f"call '{cls.__qualname__}(...)' first"
+                f"call '{cls.__qualname__}(…)' first"
             ) from e
         with lock:
             # Get or create the instance via `get()` using the stored constructor arguments
@@ -276,7 +271,7 @@ class SingletonMeta(type):
         with cls._lock:
             instance = cls._instance
             if instance is not None:
-                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                # Include the slots, properties, and dynamic attributes visible via `dir(…)`
                 names.update(dir(instance))
         return sorted(names)
 
@@ -288,7 +283,7 @@ class SingletonMeta(type):
             return cls._instance is not None
 
     def get(cls: Type[T]) -> T:
-        """Returns the singleton instance; creates it via `cls.set(...)` if it is missing."""
+        """Returns the singleton instance; creates it via `cls.set(…)` if it is missing."""
         with cls._lock:
             if cls._instance is None:
                 # Create the singleton instance using the last stored constructor arguments
@@ -323,7 +318,7 @@ class SingletonMeta(type):
             return cast(T, cls._instance)
 
     def delete(cls: Type[T]) -> None:
-        """Deletes the singleton instance if it exists (does nothing otherwise)."""
+        """Deletes the singleton instance if it exists (otherwise does nothing)."""
         with cls._lock:
             if cls._instance is not None:
                 logging.debug(f"Delete the singleton instance of '{cls.__module__}.{cls.__qualname__}'")
@@ -334,10 +329,7 @@ class SingletonMeta(type):
 
 
 class TempSingletonMeta(type):
-    """
-    A metaclass that provides a per-subclass *temporary* singleton instance with an optional
-    expiration.
-    """
+    """A metaclass that provides a per-subclass *temporary* singleton instance with an optional expiration."""
 
     def __init__(cls: Type[T], name: str, bases: Tuple[Type[Any], ...], ns: Dict[str, Any]) -> None:
         super().__init__(name, bases, ns)
@@ -357,7 +349,7 @@ class TempSingletonMeta(type):
                 cls._kwargs = kwargs
             else:
                 # Update the stored constructor arguments if new ones are specified;
-                # Otherwise reuse the last stored ones
+                # Otherwise, reuse the last stored ones
                 if args or kwargs:
                     cls._args = args
                     cls._kwargs = kwargs
@@ -433,7 +425,7 @@ class TempSingletonMeta(type):
             # Early init: behave as not initialized yet
             raise RuntimeError(
                 f"Temp singleton '{cls.__module__}.{cls.__qualname__}' is not initialized; "
-                f"call '{cls.__qualname__}(...)' first"
+                f"call '{cls.__qualname__}(…)' first"
             ) from e
         with lock:
             # Get or create the instance via `get()` using the stored constructor arguments
@@ -448,7 +440,7 @@ class TempSingletonMeta(type):
         with cls._lock:
             instance = cls._instance
             if instance is not None:
-                # Include the slots, properties, and dynamic attributes visible via `dir(...)`
+                # Include the slots, properties, and dynamic attributes visible via `dir(…)`
                 names.update(dir(instance))
         return sorted(names)
 
@@ -461,7 +453,7 @@ class TempSingletonMeta(type):
 
     def get(cls: Type[T]) -> T:
         """
-        Returns the temp singleton; creates or refreshes it via `cls.set(...)` if it is missing or
+        Returns the temp singleton; creates or refreshes it via `cls.set(…)` if it is missing or
         expired.
         """
         with cls._lock:

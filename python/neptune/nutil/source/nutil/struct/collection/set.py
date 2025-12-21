@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from nutil.common import *
 
-__SET_PROCESSORS__________________________________________________________________________ = ""
+__SET_FILTERS_____________________________________________________________________________ = ""
 
 
 def filter_set(s, inclusion=None, exclusion=None):

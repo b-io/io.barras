@@ -15,6 +15,8 @@ import logging
 import re
 from typing import Callable, List, Match, Optional, Set, Tuple, Union
 
+from nutil.scalar.string import ELLIPSIS
+
 __COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
 
 
@@ -50,9 +52,9 @@ def get_text_window(
 
     s = text[start:end].replace("\n", "⏎").replace("\r", "␍").replace("\t", "⇥")
     if start > 0:
-        s = "…" + s
+        s = ELLIPSIS + s
     if end < len(text):
-        s += "…"
+        s += ELLIPSIS
     return s
 
 

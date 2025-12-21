@@ -40,7 +40,7 @@ def test_combine_metaclasses_creates_metaclass_inheriting_all() -> None:
     assert issubclass(Combined, MetaA)
     assert issubclass(Combined, MetaB)
 
-    class MyClass(metaclass=Combined):  # type: ignore[misc]
+    class MyClass(metaclass=Combined):
         pass
 
     assert type(MyClass) is Combined
@@ -58,7 +58,7 @@ def test_no_public_constructor_meta_forbids_instantiation() -> None:
     with pytest.raises(TypeError, match="has no public constructor"):
         Hidden()
 
-    # `Hidden` is still a normal type object otherwise
+    # Otherwise, `Hidden` is still a normal type object
     assert isinstance(Hidden, type)
 
 
@@ -108,7 +108,7 @@ def test_final_singleton_meta_attribute_forwarding_and_not_initialized_error() -
 
     # Accessing an instance attribute before initialization should fail
     with pytest.raises(RuntimeError, match="is not initialized"):
-        _ = FinalConfig.value  # type: ignore[attr-defined]
+        _ = FinalConfig.value
 
     # After initialization, instance attributes are visible on the class
     instance = FinalConfig(10)
@@ -141,7 +141,7 @@ def test_final_singleton_meta_dict_is_merged_and_readonly() -> None:
     assert merged_dict["shadowed"] == "class"
 
     with pytest.raises(TypeError):
-        merged_dict["x"] = 1  # type: ignore[index]
+        merged_dict["x"] = 1
 
 
 ### SINGLETON META #########################################
@@ -185,14 +185,14 @@ def test_singleton_meta_attribute_forwarding_and_implicit_creation() -> None:
     assert not Service.exists()
 
     # Accessing an instance attribute triggers implicit creation via `get()`
-    assert Service.value == 0  # type: ignore[attr-defined]
+    assert Service.value == 0
     assert Service.exists()
     instance = Service.get()
     assert instance.value == 0
 
     # After explicit recreation, attributes still forward correctly
     Service(5)
-    assert Service.value == 5  # type: ignore[attr-defined]
+    assert Service.value == 5
 
 
 def test_singleton_meta_dict_is_merged_and_readonly() -> None:
@@ -214,7 +214,7 @@ def test_singleton_meta_dict_is_merged_and_readonly() -> None:
     assert merged_dict["shadowed"] == "class"
 
     with pytest.raises(TypeError):
-        merged_dict["x"] = 1  # type: ignore[index]
+        merged_dict["x"] = 1
 
 
 def test_singleton_meta_delete_and_reset_and_get() -> None:
@@ -255,7 +255,7 @@ def test_temp_singleton_meta_lifespan_and_expiration() -> None:
             self.value = value
 
     # Override `_now` to make time deterministic
-    TempService._now = staticmethod(fake_now)  # type: ignore[assignment]
+    TempService._now = staticmethod(fake_now)
 
     assert not TempService.exists()
 
@@ -293,7 +293,7 @@ def test_temp_singleton_meta_attribute_forwarding_uses_auto_refresh() -> None:
         def __init__(self, value: int) -> None:
             self.value = value
 
-    TempService._now = staticmethod(fake_now)  # type: ignore[assignment]
+    TempService._now = staticmethod(fake_now)
 
     # Class attribute is available without initialization
     assert TempService.CONST == 9
@@ -301,12 +301,12 @@ def test_temp_singleton_meta_attribute_forwarding_uses_auto_refresh() -> None:
     # Create with lifespan 2s
     _ = TempService.set(5, _lifespan=2)
     assert TempService.exists()
-    assert TempService.value == 5  # type: ignore[attr-defined]
+    assert TempService.value == 5
 
     # After expiry, attribute access should auto-refresh the instance
     current_time = 3
     assert not TempService.exists()
-    value_before = TempService.value  # type: ignore[attr-defined]
+    value_before = TempService.value
     assert value_before == 5
     assert TempService.exists()
 
@@ -325,7 +325,7 @@ def test_temp_singleton_meta_dict_is_merged_and_readonly() -> None:
             self.value = 2
             self.shadowed = "instance"
 
-    TempService._now = staticmethod(fake_now)  # type: ignore[assignment]
+    TempService._now = staticmethod(fake_now)
 
     _ = TempService.set(_lifespan=0)
     merged_dict = TempService.__dict__
@@ -336,7 +336,7 @@ def test_temp_singleton_meta_dict_is_merged_and_readonly() -> None:
     assert merged_dict["shadowed"] == "class"
 
     with pytest.raises(TypeError):
-        merged_dict["x"] = 1  # type: ignore[index]
+        merged_dict["x"] = 1
 
 
 def test_temp_singleton_meta_delete_clears_instance_and_timestamp() -> None:
@@ -349,7 +349,7 @@ def test_temp_singleton_meta_delete_clears_instance_and_timestamp() -> None:
         def __init__(self, value: int) -> None:
             self.value = value
 
-    TempService._now = staticmethod(fake_now)  # type: ignore[assignment]
+    TempService._now = staticmethod(fake_now)
 
     _ = TempService.set(1, _lifespan=10)
     assert TempService.exists()

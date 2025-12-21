@@ -37,6 +37,7 @@ from nutil.io.file import write_json
 
 __SECTIONED_CACHE_CLASSES_________________________________________________________________ = ""
 
+
 V = TypeVar("V")
 
 Section: TypeAlias = str

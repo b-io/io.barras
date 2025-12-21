@@ -22,10 +22,12 @@ from nutil.test.unittest import Test
 
 __LEARN_TEST_SETTINGS_____________________________________________________________________ = ""
 
+
 matplotlib.use("Agg")
 
 
 __LEARN_TEST_CONSTANTS____________________________________________________________________ = ""
+
 
 SIZE = 1000
 

@@ -15,6 +15,7 @@ from nutil.struct.util import *
 
 __MATH_CONSTANTS__________________________________________________________________________ = ""
 
+
 E = np.e
 PI = np.pi
 

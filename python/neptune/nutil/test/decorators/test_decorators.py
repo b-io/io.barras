@@ -118,7 +118,7 @@ def test_typesafe_suggest_mode_does_not_raise(caplog: LogCaptureFixture) -> None
 
     # Wrong type should not raise in `"suggest"` mode
     with caplog.at_level(logging.WARNING):
-        result = to_int("1")  # type: ignore[arg-type]
+        result = to_int("1")
 
     # The function still runs and returns the raw value
     assert result == "1"

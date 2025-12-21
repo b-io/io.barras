@@ -6,7 +6,7 @@
 ########################################################################################################################
 # Goal
 #   Provide a robust configuration loader around `configparser.ConfigParser` with environment-variable interpolation,
-#   string-only option coercion, and typed accessors (including enums) that return `Optional[...]` when unspecified.
+#   string-only option coercion, and typed accessors (including enums) that return `Optional[…]` when unspecified.
 #
 # Terminology
 #   • a `section` is a top-level group in the properties file (e.g., 'common', 'console').
@@ -87,6 +87,7 @@ CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
 
 
 __CONFIG_ACCESSORS________________________________________________________________________ = ""
+
 
 TEnum = TypeVar("TEnum")
 
@@ -190,6 +191,9 @@ def get_str(section: str, option: str) -> Optional[str]:
     """Selects an option as an optional string (empty or missing → `None`)."""
     val = CONFIG.get(section, option, fallback="")
     return val if val.strip() != "" else None
+
+
+#### HELPERS #################
 
 
 def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
@@ -308,6 +312,7 @@ def format_value(value: Any) -> str:
 
 
 __CONFIG_PROPERTIES_______________________________________________________________________ = ""
+
 
 merge_config(CONFIG, DEFAULT_CONFIG)
 

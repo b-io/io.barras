@@ -23,11 +23,13 @@ __COMMON_SCALAR_CONSTANTS_______________________________________________________
 
 __COMMON_BOOLEAN_CONSTANTS__________________________________ = ""
 
+
 BOOLEAN_TYPE = bool
 BOOLEAN_ELEMENT_TYPE = np.bool_
 
 
 __COMMON_BYTES_CONSTANTS____________________________________ = ""
+
 
 BYTES_TYPE = bytes
 BYTES_ELEMENT_TYPE = np.bytes_
@@ -38,12 +40,14 @@ MEMORYVIEW_TYPE = memoryview
 
 __COMMON_DATE_CONSTANTS_____________________________________ = ""
 
+
 DATE_TYPE = date
 DATETIME_TYPE = datetime
 TIMESTAMP_TYPE = pd.Timestamp
 
 
 __COMMON_NUMBER_CONSTANTS___________________________________ = ""
+
 
 NUMBER_TYPE = numbers.Number
 
@@ -63,6 +67,7 @@ SHORT_ELEMENT_TYPE = np.uint8
 
 
 __COMMON_STRING_CONSTANTS___________________________________ = ""
+
 
 STRING_TYPE = str
 STRING_ELEMENT_TYPE = np.str_  # np.string_

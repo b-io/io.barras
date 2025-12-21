@@ -18,6 +18,7 @@ from nutil.struct.util import apply, maximum, mean, sort, var
 
 __BINOMIAL_CONSTANTS______________________________________________________________________ = ""
 
+
 BINOMIAL_NAME = "Binomial"
 
 

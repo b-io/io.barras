@@ -163,7 +163,7 @@ class IntEnumMeta(EnumMeta):
                   Numeric strings are also treated as values.
 
         Returns:
-            `True` if the item corresponds to an enum member, `False` otherwise.
+            `True` if the item corresponds to an enum member, otherwise `False`.
         """
         if isinstance(item, enum.IntEnum):
             if item.__class__ is cls:
@@ -203,7 +203,7 @@ class IntEnumMeta(EnumMeta):
             name: The string to validate.
 
         Returns:
-            `True` if the string is the `name` of an enum member, `False` otherwise.
+            `True` if the string is the `name` of an enum member, otherwise `False`.
         """
         return name in cls.__members__  # o(1)
 
@@ -215,7 +215,7 @@ class IntEnumMeta(EnumMeta):
             value: The integer to validate.
 
         Returns:
-            `True` if the integer is the `value` of an enum member, `False` otherwise.
+            `True` if the integer is the `value` of an enum member, otherwise `False`.
         """
         return value in cls._value2member_map_  # o(1)
 
@@ -375,7 +375,7 @@ class StrEnumMeta(EnumMeta):
             item: The `name`, the `value`, or the enum member to check.
 
         Returns:
-            `True` if the item corresponds to an enum member, `False` otherwise.
+            `True` if the item corresponds to an enum member, otherwise `False`.
         """
         if isinstance(item, StrEnum):
             if item.__class__ is cls:
@@ -407,7 +407,7 @@ class StrEnumMeta(EnumMeta):
             name: The string to validate.
 
         Returns:
-            `True` if the string is the `name` of an enum member, `False` otherwise.
+            `True` if the string is the `name` of an enum member, otherwise `False`.
         """
         return name in cls.__members__  # o(1)
 
@@ -419,7 +419,7 @@ class StrEnumMeta(EnumMeta):
             value: The string to validate.
 
         Returns:
-            `True` if the string is the `value` of an enum member, `False` otherwise.
+            `True` if the string is the `value` of an enum member, otherwise `False`.
         """
         return value in cls._value2member_map_  # o(1)
 

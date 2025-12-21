@@ -31,6 +31,126 @@ __CLUSTERING_CONSTANTS__________________________________________________________
 DEFAULT_MAX_ITERATION_COUNT = 1000
 
 
+__CLUSTERING_FACTORIES____________________________________________________________________ = ""
+
+
+def create_clustering(
+    points,
+    n=50,
+    batch_size=1024,
+    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
+    random_state=None,
+    use_mini_batch=False,
+    verbose=VERBOSE,
+):
+    if use_mini_batch:
+        model = MiniBatchKMeans(
+            n_clusters=n,
+            batch_size=batch_size,
+            max_iter=max_iteration_count,
+            random_state=random_state,
+            verbose=verbose,
+        )
+    else:
+        model = KMeans(n_clusters=n, max_iter=max_iteration_count, random_state=random_state, verbose=verbose)
+    return model.fit(points)
+
+
+##############################
+
+
+def create_gaussian_mixture(points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
+    """Creates a Gaussian mixture with the specified number of components and fits the specified
+    points with the expectation-maximization (EM) algorithm. Note that the variational inference
+    model is using all the components."""
+    model = mixture.GaussianMixture(n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count)
+    return model.fit(points)
+
+
+def create_bayesian_gaussian_mixture(
+    points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT
+):
+    """Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
+    the specified points with the expectation-maximization (EM) algorithm. Note that the Dirichlet
+    process model adapts the number of components automatically."""
+    model = mixture.BayesianGaussianMixture(
+        n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count
+    )
+    return model.fit(points)
+
+
+##############################
+
+
+def create_outlier_detector(
+    points,
+    n=1,
+    covariance_type="full",
+    init_params="kmeans",
+    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
+    method="quantile",
+    threshold=DEFAULT_CONFIDENCE_LEVEL,
+):
+    """Creates a detector based on a Gaussian mixture with the specified number of components and
+    fits the specified points with the expectation-maximization (EM) algorithm. Note that the
+    variational inference model is using all the components."""
+    model = GMMOutlierDetector(
+        n_components=n,
+        covariance_type=covariance_type,
+        init_params=init_params,
+        max_iter=max_iteration_count,
+        method=method,
+        threshold=threshold,
+    )
+    return model.fit(points)
+
+
+def create_bayesian_outlier_detector(
+    points,
+    n=1,
+    covariance_type="full",
+    init_params="kmeans",
+    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
+    method="quantile",
+    threshold=DEFAULT_CONFIDENCE_LEVEL,
+):
+    """Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
+    components and fits the specified points with the expectation-maximization (EM) algorithm. Note
+    that the Dirichlet process model adapts the number of components automatically."""
+    model = BayesianGMMOutlierDetector(
+        n_components=n,
+        covariance_type=covariance_type,
+        init_params=init_params,
+        max_iter=max_iteration_count,
+        method=method,
+        threshold=threshold,
+    )
+    return model.fit(points)
+
+
+############################################################
+
+
+def cluster(
+    points,
+    n=50,
+    batch_size=1024,
+    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
+    random_state=None,
+    use_mini_batch=False,
+    verbose=VERBOSE,
+):
+    return create_clustering(
+        points,
+        n=n,
+        batch_size=batch_size,
+        max_iteration_count=max_iteration_count,
+        random_state=random_state,
+        use_mini_batch=use_mini_batch,
+        verbose=verbose,
+    ).predict(points)
+
+
 __CLUSTERING_FIGURES______________________________________________________________________ = ""
 
 
@@ -337,123 +457,3 @@ def plot_detector(
             show_points=False,
         )
     return fig
-
-
-__CLUSTERING_PROCESSORS___________________________________________________________________ = ""
-
-
-def create_clustering(
-    points,
-    n=50,
-    batch_size=1024,
-    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
-    random_state=None,
-    use_mini_batch=False,
-    verbose=VERBOSE,
-):
-    if use_mini_batch:
-        model = MiniBatchKMeans(
-            n_clusters=n,
-            batch_size=batch_size,
-            max_iter=max_iteration_count,
-            random_state=random_state,
-            verbose=verbose,
-        )
-    else:
-        model = KMeans(n_clusters=n, max_iter=max_iteration_count, random_state=random_state, verbose=verbose)
-    return model.fit(points)
-
-
-##############################
-
-
-def create_gaussian_mixture(points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
-    """Creates a Gaussian mixture with the specified number of components and fits the specified
-    points with the expectation-maximization (EM) algorithm. Note that the variational inference
-    model is using all the components."""
-    model = mixture.GaussianMixture(n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count)
-    return model.fit(points)
-
-
-def create_bayesian_gaussian_mixture(
-    points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT
-):
-    """Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
-    the specified points with the expectation-maximization (EM) algorithm. Note that the Dirichlet
-    process model adapts the number of components automatically."""
-    model = mixture.BayesianGaussianMixture(
-        n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count
-    )
-    return model.fit(points)
-
-
-##############################
-
-
-def create_outlier_detector(
-    points,
-    n=1,
-    covariance_type="full",
-    init_params="kmeans",
-    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
-    method="quantile",
-    threshold=DEFAULT_CONFIDENCE_LEVEL,
-):
-    """Creates a detector based on a Gaussian mixture with the specified number of components and
-    fits the specified points with the expectation-maximization (EM) algorithm. Note that the
-    variational inference model is using all the components."""
-    model = GMMOutlierDetector(
-        n_components=n,
-        covariance_type=covariance_type,
-        init_params=init_params,
-        max_iter=max_iteration_count,
-        method=method,
-        threshold=threshold,
-    )
-    return model.fit(points)
-
-
-def create_bayesian_outlier_detector(
-    points,
-    n=1,
-    covariance_type="full",
-    init_params="kmeans",
-    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
-    method="quantile",
-    threshold=DEFAULT_CONFIDENCE_LEVEL,
-):
-    """Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
-    components and fits the specified points with the expectation-maximization (EM) algorithm. Note
-    that the Dirichlet process model adapts the number of components automatically."""
-    model = BayesianGMMOutlierDetector(
-        n_components=n,
-        covariance_type=covariance_type,
-        init_params=init_params,
-        max_iter=max_iteration_count,
-        method=method,
-        threshold=threshold,
-    )
-    return model.fit(points)
-
-
-############################################################
-
-
-def cluster(
-    points,
-    n=50,
-    batch_size=1024,
-    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
-    random_state=None,
-    use_mini_batch=False,
-    verbose=VERBOSE,
-):
-    return create_clustering(
-        points,
-        n=n,
-        batch_size=batch_size,
-        max_iteration_count=max_iteration_count,
-        random_state=random_state,
-        use_mini_batch=use_mini_batch,
-        verbose=verbose,
-    ).predict(points)

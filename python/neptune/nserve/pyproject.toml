@@ -27,7 +27,7 @@ include = [
 
 ## 2. MAIN DEPENDENCIES ##################################################################
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.10,<4.0"
 
 ### Neptune Utilities ######################################
 nutil = { path = "../nutil", develop = true }               # Neptune utility library

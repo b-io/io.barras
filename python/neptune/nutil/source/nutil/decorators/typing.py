@@ -10,12 +10,12 @@
 #
 # Terminology
 #   • an `annotation` is a type hint attached to a function parameter or to the special `return` slot.
-#   • a `container` is a parametrized collection like `list[T]`, `dict[K, V]`, `tuple[...]`, `Sequence[T]`, etc.
+#   • a `container` is a parametrized collection like `list[T]`, `dict[K, V]`, `tuple[…]`, `Sequence[T]`, etc.
 #
 # Behavior
 #   • the decorator validates only annotated parameters; unannotated parameters are ignored.
-#   • the validation supports `Annotated[T, ...]`, `Union[...]` / `X | Y`, `Literal[...]`, `Type[T]`, and containers.
-#   • the iterable validation samples up to `sample_limit` elements via `peek(...)` to avoid exhausting one-shot iterators.
+#   • the validation supports `Annotated[T, …]`, `Union[…]` / `X | Y`, `Literal[…]`, `Type[T]`, and containers.
+#   • the iterable validation samples up to `sample_limit` elements via `peek(…)` to avoid exhausting one-shot iterators.
 #   • the recursion depth is controlled by `max_depth` (0 → unlimited). When the limit is reached, the validator checks
 #     only the outer container type at that level.
 ########################################################################################################################

@@ -24,6 +24,7 @@ from nutil.test.unittest import Test
 
 __MATH_TEST_CONSTANTS_____________________________________________________________________ = ""
 
+
 PRECISION = 14  # decimals
 SIZE = 1000
 

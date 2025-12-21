@@ -150,7 +150,7 @@ def get_name(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Value:
-    """Returns the simplified single name (equivalent to `simplify(get_names(...))`)."""
+    """Returns the simplified single name (equivalent to `simplify(get_names(…))`)."""
     return simplify(get_names(s, inclusion=inclusion, exclusion=exclusion))
 
 
@@ -359,7 +359,7 @@ def get_index(
 
 
 def get_index_name(s: Struct) -> Optional[Value]:
-    """Returns the index name(s) for a `pd.DataFrame`; returns `None` otherwise."""
+    """Returns the index name(s) for a `pd.DataFrame`; otherwise returns `None`."""
     if is_table(s):
         if isinstance(s.index, pd.MultiIndex):
             return s.index.names
@@ -466,7 +466,7 @@ def get_items(
 
     Dispatch:
         • `pd.DataFrame` (non-GroupBy) / `dict` with no filters → `list(s.items())`
-        • Otherwise → materializes via derived `keys`.
+        • Otherwise, → materializes via derived `keys`.
 
     Complexity:
         O(n) to derive/filter; O(n) to materialize items.
@@ -675,11 +675,11 @@ def set_keys(
         • `pd.DataFrame` → renames selected columns via `.loc[:, keys].columns = new_keys`.
         • `pd.Series`    → delegates to `set_index`.
         • `dict`         → rebuilds mapping with renamed keys.
-        • Fallback       → updates positional container via `update(...)`.
+        • Fallback       → updates positional container via `update(…)`.
 
     Notes:
         • `new_keys` can be a table; in that case, its keys are derived via `get_keys(new_keys)`.
-        • If `keys` is `None`, uses `get_keys(s, ...)`.
+        • If `keys` is `None`, uses `get_keys(s, …)`.
         • No-op for empty/invalid combinations.
 
     Complexity:
@@ -726,7 +726,7 @@ def set_index(s: Struct, new_index: Any, index_name: Optional[str] = None) -> An
 
     Notes:
         • If `new_index` is a table, the new index values come from `new_index.index` and the
-          index names from `get_names(new_index.index)`. Otherwise both are derived from `new_index`.
+          index names from `get_names(new_index.index)`. Otherwise, both are derived from `new_index`.
         • Multi-index input (sequence of tuples) triggers construction of a `pd.MultiIndex` with
           names resized appropriately.
         • After assignment, sets the index name(s) via `set_index_name(s, index_name)`.
@@ -873,15 +873,15 @@ def set_element_types(
     Sets element type(s) on the specified `Struct` under filters, converting values in place.
 
     Dispatch:
-        • `pd.DataFrame`             → vectorized `.astype(...)` per column (dates handled via `pd.to_datetime`).
-        • `pd.Series` / `np.ndarray` → `.astype(...)`.
+        • `pd.DataFrame`             → vectorized `.astype(…)` per column (dates handled via `pd.to_datetime`).
+        • `pd.Series` / `np.ndarray` → `.astype(…)`.
         • `dict`                     → rebuilds the values using `to_element_type`.
         • Fallback                   → updates per key using `to_element_type`.
 
     Notes:
         • `new_element_types` can be:
             – A mapping `{key: dtype}`.
-            – A collection whose types are inferred via `get_element_types(..., keys=keys)`.
+            – A collection whose types are inferred via `get_element_types(…, keys=keys)`.
             – A single dtype applied across all selected keys (except for `Series`/`ndarray`, where
               a mapping or scalar dtype is expected).
         • `DATE_TYPE`/`DATETIME_TYPE`/`TIMESTAMP_TYPE` are converted with `pd.to_datetime`.
@@ -938,7 +938,7 @@ def set_element_types(
     return s
 
 
-### TABLE ##################################################
+__TABLE_ACCESSORS___________________________________________ = ""
 
 
 def get_row(df: Struct, i: int = 0) -> Value:
@@ -1077,7 +1077,7 @@ def to_struct(*args: Any) -> Struct:
     Behavior:
         • One argument:
             – If it is a `Struct`, returns it unchanged.
-            – Otherwise wraps it into a one-element `list`.
+            – Otherwise, wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1098,8 +1098,8 @@ def unstruct(s: Any) -> Any:
     Behavior:
         • If `s` is a `Struct`:
             – If it has length 1, returns its single element (`get_next(s)`).
-            – Otherwise returns `tuple(s)`.
-        • Otherwise returns `s` unchanged.
+            – Otherwise, returns `tuple(s)`.
+        • Otherwise, returns `s` unchanged.
 
     Complexity:
         O(1) for length check; O(n) to build a `tuple` of length n.
@@ -1122,7 +1122,7 @@ def to_element_type(x: Any, t: Type[Any]) -> Any:
         • If `type(x) is t`, returns `x` unchanged.
         • If `t` is a `tuple` (shape-like/type-spec), converts to `tuple` via `to_tuple(x)`.
         • Else if `t` is a scalar *type* or scalar-like spec, converts via `to_scalar(x, t)`.
-        • Otherwise returns `x`.
+        • Otherwise, returns `x`.
 
     Notes:
         • This is a light, defensive adapter around higher-level coercers.
@@ -1223,7 +1223,7 @@ def to_collection(*args: Any) -> Collection:
     Behavior:
         • One argument:
             – If it is a collection, returns it unchanged.
-            – Otherwise wraps it into a one-element `list`.
+            – Otherwise, wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1244,7 +1244,7 @@ def to_indexed_collection(*args: Any) -> Collection:
     Behavior:
         • One argument:
             – If it is a collection *and* `has_index(arg)`, returns it unchanged.
-            – Otherwise wraps it into a one-element `list`.
+            – Otherwise, wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1265,7 +1265,7 @@ def to_subscriptable_collection(*args: Any) -> Any:
     Behavior:
         • One argument:
             – If it is subscriptable (`__getitem__`), returns it unchanged.
-            – Otherwise wraps it into a one-element `list`.
+            – Otherwise, wraps it into a one-element `list`.
         • Multiple arguments: returns a `list` via `to_list(*args)`.
 
     Complexity:
@@ -1286,8 +1286,8 @@ def uncollect(c: Any) -> Any:
     Behavior:
         • If `c` is a collection:
             – If it has length 1, returns its single element (`get_next(c)`).
-            – Otherwise returns `tuple(c)`.
-        • Otherwise returns `c` unchanged.
+            – Otherwise, returns `tuple(c)`.
+        • Otherwise, returns `c` unchanged.
 
     Complexity:
         O(1) for length check; O(n) to build a `tuple` of length n.
@@ -1390,7 +1390,7 @@ def to_frame(
         • Scalar-like input    → broadcasts to shape `(len(index), len(names))` if provided.
         • `DataFrame`          → returns a copy.
         • `Series`             → converts via `.to_frame()`.
-        • `dict`               → `pd.DataFrame.from_dict(..., orient="index")`.
+        • `dict`               → `pd.DataFrame.from_dict(…, orient="index")`.
         • Other collections    → `pd.DataFrame(data=data, dtype=element_type)`.
 
     Notes:
@@ -1453,352 +1453,7 @@ def to_time_frame(
     return to_frame(data, names=names, index=index, index_name=index_name, element_type=element_type)
 
 
-__STRUCT_GENERATORS_______________________________________________________________________ = ""
-
-
-def create_empty(
-    t: Union[Any, Type[Any]],
-    *,
-    element_type: Optional[ElementType] = None,
-    registry: Optional[CollectionRegistry] = None,
-) -> Any:
-    """
-    Returns an empty structure compatible with the specified container type.
-
-    Behavior:
-        • If `t` is an instance, derives its type via `type(t)`.
-        • If `registry` is `None`, uses the global `CollectionRegistry` singleton.
-        • If an adapter is registered for `t`, tries to construct an empty instance of
-          the resolved type:
-            – If the type defines `from_iterable`, calls it with an empty `list`.
-            – Otherwise tries the no-arg constructor.
-        • If no adapter is found or construction fails, falls back to the structure rules:
-            – `Mapping` / `MutableMapping` → `dict()`
-            – `MutableSequence` or non-string `Sequence` → `list()`
-            – `MutableSet` / `Set` → `set()`
-            – `np.ndarray` → `to_array(element_type=element_type)`
-            – `pd.DataFrame` → `pd.DataFrame()`
-            – `pd.Series` → `pd.Series(dtype=element_type or OBJECT_TYPE)`
-            – Generic `Iterable` → `tuple()`.
-
-    Args:
-        t: The container type or instance whose empty counterpart is required.
-        element_type: Optional NumPy dtype or element type used for array-like
-            outputs (`np.ndarray`, `pd.Series`). When `None`, uses a default for
-            the target type.
-        registry: Optional collection registry. When `None`, uses the global
-            `CollectionRegistry` singleton.
-
-    Returns:
-        An empty structure compatible with `t`.
-
-    Raises:
-        ValueError: If `t` cannot be mapped to an empty structure.
-    """
-    # Normalize to a type so both types and instances are accepted
-    t: Type[Any] = t if isinstance(t, type) else type(t)
-
-    # 1) Resolve registry and ask it for an adapter
-    if is_null(registry):
-        registry = CollectionRegistry()
-
-    adapter = registry.get(t) if registry is not None else None
-
-    if adapter is not None:
-        # Prefer constructing the specified type, not the adapter base type, so subclasses can override `from_iterable`
-        if has_callable(t, "from_iterable"):
-            return t.from_iterable([])
-        try:
-            return t()
-        except TypeError:
-            # Continue to the structure fallbacks
-            pass
-
-    # 2) Explicit known structures
-    if is_frame_type(t):
-        return pd.DataFrame()
-    elif is_series_type(t):
-        return pd.Series(dtype=element_type if not is_null(element_type) else OBJECT_TYPE)
-    elif is_array_type(t):
-        return to_array(element_type=element_type)
-
-    # 3) Structural fallbacks via ABCs
-    if is_mapping_type(t):
-        return dict()
-    elif is_sequence_type(t):
-        return list()
-    elif is_set_type(t):
-        return set()
-    elif is_iterable_type(t):
-        return tuple()
-
-    # 4) Last resort: try a bare no-arg constructor before failing
-    try:
-        return t()
-    except TypeError as e:
-        raise ValueError(f"Unexpected structure type '{t}'") from e
-
-
-def create_mask(
-    s: Struct,
-    *args: Any,
-    condition: Callable[..., bool] = lambda x, *a, **k: True,
-    fill: bool = True,
-    keys: Optional[Iterable[Key]] = None,
-    inclusion: Optional[Iterable[Key]] = None,
-    exclusion: Optional[Iterable[Key]] = None,
-    **kwargs: Any,
-) -> Any:
-    """
-    Returns a boolean mask shaped like `s` where each selected entry satisfies `condition`.
-
-    Dispatch:
-        • Vectorized attempt via `apply(s, condition, axis=None, keys=keys, ...)`.
-        • Fallback element-wise loop when vectorization fails.
-
-    Complexity:
-        • Vectorized: ~O(n) on the selected entries.
-        • Fallback:   O(n) Python loop over selected entries.
-    """
-    # Resolve the keys
-    if is_null(keys):
-        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
-
-    # 1) Allocate the mask container aligned to `s`, pre-filled (e.g., `True`)
-    mask = struct_to_type(create_array(get_shape(s), fill=fill, element_type=BOOLEAN_ELEMENT_TYPE), s)
-
-    # 2) Try a vectorized evaluation on the selected slice
-    try:
-        m = apply(s, condition, *args, axis=None, keys=keys, **kwargs)
-
-        # Normalize to a boolean array
-        values = to_array(
-            get_values(m) if is_subscriptable(m) else to_array(m),
-            element_type=BOOLEAN_ELEMENT_TYPE,
-        )
-
-        # Broadcast a scalar to the exact filtered shape
-        if values.size == 1:
-            values = create_array(
-                get_shape(mask, keys=keys),
-                fill=bool(values.ravel()[0]),
-                element_type=BOOLEAN_ELEMENT_TYPE,
-            )
-
-        # Write the values into the preallocated mask container
-        set_values(mask, values, keys=keys)
-        return mask
-    except Exception:
-        pass
-
-    # 3) Fallback: evaluate element-wise and assign
-    selected = get_values(s, keys=keys)
-    set_values(mask, [bool(condition(v, *args, **kwargs)) for v in selected], keys=keys)
-    return mask
-
-
-__STRUCT_PROCESSORS_______________________________________________________________________ = ""
-
-
-def all_values(s: Struct) -> bool:
-    """Returns whether all selected values in `s` are truthy (`np.all`)."""
-    return np.all(get_values(s))
-
-
-def all_not_values(s: Struct) -> bool:
-    """Returns whether all selected values in `s` are falsy (logical NOT then `np.all`)."""
-    return np.all(invert(get_values(s)))
-
-
-def any_values(s: Struct) -> bool:
-    """Returns whether any selected value in `s` is truthy (`np.any`)."""
-    return np.any(get_values(s))
-
-
-def any_not_values(s: Struct) -> bool:
-    """Returns whether any selected value in `s` is falsy (logical NOT then `np.any`)."""
-    return np.any(invert(get_values(s)))
-
-
-##############################
-
-
-def apply(
-    s: Struct,
-    f: Callable[..., Any],
-    *args: Any,
-    inplace: bool = False,
-    axis: Optional[int] = None,
-    keys: Optional[Iterable[Key]] = None,
-    inclusion: Optional[Iterable[Key]] = None,
-    exclusion: Optional[Iterable[Key]] = None,
-    **kwargs: Any,
-) -> Any:
-    """
-    Applies `f` over `s` along `axis` (`None` → element-wise; `0` → rows; `1` → columns).
-    Tries a vectorized call first; falls back to `.apply`/Python loops when needed.
-
-    Dispatch:
-        • `GroupBy(axis=0)` → concatenates row-wise results built per group.
-        • `GroupBy(axis=1)` → concatenates column-wise results built per group.
-        • `pd.DataFrame`    → vectorizes on selected block/series; fallback to `.apply`.
-        • `pd.Series`       → vectorizes on series; fallback to `.apply`.
-        • `np.ndarray`      → vectorizes; fallback to `np.apply_along_axis` / element-wise.
-        • `dict`            → loops over `keys`.
-        • Generic           → loops and `struct_to_type(...)`.
-
-    Complexity:
-        • Vectorized: ~O(n) with C-level ops on the selected slice.
-        • Fallback:   O(n) Python-level, slower than vectorized.
-    """
-    if is_empty(s):
-        return s
-    elif not is_subscriptable(s):
-        return f(s, *args, **kwargs)
-
-    # Resolve the keys
-    if is_null(keys):
-        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
-
-    if inplace:
-        return set_values(s, apply(s, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
-    if is_group_by(s):
-        axis = s.axis
-        if axis == 0:
-            return concat_rows(
-                [
-                    to_frame(
-                        [to_array(f(get_values(v, keys=keys), *args, **kwargs))],
-                        index=to_list(i),
-                    )
-                    for i, v in s
-                ]
-            )
-        return concat_cols(
-            [pd.Series(data=to_array(f(to_array(v), *args, **kwargs)), name=k) for k, v in s if k in keys]
-        )
-    elif is_frame(s):
-        if is_null(axis):
-            cols = []
-            for k in keys:
-                col = s.loc[:, k]
-                cols.append(col.apply(f, args=args, **kwargs))
-            return concat_cols(cols)
-        cols = s.loc[:, keys]
-        return cols.apply(f, args=args, axis=axis, **kwargs)
-    elif is_series(s):
-        rows = s.loc[keys]
-        return rows.apply(f, args=args, **kwargs)
-    elif is_dict(s):
-        return {k: f(s[k], *args, **kwargs) for k in keys}
-    elif is_array(s):
-        a = s[keys]
-        if is_null(axis):
-            return np.vectorize(lambda z: f(z, *args, **kwargs))(a)
-        return np.apply_along_axis(f, axis, a, *args, **kwargs)
-    return struct_to_type([f(s[k], *args, **kwargs) for k in keys], s)
-
-
-def fill_with(
-    s: Struct,
-    value: Any,
-    *args: Any,
-    condition: Callable[..., bool] = lambda x, *a, **k: True,
-    inplace: bool = False,
-    **kwargs: Any,
-) -> Any:
-    """Fills entries with `value` where `condition(entry, *args, **kwargs)` is `True`."""
-    return apply(s, lambda x: value if condition(x, *args, **kwargs) else x, inplace=inplace)
-
-
-def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
-    """Fills `null` entries with `value`."""
-    return fill_with(s, value, condition=is_null, inplace=inplace)
-
-
-##############################
-
-
-def calculate(s: Struct, f: Callable[..., Any], *args: Any, axis: Optional[Axis] = None, **kwargs: Any) -> Any:
-    """
-    Calculates `f(values, *args, axis=axis, **kwargs)` aligned to `s`, preserving labels where
-    applicable (e.g., returns a `Series` for DataFrames with index/keys).
-    """
-    if is_group_by(s):
-        axis = s.axis
-        if axis == 0:
-            names = get_names(s)
-            return concat_rows(
-                [to_frame([f(v.values, *args, axis=axis, **kwargs)], names=names, index=to_list(i)) for i, v in s]
-            )
-        index = get_index(s)
-        return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs), name=k, index=index) for k, v in s])
-    elif is_frame(s):
-        index = get_keys_or_index(s, axis=axis)
-        return to_series(f(s.values, *args, axis=axis, **kwargs), index=index)
-    return f(get_values(s), *args, axis=axis, **kwargs)
-
-
-##############################
-
-
-def concat_all(*args: Any) -> Any:
-    """Concatenates all arguments left-to-right using `concat`."""
-    return reduce(args, concat)
-
-
-def concat(c1: Any, c2: Any) -> Any:
-    """Concatenates the specified collections."""
-    if is_table(c1) or is_table(c2):
-        return concat_rows(c1, c2)
-    elif is_dict(c1) or is_dict(c2):
-        return dict(to_list(get_items(c1)) + to_list(get_items(c2)))
-    elif is_ordered_set(c1) or is_ordered_set(c2):
-        return to_ordered_set(c1).union(to_ordered_set(c2))
-    elif is_set(c1) or is_set(c2):
-        return to_set(c1).union(to_set(c2))
-    elif is_array(c1) or is_array(c2):
-        return np.append(to_array(c1), to_array(c2))
-    return to_list(c1) + to_list(c2)
-
-
-##############################
-
-
-def fill_null(
-    s: Struct,
-    numeric_default: Any = None,
-    object_default: Any = None,
-    keys: Optional[Iterable[Key]] = None,
-    inclusion: Optional[Iterable[Key]] = None,
-    exclusion: Optional[Iterable[Key]] = None,
-) -> Any:
-    """Fills `null` entries with type-aware defaults (`numeric_default` vs `object_default`)."""
-    s = ungroup(s)
-    if is_empty(s) or not is_subscriptable(s):
-        return s
-
-    # Resolve the keys
-    if is_null(keys):
-        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
-
-    for k in keys:
-        if is_frame(s):
-            col = s.loc[:, k]
-            if is_numeric_dtype(col.dtypes):
-                fill_null_with(col, numeric_default, inplace=True)
-            else:
-                fill_null_with(col, object_default, inplace=True)
-        elif is_series(s):
-            if is_null(s.loc[k]):
-                s.loc[k] = numeric_default if is_number(s.loc[k]) else object_default
-        else:
-            if is_null(s[k]):
-                s[k] = numeric_default if is_number(s[k]) else object_default
-    return s
-
-
-##############################
+__STRUCT_FILTERS__________________________________________________________________________ = ""
 
 
 def filter(
@@ -1889,7 +1544,7 @@ def filter_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns the entries whose values return `True` with `f` for all selected keys."""
+    """Returns the entries whose values return `True` with function `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -1920,7 +1575,7 @@ def filter_not_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns the entries whose values return `False` with `f` for all selected keys."""
+    """Returns the entries whose values return `False` with function `f` for all selected keys."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -1951,7 +1606,7 @@ def filter_any_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns the entries whose values return `True` with `f` for at least one selected key."""
+    """Returns the entries whose values return `True` with function `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -1982,7 +1637,7 @@ def filter_any_not_with(
     exclusion: Optional[Iterable[Key]] = None,
     **kwargs: Any,
 ) -> Any:
-    """Returns the entries whose values return `False` with `f` for at least one selected key."""
+    """Returns the entries whose values return `False` with function `f` for at least one selected key."""
     if is_empty(s) or not is_subscriptable(s):
         return s
 
@@ -2173,6 +1828,600 @@ def filter_any_not_between(
     elif is_null(upper):
         return filter_any_not_with(s, lambda v: v >= lower, keys=keys, inclusion=inclusion, exclusion=exclusion)
     return filter_any_not_with(s, lambda v: lower <= v < upper, keys=keys, inclusion=inclusion, exclusion=exclusion)
+
+
+__TABLE_FILTERS_____________________________________________ = ""
+
+
+def filter_rows_with(
+    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
+) -> pd.DataFrame:
+    """
+    Returns rows where each key in `row` satisfies `f(df[col], row[col], *args, **kwargs)`.
+
+    Notes:
+        • Combines per-column boolean Series with `reduce_and(…)`.
+    """
+    if is_empty(df):
+        return df
+    return df.loc[reduce_and([apply(df[k], f, v, *args, **kwargs) for k, v in row.items() if k in df])]
+
+
+def filter_rows_not_with(
+    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
+) -> pd.DataFrame:
+    """Returns rows where all `k` in `row` fail `f(…)`."""
+    if is_empty(df):
+        return df
+    return df.loc[reduce_and([invert(apply(df[k], f, v, *args, **kwargs)) for k, v in row.items() if k in df])]
+
+
+def filter_any_rows_with(
+    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
+) -> pd.DataFrame:
+    """Returns rows where at least one `k` in `row` satisfies `f(…)`."""
+    if is_empty(df):
+        return df
+    return df.loc[reduce_or([apply(df[k], f, v, *args, **kwargs) for k, v in row.items() if k in df])]
+
+
+def filter_any_rows_not_with(
+    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
+) -> pd.DataFrame:
+    """Returns rows where at least one `k` in `row` fails `f(…)`."""
+    if is_empty(df):
+        return df
+    return df.loc[reduce_or([invert(apply(df[k], f, v, *args, **kwargs)) for k, v in row.items() if k in df])]
+
+
+##############################
+
+
+def filter_rows(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
+    """Returns rows matching `row` on all common columns."""
+    if is_empty(df) or is_null(row):
+        return df
+    return df.loc[reduce_and([df[k] == v for k, v in row.items() if k in df])]
+
+
+def filter_rows_not(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
+    """Returns rows not matching `row` on all common columns."""
+    if is_empty(df) or is_null(row):
+        return df
+    return df.loc[reduce_and([df[k] != v for k, v in row.items() if k in df])]
+
+
+def filter_any_rows(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
+    """Returns rows matching `row` on at least one common column."""
+    if is_empty(df) or is_null(row):
+        return df
+    return df.loc[reduce_or([df[k] == v for k, v in row.items() if k in df])]
+
+
+def filter_any_rows_not(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
+    """Returns rows not matching `row` on at least one common column."""
+    if is_empty(df) or is_null(row):
+        return df
+    return df.loc[reduce_or([df[k] != v for k, v in row.items() if k in df])]
+
+
+##############################
+
+
+def filter_rows_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
+    """Returns rows where each `k` satisfies `df[k].isin(rows[k])`."""
+    if is_empty(df) or is_null(rows):
+        return df
+    return df.loc[reduce_and([df[k].isin(to_set(values)) for k, values in rows.items() if k in df])]
+
+
+def filter_rows_not_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
+    """Returns rows where each `k` satisfies `~df[k].isin(rows[k])`."""
+    if is_empty(df) or is_null(rows):
+        return df
+    return df.loc[reduce_and([invert(df[k].isin(to_set(values))) for k, values in rows.items() if k in df])]
+
+
+def filter_any_rows_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
+    """Returns rows where at least one `k` satisfies `df[k].isin(rows[k])`."""
+    if is_empty(df) or is_null(rows):
+        return df
+    return df.loc[reduce_or([df[k].isin(to_set(values)) for k, values in rows.items() if k in df])]
+
+
+def filter_any_rows_not_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
+    """Returns rows where at least one `k` satisfies `~df[k].isin(rows[k])`."""
+    if is_empty(df) or is_null(rows):
+        return df
+    return df.loc[reduce_or([invert(df[k].isin(to_set(values))) for k, values in rows.items() if k in df])]
+
+
+__STRUCT_FINDERS__________________________________________________________________________ = ""
+
+
+__COLLECTION_FINDERS________________________________________ = ""
+
+
+### LIST ###################################################
+
+
+def find_all(l: List[Value], value: Value) -> List[int]:
+    """Returns all indices where entries equal `value`."""
+    return find_all_with(l, lambda v: v == value)
+
+
+def find_all_not(l: List[Value], value: Value) -> List[int]:
+    """Returns all indices where entries do not equal `value`."""
+    return find_all_not_with(l, lambda v: v == value)
+
+
+def find_all_in(l: List[Value], values: Iterable[Value]) -> List[int]:
+    """Returns all indices where entries are contained in `values` (set membership)."""
+    values = to_set(values)
+    return find_all_with(l, lambda v: v in values)
+
+
+def find_all_not_in(l: List[Value], values: Iterable[Value]) -> List[int]:
+    """Returns all indices where entries are not contained in `values` (set membership)."""
+    values = to_set(values)
+    return find_all_not_with(l, lambda v: v in values)
+
+
+def find_all_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> List[int]:
+    """Returns all indices where predicate `f(entry, *args, **kwargs)` is `True`."""
+    return [i for i in range(len(l)) if f(l[i], *args, **kwargs)]
+
+
+def find_all_not_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> List[int]:
+    """Returns all indices where predicate `f(entry, *args, **kwargs)` is `False`."""
+    return [i for i in range(len(l)) if not f(l[i], *args, **kwargs)]
+
+
+##############################
+
+
+def find(l: List[Value], value: Value) -> Optional[int]:
+    """Returns the first index where entry equals `value`, or `None` if not found."""
+    return find_with(l, lambda v: v == value)
+
+
+def find_not(l: List[Value], value: Value) -> Optional[int]:
+    """Returns the first index where entry does not equal `value`, or `None` if not found."""
+    return find_not_with(l, lambda v: v == value)
+
+
+def find_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
+    """Returns the first index where entry is contained in `values`, or `None` if not found."""
+    values = to_set(values)
+    return find_with(l, lambda v: v in values)
+
+
+def find_not_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
+    """Returns the first index where entry is not contained in `values`, or `None` if not found."""
+    values = to_set(values)
+    return find_not_with(l, lambda v: v in values)
+
+
+def find_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> Optional[int]:
+    """Returns the first index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
+    return next((i for i in range(len(l)) if f(l[i], *args, **kwargs)), None)
+
+
+def find_not_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> Optional[int]:
+    """Returns the first index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
+    return next((i for i in range(len(l)) if not f(l[i], *args, **kwargs)), None)
+
+
+##############################
+
+
+def find_last(l: List[Value], value: Value) -> Optional[int]:
+    """Returns the last index where entry equals `value`, or `None` if not found."""
+    return find_last_with(l, lambda v: v == value)
+
+
+def find_last_not(l: List[Value], value: Value) -> Optional[int]:
+    """Returns the last index where entry does not equal `value`, or `None` if not found."""
+    return find_last_not_with(l, lambda v: v == value)
+
+
+def find_last_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
+    """Returns the last index where entry is contained in `values`, or `None` if not found."""
+    values = to_set(values)
+    return find_last_with(l, lambda v: v in values)
+
+
+def find_last_not_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
+    """Returns the last index where entry is not contained in `values`, or `None` if not found."""
+    values = to_set(values)
+    return find_last_not_with(l, lambda v: v in values)
+
+
+def find_last_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> Optional[int]:
+    """Returns the last index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
+    i = find_with(l[::-1], f, *args, **kwargs)
+    return len(l) - i - 1 if i is not None else None
+
+
+def find_last_not_with(
+    l: List[Value],
+    f: Callable[..., bool],
+    *args: Any,
+    **kwargs: Any,
+) -> Optional[int]:
+    """Returns the last index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
+    i = find_not_with(l[::-1], f, *args, **kwargs)
+    return len(l) - i - 1 if i is not None else None
+
+
+__STRUCT_GENERATORS_______________________________________________________________________ = ""
+
+
+def create_empty(
+    t: Union[Any, Type[Any]],
+    *,
+    element_type: Optional[ElementType] = None,
+    registry: Optional[CollectionRegistry] = None,
+) -> Any:
+    """
+    Returns an empty structure compatible with the specified container type.
+
+    Behavior:
+        • If `t` is an instance, derives its type via `type(t)`.
+        • If `registry` is `None`, uses the global `CollectionRegistry` singleton.
+        • If an adapter is registered for `t`, tries to construct an empty instance of
+          the resolved type:
+            – If the type defines `from_iterable`, calls it with an empty `list`.
+            – Otherwise, tries the no-arg constructor.
+        • If no adapter is found or construction fails, falls back to the structure rules:
+            – `Mapping` / `MutableMapping` → `dict()`
+            – `MutableSequence` or non-string `Sequence` → `list()`
+            – `MutableSet` / `Set` → `set()`
+            – `np.ndarray` → `to_array(element_type=element_type)`
+            – `pd.DataFrame` → `pd.DataFrame()`
+            – `pd.Series` → `pd.Series(dtype=element_type or OBJECT_TYPE)`
+            – Generic `Iterable` → `tuple()`.
+
+    Args:
+        t: The container type or instance whose empty counterpart is required.
+        element_type: Optional NumPy dtype or element type used for array-like
+            outputs (`np.ndarray`, `pd.Series`). When `None`, uses a default for
+            the target type.
+        registry: Optional collection registry. When `None`, uses the global
+            `CollectionRegistry` singleton.
+
+    Returns:
+        An empty structure compatible with `t`.
+
+    Raises:
+        ValueError: If `t` cannot be mapped to an empty structure.
+    """
+    # Normalize to a type so both types and instances are accepted
+    t: Type[Any] = t if isinstance(t, type) else type(t)
+
+    # 1) Resolve registry and ask it for an adapter
+    if is_null(registry):
+        registry = CollectionRegistry()
+
+    adapter = registry.get(t) if registry is not None else None
+
+    if adapter is not None:
+        # Prefer constructing the specified type, not the adapter base type, so subclasses can override `from_iterable`
+        if has_callable(t, "from_iterable"):
+            return t.from_iterable([])
+        try:
+            return t()
+        except TypeError:
+            # Continue to the structure fallbacks
+            pass
+
+    # 2) Explicit known structures
+    if is_frame_type(t):
+        return pd.DataFrame()
+    elif is_series_type(t):
+        return pd.Series(dtype=element_type if not is_null(element_type) else OBJECT_TYPE)
+    elif is_array_type(t):
+        return to_array(element_type=element_type)
+
+    # 3) Structural fallbacks via ABCs
+    if is_mapping_type(t):
+        return dict()
+    elif is_sequence_type(t):
+        return list()
+    elif is_set_type(t):
+        return set()
+    elif is_iterable_type(t):
+        return tuple()
+
+    # 4) Last resort: try a bare no-arg constructor before failing
+    try:
+        return t()
+    except TypeError as e:
+        raise ValueError(f"Unexpected structure type '{t}'") from e
+
+
+def create_mask(
+    s: Struct,
+    *args: Any,
+    condition: Callable[..., bool] = lambda x, *a, **k: True,
+    fill: bool = True,
+    keys: Optional[Iterable[Key]] = None,
+    inclusion: Optional[Iterable[Key]] = None,
+    exclusion: Optional[Iterable[Key]] = None,
+    **kwargs: Any,
+) -> Any:
+    """
+    Returns a boolean mask shaped like `s` where each selected entry satisfies `condition`.
+
+    Dispatch:
+        • Vectorized attempt via `apply(s, condition, axis=None, keys=keys, …)`.
+        • Fallback element-wise loop when vectorization fails.
+
+    Complexity:
+        • Vectorized: ~O(n) on the selected entries.
+        • Fallback:   O(n) Python loop over selected entries.
+    """
+    # Resolve the keys
+    if is_null(keys):
+        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
+    # 1) Allocate the mask container aligned to `s`, pre-filled (e.g., `True`)
+    mask = struct_to_type(create_array(get_shape(s), fill=fill, element_type=BOOLEAN_ELEMENT_TYPE), s)
+
+    # 2) Try a vectorized evaluation on the selected slice
+    try:
+        m = apply(s, condition, *args, axis=None, keys=keys, **kwargs)
+
+        # Normalize to a boolean array
+        values = to_array(
+            get_values(m) if is_subscriptable(m) else to_array(m),
+            element_type=BOOLEAN_ELEMENT_TYPE,
+        )
+
+        # Broadcast a scalar to the exact filtered shape
+        if values.size == 1:
+            values = create_array(
+                get_shape(mask, keys=keys),
+                fill=bool(values.ravel()[0]),
+                element_type=BOOLEAN_ELEMENT_TYPE,
+            )
+
+        # Write the values into the preallocated mask container
+        set_values(mask, values, keys=keys)
+        return mask
+    except Exception:
+        pass
+
+    # 3) Fallback: evaluate element-wise and assign
+    selected = get_values(s, keys=keys)
+    set_values(mask, [bool(condition(v, *args, **kwargs)) for v in selected], keys=keys)
+    return mask
+
+
+__STRUCT_PROCESSORS_______________________________________________________________________ = ""
+
+
+def all_values(s: Struct) -> bool:
+    """Returns whether all selected values in `s` are truthy (`np.all`)."""
+    return np.all(get_values(s))
+
+
+def all_not_values(s: Struct) -> bool:
+    """Returns whether all selected values in `s` are falsy (logical NOT then `np.all`)."""
+    return np.all(invert(get_values(s)))
+
+
+def any_values(s: Struct) -> bool:
+    """Returns whether any selected value in `s` is truthy (`np.any`)."""
+    return np.any(get_values(s))
+
+
+def any_not_values(s: Struct) -> bool:
+    """Returns whether any selected value in `s` is falsy (logical NOT then `np.any`)."""
+    return np.any(invert(get_values(s)))
+
+
+##############################
+
+
+def apply(
+    s: Struct,
+    f: Callable[..., Any],
+    *args: Any,
+    inplace: bool = False,
+    axis: Optional[int] = None,
+    keys: Optional[Iterable[Key]] = None,
+    inclusion: Optional[Iterable[Key]] = None,
+    exclusion: Optional[Iterable[Key]] = None,
+    **kwargs: Any,
+) -> Any:
+    """
+    Applies function `f` over `s` along `axis` (`None` → element-wise; `0` → rows; `1` → columns).
+    Tries a vectorized call first; falls back to `.apply`/Python loops when needed.
+
+    Dispatch:
+        • `GroupBy(axis=0)` → concatenates row-wise results built per group.
+        • `GroupBy(axis=1)` → concatenates column-wise results built per group.
+        • `pd.DataFrame`    → vectorizes on selected block/series; fallback to `.apply`.
+        • `pd.Series`       → vectorizes on series; fallback to `.apply`.
+        • `np.ndarray`      → vectorizes; fallback to `np.apply_along_axis` / element-wise.
+        • `dict`            → loops over `keys`.
+        • Generic           → loops and `struct_to_type(…)`.
+
+    Complexity:
+        • Vectorized: ~O(n) with C-level ops on the selected slice.
+        • Fallback:   O(n) Python-level, slower than vectorized.
+    """
+    if is_empty(s):
+        return s
+    elif not is_subscriptable(s):
+        return f(s, *args, **kwargs)
+
+    # Resolve the keys
+    if is_null(keys):
+        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
+    if inplace:
+        return set_values(s, apply(s, f, *args, axis=axis, keys=keys, **kwargs), keys=keys)
+    if is_group_by(s):
+        axis = s.axis
+        if axis == 0:
+            return concat_rows(
+                [
+                    to_frame(
+                        [to_array(f(get_values(v, keys=keys), *args, **kwargs))],
+                        index=to_list(i),
+                    )
+                    for i, v in s
+                ]
+            )
+        return concat_cols(
+            [pd.Series(data=to_array(f(to_array(v), *args, **kwargs)), name=k) for k, v in s if k in keys]
+        )
+    elif is_frame(s):
+        if is_null(axis):
+            cols = []
+            for k in keys:
+                col = s.loc[:, k]
+                cols.append(col.apply(f, args=args, **kwargs))
+            return concat_cols(cols)
+        cols = s.loc[:, keys]
+        return cols.apply(f, args=args, axis=axis, **kwargs)
+    elif is_series(s):
+        rows = s.loc[keys]
+        return rows.apply(f, args=args, **kwargs)
+    elif is_dict(s):
+        return {k: f(s[k], *args, **kwargs) for k in keys}
+    elif is_array(s):
+        a = s[keys]
+        if is_null(axis):
+            return np.vectorize(lambda z: f(z, *args, **kwargs))(a)
+        return np.apply_along_axis(f, axis, a, *args, **kwargs)
+    return struct_to_type([f(s[k], *args, **kwargs) for k in keys], s)
+
+
+##############################
+
+
+def calculate(s: Struct, f: Callable[..., Any], *args: Any, axis: Optional[Axis] = None, **kwargs: Any) -> Any:
+    """
+    Calculates `f(values, *args, axis=axis, **kwargs)` aligned to `s`, preserving labels where
+    applicable (e.g., returns a `Series` for DataFrames with index/keys).
+    """
+    if is_group_by(s):
+        axis = s.axis
+        if axis == 0:
+            names = get_names(s)
+            return concat_rows(
+                [to_frame([f(v.values, *args, axis=axis, **kwargs)], names=names, index=to_list(i)) for i, v in s]
+            )
+        index = get_index(s)
+        return concat_cols([to_series(f(v.values, *args, axis=axis, **kwargs), name=k, index=index) for k, v in s])
+    elif is_frame(s):
+        index = get_keys_or_index(s, axis=axis)
+        return to_series(f(s.values, *args, axis=axis, **kwargs), index=index)
+    return f(get_values(s), *args, axis=axis, **kwargs)
+
+
+##############################
+
+
+def concat_all(*args: Any) -> Any:
+    """Concatenates all arguments left-to-right using `concat`."""
+    return reduce(args, concat)
+
+
+def concat(c1: Any, c2: Any) -> Any:
+    """Concatenates the specified collections."""
+    if is_table(c1) or is_table(c2):
+        return concat_rows(c1, c2)
+    elif is_dict(c1) or is_dict(c2):
+        return dict(to_list(get_items(c1)) + to_list(get_items(c2)))
+    elif is_ordered_set(c1) or is_ordered_set(c2):
+        return to_ordered_set(c1).union(to_ordered_set(c2))
+    elif is_set(c1) or is_set(c2):
+        return to_set(c1).union(to_set(c2))
+    elif is_array(c1) or is_array(c2):
+        return np.append(to_array(c1), to_array(c2))
+    return to_list(c1) + to_list(c2)
+
+
+##############################
+
+
+def fill_null(
+    s: Struct,
+    numeric_default: Any = None,
+    object_default: Any = None,
+    keys: Optional[Iterable[Key]] = None,
+    inclusion: Optional[Iterable[Key]] = None,
+    exclusion: Optional[Iterable[Key]] = None,
+) -> Any:
+    """Fills `null` entries with type-aware defaults (`numeric_default` vs `object_default`)."""
+    s = ungroup(s)
+    if is_empty(s) or not is_subscriptable(s):
+        return s
+
+    # Resolve the keys
+    if is_null(keys):
+        keys = get_keys(s, inclusion=inclusion, exclusion=exclusion)
+
+    for k in keys:
+        if is_frame(s):
+            col = s.loc[:, k]
+            if is_numeric_dtype(col.dtypes):
+                fill_null_with(col, numeric_default, inplace=True)
+            else:
+                fill_null_with(col, object_default, inplace=True)
+        elif is_series(s):
+            if is_null(s.loc[k]):
+                s.loc[k] = numeric_default if is_number(s.loc[k]) else object_default
+        else:
+            if is_null(s[k]):
+                s[k] = numeric_default if is_number(s[k]) else object_default
+    return s
+
+
+def fill_with(
+    s: Struct,
+    value: Any,
+    *args: Any,
+    condition: Callable[..., bool] = lambda x, *a, **k: True,
+    inplace: bool = False,
+    **kwargs: Any,
+) -> Any:
+    """Fills entries with `value` where `condition(entry, *args, **kwargs)` is `True`."""
+    return apply(s, lambda x: value if condition(x, *args, **kwargs) else x, inplace=inplace)
+
+
+def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
+    """Fills `null` entries with `value`."""
+    return fill_with(s, value, condition=is_null, inplace=inplace)
 
 
 ##############################
@@ -2487,7 +2736,7 @@ def keep_max_with(s: Struct, n: int, f: Callable[..., Any], axis: int = 0) -> An
 
 
 def reduce(s: Iterable[Any], f: Callable[..., Any], *args: Any, initializer: Any = None, **kwargs: Any) -> Any:
-    """Reduces the specified iterable to a single value by left-folding `f`."""
+    """Reduces the specified iterable to a single value by left-folding function `f`."""
     if is_empty(s):
         return initializer
 
@@ -2945,147 +3194,7 @@ def where(
     return [k for k in keys if condition(s[k], *args, **kwargs)]
 
 
-__COLLECTION_PROCESSORS___________________________________________________________________ = ""
-
-
-### LIST ###################################################
-
-
-def find_all(l: List[Value], value: Value) -> List[int]:
-    """Returns all indices where entries equal `value`."""
-    return find_all_with(l, lambda v: v == value)
-
-
-def find_all_not(l: List[Value], value: Value) -> List[int]:
-    """Returns all indices where entries do not equal `value`."""
-    return find_all_not_with(l, lambda v: v == value)
-
-
-def find_all_in(l: List[Value], values: Iterable[Value]) -> List[int]:
-    """Returns all indices where entries are contained in `values` (set membership)."""
-    values = to_set(values)
-    return find_all_with(l, lambda v: v in values)
-
-
-def find_all_not_in(l: List[Value], values: Iterable[Value]) -> List[int]:
-    """Returns all indices where entries are not contained in `values` (set membership)."""
-    values = to_set(values)
-    return find_all_not_with(l, lambda v: v in values)
-
-
-def find_all_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> List[int]:
-    """Returns all indices where predicate `f(entry, *args, **kwargs)` is `True`."""
-    return [i for i in range(len(l)) if f(l[i], *args, **kwargs)]
-
-
-def find_all_not_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> List[int]:
-    """Returns all indices where predicate `f(entry, *args, **kwargs)` is `False`."""
-    return [i for i in range(len(l)) if not f(l[i], *args, **kwargs)]
-
-
-##############################
-
-
-def find(l: List[Value], value: Value) -> Optional[int]:
-    """Returns the first index where entry equals `value`, or `None` if not found."""
-    return find_with(l, lambda v: v == value)
-
-
-def find_not(l: List[Value], value: Value) -> Optional[int]:
-    """Returns the first index where entry does not equal `value`, or `None` if not found."""
-    return find_not_with(l, lambda v: v == value)
-
-
-def find_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
-    """Returns the first index where entry is contained in `values`, or `None` if not found."""
-    values = to_set(values)
-    return find_with(l, lambda v: v in values)
-
-
-def find_not_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
-    """Returns the first index where entry is not contained in `values`, or `None` if not found."""
-    values = to_set(values)
-    return find_not_with(l, lambda v: v in values)
-
-
-def find_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> Optional[int]:
-    """Returns the first index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
-    return next((i for i in range(len(l)) if f(l[i], *args, **kwargs)), None)
-
-
-def find_not_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> Optional[int]:
-    """Returns the first index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
-    return next((i for i in range(len(l)) if not f(l[i], *args, **kwargs)), None)
-
-
-##############################
-
-
-def find_last(l: List[Value], value: Value) -> Optional[int]:
-    """Returns the last index where entry equals `value`, or `None` if not found."""
-    return find_last_with(l, lambda v: v == value)
-
-
-def find_last_not(l: List[Value], value: Value) -> Optional[int]:
-    """Returns the last index where entry does not equal `value`, or `None` if not found."""
-    return find_last_not_with(l, lambda v: v == value)
-
-
-def find_last_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
-    """Returns the last index where entry is contained in `values`, or `None` if not found."""
-    values = to_set(values)
-    return find_last_with(l, lambda v: v in values)
-
-
-def find_last_not_in(l: List[Value], values: Iterable[Value]) -> Optional[int]:
-    """Returns the last index where entry is not contained in `values`, or `None` if not found."""
-    values = to_set(values)
-    return find_last_not_with(l, lambda v: v in values)
-
-
-def find_last_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> Optional[int]:
-    """Returns the last index where predicate `f(entry, *args, **kwargs)` is `True`, else `None`."""
-    i = find_with(l[::-1], f, *args, **kwargs)
-    return len(l) - i - 1 if i is not None else None
-
-
-def find_last_not_with(
-    l: List[Value],
-    f: Callable[..., bool],
-    *args: Any,
-    **kwargs: Any,
-) -> Optional[int]:
-    """Returns the last index where predicate `f(entry, *args, **kwargs)` is `False`, else `None`."""
-    i = find_not_with(l[::-1], f, *args, **kwargs)
-    return len(l) - i - 1 if i is not None else None
-
-
-### TABLE ##################################################
+__TABLE_PROCESSORS__________________________________________ = ""
 
 
 def combine_all(*args: Any, f: Callable[[pd.Series, pd.Series], pd.Series]) -> pd.DataFrame:
@@ -3099,7 +3208,7 @@ def combine(left: Any, right: Any, f: Callable[[pd.Series, pd.Series], pd.Series
     applied to overlapping columns.
 
     Notes:
-        • Inputs are coerced with `to_frame(...)` to ensure DataFrame semantics.
+        • Inputs are coerced with `to_frame(…)` to ensure DataFrame semantics.
     """
     return to_frame(left).combine(to_frame(right), f)
 
@@ -3174,8 +3283,8 @@ def fill_null_all(
     Fills nulls after aligning `df` to the union of names/index with `model`.
 
     Dispatch:
-        • `pd.Series` → delegates to `fill_null_rows(...)` with `model.index`.
-        • `pd.DataFrame` → reindexes both rows and columns, then calls `fill_null(...)`.
+        • `pd.Series` → delegates to `fill_null_rows(…)` with `model.index`.
+        • `pd.DataFrame` → reindexes both rows and columns, then calls `fill_null(…)`.
     """
     if is_series(df):
         return fill_null_rows(df, get_index(model), numeric_default=numeric_default, object_default=object_default)
@@ -3226,112 +3335,6 @@ def fill_null_cols(
 ##############################
 
 
-def filter_rows_with(
-    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
-) -> pd.DataFrame:
-    """
-    Returns rows where each key in `row` satisfies `f(df[col], row[col], *args, **kwargs)`.
-
-    Notes:
-        • Combines per-column boolean Series with `reduce_and(...)`.
-    """
-    if is_empty(df):
-        return df
-    return df.loc[reduce_and([apply(df[k], f, v, *args, **kwargs) for k, v in row.items() if k in df])]
-
-
-def filter_rows_not_with(
-    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
-) -> pd.DataFrame:
-    """Returns rows where all `k` in `row` fail `f(...)`."""
-    if is_empty(df):
-        return df
-    return df.loc[reduce_and([invert(apply(df[k], f, v, *args, **kwargs)) for k, v in row.items() if k in df])]
-
-
-def filter_any_rows_with(
-    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
-) -> pd.DataFrame:
-    """Returns rows where at least one `k` in `row` satisfies `f(...)`."""
-    if is_empty(df):
-        return df
-    return df.loc[reduce_or([apply(df[k], f, v, *args, **kwargs) for k, v in row.items() if k in df])]
-
-
-def filter_any_rows_not_with(
-    df: pd.DataFrame, row: Mapping[Key, Value], f: Callable[..., Any], *args: Any, **kwargs: Any
-) -> pd.DataFrame:
-    """Returns rows where at least one `k` in `row` fails `f(...)`."""
-    if is_empty(df):
-        return df
-    return df.loc[reduce_or([invert(apply(df[k], f, v, *args, **kwargs)) for k, v in row.items() if k in df])]
-
-
-##############################
-
-
-def filter_rows(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
-    """Returns rows matching `row` on all common columns."""
-    if is_empty(df) or is_null(row):
-        return df
-    return df.loc[reduce_and([df[k] == v for k, v in row.items() if k in df])]
-
-
-def filter_rows_not(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
-    """Returns rows not matching `row` on all common columns."""
-    if is_empty(df) or is_null(row):
-        return df
-    return df.loc[reduce_and([df[k] != v for k, v in row.items() if k in df])]
-
-
-def filter_any_rows(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
-    """Returns rows matching `row` on at least one common column."""
-    if is_empty(df) or is_null(row):
-        return df
-    return df.loc[reduce_or([df[k] == v for k, v in row.items() if k in df])]
-
-
-def filter_any_rows_not(df: pd.DataFrame, row: Mapping[Key, Value]) -> pd.DataFrame:
-    """Returns rows not matching `row` on at least one common column."""
-    if is_empty(df) or is_null(row):
-        return df
-    return df.loc[reduce_or([df[k] != v for k, v in row.items() if k in df])]
-
-
-##############################
-
-
-def filter_rows_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
-    """Returns rows where each `k` satisfies `df[k].isin(rows[k])`."""
-    if is_empty(df) or is_null(rows):
-        return df
-    return df.loc[reduce_and([df[k].isin(to_set(values)) for k, values in rows.items() if k in df])]
-
-
-def filter_rows_not_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
-    """Returns rows where each `k` satisfies `~df[k].isin(rows[k])`."""
-    if is_empty(df) or is_null(rows):
-        return df
-    return df.loc[reduce_and([invert(df[k].isin(to_set(values))) for k, values in rows.items() if k in df])]
-
-
-def filter_any_rows_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
-    """Returns rows where at least one `k` satisfies `df[k].isin(rows[k])`."""
-    if is_empty(df) or is_null(rows):
-        return df
-    return df.loc[reduce_or([df[k].isin(to_set(values)) for k, values in rows.items() if k in df])]
-
-
-def filter_any_rows_not_in(df: pd.DataFrame, rows: Mapping[Key, Iterable[Value]]) -> pd.DataFrame:
-    """Returns rows where at least one `k` satisfies `~df[k].isin(rows[k])`."""
-    if is_empty(df) or is_null(rows):
-        return df
-    return df.loc[reduce_or([invert(df[k].isin(to_set(values))) for k, values in rows.items() if k in df])]
-
-
-##############################
-
-
 def join_all(
     *args: Any,
     how: str = "inner",
@@ -3340,7 +3343,7 @@ def join_all(
     suffix: str = "2",
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
-    """Folds joins from left to right with `join(...)` using the provided parameters."""
+    """Folds joins from left to right with `join(…)` using the provided parameters."""
     return reduce(
         args,
         lambda left, right: join(left, right, how=how, on=on, index_name=index_name, suffix=suffix, validate=validate),
@@ -3375,7 +3378,7 @@ def merge_all(
     indicator: Optional[Union[bool, str]] = None,
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
-    """Folds merges from left to right with `merge(...)` using the provided parameters."""
+    """Folds merges from left to right with `merge(…)` using the provided parameters."""
     return reduce(
         args,
         lambda left, right: merge(

@@ -18,6 +18,7 @@ from nutil.struct.util import sort
 
 __LOG_NORMAL_CONSTANTS____________________________________________________________________ = ""
 
+
 LOG_NORMAL_NAME = "Log-Normal"
 
 

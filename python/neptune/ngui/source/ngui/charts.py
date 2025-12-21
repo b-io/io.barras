@@ -345,7 +345,7 @@ def fig_to_webp_html(
     )
 
 
-__CHART_GENERATORS________________________________________________________________________ = ""
+__CHART_FACTORIES_________________________________________________________________________ = ""
 
 
 def create_figure(
@@ -1526,8 +1526,8 @@ def set_default_renderer(renderer: Optional[str]) -> None:
     Sets the Plotly default renderer.
 
     Args:
-        renderer: The renderer name (e.g. `"json"`, `"browser"`, `"none"`), or `None`
-            to reset to Plotly's auto-detection.
+        renderer: The renderer name (e.g., `"json"`, `"browser"`, `"none"`) or `None` to reset to Plotly's auto-detection.
+
     Raises:
         ValueError: If `renderer` is not `None` and is not registered in `pio.renderers`
     """

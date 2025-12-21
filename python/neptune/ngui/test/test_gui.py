@@ -23,6 +23,7 @@ from nutil.test.unittest import Test
 
 __GUI_TEST_CONSTANTS______________________________________________________________________ = ""
 
+
 SIZE = 1000
 
 

@@ -22,14 +22,14 @@ def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -
     Dispatch:
         • Returns `None` if `x` is null (per `is_null`).
         • Returns `bytes(x)` for byte-like (`bytes`, `bytearray`, `memoryview`).
-        • Converts the numbers via `str(x).encode(...)` (avoids `bytes(int)` zero-fill trap).
+        • Converts the numbers via `str(x).encode(…)` (avoids `bytes(int)` zero-fill trap).
         • Encodes `str` via `encoding`/`errors`.
         • For NumPy arrays:
             – If `dtype` is `uint8`, returns `x.tobytes()`.
-            – Otherwise maps element-wise via `apply(..., to_bytes)`.
+            – Otherwise, maps element-wise via `apply(…, to_bytes)`.
         • For other collections, maps element-wise via `apply`.
         • If `__bytes__` is defined, uses `bytes(x)` (with safe fallback).
-        • Otherwise encodes `str(x)`.
+        • Otherwise, encodes `str(x)`.
 
     Returns:
         `bytes` for scalars/byte-like, or the collection with elements converted to `bytes`.

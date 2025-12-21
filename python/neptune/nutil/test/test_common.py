@@ -21,6 +21,7 @@ from nutil.test.unittest import Test
 
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
+
 PRECISION = 14  # decimals
 SIZE = 100
 ROW_SIZE = 10000

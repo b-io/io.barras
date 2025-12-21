@@ -17,6 +17,7 @@ from nutil.common import *
 
 __ORDERED_SET_CLASSES_____________________________________________________________________ = ""
 
+
 T = TypeVar("T")
 
 
@@ -547,6 +548,7 @@ class OrderedSetAdapter(AbstractSequentialCollectionAdapter[T]):
 
 __ORDERED_SET_CONSTANTS___________________________________________________________________ = ""
 
+
 ORDERED_SET_TYPE = OrderedSet
 
 
@@ -575,7 +577,7 @@ def to_ordered_set(*args: Any) -> OrderedSet[Any]:
     return OrderedSet(args)
 
 
-__ORDERED_SET_PROCESSORS__________________________________________________________________ = ""
+__ORDERED_SET_FILTERS_____________________________________________________________________ = ""
 
 
 def filter_ordered_set(

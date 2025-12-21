@@ -12,34 +12,7 @@ from __future__ import annotations
 
 from nutil.common import *
 
-__LIST_PROCESSORS_________________________________________________________________________ = ""
-
-
-def deduplicate(items: List[Any]) -> List[Any]:
-    """
-    Removes the duplicate `items` while preserving their original order.
-
-    Args:
-        items: The list of items to deduplicate.
-
-    Returns:
-        The deduplicated list with preserved order.
-    """
-    out: List[Any] = []
-    seen: Set[Any] = set()
-
-    for item in items:
-        try:
-            is_already_seen = item in seen
-        except TypeError as e:
-            raise TypeError(f"Item {item!r} is not hashable") from e
-        if not is_already_seen:
-            out.append(item)
-            seen.add(item)
-    return out
-
-
-##############################
+__LIST_FILTERS____________________________________________________________________________ = ""
 
 
 def filter_list(l, inclusion=None, exclusion=None):
@@ -66,6 +39,33 @@ def include_list(l, inclusion):
 def exclude_list(l, exclusion):
     """Returns the values of the specified `list` that are not in the specified exclusive `list`."""
     return filter_list(l, exclusion=exclusion)
+
+
+__LIST_PROCESSORS_________________________________________________________________________ = ""
+
+
+def deduplicate(items: List[Any]) -> List[Any]:
+    """
+    Removes the duplicate `items` while preserving their original order.
+
+    Args:
+        items: The list of items to deduplicate.
+
+    Returns:
+        The deduplicated list with preserved order.
+    """
+    out: List[Any] = []
+    seen: Set[Any] = set()
+
+    for item in items:
+        try:
+            is_already_seen = item in seen
+        except TypeError as e:
+            raise TypeError(f"Item {item!r} is not hashable") from e
+        if not is_already_seen:
+            out.append(item)
+            seen.add(item)
+    return out
 
 
 ##############################

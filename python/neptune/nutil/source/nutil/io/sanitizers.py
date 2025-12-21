@@ -13,13 +13,13 @@ from __future__ import annotations
 import html
 import re
 from dataclasses import dataclass
-from typing import Dict, Optional, Union
 
 import ftfy
 import unicodedata
 
+from nutil.common import *
 from nutil.enums import StrEnum
-from nutil.scalar.string import LOWERCASE
+from nutil.scalar.string import ELLIPSIS, LOWERCASE_LETTERS
 
 __SANITIZER_CLASSES_______________________________________________________________________ = ""
 
@@ -72,7 +72,7 @@ PUNCTUATION_NORMALIZATION: Dict[int, Union[str, int]] = str.maketrans(
         "‘": "'",
         "‚": "'",
         # The ellipsis
-        "\u2026": "…",
+        "\u2026": ELLIPSIS,
     }
 )
 
@@ -103,7 +103,9 @@ MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(r"\n{2,}")
 
 # The regex patterns to recognize hyphens across lines (to be collapsed to a single line)
 ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(r"(?<=\w)-\n(?=\w)")
-LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(rf"(?<=[{LOWERCASE}])-\n(?=[{LOWERCASE}])")
+LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(
+    rf"(?<=[{LOWERCASE_LETTERS}])-\n(?=[{LOWERCASE_LETTERS}])"
+)
 
 
 __SANITIZER_PROCESSORS____________________________________________________________________ = ""
@@ -158,7 +160,7 @@ def clean_text(
     if sanitize_config.normalize_quotes_and_dashes:
         s = s.translate(PUNCTUATION_NORMALIZATION)
         # Optionally collapse exactly three ASCII dots into a single ellipsis (but not 4+ dots)
-        s = re.sub(r"(?<!\.)\.\.\.(?!\.)", "…", s)
+        s = re.sub(r"(?<!\.)\.\.\.(?!\.)", ELLIPSIS, s)
 
     # 5) Dehyphenate across the line breaks
     if sanitize_config.dehyphenation is DehyphenationMode.AGGRESSIVE:
@@ -237,7 +239,7 @@ def minify_html(html_text: Optional[str], *, newline: str = " ") -> Optional[str
     Behavior:
         • Collapses runs of whitespace (including newlines) to a single space.
         • Normalizes `"&nbsp;"` to a regular space.
-        • Keeps spaces that separate text across tags (e.g. `"</b> <i>"`) so that stripping tags does not join words.
+        • Keeps spaces that separate text across tags (e.g., `"</b> <i>"`) so that stripping tags does not join words.
         • Leaves the attribute/element order intact.
 
     Args:
@@ -278,7 +280,7 @@ def strip_html_tags(s: Optional[str]) -> Optional[str]:
     Returns:
         The plaintext with the approximate structure preserved.
     """
-    if not s:
+    if is_null(s):
         return None
 
     # Normalize the common block boundaries to the newlines before stripping the tags

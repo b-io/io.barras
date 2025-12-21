@@ -19,6 +19,7 @@ from nutil.test.unittest import Test
 
 __FIN_TEST_CONSTANTS______________________________________________________________________ = ""
 
+
 PRECISION = 14  # decimals
 
 TEST_COUNT = 10

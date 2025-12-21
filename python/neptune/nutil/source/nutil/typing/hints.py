@@ -48,7 +48,7 @@ def flatten_expected_types(annotation: Any) -> Tuple[Any, ...]:
     Dispatch:
         • `Union[int, str]`      → `(int, str)`
         • `Optional[int]`        → `(int, NoneType)`
-        • `Annotated[T, ...]`    → same as `_flatten_expected_types(T)`
+        • `Annotated[T, …]`      → same as `_flatten_expected_types(T)`
         • `Literal[1, 2, "x"]`   → `(int, int, str)`
         • `list[int]`            → `(list,)`
         • `int`                  → `(int,)`
@@ -80,8 +80,8 @@ def matches_type_hints(
     Determines whether the `value` conforms to the `annotation` (PEP 484/585/604), with depth control.
 
     Notes:
-        • Supports `Any`, `Union[...]` / `X | Y`, `Annotated[T, ...]`, `Literal[...]`, `Type[T]`,
-          variable-length `tuple[T, ...]`, `Sequence[T]`, `Mapping[K, V]`, and generic `Iterable[T]`.
+        • Supports `Any`, `Union[…]` / `X | Y`, `Annotated[T, …]`, `Literal[…]`, `Type[T]`,
+          variable-length `tuple[T, …]`, `Sequence[T]`, `Mapping[K, V]`, and generic `Iterable[T]`.
         • Samples up to `sample_limit` items for iterables to avoid exhausting one-shot producers.
         • Treats `max_depth == 0` as unlimited recursion; otherwise, once `_depth >= max_depth`, the validator
           checks only the outer container type at that level.
@@ -140,7 +140,7 @@ def matches_type_hints(
             return True  # accepts the outer tuple only
         if len(args) == 2 and args[1] is Ellipsis:
             (elem_type, _) = args
-            # Validate a variable-length `tuple[T, ...]`
+            # Validate a variable-length `tuple[T, …]`
             return all(
                 matches_type_hints(v, elem_type, sample_limit=sample_limit, max_depth=max_depth, _depth=_depth + 1)
                 for v in value

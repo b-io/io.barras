@@ -25,6 +25,7 @@ from nutil.struct.tuple.common import *
 
 __COMMON_COLLECTION_CONSTANTS_____________________________________________________________ = ""
 
+
 COLLECTION_TYPE = ABCCollection
 
 ITERABLE_TYPE = ABCIterable
@@ -35,20 +36,24 @@ MUTABLE_SEQUENCE_TYPE = ABCMutableSequence
 
 __COMMON_ARRAY_CONSTANTS____________________________________ = ""
 
+
 ARRAY_TYPE = np.ndarray
 
 
 __COMMON_DICT_CONSTANTS_____________________________________ = ""
+
 
 DICT_TYPE = dict
 
 
 __COMMON_LIST_CONSTANTS_____________________________________ = ""
 
+
 LIST_TYPE = list
 
 
 __COMMON_SET_CONSTANTS______________________________________ = ""
+
 
 SET_TYPE = ABCSet
 FROZENSET_TYPE = frozenset

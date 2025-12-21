@@ -9,7 +9,7 @@
 #   • Prunes excluded directories during traversal (so `".venv"` is not scanned)
 #   • Treats each rule's regex as a *violation* matcher
 #   • Applies each rule only to files matching the rule's own `include`/`exclude`
-#   • Exits `0` when no `"error"`-severity matches are found; `1` otherwise
+#   • Exits `0` when no `"error"`-severity matches are found; otherwise `1`
 #
 # CLI
 #   • `"--config" <path>` (optional; defaults to `"STYLE.yml"`)
@@ -29,7 +29,7 @@ from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
-__CHECK_STYLE_PROCESSORS__________________________________________________________________ = ""
+__STYLE_CHECKER_PROCESSORS________________________________________________________________ = ""
 
 
 def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, int, str]]:
@@ -70,7 +70,7 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
     return violations
 
 
-__CHECK_STYLE_RUNNERS_____________________________________________________________________ = ""
+__STYLE_CHECKER_RUNNERS___________________________________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig) -> int:
@@ -82,7 +82,7 @@ def run(root: Path, config: StyleConfig) -> int:
         config: The compiled style configuration to use.
 
     Returns:
-        Exit code `0` on success (no `"error"`-severity violations), `1` otherwise.
+        Exit code `0` on success (no `"error"`-severity violations), otherwise `1`.
     """
     any_error = False
     total_files = 0

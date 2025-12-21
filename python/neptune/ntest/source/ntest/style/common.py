@@ -61,7 +61,7 @@ class StyleRule:
         • `pattern` (compiled)
         • `include`
         • `exclude`
-        • `flags` (string names from the YAML: `"IGNORECASE"`, `"MULTILINE"`, ...)
+        • `flags` (string names from the YAML: `"IGNORECASE"`, `"MULTILINE"`, …)
         • `severity` (`"error"` or `"warning"`)
 
     Args:

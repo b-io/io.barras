@@ -19,6 +19,7 @@ from nutil.struct.util import apply, mean, simplify, sort, std
 
 __NORMAL_CONSTANTS________________________________________________________________________ = ""
 
+
 NORMAL_NAME = "Normal"
 NORMAL_KDE_NAME = "Normal KDE"
 

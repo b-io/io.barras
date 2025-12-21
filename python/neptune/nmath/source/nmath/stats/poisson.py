@@ -18,6 +18,7 @@ from nutil.struct.util import apply, mean, sort
 
 __POISSON_CONSTANTS_______________________________________________________________________ = ""
 
+
 POISSON_NAME = "Poisson"
 
 

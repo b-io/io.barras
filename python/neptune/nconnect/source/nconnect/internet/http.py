@@ -25,7 +25,7 @@ from nutil.common import *
 from nutil.enums import HttpMethod, HttpStatusCode, StrEnum
 from nutil.io.file import write_bytes
 from nutil.scalar.number import to_int
-from nutil.scalar.string import to_string
+from nutil.scalar.string import ELLIPSIS, to_string
 from nutil.struct.util import create_empty
 
 __HTTP_CONSTANTS__________________________________________________________________________ = ""
@@ -102,10 +102,10 @@ class RateLimitError(RuntimeError):
         super().__init__(msg)
 
 
-__HTTP_GENERATORS_________________________________________________________________________ = ""
+__HTTP_FACTORIES__________________________________________________________________________ = ""
 
 
-def build_session_with_retries(
+def create_session_with_retries(
     total_retries: int = 4,
     backoff_factor: float = 0.5,
     *,
@@ -170,7 +170,7 @@ def build_session_with_retries(
     return session
 
 
-__HTTP_PROCESSORS_________________________________________________________________________ = ""
+__HTTP_READERS____________________________________________________________________________ = ""
 
 
 ### HTTP REQUESTS ##########################################
@@ -600,7 +600,7 @@ def lookup_content(
                 except Exception:
                     s = repr(snippet)
                 if len(raw) > max_bytes:
-                    s = s[: max_bytes - 1] + "…"
+                    s = s[: max_bytes - 1] + ELLIPSIS
             else:
                 s = repr(x)
         except Exception:
@@ -785,7 +785,7 @@ def lookup_json(
         except Exception:
             s = repr(x)
         if len(s) > max_chars:
-            s = s[: max_chars - 1] + "…"
+            s = s[: max_chars - 1] + ELLIPSIS
         return f", payload={s}"
 
     # Perform the request
@@ -961,7 +961,7 @@ def lookup_text(
         except Exception:
             s = repr(x)
         if len(s) > max_chars:
-            s = s[: max_chars - 1] + "…"
+            s = s[: max_chars - 1] + ELLIPSIS
         return f", payload={s}"
 
     # Perform the request
@@ -1110,11 +1110,11 @@ def download(
         raise requests.RequestException("No content received for '%s' (HTTP %s)" % (url, result.status))
 
     try:
-        return write_bytes(target_path, result.payload)  # type: ignore[arg-type]
-    except Exception as ex:
+        return write_bytes(target_path, result.payload)
+    except Exception as e:
         logging.error(
             "Failed to write downloaded content to '%s': %s",
             target_path,
-            ex,
+            e,
         )
         raise

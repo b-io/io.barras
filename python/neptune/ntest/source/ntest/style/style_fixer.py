@@ -42,8 +42,10 @@ import logging
 from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
+from nutil.scalar.string import ALPHANUMERIC_CHARS, LOWERCASE_LETTERS, UPPERCASE_LETTERS
 
-__FIX_STYLE_CONSTANTS_____________________________________________________________________ = ""
+__STYLE_FIXER_CONSTANTS___________________________________________________________________ = ""
+
 
 HASH_BANNER_TARGET_LENGTH_BY_LEADING: Dict[int, int] = {
     1: 120,
@@ -56,7 +58,7 @@ UNDERSCORE_BANNER_ALLOWED_LENGTHS: Tuple[int, ...] = (35, 65, 95, 125)
 UNDERSCORE_BANNER_TAIL = ' = ""'
 
 
-__FIX_STYLE_PROCESSORS____________________________________________________________________ = ""
+__STYLE_FIXER_PROCESSORS__________________________________________________________________ = ""
 
 
 def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
@@ -177,7 +179,7 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
         return line, False
 
     m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
-    if not m:
+    if is_null(m):
         return line, False
 
     indent, hashes, rest = m.groups()
@@ -245,9 +247,9 @@ def fix_underscore_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]
     newline = "\n" if line.endswith("\n") else ""
     body = line[:-1] if newline else line
 
-    # Indent + `__` + name + trailing bar + ' = ""'
-    m = re.match(r"^(\s*)(__)([A-Za-z0-9_]+?)(_+)\s*=\s*\"\"\s*$", body)
-    if not m:
+    # Indent + `__` + name + trailing bar + ` = ""`
+    m = re.match(rf"^(\s*)(__)([{ALPHANUMERIC_CHARS}_]+?)(_+)\s*=\s*\"\"\s*$", body)
+    if is_null(m):
         return line, False
 
     indent, prefix, name, trailing_bar = m.groups()
@@ -346,8 +348,8 @@ def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]
     newline = "\n" if line.endswith("\n") else ""
     body = line[:-1] if newline else line
 
-    m = re.match(r"^(\s*#\s*)([a-z])([^\n]*)$", body)
-    if not m:
+    m = re.match(rf"^(\s*#\s*)([{LOWERCASE_LETTERS}])([^\n]*)$", body)
+    if is_null(m):
         return line, False
 
     prefix, first, rest = m.groups()
@@ -373,8 +375,8 @@ def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]
     newline = "\n" if line.endswith("\n") else ""
     body = line[:-1] if newline else line
 
-    m = re.match(r"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[A-Z])(?P<rest>[^\n]*)$", body)
-    if not m:
+    m = re.match(rf"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[{UPPERCASE_LETTERS}])(?P<rest>[^\n]*)$", body)
+    if is_null(m):
         return line, False
 
     left, first, rest = m.group("left"), m.group("first"), m.group("rest")
@@ -412,7 +414,7 @@ def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, b
 
 def fix_error_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
-    Removes a single trailing `.` from an exception message in a `raise ...Error(...)` call.
+    Removes a single trailing `.` from an exception message in a `raise …Error(…)` call.
 
     Triggered only when the `rule.pattern` matches.
 
@@ -424,7 +426,7 @@ def fix_error_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, 
         A tuple of `(possibly_modified_line, did_change)`.
     """
     m = rule.pattern.search(line)
-    if not m:
+    if is_null(m):
         return line, False
 
     newline = "\n" if line.endswith("\n") else ""
@@ -442,7 +444,7 @@ def fix_error_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, 
 
 def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, bool]:
     """
-    Removes a single trailing `.` from a logging message in a `logging.<level>(...)` call.
+    Removes a single trailing `.` from a logging message in a `logging.<level>(…)` call.
 
     Triggered only when the `rule.pattern` matches.
 
@@ -454,7 +456,7 @@ def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str
         A tuple of `(possibly_modified_line, did_change)`.
     """
     m = rule.pattern.search(line)
-    if not m:
+    if is_null(m):
         return line, False
 
     newline = "\n" if line.endswith("\n") else ""
@@ -470,7 +472,8 @@ def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str
     return line, False
 
 
-__FIX_STYLE_REGISTRIES____________________________________________________________________ = ""
+__STYLE_FIXER_REGISTRIES__________________________________________________________________ = ""
+
 
 Fixer = Callable[[str, StyleRule], Tuple[str, bool]]
 
@@ -488,7 +491,7 @@ FIXERS: Dict[str, Fixer] = {
 }
 
 
-__FIX_STYLE_RUNNERS_______________________________________________________________________ = ""
+__STYLE_FIXER_RUNNERS_____________________________________________________________________ = ""
 
 
 def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:

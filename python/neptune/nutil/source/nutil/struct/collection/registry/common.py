@@ -43,9 +43,11 @@ from typing import (
 )
 
 import numpy as np
+from numpy.typing import DTypeLike
 
 from nutil.decorators.common import *
 from nutil.metaclasses import FinalSingletonMeta
+from nutil.scalar.string import ELLIPSIS
 
 __COMMON_COLLECTION_REGISTRY_DECORATORS___________________________________________________ = ""
 
@@ -68,7 +70,7 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
         Overall: O(t).
     """
     if not target_types:
-        raise ValueError("At least one target type must be specified for '@adapts(...)'")
+        raise ValueError("At least one target type must be specified for '@adapts(…)'")
 
     # Deduplicate while preserving order
     unique_target_types = tuple(dict.fromkeys(target_types))
@@ -92,8 +94,9 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
 
 __COMMON_COLLECTION_REGISTRY_CLASSES______________________________________________________ = ""
 
+
 # Typing alias for any supported element types across `Struct`
-ElementType = Union[Type[Any], np.dtype[Any]]
+ElementType = Union[Type[Any], DTypeLike]
 
 T = TypeVar("T")
 
@@ -103,14 +106,14 @@ class CollectionAdapter(Generic[T], ABC):
     An adapter contract for external collection types.
 
     Minimal hooks mirror `AbstractCollection` semantics. Override for O(1) where possible.
-    The `@adapts(...)` decorator sets class-level `__adapts__` (tuple of supported targets) and
+    The `@adapts(…)` decorator sets class-level `__adapts__` (tuple of supported targets) and
     binds instance-level `__adapts__` (the single bound target), plus `__adapter_priority__`.
     """
 
-    # Instance attributes only; class attributes are set on the class object by `@adapts(...)`
+    # Instance attributes only; class attributes are set on the class object by `@adapts(…)`
     __slots__ = ("__adapts__", "__adapter_priority__")
 
-    # Injected by `@adapts(...)` at runtime
+    # Injected by `@adapts(…)` at runtime
     __adapts__: Type[Any]  # bound target type (instance-level)
     __adapter_priority__: int  # instance priority metadata
 
@@ -192,7 +195,7 @@ class CollectionAdapter(Generic[T], ABC):
         # Instance must hold a single concrete type; otherwise it is unbound or class-level metadata
         if not isinstance(target_type, type):
             raise TypeError(
-                "Adapter instance is not bound to a single target; ensure it was constructed via '@adapts(...)'"
+                "Adapter instance is not bound to a single target; ensure it was constructed via '@adapts(…)'"
             )
         return target_type
 
@@ -551,7 +554,6 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
     STR_CLOSE: str = "}"  # right enclosure used by `__str__`
     DELIM: str = ", "  # delimiter between elements
     REPR_MAX: int = 100  # maximum elements shown before adding an ellipsis
-    ELLIPSIS: str = "…"  # ellipsis marker used by `__repr__`/`__str__`
 
     def __repr__(self) -> str:
         """Returns the canonical string representation of this collection."""
@@ -560,7 +562,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         parts = [repr(e) for e in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra element to decide whether to append an ellipsis
         if next(it, None) is not None:
-            parts.append(self.ELLIPSIS)
+            parts.append(ELLIPSIS)
         body = self.DELIM.join(parts)
         return f"{cls}({self.REPR_OPEN}{body}{self.REPR_CLOSE})"
 
@@ -569,7 +571,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         it = create_iterator(self)
         parts = [repr(e) for e in itertools.islice(it, self.REPR_MAX)]
         if next(it, None) is not None:
-            parts.append(self.ELLIPSIS)
+            parts.append(ELLIPSIS)
         body = self.DELIM.join(parts)
         return f"{self.STR_OPEN}{body}{self.STR_CLOSE}"
 
@@ -873,7 +875,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         parts = [f"{repr(k)}: {repr(v)}" for k, v in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra item to decide whether to append an ellipsis
         if next(it, None) is not None:
-            parts.append(self.ELLIPSIS)
+            parts.append(ELLIPSIS)
         body = self.DELIM.join(parts)
         return f"{cls}({self.REPR_OPEN}{body}{self.REPR_CLOSE})"
 
@@ -883,7 +885,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         parts = [f"{repr(k)}: {repr(v)}" for k, v in itertools.islice(it, self.REPR_MAX)]
         # Consume one extra item to decide whether to append an ellipsis
         if next(it, None) is not None:
-            parts.append(self.ELLIPSIS)
+            parts.append(ELLIPSIS)
         body = self.DELIM.join(parts)
         return f"{self.STR_OPEN}{body}{self.STR_CLOSE}"
 
@@ -966,6 +968,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
 
 
 __COMMON_COLLECTION_REGISTRY_CONSTANTS____________________________________________________ = ""
+
 
 ITERATOR_TYPE = ABCIterator
 

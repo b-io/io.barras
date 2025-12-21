@@ -13,7 +13,7 @@ from __future__ import annotations
 import re
 from typing import Iterable, Optional
 
-__REGEX_PROCESSORS________________________________________________________________________ = ""
+__REGEX_BUILDERS__________________________________________________________________________ = ""
 
 
 def build_alternation_regex(
