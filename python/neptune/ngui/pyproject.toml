@@ -37,9 +37,9 @@ nutil = { path = "../nutil", develop = true }               # Neptune utility li
 xhtml2pdf = "^0.2.17"         # HTML/CSS to PDF generation (ReportLab-based)
 
 ### Visualization ##########################################
-kaleido = "^1.1.0"            # Headless engine for Plotly static image export
-matplotlib = "^3.9.4"         # 2D plotting and figures
-plotly = "^6.3.1"             # Interactive charts
+kaleido = "^1.2.0"            # Headless engine for Plotly static image export
+matplotlib = "^3.10.8"        # 2D plotting and figures
+plotly = "^6.5.0"             # Interactive charts
 seaborn = "^0.13.2"           # Statistical data visualizations
 tqdm = "^4.67.1"              # Terminal progress bars
 

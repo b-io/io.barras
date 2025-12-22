@@ -33,9 +33,9 @@ python = ">=3.10,<4.0"
 nutil = { path = "../nutil", develop = true }               # Neptune utility library
 
 ### Web ASGI ###############################################
-asgiref = "^3.8.1"            # ASGI reference and sync/async adapter utilities
-fastapi = "^0.112.4"          # ASGI web framework built on Starlette and powered by Pydantic
-uvicorn = "^0.32.1"           # ASGI server for running ASGI applications
+asgiref = "^3.11.0"           # ASGI reference and sync/async adapter utilities
+fastapi = "^0.127.0"          # ASGI web framework built on Starlette and powered by Pydantic
+uvicorn = "^0.40.0"           # ASGI server for running ASGI applications
 
 
 ## 3. OTHER DEPENDENCIES #################################################################

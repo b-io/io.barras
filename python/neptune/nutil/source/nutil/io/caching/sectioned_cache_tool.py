@@ -56,8 +56,9 @@ def run(
     policy: Optional[CachePolicy] = None,
     persistence_frequency: int = 0,
     # Save
-    dry_run: bool = False,
     compact: bool = False,
+    dry_run: bool = False,
+    # Backup
     backup: bool = False,
     backup_dir: Optional[str] = None,
 ) -> None:
@@ -87,8 +88,9 @@ def run(
             yet contain a `policy`, this value is used as the initial policy.
         persistence_frequency: Periodic autosave cadence for in-memory changes (rows/operations).
 
-        dry_run: Tells to skip writing the file; only logs the changes.
         compact: Tells to write compact JSON on save.
+        dry_run: Tells to skip writing the file; only logs the changes.
+
         backup: Tells to create a timestamped backup on save.
         backup_dir: The directory where backups are stored.
     """
@@ -115,8 +117,9 @@ def run(
             policy=policy,
             persistence_frequency=persistence_frequency,
             # Save
-            dry_run=bool(dry_run),
             compact=bool(compact),
+            dry_run=bool(dry_run),
+            # Backup
             backup=bool(backup),
             backup_dir=backup_dir,
         )
@@ -325,8 +328,9 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         default=0,
     )
     # Add the save parameter(s)
-    ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
     ap.add_argument("--compact", help="Write compact JSON on save.", action="store_true")
+    ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
+    # Add the backup parameter(s)
     ap.add_argument(
         "--backup",
         help="Create a timestamped backup of the previous file on save.",

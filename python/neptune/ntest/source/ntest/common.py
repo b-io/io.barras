@@ -18,6 +18,21 @@ from nutil.struct.util import *
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
 
+### DEFAULTS ###############################################
+
+DEFAULT_EXCLUDES: List[str] = [
+    "**/__pycache__/**",
+    "**/.git/**",
+    "**/.venv/**",
+    "**/build/**",
+    "**/dist/**",
+    "**/node_modules/**",
+    "**/venv/**",
+]
+
+
+### GLOBALS ###############################################
+
 PRECISION = 14  # decimals
 SIZE = 100
 ROW_SIZE = 10000

@@ -16,25 +16,13 @@ from pathlib import Path
 
 import yaml
 
+from ntest.common import DEFAULT_EXCLUDES
 from nutil.common import *
 from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate
 from nutil.struct.table.util import get_row_string
 
 __COMMON_STYLE_CONSTANTS__________________________________________________________________ = ""
-
-
-### DEFAULTS ###############################################
-
-DEFAULT_EXCLUDES: List[str] = [
-    "**/__pycache__/**",
-    "**/.git/**",
-    "**/.venv/**",
-    "**/build/**",
-    "**/dist/**",
-    "**/node_modules/**",
-    "**/venv/**",
-]
 
 
 ### GLOBALS ################################################

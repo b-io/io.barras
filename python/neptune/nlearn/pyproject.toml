@@ -40,12 +40,12 @@ include = [
 python = ">=3.10,<4.0"
 
 ### Mathematics ############################################
-statsmodels = "^0.14.4"       # Statistical modeling and inference
+statsmodels = "^0.14.6"       # Statistical modeling and inference
 
 ### Machine Learning #######################################
 gensim = "^4.4.0"             # Topic modelling & embeddings
-scikit-learn = "^1.6.1"       # Algorithms for machine learning
-scikit-lego = "^0.6.13"       # Extra estimators, transformers, and tools extending scikit-learn
+scikit-learn = "^1.7.2"       # Algorithms for machine learning
+scikit-lego = "^0.9.6"        # Extra estimators, transformers, and tools extending scikit-learn
 tensorflow = "^2.20.0"        # Deep learning framework for building and training neural networks
 
 ### Neptune Utilities ######################################

@@ -169,7 +169,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description="Regex-based style checks based on 'STYLE.yml' rules.")
     # Add the path(s)
     ap.add_argument("--config", help="Path to YAML config.", default="STYLE.yml")
-    ap.add_argument("--root", help="Root directory to scan.", default=".")
+    ap.add_argument("--root", help="Root directory to scan recursively.", default=".")
     return ap
 
 

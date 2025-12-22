@@ -589,8 +589,10 @@ def atomic_write(
     encoding: str = DEFAULT_ENCODING,
     newline: str = NEWLINE,
     ignore: bool = False,
+    # Save
     mode: Optional[int] = None,
     overwrite: bool = True,
+    # Backup
     backup: bool = False,
     backup_dir: Optional[Path] = None,
 ) -> None:
@@ -603,13 +605,16 @@ def atomic_write(
 
     Args:
         path: Destination path.
+
         writer: Function that writes the payload to an already opened file handle.
         is_binary: Indicates whether the file handle is opened in binary mode.
         encoding: The text encoding for text-mode.
         newline: The newline policy for text-mode temp files.
         ignore: Ignores encoding errors in text-mode when `True`.
+
         mode: Optional file-permission bits applied to the temp file before replacement.
         overwrite: Raises `FileExistsError` when `False` and the file exists.
+
         backup: Creates a dated backup of the previous file before replacing it when `True`.
         backup_dir: Directory in which to store backups; defaults to `path.parent`.
 
@@ -718,6 +723,7 @@ def fsync_dir(dir_path: Path) -> None:
 def write(
     path: Union[str, Path],
     content: str,
+    *,
     append: bool = False,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
@@ -729,6 +735,7 @@ def write(
     Args:
         path: Destination path.
         content: The text content to write.
+
         append: Appends when `True`, otherwise overwrites.
         encoding: The text encoding.
         ignore: Ignores encoding errors when `True`.
@@ -752,14 +759,15 @@ def write(
 def write_bytes(
     path: Union[str, Path],
     content: BytesLike,
-    append: bool = False,
     *,
-    # Atomic/backup options
+    append: bool = False,
+    # Save
     atomic: bool = True,
-    backup: bool = False,
-    backup_dir: Optional[Path] = None,
     mode: Optional[int] = None,
     overwrite: bool = True,
+    # Backup
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
 ) -> Path:
     """
     Writes bytes to `path`.
@@ -771,12 +779,15 @@ def write_bytes(
     Args:
         path: Destination path.
         content: Bytes payload.
+
         append: Appends when `True` (non-atomic).
+
         atomic: Enables atomic replace for non-append writes.
-        backup: Creates a timestamped backup of the previous file (non-append writes only).
-        backup_dir: Directory in which to store backups.
         mode: Optional file-permission bits applied to the written file (atomic mode only).
         overwrite: Raises `FileExistsError` when `False` and the file exists (non-append writes only).
+
+        backup: Creates a timestamped backup of the previous file (non-append writes only).
+        backup_dir: Directory in which to store backups.
 
     Returns:
         The written path as a `Path`.
@@ -807,8 +818,10 @@ def write_bytes(
         path,
         writer=_writer,
         is_binary=True,
+        # Save
         mode=mode,
         overwrite=overwrite,
+        # Backup
         backup=backup,
         backup_dir=backup_dir,
     )
@@ -818,20 +831,20 @@ def write_bytes(
 def write_csv(
     path: Union[str, Path],
     content: Union[Row, Iterable[Row]],
+    *,
     append: bool = False,
     dialect: str = "excel",
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
-    *,
-    # Atomic/backup options
-    atomic: bool = True,
-    backup: bool = False,
-    backup_dir: Optional[Path] = None,
-    mode: Optional[int] = None,
-    overwrite: bool = True,
-    # Writing options
     header: Optional[Row] = None,
     lineterminator: str = NEWLINE,
+    # Save
+    atomic: bool = True,
+    mode: Optional[int] = None,
+    overwrite: bool = True,
+    # Backup
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
     **kwargs: Any,
 ) -> None:
     """
@@ -848,19 +861,21 @@ def write_csv(
     Args:
         path: Destination file path.
         content: A single row or an iterable of rows.
+
         append: Appends when `True` (non-atomic).
         dialect: The CSV dialect (passed to `csv.writer`).
         encoding: The output encoding.
         ignore: Ignores encoding errors when `True`.
+        header: Optional header row.
+        lineterminator: Line terminator passed to `csv.writer` (default: `NEWLINE`).
 
         atomic: Enables atomic replace for non-append writes.
-        backup: Creates a timestamped backup of the previous file (non-append writes only).
-        backup_dir: Directory in which to store backups.
         mode: Optional file-permission bits applied to the written file (atomic mode only).
         overwrite: Raises `FileExistsError` when `False` and the file exists (non-append writes only).
 
-        header: Optional header row.
-        lineterminator: Line terminator passed to `csv.writer` (default: `NEWLINE`).
+        backup: Creates a timestamped backup of the previous file (non-append writes only).
+        backup_dir: Directory in which to store backups.
+
         **kwargs: Extra keyword args forwarded to `csv.writer`.
 
     Raises:
@@ -919,8 +934,10 @@ def write_csv(
         encoding=encoding,
         newline="",
         ignore=ignore,
+        # Save
         mode=mode,
         overwrite=overwrite,
+        # Backup
         backup=backup,
         backup_dir=backup_dir,
     )
@@ -929,19 +946,19 @@ def write_csv(
 def write_json(
     path: Union[str, Path],
     content: Any,
+    *,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     indent: Optional[int] = None,
     newline: Optional[str] = None,
-    *,
-    # Atomic/backup options
+    # Save
     atomic: bool = True,
-    backup: bool = False,
-    backup_dir: Optional[Path] = None,
+    compact: bool = False,
     mode: Optional[int] = None,
     overwrite: bool = True,
-    # JSON options
-    compact: bool = False,
+    # Backup
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
     **kwargs: Any,
 ) -> None:
     """
@@ -955,16 +972,20 @@ def write_json(
     Args:
         path: Destination file path.
         content: The JSON payload.
+
         encoding: The output encoding.
         ignore: Ignores encoding errors when `True`.
         indent: The pretty-print indentation; ignored when `compact=True`.
         newline: The newline policy forwarded to the text writer (defaults to `""` when not provided).
+
         atomic: Enables atomic replace.
-        backup: Creates a timestamped backup of the previous file.
-        backup_dir: Directory in which to store backups.
+        compact: Writes compact JSON when `True`.
         mode: Optional file-permission bits applied to the written file (atomic mode only).
         overwrite: Raises `FileExistsError` when `False` and the file exists.
-        compact: Writes compact JSON when `True`.
+
+        backup: Creates a timestamped backup of the previous file.
+        backup_dir: Directory in which to store backups.
+
         **kwargs: Extra arguments forwarded to `json.dump`.
 
     Raises:
@@ -1008,8 +1029,10 @@ def write_json(
         encoding=encoding,
         newline=newline,
         ignore=ignore,
+        # Save
         mode=mode,
         overwrite=overwrite,
+        # Backup
         backup=backup,
         backup_dir=backup_dir,
     )
@@ -1018,17 +1041,18 @@ def write_json(
 def write_text(
     path: Union[str, Path],
     text: str,
+    *,
     append: bool = False,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
-    *,
-    # Atomic/backup options
+    # Save
     atomic: bool = True,
-    backup: bool = False,
-    backup_dir: Optional[Path] = None,
     mode: Optional[int] = None,
     overwrite: bool = True,
+    # Backup
+    backup: bool = False,
+    backup_dir: Optional[Path] = None,
 ) -> None:
     """
     Writes plain text to `path`.
@@ -1040,15 +1064,18 @@ def write_text(
     Args:
         path: Destination file path.
         text: Full file contents to write.
+
         append: Appends when `True` (non-atomic).
         encoding: The output encoding.
         ignore: Ignores encoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)` in append mode.
+
         atomic: Enables atomic replace for non-append writes.
-        backup: Creates a timestamped backup of the previous file (non-append writes only).
-        backup_dir: Directory in which to store backups.
         mode: Optional file-permission bits applied to the written file (atomic mode only).
         overwrite: Raises `FileExistsError` when `False` and the file exists (non-append writes only).
+
+        backup: Creates a timestamped backup of the previous file (non-append writes only).
+        backup_dir: Directory in which to store backups.
 
     Raises:
         FileExistsError: If `overwrite` is `False` and `path` exists (non-append writes).
@@ -1096,8 +1123,10 @@ def write_text(
         encoding=encoding,
         newline="" if is_null(newline) else newline,
         ignore=ignore,
+        # Save
         mode=mode,
         overwrite=overwrite,
+        # Backup
         backup=backup,
         backup_dir=backup_dir,
     )

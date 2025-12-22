@@ -30,7 +30,7 @@ include = [
 python = ">=3.10,<4.0"
 
 ### Databases ##############################################
-sqlalchemy = "^2.0.41"        # SQL abstraction and object-relational mapping
+sqlalchemy = "^2.0.45"        # SQL abstraction and object-relational mapping
 
 ### Neptune Utilities ######################################
 nutil = { path = "../nutil", develop = true }               # Neptune utility library
@@ -38,9 +38,9 @@ nutil = { path = "../nutil", develop = true }               # Neptune utility li
 ### Web HTTP ###############################################
 httpcore = "^1.0.9"           # Low-level HTTP transport for clients and servers
 httpx = "^0.28.1"             # Async HTTP client with a requests-style interface
-python-multipart = "^0.0.20"  # Parser for multipart/form-data requests
-requests = "^2.32.4"          # Synchronous HTTP client for APIs and websites
-urllib3 = "^2.5.0"            # HTTP connection pooling and retry handling
+python-multipart = "^0.0.21"  # Parser for multipart/form-data requests
+requests = "^2.32.5"          # Synchronous HTTP client for APIs and websites
+urllib3 = "^2.6.2"            # HTTP connection pooling and retry handling
 
 
 ## 3. OTHER DEPENDENCIES #################################################################

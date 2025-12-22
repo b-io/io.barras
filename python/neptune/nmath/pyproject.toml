@@ -30,7 +30,7 @@ include = [
 python = ">=3.10,<4.0"
 
 ### Mathematics ############################################
-scipy = "^1.13.1"             # Scientific computing and numerical tools
+scipy = "^1.15.3"             # Scientific computing and numerical tools
 
 ### Neptune Utilities ######################################
 ngui = { path = "../ngui", develop = true }                 # Neptune graphical utility library

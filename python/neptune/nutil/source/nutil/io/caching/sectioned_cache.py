@@ -429,6 +429,7 @@ class SectionedCache(Generic[V]):
 
         Args:
             compact: Writes the compact JSON when `True`.
+
             backup: Creates the timestamped backup of the previous file when `True`.
             backup_dir: Stores the backups in this directory (defaults to next to the cache file).
         """

@@ -595,7 +595,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(description="Fix simple coding-style issues based on 'STYLE.yml' rules.")
     # Add the path(s)
     ap.add_argument("--config", help="Path to the YAML config.", default="STYLE.yml")
-    ap.add_argument("--root", help="Root directory to scan.", default=".")
+    ap.add_argument("--root", help="Root directory to scan recursively.", default=".")
     # Add the save parameter(s)
     ap.add_argument(
         "--dry-run",

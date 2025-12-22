@@ -13,16 +13,21 @@
 #   • Selects the newest non-yanked, non-prerelease release compatible with the target Python version
 #   • Patches `"pyproject.toml"` in-place atomically (optionally creating a timestamped backup) while preserving spacing
 #     and comments
+#   • When `"--root"` is used, scans recursively and prunes excluded folders using `DEFAULT_EXCLUDES`
 #
 # CLI
+#   • `"--root"` scan this root directory recursively for `"pyproject.toml"` and update all of them
 #   • `"--pyproject"` path to `"pyproject.toml"` (default: `"pyproject.toml"`)
+#
+#   • `"--include-prereleases"` include prereleases
 #   • `"--python"` target version (defaults to the lowest version from the `"python"` dependency, fallback: `"3.10.0"`)
-#   • `"--no-inplace"` do not patch `"pyproject.toml"` (still resolves versions)
+#   • `"--verbose"` enable debug logging
+#
 #   • `"--dry-run"` do not write changes; only log results
+#   • `"--no-inplace"` do not patch `"pyproject.toml"` (still resolves versions)
+#
 #   • `"--backup"` create a timestamped backup of the previous file on save
 #   • `"--backup-dir"` directory to store backups (defaults to the `"pyproject.toml"` directory)
-#   • `"--include-prereleases"` include prereleases
-#   • `"--verbose"` enable debug logging
 ########################################################################################################################
 
 from __future__ import annotations
@@ -31,15 +36,14 @@ import argparse
 import logging
 import re
 from dataclasses import dataclass
-from pathlib import Path
 
 import requests
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 
 from nconnect.internet import http
-from nutil.common import *
-from nutil.io.file import read, resolve_path, write_text
+from ntest.common import DEFAULT_EXCLUDES
+from nutil.io.file import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.string import ALPHANUMERIC_CHARS, split_line
 
@@ -50,6 +54,11 @@ __POETRY_UPDATER_CONSTANTS______________________________________________________
 
 DEFAULT_PYPROJECT = "pyproject.toml"
 DEFAULT_TARGET_PYTHON = "3.10.0"
+
+
+### GLOBALS ################################################
+
+PYPROJECT = "pyproject.toml"
 
 
 ### GLOBALS ################################################
@@ -142,6 +151,51 @@ def get_latest_compatible_version(
             latest_version = version
 
     return str(latest_version) if not is_null(latest_version) else None
+
+
+__POETRY_UPDATER_FINDERS__________________________________________________________________ = ""
+
+
+def find_pyproject_files(root: Path, *, exclude: Optional[List[str]] = None) -> List[Path]:
+    """
+    Finds all `PYPROJECT` files under `root`, recursively, pruning excluded directories.
+
+    Args:
+        root: The root directory to scan.
+        exclude: The list of exclude glob patterns (defaults to `DEFAULT_EXCLUDES`).
+
+    Returns:
+        The list of discovered `pyproject.toml` paths (sorted).
+    """
+    exclude = DEFAULT_EXCLUDES if is_null(exclude) else list(exclude)
+    prune_names = get_dirnames_from_globs(exclude)
+
+    found: List[Path] = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        dir_path = Path(dirpath)
+        rel_dir = to_relative_posix_path(dir_path, root)
+
+        # Prune excluded directories in place (avoid entering ".venv", ".git", etc.)
+        kept: List[str] = []
+        for d in dirnames:
+            if d in prune_names:
+                continue
+            rel_child = join_posix_paths(rel_dir, d)
+            if exclude_dir(rel_child, exclude):
+                continue
+            kept.append(d)
+        dirnames[:] = kept
+
+        for name in filenames:
+            if name != PYPROJECT:
+                continue
+            rel_file = join_posix_paths(rel_dir, name)
+            if exclude_file(rel_file, exclude, include=[]):
+                continue
+            found.append(dir_path / name)
+
+    found.sort(key=lambda p: str(p).casefold())
+    return found
 
 
 __POETRY_UPDATER_PARSERS__________________________________________________________________ = ""
@@ -693,11 +747,13 @@ __POETRY_UPDATER_RUNNERS________________________________________________________
 
 def run(
     pyproject_path: Path,
-    target_version: Version,
-    inplace: bool,
-    include_prereleases: bool,
     *,
+    include_prereleases: bool = False,
+    target_version: Optional[Version] = None,
+    # Save
     dry_run: bool = False,
+    inplace: bool = True,
+    # Backup
     backup: bool = False,
     backup_dir: Optional[str] = None,
 ) -> int:
@@ -706,10 +762,13 @@ def run(
 
     Args:
         pyproject_path: The `pyproject.toml` path.
-        target_version: The target Python version.
-        inplace: Whether to patch in-place.
+
         include_prereleases: Whether prereleases are eligible.
+        target_version: The target Python version (or `None` to auto-detect from the `"python"` dependency).
+
         dry_run: Tells to not write changes; only logs the results.
+        inplace: Whether to patch in-place.
+
         backup: Tells to create a timestamped backup on save.
         backup_dir: The directory where backups are stored.
 
@@ -717,6 +776,11 @@ def run(
         Exit code `0` on success, otherwise `1`.
     """
     lines = parse_pyproject_lines(pyproject_path)
+
+    if is_null(target_version):
+        detected = detect_lowest_python_version(lines)
+        target_version = detected if not is_null(detected) else Version(DEFAULT_TARGET_PYTHON)
+
     dependencies = extract_pypi_dependencies(lines)
 
     if not dependencies:
@@ -765,7 +829,9 @@ def run(
     write_text(
         pyproject_path,
         patched_text,
+        # Save
         overwrite=True,
+        # Backup
         backup=backup,
         backup_dir=Path(backup_dir) if backup_dir else None,
     )
@@ -774,6 +840,65 @@ def run(
         pyproject_path,
         updated_count,
     )
+    return 0
+
+
+def run_root(
+    root: Path,
+    *,
+    include_prereleases: bool = False,
+    target_version: Optional[Version] = None,
+    # Save
+    dry_run: bool = False,
+    inplace: bool = True,
+    # Backup
+    backup: bool = False,
+    backup_dir: Optional[str] = None,
+) -> int:
+    """
+    Scans `root` recursively for `PYPROJECT` and applies the same updater.
+
+    Args:
+        root: The root directory to scan.
+
+        include_prereleases: Whether prereleases are eligible.
+        target_version: The target Python version (or `None` to auto-detect per file from the `"python"` dependency).
+
+        dry_run: Tells to not write changes; only logs the results.
+        inplace: Whether to patch in-place.
+
+        backup: Tells to create a timestamped backup on save.
+        backup_dir: The directory where backups are stored.
+
+    Returns:
+        Exit code `0` on success, otherwise `1`.
+    """
+    pyprojects = find_pyproject_files(root, exclude=DEFAULT_EXCLUDES)
+    if not pyprojects:
+        logging.error("❌ No 'pyproject.toml' files found under '%s'", root)
+        return 1
+
+    any_error = False
+    for p in pyprojects:
+        logging.info("Process '%s'", p)
+        code = run(
+            p,
+            include_prereleases=include_prereleases,
+            target_version=target_version,
+            # Save
+            dry_run=dry_run,
+            inplace=inplace,
+            # Backup
+            backup=backup,
+            backup_dir=backup_dir,
+        )
+        any_error |= code != 0
+
+    if any_error:
+        logging.error("❌ One or more updates failed under '%s'", root)
+        return 1
+
+    logging.info("✅ Updated %d file(s) under '%s'", len(pyprojects), root)
     return 0
 
 
@@ -794,13 +919,12 @@ def parse_args() -> argparse.Namespace:
     ap = _build_arg_parser()
     args = ap.parse_args()
 
-    args.pyproject = resolve_path(args.pyproject, must_exist=True)
-
-    if is_null(args.python):
-        lines = parse_pyproject_lines(args.pyproject)
-        detected = detect_lowest_python_version(lines)
-        args.python = detected if not is_null(detected) else Version(DEFAULT_TARGET_PYTHON)
+    if not is_null(args.root):
+        args.root = resolve_path(args.root, must_exist=True)
     else:
+        args.pyproject = resolve_path(args.pyproject, must_exist=True)
+
+    if not is_null(args.python):
         try:
             args.python = Version(args.python)
         except Exception as e:
@@ -815,20 +939,22 @@ def _build_arg_parser() -> argparse.ArgumentParser:
         description="Pins Poetry dependencies to the latest PyPI releases compatible with the target Python version."
     )
     # Add the path(s)
+    ap.add_argument("--root", help="Root directory to scan recursively for 'pyproject.toml'.")
     ap.add_argument("--pyproject", default=DEFAULT_PYPROJECT, help="Path to 'pyproject.toml'.")
     # Add the parameter(s)
+    ap.add_argument("--include-prereleases", action="store_true", help="Allow prerelease versions.")
     ap.add_argument(
         "--python",
         default=None,
         help="Target python version (e.g., '3.10.0'). When omitted, uses the lowest version from the 'python' spec.",
     )
-    ap.add_argument("--inplace", dest="inplace", action="store_true", help="Patch 'pyproject.toml' in-place.")
-    ap.add_argument("--no-inplace", dest="inplace", action="store_false", help="Do not patch 'pyproject.toml'.")
-    ap.set_defaults(inplace=True)
-    ap.add_argument("--include-prereleases", action="store_true", help="Allow prerelease versions.")
     ap.add_argument("--verbose", action="store_true", help="Enable debug logging.")
     # Add the save parameter(s)
     ap.add_argument("--dry-run", help="Do not write changes; only log results.", action="store_true")
+    ap.add_argument("--inplace", dest="inplace", action="store_true", help="Patch 'pyproject.toml' in-place.")
+    ap.add_argument("--no-inplace", dest="inplace", action="store_false", help="Do not patch 'pyproject.toml'.")
+    ap.set_defaults(inplace=True)
+    # Add the backup parameter(s)
     ap.add_argument(
         "--backup",
         help="Create a timestamped backup of the previous file on save.",
@@ -853,13 +979,31 @@ def run_with_args(args: argparse.Namespace) -> None:
         logging.getLogger().setLevel(logging.DEBUG)
 
     logging.info("Run '%s' with args: %s", Path(__file__).name, args)
+
+    if not is_null(args.root):
+        sys.exit(
+            run_root(
+                args.root,
+                include_prereleases=args.include_prereleases,
+                target_version=args.python,
+                # Save
+                dry_run=args.dry_run,
+                inplace=args.inplace,
+                # Backup
+                backup=args.backup,
+                backup_dir=args.backup_dir,
+            )
+        )
+
     sys.exit(
         run(
             args.pyproject,
-            args.python,
-            args.inplace,
-            args.include_prereleases,
+            include_prereleases=args.include_prereleases,
+            target_version=args.python,
+            # Save
             dry_run=args.dry_run,
+            inplace=args.inplace,
+            # Backup
             backup=args.backup,
             backup_dir=args.backup_dir,
         )
