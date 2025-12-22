@@ -45,11 +45,7 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
     """
     violations: List[Tuple[StyleRule, int, str]] = []
     try:
-        with abs_path.open("r", encoding=DEFAULT_ENCODING, errors="ignore") as fh:
-            for line_number, line in enumerate(fh, 1):
-                for rule in rules:
-                    if rule.pattern.search(line):
-                        violations.append((rule, line_number, line.rstrip("\n\r")))
+        text = abs_path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
     except Exception as e:
         # Treat unreadable files as warnings (report but do not fail the run)
         violations.append(
@@ -67,7 +63,82 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
                 "",
             )
         )
+        return violations
+
+    line_rules: List[StyleRule] = []
+    multiline_rules: List[StyleRule] = []
+    for rule in rules:
+        if _is_multiline_rule(rule):
+            multiline_rules.append(rule)
+        else:
+            line_rules.append(rule)
+
+    # Apply the line-scoped rules line-by-line
+    for line_number, line in enumerate(text.splitlines(), 1):
+        for rule in line_rules:
+            if rule.pattern.search(line):
+                violations.append((rule, line_number, line))
+
+    # Apply the multi-line rules to the whole text
+    for rule in multiline_rules:
+        for m in rule.pattern.finditer(text):
+            line_number, line_text = _get_match_last_line(text, m)
+            violations.append((rule, line_number, line_text))
+
     return violations
+
+
+#### HELPERS #################
+
+
+def _get_match_last_line(text: str, match: Any) -> Tuple[int, str]:
+    """
+    Selects the last line of a multi-line match, which is typically the offending header line.
+
+    Args:
+        text: The full file text.
+        match: The regex match object.
+
+    Returns:
+        A tuple of `(line_number, line_text)` for the last line in the match.
+    """
+    block = match.group(0)
+    rel_last_nl = block.rfind(NEWLINE)
+    target_offset = match.start() if rel_last_nl < 0 else match.start() + rel_last_nl + 1
+
+    line_number = text.count(NEWLINE, 0, target_offset) + 1
+
+    line_start = text.rfind(NEWLINE, 0, target_offset)
+    line_start = 0 if line_start < 0 else line_start + 1
+
+    line_end = text.find(NEWLINE, target_offset)
+    line_end = len(text) if line_end < 0 else line_end
+
+    line_text = text[line_start:line_end].rstrip(CARRIAGE_RETURN)
+    return line_number, line_text
+
+
+def _is_multiline_rule(rule: StyleRule) -> bool:
+    """
+    Selects whether a rule should be applied to the whole file text.
+
+    YAML regexes typically encode line breaks as `\\n` (two characters). Therefore, multi-line rules must be detected
+    via escaped newline tokens or DOTALL usage.
+
+    Args:
+        rule: The style rule to classify.
+
+    Returns:
+        `True` if the rule must be applied to the whole file text, otherwise `False`.
+    """
+    pattern = rule.pattern.pattern
+    if "\\n" in pattern or "\\r" in pattern:
+        return True
+    if (rule.pattern.flags & re.DOTALL) != 0:
+        return True
+    if "(?s)" in pattern:
+        return True
+    return False
 
 
 __STYLE_CHECKER_RUNNERS___________________________________________________________________ = ""

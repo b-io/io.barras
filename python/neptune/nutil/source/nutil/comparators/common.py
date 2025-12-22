@@ -30,7 +30,7 @@ def get_text_window(
     Slices a small, printable window from the `text`, adding the ellipses and visualizing the control characters.
 
     Behavior:
-        • Converts `\n`, `\r`, `\t` to `⏎`, `␍`, `⇥` for display.
+        • Converts `\r`, `\n`, `\t` to `␍`, `⏎`, `⇥` for display.
         • Prepends/appends `…` when the window is clipped.
         • Enforces the `max_length` if provided.
 
@@ -50,7 +50,7 @@ def get_text_window(
     if max_length is not None:
         end = min(end, start + max_length)
 
-    s = text[start:end].replace("\n", "⏎").replace("\r", "␍").replace("\t", "⇥")
+    s = text[start:end].replace(CARRIAGE_RETURN, "␍").replace(NEWLINE, "⏎").replace(TABULATION, "⇥")
     if start > 0:
         s = ELLIPSIS + s
     if end < len(text):

@@ -195,7 +195,7 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
     if not rule.pattern.search(line):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
     # Treat a line as a hash banner only if it starts with `#` and contains `##` somewhere
@@ -204,7 +204,7 @@ def fix_hash_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]:
     if "##" not in body:
         return line, False
 
-    m = re.match(r"^(\s*)(#{1,})([^\n]*)$", body)
+    m = re.match(rf"^(\s*)(#{{1,}})([^{NEWLINE}]*)$", body)
     if is_null(m):
         return line, False
 
@@ -270,7 +270,7 @@ def fix_underscore_banner_length(line: str, rule: StyleRule) -> Tuple[str, bool]
     if not rule.pattern.search(line):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
     # Indent + `__` + name + trailing bar + ` = ""`
@@ -371,10 +371,10 @@ def fix_line_comment_capitalized(line: str, rule: StyleRule) -> Tuple[str, bool]
     if not rule.pattern.search(line):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
-    m = re.match(rf"^(\s*#\s*)([{LOWERCASE_LETTERS}])([^\n]*)$", body)
+    m = re.match(rf"^(\s*#\s*)([{LOWERCASE_LETTERS}])([^{NEWLINE}]*)$", body)
     if is_null(m):
         return line, False
 
@@ -398,10 +398,13 @@ def fix_inline_comment_lowercase(line: str, rule: StyleRule) -> Tuple[str, bool]
     if not rule.pattern.search(line):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
-    m = re.match(rf"^(?P<left>(?!\s*#).*?\S[ \t]{2,}#\s+)(?P<first>[{UPPERCASE_LETTERS}])(?P<rest>[^\n]*)$", body)
+    m = re.match(
+        rf"^(?P<left>(?!\s*#).*?\S[ {TABULATION}]{{2,}}#\s+)(?P<first>[{UPPERCASE_LETTERS}])(?P<rest>[^{NEWLINE}]*)$",
+        body,
+    )
     if is_null(m):
         return line, False
 
@@ -425,7 +428,7 @@ def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, b
     if not rule.pattern.search(line):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
     r = body.rstrip()
@@ -514,7 +517,7 @@ def _replace_last_keyword_in_match(match_text: str, indent: str, from_kw: str, t
     Returns:
         A tuple of `(possibly_modified_match_text, did_change)`.
     """
-    needle = "\n%s%s" % (indent, from_kw)
+    needle = f"{NEWLINE}%s%s" % (indent, from_kw)
     pos = match_text.rfind(needle)
     if pos >= 0:
         start = pos + 1 + len(indent)
@@ -528,7 +531,7 @@ def _replace_last_keyword_in_match(match_text: str, indent: str, from_kw: str, t
     end = start + len(from_kw)
     if match_text[start:end] != from_kw:
         return match_text, False
-    if end < len(match_text) and match_text[end] not in {" ", "\t"}:
+    if end < len(match_text) and match_text[end] not in {" ", TABULATION}:
         return match_text, False
 
     return match_text[:start] + to_kw + match_text[end:], True
@@ -554,7 +557,7 @@ def fix_error_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str, 
     if is_null(m):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
     end = m.end()
@@ -584,7 +587,7 @@ def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str
     if is_null(m):
         return line, False
 
-    newline = "\n" if line.endswith("\n") else ""
+    newline = NEWLINE if line.endswith(NEWLINE) else ""
     body = line[:-1] if newline else line
 
     end = m.end()

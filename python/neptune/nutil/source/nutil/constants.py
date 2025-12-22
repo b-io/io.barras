@@ -56,13 +56,22 @@ CORE_COUNT = mp.cpu_count() or 1
 
 EMPTY = ()
 
+##############################
+
 NA_NAME = "N/A"
 
 BULLET = "•"
 COLON = ":"
 ELLIPSIS = "…"
-NEWLINE = "\n"
 SEMICOLON = ";"
+
+BACKSPACE = "\b"
+CARRIAGE_RETURN = "\r"
+FORM_FEED = "\f"
+NEWLINE = "\n"
+TABULATION = "\t"
+
+##############################
 
 INF = np.inf
 NAN = np.nan

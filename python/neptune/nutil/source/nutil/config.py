@@ -365,7 +365,7 @@ def render_config(config: ConfigParser, *, resolve_env: bool = True, redact: boo
             pad = " " * (width - len(key)) if align else ""
             lines.append(f"{key}{pad} = {options[key]}")
         lines.append("")  # blank line between sections
-    return "\n".join(lines).rstrip()  # no trailing spaces, no extra trailing newline
+    return NEWLINE.join(lines).rstrip()  # no trailing spaces, no extra trailing newline
 
 
 ##############################
@@ -461,11 +461,11 @@ def main() -> None:
     print(render_config(CONFIG, resolve_env=True, redact=True, align=True))
 
     # 2) Programmatic JSON snapshot
-    print("\n# CONFIG (json)")
+    print(f"{NEWLINE}# CONFIG (json)")
     print(config_to_json(CONFIG, resolve_env=True, redact=True, indent=2))
 
     # 3) Raw INI emission (as `ConfigParser` would write it)
-    print("\n# CONFIG (ini)")
+    print(f"{NEWLINE}# CONFIG (ini)")
     print(config_to_ini(CONFIG))
 
 

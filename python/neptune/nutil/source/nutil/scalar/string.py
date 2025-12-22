@@ -181,14 +181,14 @@ def split_line(line: str) -> Tuple[str, str]:
         line: The line to split.
 
     Returns:
-        A tuple `(core, eol)` where `eol` is one of `""`, `"\n"`, `"\r\n"`, or `"\r"`.
+        A tuple `(core, eol)` where `eol` is one of `""`, `"\r\n"`, `"\r"`, or `"\n"`.
     """
-    if line.endswith("\r\n"):
-        return line[:-2], "\r\n"
-    if line.endswith("\n"):
-        return line[:-1], "\n"
-    if line.endswith("\r"):
-        return line[:-1], "\r"
+    if line.endswith(f"{CARRIAGE_RETURN}{NEWLINE}"):
+        return line[:-2], f"{CARRIAGE_RETURN}{NEWLINE}"
+    elif line.endswith(CARRIAGE_RETURN):
+        return line[:-1], CARRIAGE_RETURN
+    elif line.endswith(NEWLINE):
+        return line[:-1], NEWLINE
     return line, ""
 
 
@@ -202,7 +202,9 @@ def trim(s, replace_space=True, replace_special=True):
     `True` to a single space).
     """
     if replace_special:
-        s = replace(s, "\b|\f|\r\n|\r|\n|\t", " ")
+        s = replace(
+            s, f"{BACKSPACE}|{FORM_FEED}|{TABULATION}|{CARRIAGE_RETURN}{NEWLINE}|{CARRIAGE_RETURN}|{NEWLINE}", " "
+        )
     if replace_space:
         s = replace(s, " +", " ")
     return s.strip()

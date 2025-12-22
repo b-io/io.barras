@@ -30,8 +30,8 @@ def string_to_html(s):
         .replace("<", "&lt;")
         .replace(">", "&gt;")
     )
-    s = replace(s, "\r\n|\r|\n", "<br />")
-    s = replace(s, "\t", "&nbsp;&nbsp;&nbsp;&nbsp;")
+    s = replace(s, f"{CARRIAGE_RETURN}{NEWLINE}|{CARRIAGE_RETURN}|{NEWLINE}", "<br />")
+    s = replace(s, TABULATION, "&nbsp;&nbsp;&nbsp;&nbsp;")
     return s
 
 

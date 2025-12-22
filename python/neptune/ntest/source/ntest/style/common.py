@@ -29,7 +29,7 @@ __COMMON_STYLE_CONSTANTS________________________________________________________
 
 FLAG_MAP: Dict[str, int] = {
     "DOTALL": re.DOTALL,
-    "IGNORECASE": re.I,
+    "IGNORECASE": re.IGNORECASE,
     "MULTILINE": re.MULTILINE,
     "VERBOSE": re.VERBOSE,
 }

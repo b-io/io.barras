@@ -19,6 +19,7 @@ import unicodedata
 
 from nutil.common import *
 from nutil.enums import StrEnum
+from nutil.scalar.string import LOWERCASE_LETTERS
 
 __SANITIZER_CLASSES_______________________________________________________________________ = ""
 
@@ -92,18 +93,18 @@ NO_BREAK_OR_THIN_SPACE_PATTERN: re.Pattern[str] = re.compile(
 SOFT_HYPHEN_PATTERN: re.Pattern[str] = re.compile("\u00ad")
 
 # The regex pattern to recognize form-feed controls (to be normalized to a newline)
-FORM_FEED_CHARS_PATTERN: re.Pattern[str] = re.compile(r"[\f]+")
+FORM_FEED_CHARS_PATTERN: re.Pattern[str] = re.compile(rf"[{FORM_FEED}]+")
 
 # The regex pattern to recognize horizontal whitespace except newline (to be collapsed to a single space)
-HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN: re.Pattern[str] = re.compile(r"[^\S\n]+")
+HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN: re.Pattern[str] = re.compile(rf"[^\S{NEWLINE}]+")
 
 # The regex pattern to recognize multiple consecutive newlines (to be collapsed to a single newline)
-MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(r"\n{2,}")
+MULTIPLE_NEWLINES_PATTERN: re.Pattern[str] = re.compile(rf"{NEWLINE}{{2,}}")
 
 # The regex patterns to recognize hyphens across lines (to be collapsed to a single line)
-ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(r"(?<=\w)-\n(?=\w)")
+ANY_LETTER_HYPHEN_LINEBREAK_ANY_LETTER_PATTERN: re.Pattern[str] = re.compile(rf"(?<=\w)-{NEWLINE}(?=\w)")
 LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN: re.Pattern[str] = re.compile(
-    rf"(?<=[{LOWERCASE_LETTERS}])-\n(?=[{LOWERCASE_LETTERS}])"
+    rf"(?<=[{LOWERCASE_LETTERS}])-{NEWLINE}(?=[{LOWERCASE_LETTERS}])"
 )
 
 
@@ -153,7 +154,7 @@ def clean_text(
 
     # 3) Remove the soft hyphen; normalize the newlines
     s = SOFT_HYPHEN_PATTERN.sub("", s)
-    s = s.replace("\r\n", "\n").replace("\r", "\n")
+    s = s.replace(f"{CARRIAGE_RETURN}{NEWLINE}", NEWLINE).replace(CARRIAGE_RETURN, NEWLINE)
 
     # 4) Normalize the quotes/dashes if enabled
     if sanitize_config.normalize_quotes_and_dashes:
@@ -168,10 +169,10 @@ def clean_text(
         s = LOWERCASE_HYPHEN_LINEBREAK_LOWERCASE_PATTERN.sub("", s)
 
     # 6) Whitespace normalization while preserving the line structure
-    s = FORM_FEED_CHARS_PATTERN.sub("\n", s)  # form feed → newline
+    s = FORM_FEED_CHARS_PATTERN.sub(NEWLINE, s)  # form feed → newline
     s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(" ", s)  # collapse horizontal whitespace runs
     if sanitize_config.collapse_blank_lines:
-        s = MULTIPLE_NEWLINES_PATTERN.sub("\n", s)  # normalize multiple newlines
+        s = MULTIPLE_NEWLINES_PATTERN.sub(NEWLINE, s)  # normalize multiple newlines
 
     return s.strip()
 
@@ -197,7 +198,7 @@ def minify_text(text: Optional[str], *, newline: str = " ") -> Optional[str]:
     s = clean_text(text)
 
     # Normalize the newlines explicitly, then collapse all the whitespace runs
-    s = s.replace("\n", newline)
+    s = s.replace(NEWLINE, newline)
     s = re.sub(r"\s{2,}", " ", s)
 
     return s.strip()
@@ -283,8 +284,8 @@ def strip_html_tags(s: Optional[str]) -> Optional[str]:
         return None
 
     # Normalize the common block boundaries to the newlines before stripping the tags
-    s = re.sub(r"(?i)<\s*br\s*/?\s*>", "\n", s)
-    s = re.sub(r"(?i)</\s*(p|div|h[1-6]|li|tr|table|ul|ol)\s*>", "\n", s)
+    s = re.sub(r"(?i)<\s*br\s*/?\s*>", NEWLINE, s)
+    s = re.sub(r"(?i)</\s*(p|div|h[1-6]|li|tr|table|ul|ol)\s*>", NEWLINE, s)
 
     # Drop all the remaining tags
     s = re.sub(r"(?s)<[^>]+>", "", s)
@@ -294,5 +295,5 @@ def strip_html_tags(s: Optional[str]) -> Optional[str]:
 
     # Reuse the whitespace compactor semantics
     s = HORIZONTAL_WHITESPACE_EXCEPT_NEWLINE_PATTERN.sub(" ", s)
-    s = MULTIPLE_NEWLINES_PATTERN.sub("\n", s)
+    s = MULTIPLE_NEWLINES_PATTERN.sub(NEWLINE, s)
     return s.strip()
