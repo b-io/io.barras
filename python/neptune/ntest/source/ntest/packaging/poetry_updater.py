@@ -375,7 +375,7 @@ def extract_python_requirement(pyproject_lines: List[str]) -> Optional[str]:
             continue
 
         name = m.group("name")
-        if name != "python":
+        if name.lower() != "python":
             continue
 
         raw_value = m.group("value")
@@ -537,7 +537,7 @@ def compute_pins(
         The list of resolved pins.
     """
     pins: List[Pin] = []
-    current_versions = {} if is_null(current_versions) else dict(current_versions)
+    current_versions = {} if is_null(current_versions) else {k.lower(): v for k, v in current_versions.items()}
 
     for name in dependency_names:
         try:
