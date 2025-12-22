@@ -65,7 +65,7 @@ rules:
     severity: "warning"
 
 
-### IF / ELIF ##############################################
+  ### IF / ELIF ############################################
 
   - id: "elif-subject-mismatch-standalone"
     description: "Use \"elif\" only if the next condition refers to the same subject variable as the previous \"if\"/\"elif\" (subject = first standalone identifier in the condition, not followed by '.' or '(')."
