@@ -104,25 +104,25 @@ urllib3 = "^2.6.2"            # HTTP connection pooling and retry handling
 
 [tool.poetry.group.docs.dependencies]
 ### Documentation ##########################################
-docutils = "^0.21.2"              # reStructuredText parsing and rendering
-myst-parser = "^3.0.1"            # Markdown parser for Sphinx
-sphinx = "^7.4.7"                 # Static documentation generation
+docutils = "^0.22.4"              # reStructuredText parsing and rendering
+myst-parser = "^4.0.1"            # Markdown parser for Sphinx
+sphinx = "^8.3.0"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
 ### Code Quality ###########################################
 autoflake = "^2.3.1"              # Removal of unused imports and variables
-black = "^24.10.0"                # Automatic code formatting
+black = "^25.12.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
-flake8-bugbear = "^24.12.12"      # Detection of likely bugs and design issues
-flake8-comprehensions = "^3.16.0" # Comprehension style simplification
+flake8-bugbear = "^25.11.29"      # Detection of likely bugs and design issues
+flake8-comprehensions = "^3.17.0" # Comprehension style simplification
 flake8-simplify = "^0.22.0"       # Simplification of overly complex constructs
-isort = "^6.0.1"                  # Import sorting and grouping
-mypy = "^1.16.1"                  # Static type checking
+isort = "^7.0.0"                  # Import sorting and grouping
+mypy = "^1.19.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
 ### Testing ################################################
-coverage = "^7.9.1"               # Code coverage reporting
-pytest = "^8.4.1"                 # Unit testing framework
+coverage = "^7.13.0"              # Code coverage reporting
+pytest = "^9.0.2"                 # Unit testing framework
 
 
 ## 4. PACKAGE SOURCES ####################################################################

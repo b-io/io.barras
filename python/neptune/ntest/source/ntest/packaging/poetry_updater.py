@@ -8,7 +8,7 @@
 #   Pin Poetry dependencies to the latest PyPI releases compatible with the specified Python version (default: 3.10.0).
 #
 # Behavior
-#   • Scans `[tool.poetry.dependencies]` and ignores `"python"` plus non-PyPI dependencies (tables such as `{ path=… }`)
+#   • Scans Poetry dependency sections and ignores `"python"` plus non-PyPI dependencies (tables such as `{ path=… }`)
 #   • Queries the PyPI JSON API for each dependency via the HTTP utilities (requests + retries)
 #   • Selects the newest non-yanked, non-prerelease release compatible with the target Python version
 #   • Patches `"pyproject.toml"` in-place atomically (optionally creating a timestamped backup) while preserving spacing
@@ -69,6 +69,9 @@ PYPI_API_NAME = "PyPI"
 PINNER_USER_AGENT = "poetry-py310-pin/1.0"
 
 DEPENDENCY_SECTION_PATTERN: re.Pattern[str] = re.compile(r"^\[tool\.poetry\.dependencies\]\s*$")
+GROUP_DEPENDENCY_SECTION_PATTERN: re.Pattern[str] = re.compile(
+    r"^\[tool\.poetry\.group\.[A-Za-z0-9_.-]+\.dependencies\]\s*$"
+)
 SECTION_HEADER_PATTERN: re.Pattern[str] = re.compile(r"^\[.*\]\s*$")
 
 DEPENDENCY_LINE_PATTERN: re.Pattern[str] = re.compile(
@@ -224,7 +227,7 @@ def parse_pyproject_lines(pyproject_path: Path) -> List[str]:
 
 def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
     """
-    Extracts the dependency names from `[tool.poetry.dependencies]` that are expected to be on PyPI.
+    Extracts the dependency names from the Poetry dependency sections that are expected to be on PyPI.
 
     Args:
         pyproject_lines: The raw `pyproject.toml` lines.
@@ -240,12 +243,13 @@ def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
         line, _ = split_line(raw_line)
         stripped = line.strip()
 
-        if DEPENDENCY_SECTION_PATTERN.match(stripped):
+        if is_dependency_section_header(stripped):
             is_in_dependencies = True
             continue
 
         if is_in_dependencies and SECTION_HEADER_PATTERN.match(stripped):
-            break
+            is_in_dependencies = False
+            continue
 
         if not is_in_dependencies:
             continue
@@ -261,7 +265,7 @@ def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
         raw_value = m.group("value").strip()
 
         # Skip the python requirement and table-style dependencies (path/git/url/markers/extras)
-        if name == "python":
+        if name.lower() == "python":
             continue
         if raw_value.startswith("{"):
             continue
@@ -281,11 +285,11 @@ def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
 
 def extract_current_pins(pyproject_lines: List[str]) -> Dict[str, str]:
     """
-    Extracts the currently pinned versions from `[tool.poetry.dependencies]` for simple quoted specs.
+    Extracts the currently pinned versions from the Poetry dependency sections for simple quoted specs.
 
     Notes:
         • Only extracts specs that `_override_version_spec` would accept (single version token).
-        • Returns a mapping keyed by the original dependency name as it appears in the file.
+        • Returns a mapping keyed case-insensitively (lowercased dependency name).
 
     Args:
         pyproject_lines: The raw `pyproject.toml` lines.
@@ -300,12 +304,13 @@ def extract_current_pins(pyproject_lines: List[str]) -> Dict[str, str]:
         line, _ = split_line(raw_line)
         stripped = line.strip()
 
-        if DEPENDENCY_SECTION_PATTERN.match(stripped):
+        if is_dependency_section_header(stripped):
             is_in_dependencies = True
             continue
 
         if is_in_dependencies and SECTION_HEADER_PATTERN.match(stripped):
-            break
+            is_in_dependencies = False
+            continue
 
         if not is_in_dependencies:
             continue
@@ -331,7 +336,7 @@ def extract_current_pins(pyproject_lines: List[str]) -> Dict[str, str]:
 
         version = sm.group("version")
         if not is_null(version):
-            current[name] = version
+            current[name.lower()] = version
 
     return current
 
@@ -432,7 +437,7 @@ __POETRY_UPDATER_PROCESSORS_____________________________________________________
 
 def apply_pins_inplace(pyproject_lines: List[str], pins: List[Pin]) -> Tuple[List[str], int]:
     """
-    Applies the specified pins to `[tool.poetry.dependencies]`.
+    Applies the specified pins to the Poetry dependency sections.
 
     Notes:
         • Preserves original whitespace, alignment, quoting style, line terminators, and trailing comments.
@@ -445,27 +450,27 @@ def apply_pins_inplace(pyproject_lines: List[str], pins: List[Pin]) -> Tuple[Lis
     Returns:
         A tuple `(patched_lines, updated_count)`.
     """
-    pin_map: Dict[str, str] = {p.name: p.version for p in pins}
+    pin_map: Dict[str, str] = {p.name.lower(): p.version for p in pins}
 
     out: List[str] = []
     updated = 0
-    in_dependencies = False
+    is_in_dependencies = False
 
     for raw_line in pyproject_lines:
         line, eol = split_line(raw_line)
         stripped = line.strip()
 
-        if DEPENDENCY_SECTION_PATTERN.match(stripped):
-            in_dependencies = True
+        if is_dependency_section_header(stripped):
+            is_in_dependencies = True
             out.append(raw_line)
             continue
 
-        if in_dependencies and SECTION_HEADER_PATTERN.match(stripped):
-            in_dependencies = False
+        if is_in_dependencies and SECTION_HEADER_PATTERN.match(stripped):
+            is_in_dependencies = False
             out.append(raw_line)
             continue
 
-        if not in_dependencies:
+        if not is_in_dependencies:
             out.append(raw_line)
             continue
 
@@ -476,7 +481,9 @@ def apply_pins_inplace(pyproject_lines: List[str], pins: List[Pin]) -> Tuple[Lis
 
         name = m.group("name")
         raw_value = m.group("value")
-        if name not in pin_map:
+
+        pin_key = name.lower()
+        if pin_key not in pin_map:
             out.append(raw_line)
             continue
 
@@ -487,7 +494,7 @@ def apply_pins_inplace(pyproject_lines: List[str], pins: List[Pin]) -> Tuple[Lis
 
         q = qm.group("q")
         inner = qm.group("value")
-        new_inner = _override_version_spec(inner, pin_map[name])
+        new_inner = _override_version_spec(inner, pin_map[pin_key])
         if new_inner is None:
             logging.warning(
                 "⚠️ Skip '%s' because the version constraint is not a simple spec: %s", name, raw_value.strip()
@@ -546,7 +553,7 @@ def compute_pins(
             logging.warning("⚠️ No compatible release found for '%s'", name)
             continue
 
-        current_version = current_versions.get(name)
+        current_version = current_versions.get(name.lower())
         if current_version == version:
             logging.debug("Pin '%s' unchanged at version '%s'", name, version)
         else:
@@ -692,6 +699,13 @@ def fetch_pypi_json(session: requests.Session, name: str) -> Optional[Dict[str, 
 __POETRY_UPDATER_VALIDATORS_______________________________________________________________ = ""
 
 
+def is_dependency_section_header(stripped: str) -> bool:
+    return bool(DEPENDENCY_SECTION_PATTERN.match(stripped) or GROUP_DEPENDENCY_SECTION_PATTERN.match(stripped))
+
+
+##############################
+
+
 def is_python_compatible(requires_python: Optional[str], target_version: Version) -> bool:
     """
     Tests whether `Requires-Python` matches the specified target version.
@@ -709,6 +723,9 @@ def is_python_compatible(requires_python: Optional[str], target_version: Version
         return target_version in SpecifierSet(requires_python)
     except Exception:
         return False
+
+
+############################################################
 
 
 def supports_python_version(files: List[object], target_version: Version) -> bool:
@@ -787,7 +804,7 @@ def run(
     dependencies = extract_pypi_dependencies(lines)
 
     if not dependencies:
-        logging.error("❌ No dependencies found under '[tool.poetry.dependencies]' in '%s'", pyproject_path)
+        logging.error("❌ No dependencies found under Poetry dependency sections in '%s'", pyproject_path)
         return 1
 
     current_versions = extract_current_pins(lines)

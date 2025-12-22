@@ -64,17 +64,17 @@ def find_tags(
         The matching tags in document order between the delimiters.
     """
     tags: List[Tag] = []
-    in_range: bool = not from_delimiters
+    is_in_range: bool = not from_delimiters
     for tag in container.descendants:
         if isinstance(tag, NavigableString):
-            if not in_range and (not from_delimiters or any(d in tag for d in from_delimiters)):
+            if not is_in_range and (not from_delimiters or any(d in tag for d in from_delimiters)):
                 # Once `from_delimiters` is reached, start collecting matching tags
-                in_range = True
-            elif in_range and to_delimiters and any(d in tag for d in to_delimiters):
+                is_in_range = True
+            elif is_in_range and to_delimiters and any(d in tag for d in to_delimiters):
                 # Once `to_delimiters` is reached, stop collecting matching tags
-                in_range = False
+                is_in_range = False
         elif (
-            in_range
+            is_in_range
             and isinstance(tag, Tag)
             and (not tag_names or tag.name in tag_names)
             and (not tag_classes or any(c in tag_classes for c in get_tag_classes(tag)))
