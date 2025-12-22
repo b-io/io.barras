@@ -78,10 +78,22 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
 
-    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS or r.id in TEXT_FIXERS]
     counts: Dict[str, int] = {}
 
-    for line in orig.splitlines(keepends=True):
+    # Apply the text-level fixers first (multi-line patterns)
+    text = orig
+    for rule in active_rules:
+        fixer = TEXT_FIXERS.get(rule.id)
+        if not fixer:
+            continue
+        new_text, change_count = fixer(text, rule)
+        if change_count > 0:
+            counts[rule.id] = counts.get(rule.id, 0) + change_count
+            text = new_text
+
+    # Apply the line-level fixers
+    for line in text.splitlines(keepends=True):
         current_line = line
         for rule in active_rules:
             fixer = FIXERS.get(rule.id)
@@ -119,13 +131,27 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         return {}
 
     # Preserve the rule order as defined in the YAML configuration
-    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS]
+    active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS or r.id in TEXT_FIXERS]
 
     counts: Dict[str, int] = {}
     has_file_changed = False
-    out_lines: List[str] = []
 
-    for line in orig.splitlines(keepends=True):
+    # Apply the text-level fixers first (multi-line patterns)
+    text = orig
+    for rule in active_rules:
+        fixer = TEXT_FIXERS.get(rule.id)
+        if not fixer:
+            continue
+
+        new_text, change_count = fixer(text, rule)
+        if change_count > 0:
+            counts[rule.id] = counts.get(rule.id, 0) + change_count
+            text = new_text
+            has_file_changed = True
+
+    # Apply the line-level fixers
+    out_lines: List[str] = []
+    for line in text.splitlines(keepends=True):
         current_line = line
 
         for rule in active_rules:
@@ -409,6 +435,105 @@ def fix_line_comment_trailing_period(line: str, rule: StyleRule) -> Tuple[str, b
     return line, False
 
 
+### IF / ELIF ##############################################
+
+
+def fix_elif_subject_mismatch(text: str, rule: StyleRule) -> Tuple[str, int]:
+    """
+    Replaces `"elif"` with `"if"` when the `rule.pattern` detects a subject mismatch.
+
+    Triggered only when the multi-line `rule.pattern` matches the file text.
+
+    Args:
+        text: The file text to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_text, change_count)`.
+    """
+    if not rule.pattern.search(text):
+        return text, 0
+
+    changed = 0
+
+    def _repl(m: Any) -> str:
+        nonlocal changed
+        indent = m.group("indent")
+        out, has_changed = _replace_last_keyword_in_match(m.group(0), indent, "elif", "if")
+        if has_changed:
+            changed += 1
+        return out
+
+    new_text = rule.pattern.sub(_repl, text)
+    return new_text, changed
+
+
+def fix_if_missing_elif(text: str, rule: StyleRule) -> Tuple[str, int]:
+    """
+    Replaces `"if"` with `"elif"` when the `rule.pattern` detects a missing `"elif"`.
+
+    Triggered only when the multi-line `rule.pattern` matches the file text.
+
+    Args:
+        text: The file text to check and possibly modify.
+        rule: The `StyleRule` whose `pattern` gates execution.
+
+    Returns:
+        A tuple of `(possibly_modified_text, change_count)`.
+    """
+    if not rule.pattern.search(text):
+        return text, 0
+
+    changed = 0
+
+    def _repl(m: Any) -> str:
+        nonlocal changed
+        indent = m.group("indent")
+        out, has_changed = _replace_last_keyword_in_match(m.group(0), indent, "if", "elif")
+        if has_changed:
+            changed += 1
+        return out
+
+    new_text = rule.pattern.sub(_repl, text)
+    return new_text, changed
+
+
+#### HELPERS #################
+
+
+def _replace_last_keyword_in_match(match_text: str, indent: str, from_kw: str, to_kw: str) -> Tuple[str, bool]:
+    """
+    Replaces the last occurrence of a line-leading keyword inside the matched block.
+
+    Args:
+        match_text: The full matched multi-line text.
+        indent: The captured indentation to anchor the line-leading keyword.
+        from_kw: The keyword to replace.
+        to_kw: The keyword to insert.
+
+    Returns:
+        A tuple of `(possibly_modified_match_text, did_change)`.
+    """
+    needle = "\n%s%s" % (indent, from_kw)
+    pos = match_text.rfind(needle)
+    if pos >= 0:
+        start = pos + 1 + len(indent)
+    else:
+        needle2 = "%s%s" % (indent, from_kw)
+        pos2 = match_text.rfind(needle2)
+        if pos2 < 0:
+            return match_text, False
+        start = pos2 + len(indent)
+
+    end = start + len(from_kw)
+    if match_text[start:end] != from_kw:
+        return match_text, False
+    if end < len(match_text) and match_text[end] not in {" ", "\t"}:
+        return match_text, False
+
+    return match_text[:start] + to_kw + match_text[end:], True
+
+
 ### MESSAGES ###############################################
 
 
@@ -476,6 +601,7 @@ __STYLE_FIXER_REGISTRIES________________________________________________________
 
 
 Fixer = Callable[[str, StyleRule], Tuple[str, bool]]
+TextFixer = Callable[[str, StyleRule], Tuple[str, int]]
 
 FIXERS: Dict[str, Fixer] = {
     # Banners
@@ -488,6 +614,14 @@ FIXERS: Dict[str, Fixer] = {
     # Messages
     "error-message-trailing-period": fix_error_message_trailing_period,
     "logging-message-trailing-period": fix_logging_message_trailing_period,
+}
+
+TEXT_FIXERS: Dict[str, TextFixer] = {
+    # IF / ELIF
+    "elif-subject-mismatch-standalone": fix_elif_subject_mismatch,
+    "elif-subject-mismatch-first-arg": fix_elif_subject_mismatch,
+    "if-missing-elif-standalone": fix_if_missing_elif,
+    "if-missing-elif-first-arg": fix_if_missing_elif,
 }
 
 
@@ -506,7 +640,7 @@ def run(root: Path, config: StyleConfig, dry_run: bool = False) -> int:
     Returns:
         The exit status code `0` for success.
     """
-    fixable_rules = [r for r in config.rules if r.id in FIXERS]
+    fixable_rules = [r for r in config.rules if r.id in FIXERS or r.id in TEXT_FIXERS]
     if not fixable_rules:
         logging.info("No known fixer rules found in config; nothing to do")
         return 0
