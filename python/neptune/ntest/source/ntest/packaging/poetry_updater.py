@@ -143,6 +143,9 @@ def get_latest_compatible_version(
         if version.is_prerelease and not include_prereleases:
             continue
 
+        if version.post == 0:
+            continue
+
         files = files_obj if isinstance(files_obj, list) else []
         if not supports_python_version(files, target_version):
             continue
@@ -545,7 +548,7 @@ def compute_pins(
 
         current_version = current_versions.get(name)
         if current_version == version:
-            logging.info("Pin '%s' unchanged at version '%s'", name, version)
+            logging.debug("Pin '%s' unchanged at version '%s'", name, version)
         else:
             logging.info("Pin '%s' to '%s'", name, version)
 
