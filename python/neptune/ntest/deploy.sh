@@ -20,4 +20,4 @@ set -eu
 python -m pip install --user --upgrade pip poetry
 
 # 2. Publish the package (build and upload)
-poetry publish --build --no-interaction
+python -m poetry publish --build --no-interaction

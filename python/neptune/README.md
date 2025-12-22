@@ -33,8 +33,8 @@ pip install poetry
 Ensure Poetry uses your active Conda environment (or system Python):
 
 ```bash
-poetry config virtualenvs.create false --local
-poetry env info
+python -m poetry config virtualenvs.create false --local
+python -m poetry env info
 ```
 
 ### 📦 2. Install Project Dependencies ######################
@@ -42,14 +42,14 @@ poetry env info
 Lock and install dependencies:
 
 ```bash
-poetry lock
-poetry install
+python -m poetry lock
+python -m poetry install
 ```
 
 View resolved packages:
 
 ```bash
-poetry show --tree
+python -m poetry show --tree
 ```
 
 ### 📤 3. Export Requirements (Optional) ####################
@@ -57,13 +57,13 @@ poetry show --tree
 Install the export plugin:
 
 ```bash
-poetry self add poetry-plugin-export
+python -m poetry self add poetry-plugin-export
 ```
 
 Export grouped dependencies for use with `pip`:
 
 ```bash
-poetry export --without-hashes --with lint,test,docs --format=requirements.txt > requirements.txt
+python -m poetry export --without-hashes --with lint,test,docs --format=requirements.txt > requirements.txt
 pip install -r requirements.txt
 ```
 

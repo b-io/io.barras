@@ -20,4 +20,4 @@ set -eu
 python -m pip install --user --upgrade pip poetry
 
 # 2. Run the test suite
-poetry run pytest test
+python -m poetry run pytest test
