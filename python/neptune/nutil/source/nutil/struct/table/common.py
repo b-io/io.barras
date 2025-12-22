@@ -10,8 +10,6 @@
 
 from __future__ import annotations
 
-from typing import Union
-
 from pandas.core.groupby.generic import DataFrameGroupBy, SeriesGroupBy
 
 from nutil.scalar.common import *

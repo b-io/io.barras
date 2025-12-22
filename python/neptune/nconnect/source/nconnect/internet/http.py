@@ -25,7 +25,7 @@ from nutil.common import *
 from nutil.enums import HttpMethod, HttpStatusCode, StrEnum
 from nutil.io.file import write_bytes
 from nutil.scalar.number import to_int
-from nutil.scalar.string import ELLIPSIS, to_string
+from nutil.scalar.string import to_string
 from nutil.struct.util import create_empty
 
 __HTTP_CONSTANTS__________________________________________________________________________ = ""

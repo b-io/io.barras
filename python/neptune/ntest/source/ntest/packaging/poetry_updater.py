@@ -266,7 +266,7 @@ def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
         if raw_value.startswith("{"):
             continue
 
-        # Keep only string dependencies (e.g., `"^1.2.3"`, `">=1"`, `"*"`).
+        # Keep only string dependencies (e.g., `"^1.2.3"`, `">=1"`, `"*"`)
         if not QUOTED_STRING_PATTERN.match(raw_value):
             continue
 

@@ -16,7 +16,6 @@ import re
 from typing import Match
 
 from nutil.common import *
-from nutil.scalar.string import ELLIPSIS
 
 __COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
 

@@ -19,7 +19,6 @@ from tensorflow.keras.models import Model
 from nlearn.common import *
 from nutil.io.file import read_enumerator
 from nutil.math import *
-from nutil.scalar.string import ELLIPSIS
 from nutil.struct.util import sort, take_at
 
 __NLP_CONSTANTS___________________________________________________________________________ = ""

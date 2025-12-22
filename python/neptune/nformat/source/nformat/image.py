@@ -17,7 +17,6 @@ import cv2
 from nformat.color import rgb_to_hsv
 from nformat.common import *
 from nutil.common import *
-from nutil.constants import DEFAULT_ENCODING
 from nutil.enums import FileType
 from nutil.io.file import read_bytes
 from nutil.scalar.number import to_float

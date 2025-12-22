@@ -18,14 +18,6 @@ from nutil.common import *
 
 __STRING_CONSTANTS________________________________________________________________________ = ""
 
-
-NEWLINE = "\n"
-
-BULLET = "•"
-COLON = ":"
-ELLIPSIS = "…"
-SEMICOLON = ";"
-
 # The basic Latin ranges
 LOWERCASE_LATIN_LETTERS: str = "a-z"
 UPPERCASE_LATIN_LETTERS: str = "A-Z"

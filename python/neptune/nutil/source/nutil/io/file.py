@@ -24,7 +24,6 @@ from urllib.parse import urlparse
 from urllib.request import urlopen
 
 from nutil.common import *
-from nutil.scalar.string import NEWLINE
 from nutil.struct.table.util import get_row_keys, get_row_values, Row
 from nutil.struct.util import set_index_name
 

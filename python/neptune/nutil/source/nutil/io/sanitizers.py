@@ -19,7 +19,6 @@ import unicodedata
 
 from nutil.common import *
 from nutil.enums import StrEnum
-from nutil.scalar.string import ELLIPSIS, LOWERCASE_LETTERS
 
 __SANITIZER_CLASSES_______________________________________________________________________ = ""
 

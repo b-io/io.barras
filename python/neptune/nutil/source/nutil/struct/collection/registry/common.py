@@ -45,9 +45,9 @@ from typing import (
 import numpy as np
 from numpy.typing import DTypeLike
 
+from nutil.constants import ELLIPSIS
 from nutil.decorators.common import *
 from nutil.metaclasses import FinalSingletonMeta
-from nutil.scalar.string import ELLIPSIS
 
 __COMMON_COLLECTION_REGISTRY_DECORATORS___________________________________________________ = ""
 

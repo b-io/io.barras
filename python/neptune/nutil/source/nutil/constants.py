@@ -58,6 +58,12 @@ EMPTY = ()
 
 NA_NAME = "N/A"
 
+BULLET = "•"
+COLON = ":"
+ELLIPSIS = "…"
+NEWLINE = "\n"
+SEMICOLON = ";"
+
 INF = np.inf
 NAN = np.nan
 

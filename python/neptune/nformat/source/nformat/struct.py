@@ -11,7 +11,6 @@
 from __future__ import annotations
 
 from nutil.common import *
-from nutil.scalar.string import BULLET, COLON, NEWLINE
 
 __STRUCT_FORMATTER_PROCESSORS_____________________________________________________________ = ""
 
