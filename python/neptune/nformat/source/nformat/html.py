@@ -49,7 +49,7 @@ def find_tags(
     Behavior:
         • Iterates all descendants of `container`.
         • Starts collecting once any `from_delimiters` substring appears in a text node
-          (or from the start when `from_delimiters` is `None`).
+          (or from the start when `from_delimiters` is null).
         • Stops collecting once any `to_delimiters` substring appears in a text node.
         • Filters tags by `tag_names` (HTML names) and/or `tag_classes` (CSS classes).
 

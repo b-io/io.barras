@@ -107,7 +107,7 @@ class SectionedCache(Generic[V]):
     def get_list(self, section: Section, key: str, *, allow_scalar: bool = False) -> List[Any]:
         """
         Returns the value as a list copy when stored as a `list`; otherwise:
-        • `[]` if the key is missing or the stored value is `None`;
+        • `[]` if the key is missing or the stored value is null;
         • `[value]` when `allow_scalar=True` and a non-list scalar is stored (useful for the schema drift).
         """
         v = self.get(section, key)

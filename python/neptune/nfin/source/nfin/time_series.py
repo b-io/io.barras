@@ -594,7 +594,7 @@ def aggregate_series(
         The aggregated `pd.Series`. For `IDENTITY`, returns the (optionally cleaned/sorted) input.
 
     Raises:
-        ValueError: If `agg` is `None` or unsupported.
+        ValueError: If `agg` is null or unsupported.
     """
     if is_null(agg):
         raise ValueError("Require a concrete 'Aggregation' (or 'Aggregation.IDENTITY')")

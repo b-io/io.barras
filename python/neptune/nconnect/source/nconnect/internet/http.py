@@ -224,7 +224,7 @@ def request(
         raise_on_http_error: When `True`, raises `HTTPError` on non-2xx (except accepted empty statuses).
 
     Returns:
-        `(status_code, response_or_None)`. The response is `None` only on transport failure.
+        `(status_code, response_or_None)`. The response is null only on transport failure.
 
     Raises:
         RateLimitError: When rate-limited and `raise_on_rate_limit=True`.
@@ -335,7 +335,7 @@ def request_content(
         raise_on_http_error: When `True`, raises `HTTPError` on non-2xx (except accepted empty statuses).
 
     Returns:
-        `(status_code, content_or_None)`. The content is `None` only for accepted empty statuses.
+        `(status_code, content_or_None)`. The content is null only for accepted empty statuses.
 
     Raises:
         RateLimitError: When rate-limited and `raise_on_rate_limit=True`.

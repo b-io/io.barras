@@ -195,7 +195,7 @@ def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = 
     """
     Returns a candidate absolute path for `filename`, optionally within `dir` and `subdir`.
 
-    If `dir` is `None`, searches upward from the current directory until root, stopping when
+    If `dir` is null, searches upward from the current directory until root, stopping when
     `filename` exists inside `subdir`. If not found, returns the last candidate path at root.
     """
     if is_null(dir):
@@ -288,7 +288,7 @@ def collapse(
 
     Args:
         *args: The values to be converted to strings and joined.
-        default: The string used when a value is `None`.
+        default: The string used when a value is null.
         delimiter: The delimiter inserted between the collapsed values.
         strip: The characters to strip from both ends of each value before joining.
             If `None`, no stripping is performed.

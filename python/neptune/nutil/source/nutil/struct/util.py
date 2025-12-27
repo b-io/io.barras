@@ -676,7 +676,7 @@ def set_keys(
 
     Notes:
         • `new_keys` can be a table; in that case, its keys are derived via `get_keys(new_keys)`.
-        • If `keys` is `None`, uses `get_keys(s, …)`.
+        • If `keys` is null, uses `get_keys(s, …)`.
         • No-op for empty/invalid combinations.
 
     Complexity:
@@ -2090,7 +2090,7 @@ def create_empty(
 
     Behavior:
         • If `t` is an instance, derives its type via `type(t)`.
-        • If `registry` is `None`, uses the global `CollectionRegistry` singleton.
+        • If `registry` is null, uses the global `CollectionRegistry` singleton.
         • If an adapter is registered for `t`, tries to construct an empty instance of
           the resolved type:
             – If the type defines `from_iterable`, calls it with an empty `list`.
@@ -3401,7 +3401,7 @@ def merge(
     indicator: Optional[Union[bool, str]] = None,
     validate: Optional[str] = "m:m",
 ) -> pd.DataFrame:
-    """Merges `left` with `right` on columns `on` (or index names if `on` is `None`)."""
+    """Merges `left` with `right` on columns `on` (or index names if `on` is null)."""
     df = to_frame(left).merge(
         to_frame(right),
         copy=False,

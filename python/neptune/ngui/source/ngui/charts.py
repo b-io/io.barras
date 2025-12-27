@@ -1546,7 +1546,7 @@ def set_default_renderer(renderer: Optional[str]) -> None:
         renderer: The renderer name (e.g., `"json"`, `"browser"`, `"none"`) or `None` to reset to Plotly's auto-detection.
 
     Raises:
-        ValueError: If `renderer` is not `None` and is not registered in `pio.renderers`
+        ValueError: If `renderer` is not null and is not registered in `pio.renderers`
     """
     if is_null(renderer):
         pio.renderers.default = None
