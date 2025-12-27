@@ -632,7 +632,7 @@ def _override_version_spec(spec: str, new_version: str) -> Optional[str]:
         • `"1.2.3"` → `"<new>"`
 
     Notes:
-        • Does not modify composite constraints such as `">=1,<2"` or marker expressions such as `"; python_version<..."`.
+        • Does not modify composite constraints such as `">=1,<2"` or marker expressions such as `"; python_version<…"`.
         • Returns `None` when the spec is not a simple single-version spec.
 
     Args:

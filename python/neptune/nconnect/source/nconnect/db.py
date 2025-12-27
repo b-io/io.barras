@@ -17,7 +17,7 @@ from sqlalchemy.dialects import mssql
 
 from nutil.scalar.date import DEFAULT_DATE_TIME_FORMAT
 from nutil.scalar.number import ceil
-from nutil.scalar.string import dquote, par, quote
+from nutil.scalar.string import dquote, par, quote, to_lowercase
 from nutil.struct.util import *
 
 __DB_CONSTANTS____________________________________________________________________________ = ""
@@ -329,9 +329,9 @@ def get_col_types(
         • Maps:
           - bool -> `db.Boolean()`
           - datetime -> `db.DateTime()` or `db.Date()` when `to_date=True`
-          - float -> `db.Float(...)`
+          - float -> `db.Float(…)`
           - int -> `db.Integer()`
-          - otherwise -> `db.String(length=...)` or `db.Text()` when `to_text=True`
+          - otherwise -> `db.String(length=…)` or `db.Text()` when `to_text=True`
 
     Args:
         df: The source dataframe.
@@ -340,14 +340,14 @@ def get_col_types(
         to_date: When `True`, uses `db.Date()` instead of `db.DateTime()`.
 
         decimal_scale: The `decimal_return_scale` for `db.Float(asdecimal=True)`.
-        float_precision: The `precision` for `db.Float(...)`.
+        float_precision: The `precision` for `db.Float(…)`.
         to_decimal: When `True`, sets `asdecimal=True` for float columns.
 
-        string_length: The length for `db.String(...)`.
-        to_text: When `True`, uses `db.Text()` instead of `db.String(...)`.
+        string_length: The length for `db.String(…)`.
+        to_text: When `True`, uses `db.Text()` instead of `db.String(…)`.
 
     Returns:
-        A mapping `{column_name: sqlalchemy_type}` suitable for `DataFrame.to_sql(dtype=...)`.
+        A mapping `{column_name: sqlalchemy_type}` suitable for `DataFrame.to_sql(dtype=…)`.
     """
     col_types: Dict[str, db.TypeEngine] = {}
     for col, col_type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
@@ -355,7 +355,7 @@ def get_col_types(
         if "bool" in col_type_name:
             col_types.update({col: db.Boolean()})
         elif "datetime" in col_type_name:
-            col_types.update({col: (db.Date(timezone=timezone) if to_date else db.DateTime(timezone=timezone))})
+            col_types.update({col: (db.Date() if to_date else db.DateTime(timezone=timezone))})
         elif "float" in col_type_name:
             col_types.update(
                 {
@@ -389,7 +389,7 @@ def build_where_clause(
         • Computes the candidate columns as `include_list(get_keys(filtering_row), filtering_cols)`.
         • Generates predicates per column:
           - `IS NULL` for null values
-          - `IN (...)` for structured values (collections)
+          - `IN (…)` for structured values (collections)
           - `=` for scalar values
         • Uses `format_name()` for identifiers and `format()` for values.
 
@@ -530,7 +530,7 @@ def build_insert_table_query(
 
     Behavior:
         • Formats identifiers via `format_cols()` and `get_full_table_name()`.
-        • Formats values via `format(...)` with dialect-aware behavior.
+        • Formats values via `format(…)` with dialect-aware behavior.
         • Appends a trailing semicolon.
 
     Args:
@@ -631,24 +631,39 @@ def table_to_lowercase(table: db.Table) -> None:
     Lowercases identifiers of a SQLAlchemy `db.Table` object in-place.
 
     Behavior:
-        • Lowercases the table `name` and `fullname`.
-        • Lowercases the primary key constraint name (when present).
-        • Lowercases each column `name` and `key`.
-        • Lowercases foreign key and FK constraint names.
+        • Lowercases:
+          - the table `name` (and `schema` when present)
+          - the primary key constraint name (when present)
+          - each column `name` and `key`
+          - foreign key and FK constraint names (when present)
+          - other table-level constraints and index names (when present)
+        • Does NOT assign to `table.fullname` (derived/read-only).
 
     Args:
         table: The SQLAlchemy `db.Table` instance to mutate in-place.
     """
-    table.name = table.name.lower()
-    table.fullname = table.fullname.lower()
+    table.name = to_lowercase(table.name)
+    if hasattr(table, "schema"):
+        table.schema = to_lowercase(table.schema)
+
     if not is_null(table.primary_key):
-        table.primary_key.name = table.primary_key.name.lower()
+        table.primary_key.name = to_lowercase(table.primary_key.name)
+
+    for constraint in getattr(table, "constraints", []):
+        if hasattr(constraint, "name"):
+            constraint.name = to_lowercase(constraint.name)
+
+    for index in getattr(table, "indexes", []):
+        if hasattr(index, "name"):
+            index.name = to_lowercase(index.name)
+
     for _, column in table.columns.items():
-        column.name = column.name.lower()
-        column.key = column.key.lower()
+        column.name = to_lowercase(column.name)
+        column.key = to_lowercase(column.key)
         for fk in column.foreign_keys:
-            fk.name = fk.name.lower()
-            fk.constraint.name = fk.constraint.name.lower()
+            fk.name = to_lowercase(fk.name)
+            if hasattr(fk, "constraint") and not is_null(fk.constraint):
+                fk.constraint.name = to_lowercase(fk.constraint.name)
 
 
 ##############################
@@ -813,8 +828,8 @@ def create_engine(
     Creates a SQLAlchemy engine for the specified connection parameters.
 
     Behavior:
-        • Builds a SQLAlchemy `URL` via `URL.create(dialect + "+" + driver, ...)`.
-        • Creates the engine via `db.create_engine(...)`.
+        • Builds a SQLAlchemy `URL` via `URL.create(dialect + "+" + driver, …)`.
+        • Creates the engine via `db.create_engine(…)`.
 
     Args:
         dialect: The database dialect (defaults to `"mssql"`).
@@ -909,7 +924,7 @@ def format_name(name: str) -> str:
 
     Behavior:
         • If the name contains parentheses, treats it as a raw SQL expression and returns it unchanged.
-        • Otherwise wraps the identifier via `dquote(...)`.
+        • Otherwise wraps the identifier via `dquote(…)`.
 
     Args:
         name: The identifier (or expression) to format.
@@ -933,7 +948,7 @@ def format_cols(
         • Removes empty values via `remove_empty(to_collection(*cols))`.
         • Applies `format_name()` to each column.
         • When `suffixes` is provided, appends each suffix to the corresponding column.
-        • Collapses the result into a comma-separated list via `collist(...)`.
+        • Collapses the result into a comma-separated list via `collist(…)`.
 
     Args:
         *cols: The column names (scalars and/or collections).
@@ -966,7 +981,7 @@ def format(
           - NaN -> `NULL`
           - otherwise -> the number
         • Timestamps -> quoted string using `DEFAULT_DATE_TIME_FORMAT` (millisecond precision)
-        • Otherwise -> quoted and escaped string via `escape(...)`
+        • Otherwise -> quoted and escaped string via `escape(…)`
 
     Args:
         value: The value to format.
@@ -983,7 +998,7 @@ def format(
     elif is_boolean(value):
         if is_mssql:
             return 1 if value else 0
-        return value
+        return "TRUE" if value else "FALSE"
     elif is_number(value):
         if is_nan(value):
             return "NULL"
@@ -1028,8 +1043,8 @@ def debug_query(
     Emits a debug log for a table-level operation, optionally including a processed range.
 
     Behavior:
-        • When `index_from` / `index_to` are provided, prefixes with `processing rows from ... to ...`.
-        • Uses `get_query_message(...)` and capitalizes the final message.
+        • When `index_from` / `index_to` are provided, prefixes with `processing rows from … to …`.
+        • Uses `get_query_message(…)` and capitalizes the final message.
 
     Args:
         verb: The operation verb.
@@ -1065,7 +1080,7 @@ def warn_query(
 
     Behavior:
         • Logs the class name of the exception (when provided).
-        • Logs the exception details via `logging.debug(...)` when present.
+        • Logs the exception details via `logging.debug(…)` when present.
 
     Args:
         verb: The verb phrase (e.g., `"deleted"`, `"bulk-inserted"`).
@@ -1098,8 +1113,8 @@ def error_query(
     Emits an error log for a table-level operation failure.
 
     Behavior:
-        • Logs errors as `logging.error(...)` unless the exception is an `IntegrityError`.
-        • For `IntegrityError`, downgrades to `warn_query(...)`.
+        • Logs errors as `logging.error(…)` unless the exception is an `IntegrityError`.
+        • For `IntegrityError`, downgrades to `warn_query(…)`.
 
     Args:
         verb: The verb phrase (e.g., `"deleted"`, `"updated"`).
@@ -1201,7 +1216,7 @@ def warn_row(
 
     Behavior:
         • Logs the exception class name (when provided).
-        • Logs the exception details via `logging.debug(...)` when present.
+        • Logs the exception details via `logging.debug(…)` when present.
 
     Args:
         verb: The operation verb.
@@ -1239,8 +1254,8 @@ def error_row(
     Emits an error log for a row-level operation failure.
 
     Behavior:
-        • Logs errors as `logging.error(...)` unless the exception is an `IntegrityError`.
-        • For `IntegrityError` (or null exception), downgrades to `warn_row(...)`.
+        • Logs errors as `logging.error(…)` unless the exception is an `IntegrityError`.
+        • For `IntegrityError` (or null exception), downgrades to `warn_row(…)`.
 
     Args:
         verb: The operation verb.
@@ -1283,7 +1298,7 @@ def create_table(
     col_types: Optional[Mapping[str, db.TypeEngine]] = None,
 ) -> Any:
     """
-    Creates or appends to a table using `DataFrame.to_sql(...)`.
+    Creates or appends to a table using `DataFrame.to_sql(…)`.
 
     Behavior:
         • Resolves `index_cols` when `index=True`:
@@ -1300,7 +1315,7 @@ def create_table(
         df: The dataframe to write.
         table: The destination table name.
         append: When `True`, appends to the existing table.
-        chunk_size: The chunksize forwarded to `to_sql(chunksize=...)`.
+        chunk_size: The chunksize forwarded to `to_sql(chunksize=…)`.
         index: When `True`, writes the dataframe index as columns.
         index_cols: Optional index column names (used when `index=True`).
         method: Optional Pandas `to_sql` method (e.g., `"multi"`).
@@ -1309,7 +1324,7 @@ def create_table(
         col_types: Optional mapping of `{column_name: sqlalchemy_type}`.
 
     Returns:
-        The value returned by `df.to_sql(...)` (Pandas-dependent).
+        The value returned by `df.to_sql(…)` (Pandas-dependent).
 
     Raises:
         ValueError: If `to_sql` rejects the inputs.
@@ -1343,11 +1358,11 @@ def select_query(
     verbose: bool = VERBOSE,
 ) -> Union[pd.DataFrame, Iterator[pd.DataFrame]]:
     """
-    Reads a SQL query into Pandas via `pd.read_sql(...)`.
+    Reads a SQL query into Pandas via `pd.read_sql(…)`.
 
     Behavior:
         • Logs the query when `verbose=True`.
-        • Forwards `chunksize=chunk_size` and `index_col=index_cols` to `pd.read_sql(...)`.
+        • Forwards `chunksize=chunk_size` and `index_col=index_cols` to `pd.read_sql(…)`.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1359,7 +1374,7 @@ def select_query(
         verbose: When `True`, enables logging.
 
     Returns:
-        The object returned by `pd.read_sql(...)` (a dataframe when `chunk_size` is null, otherwise an iterator).
+        The object returned by `pd.read_sql(…)` (a dataframe when `chunk_size` is null, otherwise an iterator).
 
     Raises:
         Exception: Any exception raised by Pandas or the database driver.
@@ -1386,7 +1401,7 @@ def select_table(
     Reads a table into a dataframe, optionally chunking and aggregating.
 
     Behavior:
-        • Uses `pd.read_sql_table(...)` for table reads.
+        • Uses `pd.read_sql_table(…)` for table reads.
         • When `index=True` and `index_cols` is null, uses the primary key columns as the index.
         • When `chunk_size` is not null, aggregates chunks into a single dataframe and logs per chunk.
         • When `row_count >= 0`, stops early and returns at most `row_count` rows.
@@ -1461,7 +1476,7 @@ def select_table_where(
     Behavior:
         • Logs the selected columns and filtering columns when `verbose=True`.
         • When `index=True` and `index_cols` is null, uses the primary key columns as the index.
-        • Executes the query built by `build_select_table_where_query(...)`.
+        • Executes the query built by `build_select_table_where_query(…)`.
         • When `chunk_size` is not null, aggregates chunks into a single dataframe and logs per chunk.
         • When `row_count >= 0`, stops early and returns at most `row_count` rows.
 
@@ -1564,8 +1579,8 @@ def delete_table(
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
-        • Resolves the filtering columns via `get_filtering_cols(...)`.
-        • Builds one DELETE query per row using `build_delete_table_query(...)`.
+        • Resolves the filtering columns via `get_filtering_cols(…)`.
+        • Builds one DELETE query per row using `build_delete_table_query(…)`.
         • Executes each query and aggregates the deleted row counts.
         • Emits row-level debug/warn/error logs and periodic progress logs.
 
@@ -1665,9 +1680,9 @@ def bulk_delete_table(
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
-        • Resolves the filtering columns via `get_filtering_cols(...)`.
+        • Resolves the filtering columns via `get_filtering_cols(…)`.
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
-        • Otherwise concatenates per-row DELETE queries and executes the combined SQL string via `exec_driver_sql(...)`.
+        • Otherwise concatenates per-row DELETE queries and executes the combined SQL string via `exec_driver_sql(…)`.
         • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
           multi-statement strings).
 
@@ -1928,7 +1943,7 @@ def bulk_insert_table(
         • Executes the full bulk insert in one transaction on one connection.
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
-        • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
+        • Builds `query += …` and executes via `connection.exec_driver_sql(query)`.
         • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
           multi-statement strings).
 
@@ -2041,9 +2056,9 @@ def update_table(
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
-        • Resolves filtering columns via `get_filtering_cols(...)` (defaults to the primary key when available).
+        • Resolves filtering columns via `get_filtering_cols(…)` (defaults to the primary key when available).
         • Resolves update columns as the intersection of dataframe and table columns excluding filtering columns.
-        • Builds one UPDATE query per row using `build_update_table_query(...)`.
+        • Builds one UPDATE query per row using `build_update_table_query(…)`.
         • Emits row-level debug/warn/error logs and periodic progress logs.
 
     Args:
@@ -2143,11 +2158,11 @@ def bulk_update_table(
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
-        • Resolves filtering columns via `get_filtering_cols(...)`.
+        • Resolves filtering columns via `get_filtering_cols(…)`.
         • Resolves update columns as the intersection of dataframe and table columns excluding filtering columns.
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
-        • Otherwise concatenates per-row UPDATE queries and executes the combined SQL string via `exec_driver_sql(...)`.
-        • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
+        • Otherwise concatenates per-row UPDATE queries and executes the combined SQL string via `exec_driver_sql(…)`.
+        • Builds `query += …` and executes via `connection.exec_driver_sql(query)`.
         • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
           multi-statement strings).
 
@@ -2269,8 +2284,8 @@ def upsert_table(
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
-        • Calls `update_table(...)` to update matching rows.
-        • If not all rows were updated, calls `insert_table(...)` to insert the remaining rows.
+        • Calls `update_table(…)` to update matching rows.
+        • If not all rows were updated, calls `insert_table(…)` to insert the remaining rows.
         • Optionally verifies the result by re-selecting and checking presence when `verbose=True`.
         • Logs discrepancies between expected and actual affected-row counts.
 
@@ -2385,7 +2400,7 @@ def execute(
 
     Behavior:
         • Opens a new connection via `engine.begin()`.
-        • Executes the statement via `connection.execute(...)` or `connection.exec_driver_sql(...)`.
+        • Executes the statement via `connection.execute(…)` or `connection.exec_driver_sql(…)`.
         • If the result exposes rows, returns `fetchall()`, otherwise returns `rowcount`.
 
     Args:
@@ -2439,15 +2454,18 @@ def execute_procedure(engine: db.Engine, procedure: str, *args: Any) -> List[Tup
         Exception: Any exception raised by the DB-API driver.
     """
     connection = engine.raw_connection()
+    cursor = connection.cursor()
     try:
-        with connection.cursor() as cursor:
-            cursor.callproc(procedure, args)
-            cursor.nextset()
-            result = cursor.fetchall() if not is_null(cursor.description) else []
-            connection.commit()
-            return result
+        cursor.callproc(procedure, args)
+        cursor.nextset()
+        result = cursor.fetchall() if not is_null(cursor.description) else []
+        connection.commit()
+        return result
     finally:
-        connection.close()
+        try:
+            cursor.close()
+        finally:
+            connection.close()
 
 
 ##############################
@@ -2492,13 +2510,13 @@ def migrate(
     Behavior:
         • When `drop` or `create`:
           - Reflects metadata from `engine_from`.
-          - Applies `update_col(...)` to each source column to adjust defaults/types/collation.
-          - Lowercases identifiers when migrating MSSQL -> non-MSSQL via `metadata_to_lowercase(...)`.
+          - Applies `update_col(…)` to each source column to adjust defaults/types/collation.
+          - Lowercases identifiers when migrating MSSQL -> non-MSSQL via `metadata_to_lowercase(…)`.
           - Drops and/or creates tables on `engine_to`.
         • When `fill`:
-          - Reads data from the source using `select_table(...)` or `select_table_where(...)`.
+          - Reads data from the source using `select_table(…)` or `select_table_where(…)`.
           - Lowercases table/column names when migrating MSSQL -> non-MSSQL.
-          - Writes data using `bulk_insert_table(...)` or `upsert_table(...)`.
+          - Writes data using `bulk_insert_table(…)` or `upsert_table(…)`.
 
     Args:
         engine_from: The source SQLAlchemy engine.
@@ -2510,8 +2528,8 @@ def migrate(
         create: When `True`, creates the tables on the destination.
         drop: When `True`, drops the tables on the destination before creating.
         fill: When `True`, migrates the table data.
-        filtering_cols: Optional filtering columns for `select_table_where(...)`.
-        filtering_row: Optional filtering row for `select_table_where(...)`.
+        filtering_cols: Optional filtering columns for `select_table_where(…)`.
+        filtering_row: Optional filtering row for `select_table_where(…)`.
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the destination database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
