@@ -278,7 +278,7 @@ def get_keys(
         s = s.index
     elif has_index(s):
         s = range(len(s))
-    return filter_ordered_set(to_list(s), inclusion=inclusion, exclusion=exclusion)
+    return filter_ordered_set(to_struct(s), inclusion=inclusion, exclusion=exclusion)
 
 
 def get_all_common_keys(
