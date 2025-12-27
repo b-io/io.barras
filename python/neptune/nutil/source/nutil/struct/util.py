@@ -645,10 +645,7 @@ def set_names(s: Struct, new_names: Any) -> Any:
         return s
 
     # Normalize the names
-    if is_table(new_names):
-        new_names = get_names(new_names)
-    else:
-        new_names = to_list(new_names)
+    new_names = get_names(new_names) if is_table(new_names) else to_list(new_names)
     if is_empty(new_names):
         return s
 

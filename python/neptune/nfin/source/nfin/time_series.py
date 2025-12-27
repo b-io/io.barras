@@ -228,7 +228,7 @@ def prepare_series(series, date_from=None, date_to=None, fill=False, interpolate
     set_freq(series, freq=freq, pos=pos)
     if fill:
         series = series.fillna(method="ffill")
-    elif interpolate:
+    if interpolate:
         series = series.interpolate()
     return series[series.index >= date_from]
 
@@ -652,7 +652,8 @@ def transform_series(
     pos: Position = POSITION,
     transformation: Optional["Transformation"] = None,
 ) -> pd.Series:
-    """Transforms a time series by optional aggregation, frequency conversion, and statistical transforms.
+    """
+    Transforms a time series by optional aggregation, frequency conversion, and statistical transforms.
 
     Args:
         series: The input `pd.Series` with a datetime-like index.

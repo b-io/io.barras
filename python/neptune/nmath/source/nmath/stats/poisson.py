@@ -30,11 +30,8 @@ class Poisson(Distribution):
     def __init__(self, lam=1, series=None, dof=1):
         super().__init__(POISSON_NAME, series=series, dof=dof)
 
-        if is_null(series):
-            self.lam = lam
-        else:
-            # Estimate the parameter λ of the distribution
-            self.lam = mean(series)
+        # Estimate the parameter λ of the distribution
+        self.lam = mean(series) if not is_null(series) else lam
 
     ########################################################
     # OPERATORS

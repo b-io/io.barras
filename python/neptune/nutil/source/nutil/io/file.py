@@ -50,7 +50,7 @@ class HasHeaders(Protocol):
 __FILE_ACCESSORS__________________________________________________________________________ = ""
 
 
-def get_encoding(fh: HasHeaders, *, default: str = DEFAULT_ENCODING) -> str:
+def get_encoding(file_handler: HasHeaders, *, default: str = DEFAULT_ENCODING) -> str:
     """
     Returns the response encoding derived from the HTTP headers.
 
@@ -60,7 +60,7 @@ def get_encoding(fh: HasHeaders, *, default: str = DEFAULT_ENCODING) -> str:
         • Validates the chosen encoding name with `codecs.lookup`.
     """
     try:
-        encoding = fh.headers.get_content_charset()  # may be `None`
+        encoding = file_handler.headers.get_content_charset()  # may be `None`
     except Exception:
         encoding = None
     return normalize_encoding(encoding, default=default)
@@ -75,10 +75,6 @@ def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str
         • Treats `None` / empty as missing and returns `default`.
         • Handles bytes-like values best-effort.
     """
-    default = DEFAULT_ENCODING if is_null(default) else str(default).strip()
-    if is_null(default):
-        default = DEFAULT_ENCODING
-
     if is_null(encoding):
         encoding = default
     elif is_byte_like(encoding):
@@ -269,27 +265,20 @@ __FILE_READERS__________________________________________________________________
 def decode_bytes(
     data: BytesLike,
     *,
-    encoding: str,
-    fallback_encoding: str = DEFAULT_ENCODING,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
 ) -> str:
     """
-    Decodes bytes using `encoding`, falling back to `fallback_encoding` if decoding fails in strict mode.
+    Decodes bytes using `encoding`.
 
     Notes:
-        • The `encoding` and `fallback_encoding` are normalized/validated via `normalize_encoding`.
+        • The `encoding` is normalized via `normalize_encoding`.
         • When `ignore=True`, decoding uses `errors="ignore"` and therefore will not raise `UnicodeDecodeError`.
     """
-    fallback_encoding = normalize_encoding(fallback_encoding)
-    encoding = normalize_encoding(encoding, default=fallback_encoding)
-
+    encoding = normalize_encoding(encoding)
     errors = "ignore" if ignore else "strict"
-    try:
-        return bytes(data).decode(encoding=encoding, errors=errors)
-    except UnicodeDecodeError:
-        if encoding == fallback_encoding:
-            raise
-        return bytes(data).decode(encoding=fallback_encoding, errors=errors)
+    return bytes(data).decode(encoding=encoding, errors=errors)
 
 
 ############################################################
@@ -297,6 +286,8 @@ def decode_bytes(
 
 def read(
     path: Union[str, Path],
+    *,
+    # Read
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
@@ -307,6 +298,7 @@ def read(
 
     Args:
         path: The local path or URL.
+
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
@@ -337,6 +329,8 @@ def read(
 
 def read_iterator(
     path: Union[str, Path],
+    *,
+    # Read
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
@@ -350,6 +344,7 @@ def read_iterator(
 
     Args:
         path: The local path or URL.
+
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
@@ -380,6 +375,8 @@ def read_iterator(
 
 def read_enumerator(
     path: Union[str, Path],
+    *,
+    # Read
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
@@ -393,6 +390,7 @@ def read_enumerator(
 
     Args:
         path: The local path or URL.
+
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)`.
@@ -435,14 +433,16 @@ def read_bytes(path: Union[str, Path], timeout: float = DEFAULT_TIMEOUT) -> byte
 
 def read_csv(
     path: Union[str, Path],
-    encoding: str = DEFAULT_ENCODING,
+    *,
+    # Read
     delimiter: str = ",",
+    element_type: Optional[ElementType] = None,
+    encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     index_cols: Optional[Union[int, List[int], str, List[str]]] = None,
     index_name: Optional[str] = None,
     na_values: Optional[Iterable[str]] = None,
     newline: Optional[str] = None,
-    element_type: Optional[ElementType] = None,
     timeout: float = DEFAULT_TIMEOUT,
     **kwargs: Any,
 ):
@@ -454,22 +454,24 @@ def read_csv(
 
     Args:
         path: The local path or URL.
-        encoding: The text encoding (for local files or as a fallback for URLs).
+
         delimiter: The field delimiter.
-        ignore: Skips invalid lines when `True` (maps to `on_bad_lines="skip"`). For URL reads, also ignores
-            decoding errors when `True`.
+        element_type: The dtype (forwarded as `dtype`).
+        encoding: The text encoding (for local files or as a fallback for URLs).
+        ignore: Skips invalid lines when `True` (maps to `on_bad_lines="skip"`).
+                For URL reads, also ignores decoding errors when `True`.
         index_cols: The `index_col` argument forwarded to pandas.
         index_name: Sets the index name when `index_cols` is not provided.
         na_values: The NA tokens.
         newline: The line terminator (forwarded as `lineterminator` when provided).
-        element_type: The dtype (forwarded as `dtype`).
         timeout: The URL open timeout (seconds).
+
         **kwargs: Extra arguments forwarded to `pd.read_csv`.
 
     Returns:
         The parsed DataFrame.
     """
-    na_values = [""] if is_null(na_values) else list(na_values)
+    na_values = list(na_values) if not is_null(na_values) else [""]
 
     read_kwargs: Dict[str, Any] = dict(kwargs)
     read_kwargs.setdefault("on_bad_lines", "skip" if ignore else "error")
@@ -512,6 +514,8 @@ def read_csv(
 
 def read_json(
     path: Union[str, Path],
+    *,
+    # Read
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     newline: Optional[str] = None,
@@ -523,10 +527,12 @@ def read_json(
 
     Args:
         path: The local path or URL.
+
         encoding: The text encoding for local files or as a fallback for URLs.
         ignore: Ignores decoding errors when `True`.
         newline: The newline policy forwarded to `open(…, newline=…)` (local file only).
         timeout: The URL open timeout (seconds).
+
         **kwargs: Extra arguments forwarded to `json.loads` / `json.load`.
 
     Returns:
@@ -582,12 +588,13 @@ def flush_handler(file_handler: IO[Any]) -> None:
 
 def atomic_write(
     path: Union[str, Path],
-    *,
     writer: Callable[[IO[Any]], None],
-    is_binary: bool = False,
+    *,
+    # Write
     encoding: str = DEFAULT_ENCODING,
-    newline: str = NEWLINE,
     ignore: bool = False,
+    is_binary: bool = False,
+    newline: str = NEWLINE,
     # Save
     mode: Optional[int] = None,
     overwrite: bool = True,
@@ -604,12 +611,12 @@ def atomic_write(
 
     Args:
         path: Destination path.
-
         writer: Function that writes the payload to an already opened file handle.
-        is_binary: Indicates whether the file handle is opened in binary mode.
+
         encoding: The text encoding for text-mode.
-        newline: The newline policy for text-mode temp files.
         ignore: Ignores encoding errors in text-mode when `True`.
+        is_binary: Indicates whether the file handle is opened in binary mode.
+        newline: The newline policy for text-mode temp files.
 
         mode: Optional file-permission bits applied to the temp file before replacement.
         overwrite: Raises `FileExistsError` when `False` and the file exists.
@@ -635,10 +642,10 @@ def atomic_write(
         temp_file = NamedTemporaryFile(
             "w",
             delete=False,
+            dir=path.parent,
             encoding=encoding,
             errors="ignore" if ignore else "strict",
             newline=newline,
-            dir=path.parent,
         )
 
     temp_filename = temp_file.name
@@ -723,6 +730,7 @@ def write(
     path: Union[str, Path],
     content: str,
     *,
+    # Write
     append: bool = False,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
@@ -809,13 +817,14 @@ def write_bytes(
             flush_handler(fh)
         return path
 
-    def _writer(fh: IO[Any]) -> None:
+    def _write(fh: IO[Any]) -> None:
         fh.write(bytes(content))
 
     # Atomically replace the target with a temp file
     atomic_write(
         path,
-        writer=_writer,
+        writer=_write,
+        # Write
         is_binary=True,
         # Save
         mode=mode,
@@ -831,11 +840,12 @@ def write_csv(
     path: Union[str, Path],
     content: Union[Row, Iterable[Row]],
     *,
+    # Write
     append: bool = False,
     dialect: str = "excel",
     encoding: str = DEFAULT_ENCODING,
-    ignore: bool = False,
     header: Optional[Row] = None,
+    ignore: bool = False,
     lineterminator: str = NEWLINE,
     # Save
     atomic: bool = True,
@@ -864,8 +874,8 @@ def write_csv(
         append: Appends when `True` (non-atomic).
         dialect: The CSV dialect (passed to `csv.writer`).
         encoding: The output encoding.
-        ignore: Ignores encoding errors when `True`.
         header: Optional header row.
+        ignore: Ignores encoding errors when `True`.
         lineterminator: Line terminator passed to `csv.writer` (default: `NEWLINE`).
 
         atomic: Enables atomic replace for non-append writes.
@@ -890,7 +900,7 @@ def write_csv(
             return
         yield from x
 
-    def _write_rows(fh: IO[Any]) -> None:
+    def _write(fh: IO[Any]) -> None:
         w = csv.writer(fh, dialect=dialect, lineterminator=lineterminator, **kwargs)
         if header is not None:
             w.writerow(get_row_keys(header))
@@ -906,7 +916,7 @@ def write_csv(
             errors="ignore" if ignore else None,
             newline="",
         ) as fh:
-            _write_rows(fh)
+            _write(fh)
             flush_handler(fh)
         return
 
@@ -921,18 +931,19 @@ def write_csv(
             errors="ignore" if ignore else None,
             newline="",
         ) as fh:
-            _write_rows(fh)
+            _write(fh)
             flush_handler(fh)
         return
 
     # Atomically replace the target with a temp file
     atomic_write(
         path,
-        writer=_write_rows,
-        is_binary=False,
+        writer=_write,
+        # Write
         encoding=encoding,
-        newline="",
         ignore=ignore,
+        is_binary=False,
+        newline="",
         # Save
         mode=mode,
         overwrite=overwrite,
@@ -946,6 +957,7 @@ def write_json(
     path: Union[str, Path],
     content: Any,
     *,
+    # Write
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
     indent: Optional[int] = None,
@@ -995,9 +1007,10 @@ def write_json(
     path = Path(path)
     payload = to_json(content)
     encoding = normalize_encoding(encoding)
-    newline = "" if is_null(newline) else newline
+    if is_null(newline):
+        newline = ""
 
-    def _dump(fh: IO[Any]) -> None:
+    def _write(fh: IO[Any]) -> None:
         if compact:
             json.dump(payload, fh, ensure_ascii=False, separators=(",", ":"), default=str, **kwargs)
         else:
@@ -1016,18 +1029,19 @@ def write_json(
             errors="ignore" if ignore else None,
             newline=newline,
         ) as fh:
-            _dump(fh)
+            _write(fh)
             flush_handler(fh)
         return
 
     # Atomically replace the target with a temp file
     atomic_write(
         path,
-        writer=_dump,
-        is_binary=False,
+        writer=_write,
+        # Write
         encoding=encoding,
-        newline=newline,
         ignore=ignore,
+        is_binary=False,
+        newline=newline,
         # Save
         mode=mode,
         overwrite=overwrite,
@@ -1041,6 +1055,7 @@ def write_text(
     path: Union[str, Path],
     text: str,
     *,
+    # Write
     append: bool = False,
     encoding: str = DEFAULT_ENCODING,
     ignore: bool = False,
@@ -1111,17 +1126,20 @@ def write_text(
             flush_handler(fh)
         return
 
-    def _writer(fh: IO[Any]) -> None:
+    def _write(fh: IO[Any]) -> None:
         fh.write(text)
 
     # Atomically replace the target with a temp file
+    if is_null(newline):
+        newline = ""
     atomic_write(
         path,
-        writer=_writer,
-        is_binary=False,
+        writer=_write,
+        # Write
         encoding=encoding,
-        newline="" if is_null(newline) else newline,
         ignore=ignore,
+        is_binary=False,
+        newline=newline,
         # Save
         mode=mode,
         overwrite=overwrite,

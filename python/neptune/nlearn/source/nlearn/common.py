@@ -55,7 +55,7 @@ def plot_confusion_matrix(
     margin: Optional[dict] = None,
 ) -> go.Figure:
     """
-    Builds an interactive confusion-matrix heatmap using Plotly and the GUI helpers.
+    Plots an interactive confusion-matrix heatmap using Plotly and the GUI helpers.
 
     Args:
         target: The true labels (array-like / Pandas Series).

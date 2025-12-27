@@ -152,7 +152,14 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
 __CHART_CONVERTERS________________________________________________________________________ = ""
 
 
-def matplot_to_plotly(fig, resize=False, strip_style=False, verbose=VERBOSE):
+def matplot_to_plotly(
+    fig,
+    *,
+    resize=False,
+    strip_style=False,
+    # Log
+    verbose=VERBOSE,
+):
     for ax in fig.axes:
         ax.xaxis._gridOnMajor = ax.xaxis._major_tick_kw["gridOn"]
         ax.yaxis._gridOnMajor = ax.yaxis._major_tick_kw["gridOn"]
@@ -219,7 +226,7 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 def fig_to_image_html(
     fig,
     format,
-    encoding=DEFAULT_ENCODING,
+    *,
     mode=DEFAULT_IMAGE_MODE,
     style=None,
     rotate=False,
@@ -227,121 +234,131 @@ def fig_to_image_html(
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
-    """Converts the specified figure to the specified format, encodes it to Base64 and returns its
-    HTML code."""
+    """Converts the specified figure to the specified format, encodes it to Base64 and returns its HTML code."""
     if is_null(fig):
         return ""
     image = fig_to_image(fig, format, scale=scale, width=width, height=height, margin=margin)
     return image_to_html(
         image,
         format,
-        encoding=encoding,
         mode=mode,
         style=style,
         rotate=rotate,
         width=width,
         height=height,
+        # Read
+        encoding=encoding,
     )
 
 
 def fig_to_jpg_html(
     fig,
-    encoding=DEFAULT_ENCODING,
+    *,
     style=None,
     rotate=False,
     scale=DEFAULT_SCALE,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
-    """Converts the specified figure to a JPEG image, encodes it to Base64 and returns its HTML
-    code."""
+    """Converts the specified figure to a JPEG image, encodes it to Base64 and returns its HTML code."""
     return fig_to_image_html(
         fig,
         FileType.JPEG,
-        encoding=encoding,
         style=style,
         rotate=rotate,
         scale=scale,
         width=width,
         height=height,
         margin=margin,
+        # Read
+        encoding=encoding,
     )
 
 
 def fig_to_png_html(
     fig,
-    encoding=DEFAULT_ENCODING,
+    *,
     style=None,
     rotate=False,
     scale=DEFAULT_SCALE,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
-    """Converts the specified figure to a PNG image, encodes it to Base64 and returns its HTML
-    code."""
+    """Converts the specified figure to a PNG image, encodes it to Base64 and returns its HTML code."""
     return fig_to_image_html(
         fig,
         FileType.PNG,
-        encoding=encoding,
         style=style,
         rotate=rotate,
         scale=scale,
         width=width,
         height=height,
         margin=margin,
+        # Read
+        encoding=encoding,
     )
 
 
 def fig_to_svg_html(
     fig,
-    encoding=DEFAULT_ENCODING,
+    *,
     style=None,
     rotate=False,
     scale=DEFAULT_SCALE,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
-    """Converts the specified figure to an SVG image, encodes it to Base64 and returns its HTML
-    code."""
+    """Converts the specified figure to an SVG image, encodes it to Base64 and returns its HTML code."""
     return fig_to_image_html(
         fig,
         FileType.SVG,
-        encoding=encoding,
         style=style,
         rotate=rotate,
         scale=scale,
         width=width,
         height=height,
         margin=margin,
+        # Read
+        encoding=encoding,
     )
 
 
 def fig_to_webp_html(
     fig,
-    encoding=DEFAULT_ENCODING,
+    *,
     style=None,
     rotate=False,
     scale=DEFAULT_SCALE,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
-    """Converts the specified figure to a WEBP image, encodes it to Base64 and returns its HTML
-    code."""
+    """Converts the specified figure to a WEBP image, encodes it to Base64 and returns its HTML code."""
     return fig_to_image_html(
         fig,
         FileType.WEBP,
-        encoding=encoding,
         style=style,
         rotate=rotate,
         scale=scale,
         width=width,
         height=height,
         margin=margin,
+        # Read
+        encoding=encoding,
     )
 
 

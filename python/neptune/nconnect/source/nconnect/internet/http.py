@@ -116,7 +116,7 @@ def create_session_with_retries(
     user_agent: Optional[str] = None,
 ) -> requests.Session:
     """
-    Builds a `requests.Session` with retry on 429/5xx HTTP statuses and sensible defaults.
+    Creates a `requests.Session` with retry on 429/5xx HTTP statuses and sensible defaults.
 
     Args:
         total_retries: The maximum number of retries on the transient errors.
@@ -207,6 +207,7 @@ def request(
 
     Args:
         url: The full URL.
+
         session: The `requests.Session` (with retries configured via adapters).
         method: The HTTP method (e.g., `HttpMethod.GET`, `HttpMethod.POST`, …).
         params: The querystring parameters.
@@ -317,6 +318,7 @@ def request_content(
 
     Args:
         url: The full URL of the resource to request.
+
         session: The `requests.Session` (with retries configured via adapters).
         method: The HTTP method (e.g., `HttpMethod.GET`, `HttpMethod.POST`, …).
         params: The querystring parameters.
@@ -400,6 +402,7 @@ def request_json(
 
     Args:
         url: The full URL of the resource to request.
+
         session: The `requests.Session` (with retries configured via adapters).
         method: The HTTP method (e.g., `HttpMethod.GET`, `HttpMethod.POST`, …).
         params: The querystring parameters.
@@ -482,6 +485,7 @@ def request_text(
 
     Args:
         url: The full URL of the resource to request.
+
         session: The `requests.Session` (with retries configured via adapters).
         method: The HTTP method (e.g., `HttpMethod.GET`, `HttpMethod.POST`, …).
         params: The querystring parameters.
@@ -558,6 +562,7 @@ def lookup_content(
 
     Args:
         url: The target endpoint.
+
         accept_empty_response: Indicates whether an empty payload for OK statuses is considered valid.
         accept_ok_statuses: The HTTP statuses to treat as OK (e.g., `(200, 201, 202)`).
         accept_empty_statuses: The HTTP statuses considered valid empty responses (e.g., `204`, `404`, `410`).
@@ -565,6 +570,7 @@ def lookup_content(
         name: The identifier for the logs (e.g., filename, resource key).
         context: The short log context (e.g., `"pdf"`, route).
         preview_payload: Appends a compact payload preview to the logs when `True`.
+
         **kwargs: Forwards the extra parameters to `request_content` (session, method, params, headers, …).
 
     Returns:
@@ -741,6 +747,7 @@ def lookup_json(
 
     Args:
         url: The target endpoint.
+
         accept_empty_response: Indicates whether an empty JSON payload for OK statuses is considered valid.
         accept_ok_statuses: The HTTP statuses to treat as OK (e.g., `(200, 201, 202)`).
         accept_empty_statuses: The HTTP statuses considered valid empty responses (e.g., `204`, `404`, `410`).
@@ -749,6 +756,7 @@ def lookup_json(
         context: The short log context (e.g., `"de → en"`, route).
         response_type: The expected top-level JSON type (`dict` or `list`).
         preview_payload: Appends a compact payload preview to the logs when `True`.
+
         **kwargs: Forwards the extra parameters to `request_json` (session, method, params, headers, …).
 
     Returns:
@@ -926,6 +934,7 @@ def lookup_text(
 
     Args:
         url: The target endpoint.
+
         accept_empty_response: Indicates whether an empty text payload for OK statuses is considered valid.
         accept_ok_statuses: The HTTP statuses to treat as OK (e.g., `(200, 201, 202)`).
         accept_empty_statuses: The HTTP statuses considered valid empty responses (e.g., `204`, `404`, `410`).
@@ -933,6 +942,7 @@ def lookup_text(
         name: The identifier for the logs (e.g., page title, route).
         context: The short log context (e.g., `"en → de"`, endpoint).
         preview_payload: Appends a compact payload preview to the logs when `True`.
+
         **kwargs: Forwards the extra parameters to `request_text` (session, method, params, headers, …).
 
     Returns:

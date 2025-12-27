@@ -46,11 +46,13 @@ def buffer_to_image(buffer, format, rotate=False):
 def buffer_to_html(
     buffer,
     format,
-    encoding=DEFAULT_ENCODING,
+    *,
     style=None,
     rotate=False,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
     """Encodes the specified image buffer to Base64 and returns its HTML code."""
     if is_empty(buffer):
@@ -83,12 +85,14 @@ def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
 def image_to_html(
     image,
     format,
-    encoding=DEFAULT_ENCODING,
+    *,
     mode=DEFAULT_IMAGE_MODE,
     style=None,
     rotate=False,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
 ):
     """Converts the specified image to HTML."""
     if format == FileType.SVG:
@@ -96,11 +100,12 @@ def image_to_html(
     return buffer_to_html(
         image_to_buffer(image, mode=mode),
         format,
-        encoding=encoding,
         style=style,
         rotate=rotate,
         width=width,
         height=height,
+        # Read
+        encoding=encoding,
     )
 
 
@@ -115,8 +120,10 @@ def generate_image(*shape):
 
 
 def evaluate_colorfulness(buffer):
-    """Evaluates the colorfulness with the combination of the means and standard deviations of the
-    color components of the specified RGB image buffer."""
+    """
+    Evaluates the colorfulness with the combination of the means and standard deviations of the color components of the
+    specified RGB image buffer.
+    """
     # Split the color components of the RGB image buffer
     r, g, b = cv2.split(to_float(buffer))
     # Compute rg = R - G
@@ -139,8 +146,10 @@ def evaluate_blurriness(buffer):
 
 
 def evaluate_brightness(buffer):
-    """Evaluates the blurriness with the mean of the value (brightness) of the HSV representation of
-    the specified image buffer."""
+    """
+    Evaluates the blurriness with the mean of the value (brightness) of the HSV representation of the specified image
+    buffer.
+    """
     _, _, v = rgb_to_hsv(buffer)
     return mean(mean(v))
 
@@ -194,6 +203,11 @@ def write_image(path, buffer):
 __IMAGE_VALIDATORS________________________________________________________________________ = ""
 
 
-def is_svg(x: Any) -> bool:
+def is_svg(
+    x: Any,
+    *,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> bool:
     """Returns whether `x` is an SVG image."""
-    return is_string(x) and x[1:4] == FileType.SVG.encode(DEFAULT_ENCODING)
+    return is_string(x) and x[1:4] == FileType.SVG.encode(encoding)

@@ -92,12 +92,18 @@ class StyleConfig:
 __COMMON_STYLE_LOADERS____________________________________________________________________ = ""
 
 
-def load_yaml_config(path: Path) -> StyleConfig:
+def load_yaml_config(
+    path: Path,
+    *,
+    exclude: List[str] = DEFAULT_EXCLUDES,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> StyleConfig:
     """
     Loads and compiles the YAML configuration.
 
     Behavior:
-        • Always merges the YAML `exclude:` with `DEFAULT_EXCLUDES` (order-preserving and deduplicated).
+        • Always merges the YAML `"exclude"` with `exclude` (order-preserving and deduplicated).
         • Computes the `prune_names` set from the merged `exclude` list (patterns ending with `"/**"`).
         • Compiles the `pattern` for each rule using the OR-ed `flags`, while preserving the textual
           `flags` list as specified in the YAML.
@@ -112,7 +118,7 @@ def load_yaml_config(path: Path) -> StyleConfig:
         SystemExit: When the YAML file cannot be read or parsed, or a rule regex is invalid.
     """
     try:
-        text = path.read_text(encoding=DEFAULT_ENCODING)
+        text = path.read_text(encoding=encoding)
     except Exception as e:
         sys.exit(f"Could not read YAML config '{path}': {e}")
 
@@ -124,8 +130,7 @@ def load_yaml_config(path: Path) -> StyleConfig:
     include = list(data.get("include") or ["**/*"])
 
     # Always merge the defaults with the user excludes (even when the user specifies an empty list)
-    exclude_yaml = list(data.get("exclude") or [])
-    exclude = deduplicate(DEFAULT_EXCLUDES + exclude_yaml)
+    exclude = deduplicate(exclude + list(data.get("exclude") or []))
 
     rules: List[StyleRule] = []
     for rule in data.get("rules") or []:

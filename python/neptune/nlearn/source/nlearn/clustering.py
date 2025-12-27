@@ -37,10 +37,12 @@ __CLUSTERING_FACTORIES__________________________________________________________
 def create_clustering(
     points,
     n=50,
+    *,
     batch_size=1024,
     max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
     random_state=None,
     use_mini_batch=False,
+    # Log
     verbose=VERBOSE,
 ):
     if use_mini_batch:
@@ -49,6 +51,7 @@ def create_clustering(
             batch_size=batch_size,
             max_iter=max_iteration_count,
             random_state=random_state,
+            # Log
             verbose=verbose,
         )
     else:
@@ -60,9 +63,10 @@ def create_clustering(
 
 
 def create_gaussian_mixture(points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT):
-    """Creates a Gaussian mixture with the specified number of components and fits the specified
-    points with the expectation-maximization (EM) algorithm. Note that the variational inference
-    model is using all the components."""
+    """
+    Creates a Gaussian mixture with the specified number of components and fits the specified points with the
+    expectation-maximization (EM) algorithm. Note that the variational inference model is using all the components.
+    """
     model = mixture.GaussianMixture(n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count)
     return model.fit(points)
 
@@ -70,9 +74,11 @@ def create_gaussian_mixture(points, n=1, covariance_type="full", max_iteration_c
 def create_bayesian_gaussian_mixture(
     points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT
 ):
-    """Creates a Dirichlet process Gaussian mixture with the specified number of components and fits
-    the specified points with the expectation-maximization (EM) algorithm. Note that the Dirichlet
-    process model adapts the number of components automatically."""
+    """
+    Creates a Dirichlet process Gaussian mixture with the specified number of components and fits the specified points
+    with the expectation-maximization (EM) algorithm. Note that the Dirichlet process model adapts the number of
+    components automatically.
+    """
     model = mixture.BayesianGaussianMixture(
         n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count
     )
@@ -91,9 +97,11 @@ def create_outlier_detector(
     method="quantile",
     threshold=DEFAULT_CONFIDENCE_LEVEL,
 ):
-    """Creates a detector based on a Gaussian mixture with the specified number of components and
-    fits the specified points with the expectation-maximization (EM) algorithm. Note that the
-    variational inference model is using all the components."""
+    """
+    Creates a detector based on a Gaussian mixture with the specified number of components and fits the specified points
+    with the expectation-maximization (EM) algorithm. Note that the variational inference model is using all the
+    components.
+    """
     model = GMMOutlierDetector(
         n_components=n,
         covariance_type=covariance_type,
@@ -114,9 +122,11 @@ def create_bayesian_outlier_detector(
     method="quantile",
     threshold=DEFAULT_CONFIDENCE_LEVEL,
 ):
-    """Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of
-    components and fits the specified points with the expectation-maximization (EM) algorithm. Note
-    that the Dirichlet process model adapts the number of components automatically."""
+    """
+    Creates a detector based on a Dirichlet process Gaussian mixture with the specified number of components and fits
+    the specified points with the expectation-maximization (EM) algorithm. Note that the Dirichlet process model adapts
+    the number of components automatically.
+    """
     model = BayesianGMMOutlierDetector(
         n_components=n,
         covariance_type=covariance_type,
@@ -134,10 +144,12 @@ def create_bayesian_outlier_detector(
 def cluster(
     points,
     n=50,
+    *,
     batch_size=1024,
     max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
     random_state=None,
     use_mini_batch=False,
+    # Log
     verbose=VERBOSE,
 ):
     return create_clustering(
@@ -147,6 +159,7 @@ def cluster(
         max_iteration_count=max_iteration_count,
         random_state=random_state,
         use_mini_batch=use_mini_batch,
+        # Log
         verbose=verbose,
     ).predict(points)
 
@@ -183,8 +196,10 @@ def plot_clusters(
     show_legend=True,
     show_points=True,
 ):
-    """Plots the clusters of the specified points identified by the specified classes and encircles
-    them with ellipses using their specified means and covariances."""
+    """
+    Plots the clusters of the specified points identified by the specified classes and encircles them with ellipses
+    using their specified means and covariances.
+    """
     if is_null(fig):
         if is_frame(points):
             names = get_names(points)
@@ -356,8 +371,9 @@ def plot_mixture(
     show_legend=True,
     show_points=True,
 ):
-    """Plots the clusters of the specified points identified by the specified model and encircles
-    them with ellipses."""
+    """
+    Plots the clusters of the specified points identified by the specified model and encircles them with ellipses.
+    """
     return plot_clusters(
         points,
         model.predict(points),
@@ -411,8 +427,9 @@ def plot_detector(
     show_legend=True,
     show_points=True,
 ):
-    """Plots the clusters of the specified points identified by the specified detector and encircles
-    them with ellipses."""
+    """
+    Plots the clusters of the specified points identified by the specified detector and encircles them with ellipses.
+    """
     if is_null(fig):
         fig = charts.create_figure(
             title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin

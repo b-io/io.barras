@@ -93,7 +93,8 @@ TEnum = TypeVar("TEnum")
 
 
 def get_config_path(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> str:
-    """Returns the path to the properties with the specified `filename` in the specified directory.
+    """
+    Returns the path to the properties with the specified `filename` in the specified directory.
 
     Args:
         filename: The base file name without extension.
@@ -118,7 +119,8 @@ def get_bool(section: str, option: str) -> Optional[bool]:
 
 
 def get_enum(section: str, option: str, enum_cls: Type[TEnum]) -> Optional[TEnum]:
-    """Selects an option as an optional enum instance.
+    """
+    Selects an option as an optional enum instance.
 
     Accepts either:
       • the enum *name* (case-insensitive): e.g., `"INFO"`, `"info"`
@@ -162,7 +164,8 @@ def get_int(section: str, option: str) -> Optional[int]:
 def get_int_strict(
     section: str, option: str, *, min_value: Optional[int] = None, max_value: Optional[int] = None
 ) -> int:
-    """Selects an option as an integer and validates optional bounds.
+    """
+    Selects an option as an integer and validates optional bounds.
 
     Args:
         section: The config section name.
@@ -197,7 +200,8 @@ def get_str(section: str, option: str) -> Optional[str]:
 
 
 def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
-    """Coerces `raw` to the enum's underlying value type.
+    """
+    Coerces `raw` to the enum's underlying value type.
 
     Notes:
         • Detects the value type from the first member.
@@ -247,7 +251,8 @@ __CONFIG_LOADERS________________________________________________________________
 
 
 def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> List[str]:
-    """Loads the properties with the specified `filename` in the specified directory.
+    """
+    Loads the properties with the specified `filename` in the specified directory.
 
     Args:
         filename: The base file name without extension.
@@ -264,7 +269,8 @@ __CONFIG_PROCESSORS_____________________________________________________________
 
 
 def escape_property(property: Optional[str]) -> Optional[str]:
-    """Escapes percent signs in a property value for `ConfigParser` interpolation.
+    """
+    Escapes percent signs in a property value for `ConfigParser` interpolation.
 
     Args:
         property: The string to escape, or `None`.
@@ -279,7 +285,8 @@ def escape_property(property: Optional[str]) -> Optional[str]:
 
 
 def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) -> None:
-    """Reads a nested mapping after coercing all option values to strings.
+    """
+    Reads a nested mapping after coercing all option values to strings.
 
     Args:
         config: The target `ConfigParser`.
@@ -292,7 +299,8 @@ def merge_config(config: ConfigParser, data: Mapping[str, Mapping[str, Any]]) ->
 
 
 def format_value(value: Any) -> str:
-    """Converts a Python value to a `ConfigParser`-compatible string.
+    """
+    Converts a Python value to a `ConfigParser`-compatible string.
 
     Args:
         value: The Python value to convert (e.g., `None`, `bool`, `int`, `float`, `list`).

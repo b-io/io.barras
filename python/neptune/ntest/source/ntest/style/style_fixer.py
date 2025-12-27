@@ -61,7 +61,13 @@ UNDERSCORE_BANNER_TAIL = ' = ""'
 __STYLE_FIXER_PROCESSORS__________________________________________________________________ = ""
 
 
-def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
+def preview_file(
+    path: Path,
+    rules: Sequence[StyleRule],
+    *,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> Dict[str, int]:
     """
     Reports what would change for a file without writing.
 
@@ -73,7 +79,7 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         The dictionary of `{rule_id: count_of_line_changes}`.
     """
     try:
-        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
+        orig = path.read_text(encoding=encoding, errors="ignore")
     except Exception as e:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
@@ -113,7 +119,13 @@ def preview_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
     return counts
 
 
-def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
+def process_file(
+    path: Path,
+    rules: Sequence[StyleRule],
+    *,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> Dict[str, int]:
     """
     Applies all active rule fixes to a file.
 
@@ -125,7 +137,7 @@ def process_file(path: Path, rules: Sequence[StyleRule]) -> Dict[str, int]:
         The dictionary of `{rule_id: count_of_line_changes}`.
     """
     try:
-        orig = path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
+        orig = path.read_text(encoding=encoding, errors="ignore")
     except Exception as e:
         logging.warning("Could not read '%s': %s", path, e)
         return {}
@@ -621,10 +633,8 @@ FIXERS: Dict[str, Fixer] = {
 
 TEXT_FIXERS: Dict[str, TextFixer] = {
     # IF / ELIF
-    "elif-subject-mismatch-standalone": fix_elif_subject_mismatch,
-    "elif-subject-mismatch-first-arg": fix_elif_subject_mismatch,
-    "if-missing-elif-standalone": fix_if_missing_elif,
-    "if-missing-elif-first-arg": fix_if_missing_elif,
+    "elif-subject-mismatch": fix_elif_subject_mismatch,
+    "if-missing-elif": fix_if_missing_elif,
 }
 
 

@@ -211,7 +211,8 @@ __COMMON_PROCESSORS_____________________________________________________________
 
 
 def deep_hash(x: Any, default: int = 0) -> int:
-    """Returns the structural hash value of `x`.
+    """
+    Returns the structural hash value of `x`.
 
     Uses a recursive strategy for containers so that unhashable but structurally
     equal objects (like lists, dicts, nested structures) produce the same hash.
@@ -282,7 +283,8 @@ def collapse(
     delimiter: str = "",
     strip: Optional[str] = None,
 ) -> str:
-    """Returns the string computed by joining the specified arguments with the specified delimiter.
+    """
+    Returns the string computed by joining the specified arguments with the specified delimiter.
 
     Args:
         *args: The values to be converted to strings and joined.
@@ -303,7 +305,8 @@ def collist(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
 
 
 def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
-    """Returns the string computed by joining the specified arguments with a space.
+    """
+    Returns the string computed by joining the specified arguments with a space.
 
     If `default` is empty, falsy arguments are removed before collapsing.
     """

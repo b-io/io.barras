@@ -162,7 +162,7 @@ def get_latest_compatible_version(
 __POETRY_UPDATER_FINDERS__________________________________________________________________ = ""
 
 
-def find_pyproject_files(root: Path, *, exclude: Optional[List[str]] = None) -> List[Path]:
+def find_pyproject_files(root: Path, *, exclude: List[str] = DEFAULT_EXCLUDES) -> List[Path]:
     """
     Finds all `PYPROJECT` files under `root`, recursively, pruning excluded directories.
 
@@ -173,7 +173,6 @@ def find_pyproject_files(root: Path, *, exclude: Optional[List[str]] = None) -> 
     Returns:
         The list of discovered `pyproject.toml` paths (sorted).
     """
-    exclude = DEFAULT_EXCLUDES if is_null(exclude) else list(exclude)
     prune_names = get_dirnames_from_globs(exclude)
 
     found: List[Path] = []
@@ -537,7 +536,7 @@ def compute_pins(
         The list of resolved pins.
     """
     pins: List[Pin] = []
-    current_versions = {} if is_null(current_versions) else {k.lower(): v for k, v in current_versions.items()}
+    current_versions = {k.lower(): v for k, v in current_versions.items()} if not is_null(current_versions) else {}
 
     for name in dependency_names:
         try:
@@ -866,6 +865,7 @@ def run(
 def run_root(
     root: Path,
     *,
+    exclude: List[str] = DEFAULT_EXCLUDES,
     include_prereleases: bool = False,
     target_version: Optional[Version] = None,
     # Save
@@ -893,7 +893,7 @@ def run_root(
     Returns:
         Exit code `0` on success, otherwise `1`.
     """
-    pyprojects = find_pyproject_files(root, exclude=DEFAULT_EXCLUDES)
+    pyprojects = find_pyproject_files(root, exclude=exclude)
     if not pyprojects:
         logging.error("❌ No 'pyproject.toml' files found under '%s'", root)
         return 1

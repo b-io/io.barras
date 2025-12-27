@@ -15,7 +15,13 @@ from nutil.common import *
 __BYTES_CONVERTERS________________________________________________________________________ = ""
 
 
-def to_bytes(x: Any, encoding: str = DEFAULT_ENCODING, errors: str = "strict") -> Any:
+def to_bytes(
+    x: Any,
+    *,
+    # Write
+    encoding: str = DEFAULT_ENCODING,
+    errors: str = "strict",
+) -> Any:
     """
     Converts `x` to bytes (recursively for collections).
 

@@ -889,10 +889,7 @@ def get_frequency(
         return freq
 
     # 2) Normalize to an upper-case code
-    if isinstance(freq, Frequency):
-        code = freq.value.upper()
-    else:
-        code = str(freq).upper()
+    code = freq.value.upper() if isinstance(freq, Frequency) else str(freq).upper()
 
     # 3) Map our internal codes to a *base* Pandas alias
     if code == Frequency.DAYS.value:

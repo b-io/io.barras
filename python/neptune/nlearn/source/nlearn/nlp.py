@@ -41,10 +41,13 @@ class WordEmbeddings:
     def __init__(
         self,
         path=WORD_VECTOR_PATH,
-        encoding=DEFAULT_ENCODING,
+        size=None,
+        *,
+        # Read
+        encoding: str = DEFAULT_ENCODING,
         ignore=True,
         newline=None,
-        size=None,
+        # Log
         verbose=VERBOSE,
         verbose_interval=100000,
     ):
@@ -63,10 +66,12 @@ class WordEmbeddings:
         if not is_empty(path):
             self.load(
                 path,
+                # Read
                 encoding=encoding,
                 ignore=ignore,
                 newline=newline,
                 size=size,
+                # Log
                 verbose=verbose,
                 verbose_interval=verbose_interval,
             )
@@ -292,11 +297,14 @@ class WordEmbeddings:
 
     def load(
         self,
-        path,
-        encoding=DEFAULT_ENCODING,
+        path=WORD_VECTOR_PATH,
+        size=None,
+        *,
+        # Read
+        encoding: str = DEFAULT_ENCODING,
         ignore=True,
         newline=None,
-        size=None,
+        # Log
         verbose=VERBOSE,
         verbose_interval=100000,
     ):

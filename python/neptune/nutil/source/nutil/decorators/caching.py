@@ -20,7 +20,8 @@ __CACHING_DECORATORS____________________________________________________________
 
 
 def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
-    """Decorates a function with an LRU cache keyed by `deep_hash(args, kwargs)`.
+    """
+    Decorates a function with an LRU cache keyed by `deep_hash(args, kwargs)`.
 
     The cache:
         • Works with unhashable arguments by hashing their structure via `deep_hash`

@@ -350,6 +350,8 @@ class SectionedCache(Generic[V]):
         policy: CachePolicy = CachePolicy.WRITE_MISS_ONLY,
         persistence_frequency: int = 0,
         coerce_value: Optional[Callable[[Any], V]] = None,
+        # Read
+        encoding: str = DEFAULT_ENCODING,
     ) -> "SectionedCache[V]":
         """
         Loads the cache from the `path`, returning a ready-to-use instance.
@@ -369,7 +371,7 @@ class SectionedCache(Generic[V]):
 
             # Read the file text with the default encoding
             try:
-                text = path.read_text(encoding=DEFAULT_ENCODING)
+                text = path.read_text(encoding=encoding)
             except OSError:
                 raise
 

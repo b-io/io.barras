@@ -29,10 +29,25 @@ from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 
+
+__STYLE_CHECKER_CONSTANTS_________________________________________________________________ = ""
+
+
+### GLOBALS ################################################
+
+MULTILINE_MAX_SPAN_CHARS: int = 1000
+
+
 __STYLE_CHECKER_PROCESSORS________________________________________________________________ = ""
 
 
-def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, int, str]]:
+def scan_file(
+    abs_path: Path,
+    rules: List[StyleRule],
+    *,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> List[Tuple[StyleRule, int, str]]:
     """
     Scans a text file with applicable rules and returns the violations.
 
@@ -45,7 +60,7 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
     """
     violations: List[Tuple[StyleRule, int, str]] = []
     try:
-        text = abs_path.read_text(encoding=DEFAULT_ENCODING, errors="ignore")
+        text = abs_path.read_text(encoding=encoding, errors="ignore")
     except Exception as e:
         # Treat unreadable files as warnings (report but do not fail the run)
         violations.append(
@@ -80,8 +95,9 @@ def scan_file(abs_path: Path, rules: List[StyleRule]) -> List[Tuple[StyleRule, i
                 violations.append((rule, line_number, line))
 
     # Apply the multi-line rules to the whole text
+    line_starts = list(_iter_line_start_offsets(text))
     for rule in multiline_rules:
-        for m in rule.pattern.finditer(text):
+        for m in _iter_multiline_matches(text, line_starts, rule):
             line_number, line_text = _get_match_last_line(text, m)
             violations.append((rule, line_number, line_text))
 
@@ -118,6 +134,19 @@ def _get_match_last_line(text: str, match: Any) -> Tuple[int, str]:
     return line_number, line_text
 
 
+def _is_line_anchored_pattern(pattern: str) -> bool:
+    """
+    Checks whether a regex pattern is line-anchored.
+
+    Args:
+        pattern: The regex source string.
+
+    Returns:
+        `True` if the pattern begins with optional inline flags followed by `^`, otherwise `False`.
+    """
+    return re.match(r"^(?:\(\?[a-zA-Z]+\))*\^", pattern) is not None
+
+
 def _is_multiline_rule(rule: StyleRule) -> bool:
     """
     Selects whether a rule should be applied to the whole file text.
@@ -132,13 +161,79 @@ def _is_multiline_rule(rule: StyleRule) -> bool:
         `True` if the rule must be applied to the whole file text, otherwise `False`.
     """
     pattern = rule.pattern.pattern
-    if "\\n" in pattern or "\\r" in pattern:
+    if "\\r" in pattern or "\\n" in pattern:
         return True
     if (rule.pattern.flags & re.DOTALL) != 0:
         return True
     if "(?s)" in pattern:
         return True
     return False
+
+
+def _iter_line_start_offsets(text: str) -> Iterable[int]:
+    """
+    Yields the offsets of each line start in `text`.
+
+    Args:
+        text: The full file text.
+
+    Returns:
+        The iterable of line-start offsets.
+    """
+    yield 0
+    for i, ch in enumerate(text):
+        if ch == NEWLINE:
+            yield i + 1
+
+
+def _iter_multiline_matches(text: str, line_starts: List[int], rule: StyleRule) -> Iterable[Any]:
+    """
+    Iterates multi-line regex matches in a safer way than `finditer(text)`.
+
+    Strategy:
+        • If the pattern is line-anchored (`^`), tries `match()` at each line start.
+        • Otherwise, runs `search()` in bounded windows starting at each line start and deduplicates spans.
+
+    Args:
+        text: The full file text.
+        line_starts: The precomputed line-start offsets in `text`.
+        rule: The multi-line style rule to apply.
+
+    Returns:
+        The iterable of regex match objects.
+    """
+    n = len(text)
+
+    if _is_line_anchored_pattern(rule.pattern.pattern):
+        for pos in line_starts:
+            if pos >= n:
+                break
+            endpos = min(n, pos + MULTILINE_MAX_SPAN_CHARS)
+            m = rule.pattern.match(text, pos, endpos)
+            if m:
+                yield m
+        return
+
+    seen: Set[Tuple[int, int]] = set()
+    for pos in line_starts:
+        if pos >= n:
+            break
+        endpos = min(n, pos + MULTILINE_MAX_SPAN_CHARS)
+
+        m = rule.pattern.search(text, pos, endpos)
+        while m:
+            span = (m.start(), m.end())
+            if span not in seen:
+                seen.add(span)
+                yield m
+
+            next_pos = m.end()
+            if next_pos <= m.start():
+                next_pos = m.start() + 1
+            if next_pos >= endpos:
+                break
+
+            m = rule.pattern.search(text, next_pos, endpos)
 
 
 __STYLE_CHECKER_RUNNERS___________________________________________________________________ = ""
