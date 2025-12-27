@@ -1857,7 +1857,7 @@ def insert_table(
 
     debug_query("insert", len(df), table, verbose=verbose)
 
-    if not is_null(insert_id):
+    if insert_id:
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
     for i, row in df.iterrows():
         # Build the query
@@ -1884,7 +1884,7 @@ def insert_table(
                 # Log
                 verbose=verbose,
             )
-    if not is_null(insert_id):
+    if insert_id:
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
 
@@ -1948,7 +1948,7 @@ def bulk_insert_table(
 
     # Chunk the bulk query
     if len(df) > chunk_size:
-        if not is_null(insert_id):
+        if insert_id:
             set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
         chunk_count = ceil(len(df) / chunk_size)
         index_to = 0
@@ -1970,7 +1970,7 @@ def bulk_insert_table(
                 # Log
                 verbose=verbose,
             )
-        if not is_null(insert_id):
+        if insert_id:
             set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
         return insert_count
 
@@ -1982,7 +1982,7 @@ def bulk_insert_table(
         query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
     # Execute the bulk query
-    if not is_null(insert_id):
+    if insert_id:
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
     try:
         result = execute(engine, query)
@@ -1993,7 +1993,7 @@ def bulk_insert_table(
             warn_query("bulk-inserted", table, verbose=verbose)
     except Exception as e:
         error_query("bulk-inserted", table, exception=e, verbose=verbose)
-    if not is_null(insert_id):
+    if insert_id:
         set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
     return insert_count
 
@@ -2366,7 +2366,7 @@ def execute(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List
     """
     with engine.connect() as connection:
         result = connection.execute(query, *args, **kwargs)
-        return result.fetchall() if not is_null(result.cursor) else result.rowcount
+        return result.fetchall() if result.returns_rows else result.rowcount
 
 
 def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[Any, ...]]:
@@ -2424,7 +2424,7 @@ def transact(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[Lis
     """
     with engine.begin() as connection:
         result = connection.execute(query, *args, **kwargs)
-        return result.fetchall() if not is_null(result.cursor) else result.rowcount
+        return result.fetchall() if result.returns_rows else result.rowcount
 
 
 __DB_SERVICES_____________________________________________________________________________ = ""
