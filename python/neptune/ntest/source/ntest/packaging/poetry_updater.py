@@ -328,8 +328,8 @@ def extract_current_pins(pyproject_lines: List[str]) -> Dict[str, str]:
         if is_null(qm):
             continue
 
-        inner = qm.group("value")
-        sm = SIMPLE_VERSION_SPEC_PATTERN.match(inner)
+        spec = qm.group("value")
+        sm = SIMPLE_VERSION_SPEC_PATTERN.match(spec)
         if is_null(sm):
             continue
 
@@ -492,16 +492,16 @@ def apply_pins_inplace(pyproject_lines: List[str], pins: List[Pin]) -> Tuple[Lis
             continue
 
         q = qm.group("q")
-        inner = qm.group("value")
-        new_inner = _override_version_spec(inner, pin_map[pin_key])
-        if new_inner is None:
+        spec = qm.group("value")
+        new_spec = _override_version_spec(spec, pin_map[pin_key])
+        if is_null(new_spec):
             logging.warning(
                 "⚠️ Skip '%s' because the version constraint is not a simple spec: %s", name, raw_value.strip()
             )
             out.append(raw_line)
             continue
 
-        new_value = f"{q}{new_inner}{q}"
+        new_value = f"{q}{new_spec}{q}"
         if new_value == raw_value:
             out.append(raw_line)
             continue

@@ -110,7 +110,7 @@ def get_table_metadata(
     """
     if is_null(metadata):
         metadata = create_metadata(engine, schema=schema)
-    metadata.reflect(extend_existing=True, only=[table], schema=schema, views=True)
+    metadata.reflect(bind=engine, schema=schema, views=True, only=[table], extend_existing=True)
     return metadata.tables[collapse(schema, ".", table)]
 
 
@@ -139,7 +139,7 @@ def get_cols(
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
-        A list of column names in the table.
+        The list of column names in the table.
     """
     table_metadata = get_table_metadata(engine, table, metadata=metadata, schema=schema)
     return [col.name for col in table_metadata.columns]
@@ -242,13 +242,13 @@ def get_identity_cols(
     is_mssql: bool = DEFAULT_IS_MSSQL,
     # Log
     verbose: bool = VERBOSE,
-) -> pd.Series:
+) -> List[str]:
     """
     Returns the identity (auto-increment) column names for the specified table.
 
     Behavior:
         • For MSSQL (`is_mssql=True`), queries `"sys"."identity_columns"` for the table.
-        • For non-MSSQL, returns an empty series.
+        • For non-MSSQL, returns an empty list.
 
     Args:
         engine: The SQLAlchemy engine bound to the database.
@@ -259,7 +259,7 @@ def get_identity_cols(
         verbose: When `True`, enables logging.
 
     Returns:
-        A Pandas series of identity column names (empty when not MSSQL).
+        The list of identity column names (empty when not MSSQL).
 
     Raises:
         SQLAlchemyError: If the identity-columns query fails.
@@ -275,8 +275,8 @@ def get_identity_cols(
             schema="sys",
             # Log
             verbose=verbose,
-        )["name"]
-    return pd.Series()
+        )["name"].tolist()
+    return []
 
 
 def get_primary_cols(
@@ -1764,7 +1764,7 @@ __DB_INSERT_________________________________________________ = ""
 
 
 def set_id_insert(
-    engine: Engine,
+    connection: Connection,
     table: str,
     flag: str,
     *,
@@ -1779,7 +1779,7 @@ def set_id_insert(
         • For non-MSSQL, returns null (no-op).
 
     Args:
-        engine: The SQLAlchemy engine.
+        connection: The SQLAlchemy connection.
         table: The table name.
         flag: The MSSQL flag string (typically `"ON"` or `"OFF"`).
 
@@ -1790,10 +1790,7 @@ def set_id_insert(
         The result of `execute(...)` for MSSQL, otherwise null.
     """
     if is_mssql:
-        return execute(
-            engine,
-            paste("SET IDENTITY_INSERT", get_full_table_name(table, schema=schema), flag) + ";",
-        )
+        connection.exec_driver_sql(paste("SET IDENTITY_INSERT", get_full_table_name(table, schema=schema), flag) + ";")
 
 
 ############################################################
@@ -2343,9 +2340,15 @@ def upsert_table(
 __DB_RUNNERS______________________________________________________________________________ = ""
 
 
-def execute(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List[Any], int]:
+def execute(
+    engine: Engine,
+    query: Any,
+    *args: Any,
+    connection: Optional[Connection] = None,
+    **kwargs: Any,
+) -> Union[List[Any], int]:
     """
-    Executes a SQL statement and returns either fetched rows or an affected-row count.
+    Executes a single SQL statement and returns either fetched rows or an affected-row count.
 
     Behavior:
         • Opens a new connection via `engine.connect()`.
@@ -2364,9 +2367,22 @@ def execute(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List
     Raises:
         SQLAlchemyError: If execution fails.
     """
-    with engine.connect() as connection:
-        result = connection.execute(query, *args, **kwargs)
-        return result.fetchall() if result.returns_rows else result.rowcount
+    if is_null(connection):
+        with engine.begin() as connection:
+            result = execute_on_connection(connection, query, *args, **kwargs)
+            return result.fetchall() if result.returns_rows else result.rowcount
+
+    result = execute_on_connection(connection, query, *args, **kwargs)
+    return result.fetchall() if result.returns_rows else result.rowcount
+
+
+def execute_on_connection(connection: Connection, query: Any, *args: Any, **kwargs: Any):
+    if isinstance(query, str):
+        return connection.exec_driver_sql(query, *args, **kwargs)
+    return connection.execute(query, *args, **kwargs)
+
+
+##############################
 
 
 def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[Any, ...]]:
@@ -2401,30 +2417,13 @@ def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[
         connection.close()
 
 
-def transact(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List[Any], int]:
-    """
-    Executes a SQL statement within a transaction and returns rows or an affected-row count.
+##############################
 
-    Behavior:
-        • Uses `engine.begin()` to open a transaction scope.
-        • Executes the statement via `connection.execute(...)`.
-        • Returns `fetchall()` when a cursor is present, otherwise returns `rowcount`.
 
-    Args:
-        engine: The SQLAlchemy engine.
-        query: The SQL query (string or executable statement).
-        *args: Positional arguments forwarded to `connection.execute(...)`.
-        **kwargs: Keyword arguments forwarded to `connection.execute(...)`.
-
-    Returns:
-        A list of fetched rows when the result has a cursor, otherwise an integer row count.
-
-    Raises:
-        SQLAlchemyError: If execution fails.
-    """
+def transact(engine: Engine, f: Callable[[Connection], Any]) -> Union[List[Any], int]:
+    """Executes multiple statements in one transaction on one connection."""
     with engine.begin() as connection:
-        result = connection.execute(query, *args, **kwargs)
-        return result.fetchall() if result.returns_rows else result.rowcount
+        return f(connection)
 
 
 __DB_SERVICES_____________________________________________________________________________ = ""
@@ -2508,9 +2507,9 @@ def migrate(
         if is_mssql_from and not is_mssql_to:
             metadata_to_lowercase(metadata)
         if drop:
-            metadata.drop_all(engine_to, checkfirst=True)
+            metadata.drop_all(bind=engine_to, checkfirst=True)
         if create:
-            metadata.create_all(engine_to)
+            metadata.create_all(bind=engine_to)
 
     # Fill the tables
     if fill:

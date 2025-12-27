@@ -1162,7 +1162,7 @@ def is_case_sensitive(case_sensitive: Optional[bool] = None) -> bool:
     Returns:
         `True` if matching is case-sensitive; otherwise `False`.
     """
-    if case_sensitive is None:
+    if is_null(case_sensitive):
         return os.name != "nt"
     return bool(case_sensitive)
 
