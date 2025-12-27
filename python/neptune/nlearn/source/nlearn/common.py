@@ -46,7 +46,7 @@ def plot_confusion_matrix(
     prediction: Any,
     normalize: bool = False,
     title: str = "Confusion Matrix",
-    labels: Optional[Sequence[Any]] = None,  # optional ordering
+    labels: Optional[Iterable[Any]] = None,  # optional ordering
     color_scale: Union[str, List[Any]] = "Greys",
     reverse_scale: bool = False,
     show_values: bool = True,

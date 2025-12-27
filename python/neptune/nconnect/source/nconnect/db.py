@@ -50,7 +50,7 @@ DEFAULT_DEBUG_INTERVAL = 1000
 __DB_TYPES________________________________________________________________________________ = ""
 
 
-ColumnLike = Union[str, Sequence[str]]
+ColumnLike = Union[str, Iterable[str]]
 RowLike = Union[Mapping[str, Any], pd.Series]
 
 
@@ -437,7 +437,7 @@ def build_select_table_where_query(
     is_mssql: bool = DEFAULT_IS_MSSQL,
     n: Optional[int] = None,
     order_cols: Optional[ColumnLike] = None,
-    order_directions: Optional[Sequence[str]] = None,
+    order_directions: Optional[Iterable[str]] = None,
     schema: str = DEFAULT_SCHEMA,
 ) -> str:
     """
@@ -932,7 +932,7 @@ def format_name(name: str) -> str:
 
 def format_cols(
     *cols: ColumnLike,
-    suffixes: Optional[Sequence[str]] = None,
+    suffixes: Optional[Iterable[str]] = None,
 ) -> str:
     """
     Formats a list of SQL identifiers (e.g., column names), optionally adding suffixes.
@@ -1451,7 +1451,7 @@ def select_table_where(
     is_mssql: bool = DEFAULT_IS_MSSQL,
     n: Optional[int] = None,
     order_cols: Optional[ColumnLike] = None,
-    order_directions: Optional[Sequence[str]] = None,
+    order_directions: Optional[Iterable[str]] = None,
     row_count: int = -1,
     schema: str = DEFAULT_SCHEMA,
     # Log
@@ -2436,7 +2436,7 @@ __DB_MIGRATE________________________________________________ = ""
 def migrate(
     engine_from: Engine,
     engine_to: Engine,
-    tables: Sequence[str],
+    tables: Iterable[str],
     *,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     collation: Optional[str] = None,

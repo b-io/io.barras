@@ -63,7 +63,7 @@ __STYLE_FIXER_PROCESSORS________________________________________________________
 
 def preview_file(
     path: Path,
-    rules: Sequence[StyleRule],
+    rules: Iterable[StyleRule],
     *,
     # Read
     encoding: str = DEFAULT_ENCODING,
@@ -121,7 +121,7 @@ def preview_file(
 
 def process_file(
     path: Path,
-    rules: Sequence[StyleRule],
+    rules: Iterable[StyleRule],
     *,
     # Read
     encoding: str = DEFAULT_ENCODING,

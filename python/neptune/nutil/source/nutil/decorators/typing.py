@@ -45,10 +45,9 @@ def typesafe(
     Decorates a function to enforce its type annotations at runtime.
 
     Summary:
-        Validates that each annotated input matches the declared type in the function signature,
-        including unions, optionals, and parametrized containers (the `list`, the `dict`, the `tuple`,
-        the `set`, the `Mapping`, the `Sequence`, and the `Iterable`). Collects all mismatches and emits
-        a single error via `create_type_error`.
+        Validates that each annotated input matches the declared type in the function signature, including unions,
+        optionals, and parametrized containers (the `dict`, the `list`, the `set`, the `tuple`, the `Sequence`, the
+        `Mapping`, and the generic `Iterable`). Collects all mismatches and emits a single error via `create_type_error`.
 
         Depth control:
             Treats `max_depth == 0` as unlimited recursion. Otherwise, once the limit is reached, the validator
