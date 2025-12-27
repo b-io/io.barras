@@ -57,6 +57,19 @@ def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] 
 ### LETTERS ################################################
 
 
+def to_lowercase(name: Optional[str]) -> Optional[str]:
+    """Returns `name.lower()` when `name` is not null, otherwise null."""
+    return name.lower() if not is_null(name) else None
+
+
+def to_uppercase(name: Optional[str]) -> Optional[str]:
+    """Returns `name.upper()` when `name` is not null, otherwise null."""
+    return name.upper() if not is_null(name) else None
+
+
+### LETTERS ################################################
+
+
 def to_greek_letter(n: int) -> str:
     """Converts `1` → `"α"`, `2` → `"β"`, … using a 24-letter cycle (supports >24 as `"αα"`, `"αβ"`, …)."""
     if n <= 0:

@@ -14,7 +14,7 @@ import logging
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
-from sqlalchemy.engine import Engine, URL
+from sqlalchemy.engine import Connection, Engine, URL
 from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
@@ -1770,13 +1770,17 @@ def set_id_insert(
     *,
     is_mssql: bool = DEFAULT_IS_MSSQL,
     schema: str = DEFAULT_SCHEMA,
-) -> Any:
+) -> None:
     """
     Enables or disables explicit insertion into identity columns for MSSQL.
 
+    Notes:
+        `IDENTITY_INSERT` is connection/session-scoped in MSSQL, so this MUST be executed on the same connection
+        used for the corresponding INSERT statements.
+
     Behavior:
         • For MSSQL (`is_mssql=True`), executes: `SET IDENTITY_INSERT <schema.table> <flag>;`
-        • For non-MSSQL, returns null (no-op).
+        • For non-MSSQL, no-op.
 
     Args:
         connection: The SQLAlchemy connection.
@@ -1785,9 +1789,6 @@ def set_id_insert(
 
         is_mssql: Whether the target database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
-
-    Returns:
-        The result of `execute(...)` for MSSQL, otherwise null.
     """
     if is_mssql:
         connection.exec_driver_sql(paste("SET IDENTITY_INSERT", get_full_table_name(table, schema=schema), flag) + ";")
@@ -1817,7 +1818,8 @@ def insert_table(
         • Optionally resets the index into columns when `index=True`.
         • Resolves insert columns as the intersection of dataframe and table columns.
         • Auto-detects identity insertion when `insert_id` is null and identity columns are present.
-        • Optionally toggles `IDENTITY_INSERT` for MSSQL when inserting explicit identity values.
+        • Executes all inserts in one transaction on one connection.
+        • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
         • Emits row-level trace/warn/error logs and periodic progress logs.
 
     Args:
@@ -1854,36 +1856,43 @@ def insert_table(
 
     debug_query("insert", len(df), table, verbose=verbose)
 
-    if insert_id:
-        set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
-    for i, row in df.iterrows():
-        # Build the query
-        query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+    def _transact(connection: Connection) -> int:
+        nonlocal insert_count
 
-        # Execute the query
+        if insert_id:
+            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
         try:
-            result = execute(engine, query)
-            result_count = len(result) if is_struct(result) else result
-            if result_count > 0:
-                insert_count += result_count
-                trace_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
-            else:
-                warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
-        except Exception as e:
-            error_row("insert", i, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
-        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
-            debug_query(
-                "inserted",
-                insert_count,
-                table,
-                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=i + 1,
-                # Log
-                verbose=verbose,
-            )
-    if insert_id:
-        set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
-    return insert_count
+            for i, row in df.iterrows():
+                # Build the query
+                query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+
+                # Execute the query
+                try:
+                    result = execute(engine, query, connection=connection)
+                    result_count = len(result) if is_struct(result) else result
+                    if result_count > 0:
+                        insert_count += result_count
+                        trace_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
+                    else:
+                        warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
+                except Exception as e:
+                    error_row("insert", i, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
+                if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+                    debug_query(
+                        "inserted",
+                        insert_count,
+                        table,
+                        index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                        index_to=i + 1,
+                        # Log
+                        verbose=verbose,
+                    )
+            return insert_count
+        finally:
+            if insert_id:
+                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema)
+
+    return transact(engine, _transact)
 
 
 def bulk_insert_table(
@@ -1908,9 +1917,9 @@ def bulk_insert_table(
         • Optionally resets the index into columns when `index=True`.
         • Resolves insert columns as the intersection of dataframe and table columns.
         • Auto-detects identity insertion when `insert_id` is null and identity columns are present.
-        • When `len(df) > chunk_size`, recursively processes chunks.
-        • Otherwise concatenates per-row INSERT queries and executes the combined SQL string.
-        • Optionally toggles `IDENTITY_INSERT` for MSSQL.
+        • Executes the full bulk insert in one transaction on one connection.
+        • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
+        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1943,56 +1952,52 @@ def bulk_insert_table(
     if is_null(insert_id):
         insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
 
-    # Chunk the bulk query
-    if len(df) > chunk_size:
-        if insert_id:
-            set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
-        chunk_count = ceil(len(df) / chunk_size)
-        index_to = 0
-        for i in range(chunk_count):
-            index_from = index_to
-            index_to = minimum(index_from + chunk_size, len(df))
-            if verbose:
-                logging.debug("Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows")
-            insert_count += bulk_insert_table(
-                engine,
-                df.iloc[index_from:index_to],
-                table,
-                chunk_size=chunk_size,
-                index=False,
-                insert_id=False,
-                is_mssql=is_mssql,
-                schema=schema,
-                test=False,
-                # Log
-                verbose=verbose,
-            )
-        if insert_id:
-            set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
+    def _bulk_insert(connection: Connection, chunk: pd.DataFrame) -> int:
+        nonlocal insert_count
+
+        # Chunk the bulk query
+        if len(chunk) > chunk_size:
+            chunk_count = ceil(len(chunk) / chunk_size)
+            index_to = 0
+            for _ in range(chunk_count):
+                index_from = index_to
+                index_to = minimum(index_from + chunk_size, len(chunk))
+                if verbose:
+                    logging.debug("Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows")
+                _bulk_insert(connection, chunk.iloc[index_from:index_to])
+            return insert_count
+
+        debug_query("bulk-insert", len(chunk), table, verbose=verbose)
+
+        # Build the bulk query
+        query = ""
+        for _, row in chunk.iterrows():
+            query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+
+        # Execute the bulk query
+        try:
+            result = execute(engine, query, connection=connection)
+            result_count = len(result) if is_struct(result) else result
+            if result_count > 0:
+                insert_count += len(chunk)
+            else:
+                warn_query("bulk-inserted", table, verbose=verbose)
+        except Exception as e:
+            error_query("bulk-inserted", table, exception=e, verbose=verbose)
         return insert_count
 
-    debug_query("bulk-insert", len(df), table, verbose=verbose)
+    def _transact(connection: Connection) -> int:
+        nonlocal insert_count
 
-    # Build the bulk query
-    query = ""
-    for i, row in df.iterrows():
-        query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+        if insert_id:
+            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
+        try:
+            return _bulk_insert(connection, df)
+        finally:
+            if insert_id:
+                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema)
 
-    # Execute the bulk query
-    if insert_id:
-        set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
-    try:
-        result = execute(engine, query)
-        result_count = len(result) if is_struct(result) else result
-        if result_count > 0:
-            insert_count = len(df)
-        else:
-            warn_query("bulk-inserted", table, verbose=verbose)
-    except Exception as e:
-        error_query("bulk-inserted", table, exception=e, verbose=verbose)
-    if insert_id:
-        set_id_insert(engine, table, "OFF", is_mssql=is_mssql, schema=schema)
-    return insert_count
+    return transact(engine, _transact)
 
 
 __DB_UPDATE_________________________________________________ = ""
@@ -2420,7 +2425,7 @@ def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[
 ##############################
 
 
-def transact(engine: Engine, f: Callable[[Connection], Any]) -> Union[List[Any], int]:
+def transact(engine: Engine, f: Callable[[Connection], Any]) -> Any:
     """Executes multiple statements in one transaction on one connection."""
     with engine.begin() as connection:
         return f(connection)
