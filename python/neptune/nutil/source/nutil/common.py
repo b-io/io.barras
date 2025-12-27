@@ -330,22 +330,22 @@ def is_null(x: Any) -> bool:
 
 
 def is_all_null(*args: Any) -> bool:
-    """Returns whether all specified arguments are `null`."""
+    """Returns whether all specified arguments are null."""
     return all(is_null(arg) for arg in to_list(*args))
 
 
 def is_all_not_null(*args: Any) -> bool:
-    """Returns whether none of the specified arguments is `null`."""
+    """Returns whether none of the specified arguments is null."""
     return not is_any_null(*args)
 
 
 def is_any_null(*args: Any) -> bool:
-    """Returns whether any of the specified arguments is `null`."""
+    """Returns whether any of the specified arguments is null."""
     return any(is_null(arg) for arg in to_list(*args))
 
 
 def is_any_not_null(*args: Any) -> bool:
-    """Returns whether at least one of the specified arguments is not `null`."""
+    """Returns whether at least one of the specified arguments is not null."""
     return not is_all_null(*args)
 
 

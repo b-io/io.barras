@@ -2379,7 +2379,7 @@ def fill_null(
     inclusion: Optional[Iterable[Key]] = None,
     exclusion: Optional[Iterable[Key]] = None,
 ) -> Any:
-    """Fills `null` entries with type-aware defaults (`numeric_default` vs `object_default`)."""
+    """Fills null entries with type-aware defaults (`numeric_default` vs `object_default`)."""
     s = ungroup(s)
     if is_empty(s) or not is_subscriptable(s):
         return s
@@ -2417,7 +2417,7 @@ def fill_with(
 
 
 def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
-    """Fills `null` entries with `value`."""
+    """Fills null entries with `value`."""
     return fill_with(s, value, condition=is_null, inplace=inplace)
 
 
