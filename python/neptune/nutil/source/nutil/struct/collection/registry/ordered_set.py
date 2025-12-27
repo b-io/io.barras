@@ -393,8 +393,7 @@ class OrderedSet(AbstractSequentialCollection[T], MutableSet[T], Generic[T]):
         else:
             left_only = (x for x in self if x not in other_set)
             right_only = (y for y in other_list if y not in self.elements)
-            new_iter = itertools.chain(left_only, right_only)
-        self.elements = OrderedDict.fromkeys(new_iter)
+            self.elements = OrderedDict.fromkeys(itertools.chain(left_only, right_only))
         return self
 
     def __rxor__(self, other: Iterable[T]) -> "OrderedSet[T]":

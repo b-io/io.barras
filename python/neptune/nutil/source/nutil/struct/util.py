@@ -278,7 +278,7 @@ def get_keys(
         s = s.index
     elif has_index(s):
         s = range(len(s))
-    return filter_ordered_set(s, inclusion=inclusion, exclusion=exclusion)
+    return filter_ordered_set(to_list(s), inclusion=inclusion, exclusion=exclusion)
 
 
 def get_all_common_keys(
@@ -641,7 +641,7 @@ def set_names(s: Struct, new_names: Any) -> Any:
         • No-op for empty or non-subscriptable inputs.
     """
     s = ungroup(s)
-    if is_empty(s) or not is_subscriptable(s):
+    if not is_subscriptable(s):
         return s
 
     # Normalize the names
@@ -683,7 +683,7 @@ def set_keys(
         O(k) where `k = len(keys)`; dictionary remapping is O(k).
     """
     s = ungroup(s)
-    if is_empty(s) or not is_subscriptable(s):
+    if not is_subscriptable(s):
         return s
 
     # Resolve the keys

@@ -51,7 +51,7 @@ __DB_TYPES______________________________________________________________________
 
 
 ColumnLike = Union[str, Sequence[str]]
-RowLike = Mapping[str, Any]
+RowLike = Union[Mapping[str, Any], pd.Series]
 
 
 __DB_ACCESSORS____________________________________________________________________________ = ""
@@ -242,13 +242,13 @@ def get_identity_cols(
     is_mssql: bool = DEFAULT_IS_MSSQL,
     # Log
     verbose: bool = VERBOSE,
-) -> Union[pd.Series, List[str]]:
+) -> pd.Series:
     """
     Returns the identity (auto-increment) column names for the specified table.
 
     Behavior:
         • For MSSQL (`is_mssql=True`), queries `"sys"."identity_columns"` for the table.
-        • For non-MSSQL, returns an empty list.
+        • For non-MSSQL, returns an empty series.
 
     Args:
         engine: The SQLAlchemy engine bound to the database.
@@ -259,7 +259,7 @@ def get_identity_cols(
         verbose: When `True`, enables logging.
 
     Returns:
-        A pandas series of identity column names (empty list when not MSSQL).
+        A Pandas series of identity column names (empty when not MSSQL).
 
     Raises:
         SQLAlchemyError: If the identity-columns query fails.
@@ -276,7 +276,7 @@ def get_identity_cols(
             # Log
             verbose=verbose,
         )["name"]
-    return []
+    return pd.Series()
 
 
 def get_primary_cols(
@@ -1305,13 +1305,13 @@ def create_table(
         chunk_size: The chunksize forwarded to `to_sql(chunksize=...)`.
         index: When `True`, writes the dataframe index as columns.
         index_cols: Optional index column names (used when `index=True`).
-        method: Optional pandas `to_sql` method (e.g., `"multi"`).
+        method: Optional Pandas `to_sql` method (e.g., `"multi"`).
         replace: When `True`, replaces the table.
         schema: The schema name (defaults to `"dbo"`).
         col_types: Optional mapping of `{column_name: sqlalchemy_type}`.
 
     Returns:
-        The value returned by `df.to_sql(...)` (pandas-dependent).
+        The value returned by `df.to_sql(...)` (Pandas-dependent).
 
     Raises:
         ValueError: If `to_sql` rejects the inputs.
@@ -1345,7 +1345,7 @@ def select_query(
     verbose: bool = VERBOSE,
 ) -> Union[pd.DataFrame, Iterator[pd.DataFrame]]:
     """
-    Reads a SQL query into pandas via `pd.read_sql(...)`.
+    Reads a SQL query into Pandas via `pd.read_sql(...)`.
 
     Behavior:
         • Logs the query when `verbose=True`.
@@ -1355,8 +1355,8 @@ def select_query(
         engine: The SQLAlchemy engine.
         query: The SQL query string (or an executable statement).
 
-        chunk_size: The pandas chunk size (when set, pandas returns an iterator of chunks).
-        index_cols: Optional index column(s) for pandas.
+        chunk_size: The Pandas chunk size (when set, Pandas returns an iterator of chunks).
+        index_cols: Optional index column(s) for Pandas.
 
         verbose: When `True`, enables logging.
 
@@ -1364,7 +1364,7 @@ def select_query(
         The object returned by `pd.read_sql(...)` (a dataframe when `chunk_size` is null, otherwise an iterator).
 
     Raises:
-        Exception: Any exception raised by pandas or the database driver.
+        Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
         logging.debug("Select the query", quote(query))
@@ -1410,7 +1410,7 @@ def select_table(
         The resulting dataframe.
 
     Raises:
-        Exception: Any exception raised by pandas or the database driver.
+        Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
         logging.debug("Select the table", quote(table))
@@ -1490,7 +1490,7 @@ def select_table_where(
         The resulting dataframe.
 
     Raises:
-        Exception: Any exception raised by pandas or the database driver.
+        Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
         filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
@@ -1610,7 +1610,7 @@ def delete_table(
 
     debug_query("delete", len(df), table, verbose=verbose)
 
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         # Build the query
         query = build_delete_table_query(
             table,
@@ -1626,18 +1626,18 @@ def delete_table(
             result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 delete_count += result_count
-                trace_row("delete", index, table, cols=filtering_cols, row=row, verbose=verbose)
+                trace_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
-                warn_row("delete", index, table, cols=filtering_cols, row=row, verbose=verbose)
+                warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
         except Exception as e:
-            error_row("delete", index, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-        if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+            error_row("delete", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "deleted",
                 delete_count,
                 table,
-                index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=index + 1,
+                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                index_to=i + 1,
                 # Log
                 verbose=verbose,
             )
@@ -1738,7 +1738,7 @@ def bulk_delete_table(
 
     # Build the bulk query
     query = ""
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         query += build_delete_table_query(
             table,
             filtering_cols=filtering_cols,
@@ -1859,7 +1859,7 @@ def insert_table(
 
     if not is_null(insert_id):
         set_id_insert(engine, table, "ON", is_mssql=is_mssql, schema=schema)
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         # Build the query
         query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
@@ -1869,18 +1869,18 @@ def insert_table(
             result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 insert_count += result_count
-                trace_row("insert", index, table, cols=primary_cols, row=row, verbose=verbose)
+                trace_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
             else:
-                warn_row("insert", index, table, cols=primary_cols, row=row, verbose=verbose)
+                warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
         except Exception as e:
-            error_row("insert", index, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
-        if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+            error_row("insert", i, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
+        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "inserted",
                 insert_count,
                 table,
-                index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=index + 1,
+                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                index_to=i + 1,
                 # Log
                 verbose=verbose,
             )
@@ -1978,7 +1978,7 @@ def bulk_insert_table(
 
     # Build the bulk query
     query = ""
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
     # Execute the bulk query
@@ -2073,7 +2073,7 @@ def update_table(
 
     debug_query("update", len(df), table, verbose=verbose)
 
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         # Build the query
         query = build_update_table_query(
             table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
@@ -2085,18 +2085,18 @@ def update_table(
             result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 update_count += result_count
-                trace_row("update", index, table, cols=filtering_cols, row=row, verbose=verbose)
+                trace_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
-                warn_row("update", index, table, cols=filtering_cols, row=row, verbose=verbose)
+                warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
         except Exception as e:
-            error_row("update", index, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-        if (index + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+            error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
             debug_query(
                 "updated",
                 update_count,
                 table,
-                index_from=index + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=index + 1,
+                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                index_to=i + 1,
                 # Log
                 verbose=verbose,
             )
@@ -2195,7 +2195,7 @@ def bulk_update_table(
 
     # Build the bulk query
     query = ""
-    for index, row in df.iterrows():
+    for i, row in df.iterrows():
         query += build_update_table_query(
             table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
         )
@@ -2310,9 +2310,9 @@ def upsert_table(
                 # Log
                 verbose=verbose,
             )
-            for index, row in df.iterrows():
+            for i, row in df.iterrows():
                 if is_empty(filter_rows(t, row)):
-                    warn_row("update/insert", index, table, cols=filtering_cols, row=row, verbose=verbose)
+                    warn_row("update/insert", i, table, cols=filtering_cols, row=row, verbose=verbose)
         if upsert_count == 0:
             warn_query("update/insert", table, verbose=verbose)
         elif upsert_count < len(df):

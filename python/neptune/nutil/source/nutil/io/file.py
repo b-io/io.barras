@@ -447,7 +447,7 @@ def read_csv(
     **kwargs: Any,
 ):
     """
-    Reads a CSV file into a pandas DataFrame.
+    Reads a CSV file into a Pandas DataFrame.
 
     Notes:
         • When `path` is a URL, derives the encoding from HTTP headers, using `encoding` as a fallback.
@@ -460,7 +460,7 @@ def read_csv(
         encoding: The text encoding (for local files or as a fallback for URLs).
         ignore: Skips invalid lines when `True` (maps to `on_bad_lines="skip"`).
                 For URL reads, also ignores decoding errors when `True`.
-        index_cols: The `index_col` argument forwarded to pandas.
+        index_cols: The `index_col` argument forwarded to Pandas.
         index_name: Sets the index name when `index_cols` is not provided.
         na_values: The NA tokens.
         newline: The line terminator (forwarded as `lineterminator` when provided).
