@@ -945,7 +945,7 @@ def format_cols(
     Formats a list of SQL identifiers (e.g., column names), optionally adding suffixes.
 
     Behavior:
-        • Removes empty values via `remove_empty(to_collection(*cols))`.
+        • Removes empty values via `remove_empty(to_list(*cols))`.
         • Applies `format_name()` to each column.
         • When `suffixes` is provided, appends each suffix to the corresponding column.
         • Collapses the result into a comma-separated list via `collist(…)`.
@@ -957,7 +957,7 @@ def format_cols(
     Returns:
         A comma-separated identifier list string (e.g., `"a","b" DESC`).
     """
-    cols = [format_name(col) for col in remove_empty(to_collection(*cols))]
+    cols = [format_name(col) for col in remove_empty(to_list(*cols))]
     if not is_null(suffixes):
         cols = [paste(col, suffix) for col, suffix in zip(cols, suffixes)]
     return collist(cols)
