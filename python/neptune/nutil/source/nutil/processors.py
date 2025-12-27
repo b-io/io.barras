@@ -40,12 +40,10 @@ def multithread_map(s, f, asynchronous=False, max_workers=CORE_COUNT, timeout=No
     if is_empty(s) or is_element(s):
         return []
     max_workers = min(max_workers, len(s))
-    logging.trace(
-        "Apply the function",
-        quote(f.__name__),
-        "to the collection of size",
+    logging.debug(
+        "Apply the function '%s' to the collection of size %d (multithreading)",
+        f.__name__,
         len(s),
-        "(multithreading)",
     )
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         # Submit the tasks and collect the results
@@ -94,12 +92,10 @@ def multiprocess_map(
     max_workers = min(max_workers, len(s))
     if is_null(chunk_size):
         chunk_size = ceil(len(s) / max_workers)
-    logging.trace(
-        "Apply the function",
-        quote(f.__name__),
-        "to the collection of size",
+    logging.debug(
+        "Apply the function '%s' to the collection of size %d (multiprocessing)",
+        f.__name__,
         len(s),
-        "(multiprocessing)",
     )
     with Pool(processes=max_workers) as executor:
         # Submit the tasks and collect the results

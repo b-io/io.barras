@@ -172,7 +172,7 @@ def get_common_cols(
         # Check the existence of the columns in the table
         for col in df:
             if col not in table_cols:
-                logging.warning("The column", quote(col), "does not exist in the table", quote(table))
+                logging.warning("The column '%s' does not exist in the table '%s'", col, table)
     return filter_list(df, inclusion=table_cols, exclusion=filtering_cols)
 
 
@@ -220,7 +220,7 @@ def get_filtering_cols(
                 # Check the existence of the filtering columns in the dataframe
                 for col in filtering_cols:
                     if col not in df:
-                        logging.warning("The filtering column", quote(col), "does not exist in the dataframe")
+                        logging.warning("The filtering column '%s' does not exist in the dataframe", col)
         else:
             filtering_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = include_list(df, filtering_cols)
@@ -320,7 +320,7 @@ def get_col_types(
     # String
     string_length: int = 8000,
     to_text: bool = False,
-) -> Dict[str, db.types.TypeEngine]:
+) -> Dict[str, db.TypeEngine]:
     """
     Infers SQLAlchemy column types from the dataframe index and columns.
 
@@ -349,7 +349,7 @@ def get_col_types(
     Returns:
         A mapping `{column_name: sqlalchemy_type}` suitable for `DataFrame.to_sql(dtype=...)`.
     """
-    col_types: Dict[str, db.types.TypeEngine] = {}
+    col_types: Dict[str, db.TypeEngine] = {}
     for col, col_type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
         col_type_name = str(col_type)
         if "bool" in col_type_name:
@@ -1065,7 +1065,7 @@ def warn_query(
 
     Behavior:
         • Logs the class name of the exception (when provided).
-        • Logs the exception details via `logging.trace(...)` when present.
+        • Logs the exception details via `logging.debug(...)` when present.
 
     Args:
         verb: The verb phrase (e.g., `"deleted"`, `"bulk-inserted"`).
@@ -1077,11 +1077,13 @@ def warn_query(
     """
     if verbose:
         logging.warning(
-            paste("No row has been", verb, "in the table", quote(table)),
-            par(get_full_class_name(exception)) if not is_null(exception) else "",
+            "No row has been %s in the table '%s'%s",
+            verb,
+            table,
+            " " + par(get_full_class_name(exception)) if not is_null(exception) else "",
         )
         if not is_null(exception):
-            logging.trace(exception)
+            logging.debug("%s", exception)
 
 
 def error_query(
@@ -1107,13 +1109,15 @@ def error_query(
 
         verbose: When `True`, enables logging.
     """
-    if not isinstance(exception, db.IntegrityError):
-        logging.error(
-            paste("No row has been", verb, "in the table", quote(table)),
-            par(exception) if not is_null(exception) else "",
-        )
-    else:
+    if isinstance(exception, db.IntegrityError):
         warn_query(verb, table, exception=exception, verbose=verbose)
+    else:
+        logging.error(
+            "No row has been %s in the table '%s'%s",
+            verb,
+            table,
+            " " + par(exception) if not is_null(exception) else "",
+        )
 
 
 ############################################################
@@ -1154,7 +1158,7 @@ def get_row_message(
 ##############################
 
 
-def trace_row(
+def debug_row(
     verb: str,
     index: int,
     table: str,
@@ -1165,7 +1169,7 @@ def trace_row(
     verbose: bool = VERBOSE,
 ) -> None:
     """
-    Emits a trace log for a successful row-level operation.
+    Emits a debug log for a successful row-level operation.
 
     Args:
         verb: The operation verb.
@@ -1178,7 +1182,7 @@ def trace_row(
         verbose: When `True`, enables logging.
     """
     if verbose:
-        logging.trace("-", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
+        logging.debug("- %s", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
 
 
 def warn_row(
@@ -1197,7 +1201,7 @@ def warn_row(
 
     Behavior:
         • Logs the exception class name (when provided).
-        • Logs the exception details via `logging.trace(...)` when present.
+        • Logs the exception details via `logging.debug(...)` when present.
 
     Args:
         verb: The operation verb.
@@ -1212,11 +1216,12 @@ def warn_row(
     """
     if verbose:
         logging.warning(
-            paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
-            par(get_full_class_name(exception)) if not is_null(exception) else "",
+            "- Fail to %s%s",
+            get_row_message(verb, index, table, cols=cols, row=row),
+            " " + par(get_full_class_name(exception)) if not is_null(exception) else "",
         )
         if not is_null(exception):
-            logging.trace(exception)
+            logging.debug("%s", exception)
 
 
 def error_row(
@@ -1248,13 +1253,14 @@ def error_row(
 
         verbose: When `True`, enables logging.
     """
-    if not is_null(exception) and not isinstance(exception, db.IntegrityError):
-        logging.error(
-            paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
-            par(exception) if not is_null(exception) else "",
-        )
-    else:
+    if isinstance(exception, db.IntegrityError):
         warn_row(verb, index, table, exception=exception, cols=cols, row=row, verbose=verbose)
+    else:
+        logging.error(
+            "- Fail to %s%s",
+            get_row_message(verb, index, table, cols=cols, row=row),
+            " " + par(exception) if not is_null(exception) else "",
+        )
 
 
 __DB_PROCESSORS___________________________________________________________________________ = ""
@@ -1274,7 +1280,7 @@ def create_table(
     method: Optional[str] = None,
     replace: bool = False,
     schema: str = DEFAULT_SCHEMA,
-    col_types: Optional[Mapping[str, db.types.TypeEngine]] = None,
+    col_types: Optional[Mapping[str, db.TypeEngine]] = None,
 ) -> Any:
     """
     Creates or appends to a table using `DataFrame.to_sql(...)`.
@@ -1359,7 +1365,7 @@ def select_query(
         Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
-        logging.debug("Select the query", quote(query))
+        logging.debug("Select the query '%s'", query)
     return pd.read_sql(query, engine, chunksize=chunk_size, index_col=index_cols)
 
 
@@ -1405,7 +1411,7 @@ def select_table(
         Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
-        logging.debug("Select the table", quote(table))
+        logging.debug("Select the table '%s'", table)
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
     chunks = pd.read_sql_table(table, engine, chunksize=chunk_size, columns=cols, index_col=index_cols, schema=schema)
@@ -1485,13 +1491,16 @@ def select_table_where(
         Exception: Any exception raised by Pandas or the database driver.
     """
     if verbose:
-        filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
+        effective_filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
         logging.debug(
-            "Select the columns",
+            "Select the columns %s from the table '%s'%s",
             "*" if is_empty(cols) else format_cols(cols),
-            "from the table",
-            quote(table),
-            (paste("filtering on", format_cols(filtering_cols)) if not is_empty(filtering_cols) else ""),
+            table,
+            (
+                paste(" filtering on", format_cols(effective_filtering_cols))
+                if not is_empty(effective_filtering_cols)
+                else ""
+            ),
         )
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
@@ -1558,7 +1567,7 @@ def delete_table(
         • Resolves the filtering columns via `get_filtering_cols(...)`.
         • Builds one DELETE query per row using `build_delete_table_query(...)`.
         • Executes each query and aggregates the deleted row counts.
-        • Emits row-level trace/warn/error logs and periodic progress logs.
+        • Emits row-level debug/warn/error logs and periodic progress logs.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1618,7 +1627,7 @@ def delete_table(
             result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 delete_count += result_count
-                trace_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
+                debug_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
                 warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
         except Exception as e:
@@ -1657,9 +1666,9 @@ def bulk_delete_table(
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves the filtering columns via `get_filtering_cols(...)`.
-        • When `len(df) > chunk_size`, recursively processes chunks.
-        • Otherwise concatenates per-row DELETE queries and executes the combined SQL string.
-        • Logs a table-level warning when no rows are deleted.
+        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • Otherwise concatenates per-row DELETE queries and executes the combined SQL string via `exec_driver_sql(...)`.
+        • Logs a table-level warning when no rows are deleted (best-effort based on the last statement rowcount).
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1702,54 +1711,54 @@ def bulk_delete_table(
         # Check the existence of the columns in the table
         get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
-    # Chunk the bulk query
-    if len(df) > chunk_size:
-        chunk_count = ceil(len(df) / chunk_size)
-        index_to = 0
-        for i in range(chunk_count):
-            index_from = index_to
-            index_to = minimum(index_from + chunk_size, len(df))
-            if verbose:
-                logging.debug("Chunk the bulk-delete query from", index_from + 1, "to", index_to, "rows")
-            delete_count += bulk_delete_table(
-                engine,
-                df.iloc[index_from:index_to],
+    def _bulk_delete(connection: db.Connection, chunk: pd.DataFrame) -> int:
+        nonlocal delete_count
+
+        # Chunk the bulk query
+        if len(chunk) > chunk_size:
+            chunk_count = ceil(len(chunk) / chunk_size)
+            index_to = 0
+            for _ in range(chunk_count):
+                index_from = index_to
+                index_to = minimum(index_from + chunk_size, len(chunk))
+                if verbose:
+                    logging.debug(
+                        "Chunk the bulk-delete query from %d to %d rows",
+                        index_from + 1,
+                        index_to,
+                    )
+                _bulk_delete(connection, chunk.iloc[index_from:index_to])
+            return delete_count
+
+        debug_query("bulk-delete", len(chunk), table, verbose=verbose)
+
+        # Build the bulk query
+        query = ""
+        for _, row in chunk.iterrows():
+            query += build_delete_table_query(
                 table,
-                chunk_size=chunk_size,
                 filtering_cols=filtering_cols,
-                index=False,
+                filtering_row=row,
                 is_mssql=is_mssql,
                 schema=schema,
-                test=False,
-                # Log
-                verbose=verbose,
             )
+
+        # Execute the bulk query
+        try:
+            result = connection.exec_driver_sql(query)
+            if result.rowcount > 0:
+                delete_count += len(chunk)
+            else:
+                warn_query("bulk-deleted", table, verbose=verbose)
+        except Exception as e:
+            error_query("bulk-deleted", table, exception=e, verbose=verbose)
+
         return delete_count
 
-    debug_query("bulk-delete", len(df), table, verbose=verbose)
+    def _transact(connection: db.Connection) -> int:
+        return _bulk_delete(connection, df)
 
-    # Build the bulk query
-    query = ""
-    for i, row in df.iterrows():
-        query += build_delete_table_query(
-            table,
-            filtering_cols=filtering_cols,
-            filtering_row=row,
-            is_mssql=is_mssql,
-            schema=schema,
-        )
-
-    # Execute the bulk query
-    try:
-        result = execute(engine, query)
-        result_count = len(result) if is_struct(result) else result
-        if result_count > 0:
-            delete_count = len(df)
-        else:
-            warn_query("bulk-deleted", table, verbose=verbose)
-    except Exception as e:
-        error_query("bulk-deleted", table, exception=e, verbose=verbose)
-    return delete_count
+    return transact(engine, _transact)
 
 
 __DB_INSERT_________________________________________________ = ""
@@ -1812,7 +1821,7 @@ def insert_table(
         • Auto-detects identity insertion when `insert_id` is null and identity columns are present.
         • Executes all inserts in one transaction on one connection.
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
-        • Emits row-level trace/warn/error logs and periodic progress logs.
+        • Emits row-level debug/warn/error logs and periodic progress logs.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1864,7 +1873,7 @@ def insert_table(
                     result_count = len(result) if is_struct(result) else result
                     if result_count > 0:
                         insert_count += result_count
-                        trace_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
+                        debug_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
                     else:
                         warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
                 except Exception as e:
@@ -1912,6 +1921,7 @@ def bulk_insert_table(
         • Executes the full bulk insert in one transaction on one connection.
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1955,7 +1965,11 @@ def bulk_insert_table(
                 index_from = index_to
                 index_to = minimum(index_from + chunk_size, len(chunk))
                 if verbose:
-                    logging.debug("Chunk the bulk-insert query from", index_from + 1, "to", index_to, "rows")
+                    logging.debug(
+                        "Chunk the bulk-insert query from %d to %d rows",
+                        index_from + 1,
+                        index_to,
+                    )
                 _bulk_insert(connection, chunk.iloc[index_from:index_to])
             return insert_count
 
@@ -1968,14 +1982,14 @@ def bulk_insert_table(
 
         # Execute the bulk query
         try:
-            result = execute(engine, query, connection=connection)
-            result_count = len(result) if is_struct(result) else result
-            if result_count > 0:
+            result = connection.exec_driver_sql(query)
+            if result.rowcount > 0:
                 insert_count += len(chunk)
             else:
                 warn_query("bulk-inserted", table, verbose=verbose)
         except Exception as e:
             error_query("bulk-inserted", table, exception=e, verbose=verbose)
+
         return insert_count
 
     def _transact(connection: db.Connection) -> int:
@@ -2015,7 +2029,7 @@ def update_table(
         • Resolves filtering columns via `get_filtering_cols(...)` (defaults to the primary key when available).
         • Resolves update columns as the intersection of dataframe and table columns excluding filtering columns.
         • Builds one UPDATE query per row using `build_update_table_query(...)`.
-        • Emits row-level trace/warn/error logs and periodic progress logs.
+        • Emits row-level debug/warn/error logs and periodic progress logs.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2056,10 +2070,9 @@ def update_table(
     cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
     if is_empty(cols):
         logging.warning(
-            "The dataframe contains only the filtering columns",
+            "The dataframe contains only the filtering columns %s or no column of the table '%s'",
             par(filtering_cols),
-            "or no column of the table",
-            quote(table),
+            table,
         )
         return 0
 
@@ -2077,7 +2090,7 @@ def update_table(
             result_count = len(result) if is_struct(result) else result
             if result_count > 0:
                 update_count += result_count
-                trace_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
+                debug_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
             else:
                 warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
         except Exception as e:
@@ -2117,8 +2130,9 @@ def bulk_update_table(
         • Optionally resets the index into columns when `index=True`.
         • Resolves filtering columns via `get_filtering_cols(...)`.
         • Resolves update columns as the intersection of dataframe and table columns excluding filtering columns.
-        • When `len(df) > chunk_size`, recursively processes chunks.
-        • Otherwise concatenates per-row UPDATE queries and executes the combined SQL string.
+        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • Otherwise concatenates per-row UPDATE queries and executes the combined SQL string via `exec_driver_sql(...)`.
+        • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2159,50 +2173,55 @@ def bulk_update_table(
     # Get the columns to update
     cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
-    # Chunk the bulk query
-    if len(df) > chunk_size:
-        chunk_count = ceil(len(df) / chunk_size)
-        index_to = 0
-        for i in range(chunk_count):
-            index_from = index_to
-            index_to = minimum(index_from + chunk_size, len(df))
-            if verbose:
-                logging.debug("Chunk the bulk-update query from", index_from + 1, "to", index_to, "rows")
-            update_count += bulk_update_table(
-                engine,
-                df.iloc[index_from:index_to],
+    def _bulk_update(connection: db.Connection, chunk: pd.DataFrame) -> int:
+        nonlocal update_count
+
+        # Chunk the bulk query
+        if len(chunk) > chunk_size:
+            chunk_count = ceil(len(chunk) / chunk_size)
+            index_to = 0
+            for _ in range(chunk_count):
+                index_from = index_to
+                index_to = minimum(index_from + chunk_size, len(chunk))
+                if verbose:
+                    logging.debug(
+                        "Chunk the bulk-update query from %d to %d rows",
+                        index_from + 1,
+                        index_to,
+                    )
+                _bulk_update(connection, chunk.iloc[index_from:index_to])
+            return update_count
+
+        debug_query("bulk-update", len(chunk), table, verbose=verbose)
+
+        # Build the bulk query
+        query = ""
+        for _, row in chunk.iterrows():
+            query += build_update_table_query(
                 table,
-                chunk_size=chunk_size,
+                cols,
+                row,
                 filtering_cols=filtering_cols,
-                index=False,
                 is_mssql=is_mssql,
                 schema=schema,
-                test=False,
-                # Log
-                verbose=verbose,
             )
+
+        # Execute the bulk query
+        try:
+            result = connection.exec_driver_sql(query)
+            if result.rowcount > 0:
+                update_count += len(chunk)
+            else:
+                warn_query("bulk-updated", table, verbose=verbose)
+        except Exception as e:
+            error_query("bulk-updated", table, exception=e, verbose=verbose)
+
         return update_count
 
-    debug_query("bulk-update", len(df), table, verbose=verbose)
+    def _transact(connection: db.Connection) -> int:
+        return _bulk_update(connection, df)
 
-    # Build the bulk query
-    query = ""
-    for i, row in df.iterrows():
-        query += build_update_table_query(
-            table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
-        )
-
-    # Execute the bulk query
-    try:
-        result = execute(engine, query)
-        result_count = len(result) if is_struct(result) else result
-        if result_count > 0:
-            update_count = len(df)
-        else:
-            warn_query("bulk-updated", table, verbose=verbose)
-    except Exception as e:
-        error_query("bulk-updated", table, exception=e, verbose=verbose)
-    return update_count
+    return transact(engine, _transact)
 
 
 __DB_UPSERT_________________________________________________ = ""
@@ -2309,24 +2328,20 @@ def upsert_table(
             warn_query("update/insert", table, verbose=verbose)
         elif upsert_count < len(df):
             logging.warning(
-                "Update/insert",
-                collapse(update_count, "/", insert_count),
-                "rows in the table",
-                quote(table),
-                "which is",
+                "Update/insert %d/%d rows in the table '%s' which is %d rows less than expected %s",
+                update_count,
+                insert_count,
+                table,
                 len(df) - upsert_count,
-                "rows less than expected",
                 par(len(df)),
             )
         elif upsert_count > len(df):
             logging.warning(
-                "Update/insert",
-                collapse(update_count, "/", insert_count),
-                "rows in the table",
-                quote(table),
-                "which is",
+                "Update/insert %d/%d rows in the table '%s' which is %d rows more than expected %s",
+                update_count,
+                insert_count,
+                table,
                 upsert_count - len(df),
-                "rows more than expected",
                 par(len(df)),
             )
     return upsert_count
@@ -2346,18 +2361,18 @@ def execute(
     Executes a single SQL statement and returns either fetched rows or an affected-row count.
 
     Behavior:
-        • Opens a new connection via `engine.connect()`.
-        • Executes the statement via `connection.execute(query, *args, **kwargs)`.
-        • If the result exposes a cursor, returns `fetchall()`, otherwise returns `rowcount`.
+        • Opens a new connection via `engine.begin()`.
+        • Executes the statement via `connection.execute(...)` or `connection.exec_driver_sql(...)`.
+        • If the result exposes rows, returns `fetchall()`, otherwise returns `rowcount`.
 
     Args:
         engine: The SQLAlchemy engine.
         query: The SQL query (string or executable statement).
-        *args: Positional arguments forwarded to `connection.execute(...)`.
-        **kwargs: Keyword arguments forwarded to `connection.execute(...)`.
+        *args: Positional arguments forwarded to the execution method.
+        **kwargs: Keyword arguments forwarded to the execution method.
 
     Returns:
-        A list of fetched rows when the result has a cursor, otherwise an integer row count.
+        A list of fetched rows when the result returns rows, otherwise an integer row count.
 
     Raises:
         SQLAlchemyError: If execution fails.
@@ -2492,9 +2507,9 @@ def migrate(
         metadata = create_metadata(schema=schema)
         for table in tables:
             logging.debug(
+                "%s the table '%s'",
                 "Recreate" if drop and create else "Drop" if drop else "Create",
-                "the table",
-                quote(table),
+                table,
             )
             table_metadata = get_table_metadata(engine_from, table, metadata=metadata, schema=schema)
             for col in table_metadata.columns:
@@ -2509,7 +2524,7 @@ def migrate(
     # Fill the tables
     if fill:
         for table in tables:
-            logging.debug("Fill the table", quote(table))
+            logging.debug("Fill the table '%s'", table)
             df = (
                 select_table_where(
                     engine_from,
