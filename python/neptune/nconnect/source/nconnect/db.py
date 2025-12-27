@@ -14,10 +14,11 @@ import logging
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
-from sqlalchemy.engine import URL
+from sqlalchemy.engine import Engine, URL
 from sqlalchemy.exc import *
 from sqlalchemy.orm import *
 from sqlalchemy.sql.elements import *
+from sqlalchemy.sql.schema import Column
 
 from nutil.scalar.date import DEFAULT_DATE_TIME_FORMAT
 from nutil.scalar.number import ceil
@@ -46,10 +47,21 @@ DEFAULT_CHUNK_SIZE = 100
 DEFAULT_DEBUG_INTERVAL = 1000
 
 
+__DB_TYPES________________________________________________________________________________ = ""
+
+
+ColumnLike = Union[str, Sequence[str]]
+RowLike = Mapping[str, Any]
+
+
 __DB_ACCESSORS____________________________________________________________________________ = ""
 
 
-def get_full_table_name(table, schema=DEFAULT_SCHEMA):
+def get_full_table_name(
+    table: str,
+    *,
+    schema: Optional[str] = DEFAULT_SCHEMA,
+) -> str:
     """
     Returns the fully-qualified table name for SQL.
 
@@ -59,6 +71,7 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
 
     Args:
         table: The table name.
+
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
@@ -67,7 +80,13 @@ def get_full_table_name(table, schema=DEFAULT_SCHEMA):
     return collapse(collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table))
 
 
-def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
+def get_table_metadata(
+    engine: Engine,
+    table: str,
+    *,
+    metadata: Optional[db.MetaData] = None,
+    schema: str = DEFAULT_SCHEMA,
+) -> db.Table:
     """
     Returns the SQLAlchemy table metadata for the specified table.
 
@@ -78,11 +97,12 @@ def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
     Args:
         engine: The SQLAlchemy engine bound to the source database.
         table: The table name.
+
         metadata: Optional SQLAlchemy metadata to reuse.
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
-        The SQLAlchemy `Table` instance for the specified table.
+        The SQLAlchemy `db.Table` instance for the specified table.
 
     Raises:
         SQLAlchemyError: If reflection fails (connection, permissions, or missing objects).
@@ -97,7 +117,13 @@ def get_table_metadata(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
 ##############################
 
 
-def get_cols(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
+def get_cols(
+    engine: Engine,
+    table: str,
+    *,
+    metadata: Optional[db.MetaData] = None,
+    schema: str = DEFAULT_SCHEMA,
+) -> List[str]:
     """
     Returns the column names of the specified table.
 
@@ -108,6 +134,7 @@ def get_cols(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
     Args:
         engine: The SQLAlchemy engine bound to the database.
         table: The table name.
+
         metadata: Optional SQLAlchemy metadata to reuse.
         schema: The schema name (defaults to `"dbo"`).
 
@@ -118,7 +145,15 @@ def get_cols(engine, table, metadata=None, schema=DEFAULT_SCHEMA):
     return [col.name for col in table_metadata.columns]
 
 
-def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
+def get_common_cols(
+    df: pd.DataFrame,
+    table: str,
+    table_cols: ColumnLike,
+    *,
+    filtering_cols: Optional[ColumnLike] = None,
+    # Test
+    test: bool = ASSERT,
+) -> List[str]:
     """
     Returns the dataframe columns that exist in the table, excluding filtering columns.
 
@@ -130,7 +165,9 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
         df: The source dataframe.
         table: The table name (used only for log messages).
         table_cols: The list of existing columns in the table.
+
         filtering_cols: Optional list of filtering columns to exclude.
+
         test: When `True`, enables validation warnings.
 
     Returns:
@@ -145,15 +182,17 @@ def get_common_cols(df, table, table_cols, filtering_cols=None, test=ASSERT):
 
 
 def get_filtering_cols(
-    engine,
-    df,
-    table,
-    filtering_cols=None,
-    metadata=None,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
-    use_only_primary=True,
-):
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
+    *,
+    filtering_cols: Optional[ColumnLike] = None,
+    metadata: Optional[db.MetaData] = None,
+    schema: str = DEFAULT_SCHEMA,
+    use_only_primary: bool = True,
+    # Test
+    test: bool = ASSERT,
+) -> List[str]:
     """
     Resolves the effective filtering columns for row-matching operations.
 
@@ -168,11 +207,13 @@ def get_filtering_cols(
         engine: The SQLAlchemy engine bound to the database.
         df: The dataframe providing candidate columns (and/or rows).
         table: The table name.
+
         filtering_cols: Optional user-specified filtering columns.
         metadata: Optional SQLAlchemy metadata to reuse.
         schema: The schema name (defaults to `"dbo"`).
-        test: When `True`, enables validation warnings.
         use_only_primary: When `True`, prefers the table primary key as the filtering columns.
+
+        test: When `True`, enables validation warnings.
 
     Returns:
         The list of filtering column names to be used for WHERE clause construction.
@@ -195,13 +236,13 @@ def get_filtering_cols(
 
 
 def get_identity_cols(
-    engine,
-    table,
+    engine: Engine,
+    table: str,
     *,
-    is_mssql=DEFAULT_IS_MSSQL,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> Union[pd.Series, List[str]]:
     """
     Returns the identity (auto-increment) column names for the specified table.
 
@@ -212,11 +253,13 @@ def get_identity_cols(
     Args:
         engine: The SQLAlchemy engine bound to the database.
         table: The table name.
+
         is_mssql: Whether the source database is MSSQL.
+
         verbose: When `True`, enables logging.
 
     Returns:
-        A list-like collection of identity column names (empty when not MSSQL).
+        A pandas series of identity column names (empty list when not MSSQL).
 
     Raises:
         SQLAlchemyError: If the identity-columns query fails.
@@ -236,7 +279,14 @@ def get_identity_cols(
     return []
 
 
-def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCHEMA):
+def get_primary_cols(
+    engine: Engine,
+    table: str,
+    *,
+    cols: Optional[ColumnLike] = None,
+    metadata: Optional[db.MetaData] = None,
+    schema: str = DEFAULT_SCHEMA,
+) -> List[str]:
     """
     Returns the primary key column names for the specified table.
 
@@ -247,6 +297,7 @@ def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCH
     Args:
         engine: The SQLAlchemy engine bound to the database.
         table: The table name.
+
         cols: Optional subset of columns to keep (filters the primary key list).
         metadata: Optional SQLAlchemy metadata to reuse.
         schema: The schema name (defaults to `"dbo"`).
@@ -263,18 +314,18 @@ def get_primary_cols(engine, table, cols=None, metadata=None, schema=DEFAULT_SCH
 
 
 def get_col_types(
-    df,
+    df: pd.DataFrame,
     # DateTime
-    timezone=False,
-    to_date=False,
+    timezone: bool = False,
+    to_date: bool = False,
     # Float
-    decimal_scale=None,
-    to_decimal=True,
-    float_precision=None,
+    decimal_scale: Optional[int] = None,
+    float_precision: Optional[int] = None,
+    to_decimal: bool = True,
     # String
-    string_length=8000,
-    to_text=False,
-):
+    string_length: int = 8000,
+    to_text: bool = False,
+) -> Dict[str, db.types.TypeEngine]:
     """
     Infers SQLAlchemy column types from the dataframe index and columns.
 
@@ -289,18 +340,21 @@ def get_col_types(
 
     Args:
         df: The source dataframe.
+
         timezone: When `True`, sets `timezone=True` for date/time types.
         to_date: When `True`, uses `db.Date()` instead of `db.DateTime()`.
+
         decimal_scale: The `decimal_return_scale` for `db.Float(asdecimal=True)`.
-        to_decimal: When `True`, sets `asdecimal=True` for float columns.
         float_precision: The `precision` for `db.Float(...)`.
+        to_decimal: When `True`, sets `asdecimal=True` for float columns.
+
         string_length: The length for `db.String(...)`.
         to_text: When `True`, uses `db.Text()` instead of `db.String(...)`.
 
     Returns:
         A mapping `{column_name: sqlalchemy_type}` suitable for `DataFrame.to_sql(dtype=...)`.
     """
-    col_types = {}
+    col_types: Dict[str, db.types.TypeEngine] = {}
     for col, col_type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
         col_type_name = str(col_type)
         if "bool" in col_type_name:
@@ -327,7 +381,12 @@ def get_col_types(
 __DB_BUILDERS_____________________________________________________________________________ = ""
 
 
-def build_where_clause(filtering_cols=None, filtering_row=None, is_mssql=DEFAULT_IS_MSSQL):
+def build_where_clause(
+    *,
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+) -> str:
     """
     Builds a SQL WHERE clause from a row-like mapping.
 
@@ -370,17 +429,17 @@ __DB_SELECT_________________________________________________ = ""
 
 
 def build_select_table_where_query(
-    table,
+    table: str,
     *,
-    cols=None,
-    filtering_cols=None,
-    filtering_row=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    n=None,
-    order_cols=None,
-    order_directions=None,
-    schema=DEFAULT_SCHEMA,
-):
+    cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    n: Optional[int] = None,
+    order_cols: Optional[ColumnLike] = None,
+    order_directions: Optional[Sequence[str]] = None,
+    schema: str = DEFAULT_SCHEMA,
+) -> str:
     """
     Builds a SQL SELECT query for a table with an optional WHERE clause and ordering.
 
@@ -392,6 +451,7 @@ def build_select_table_where_query(
 
     Args:
         table: The table name.
+
         cols: Optional selected columns (selects `*` when empty).
         filtering_cols: Optional filtering columns for the WHERE clause.
         filtering_row: Optional row-like mapping used by `build_where_clause()`.
@@ -423,13 +483,13 @@ __DB_DELETE_________________________________________________ = ""
 
 
 def build_delete_table_query(
-    table,
+    table: str,
     *,
-    filtering_cols=None,
-    filtering_row=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-):
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+) -> str:
     """
     Builds a SQL DELETE query for rows matching a WHERE clause.
 
@@ -440,6 +500,7 @@ def build_delete_table_query(
 
     Args:
         table: The table name.
+
         filtering_cols: Optional filtering columns for the WHERE clause.
         filtering_row: Optional row-like mapping used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
@@ -462,13 +523,13 @@ __DB_INSERT_________________________________________________ = ""
 
 
 def build_insert_table_query(
-    table,
-    cols,
-    row,
+    table: str,
+    cols: ColumnLike,
+    row: RowLike,
     *,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-):
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+) -> str:
     """
     Builds a SQL INSERT query for a single row.
 
@@ -481,6 +542,7 @@ def build_insert_table_query(
         table: The table name.
         cols: The list of column names to insert.
         row: A row-like mapping providing values for `cols`.
+
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
 
@@ -506,14 +568,14 @@ __DB_UPDATE_________________________________________________ = ""
 
 
 def build_update_table_query(
-    table,
-    cols,
-    row,
+    table: str,
+    cols: ColumnLike,
+    row: RowLike,
     *,
-    filtering_cols=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-):
+    filtering_cols: Optional[ColumnLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+) -> str:
     """
     Builds a SQL UPDATE query for a single row, matching by a WHERE clause.
 
@@ -526,6 +588,7 @@ def build_update_table_query(
         table: The table name.
         cols: The list of column names to update (SET clause).
         row: A row-like mapping providing values for both SET and WHERE construction.
+
         filtering_cols: Optional filtering columns used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
@@ -554,7 +617,7 @@ __DB_CONVERTERS_________________________________________________________________
 __DB_MIGRATE________________________________________________ = ""
 
 
-def metadata_to_lowercase(metadata):
+def metadata_to_lowercase(metadata: db.MetaData) -> None:
     """
     Lowercases table and column identifiers in a SQLAlchemy metadata object.
 
@@ -568,9 +631,9 @@ def metadata_to_lowercase(metadata):
         table_to_lowercase(table)
 
 
-def table_to_lowercase(table):
+def table_to_lowercase(table: db.Table) -> None:
     """
-    Lowercases identifiers of a SQLAlchemy `Table` object in-place.
+    Lowercases identifiers of a SQLAlchemy `db.Table` object in-place.
 
     Behavior:
         • Lowercases the table `name` and `fullname`.
@@ -579,7 +642,7 @@ def table_to_lowercase(table):
         • Lowercases foreign key and FK constraint names.
 
     Args:
-        table: The SQLAlchemy `Table` instance to mutate in-place.
+        table: The SQLAlchemy `db.Table` instance to mutate in-place.
     """
     table.name = table.name.lower()
     table.fullname = table.fullname.lower()
@@ -596,7 +659,13 @@ def table_to_lowercase(table):
 ##############################
 
 
-def update_col(col, collation=None, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
+def update_col(
+    col: Column,
+    *,
+    collation: Optional[str] = None,
+    is_mssql_from: bool = DEFAULT_IS_MSSQL,
+    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+) -> None:
     """
     Updates the column defaults, types, and collation for cross-database migrations.
 
@@ -608,6 +677,7 @@ def update_col(col, collation=None, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
+
         collation: Optional collation name to apply when supported by the type.
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
@@ -620,7 +690,12 @@ def update_col(col, collation=None, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=
     update_col_collation(col, collation=collation)
 
 
-def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
+def update_col_default(
+    col: Column,
+    *,
+    is_mssql_from: bool = DEFAULT_IS_MSSQL,
+    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+) -> None:
     """
     Rewrites certain server default expressions when migrating between MSSQL and non-MSSQL.
 
@@ -635,6 +710,7 @@ def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
+
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
     """
@@ -660,7 +736,12 @@ def update_col_default(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_
                 col.server_default.arg.text = col.server_default.arg.text.replace("now", "getdate")
 
 
-def update_col_type(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_MSSQL):
+def update_col_type(
+    col: Column,
+    *,
+    is_mssql_from: bool = DEFAULT_IS_MSSQL,
+    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+) -> None:
     """
     Converts certain column types when migrating between MSSQL and non-MSSQL.
 
@@ -674,6 +755,7 @@ def update_col_type(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
+
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
     """
@@ -693,7 +775,11 @@ def update_col_type(col, is_mssql_from=DEFAULT_IS_MSSQL, is_mssql_to=DEFAULT_IS_
             col.type = mssql.base.DATETIME()
 
 
-def update_col_collation(col, collation=None):
+def update_col_collation(
+    col: Column,
+    *,
+    collation: Optional[str] = None,
+) -> None:
     """
     Applies the specified collation to a column type when supported.
 
@@ -704,6 +790,7 @@ def update_col_collation(col, collation=None):
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
+
         collation: The collation name to apply.
     """
     if not is_null(collation) and hasattr(col.type, "collation"):
@@ -717,15 +804,16 @@ __DB_CONNECT________________________________________________ = ""
 
 
 def create_engine(
-    dialect="mssql",
-    driver="pyodbc",
-    username=None,
-    password=None,
-    host="localhost",
-    port=1433,
-    database=None,
-    query=None,
-):
+    *,
+    dialect: str = "mssql",
+    driver: str = "pyodbc",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    host: str = "localhost",
+    port: int = 1433,
+    database: Optional[str] = None,
+    query: Optional[Mapping[str, str]] = None,
+) -> Engine:
     """
     Creates a SQLAlchemy engine for the specified connection parameters.
 
@@ -762,7 +850,7 @@ def create_engine(
     )
 
 
-def create_session(engine):
+def create_session(engine: Engine) -> Session:
     """
     Creates a SQLAlchemy ORM session bound to the specified engine.
 
@@ -778,7 +866,11 @@ def create_session(engine):
 __DB_METADATA_______________________________________________ = ""
 
 
-def create_metadata(engine, schema=DEFAULT_SCHEMA):
+def create_metadata(
+    engine: Engine,
+    *,
+    schema: str = DEFAULT_SCHEMA,
+) -> db.MetaData:
     """
     Creates SQLAlchemy metadata bound to the specified engine and schema.
 
@@ -787,6 +879,7 @@ def create_metadata(engine, schema=DEFAULT_SCHEMA):
 
     Args:
         engine: The SQLAlchemy engine to bind.
+
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
@@ -798,7 +891,7 @@ def create_metadata(engine, schema=DEFAULT_SCHEMA):
 __DB_FORMATTERS___________________________________________________________________________ = ""
 
 
-def escape(name):
+def escape(name: Any) -> str:
     """
     Escapes a string for safe embedding into SQL string literals.
 
@@ -818,7 +911,7 @@ def escape(name):
 ##############################
 
 
-def format_name(name):
+def format_name(name: str) -> str:
     """
     Formats a SQL identifier (column/table/schema name).
 
@@ -837,7 +930,10 @@ def format_name(name):
     return dquote(name)
 
 
-def format_cols(*cols, suffixes=None):
+def format_cols(
+    *cols: ColumnLike,
+    suffixes: Optional[Sequence[str]] = None,
+) -> str:
     """
     Formats a list of SQL identifiers (e.g., column names), optionally adding suffixes.
 
@@ -848,7 +944,7 @@ def format_cols(*cols, suffixes=None):
         • Collapses the result into a comma-separated list via `collist(...)`.
 
     Args:
-        *cols: The column names.
+        *cols: The column names (scalars and/or collections).
         suffixes: Optional suffix list aligned with the columns (e.g., `"ASC"`, `"DESC"`).
 
     Returns:
@@ -860,7 +956,11 @@ def format_cols(*cols, suffixes=None):
     return collist(cols)
 
 
-def format(value, is_mssql=DEFAULT_IS_MSSQL):
+def format(
+    value: Any,
+    *,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+) -> Any:
     """
     Formats a Python value as a SQL literal.
 
@@ -878,10 +978,11 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
 
     Args:
         value: The value to format.
+
         is_mssql: Whether to format for MSSQL semantics.
 
     Returns:
-        The SQL literal string for the value.
+        The SQL literal representation for the value (string-like for most inputs).
     """
     if is_null(value):
         return "NULL"
@@ -903,7 +1004,7 @@ def format(value, is_mssql=DEFAULT_IS_MSSQL):
 __DB_LOGGERS______________________________________________________________________________ = ""
 
 
-def get_query_message(verb, count, table):
+def get_query_message(verb: str, count: int, table: str) -> str:
     """
     Builds a human-readable message describing a table-level operation.
 
@@ -913,7 +1014,7 @@ def get_query_message(verb, count, table):
         table: The table name.
 
     Returns:
-        A message string such as `"select 100 rows in the table \"MyTable\""` (without capitalization).
+        A message string such as `select 100 rows in the table "MyTable"` (without capitalization).
     """
     return paste(verb, count, "rows", "in the table", quote(table))
 
@@ -922,28 +1023,30 @@ def get_query_message(verb, count, table):
 
 
 def debug_query(
-    verb,
-    count,
-    table,
+    verb: str,
+    count: int,
+    table: str,
     *,
-    index_from=None,
-    index_to=None,
+    index_from: Optional[int] = None,
+    index_to: Optional[int] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits a debug log for a table-level operation, optionally including a processed range.
 
     Behavior:
-        • When `index_from` / `index_to` are provided, prefixes with `"processing rows from ... to ..."`.
+        • When `index_from` / `index_to` are provided, prefixes with `processing rows from ... to ...`.
         • Uses `get_query_message(...)` and capitalizes the final message.
 
     Args:
         verb: The operation verb.
         count: The number of rows (or chunk size) for the message.
         table: The table name.
+
         index_from: The inclusive start row index (1-based in the message).
         index_to: The inclusive end row index (1-based in the message).
+
         verbose: When `True`, enables logging.
     """
     if verbose:
@@ -958,13 +1061,13 @@ def debug_query(
 
 
 def warn_query(
-    verb,
-    table,
+    verb: str,
+    table: str,
     *,
-    exception=None,
+    exception: Optional[BaseException] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits a warning log for a table-level operation that affected no rows.
 
@@ -975,7 +1078,9 @@ def warn_query(
     Args:
         verb: The verb phrase (e.g., `"deleted"`, `"bulk-inserted"`).
         table: The table name.
+
         exception: Optional exception instance.
+
         verbose: When `True`, enables logging.
     """
     if verbose:
@@ -988,13 +1093,13 @@ def warn_query(
 
 
 def error_query(
-    verb,
-    table,
+    verb: str,
+    table: str,
     *,
-    exception=None,
+    exception: Optional[BaseException] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits an error log for a table-level operation failure.
 
@@ -1005,7 +1110,9 @@ def error_query(
     Args:
         verb: The verb phrase (e.g., `"deleted"`, `"updated"`).
         table: The table name.
+
         exception: Optional exception instance.
+
         verbose: When `True`, enables logging.
     """
     if not isinstance(exception, IntegrityError):
@@ -1020,7 +1127,14 @@ def error_query(
 ############################################################
 
 
-def get_row_message(verb, index, table, cols=None, row=None):
+def get_row_message(
+    verb: str,
+    index: int,
+    table: str,
+    *,
+    cols: Optional[ColumnLike] = None,
+    row: Optional[RowLike] = None,
+) -> str:
     """
     Builds a human-readable message describing a row-level operation.
 
@@ -1028,6 +1142,7 @@ def get_row_message(verb, index, table, cols=None, row=None):
         verb: The operation verb (e.g., `"insert"`, `"update"`).
         index: The zero-based row index.
         table: The table name.
+
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
 
@@ -1048,15 +1163,15 @@ def get_row_message(verb, index, table, cols=None, row=None):
 
 
 def trace_row(
-    verb,
-    index,
-    table,
+    verb: str,
+    index: int,
+    table: str,
     *,
-    cols=None,
-    row=None,
+    cols: Optional[ColumnLike] = None,
+    row: Optional[RowLike] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits a trace log for a successful row-level operation.
 
@@ -1064,8 +1179,10 @@ def trace_row(
         verb: The operation verb.
         index: The zero-based row index.
         table: The table name.
+
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
+
         verbose: When `True`, enables logging.
     """
     if verbose:
@@ -1073,16 +1190,16 @@ def trace_row(
 
 
 def warn_row(
-    verb,
-    index,
-    table,
+    verb: str,
+    index: int,
+    table: str,
     *,
-    exception=None,
-    cols=None,
-    row=None,
+    exception: Optional[BaseException] = None,
+    cols: Optional[ColumnLike] = None,
+    row: Optional[RowLike] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits a warning log for a failed row-level operation.
 
@@ -1094,9 +1211,11 @@ def warn_row(
         verb: The operation verb.
         index: The zero-based row index.
         table: The table name.
+
         exception: Optional exception instance.
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
+
         verbose: When `True`, enables logging.
     """
     if verbose:
@@ -1109,16 +1228,16 @@ def warn_row(
 
 
 def error_row(
-    verb,
-    index,
-    table,
+    verb: str,
+    index: int,
+    table: str,
     *,
-    exception=None,
-    cols=None,
-    row=None,
+    exception: Optional[BaseException] = None,
+    cols: Optional[ColumnLike] = None,
+    row: Optional[RowLike] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> None:
     """
     Emits an error log for a row-level operation failure.
 
@@ -1130,9 +1249,11 @@ def error_row(
         verb: The operation verb.
         index: The zero-based row index.
         table: The table name.
+
         exception: Optional exception instance.
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
+
         verbose: When `True`, enables logging.
     """
     if not is_null(exception) and not isinstance(exception, IntegrityError):
@@ -1151,18 +1272,18 @@ __DB_CREATE_________________________________________________ = ""
 
 
 def create_table(
-    engine,
-    df,
-    table,
-    append=False,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    index=False,
-    index_cols=None,
-    method=None,
-    replace=False,
-    schema=DEFAULT_SCHEMA,
-    col_types=None,
-):
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
+    append: bool = False,
+    chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
+    index: bool = False,
+    index_cols: Optional[ColumnLike] = None,
+    method: Optional[str] = None,
+    replace: bool = False,
+    schema: str = DEFAULT_SCHEMA,
+    col_types: Optional[Mapping[str, db.types.TypeEngine]] = None,
+) -> Any:
     """
     Creates or appends to a table using `DataFrame.to_sql(...)`.
 
@@ -1215,14 +1336,14 @@ __DB_SELECT_________________________________________________ = ""
 
 
 def select_query(
-    engine,
-    query,
+    engine: Engine,
+    query: Any,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    index_cols=None,
+    chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
+    index_cols: Optional[ColumnLike] = None,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> Union[pd.DataFrame, Iterator[pd.DataFrame]]:
     """
     Reads a SQL query into pandas via `pd.read_sql(...)`.
 
@@ -1232,9 +1353,11 @@ def select_query(
 
     Args:
         engine: The SQLAlchemy engine.
-        query: The SQL query string.
+        query: The SQL query string (or an executable statement).
+
         chunk_size: The pandas chunk size (when set, pandas returns an iterator of chunks).
         index_cols: Optional index column(s) for pandas.
+
         verbose: When `True`, enables logging.
 
     Returns:
@@ -1249,18 +1372,18 @@ def select_query(
 
 
 def select_table(
-    engine,
-    table,
+    engine: Engine,
+    table: str,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    cols=None,
-    index=False,
-    index_cols=None,
-    row_count=-1,
-    schema=DEFAULT_SCHEMA,
+    chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
+    cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    index_cols: Optional[ColumnLike] = None,
+    row_count: int = -1,
+    schema: str = DEFAULT_SCHEMA,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> pd.DataFrame:
     """
     Reads a table into a dataframe, optionally chunking and aggregating.
 
@@ -1273,12 +1396,14 @@ def select_table(
     Args:
         engine: The SQLAlchemy engine.
         table: The table name.
+
         chunk_size: The read chunk size. When not null, reads in chunks and aggregates.
         cols: Optional selected columns.
         index: When `True`, uses `index_cols` (or the primary key) as the dataframe index.
         index_cols: Optional index column(s).
         row_count: When non-negative, limits the returned number of rows.
         schema: The schema name (defaults to `"dbo"`).
+
         verbose: When `True`, enables logging and per-chunk debug messages.
 
     Returns:
@@ -1314,24 +1439,24 @@ def select_table(
 
 
 def select_table_where(
-    engine,
-    table,
+    engine: Engine,
+    table: str,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    cols=None,
-    filtering_cols=None,
-    filtering_row=None,
-    index=False,
-    index_cols=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    n=None,
-    order_cols=None,
-    order_directions=None,
-    row_count=-1,
-    schema=DEFAULT_SCHEMA,
+    chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
+    cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    index: bool = False,
+    index_cols: Optional[ColumnLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    n: Optional[int] = None,
+    order_cols: Optional[ColumnLike] = None,
+    order_directions: Optional[Sequence[str]] = None,
+    row_count: int = -1,
+    schema: str = DEFAULT_SCHEMA,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> pd.DataFrame:
     """
     Selects rows from a table by building and executing a SELECT query with a WHERE clause.
 
@@ -1345,6 +1470,7 @@ def select_table_where(
     Args:
         engine: The SQLAlchemy engine.
         table: The table name.
+
         chunk_size: The read chunk size. When not null, reads in chunks and aggregates.
         cols: Optional selected columns.
         filtering_cols: Optional filtering columns for the WHERE clause.
@@ -1352,11 +1478,12 @@ def select_table_where(
         index: When `True`, uses `index_cols` (or the primary key) as the dataframe index.
         index_cols: Optional index column(s).
         is_mssql: Whether the source database is MSSQL (affects query formatting).
-        n: Optional query limit (`TOP` / `LIMIT`).
+        n: Optional query limit (`"TOP"` / `"LIMIT"`).
         order_cols: Optional ORDER BY columns.
         order_directions: Optional suffixes aligned with `order_cols` (e.g., `"ASC"`, `"DESC"`).
         row_count: When non-negative, limits the returned number of rows.
         schema: The schema name (defaults to `"dbo"`).
+
         verbose: When `True`, enables logging and per-chunk debug messages.
 
     Returns:
@@ -1418,18 +1545,19 @@ __DB_DELETE_________________________________________________ = ""
 
 
 def delete_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    filtering_cols=None,
-    index=False,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    filtering_cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Deletes rows from a table matching each row of the dataframe.
 
@@ -1444,18 +1572,17 @@ def delete_table(
         engine: The SQLAlchemy engine.
         df: The dataframe whose rows define the deletion keys.
         table: The table name.
+
         filtering_cols: Optional filtering columns for matching (defaults to the primary key when available).
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of deleted rows (as counted from execution results).
-
-    Raises:
-        Exception: Any exception raised by the database driver during deletion.
     """
     delete_count = 0
 
@@ -1518,19 +1645,20 @@ def delete_table(
 
 
 def bulk_delete_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    filtering_cols=None,
-    index=False,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    chunk_size: int = DEFAULT_CHUNK_SIZE,
+    filtering_cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Bulk-deletes rows by concatenating per-row DELETE statements into larger batches.
 
@@ -1545,19 +1673,18 @@ def bulk_delete_table(
         engine: The SQLAlchemy engine.
         df: The dataframe whose rows define the deletion keys.
         table: The table name.
+
         chunk_size: The maximum rows per bulk batch.
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of bulk-deleted rows (best-effort count).
-
-    Raises:
-        Exception: Any exception raised by the database driver during deletion.
     """
     delete_count = 0
 
@@ -1637,13 +1764,13 @@ __DB_INSERT_________________________________________________ = ""
 
 
 def set_id_insert(
-    engine,
-    table,
-    flag,
+    engine: Engine,
+    table: str,
+    flag: str,
     *,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-):
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+) -> Any:
     """
     Enables or disables explicit insertion into identity columns for MSSQL.
 
@@ -1655,14 +1782,12 @@ def set_id_insert(
         engine: The SQLAlchemy engine.
         table: The table name.
         flag: The MSSQL flag string (typically `"ON"` or `"OFF"`).
+
         is_mssql: Whether the target database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
         The result of `execute(...)` for MSSQL, otherwise null.
-
-    Raises:
-        Exception: Any exception raised by the database driver.
     """
     if is_mssql:
         return execute(
@@ -1675,18 +1800,19 @@ def set_id_insert(
 
 
 def insert_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    index=False,
-    insert_id=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    index: bool = False,
+    insert_id: Optional[bool] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Inserts rows into a table by executing one INSERT statement per dataframe row.
 
@@ -1701,18 +1827,17 @@ def insert_table(
         engine: The SQLAlchemy engine.
         df: The dataframe to insert.
         table: The destination table name.
+
         index: When `True`, includes the dataframe index as columns.
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of inserted rows (as counted from execution results).
-
-    Raises:
-        Exception: Any exception raised by the database driver during insertion.
     """
     insert_count = 0
 
@@ -1765,19 +1890,20 @@ def insert_table(
 
 
 def bulk_insert_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    index=False,
-    insert_id=None,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    chunk_size: int = DEFAULT_CHUNK_SIZE,
+    index: bool = False,
+    insert_id: Optional[bool] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Bulk-inserts rows by concatenating per-row INSERT statements into larger batches.
 
@@ -1793,19 +1919,18 @@ def bulk_insert_table(
         engine: The SQLAlchemy engine.
         df: The dataframe to insert.
         table: The destination table name.
+
         chunk_size: The maximum rows per bulk batch.
         index: When `True`, includes the dataframe index as columns.
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of bulk-inserted rows (best-effort count).
-
-    Raises:
-        Exception: Any exception raised by the database driver during insertion.
     """
     insert_count = 0
 
@@ -1877,18 +2002,19 @@ __DB_UPDATE_________________________________________________ = ""
 
 
 def update_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    filtering_cols=None,
-    index=False,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    filtering_cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Updates rows in a table by executing one UPDATE statement per dataframe row.
 
@@ -1903,18 +2029,17 @@ def update_table(
         engine: The SQLAlchemy engine.
         df: The dataframe whose rows define the update values and matching keys.
         table: The table name.
+
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of updated rows (as counted from execution results).
-
-    Raises:
-        Exception: Any exception raised by the database driver during updates.
     """
     update_count = 0
 
@@ -1979,19 +2104,20 @@ def update_table(
 
 
 def bulk_update_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    filtering_cols=None,
-    index=False,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    chunk_size: int = DEFAULT_CHUNK_SIZE,
+    filtering_cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Bulk-updates rows by concatenating per-row UPDATE statements into larger batches.
 
@@ -2006,19 +2132,18 @@ def bulk_update_table(
         engine: The SQLAlchemy engine.
         df: The dataframe whose rows define the update values and matching keys.
         table: The table name.
+
         chunk_size: The maximum rows per bulk batch.
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of bulk-updated rows (best-effort count).
-
-    Raises:
-        Exception: Any exception raised by the database driver during updates.
     """
     update_count = 0
 
@@ -2092,18 +2217,19 @@ __DB_UPSERT_________________________________________________ = ""
 
 
 def upsert_table(
-    engine,
-    df,
-    table,
+    engine: Engine,
+    df: pd.DataFrame,
+    table: str,
     *,
-    filtering_cols=None,
-    index=False,
-    is_mssql=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
+    filtering_cols: Optional[ColumnLike] = None,
+    index: bool = False,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Updates existing rows and inserts missing rows for the dataframe into the table.
 
@@ -2118,18 +2244,17 @@ def upsert_table(
         engine: The SQLAlchemy engine.
         df: The dataframe to upsert.
         table: The table name.
+
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
+
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging and optional verification.
 
     Returns:
         The number of updated/inserted rows (best-effort count).
-
-    Raises:
-        Exception: Any exception raised by the database driver during update/insert operations.
     """
     upsert_count = 0
 
@@ -2218,7 +2343,7 @@ def upsert_table(
 __DB_RUNNERS______________________________________________________________________________ = ""
 
 
-def execute(engine, query, *args, **kwargs):
+def execute(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List[Any], int]:
     """
     Executes a SQL statement and returns either fetched rows or an affected-row count.
 
@@ -2229,7 +2354,7 @@ def execute(engine, query, *args, **kwargs):
 
     Args:
         engine: The SQLAlchemy engine.
-        query: The SQL query or executable statement.
+        query: The SQL query (string or executable statement).
         *args: Positional arguments forwarded to `connection.execute(...)`.
         **kwargs: Keyword arguments forwarded to `connection.execute(...)`.
 
@@ -2244,7 +2369,7 @@ def execute(engine, query, *args, **kwargs):
         return result.fetchall() if not is_null(result.cursor) else result.rowcount
 
 
-def execute_procedure(engine, procedure, *args):
+def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[Any, ...]]:
     """
     Executes a stored procedure via a DB-API cursor and returns its result set (if any).
 
@@ -2276,7 +2401,7 @@ def execute_procedure(engine, procedure, *args):
         connection.close()
 
 
-def transact(engine, query, *args, **kwargs):
+def transact(engine: Engine, query: Any, *args: Any, **kwargs: Any) -> Union[List[Any], int]:
     """
     Executes a SQL statement within a transaction and returns rows or an affected-row count.
 
@@ -2287,7 +2412,7 @@ def transact(engine, query, *args, **kwargs):
 
     Args:
         engine: The SQLAlchemy engine.
-        query: The SQL query or executable statement.
+        query: The SQL query (string or executable statement).
         *args: Positional arguments forwarded to `connection.execute(...)`.
         **kwargs: Keyword arguments forwarded to `connection.execute(...)`.
 
@@ -2309,25 +2434,26 @@ __DB_MIGRATE________________________________________________ = ""
 
 
 def migrate(
-    engine_from,
-    engine_to,
-    tables,
+    engine_from: Engine,
+    engine_to: Engine,
+    tables: Sequence[str],
     *,
-    chunk_size=DEFAULT_CHUNK_SIZE,
-    collation=None,
-    create=True,
-    drop=False,
-    fill=True,
-    filtering_cols=None,
-    filtering_row=None,
-    is_mssql_from=DEFAULT_IS_MSSQL,
-    is_mssql_to=DEFAULT_IS_MSSQL,
-    schema=DEFAULT_SCHEMA,
-    test=ASSERT,
-    upsert=False,
+    chunk_size: int = DEFAULT_CHUNK_SIZE,
+    collation: Optional[str] = None,
+    create: bool = True,
+    drop: bool = False,
+    fill: bool = True,
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    is_mssql_from: bool = DEFAULT_IS_MSSQL,
+    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+    schema: str = DEFAULT_SCHEMA,
+    upsert: bool = False,
+    # Test
+    test: bool = ASSERT,
     # Log
-    verbose=VERBOSE,
-):
+    verbose: bool = VERBOSE,
+) -> int:
     """
     Migrates tables from one engine to another, optionally transforming metadata for dialect differences.
 
@@ -2346,6 +2472,7 @@ def migrate(
         engine_from: The source SQLAlchemy engine.
         engine_to: The destination SQLAlchemy engine.
         tables: The list of table names to migrate.
+
         chunk_size: The chunk size used for reading and bulk writing.
         collation: Optional collation to apply where supported.
         create: When `True`, creates the tables on the destination.
@@ -2356,16 +2483,13 @@ def migrate(
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the destination database is MSSQL.
         schema: The schema name (defaults to `"dbo"`).
-        test: When `True`, enables validation warnings during writes.
         upsert: When `True`, performs upserts instead of bulk inserts.
+
+        test: When `True`, enables validation warnings during writes.
         verbose: When `True`, enables logging.
 
     Returns:
         The number of migrated rows (best-effort count).
-
-    Raises:
-        SQLAlchemyError: If metadata operations or execution fail.
-        Exception: Any exception raised by pandas reads/writes or the database driver.
     """
     count = 0
 
