@@ -1668,7 +1668,8 @@ def bulk_delete_table(
         • Resolves the filtering columns via `get_filtering_cols(...)`.
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
         • Otherwise concatenates per-row DELETE queries and executes the combined SQL string via `exec_driver_sql(...)`.
-        • Logs a table-level warning when no rows are deleted (best-effort based on the last statement rowcount).
+        • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
+          multi-statement strings).
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1693,6 +1694,9 @@ def bulk_delete_table(
     if index:
         df = df.reset_index()
 
+    if is_empty(df):
+        return delete_count
+
     # Get the metadata of the table
     metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
@@ -1713,6 +1717,9 @@ def bulk_delete_table(
 
     def _bulk_delete(connection: db.Connection, chunk: pd.DataFrame) -> int:
         nonlocal delete_count
+
+        if is_empty(chunk):
+            return delete_count
 
         # Chunk the bulk query
         if len(chunk) > chunk_size:
@@ -1743,13 +1750,13 @@ def bulk_delete_table(
                 schema=schema,
             )
 
+        if is_empty(query):
+            return delete_count
+
         # Execute the bulk query
         try:
-            result = connection.exec_driver_sql(query)
-            if result.rowcount > 0:
-                delete_count += len(chunk)
-            else:
-                warn_query("bulk-deleted", table, verbose=verbose)
+            connection.exec_driver_sql(query)
+            delete_count += len(chunk)
         except Exception as e:
             error_query("bulk-deleted", table, exception=e, verbose=verbose)
 
@@ -1922,6 +1929,8 @@ def bulk_insert_table(
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
         • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
+        • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
+          multi-statement strings).
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1946,6 +1955,9 @@ def bulk_insert_table(
     if index:
         df = df.reset_index()
 
+    if is_empty(df):
+        return insert_count
+
     # Get the metadata of the table
     table_cols = get_cols(engine, table, schema=schema)
 
@@ -1956,6 +1968,9 @@ def bulk_insert_table(
 
     def _bulk_insert(connection: db.Connection, chunk: pd.DataFrame) -> int:
         nonlocal insert_count
+
+        if is_empty(chunk):
+            return insert_count
 
         # Chunk the bulk query
         if len(chunk) > chunk_size:
@@ -1980,13 +1995,13 @@ def bulk_insert_table(
         for _, row in chunk.iterrows():
             query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
 
+        if is_empty(query):
+            return insert_count
+
         # Execute the bulk query
         try:
-            result = connection.exec_driver_sql(query)
-            if result.rowcount > 0:
-                insert_count += len(chunk)
-            else:
-                warn_query("bulk-inserted", table, verbose=verbose)
+            connection.exec_driver_sql(query)
+            insert_count += len(chunk)
         except Exception as e:
             error_query("bulk-inserted", table, exception=e, verbose=verbose)
 
@@ -2133,6 +2148,8 @@ def bulk_update_table(
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
         • Otherwise concatenates per-row UPDATE queries and executes the combined SQL string via `exec_driver_sql(...)`.
         • Builds `query += ...` and executes via `connection.exec_driver_sql(query)`.
+        • Counts affected rows best-effort as `len(chunk)` on successful batch execution (`rowcount` is unreliable for
+          multi-statement strings).
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2157,6 +2174,9 @@ def bulk_update_table(
     if index:
         df = df.reset_index()
 
+    if is_empty(df):
+        return update_count
+
     # Get the metadata of the table
     metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
@@ -2175,6 +2195,9 @@ def bulk_update_table(
 
     def _bulk_update(connection: db.Connection, chunk: pd.DataFrame) -> int:
         nonlocal update_count
+
+        if is_empty(chunk):
+            return update_count
 
         # Chunk the bulk query
         if len(chunk) > chunk_size:
@@ -2206,13 +2229,13 @@ def bulk_update_table(
                 schema=schema,
             )
 
+        if is_empty(query):
+            return update_count
+
         # Execute the bulk query
         try:
-            result = connection.exec_driver_sql(query)
-            if result.rowcount > 0:
-                update_count += len(chunk)
-            else:
-                warn_query("bulk-updated", table, verbose=verbose)
+            connection.exec_driver_sql(query)
+            update_count += len(chunk)
         except Exception as e:
             error_query("bulk-updated", table, exception=e, verbose=verbose)
 
