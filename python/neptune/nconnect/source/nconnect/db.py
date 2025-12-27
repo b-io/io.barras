@@ -14,11 +14,6 @@ import logging
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
-from sqlalchemy.engine import Connection, Engine, URL
-from sqlalchemy.exc import *
-from sqlalchemy.orm import *
-from sqlalchemy.sql.elements import *
-from sqlalchemy.sql.schema import Column
 
 from nutil.scalar.date import DEFAULT_DATE_TIME_FORMAT
 from nutil.scalar.number import ceil
@@ -81,7 +76,7 @@ def get_full_table_name(
 
 
 def get_table_metadata(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     metadata: Optional[db.MetaData] = None,
@@ -91,7 +86,7 @@ def get_table_metadata(
     Returns the SQLAlchemy table metadata for the specified table.
 
     Behavior:
-        • Creates the `metadata` via `create_metadata()` when not provided.
+        • Creates the `metadata` via `create_metadata(schema=schema)` when not provided.
         • Reflects only the requested `table` (and views) from the specified `schema`.
 
     Args:
@@ -109,7 +104,7 @@ def get_table_metadata(
         KeyError: If the reflected table is not present in the metadata tables mapping.
     """
     if is_null(metadata):
-        metadata = create_metadata(engine, schema=schema)
+        metadata = create_metadata(schema=schema)
     metadata.reflect(bind=engine, schema=schema, views=True, only=[table], extend_existing=True)
     return metadata.tables[collapse(schema, ".", table)]
 
@@ -118,7 +113,7 @@ def get_table_metadata(
 
 
 def get_cols(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     metadata: Optional[db.MetaData] = None,
@@ -182,7 +177,7 @@ def get_common_cols(
 
 
 def get_filtering_cols(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -236,7 +231,7 @@ def get_filtering_cols(
 
 
 def get_identity_cols(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     is_mssql: bool = DEFAULT_IS_MSSQL,
@@ -280,7 +275,7 @@ def get_identity_cols(
 
 
 def get_primary_cols(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     cols: Optional[ColumnLike] = None,
@@ -660,7 +655,7 @@ def table_to_lowercase(table: db.Table) -> None:
 
 
 def update_col(
-    col: Column,
+    col: db.Column,
     *,
     collation: Optional[str] = None,
     is_mssql_from: bool = DEFAULT_IS_MSSQL,
@@ -691,7 +686,7 @@ def update_col(
 
 
 def update_col_default(
-    col: Column,
+    col: db.Column,
     *,
     is_mssql_from: bool = DEFAULT_IS_MSSQL,
     is_mssql_to: bool = DEFAULT_IS_MSSQL,
@@ -714,7 +709,7 @@ def update_col_default(
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
     """
-    if hasattr(col.server_default, "arg") and isinstance(col.server_default.arg, TextClause):
+    if hasattr(col.server_default, "arg") and isinstance(col.server_default.arg, db.TextClause):
         if is_mssql_from and not is_mssql_to:
             if isinstance(col.type, mssql.base.BIT):
                 col.server_default.arg.text = col.server_default.arg.text.replace("0", "FALSE").replace("1", "TRUE")
@@ -737,7 +732,7 @@ def update_col_default(
 
 
 def update_col_type(
-    col: Column,
+    col: db.Column,
     *,
     is_mssql_from: bool = DEFAULT_IS_MSSQL,
     is_mssql_to: bool = DEFAULT_IS_MSSQL,
@@ -776,7 +771,7 @@ def update_col_type(
 
 
 def update_col_collation(
-    col: Column,
+    col: db.Column,
     *,
     collation: Optional[str] = None,
 ) -> None:
@@ -813,7 +808,7 @@ def create_engine(
     port: int = 1433,
     database: Optional[str] = None,
     query: Optional[Mapping[str, str]] = None,
-) -> Engine:
+) -> db.Engine:
     """
     Creates a SQLAlchemy engine for the specified connection parameters.
 
@@ -838,7 +833,7 @@ def create_engine(
         SQLAlchemyError: If the engine cannot be created.
     """
     return db.create_engine(
-        URL.create(
+        db.URL.create(
             dialect + "+" + driver,
             username=username,
             password=password,
@@ -850,7 +845,7 @@ def create_engine(
     )
 
 
-def create_session(engine: Engine) -> Session:
+def create_session(engine: db.Engine) -> db.Session:
     """
     Creates a SQLAlchemy ORM session bound to the specified engine.
 
@@ -860,14 +855,13 @@ def create_session(engine: Engine) -> Session:
     Returns:
         A SQLAlchemy `Session` bound to the engine.
     """
-    return Session(bind=engine)
+    return db.Session(bind=engine)
 
 
 __DB_METADATA_______________________________________________ = ""
 
 
 def create_metadata(
-    engine: Engine,
     *,
     schema: str = DEFAULT_SCHEMA,
 ) -> db.MetaData:
@@ -875,17 +869,15 @@ def create_metadata(
     Creates SQLAlchemy metadata bound to the specified engine and schema.
 
     Behavior:
-        • Returns `db.MetaData(bind=engine, schema=schema)`.
+        • Returns `db.MetaData(schema=schema)`.
 
     Args:
-        engine: The SQLAlchemy engine to bind.
-
         schema: The schema name (defaults to `"dbo"`).
 
     Returns:
         The SQLAlchemy `MetaData` instance.
     """
-    return db.MetaData(bind=engine, schema=schema)
+    return db.MetaData(schema=schema)
 
 
 __DB_FORMATTERS___________________________________________________________________________ = ""
@@ -1115,7 +1107,7 @@ def error_query(
 
         verbose: When `True`, enables logging.
     """
-    if not isinstance(exception, IntegrityError):
+    if not isinstance(exception, db.IntegrityError):
         logging.error(
             paste("No row has been", verb, "in the table", quote(table)),
             par(exception) if not is_null(exception) else "",
@@ -1256,7 +1248,7 @@ def error_row(
 
         verbose: When `True`, enables logging.
     """
-    if not is_null(exception) and not isinstance(exception, IntegrityError):
+    if not is_null(exception) and not isinstance(exception, db.IntegrityError):
         logging.error(
             paste("- Fail to", get_row_message(verb, index, table, cols=cols, row=row)),
             par(exception) if not is_null(exception) else "",
@@ -1272,7 +1264,7 @@ __DB_CREATE_________________________________________________ = ""
 
 
 def create_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     append: bool = False,
@@ -1336,7 +1328,7 @@ __DB_SELECT_________________________________________________ = ""
 
 
 def select_query(
-    engine: Engine,
+    engine: db.Engine,
     query: Any,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
@@ -1372,7 +1364,7 @@ def select_query(
 
 
 def select_table(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
@@ -1439,7 +1431,7 @@ def select_table(
 
 
 def select_table_where(
-    engine: Engine,
+    engine: db.Engine,
     table: str,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
@@ -1545,7 +1537,7 @@ __DB_DELETE_________________________________________________ = ""
 
 
 def delete_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -1591,7 +1583,7 @@ def delete_table(
         df = df.reset_index()
 
     # Get the metadata of the table
-    metadata = create_metadata(engine, schema=schema)
+    metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = get_filtering_cols(
         engine,
@@ -1645,7 +1637,7 @@ def delete_table(
 
 
 def bulk_delete_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -1693,7 +1685,7 @@ def bulk_delete_table(
         df = df.reset_index()
 
     # Get the metadata of the table
-    metadata = create_metadata(engine, schema=schema)
+    metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = get_filtering_cols(
         engine,
@@ -1764,7 +1756,7 @@ __DB_INSERT_________________________________________________ = ""
 
 
 def set_id_insert(
-    connection: Connection,
+    connection: db.Connection,
     table: str,
     flag: str,
     *,
@@ -1798,7 +1790,7 @@ def set_id_insert(
 
 
 def insert_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -1845,7 +1837,7 @@ def insert_table(
         df = df.reset_index()
 
     # Get the metadata of the table
-    metadata = create_metadata(engine, schema=schema)
+    metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     primary_cols = get_primary_cols(engine, table, metadata=metadata, schema=schema)
 
@@ -1856,7 +1848,7 @@ def insert_table(
 
     debug_query("insert", len(df), table, verbose=verbose)
 
-    def _transact(connection: Connection) -> int:
+    def _transact(connection: db.Connection) -> int:
         nonlocal insert_count
 
         if insert_id:
@@ -1896,7 +1888,7 @@ def insert_table(
 
 
 def bulk_insert_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -1952,7 +1944,7 @@ def bulk_insert_table(
     if is_null(insert_id):
         insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
 
-    def _bulk_insert(connection: Connection, chunk: pd.DataFrame) -> int:
+    def _bulk_insert(connection: db.Connection, chunk: pd.DataFrame) -> int:
         nonlocal insert_count
 
         # Chunk the bulk query
@@ -1986,9 +1978,7 @@ def bulk_insert_table(
             error_query("bulk-inserted", table, exception=e, verbose=verbose)
         return insert_count
 
-    def _transact(connection: Connection) -> int:
-        nonlocal insert_count
-
+    def _transact(connection: db.Connection) -> int:
         if insert_id:
             set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
         try:
@@ -2004,7 +1994,7 @@ __DB_UPDATE_________________________________________________ = ""
 
 
 def update_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -2050,7 +2040,7 @@ def update_table(
         df = df.reset_index()
 
     # Get the metadata of the table
-    metadata = create_metadata(engine, schema=schema)
+    metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = get_filtering_cols(
         engine,
@@ -2106,7 +2096,7 @@ def update_table(
 
 
 def bulk_update_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -2154,7 +2144,7 @@ def bulk_update_table(
         df = df.reset_index()
 
     # Get the metadata of the table
-    metadata = create_metadata(engine, schema=schema)
+    metadata = create_metadata(schema=schema)
     table_cols = get_cols(engine, table, metadata=metadata, schema=schema)
     filtering_cols = get_filtering_cols(
         engine,
@@ -2219,7 +2209,7 @@ __DB_UPSERT_________________________________________________ = ""
 
 
 def upsert_table(
-    engine: Engine,
+    engine: db.Engine,
     df: pd.DataFrame,
     table: str,
     *,
@@ -2346,10 +2336,10 @@ __DB_RUNNERS____________________________________________________________________
 
 
 def execute(
-    engine: Engine,
+    engine: db.Engine,
     query: Any,
     *args: Any,
-    connection: Optional[Connection] = None,
+    connection: Optional[db.Connection] = None,
     **kwargs: Any,
 ) -> Union[List[Any], int]:
     """
@@ -2381,7 +2371,7 @@ def execute(
     return result.fetchall() if result.returns_rows else result.rowcount
 
 
-def execute_on_connection(connection: Connection, query: Any, *args: Any, **kwargs: Any):
+def execute_on_connection(connection: db.Connection, query: Any, *args: Any, **kwargs: Any):
     if isinstance(query, str):
         return connection.exec_driver_sql(query, *args, **kwargs)
     return connection.execute(query, *args, **kwargs)
@@ -2390,7 +2380,7 @@ def execute_on_connection(connection: Connection, query: Any, *args: Any, **kwar
 ##############################
 
 
-def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[Any, ...]]:
+def execute_procedure(engine: db.Engine, procedure: str, *args: Any) -> List[Tuple[Any, ...]]:
     """
     Executes a stored procedure via a DB-API cursor and returns its result set (if any).
 
@@ -2425,7 +2415,7 @@ def execute_procedure(engine: Engine, procedure: str, *args: Any) -> List[Tuple[
 ##############################
 
 
-def transact(engine: Engine, f: Callable[[Connection], Any]) -> Any:
+def transact(engine: db.Engine, f: Callable[[db.Connection], Any]) -> Any:
     """Executes multiple statements in one transaction on one connection."""
     with engine.begin() as connection:
         return f(connection)
@@ -2438,8 +2428,8 @@ __DB_MIGRATE________________________________________________ = ""
 
 
 def migrate(
-    engine_from: Engine,
-    engine_to: Engine,
+    engine_from: db.Engine,
+    engine_to: db.Engine,
     tables: Iterable[str],
     *,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
@@ -2499,7 +2489,7 @@ def migrate(
 
     # Create the tables
     if drop or create:
-        metadata = create_metadata(engine_from, schema=schema)
+        metadata = create_metadata(schema=schema)
         for table in tables:
             logging.debug(
                 "Recreate" if drop and create else "Drop" if drop else "Create",
