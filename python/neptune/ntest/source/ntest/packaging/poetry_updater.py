@@ -45,7 +45,7 @@ from nconnect.network import http
 from ntest.common import DEFAULT_EXCLUDES
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
-from nutil.scalar.string import ALPHANUMERIC_CHARS, split_line
+from nutil.scalar.string import ALPHANUMERIC_CHARS, split_line, strip_line
 
 __POETRY_UPDATER_CONSTANTS________________________________________________________________ = ""
 
@@ -314,7 +314,7 @@ def extract_pypi_dependencies(pyproject_lines: List[str]) -> List[str]:
     is_in_dependencies = False
 
     for raw_line in pyproject_lines:
-        line, _ = split_line(raw_line)
+        line = strip_line(raw_line)
         stripped = line.strip()
 
         if is_dependency_section_header(stripped):
@@ -375,7 +375,7 @@ def extract_current_pins(pyproject_lines: List[str]) -> Dict[str, str]:
     is_in_dependencies = False
 
     for raw_line in pyproject_lines:
-        line, _ = split_line(raw_line)
+        line = strip_line(raw_line)
         stripped = line.strip()
 
         if is_dependency_section_header(stripped):
@@ -428,7 +428,7 @@ def extract_python_requirement(pyproject_lines: List[str]) -> Optional[str]:
     is_in_dependencies = False
 
     for raw_line in pyproject_lines:
-        line, _ = split_line(raw_line)
+        line = strip_line(raw_line)
         stripped = line.strip()
 
         if DEPENDENCY_SECTION_PATTERN.match(stripped):

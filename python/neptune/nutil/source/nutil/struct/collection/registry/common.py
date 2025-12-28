@@ -1099,9 +1099,9 @@ def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T
             – `tee`: amortized O(n) total across tees (lazy buffering).
 
     Raises:
-        ValueError: If `n` is less than 1.
+        ValueError: If `n` is non-positive.
     """
-    if n < 1:
+    if n <= 0:
         raise ValueError("'n' must be >= 1")
 
     it = create_iterator(iterable)
