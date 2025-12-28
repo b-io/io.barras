@@ -19,5 +19,8 @@ set -eu
 # 1. Ensure Poetry is available
 python -m pip install --user --upgrade pip poetry
 
-# 2. Run the test suite
+# 2. Install the project dependencies and create a lockfile
+python -m poetry lock
+
+# 3. Run the test suite
 python -m poetry run pytest test
