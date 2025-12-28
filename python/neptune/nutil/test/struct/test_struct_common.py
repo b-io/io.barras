@@ -82,7 +82,7 @@ def test_to_array_existing_array_enforces_dtype_without_copy_when_possible():
 
 
 def test_to_array_iterable_and_variadic():
-    """Verifies `to_array` converts an `Iterable` or multiple arguments into an `ndarray`."""
+    """Verifies `to_array` converts an `Iterable` or multiple arguments into a `ndarray`."""
     np.testing.assert_array_equal(to_array(range(3)), np.array([0, 1, 2]))
     np.testing.assert_array_equal(to_array(1, 2, 3), np.array([1, 2, 3]))
 

@@ -463,7 +463,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         Resolution order (base implementation):
             1) If the `Iterable` is already an instance of cls, returns it (idempotent fast-path).
             2) Try `cls(iterable)` if the constructor accepts an `Iterable`.
-            3) Try `cls(list(iterable))` as a final fallback.
+            3) Try `cls(list(iterable))` as the final fallback.
 
         Complexity:
             Let `n = len(iterable)` if known; else number of items consumed.

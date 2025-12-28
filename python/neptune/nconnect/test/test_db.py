@@ -74,19 +74,19 @@ class TestDB(Test):
         )
 
         self.assert_equals(
-            build_select_table_where_query("name", filtering_row={"A": 1}),
+            build_select_table_where_query("name", filtering_row={"A": 1}, schema="dbo"),
             'SELECT * FROM "dbo"."name" WHERE "A"=1;',
         )
         self.assert_equals(
-            build_delete_table_query("name", filtering_row={"A": 1}),
+            build_delete_table_query("name", filtering_row={"A": 1}, schema="dbo"),
             'DELETE FROM "dbo"."name" WHERE "A"=1;',
         )
         self.assert_equals(
-            build_insert_table_query("name", ["A"], {"A": 1}),
+            build_insert_table_query("name", ["A"], {"A": 1}, schema="dbo"),
             'INSERT INTO "dbo"."name" ("A") VALUES (1);',
         )
         self.assert_equals(
-            build_update_table_query("name", ["A"], {"A": 1}),
+            build_update_table_query("name", ["A"], {"A": 1}, schema="dbo"),
             'UPDATE "dbo"."name" SET "A"=1 WHERE "A"=1;',
         )
 
