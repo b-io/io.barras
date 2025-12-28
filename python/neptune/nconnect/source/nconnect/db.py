@@ -88,7 +88,7 @@ def get_full_table_name(
         schema: The schema name (defaults to `None`).
 
     Returns:
-        The formatted full table name string (e.g., `"myschema.MyTable"` or `"MyTable"` when `schema=None`).
+        The formatted full table name string (e.g., `"myschema"."MyTable"` or `"MyTable"` when `schema=None`).
     """
     return collapse(collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table))
 
@@ -261,7 +261,7 @@ def get_identity_cols(
     Returns the identity (auto-increment) column names for the specified table.
 
     Behavior:
-        • For MSSQL (`is_mssql=True`), queries `"sys.identity_columns"` for the table.
+        • For MSSQL (`is_mssql=True`), queries `"sys"."identity_columns"` for the table.
         • For non-MSSQL, returns an empty list.
 
     Args:
@@ -710,7 +710,7 @@ def build_insert_table_query(
 
     Behavior:
         • Formats identifiers via `format_cols()` and `get_full_table_name()`.
-        • Formats values via `format(…)` with dialect-aware behavior.
+        • Formats values via `format_value(…)` with dialect-aware behavior.
         • Appends a trailing semicolon.
 
     Args:
@@ -733,7 +733,7 @@ def build_insert_table_query(
             get_full_table_name(table, schema=schema),
             par(format_cols(cols)),
             "VALUES",
-            par(collist([format(row[col], is_mssql=is_mssql) for col in cols])),
+            par(collist([format_value(row[col], is_mssql=is_mssql) for col in cols])),
         )
         + ";"
     )
@@ -1061,7 +1061,7 @@ def create_metadata(
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> db.MetaData:
     """
-    Creates SQLAlchemy metadata bound to the specified engine and schema.
+    Creates SQLAlchemy metadata for the specified schema.
 
     Behavior:
         • Returns `db.MetaData(schema=schema)`.
@@ -1111,7 +1111,14 @@ def format_name(name: str) -> str:
 
     Returns:
         The formatted identifier string.
+
+    Raises:
+        ValueError: If `name` is null or empty.
     """
+    if is_null(name):
+        raise ValueError("The SQL identifier is null")
+    elif is_empty(name):
+        raise ValueError("The SQL identifier is empty")
     if "(" in name and ")" in name:
         return name
     return dquote(name)
@@ -1135,7 +1142,7 @@ def format_cols(
         suffixes: Optional suffix list aligned with the columns (e.g., `"ASC"`, `"DESC"`).
 
     Returns:
-        A comma-separated identifier list string (e.g., `"a","b" DESC`).
+        A comma-separated identifier list string (e.g., `"a" ASC, "b" DESC`).
     """
     cols = [format_name(col) for col in remove_empty(to_list(*cols))]
     if not is_null(suffixes):
@@ -1143,17 +1150,17 @@ def format_cols(
     return collist(cols)
 
 
-def format(
+def format_value(
     value: Any,
     *,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-) -> Any:
+) -> Union[float, int, str]:
     """
     Formats a Python value as a SQL literal.
 
     Behavior:
         • Null → `NULL`
-        • Structured values (collections) -> parenthesized list of formatted elements
+        • Structured values (collections) → parenthesized list of formatted elements
           - Empty collections → `(NULL)` (so `IN (NULL)` matches nothing in WHERE contexts)
           - Strings/bytes and mappings are treated as scalars
         • Booleans:
@@ -1161,7 +1168,7 @@ def format(
           - otherwise → `"TRUE"` / `"FALSE"`
         • Numbers:
           - NaN → `NULL`
-          - otherwise → the number
+          - otherwise → the number literal (unquoted)
         • Timestamps → quoted string using `DEFAULT_DATE_TIME_FORMAT` (millisecond precision)
         • Otherwise → quoted and escaped string via `escape(…)`
 
@@ -1188,7 +1195,11 @@ def format(
             return "NULL"
         return value
     elif is_timestamp(value):
-        return quote(value.strftime(DEFAULT_DATE_TIME_FORMAT)[:-3])
+        s = value.strftime(DEFAULT_DATE_TIME_FORMAT)
+        # Keep millisecond precision when the format includes microseconds
+        if len(s) >= 3:
+            s = s[:-3]
+        return quote(s)
     return quote(escape(value))
 
 
@@ -1680,10 +1691,10 @@ def select_table_where(
     verbose: bool = VERBOSE,
 ) -> pd.DataFrame:
     """
-    Selects rows from a table by building and executing a SELECT query with a WHERE clause.
+    Selects rows from a table by building and executing a SELECT query with an optional WHERE clause.
 
     Behavior:
-        • Logs the selected columns and filtering columns when `verbose=True`.
+        • Logs the selected columns and effective filtering columns when `verbose=True`.
         • When `index=True` and `index_cols` is null, uses the primary key columns as the index.
         • Executes the query built by `build_select_table_where_query(…)`.
         • When `chunk_size` is not null, aggregates chunks into a single dataframe and logs per chunk.
