@@ -22,11 +22,13 @@ from nutil.test.unittest import Test
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
 
 
-PRECISION = 14  # decimals
-SIZE = 100
-ROW_SIZE = 10000
+### GLOBALS ################################################
 
-TEST_COUNT = 10
+TEST_COUNT: int = 10
+
+PRECISION: int = 14  # decimals
+SIZE: int = 100
+ROW_SIZE: int = 10000
 
 
 __COMMON_TEST_CASES_______________________________________________________________________ = ""

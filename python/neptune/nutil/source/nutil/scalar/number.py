@@ -18,7 +18,7 @@ __NUMBER_CONSTANTS______________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default maximum number of decimals
-DEFAULT_MAX_DECIMALS = 8
+DEFAULT_MAX_DECIMALS: int = 8
 
 
 ### GLOBALS ################################################

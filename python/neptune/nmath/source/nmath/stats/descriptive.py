@@ -24,10 +24,10 @@ __DESCRIPTIVE_CONSTANTS_________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default number of points
-DEFAULT_POINT_COUNT = 100
+DEFAULT_POINT_COUNT: int = 100
 
 # The default maximum fraction of unique values (distinct points) for treating a series as discrete
-DEFAULT_DISCRETE_RELATIVE_THRESHOLD = 0.2
+DEFAULT_DISCRETE_RELATIVE_THRESHOLD: float = 0.2
 
 
 __DESCRIPTIVE_FIGURES_____________________________________________________________________ = ""

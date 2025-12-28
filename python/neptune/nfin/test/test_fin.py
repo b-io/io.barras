@@ -20,9 +20,11 @@ from nutil.test.unittest import Test
 __FIN_TEST_CONSTANTS______________________________________________________________________ = ""
 
 
-PRECISION = 14  # decimals
+### GLOBALS ################################################
 
-TEST_COUNT = 10
+TEST_COUNT: int = 10
+
+PRECISION: int = 14  # decimals
 
 
 __FIN_TEST_CASES__________________________________________________________________________ = ""

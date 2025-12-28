@@ -27,7 +27,15 @@ class Test(unittest.TestCase):
         random.seed(0)
         np.random.seed(0)
 
-    def assert_equals(self, first, second, precision=PRECISION, assert_order=False):
+    def assert_true(self, expr: Any, msg: Optional[str] = None) -> None:
+        """Asserts that `expr` is truthy."""
+        self.assertTrue(expr, msg=msg)
+
+    def assert_false(self, expr: Any, msg: Optional[str] = None) -> None:
+        """Asserts that `expr` is falsy."""
+        self.assertFalse(expr, msg=msg)
+
+    def assert_equals(self, first: Any, second: Any, precision: int = PRECISION, assert_order: bool = False) -> None:
         if is_struct(first):
             if len(np.shape(first)) > 1:
                 if assert_order:

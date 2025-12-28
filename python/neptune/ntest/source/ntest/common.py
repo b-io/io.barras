@@ -33,11 +33,11 @@ DEFAULT_EXCLUDES: List[str] = [
 
 ### GLOBALS ################################################
 
-PRECISION = 14  # decimals
-SIZE = 100
-ROW_SIZE = 10000
+TEST_COUNT: int = 10
 
-TEST_COUNT = 10
+PRECISION: int = 14  # decimals
+SIZE: int = 100
+ROW_SIZE: int = 10000
 
 
 __COMMON_TEST_PROCESSORS__________________________________________________________________ = ""

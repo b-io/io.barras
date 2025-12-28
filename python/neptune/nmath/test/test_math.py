@@ -25,8 +25,10 @@ from nutil.test.unittest import Test
 __MATH_TEST_CONSTANTS_____________________________________________________________________ = ""
 
 
-PRECISION = 14  # decimals
-SIZE = 1000
+### GLOBALS ################################################
+
+PRECISION: int = 14  # decimals
+SIZE: int = 1000
 
 
 __MATH_TEST_CASES_________________________________________________________________________ = ""

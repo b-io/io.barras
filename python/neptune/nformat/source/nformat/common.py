@@ -10,6 +10,8 @@
 
 from __future__ import annotations
 
+from typing import Optional, Union
+
 from nformat.color import TRANSPARENT
 from nutil.struct.util import get_iterator
 
@@ -19,13 +21,13 @@ __COMMON_FORMAT_CONSTANTS_______________________________________________________
 ### DEFAULTS ###############################################
 
 # The default scale
-DEFAULT_SCALE = 1  # the higher, the better quality
+DEFAULT_SCALE: Optional[Union[float, int]] = 1  # the higher, the better quality
 
 # The default width
-DEFAULT_WIDTH = 660
+DEFAULT_WIDTH: int = 660
 
 # The default height
-DEFAULT_HEIGHT = 933
+DEFAULT_HEIGHT: int = 933
 
 # The default margin (left, right, bottom and top) defined by the ratio to the width or height
 DEFAULT_MARGIN = dict(l=0, r=0, b=0, t=0)
@@ -34,13 +36,13 @@ DEFAULT_MARGIN_WITH_TITLE = dict(l=0.05, r=0.05, b=0.05, t=0.05)
 ##############################
 
 # The default font size
-DEFAULT_FONT_SIZE = 12
+DEFAULT_FONT_SIZE: int = 12
 
 # The default line width
-DEFAULT_LINE_WIDTH = 2
+DEFAULT_LINE_WIDTH: int = 2
 
 # The default marker size
-DEFAULT_MARKER_SIZE = 4
+DEFAULT_MARKER_SIZE: int = 4
 
 ##############################
 

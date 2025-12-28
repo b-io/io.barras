@@ -92,7 +92,7 @@ __CONFIG_ACCESSORS______________________________________________________________
 TEnum = TypeVar("TEnum")
 
 
-def get_config_path(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> str:
+def get_config_path(filename: str, dir: Optional[str] = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> str:
     """
     Returns the path to the properties with the specified `filename` in the specified directory.
 
@@ -250,7 +250,7 @@ def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
 __CONFIG_LOADERS__________________________________________________________________________ = ""
 
 
-def load_config(filename: str, dir: str = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> List[str]:
+def load_config(filename: str, dir: Optional[str] = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> List[str]:
     """
     Loads the properties with the specified `filename` in the specified directory.
 

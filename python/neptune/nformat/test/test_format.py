@@ -90,15 +90,15 @@ class TestFormat(Test):
 
     def evaluate_colorfulness(self, image):
         t = timed(stmt=lambda: evaluate_colorfulness(image), number=TEST_COUNT)
-        logging.info("Evaluate the colorfulness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        logging.info("Evaluate the colorfulness of an image", TEST_COUNT, "times in", round(t), "[s]")
 
     def evaluate_brightness(self, image):
         t = timed(stmt=lambda: evaluate_brightness(image), number=TEST_COUNT)
-        logging.info("Evaluate the brightness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        logging.info("Evaluate the brightness of an image", TEST_COUNT, "times in", round(t), "[s]")
 
     def evaluate_blurriness(self, image):
         t = timed(stmt=lambda: evaluate_blurriness(image), number=TEST_COUNT)
-        logging.info("Evaluate the blurriness of an image", 10 * TEST_COUNT, "times in", round(t), "[s]")
+        logging.info("Evaluate the blurriness of an image", TEST_COUNT, "times in", round(t), "[s]")
 
 
 __FORMAT_TEST_RUNNERS_____________________________________________________________________ = ""

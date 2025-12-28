@@ -28,7 +28,7 @@ __CLUSTERING_CONSTANTS__________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default maximum number of iterations
-DEFAULT_MAX_ITERATION_COUNT = 1000
+DEFAULT_MAX_ITERATION_COUNT: int = 1000
 
 
 __CLUSTERING_FACTORIES____________________________________________________________________ = ""

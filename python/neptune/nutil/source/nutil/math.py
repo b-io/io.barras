@@ -16,13 +16,13 @@ from nutil.struct.util import *
 __MATH_CONSTANTS__________________________________________________________________________ = ""
 
 
-E = np.e
-PI = np.pi
+E: float = np.e
+PI: float = np.pi
 
 ##############################
 
-DEG_TO_RAD = PI / 180
-RAD_TO_DEG = 180 / PI
+DEG_TO_RAD: float = PI / 180
+RAD_TO_DEG: float = 180 / PI
 
 
 __MATH_PROCESSORS_________________________________________________________________________ = ""

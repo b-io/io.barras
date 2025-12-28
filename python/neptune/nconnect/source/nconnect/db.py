@@ -26,20 +26,20 @@ __DB_CONSTANTS__________________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default flag specifying whether the DB is Microsoft SQL Server
-DEFAULT_IS_MSSQL = True
+DEFAULT_IS_MSSQL: bool = True
 
 # The default schema
-DEFAULT_SCHEMA = None
+DEFAULT_SCHEMA: Optional[str] = None
 
 ##############################
 
 # The default chunk size
-DEFAULT_CHUNK_SIZE = 100
+DEFAULT_CHUNK_SIZE: int = 100
 
 ##############################
 
 # The default debug interval
-DEFAULT_DEBUG_INTERVAL = 1000
+DEFAULT_DEBUG_INTERVAL: int = 1000
 
 
 __DB_TYPES________________________________________________________________________________ = ""

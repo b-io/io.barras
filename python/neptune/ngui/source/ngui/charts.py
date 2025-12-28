@@ -33,7 +33,7 @@ __CHART_CONSTANTS_______________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default tick length
-DEFAULT_TICK_LENGTH = 4
+DEFAULT_TICK_LENGTH: int = 4
 
 # The default tick direction
 DEFAULT_TICK_DIRECTION = "outside"

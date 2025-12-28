@@ -98,7 +98,7 @@ def test_final_singleton_meta_creates_single_instance_and_ignores_extra_args() -
 
 def test_final_singleton_meta_attribute_forwarding_and_not_initialized_error() -> None:
     class FinalConfig(metaclass=FinalSingletonMeta):
-        CONST = 42
+        CONST: int = 42
 
         def __init__(self, value: int) -> None:
             self.value = value
@@ -118,7 +118,7 @@ def test_final_singleton_meta_attribute_forwarding_and_not_initialized_error() -
 
 def test_final_singleton_meta_dict_is_merged_and_readonly() -> None:
     class FinalConfig(metaclass=FinalSingletonMeta):
-        CONST = 100
+        CONST: int = 100
         shadowed = "class"
 
         def __init__(self) -> None:
@@ -175,7 +175,7 @@ def test_singleton_meta_creates_and_recreates_instance_via_call() -> None:
 
 def test_singleton_meta_attribute_forwarding_and_implicit_creation() -> None:
     class Service(metaclass=SingletonMeta):
-        CONST = 7
+        CONST: int = 7
 
         def __init__(self, value: int = 0) -> None:
             self.value = value
@@ -197,7 +197,7 @@ def test_singleton_meta_attribute_forwarding_and_implicit_creation() -> None:
 
 def test_singleton_meta_dict_is_merged_and_readonly() -> None:
     class Service(metaclass=SingletonMeta):
-        CONST = 1
+        CONST: int = 1
         shadowed = "class"
 
         def __init__(self) -> None:
@@ -288,7 +288,7 @@ def test_temp_singleton_meta_attribute_forwarding_uses_auto_refresh() -> None:
         return current_time
 
     class TempService(metaclass=TempSingletonMeta):
-        CONST = 9
+        CONST: int = 9
 
         def __init__(self, value: int) -> None:
             self.value = value
@@ -318,7 +318,7 @@ def test_temp_singleton_meta_dict_is_merged_and_readonly() -> None:
         return current_time
 
     class TempService(metaclass=TempSingletonMeta):
-        CONST = 10
+        CONST: int = 10
         shadowed = "class"
 
         def __init__(self) -> None:

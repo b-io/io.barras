@@ -27,7 +27,7 @@ __NLP_CONSTANTS_________________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default maximum number of words
-DEFAULT_MAX_WORD_COUNT = 20
+DEFAULT_MAX_WORD_COUNT: int = 20
 
 
 __NLP_CLASSES_____________________________________________________________________________ = ""
