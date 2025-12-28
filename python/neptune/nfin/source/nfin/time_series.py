@@ -659,7 +659,7 @@ def transform_series(
         series: The input `pd.Series` with a datetime-like index.
         method: The frequency-conversion fill method (`"pad"|"ffill"|"backfill"|"bfill"`); `None` to skip.
         how: The `PeriodIndex` anchor (`"start"|"end"`) during conversion; ignored for `DatetimeIndex`.
-        normalize: If `True`, resets timestamps to midnight during conversion.
+        normalize: When `True`, resets timestamps to midnight during conversion.
         fill_value: The value inserted in missing positions during upsampling (existing NaNs are preserved).
         clean: Whether to remove null values before processing.
         sort: Whether to sort by the datetime index before processing.

@@ -26,6 +26,13 @@ DEFAULT_MAX_DECIMALS: int = 8
 EPS = np.finfo(FLOAT_TYPE).eps
 
 
+__NUMBER_VALIDATORS_______________________________________________________________________ = ""
+
+
+def equals(x, y):
+    return is_null(x) and is_null(y) or x == y
+
+
 __NUMBER_CONVERTERS_______________________________________________________________________ = ""
 
 
@@ -148,10 +155,3 @@ def farthest(s, value):
 
         return get(s, abs(s - value).argmax())
     return max(to_list(s), key=lambda x: abs(x - value))
-
-
-__NUMBER_VALIDATORS_______________________________________________________________________ = ""
-
-
-def equals(x, y):
-    return is_null(x) and is_null(y) or x == y

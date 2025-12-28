@@ -160,50 +160,6 @@ def get_diffs_with_pattern(
     return out
 
 
-__COMMON_COMPARATOR_PROCESSORS____________________________________________________________ = ""
-
-
-def sub(
-    pattern: str,
-    replacement: Union[str, Callable[[Match[str]], str]],
-    old: str,
-    flags: int = 0,
-    label: str = "",
-) -> str:
-    """
-    Substitutes the regex matches with the replacement while logging the compact previews of the changes.
-
-    Strategy:
-        1) Compiles the pattern with the flags.
-        2) If there is at least one match, emits the preview snippets via `get_diffs_with_pattern`.
-        3) Performs the actual substitution once with `re.sub`.
-
-    Args:
-        pattern: The regular-expression pattern.
-        replacement: The replacement string (supports backreferences) or a callable.
-        old: The original text to transform.
-        flags: The regex flags to pass to `re.compile`.
-        label: The optional label to include in the log messages.
-
-    Returns:
-        The transformed string with all substitutions applied.
-    """
-    pattern: re.Pattern[str] = re.compile(pattern, flags)
-
-    # Peek first to decide whether to log
-    if not pattern.search(old):
-        return old
-
-    # Show the change snippets
-    for snippet in get_diffs_with_pattern(old, pattern, replacement):
-        logging.warning("[clean:%s] %s", label or pattern, snippet)
-
-    # Perform the actual substitution once
-    new, n = pattern.subn(replacement, old)
-    logging.debug("[clean:%s] number of replacements: %d", label or pattern, n)
-    return new
-
-
 __COMMON_COMPARATOR_VALIDATORS____________________________________________________________ = ""
 
 
@@ -237,7 +193,7 @@ def is_acceptable_diff(
         acceptable_replacements: Set of `(from_str, to_str)` tuples representing acceptable
             character replacements. For example, `{("en", "t"), ("t", "en")}` would allow
             bidirectional `"en"` <-> `"t"` substitutions.
-        case_sensitive: If `False` (default), comparison is done using `casefold()` for
+        case_sensitive: When `False` (default), comparison is done using `casefold()` for
             Unicode-aware case-insensitive matching. If `True`, comparison is case-sensitive.
 
     Returns:
@@ -296,3 +252,47 @@ def is_acceptable_diff(
             else:
                 return False
     return True
+
+
+__COMMON_COMPARATOR_PROCESSORS____________________________________________________________ = ""
+
+
+def sub(
+    pattern: str,
+    replacement: Union[str, Callable[[Match[str]], str]],
+    old: str,
+    flags: int = 0,
+    label: str = "",
+) -> str:
+    """
+    Substitutes the regex matches with the replacement while logging the compact previews of the changes.
+
+    Strategy:
+        1) Compiles the pattern with the flags.
+        2) If there is at least one match, emits the preview snippets via `get_diffs_with_pattern`.
+        3) Performs the actual substitution once with `re.sub`.
+
+    Args:
+        pattern: The regular-expression pattern.
+        replacement: The replacement string (supports backreferences) or a callable.
+        old: The original text to transform.
+        flags: The regex flags to pass to `re.compile`.
+        label: The optional label to include in the log messages.
+
+    Returns:
+        The transformed string with all substitutions applied.
+    """
+    pattern: re.Pattern[str] = re.compile(pattern, flags)
+
+    # Peek first to decide whether to log
+    if not pattern.search(old):
+        return old
+
+    # Show the change snippets
+    for snippet in get_diffs_with_pattern(old, pattern, replacement):
+        logging.warning("[clean:%s] %s", label or pattern, snippet)
+
+    # Perform the actual substitution once
+    new, n = pattern.subn(replacement, old)
+    logging.debug("[clean:%s] number of replacements: %d", label or pattern, n)
+    return new

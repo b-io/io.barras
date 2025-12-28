@@ -31,6 +31,19 @@ __IMAGE_CONSTANTS_______________________________________________________________
 DEFAULT_IMAGE_MODE = cv2.IMREAD_UNCHANGED
 
 
+__IMAGE_VALIDATORS________________________________________________________________________ = ""
+
+
+def is_svg(
+    x: Any,
+    *,
+    # Read
+    encoding: str = DEFAULT_ENCODING,
+) -> bool:
+    """Returns whether `x` is an SVG image."""
+    return is_string(x) and x[1:4] == FileType.SVG.encode(encoding)
+
+
 __IMAGE_PROCESSORS________________________________________________________________________ = ""
 
 
@@ -198,16 +211,3 @@ def show_image(buffer, title="Image"):
 
 def write_image(path, buffer):
     return cv2.imwrite(path, buffer)
-
-
-__IMAGE_VALIDATORS________________________________________________________________________ = ""
-
-
-def is_svg(
-    x: Any,
-    *,
-    # Read
-    encoding: str = DEFAULT_ENCODING,
-) -> bool:
-    """Returns whether `x` is an SVG image."""
-    return is_string(x) and x[1:4] == FileType.SVG.encode(encoding)

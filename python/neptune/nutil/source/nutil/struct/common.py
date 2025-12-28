@@ -35,6 +35,91 @@ Value = Any
 Axis = Union[int, str]  # `{0, 1, "index", "columns"}`
 
 
+__COMMON_STRUCT_ACCESSORS_________________________________________________________________ = ""
+
+
+def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
+    """
+    Normalizes an axis specifier to its integer form.
+
+    Dispatch:
+        • 0 or "index"      → 0  (row axis)
+        • 1 or "columns"    → 1  (column axis)
+    """
+    if axis is None:
+        return None
+    return 0 if axis in (0, "index") else 1
+
+
+__COMMON_STRUCT_VALIDATORS________________________________________________________________ = ""
+
+
+def is_struct(x: Any) -> bool:
+    """Returns whether `x` is a structure (a collection, a table, or a `tuple`)."""
+    return is_collection(x) or is_table(x) or is_tuple(x)
+
+
+def is_struct_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is a structure type (a collection, a table, or a `tuple`)."""
+    return is_collection_type(t) or is_table_type(t) or is_tuple_type(t)
+
+
+##############################
+
+
+def is_multidimensional(x: Any) -> bool:
+    """Returns whether `x` is multidimensional (a Pandas table or a NumPy array)."""
+    return is_table(x) or is_array(x)
+
+
+def is_subscriptable(x: Any) -> bool:
+    """Returns whether `x` is subscriptable (defines `__getitem__`)."""
+    return has_callable(x, "__getitem__")
+
+
+############################################################
+
+
+def has_index(s):
+    return is_array(s) or is_index(s) or is_sequence(s)
+
+
+##############################
+
+
+def compare_length(x: Any, n: int, op) -> bool:
+    """
+    Compares the length of a collection to a specified number using the given operator.
+    Returns `False` if `x` is not a valid collection or has no length.
+    """
+    if is_element(x):
+        return False
+    try:
+        return op(len(x), n)
+    except TypeError:
+        return False
+
+
+def has_length_ge(x: Any, n: int = 1) -> bool:
+    """Returns whether `len(x) >= n` and `x` is a collection."""
+    return compare_length(x, n, operator.ge)
+
+
+def has_length_gt(x: Any, n: int = 1) -> bool:
+    """Returns whether `len(x) > n` and `x` is a collection."""
+    return compare_length(x, n, operator.gt)
+
+
+def has_length_le(x: Any, n: int = 1) -> bool:
+    """Returns whether `len(x) <= n` and `x` is a collection."""
+    return compare_length(x, n, operator.le)
+
+
+def has_length_lt(x: Any, n: int = 1) -> bool:
+    """Returns whether `len(x) < n` and `x` is a collection."""
+    return compare_length(x, n, operator.lt)
+
+
 __COMMON_STRUCT_CONVERTERS________________________________________________________________ = ""
 
 
@@ -312,88 +397,3 @@ def to_tuple(*args: Any) -> Tuple[Any, ...]:
         return (arg,)
     # Convert the arguments
     return tuple(args)
-
-
-__COMMON_STRUCT_PROCESSORS________________________________________________________________ = ""
-
-
-def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
-    """
-    Normalizes an axis specifier to its integer form.
-
-    Dispatch:
-        • 0 or "index"      → 0  (row axis)
-        • 1 or "columns"    → 1  (column axis)
-    """
-    if axis is None:
-        return None
-    return 0 if axis in (0, "index") else 1
-
-
-__COMMON_STRUCT_VALIDATORS________________________________________________________________ = ""
-
-
-def is_struct(x: Any) -> bool:
-    """Returns whether `x` is a structure (a collection, a table, or a `tuple`)."""
-    return is_collection(x) or is_table(x) or is_tuple(x)
-
-
-def is_struct_type(t: Type[Any]) -> bool:
-    """Returns whether `t` is a structure type (a collection, a table, or a `tuple`)."""
-    return is_collection_type(t) or is_table_type(t) or is_tuple_type(t)
-
-
-##############################
-
-
-def is_multidimensional(x: Any) -> bool:
-    """Returns whether `x` is multidimensional (a Pandas table or a NumPy array)."""
-    return is_table(x) or is_array(x)
-
-
-def is_subscriptable(x: Any) -> bool:
-    """Returns whether `x` is subscriptable (defines `__getitem__`)."""
-    return has_callable(x, "__getitem__")
-
-
-############################################################
-
-
-def has_index(s):
-    return is_array(s) or is_index(s) or is_sequence(s)
-
-
-##############################
-
-
-def compare_length(x: Any, n: int, op) -> bool:
-    """
-    Compares the length of a collection to a specified number using the given operator.
-    Returns `False` if `x` is not a valid collection or has no length.
-    """
-    if is_element(x):
-        return False
-    try:
-        return op(len(x), n)
-    except TypeError:
-        return False
-
-
-def has_length_ge(x: Any, n: int = 1) -> bool:
-    """Returns whether `len(x) >= n` and `x` is a collection."""
-    return compare_length(x, n, operator.ge)
-
-
-def has_length_gt(x: Any, n: int = 1) -> bool:
-    """Returns whether `len(x) > n` and `x` is a collection."""
-    return compare_length(x, n, operator.gt)
-
-
-def has_length_le(x: Any, n: int = 1) -> bool:
-    """Returns whether `len(x) <= n` and `x` is a collection."""
-    return compare_length(x, n, operator.le)
-
-
-def has_length_lt(x: Any, n: int = 1) -> bool:
-    """Returns whether `len(x) < n` and `x` is a collection."""
-    return compare_length(x, n, operator.lt)

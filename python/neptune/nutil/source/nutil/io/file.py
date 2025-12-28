@@ -66,6 +66,9 @@ def get_encoding(file_handler: HasHeaders, *, default: str = DEFAULT_ENCODING) -
     return normalize_encoding(encoding, default=default)
 
 
+##############################
+
+
 def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str:
     """
     Normalizes and validates `encoding`, falling back to `default` when invalid.
@@ -183,6 +186,123 @@ def to_relative_posix_path(path: Union[str, Path], root: Path) -> str:
     """
     rel_path = os.path.relpath(str(path), str(root))
     return "" if rel_path == "." else rel_path.replace("\\", "/")
+
+
+__FILE_VALIDATORS_________________________________________________________________________ = ""
+
+
+def is_case_sensitive(case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Normalizes `case_sensitive` into a boolean using a platform default when `None`.
+
+    Args:
+        case_sensitive: The explicit case sensitivity flag, or `None` for the platform default.
+
+    Returns:
+        `True` if matching is case-sensitive; otherwise `False`.
+    """
+    if is_null(case_sensitive):
+        return os.name != "nt"
+    return bool(case_sensitive)
+
+
+### GLOBS ##################################################
+
+
+def match_glob(rel_path: str, pattern: str, *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Matches `rel_path` against `pattern` with optional case-insensitive behavior.
+
+    Args:
+        rel_path: The POSIX relative path.
+        pattern: The glob pattern.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the pattern matches; otherwise `False`.
+    """
+    if is_case_sensitive(case_sensitive):
+        return fnmatch.fnmatchcase(rel_path, pattern)
+    return fnmatch.fnmatchcase(rel_path.casefold(), pattern.casefold())
+
+
+def match_any_globs(rel_path: str, patterns: Iterable[str], *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Matches a POSIX relative path against any of the glob patterns.
+
+    Args:
+        rel_path: The relative path (uses the POSIX separators).
+        patterns: The iterable of glob patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if at least one pattern matches; otherwise `False`.
+    """
+    for pattern in patterns:
+        if match_glob(rel_path, pattern, case_sensitive=case_sensitive):
+            return True
+        # Treat `"**/"` as optional so the root-level files match `"**/*.ext"`
+        if pattern.startswith("**/") and match_glob(rel_path, pattern[3:], case_sensitive=case_sensitive):
+            return True
+    return False
+
+
+##############################
+
+
+def exclude_dir(rel_dir: str, exclude: List[str], *, case_sensitive: Optional[bool] = None) -> bool:
+    """
+    Decides whether a directory should be pruned based on the exclude glob patterns.
+
+    Notes:
+        • Appends a trailing slash to make `"**/dir/**"`-style patterns work reliably.
+
+    Args:
+        rel_dir: The POSIX-style relative directory path (e.g., `"src/pkg"` or `"src/pkg/"`).
+        exclude: The list of exclude patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the directory should be skipped (pruned); otherwise `False`.
+    """
+    rel_path = rel_dir.rstrip("/") + "/"
+    return match_any_globs(rel_path, exclude, case_sensitive=case_sensitive)
+
+
+def exclude_file(
+    rel_path: str, exclude: List[str], include: List[str], *, case_sensitive: Optional[bool] = None
+) -> bool:
+    """
+    Decides whether a file should be excluded based on the include/exclude glob patterns.
+
+    Args:
+        rel_path: The POSIX-style relative path (e.g., `"src/pkg/mod.py"`).
+        exclude: The list of exclude patterns.
+        include: The list of include patterns.
+        case_sensitive: The case sensitivity flag (`None` for the platform default).
+
+    Returns:
+        `True` if the file should be skipped; otherwise `False`.
+    """
+    if include and not match_any_globs(rel_path, include, case_sensitive=case_sensitive):
+        return True
+    if exclude and match_any_globs(rel_path, exclude, case_sensitive=case_sensitive):
+        return True
+    return False
+
+
+### PATHS ##################################################
+
+
+def is_url(path: Union[str, Path]) -> bool:
+    """Indicates whether `path` is a URL string."""
+    if not isinstance(path, str):
+        return False
+    try:
+        scheme = urlparse(path).scheme.lower()
+    except Exception:
+        return False
+    return scheme in {"http", "https"}
 
 
 __FILE_BUILDERS___________________________________________________________________________ = ""
@@ -1147,120 +1267,3 @@ def write_text(
         backup=backup,
         backup_dir=backup_dir,
     )
-
-
-__FILE_VALIDATORS_________________________________________________________________________ = ""
-
-
-def is_case_sensitive(case_sensitive: Optional[bool] = None) -> bool:
-    """
-    Normalizes `case_sensitive` into a boolean using a platform default when `None`.
-
-    Args:
-        case_sensitive: The explicit case sensitivity flag, or `None` for the platform default.
-
-    Returns:
-        `True` if matching is case-sensitive; otherwise `False`.
-    """
-    if is_null(case_sensitive):
-        return os.name != "nt"
-    return bool(case_sensitive)
-
-
-### GLOBS ##################################################
-
-
-def match_glob(rel_path: str, pattern: str, *, case_sensitive: Optional[bool] = None) -> bool:
-    """
-    Matches `rel_path` against `pattern` with optional case-insensitive behavior.
-
-    Args:
-        rel_path: The POSIX relative path.
-        pattern: The glob pattern.
-        case_sensitive: The case sensitivity flag (`None` for the platform default).
-
-    Returns:
-        `True` if the pattern matches; otherwise `False`.
-    """
-    if is_case_sensitive(case_sensitive):
-        return fnmatch.fnmatchcase(rel_path, pattern)
-    return fnmatch.fnmatchcase(rel_path.casefold(), pattern.casefold())
-
-
-def match_any_globs(rel_path: str, patterns: Iterable[str], *, case_sensitive: Optional[bool] = None) -> bool:
-    """
-    Matches a POSIX relative path against any of the glob patterns.
-
-    Args:
-        rel_path: The relative path (uses the POSIX separators).
-        patterns: The iterable of glob patterns.
-        case_sensitive: The case sensitivity flag (`None` for the platform default).
-
-    Returns:
-        `True` if at least one pattern matches; otherwise `False`.
-    """
-    for pattern in patterns:
-        if match_glob(rel_path, pattern, case_sensitive=case_sensitive):
-            return True
-        # Treat `"**/"` as optional so the root-level files match `"**/*.ext"`
-        if pattern.startswith("**/") and match_glob(rel_path, pattern[3:], case_sensitive=case_sensitive):
-            return True
-    return False
-
-
-##############################
-
-
-def exclude_dir(rel_dir: str, exclude: List[str], *, case_sensitive: Optional[bool] = None) -> bool:
-    """
-    Decides whether a directory should be pruned based on the exclude glob patterns.
-
-    Notes:
-        • Appends a trailing slash to make `"**/dir/**"`-style patterns work reliably.
-
-    Args:
-        rel_dir: The POSIX-style relative directory path (e.g., `"src/pkg"` or `"src/pkg/"`).
-        exclude: The list of exclude patterns.
-        case_sensitive: The case sensitivity flag (`None` for the platform default).
-
-    Returns:
-        `True` if the directory should be skipped (pruned); otherwise `False`.
-    """
-    rel_path = rel_dir.rstrip("/") + "/"
-    return match_any_globs(rel_path, exclude, case_sensitive=case_sensitive)
-
-
-def exclude_file(
-    rel_path: str, exclude: List[str], include: List[str], *, case_sensitive: Optional[bool] = None
-) -> bool:
-    """
-    Decides whether a file should be excluded based on the include/exclude glob patterns.
-
-    Args:
-        rel_path: The POSIX-style relative path (e.g., `"src/pkg/mod.py"`).
-        exclude: The list of exclude patterns.
-        include: The list of include patterns.
-        case_sensitive: The case sensitivity flag (`None` for the platform default).
-
-    Returns:
-        `True` if the file should be skipped; otherwise `False`.
-    """
-    if include and not match_any_globs(rel_path, include, case_sensitive=case_sensitive):
-        return True
-    if exclude and match_any_globs(rel_path, exclude, case_sensitive=case_sensitive):
-        return True
-    return False
-
-
-### PATHS ##################################################
-
-
-def is_url(path: Union[str, Path]) -> bool:
-    """Indicates whether `path` is a URL string."""
-    if not isinstance(path, str):
-        return False
-    try:
-        scheme = urlparse(path).scheme.lower()
-    except Exception:
-        return False
-    return scheme in {"http", "https"}

@@ -976,53 +976,6 @@ MAPPING_TYPE = ABCMapping
 MUTABLE_MAPPING_TYPE = ABCMutableMapping
 
 
-__COMMON_COLLECTION_REGISTRY_GENERATORS___________________________________________________ = ""
-
-
-def create_iterator(x: Any, *, target_type: Union[Type[Any], str] = "object") -> Iterator[Any]:
-    """
-    Returns an `Iterator` over `x`.
-
-    Complexity:
-        Typically O(1) to obtain the iterator; traversal O(n).
-
-    Raises:
-        TypeError: If `x` is not iterable.
-    """
-    try:
-        return iter(x)
-    except TypeError as e:
-        name = target_type if isinstance(target_type, str) else getattr(target_type, "__name__", str(target_type))
-        raise TypeError(f"'{name}' expects an 'Iterable', not '{type(x).__name__}'") from e
-
-
-def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T], ...]:
-    """
-    Returns `n` safe iterables; replicates only if the specified `Iterable` is single-pass.
-
-    Notes:
-        • Single-pass (`Iterator` is its own `Iterable`): returns `n` independent tees.
-        • Re-iterable: returns the same iterable reference repeated `n` times.
-
-    Complexity:
-        • Creation: O(1).
-        • Consumption:
-            – Re-iterable: inherent O(n) as consumed.
-            – `tee`: amortized O(n) total across tees (lazy buffering).
-
-    Raises:
-        ValueError: If `n` is less than 1.
-    """
-    if n < 1:
-        raise ValueError("'n' must be >= 1")
-
-    it = create_iterator(iterable)
-    # Single-pass check by identity (if `create_iterator(x) is x`, then `x` is its own `Iterator`)
-    if it is iterable:
-        return itertools.tee(it, n)  # produces `n` independent `Iterator` (to avoid consuming `it`)
-    return (iterable,) * n  # reuses the same re-`Iterable` reference `n` times
-
-
 __COMMON_COLLECTION_REGISTRY_VALIDATORS___________________________________________________ = ""
 
 
@@ -1109,3 +1062,50 @@ def has_callable(x: Any, attribute: str) -> bool:
             return df.to_dict()
     """
     return callable(getattr(x, attribute, None))
+
+
+__COMMON_COLLECTION_REGISTRY_GENERATORS___________________________________________________ = ""
+
+
+def create_iterator(x: Any, *, target_type: Union[Type[Any], str] = "object") -> Iterator[Any]:
+    """
+    Returns an `Iterator` over `x`.
+
+    Complexity:
+        Typically O(1) to obtain the iterator; traversal O(n).
+
+    Raises:
+        TypeError: If `x` is not iterable.
+    """
+    try:
+        return iter(x)
+    except TypeError as e:
+        name = target_type if isinstance(target_type, str) else getattr(target_type, "__name__", str(target_type))
+        raise TypeError(f"'{name}' expects an 'Iterable', not '{type(x).__name__}'") from e
+
+
+def create_safe_iterables(iterable: Iterable[T], n: int = 2) -> Tuple[Iterable[T], ...]:
+    """
+    Returns `n` safe iterables; replicates only if the specified `Iterable` is single-pass.
+
+    Notes:
+        • Single-pass (`Iterator` is its own `Iterable`): returns `n` independent tees.
+        • Re-iterable: returns the same iterable reference repeated `n` times.
+
+    Complexity:
+        • Creation: O(1).
+        • Consumption:
+            – Re-iterable: inherent O(n) as consumed.
+            – `tee`: amortized O(n) total across tees (lazy buffering).
+
+    Raises:
+        ValueError: If `n` is less than 1.
+    """
+    if n < 1:
+        raise ValueError("'n' must be >= 1")
+
+    it = create_iterator(iterable)
+    # Single-pass check by identity (if `create_iterator(x) is x`, then `x` is its own `Iterator`)
+    if it is iterable:
+        return itertools.tee(it, n)  # produces `n` independent `Iterator` (to avoid consuming `it`)
+    return (iterable,) * n  # reuses the same re-`Iterable` reference `n` times

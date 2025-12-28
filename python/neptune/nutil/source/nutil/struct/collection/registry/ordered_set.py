@@ -551,6 +551,19 @@ __ORDERED_SET_TYPES_____________________________________________________________
 ORDERED_SET_TYPE = OrderedSet
 
 
+__ORDERED_SET_VALIDATORS__________________________________________________________________ = ""
+
+
+def is_ordered_set(x: Any) -> bool:
+    """Returns whether `x` is an `OrderedSet`."""
+    return isinstance(x, ORDERED_SET_TYPE)
+
+
+def is_ordered_set_type(t: Type[Any]) -> bool:
+    """Returns whether `t` is an `OrderedSet` type."""
+    return issubclass(t, ORDERED_SET_TYPE)
+
+
 __ORDERED_SET_CONVERTERS__________________________________________________________________ = ""
 
 
@@ -625,16 +638,3 @@ def exclude_ordered_set(s: Iterable[T], exclusion: Iterable[T]) -> OrderedSet[T]
         See `filter_ordered_set`; typically O(|s| + |exclusion|).
     """
     return filter_ordered_set(s, exclusion=exclusion)
-
-
-__ORDERED_SET_VALIDATORS__________________________________________________________________ = ""
-
-
-def is_ordered_set(x: Any) -> bool:
-    """Returns whether `x` is an `OrderedSet`."""
-    return isinstance(x, ORDERED_SET_TYPE)
-
-
-def is_ordered_set_type(t: Type[Any]) -> bool:
-    """Returns whether `t` is an `OrderedSet` type."""
-    return issubclass(t, ORDERED_SET_TYPE)

@@ -179,6 +179,9 @@ def get_extension(path: str = ".") -> str:
     return os.path.splitext(get_path(path))[1][1:]
 
 
+##############################
+
+
 def format_dir(dir: Optional[str]) -> str:
     """Returns `dir` normalized with exactly one trailing slash; returns `""` if falsy."""
     if is_empty(dir):
@@ -186,139 +189,6 @@ def format_dir(dir: Optional[str]) -> str:
     if dir[-1:] in ("/", "\\"):
         dir = dir[:-1]
     return dir + "/"
-
-
-__COMMON_IO_FINDERS_________________________________________ = ""
-
-
-def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
-    """
-    Returns a candidate absolute path for `filename`, optionally within `dir` and `subdir`.
-
-    If `dir` is null, searches upward from the current directory until root, stopping when
-    `filename` exists inside `subdir`. If not found, returns the last candidate path at root.
-    """
-    if is_null(dir):
-        dir = get_dir(get_path())
-        while (not is_file(format_dir(dir) + format_dir(subdir) + filename)) and (not is_root(dir)):
-            dir = get_dir(dir, parent=True)
-    elif is_file(dir):
-        dir = get_dir(dir)
-    return format_dir(dir) + format_dir(subdir) + filename
-
-
-__COMMON_PROCESSORS_______________________________________________________________________ = ""
-
-
-def deep_hash(x: Any, default: int = 0) -> int:
-    """
-    Returns the structural hash value of `x`.
-
-    Uses a recursive strategy for containers so that unhashable but structurally
-    equal objects (like lists, dicts, nested structures) produce the same hash.
-    """
-    # Explicit `None` handling
-    if is_null(x):
-        return default
-
-    # Use a callable `hash` method on `x` if present
-    elif has_callable(x, "hash"):
-        return x.hash()
-
-    # Handle scalars: delegate directly to the built-in hash
-    elif is_scalar(x):
-        return builtins.hash(x)
-
-    # Handle mappings: order-independent, recurse on keys and values
-    elif is_mapping(x):
-        # (key_hash, value_hash) pairs, sorted by key_hash for stability
-        items = tuple(sorted((deep_hash(k, default), deep_hash(v, default)) for k, v in x.items()))
-        # Include the type to avoid collisions between different mapping types
-        return builtins.hash((type(x), items))
-
-    # Handle tuples: order-dependent, recurse on elements
-    elif is_tuple(x):
-        return builtins.hash(tuple(deep_hash(v, default) for v in x))
-
-    # Handle other iterables (lists, sets, etc.): order-dependent but type-tagged
-    elif is_iterable(x):
-        return builtins.hash((type(x), tuple(deep_hash(v, default) for v in x)))
-
-    # Fall back to the built-in hash or to a type-tagged representation
-    try:
-        return builtins.hash(x)
-    except TypeError:
-        return builtins.hash((type(x).__qualname__, repr(x)))
-
-
-def forward(*args: Any) -> Any:
-    """
-    Returns the single argument if one is specified; otherwise returns the `list` of arguments.
-    """
-    if len(args) == 1:
-        return args[0]
-    return list(args)
-
-
-def forward_element(*args: Any) -> Any:
-    """
-    Returns the single argument if one is specified; otherwise returns the `tuple` of arguments.
-    """
-    if len(args) == 1:
-        return args[0]
-    return tuple(args)
-
-
-def invert(x: Any) -> Any:
-    """Returns the logical negation of `x` using `numpy.logical_not` (vectorized for arrays)."""
-    return np.logical_not(x)
-
-
-__COMMON_SCALAR_PROCESSORS__________________________________ = ""
-
-
-def collapse(
-    *args: Any,
-    default: str = "",
-    delimiter: str = "",
-    strip: Optional[str] = None,
-) -> str:
-    """
-    Returns the string computed by joining the specified arguments with the specified delimiter.
-
-    Args:
-        *args: The values to be converted to strings and joined.
-        default: The string used when a value is null.
-        delimiter: The delimiter inserted between the collapsed values.
-        strip: The characters to strip from both ends of each value before joining.
-            If `None`, no stripping is performed.
-
-    Returns:
-        The collapsed string.
-    """
-    return delimiter.join(map(lambda x: stringify(x, default=default, strip=strip), to_list(*args)))
-
-
-def collist(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
-    """Returns the string computed by joining the specified arguments with a comma."""
-    return collapse(*args, default=default, delimiter=",", strip=strip)
-
-
-def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
-    """
-    Returns the string computed by joining the specified arguments with a space.
-
-    If `default` is empty, falsy arguments are removed before collapsing.
-    """
-    return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
-
-
-def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
-    """Returns the string representation of `x`."""
-    s = str(x) if not is_null(x) else default
-    if not is_null(strip):
-        s = s.strip(strip)
-    return s
 
 
 __COMMON_VALIDATORS_______________________________________________________________________ = ""
@@ -450,3 +320,136 @@ __COMMON_STRUCT_VALIDATORS__________________________________ = ""
 def has_filter(keys: Any = None, inclusion: Any = None, exclusion: Any = None) -> bool:
     """Returns whether at least one of `keys`, `inclusion`, or `exclusion` is non-empty."""
     return not is_all_empty(keys, inclusion, exclusion)
+
+
+__COMMON_IO_FINDERS_______________________________________________________________________ = ""
+
+
+def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
+    """
+    Returns a candidate absolute path for `filename`, optionally within `dir` and `subdir`.
+
+    If `dir` is null, searches upward from the current directory until root, stopping when
+    `filename` exists inside `subdir`. If not found, returns the last candidate path at root.
+    """
+    if is_null(dir):
+        dir = get_dir(get_path())
+        while (not is_file(format_dir(dir) + format_dir(subdir) + filename)) and (not is_root(dir)):
+            dir = get_dir(dir, parent=True)
+    elif is_file(dir):
+        dir = get_dir(dir)
+    return format_dir(dir) + format_dir(subdir) + filename
+
+
+__COMMON_PROCESSORS_______________________________________________________________________ = ""
+
+
+def deep_hash(x: Any, default: int = 0) -> int:
+    """
+    Returns the structural hash value of `x`.
+
+    Uses a recursive strategy for containers so that unhashable but structurally
+    equal objects (like lists, dicts, nested structures) produce the same hash.
+    """
+    # Explicit `None` handling
+    if is_null(x):
+        return default
+
+    # Use a callable `hash` method on `x` if present
+    elif has_callable(x, "hash"):
+        return x.hash()
+
+    # Handle scalars: delegate directly to the built-in hash
+    elif is_scalar(x):
+        return builtins.hash(x)
+
+    # Handle mappings: order-independent, recurse on keys and values
+    elif is_mapping(x):
+        # (key_hash, value_hash) pairs, sorted by key_hash for stability
+        items = tuple(sorted((deep_hash(k, default), deep_hash(v, default)) for k, v in x.items()))
+        # Include the type to avoid collisions between different mapping types
+        return builtins.hash((type(x), items))
+
+    # Handle tuples: order-dependent, recurse on elements
+    elif is_tuple(x):
+        return builtins.hash(tuple(deep_hash(v, default) for v in x))
+
+    # Handle other iterables (lists, sets, etc.): order-dependent but type-tagged
+    elif is_iterable(x):
+        return builtins.hash((type(x), tuple(deep_hash(v, default) for v in x)))
+
+    # Fall back to the built-in hash or to a type-tagged representation
+    try:
+        return builtins.hash(x)
+    except TypeError:
+        return builtins.hash((type(x).__qualname__, repr(x)))
+
+
+def forward(*args: Any) -> Any:
+    """
+    Returns the single argument if one is specified; otherwise returns the `list` of arguments.
+    """
+    if len(args) == 1:
+        return args[0]
+    return list(args)
+
+
+def forward_element(*args: Any) -> Any:
+    """
+    Returns the single argument if one is specified; otherwise returns the `tuple` of arguments.
+    """
+    if len(args) == 1:
+        return args[0]
+    return tuple(args)
+
+
+def invert(x: Any) -> Any:
+    """Returns the logical negation of `x` using `numpy.logical_not` (vectorized for arrays)."""
+    return np.logical_not(x)
+
+
+__COMMON_SCALAR_PROCESSORS__________________________________ = ""
+
+
+def collapse(
+    *args: Any,
+    default: str = "",
+    delimiter: str = "",
+    strip: Optional[str] = None,
+) -> str:
+    """
+    Returns the string computed by joining the specified arguments with the specified delimiter.
+
+    Args:
+        *args: The values to be converted to strings and joined.
+        default: The string used when a value is null.
+        delimiter: The delimiter inserted between the collapsed values.
+        strip: The characters to strip from both ends of each value before joining.
+            If `None`, no stripping is performed.
+
+    Returns:
+        The collapsed string.
+    """
+    return delimiter.join(map(lambda x: stringify(x, default=default, strip=strip), to_list(*args)))
+
+
+def collist(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
+    """Returns the string computed by joining the specified arguments with a comma."""
+    return collapse(*args, default=default, delimiter=",", strip=strip)
+
+
+def paste(*args: Any, default: str = "", strip: Optional[str] = None) -> str:
+    """
+    Returns the string computed by joining the specified arguments with a space.
+
+    If `default` is empty, falsy arguments are removed before collapsing.
+    """
+    return " ".join(s for s in (stringify(x, default=default, strip=strip) for x in to_list(*args)) if s)
+
+
+def stringify(x: Any, *, default: str = "", strip: Optional[str] = None) -> str:
+    """Returns the string representation of `x`."""
+    s = str(x) if not is_null(x) else default
+    if not is_null(strip):
+        s = s.strip(strip)
+    return s

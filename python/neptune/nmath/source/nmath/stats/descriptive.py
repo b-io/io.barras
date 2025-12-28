@@ -30,6 +30,35 @@ DEFAULT_POINT_COUNT: int = 100
 DEFAULT_DISCRETE_RELATIVE_THRESHOLD: float = 0.2
 
 
+__DESCRIPTIVE_VALIDATORS__________________________________________________________________ = ""
+
+
+def is_discrete_like(
+    values: np.ndarray,
+    *,
+    tolerance: float = EPS,
+    relative_threshold: float = DEFAULT_DISCRETE_RELATIVE_THRESHOLD,
+    absolute_threshold: int = DEFAULT_POINT_COUNT // 2,
+) -> bool:
+    """Returns whether `values` look discrete enough to prefer a PMF over a KDE."""
+    if is_empty(values) or not is_integer_like(values, tolerance=tolerance):
+        return False
+
+    # Use both a relative cap (`relative_threshold_ratio * n`) and an absolute cap (`absolute_threshold`)
+    unique_values = np.unique(values)
+    relative_cap = max(1, int(round(relative_threshold * values.size)))
+    absolute_cap = max(1, int(absolute_threshold))
+    return bool(unique_values.size <= min(relative_cap, absolute_cap))
+
+
+def is_integer_like(values: np.ndarray, *, tolerance: float = EPS) -> bool:
+    """Returns whether all values are numerically close to integers."""
+    if is_empty(values):
+        return False
+
+    return bool(np.all(np.isclose(values, np.round(values), atol=tolerance)))
+
+
 __DESCRIPTIVE_FIGURES_____________________________________________________________________ = ""
 
 
@@ -559,32 +588,3 @@ def get_density(
     x = np.linspace(float(values.min()), float(values.max()), num=point_count)
     kde = stats.gaussian_kde(values, bw_method=method, weights=weights)
     return pd.Series(kde(x), index=x, name=name + "Density")
-
-
-__DESCRIPTIVE_VALIDATORS__________________________________________________________________ = ""
-
-
-def is_discrete_like(
-    values: np.ndarray,
-    *,
-    tolerance: float = EPS,
-    relative_threshold: float = DEFAULT_DISCRETE_RELATIVE_THRESHOLD,
-    absolute_threshold: int = DEFAULT_POINT_COUNT // 2,
-) -> bool:
-    """Returns whether `values` look discrete enough to prefer a PMF over a KDE."""
-    if is_empty(values) or not is_integer_like(values, tolerance=tolerance):
-        return False
-
-    # Use both a relative cap (`relative_threshold_ratio * n`) and an absolute cap (`absolute_threshold`)
-    unique_values = np.unique(values)
-    relative_cap = max(1, int(round(relative_threshold * values.size)))
-    absolute_cap = max(1, int(absolute_threshold))
-    return bool(unique_values.size <= min(relative_cap, absolute_cap))
-
-
-def is_integer_like(values: np.ndarray, *, tolerance: float = EPS) -> bool:
-    """Returns whether all values are numerically close to integers."""
-    if is_empty(values):
-        return False
-
-    return bool(np.all(np.isclose(values, np.round(values), atol=tolerance)))

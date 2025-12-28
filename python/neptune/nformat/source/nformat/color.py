@@ -107,6 +107,19 @@ def get_xkcd_color_name(code, is_hsv=False):
     )
 
 
+__COLOR_VALIDATORS________________________________________________________________________ = ""
+
+
+def is_scaled_color(x, y, z) -> bool:
+    """Returns whether the specified RGB color components are scaled (contain values greater than 1)."""
+    return maximum(maximum(x)) > 1 or maximum(maximum(y)) > 1 or maximum(maximum(z)) > 1
+
+
+def is_unscaled_color(x, y, z) -> bool:
+    """Returns whether the specified RGB color components are unscaled (all values are less than or equal to 1)."""
+    return maximum(maximum(x)) <= 1 and maximum(maximum(y)) <= 1 and maximum(maximum(z)) <= 1
+
+
 __COLOR_CONVERTERS________________________________________________________________________ = ""
 
 
@@ -258,16 +271,3 @@ def unscale_color(x, y, z):
         y /= 255
         z /= 255
     return x, y, z
-
-
-__COLOR_VALIDATORS________________________________________________________________________ = ""
-
-
-def is_scaled_color(x, y, z) -> bool:
-    """Returns whether the specified RGB color components are scaled (contain values greater than 1)."""
-    return maximum(maximum(x)) > 1 or maximum(maximum(y)) > 1 or maximum(maximum(z)) > 1
-
-
-def is_unscaled_color(x, y, z) -> bool:
-    """Returns whether the specified RGB color components are unscaled (all values are less than or equal to 1)."""
-    return maximum(maximum(x)) <= 1 and maximum(maximum(y)) <= 1 and maximum(maximum(z)) <= 1

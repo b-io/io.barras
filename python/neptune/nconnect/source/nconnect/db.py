@@ -248,7 +248,7 @@ def get_identity_cols(
     Returns the identity (auto-increment) column names for the specified table.
 
     Behavior:
-        • For MSSQL (`is_mssql=True`), queries `"sys"."identity_columns"` for the table.
+        • For MSSQL (`is_mssql=True`), queries `"sys.identity_columns"` for the table.
         • For non-MSSQL, returns an empty list.
 
     Args:
@@ -380,6 +380,57 @@ def get_col_types(
 
 
 ############################################################
+
+
+def normalize_result_count(rowcount: Any) -> Optional[int]:
+    """
+    Normalizes DBAPI/SQLAlchemy rowcount semantics.
+
+    Returns:
+        • `None` when the affected-row count is unknown (`None` or negative, e.g. `-1`)
+        • Otherwise the non-negative affected-row count as an `int`
+    """
+    if is_null(rowcount):
+        return None
+    try:
+        n = int(rowcount)
+    except (TypeError, ValueError):
+        return None
+    return None if n < 0 else n
+
+
+def resolve_result_count(
+    result: Union[List[Any], Optional[int]],
+    *,
+    default: int = 1,
+) -> int:
+    """
+    Resolves an affected-row count from an `execute(…)` result.
+
+    Notes:
+        `execute(…)` returns:
+          • `List[Any]` for result sets (SELECT, etc.)
+          • `Optional[int]` for DML rowcount (INSERT/UPDATE/DELETE); `None` means unknown
+
+    Args:
+        result: The raw result returned by `execute(…)`.
+
+        default: The fallback count used when the rowcount is unknown (`None`) or invalid.
+
+    Returns:
+        A non-negative count suitable for best-effort DML accounting and row-level logging decisions.
+    """
+    if is_null(result):
+        return int(default)
+    elif is_struct(result):
+        return len(result)
+    try:
+        return int(result)
+    except (TypeError, ValueError):
+        return int(default)
+
+
+##############################
 
 
 def resolve_use_multi_statements(
@@ -1010,7 +1061,7 @@ def format(
         • Structured values (collections) -> parenthesized list of formatted elements
         • Booleans:
           - MSSQL → `1` / `0`
-          - otherwise → the boolean value as-is
+          - otherwise → `"TRUE"` / `"FALSE"`
         • Numbers:
           - NaN → `NULL`
           - otherwise → the number
@@ -1632,7 +1683,7 @@ def delete_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of deleted rows (as counted from execution results).
+        The number of deleted rows (best-effort count).
     """
     delete_count = 0
 
@@ -1650,8 +1701,9 @@ def delete_table(
         filtering_cols=filtering_cols,
         metadata=metadata,
         schema=schema,
-        test=test,
         use_only_primary=False,
+        # Test
+        test=test,
     )
 
     if test:
@@ -1676,9 +1728,8 @@ def delete_table(
             # Execute the query
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                with connection.begin_nested():
-                    result = execute(engine, query, connection=connection)
-                result_count = len(result) if is_struct(result) else result
+                result = execute(engine, query, connection=connection, use_savepoint=True)
+                result_count = resolve_result_count(result)
                 if result_count > 0:
                     delete_count += result_count
                     debug_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -1733,7 +1784,7 @@ def bulk_delete_table(
         Notes:
             The affected-row count is best-effort:
               - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: sums the per-row returned counts
+              - per-row execution: sums the per-row returned counts (falls back to 1 when unknown)
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1773,8 +1824,9 @@ def bulk_delete_table(
         filtering_cols=filtering_cols,
         metadata=metadata,
         schema=schema,
-        test=test,
         use_only_primary=False,
+        # Test
+        test=test,
     )
 
     if test:
@@ -1816,9 +1868,9 @@ def bulk_delete_table(
                     schema=schema,
                 )
                 try:
-                    with connection.begin_nested():
-                        result = execute(engine, query, connection=connection)
-                    result_count = len(result) if is_struct(result) else int(result)
+                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                    result = execute(engine, query, connection=connection, use_savepoint=True)
+                    result_count = resolve_result_count(result)
                     if result_count > 0:
                         delete_count += result_count
                     else:
@@ -1843,7 +1895,8 @@ def bulk_delete_table(
 
         # Execute the bulk query
         try:
-            connection.exec_driver_sql(query)
+            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+            execute_on_connection(connection, query, use_savepoint=True)
             delete_count += len(chunk)
         except Exception as e:
             error_query("bulk-deleted", table, exception=e, verbose=verbose)
@@ -1932,7 +1985,7 @@ def insert_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of inserted rows (as counted from execution results).
+        The number of inserted rows (best-effort count).
     """
     insert_count = 0
 
@@ -1965,9 +2018,8 @@ def insert_table(
                 # Execute the query
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                    with connection.begin_nested():
-                        result = execute(engine, query, connection=connection)
-                    result_count = len(result) if is_struct(result) else result
+                    result = execute(engine, query, connection=connection, use_savepoint=True)
+                    result_count = resolve_result_count(result)
                     if result_count > 0:
                         insert_count += result_count
                         debug_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
@@ -2020,14 +2072,13 @@ def bulk_insert_table(
         • Executes the full bulk insert in one transaction on one connection.
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
-        • If `use_multi_statements` is enabled, concatenates per-row INSERT queries and executes the combined SQL string
-          via `exec_driver_sql(…)`.
+        • If `use_multi_statements` is enabled, concatenates per-row INSERT queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
 
         Notes:
             The affected-row count is best-effort:
               - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: increments by the returned count, falling back to 1 when not provided
+              - per-row execution: increments by the returned count, falling back to 1 when unknown
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2094,10 +2145,13 @@ def bulk_insert_table(
             for i, (_, row) in enumerate(chunk.iterrows()):
                 query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
                 try:
-                    with connection.begin_nested():
-                        result = connection.exec_driver_sql(query)
-                    rowcount = result.rowcount
-                    insert_count += 1 if is_null(rowcount) or rowcount < 0 else int(rowcount)
+                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                    result = execute(engine, query, connection=connection, use_savepoint=True)
+                    result_count = resolve_result_count(result)
+                    if result_count > 0:
+                        insert_count += result_count
+                    else:
+                        warn_row("insert", i, table, cols=cols, row=row, verbose=verbose)
                 except Exception as e:
                     error_row("insert", i, table, exception=e, cols=cols, row=row, verbose=verbose)
             return insert_count
@@ -2112,7 +2166,8 @@ def bulk_insert_table(
 
         # Execute the bulk query
         try:
-            connection.exec_driver_sql(query)
+            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+            execute_on_connection(connection, query, use_savepoint=True)
             insert_count += len(chunk)
         except Exception as e:
             error_query("bulk-inserted", table, exception=e, verbose=verbose)
@@ -2172,7 +2227,7 @@ def update_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of updated rows (as counted from execution results).
+        The number of updated rows (best-effort count).
     """
     update_count = 0
 
@@ -2190,6 +2245,7 @@ def update_table(
         filtering_cols=filtering_cols,
         metadata=metadata,
         schema=schema,
+        # Test
         test=test,
     )
 
@@ -2217,9 +2273,8 @@ def update_table(
             # Execute the query
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                with connection.begin_nested():
-                    result = execute(engine, query, connection=connection)
-                result_count = len(result) if is_struct(result) else result
+                result = execute(engine, query, connection=connection, use_savepoint=True)
+                result_count = resolve_result_count(result)
                 if result_count > 0:
                     update_count += result_count
                     debug_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -2268,14 +2323,13 @@ def bulk_update_table(
         • Resolves filtering columns via `get_filtering_cols(…)`.
         • Resolves update columns as the intersection of the dataframe and the table columns excluding filtering columns.
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
-        • If `use_multi_statements` is enabled, concatenates per-row UPDATE queries and executes the combined SQL string
-          via `exec_driver_sql(…)`.
+        • If `use_multi_statements` is enabled, concatenates per-row UPDATE queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
 
         Notes:
             The affected-row count is best-effort:
               - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: sums the per-row returned counts
+              - per-row execution: sums the per-row returned counts (falls back to 1 when unknown)
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2315,6 +2369,7 @@ def bulk_update_table(
         filtering_cols=filtering_cols,
         metadata=metadata,
         schema=schema,
+        # Test
         test=test,
     )
 
@@ -2357,9 +2412,9 @@ def bulk_update_table(
                     schema=schema,
                 )
                 try:
-                    with connection.begin_nested():
-                        result = execute(engine, query, connection=connection)
-                    result_count = len(result) if is_struct(result) else int(result)
+                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                    result = execute(engine, query, connection=connection, use_savepoint=True)
+                    result_count = resolve_result_count(result)
                     if result_count > 0:
                         update_count += result_count
                     else:
@@ -2385,7 +2440,8 @@ def bulk_update_table(
 
         # Execute the bulk query
         try:
-            connection.exec_driver_sql(query)
+            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+            execute_on_connection(connection, query, use_savepoint=True)
             update_count += len(chunk)
         except Exception as e:
             error_query("bulk-updated", table, exception=e, verbose=verbose)
@@ -2462,6 +2518,7 @@ def upsert_table(
         filtering_cols=filtering_cols,
         metadata=metadata,
         schema=schema,
+        # Test
         test=test,
     )
 
@@ -2504,9 +2561,9 @@ def upsert_table(
                     schema=schema,
                 )
                 try:
-                    with connection.begin_nested():
-                        result = execute(engine, query, connection=connection)
-                    updated = len(result) if is_struct(result) else int(result)
+                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                    result = execute(engine, query, connection=connection, use_savepoint=True)
+                    updated = resolve_result_count(result)
                 except Exception as e:
                     error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
 
@@ -2526,9 +2583,9 @@ def upsert_table(
             # 3) Fallback: insert the row
             query = build_insert_table_query(table, insert_cols, row, is_mssql=is_mssql, schema=schema)
             try:
-                with connection.begin_nested():
-                    result = execute(engine, query, connection=connection)
-                inserted = len(result) if is_struct(result) else int(result)
+                # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                result = execute(engine, query, connection=connection, use_savepoint=True)
+                inserted = resolve_result_count(result)
                 if inserted > 0:
                     insert_count += inserted
                     upsert_count += inserted
@@ -2596,41 +2653,92 @@ def execute(
     query: Any,
     *args: Any,
     connection: Optional[db.Connection] = None,
+    use_savepoint: bool = False,
     **kwargs: Any,
-) -> Union[List[Any], int]:
+) -> Union[List[Any], Optional[int]]:
     """
     Executes a single SQL statement and returns either fetched rows or an affected-row count.
 
     Behavior:
-        • Opens a new connection via `engine.begin()`.
-        • Executes the statement via `connection.execute(…)` or `connection.exec_driver_sql(…)`.
-        • If the result exposes rows, returns `fetchall()`, otherwise returns `rowcount`.
+        • Opens a new connection via `engine.begin()` when `connection` is null.
+        • Delegates execution to `execute_on_connection(…, use_savepoint=…)`.
+        • If the result exposes rows, returns `fetchall()`, otherwise returns `rowcount` normalized via
+          `normalize_result_count(…)`.
 
     Args:
         engine: The SQLAlchemy engine.
         query: The SQL query (string or executable statement).
         *args: Positional arguments forwarded to the execution method.
+
+        connection: Optional existing SQLAlchemy connection to reuse.
+        use_savepoint: When `True`, executes inside a nested transaction (SAVEPOINT).
         **kwargs: Keyword arguments forwarded to the execution method.
 
     Returns:
-        A list of fetched rows when the result returns rows, otherwise an integer row count.
+        A list of fetched rows when the result returns rows, otherwise an optional integer row count:
+          • `None` means "unknown" (driver returned `None` or a negative rowcount such as `-1`).
 
     Raises:
         SQLAlchemyError: If execution fails.
     """
     if is_null(connection):
         with engine.begin() as connection:
-            result = execute_on_connection(connection, query, *args, **kwargs)
-            return result.fetchall() if result.returns_rows else result.rowcount
+            result = execute_on_connection(connection, query, *args, use_savepoint=use_savepoint, **kwargs)
+            return result.fetchall() if result.returns_rows else normalize_result_count(result.rowcount)
 
-    result = execute_on_connection(connection, query, *args, **kwargs)
-    return result.fetchall() if result.returns_rows else result.rowcount
+    result = execute_on_connection(connection, query, *args, use_savepoint=use_savepoint, **kwargs)
+    return result.fetchall() if result.returns_rows else normalize_result_count(result.rowcount)
 
 
-def execute_on_connection(connection: db.Connection, query: Any, *args: Any, **kwargs: Any):
-    if isinstance(query, str):
-        return connection.exec_driver_sql(query, *args, **kwargs)
-    return connection.execute(query, *args, **kwargs)
+def execute_on_connection(
+    connection: db.Connection,
+    query: Any,
+    *args: Any,
+    use_savepoint: bool = False,
+    **kwargs: Any,
+):
+    """
+    Executes a single SQL statement on an existing connection.
+
+    Behavior:
+        • When `use_savepoint=True`, wraps the execution in `connection.begin_nested()` (SAVEPOINT).
+        • Executes string SQL via `connection.exec_driver_sql(…)`.
+        • Executes SQLAlchemy statements via `connection.execute(…)`.
+        • Returns the raw SQLAlchemy result object (caller decides whether to read rows or `rowcount`).
+
+    Args:
+        connection: The SQLAlchemy connection to use.
+        query: The SQL query (string or executable statement).
+        *args: Positional arguments forwarded to the underlying execution method.
+        use_savepoint: When `True`, executes inside a nested transaction (SAVEPOINT).
+        **kwargs: Keyword arguments forwarded to the underlying execution method.
+
+    Returns:
+        The SQLAlchemy execution result object (e.g., `CursorResult`).
+
+    Raises:
+        SQLAlchemyError: If the driver or SQLAlchemy fails to execute the statement.
+    """
+
+    def _execute_on_connection(connection: db.Connection, query: Any, *args: Any, **kwargs: Any):
+        """
+        Executes a single SQL statement on an existing connection (no SAVEPOINT handling).
+
+        Behavior:
+            • Executes string SQL via `connection.exec_driver_sql(…)`.
+            • Executes SQLAlchemy statements via `connection.execute(…)`.
+
+        Returns:
+            The raw SQLAlchemy result object (e.g., `CursorResult`).
+        """
+        if isinstance(query, str):
+            return connection.exec_driver_sql(query, *args, **kwargs)
+        return connection.execute(query, *args, **kwargs)
+
+    if use_savepoint:
+        with connection.begin_nested():
+            return _execute_on_connection(connection, query, *args, **kwargs)
+    return _execute_on_connection(connection, query, *args, **kwargs)
 
 
 ##############################
@@ -2702,6 +2810,7 @@ def migrate(
     is_mssql_to: bool = DEFAULT_IS_MSSQL,
     schema: Optional[str] = DEFAULT_SCHEMA,
     upsert: bool = False,
+    use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2737,6 +2846,7 @@ def migrate(
         is_mssql_to: Whether the destination database is MSSQL.
         schema: The schema name (defaults to `None`).
         upsert: When `True`, performs upserts instead of bulk inserts.
+        use_multi_statements: Whether to execute concatenated multi-statement SQL strings. When null, auto-detects.
 
         test: When `True`, enables validation warnings during writes.
         verbose: When `True`, enables logging.
@@ -2794,6 +2904,7 @@ def migrate(
                     table,
                     is_mssql=is_mssql_to,
                     schema=schema,
+                    # Test
                     test=test,
                     # Log
                     verbose=verbose,
@@ -2806,6 +2917,8 @@ def migrate(
                     chunk_size=chunk_size,
                     is_mssql=is_mssql_to,
                     schema=schema,
+                    use_multi_statements=use_multi_statements,
+                    # Test
                     test=test,
                     # Log
                     verbose=verbose,

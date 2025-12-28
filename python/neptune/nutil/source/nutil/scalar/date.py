@@ -981,6 +981,20 @@ def get_period_years(d=get_datetime(), period=PERIOD):
     return diff_years(subtract_period(d, period), d)
 
 
+__DATE_VALIDATORS_________________________________________________________________________ = ""
+
+
+def is_business_day(x: Any) -> bool:
+    """Returns whether `x` is a business day (Monday–Friday)."""
+    if is_string(x):
+        x = parse_datetime(x)
+    elif is_datetime(x):
+        x = x.date()
+    elif not is_date(x):
+        raise TypeError(f"'{x}' is not a valid date or datetime")
+    return x.weekday() < 5
+
+
 __DATE_CONVERTERS_________________________________________________________________________ = ""
 
 
@@ -1458,17 +1472,3 @@ def shift_dates(
         ],
         s,
     )
-
-
-__DATE_VALIDATORS_________________________________________________________________________ = ""
-
-
-def is_business_day(x: Any) -> bool:
-    """Returns whether `x` is a business day (Monday–Friday)."""
-    if is_string(x):
-        x = parse_datetime(x)
-    elif is_datetime(x):
-        x = x.date()
-    elif not is_date(x):
-        raise TypeError(f"'{x}' is not a valid date or datetime")
-    return x.weekday() < 5

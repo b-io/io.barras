@@ -149,6 +149,27 @@ def get_margin(x, fig=None, has_title=False, has_title_x=False, has_title_y=Fals
     return dict(l=x, r=x, b=x, t=x)
 
 
+__CHART_VALIDATORS________________________________________________________________________ = ""
+
+
+def is_matplot(x: Any) -> bool:
+    """Returns whether `x` is a Matplotlib `Figure`."""
+    return isinstance(x, mfigure.Figure)
+
+
+def is_plotly(x: Any) -> bool:
+    """Returns whether `x` is a Plotly `Figure`."""
+    return isinstance(x, go.Figure)
+
+
+##############################
+
+
+def is_multi_plot(x: Any) -> bool:
+    """Returns whether `x` is a Plotly multi-plot."""
+    return not is_null(getattr(x, "_grid_ref", None))
+
+
 __CHART_CONVERTERS________________________________________________________________________ = ""
 
 
@@ -1559,24 +1580,3 @@ def set_default_renderer(renderer: Optional[str]) -> None:
         raise ValueError(f"'{renderer}' is not a registered Plotly renderer")
 
     pio.renderers.default = renderer
-
-
-__CHART_VALIDATORS________________________________________________________________________ = ""
-
-
-def is_matplot(x: Any) -> bool:
-    """Returns whether `x` is a Matplotlib `Figure`."""
-    return isinstance(x, mfigure.Figure)
-
-
-def is_plotly(x: Any) -> bool:
-    """Returns whether `x` is a Plotly `Figure`."""
-    return isinstance(x, go.Figure)
-
-
-##############################
-
-
-def is_multi_plot(x: Any) -> bool:
-    """Returns whether `x` is a Plotly multi-plot."""
-    return not is_null(getattr(x, "_grid_ref", None))

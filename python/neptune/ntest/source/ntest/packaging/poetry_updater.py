@@ -159,6 +159,81 @@ def get_latest_compatible_version(
     return str(latest_version) if not is_null(latest_version) else None
 
 
+__POETRY_UPDATER_VALIDATORS_______________________________________________________________ = ""
+
+
+def is_dependency_section_header(stripped: str) -> bool:
+    return bool(DEPENDENCY_SECTION_PATTERN.match(stripped) or GROUP_DEPENDENCY_SECTION_PATTERN.match(stripped))
+
+
+##############################
+
+
+def is_python_compatible(requires_python: Optional[str], target_version: Version) -> bool:
+    """
+    Tests whether `Requires-Python` matches the specified target version.
+
+    Args:
+        requires_python: The `Requires-Python` specifier string.
+        target_version: The target Python version.
+
+    Returns:
+        `True` if compatible, otherwise `False`.
+    """
+    if not requires_python:
+        return True
+    try:
+        return target_version in SpecifierSet(requires_python)
+    except Exception:
+        return False
+
+
+############################################################
+
+
+def supports_python_version(files: List[object], target_version: Version) -> bool:
+    """
+    Determines whether at least one non-yanked distribution file supports the target Python version.
+
+    Args:
+        files: The release file list from the PyPI JSON payload.
+        target_version: The target Python version.
+
+    Returns:
+        `True` if the release is compatible, otherwise `False`.
+    """
+    if not files:
+        return False
+
+    any_non_yanked = False
+    any_requires_python = False
+
+    for file in files:
+        if not isinstance(file, dict):
+            continue
+
+        if file.get("yanked") is True:
+            continue
+        any_non_yanked = True
+
+        requires_python = file.get("requires_python")
+        if isinstance(requires_python, str):
+            any_requires_python = True
+            if is_python_compatible(requires_python, target_version):
+                return True
+
+    # If everything is yanked, the release is unusable
+    if not any_non_yanked:
+        return False
+
+    # If there is `"Requires-Python"` but none matched, the release is incompatible
+    if any_requires_python:
+        return False
+
+    # Otherwise, assume compatible
+    return True
+
+
 __POETRY_UPDATER_FINDERS__________________________________________________________________ = ""
 
 
@@ -693,81 +768,6 @@ def fetch_pypi_json(session: requests.Session, name: str) -> Optional[Dict[str, 
         return None
 
     return payload
-
-
-__POETRY_UPDATER_VALIDATORS_______________________________________________________________ = ""
-
-
-def is_dependency_section_header(stripped: str) -> bool:
-    return bool(DEPENDENCY_SECTION_PATTERN.match(stripped) or GROUP_DEPENDENCY_SECTION_PATTERN.match(stripped))
-
-
-##############################
-
-
-def is_python_compatible(requires_python: Optional[str], target_version: Version) -> bool:
-    """
-    Tests whether `Requires-Python` matches the specified target version.
-
-    Args:
-        requires_python: The `Requires-Python` specifier string.
-        target_version: The target Python version.
-
-    Returns:
-        `True` if compatible, otherwise `False`.
-    """
-    if not requires_python:
-        return True
-    try:
-        return target_version in SpecifierSet(requires_python)
-    except Exception:
-        return False
-
-
-############################################################
-
-
-def supports_python_version(files: List[object], target_version: Version) -> bool:
-    """
-    Determines whether at least one non-yanked distribution file supports the target Python version.
-
-    Args:
-        files: The release file list from the PyPI JSON payload.
-        target_version: The target Python version.
-
-    Returns:
-        `True` if the release is compatible, otherwise `False`.
-    """
-    if not files:
-        return False
-
-    any_non_yanked = False
-    any_requires_python = False
-
-    for file in files:
-        if not isinstance(file, dict):
-            continue
-
-        if file.get("yanked") is True:
-            continue
-        any_non_yanked = True
-
-        requires_python = file.get("requires_python")
-        if isinstance(requires_python, str):
-            any_requires_python = True
-            if is_python_compatible(requires_python, target_version):
-                return True
-
-    # If everything is yanked, the release is unusable
-    if not any_non_yanked:
-        return False
-
-    # If there is `"Requires-Python"` but none matched, the release is incompatible
-    if any_requires_python:
-        return False
-
-    # Otherwise, assume compatible
-    return True
 
 
 __POETRY_UPDATER_RUNNERS__________________________________________________________________ = ""
