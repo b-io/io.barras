@@ -768,7 +768,7 @@ def lookup_json(
     """
     # Validate the `response_type`
     if response_type not in (dict, list):
-        raise ValueError("`response_type` must be `dict` or `list`")
+        raise ValueError("'response_type' must be 'dict' or 'list'")
 
     # Initialize the empty payload container
     empty_payload = create_empty(response_type)

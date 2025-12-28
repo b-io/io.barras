@@ -47,18 +47,18 @@ def is_svg(
 __IMAGE_PROCESSORS________________________________________________________________________ = ""
 
 
-def buffer_to_image(buffer, format, rotate=False):
+def buffer_to_image(buffer, file_type, *, rotate=False):
     """Converts the specified image buffer to an image of the specified format."""
-    if format == FileType.SVG:
+    if file_type == FileType.SVG:
         return buffer
     if rotate:
         buffer = rotate_anti_90(buffer)
-    return cv2.imencode("." + format, buffer)[1]
+    return cv2.imencode("." + file_type, buffer)[1]
 
 
 def buffer_to_html(
     buffer,
-    format,
+    file_type,
     *,
     style=None,
     rotate=False,
@@ -70,17 +70,17 @@ def buffer_to_html(
     """Encodes the specified image buffer to Base64 and returns its HTML code."""
     if is_empty(buffer):
         return ""
-    if format == FileType.SVG:
+    if file_type == FileType.SVG:
         return buffer.decode(encoding)
     if rotate:
         width, height = height, width
-    image = base64.b64encode(buffer_to_image(buffer, format, rotate=rotate)).decode(encoding)
+    image = base64.b64encode(buffer_to_image(buffer, file_type, rotate=rotate)).decode(encoding)
     template = paste(
-        '<img width="{width}" height="{height}" src="data:image/{format};base64,{image}"',
+        '<img width="{width}" height="{height}" src="data:image/{file_type};base64,{image}"',
         collapse('style="', style, '"') if not is_null(style) else "",
         "/>",
     )
-    return template.format(image=image, format=format, width=width, height=height)
+    return template.format(file_type=file_type, image=image, width=width, height=height)
 
 
 ##############################
@@ -97,7 +97,7 @@ def image_to_buffer(image, mode=DEFAULT_IMAGE_MODE):
 
 def image_to_html(
     image,
-    format,
+    file_type,
     *,
     mode=DEFAULT_IMAGE_MODE,
     style=None,
@@ -108,11 +108,11 @@ def image_to_html(
     encoding: str = DEFAULT_ENCODING,
 ):
     """Converts the specified image to HTML."""
-    if format == FileType.SVG:
+    if file_type == FileType.SVG:
         return image.decode(encoding)
     return buffer_to_html(
         image_to_buffer(image, mode=mode),
-        format,
+        file_type,
         style=style,
         rotate=rotate,
         width=width,

@@ -571,7 +571,7 @@ def build_where_clause(
           - `IS NULL` for null values
           - `IN (…)` for structured values (collections)
           - `=` for scalar values
-        • Uses `format_name()` for identifiers and `format()` for values.
+        • Uses `format_name()` for identifiers and `format_value()` for values.
 
     Args:
         filtering_cols: Optional list of columns to include.
@@ -591,7 +591,7 @@ def build_where_clause(
                 collapse(
                     format_name(col),
                     " IS " if is_null(filtering_row[col]) else " IN " if is_struct(filtering_row[col]) else "=",
-                    format(filtering_row[col], is_mssql=is_mssql),
+                    format_value(filtering_row[col], is_mssql=is_mssql),
                 )
                 for col in cols
             ],
@@ -779,7 +779,7 @@ def build_update_table_query(
             "UPDATE",
             get_full_table_name(table, schema=schema),
             "SET",
-            collist([collapse(format_name(col), "=", format(row[col], is_mssql=is_mssql)) for col in cols]),
+            collist([collapse(format_name(col), "=", format_value(row[col], is_mssql=is_mssql)) for col in cols]),
             build_where_clause(filtering_cols=filtering_cols, filtering_row=row, is_mssql=is_mssql),
         )
         + ";"
@@ -1185,7 +1185,7 @@ def format_value(
     elif is_struct(value):
         if is_empty(value):
             return par("NULL")
-        return par(collist(apply(value, format, is_mssql=is_mssql)))
+        return par(collist(apply(value, format_value, is_mssql=is_mssql)))
     elif is_boolean(value):
         if is_mssql:
             return 1 if value else 0

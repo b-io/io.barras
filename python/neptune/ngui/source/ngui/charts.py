@@ -196,7 +196,7 @@ def matplot_to_plotly(
 
 def fig_to_image(
     fig,
-    format,
+    file_type,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
     margin=None,
@@ -206,11 +206,11 @@ def fig_to_image(
     update_layout_size(fig, width=width, height=height, margin=margin)
     if is_matplot(fig):
         buffer = io.BytesIO()
-        fig.savefig(buffer, format=format, dpi=scale * 100)
+        fig.savefig(buffer, format=file_type, dpi=scale * 100)
         buffer.seek(0)
         return buffer.read()
     elif is_plotly(fig):
-        return pio.to_image(fig, format=format, width=width, height=height, scale=scale)
+        return pio.to_image(fig, format=file_type, width=width, height=height, scale=scale)
 
 
 def fig_to_jpg(fig, scale=DEFAULT_SCALE, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, margin=None):
@@ -246,7 +246,7 @@ def fig_to_html(fig, full=True, width=DEFAULT_WIDTH, height=DEFAULT_HEIGHT, marg
 
 def fig_to_image_html(
     fig,
-    format,
+    file_type,
     *,
     mode=DEFAULT_IMAGE_MODE,
     style=None,
@@ -261,10 +261,10 @@ def fig_to_image_html(
     """Converts the specified figure to the specified format, encodes it to Base64 and returns its HTML code."""
     if is_null(fig):
         return ""
-    image = fig_to_image(fig, format, scale=scale, width=width, height=height, margin=margin)
+    image = fig_to_image(fig, file_type, scale=scale, width=width, height=height, margin=margin)
     return image_to_html(
         image,
-        format,
+        file_type,
         mode=mode,
         style=style,
         rotate=rotate,
