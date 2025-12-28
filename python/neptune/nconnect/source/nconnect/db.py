@@ -1195,10 +1195,10 @@ def format_value(
             return "NULL"
         return value
     elif is_timestamp(value):
-        s = value.strftime(DEFAULT_DATE_TIME_FORMAT)
         # Keep millisecond precision when the format includes microseconds
-        if len(s) >= 3:
-            s = s[:-3]
+        s = value.strftime(DEFAULT_DATE_TIME_FORMAT)
+        if "%f" in DEFAULT_DATE_TIME_FORMAT:
+            s = s[:-3]  # keeps milliseconds
         return quote(s)
     return quote(escape(value))
 
@@ -1558,7 +1558,7 @@ def create_table(
         chunksize=chunk_size,
         if_exists="append" if append else "replace" if replace else "fail",
         index=index,
-        index_label=index_cols,
+        index_label=to_list(index_cols) if not is_empty(index_cols) else None,
         method=method,
         schema=schema,
         dtype=col_types if not is_null(col_types) else get_col_types(df),
