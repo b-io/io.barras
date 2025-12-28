@@ -1626,38 +1626,47 @@ def delete_table(
 
     debug_query("delete", len(df), table, verbose=verbose)
 
-    for i, row in df.iterrows():
-        # Build the query
-        query = build_delete_table_query(
-            table,
-            filtering_cols=filtering_cols,
-            filtering_row=row,
-            is_mssql=is_mssql,
-            schema=schema,
-        )
+    def _transact(connection: db.Connection) -> int:
+        nonlocal delete_count
 
-        # Execute the query
-        try:
-            result = execute(engine, query)
-            result_count = len(result) if is_struct(result) else result
-            if result_count > 0:
-                delete_count += result_count
-                debug_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
-            else:
-                warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
-        except Exception as e:
-            error_row("delete", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
-            debug_query(
-                "deleted",
-                delete_count,
+        for i, row in df.iterrows():
+            # Build the query
+            query = build_delete_table_query(
                 table,
-                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=i + 1,
-                # Log
-                verbose=verbose,
+                filtering_cols=filtering_cols,
+                filtering_row=row,
+                is_mssql=is_mssql,
+                schema=schema,
             )
-    return delete_count
+
+            # Execute the query
+            try:
+                # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                with connection.begin_nested():
+                    result = execute(engine, query, connection=connection)
+                result_count = len(result) if is_struct(result) else result
+                if result_count > 0:
+                    delete_count += result_count
+                    debug_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
+                else:
+                    warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
+            except Exception as e:
+                error_row("delete", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+
+            if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+                debug_query(
+                    "deleted",
+                    delete_count,
+                    table,
+                    index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                    index_to=i + 1,
+                    # Log
+                    verbose=verbose,
+                )
+
+        return delete_count
+
+    return transact(engine, _transact)
 
 
 def bulk_delete_table(
@@ -1891,7 +1900,9 @@ def insert_table(
 
                 # Execute the query
                 try:
-                    result = execute(engine, query, connection=connection)
+                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                    with connection.begin_nested():
+                        result = execute(engine, query, connection=connection)
                     result_count = len(result) if is_struct(result) else result
                     if result_count > 0:
                         insert_count += result_count
@@ -1900,6 +1911,7 @@ def insert_table(
                         warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
                 except Exception as e:
                     error_row("insert", i, table, exception=e, cols=primary_cols, row=row, verbose=verbose)
+
                 if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
                     debug_query(
                         "inserted",
@@ -2108,34 +2120,43 @@ def update_table(
 
     debug_query("update", len(df), table, verbose=verbose)
 
-    for i, row in df.iterrows():
-        # Build the query
-        query = build_update_table_query(
-            table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
-        )
+    def _transact(connection: db.Connection) -> int:
+        nonlocal update_count
 
-        # Execute the query
-        try:
-            result = execute(engine, query)
-            result_count = len(result) if is_struct(result) else result
-            if result_count > 0:
-                update_count += result_count
-                debug_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
-            else:
-                warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
-        except Exception as e:
-            error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-        if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
-            debug_query(
-                "updated",
-                update_count,
-                table,
-                index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
-                index_to=i + 1,
-                # Log
-                verbose=verbose,
+        for i, row in df.iterrows():
+            # Build the query
+            query = build_update_table_query(
+                table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
             )
-    return update_count
+
+            # Execute the query
+            try:
+                # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                with connection.begin_nested():
+                    result = execute(engine, query, connection=connection)
+                result_count = len(result) if is_struct(result) else result
+                if result_count > 0:
+                    update_count += result_count
+                    debug_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
+                else:
+                    warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
+            except Exception as e:
+                error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+
+            if (i + 1) % DEFAULT_DEBUG_INTERVAL == 0:
+                debug_query(
+                    "updated",
+                    update_count,
+                    table,
+                    index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
+                    index_to=i + 1,
+                    # Log
+                    verbose=verbose,
+                )
+
+        return update_count
+
+    return transact(engine, _transact)
 
 
 def bulk_update_table(
