@@ -1601,7 +1601,12 @@ def select_query(
     """
     if verbose:
         logging.debug("Select the query '%s'", query)
-    return pd.read_sql(query, engine, chunksize=chunk_size, index_col=index_cols)
+    return pd.read_sql(
+        query,
+        engine,
+        chunksize=chunk_size,
+        index_col=to_list(index_cols) if not is_empty(index_cols) else None,
+    )
 
 
 def select_table(
@@ -1653,8 +1658,8 @@ def select_table(
         table,
         engine,
         chunksize=chunk_size,
-        columns=to_list(cols),
-        index_col=index_cols,
+        columns=to_list(cols) if not is_empty(cols) else None,
+        index_col=to_list(index_cols) if not is_empty(index_cols) else None,
         schema=schema,
     )
     if is_null(chunk_size):
@@ -1760,8 +1765,8 @@ def select_table_where(
         ),
         engine,
         chunksize=chunk_size,
-        columns=to_list(cols),
-        index_col=index_cols,
+        columns=to_list(cols) if not is_empty(cols) else None,
+        index_col=to_list(index_cols) if not is_empty(index_cols) else None,
     )
     if is_null(chunk_size):
         if row_count >= 0 and len(chunks) >= row_count:
