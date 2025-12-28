@@ -587,7 +587,7 @@ def aggregate_series(
         sort: Whether to sort the index before grouping.
         agg: The aggregation to apply (e.g., `Aggregation.MEAN`, `Aggregation.SUM`).
              Use `Aggregation.IDENTITY` to skip the aggregation.
-        freq: The grouping frequency (e.g., `"D"`, `"W"`, `"M"`), or a `pd.DateOffset`.
+        freq: The grouping frequency (e.g., `"D"`, `"W"`, `"M"`) or a `pd.DateOffset`.
         pos: The anchoring policy when ungrouping (e.g., `Position.START` or `Position.END`).
 
     Returns:

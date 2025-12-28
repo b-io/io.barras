@@ -34,7 +34,7 @@ nutil = { path = "../nutil", develop = true }               # Neptune utility li
 
 ### Web ASGI ###############################################
 asgiref = "^3.11.0"           # ASGI reference and sync/async adapter utilities
-fastapi = "^0.127.0"          # ASGI web framework built on Starlette and powered by Pydantic
+fastapi = "^0.128.0"          # ASGI web framework built on Starlette and powered by Pydantic
 uvicorn = "^0.40.0"           # ASGI server for running ASGI applications
 
 

@@ -29,7 +29,7 @@ __DB_CONSTANTS__________________________________________________________________
 DEFAULT_IS_MSSQL = True
 
 # The default schema
-DEFAULT_SCHEMA = "dbo"
+DEFAULT_SCHEMA = None
 
 ##############################
 
@@ -67,10 +67,10 @@ def get_full_table_name(
     Args:
         table: The table name.
 
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
-        The formatted full table name string (e.g., `"dbo"."MyTable"`).
+        The formatted full table name string (e.g., `"myschema.MyTable"` or `"MyTable"` when `schema=None`).
     """
     return collapse(collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table))
 
@@ -80,7 +80,7 @@ def get_table_metadata(
     table: str,
     *,
     metadata: Optional[db.MetaData] = None,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> db.Table:
     """
     Returns the SQLAlchemy table metadata for the specified table.
@@ -94,7 +94,7 @@ def get_table_metadata(
         table: The table name.
 
         metadata: Optional SQLAlchemy metadata to reuse.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQLAlchemy `db.Table` instance for the specified table.
@@ -106,7 +106,8 @@ def get_table_metadata(
     if is_null(metadata):
         metadata = create_metadata(schema=schema)
     metadata.reflect(bind=engine, schema=schema, views=True, only=[table], extend_existing=True)
-    return metadata.tables[collapse(schema, ".", table)]
+    key = collapse(schema, ".", table) if not is_null(schema) else table
+    return metadata.tables[key]
 
 
 ##############################
@@ -117,7 +118,7 @@ def get_cols(
     table: str,
     *,
     metadata: Optional[db.MetaData] = None,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> List[str]:
     """
     Returns the column names of the specified table.
@@ -131,7 +132,7 @@ def get_cols(
         table: The table name.
 
         metadata: Optional SQLAlchemy metadata to reuse.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The list of column names in the table.
@@ -183,7 +184,7 @@ def get_filtering_cols(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     metadata: Optional[db.MetaData] = None,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     use_only_primary: bool = True,
     # Test
     test: bool = ASSERT,
@@ -205,7 +206,7 @@ def get_filtering_cols(
 
         filtering_cols: Optional user-specified filtering columns.
         metadata: Optional SQLAlchemy metadata to reuse.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
         use_only_primary: When `True`, prefers the table primary key as the filtering columns.
 
         test: When `True`, enables validation warnings.
@@ -280,7 +281,7 @@ def get_primary_cols(
     *,
     cols: Optional[ColumnLike] = None,
     metadata: Optional[db.MetaData] = None,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> List[str]:
     """
     Returns the primary key column names for the specified table.
@@ -295,7 +296,7 @@ def get_primary_cols(
 
         cols: Optional subset of columns to keep (filters the primary key list).
         metadata: Optional SQLAlchemy metadata to reuse.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The list of primary key column names (optionally filtered by `cols`).
@@ -433,7 +434,7 @@ def build_select_table_where_query(
     n: Optional[int] = None,
     order_cols: Optional[ColumnLike] = None,
     order_directions: Optional[Iterable[str]] = None,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
     Builds a SQL SELECT query for a table with an optional WHERE clause and ordering.
@@ -454,7 +455,7 @@ def build_select_table_where_query(
         n: Optional row limit.
         order_cols: Optional ORDER BY columns.
         order_directions: Optional suffixes aligned with `order_cols` (e.g., `"ASC"`, `"DESC"`).
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQL query string ending with `";"`.
@@ -483,7 +484,7 @@ def build_delete_table_query(
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
     Builds a SQL DELETE query for rows matching a WHERE clause.
@@ -499,7 +500,7 @@ def build_delete_table_query(
         filtering_cols: Optional filtering columns for the WHERE clause.
         filtering_row: Optional row-like mapping used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQL query string ending with `";"`.
@@ -523,7 +524,7 @@ def build_insert_table_query(
     row: RowLike,
     *,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
     Builds a SQL INSERT query for a single row.
@@ -539,7 +540,7 @@ def build_insert_table_query(
         row: A row-like mapping providing values for `cols`.
 
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQL query string ending with `";"`.
@@ -569,7 +570,7 @@ def build_update_table_query(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
     Builds a SQL UPDATE query for a single row, matching by a WHERE clause.
@@ -586,7 +587,7 @@ def build_update_table_query(
 
         filtering_cols: Optional filtering columns used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQL query string ending with `";"`.
@@ -878,7 +879,7 @@ __DB_METADATA_______________________________________________ = ""
 
 def create_metadata(
     *,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> db.MetaData:
     """
     Creates SQLAlchemy metadata bound to the specified engine and schema.
@@ -887,7 +888,7 @@ def create_metadata(
         • Returns `db.MetaData(schema=schema)`.
 
     Args:
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
     Returns:
         The SQLAlchemy `MetaData` instance.
@@ -1294,7 +1295,7 @@ def create_table(
     index_cols: Optional[ColumnLike] = None,
     method: Optional[str] = None,
     replace: bool = False,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     col_types: Optional[Mapping[str, db.TypeEngine]] = None,
 ) -> Any:
     """
@@ -1320,7 +1321,7 @@ def create_table(
         index_cols: Optional index column names (used when `index=True`).
         method: Optional Pandas `to_sql` method (e.g., `"multi"`).
         replace: When `True`, replaces the table.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
         col_types: Optional mapping of `{column_name: sqlalchemy_type}`.
 
     Returns:
@@ -1393,7 +1394,7 @@ def select_table(
     index: bool = False,
     index_cols: Optional[ColumnLike] = None,
     row_count: int = -1,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Log
     verbose: bool = VERBOSE,
 ) -> pd.DataFrame:
@@ -1415,7 +1416,7 @@ def select_table(
         index: When `True`, uses `index_cols` (or the primary key) as the dataframe index.
         index_cols: Optional index column(s).
         row_count: When non-negative, limits the returned number of rows.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         verbose: When `True`, enables logging and per-chunk debug messages.
 
@@ -1466,7 +1467,7 @@ def select_table_where(
     order_cols: Optional[ColumnLike] = None,
     order_directions: Optional[Iterable[str]] = None,
     row_count: int = -1,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Log
     verbose: bool = VERBOSE,
 ) -> pd.DataFrame:
@@ -1495,7 +1496,7 @@ def select_table_where(
         order_cols: Optional ORDER BY columns.
         order_directions: Optional suffixes aligned with `order_cols` (e.g., `"ASC"`, `"DESC"`).
         row_count: When non-negative, limits the returned number of rows.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         verbose: When `True`, enables logging and per-chunk debug messages.
 
@@ -1568,7 +1569,7 @@ def delete_table(
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -1592,7 +1593,7 @@ def delete_table(
         filtering_cols: Optional filtering columns for matching (defaults to the primary key when available).
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -1678,7 +1679,7 @@ def bulk_delete_table(
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -1704,7 +1705,7 @@ def bulk_delete_table(
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -1801,7 +1802,7 @@ def set_id_insert(
     flag: str,
     *,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> None:
     """
     Enables or disables explicit insertion into identity columns for MSSQL.
@@ -1820,7 +1821,7 @@ def set_id_insert(
         flag: The MSSQL flag string (typically `"ON"` or `"OFF"`).
 
         is_mssql: Whether the target database is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
     """
     if is_mssql:
         connection.exec_driver_sql(paste("SET IDENTITY_INSERT", get_full_table_name(table, schema=schema), flag) + ";")
@@ -1837,7 +1838,7 @@ def insert_table(
     index: bool = False,
     insert_id: Optional[bool] = None,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -1862,7 +1863,7 @@ def insert_table(
         index: When `True`, includes the dataframe index as columns.
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target database is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -1939,7 +1940,7 @@ def bulk_insert_table(
     index: bool = False,
     insert_id: Optional[bool] = None,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -1968,7 +1969,7 @@ def bulk_insert_table(
         index: When `True`, includes the dataframe index as columns.
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target database is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2057,7 +2058,7 @@ def update_table(
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2081,7 +2082,7 @@ def update_table(
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2168,7 +2169,7 @@ def bulk_update_table(
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2196,7 +2197,7 @@ def bulk_update_table(
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2294,7 +2295,7 @@ def upsert_table(
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
     is_mssql: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2318,7 +2319,7 @@ def upsert_table(
         filtering_cols: Optional filtering columns for matching.
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging and optional verification.
@@ -2518,7 +2519,7 @@ def migrate(
     filtering_row: Optional[RowLike] = None,
     is_mssql_from: bool = DEFAULT_IS_MSSQL,
     is_mssql_to: bool = DEFAULT_IS_MSSQL,
-    schema: str = DEFAULT_SCHEMA,
+    schema: Optional[str] = DEFAULT_SCHEMA,
     upsert: bool = False,
     # Test
     test: bool = ASSERT,
@@ -2553,7 +2554,7 @@ def migrate(
         filtering_row: Optional filtering row for `select_table_where(…)`.
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the destination database is MSSQL.
-        schema: The schema name (defaults to `"dbo"`).
+        schema: The schema name (defaults to `None`).
         upsert: When `True`, performs upserts instead of bulk inserts.
 
         test: When `True`, enables validation warnings during writes.

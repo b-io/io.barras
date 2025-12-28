@@ -693,10 +693,7 @@ def set_keys(
         return s
 
     # Normalize the keys
-    if is_table(new_keys):
-        new_keys = get_keys(new_keys)
-    else:
-        new_keys = to_ordered_set(new_keys)
+    new_keys = get_keys(new_keys) if is_table(new_keys) else to_ordered_set(new_keys)
     if is_empty(new_keys):
         return s
 

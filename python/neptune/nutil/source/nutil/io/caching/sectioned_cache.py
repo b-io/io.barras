@@ -9,9 +9,9 @@
 #   and write policies controlled by `CachePolicy`. The keys are strings; the values must be JSON-serializable.
 #
 # Terminology
-#   • A `section` is a top-level JSON key that groups related entries (e.g., `"en"`, `"fr"`, `"de_def"`).
+#   • A `section` is a top-level JSON key that groups related entries.
 #   • A `key` is the domain identifier inside a section (e.g., a lemma string).
-#   • A `value` is the JSON-serializable payload stored for a `key` (e.g., translations or a definition).
+#   • A `value` is the JSON-serializable payload stored for a `key`.
 #
 # Behavior
 #   • The namespacing by sections avoids the collisions for the same `key` across heterogeneous datasets.

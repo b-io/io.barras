@@ -30,7 +30,7 @@ python = ">=3.10,<4.0"
 
 ### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
-psutil = "^7.1.3"             # System and process resource monitoring
+psutil = "^7.2.0"             # System and process resource monitoring
 
 ### DataFrames & Tables ####################################
 numpy = "^2.2.6"              # Array computing and linear algebra

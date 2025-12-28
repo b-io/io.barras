@@ -32,7 +32,7 @@ opencv-python = "^4.12.0.88"  # OpenCV (cv2) for image and video processing
 
 ### Concurrency & System ###################################
 multiprocess = "^0.70.18"     # Multiprocessing alternative with enhanced features
-psutil = "^7.1.3"             # System and process resource monitoring
+psutil = "^7.2.0"             # System and process resource monitoring
 
 ### Databases ##############################################
 sqlalchemy = "^2.0.45"        # SQL abstraction and object-relational mapping
@@ -89,7 +89,7 @@ tqdm = "^4.67.1"              # Terminal progress bars
 
 ### Web ASGI ###############################################
 asgiref = "^3.11.0"           # ASGI reference and sync/async adapter utilities
-fastapi = "^0.127.0"          # ASGI web framework built on Starlette and powered by Pydantic
+fastapi = "^0.128.0"          # ASGI web framework built on Starlette and powered by Pydantic
 uvicorn = "^0.40.0"           # ASGI server for running ASGI applications
 
 ### Web HTTP ###############################################

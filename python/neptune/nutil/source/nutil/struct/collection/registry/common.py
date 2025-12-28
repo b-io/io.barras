@@ -327,7 +327,7 @@ class CollectionRegistry(metaclass=FinalSingletonMeta):
         return self.get(x) is not None
 
     def get(self, x_or_t: Any) -> Optional[CollectionAdapter[Any]]:
-        """Returns the best adapter for the instance or type, or None if unregistered."""
+        """Returns the best adapter for the instance or type, or `None` if unregistered."""
         t = x_or_t if isinstance(x_or_t, type) else type(x_or_t)
         with self._LOCK:
             return self._resolve_adapter_for_type(t)

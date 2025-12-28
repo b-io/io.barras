@@ -21,7 +21,7 @@ __COMMON_STRUCT_TYPES___________________________________________________________
 
 # Typing alias for any supported `Struct`:
 #   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
-#   • table: `pd.Series`, or `pd.DataFrame`
+#   • table: `pd.Series` or `pd.DataFrame`
 #   • tuple: `tuple`
 Struct = Iterable[Any]
 
