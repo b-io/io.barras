@@ -234,6 +234,9 @@
 							<configuration>
 								<executable>sh</executable>
 								<workingDirectory>${project.basedir}</workingDirectory>
+								<environmentVariables>
+									<PYTHONPATH>${basedir}/source</PYTHONPATH>
+								</environmentVariables>
 								<arguments>
 									<argument>${project.basedir}/install.sh</argument>
 								</arguments>
@@ -248,6 +251,9 @@
 							<configuration>
 								<executable>sh</executable>
 								<workingDirectory>${project.basedir}</workingDirectory>
+								<environmentVariables>
+									<PYTHONPATH>${basedir}/source</PYTHONPATH>
+								</environmentVariables>
 								<arguments>
 									<argument>${project.basedir}/test.sh</argument>
 								</arguments>
@@ -262,6 +268,9 @@
 							<configuration>
 								<executable>sh</executable>
 								<workingDirectory>${project.basedir}</workingDirectory>
+								<environmentVariables>
+									<PYTHONPATH>${basedir}/source</PYTHONPATH>
+								</environmentVariables>
 								<arguments>
 									<argument>${project.basedir}/deploy.sh</argument>
 								</arguments>

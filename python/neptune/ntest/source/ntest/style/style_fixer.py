@@ -81,7 +81,7 @@ def preview_file(
     try:
         orig = path.read_text(encoding=encoding, errors="ignore")
     except Exception as e:
-        logging.warning("Could not read '%s': %s", path, e)
+        logging.warning("⚠️ Could not read '%s': %s", path, e)
         return {}
 
     active_rules: List[StyleRule] = [r for r in rules if r.id in FIXERS or r.id in TEXT_FIXERS]
@@ -139,7 +139,7 @@ def process_file(
     try:
         orig = path.read_text(encoding=encoding, errors="ignore")
     except Exception as e:
-        logging.warning("Could not read '%s': %s", path, e)
+        logging.warning("⚠️ Could not read '%s': %s", path, e)
         return {}
 
     # Preserve the rule order as defined in the YAML configuration

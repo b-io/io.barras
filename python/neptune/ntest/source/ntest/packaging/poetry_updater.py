@@ -741,23 +741,32 @@ def supports_python_version(files: List[object], target_version: Version) -> boo
     if not files:
         return False
 
+    any_non_yanked = False
     any_requires_python = False
 
-    for f in files:
-        if not isinstance(f, dict):
-            continue
-        if f.get("yanked") is True:
+    for file in files:
+        if not isinstance(file, dict):
             continue
 
-        rp = f.get("requires_python")
-        if isinstance(rp, str):
+        if file.get("yanked") is True:
+            continue
+        any_non_yanked = True
+
+        requires_python = file.get("requires_python")
+        if isinstance(requires_python, str):
             any_requires_python = True
-            if is_python_compatible(rp, target_version):
+            if is_python_compatible(requires_python, target_version):
                 return True
 
+    # If everything is yanked, the release is unusable
+    if not any_non_yanked:
+        return False
+
+    # If there is `"Requires-Python"` but none matched, the release is incompatible
     if any_requires_python:
         return False
 
+    # Otherwise, assume compatible
     return True
 
 

@@ -49,9 +49,9 @@ matplotlib = "^3.10.8"        # 2D plotting and figures
 
 [tool.poetry.group.docs.dependencies]
 ### Documentation ##########################################
-docutils = "^0.22.4"              # reStructuredText parsing and rendering
+docutils = ">=0.20,<0.22"         # reStructuredText parsing and rendering
 myst-parser = "^4.0.1"            # Markdown parser for Sphinx
-sphinx = "^8.3.0"                 # Static documentation generation
+sphinx = "^8.1.3"                 # Static documentation generation
 
 [tool.poetry.group.lint.dependencies]
 ### Code Quality ###########################################
