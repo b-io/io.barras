@@ -41,7 +41,7 @@ import requests
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 
-from nconnect.internet import http
+from nconnect.network import http
 from ntest.common import DEFAULT_EXCLUDES
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
