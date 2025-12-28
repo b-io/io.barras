@@ -18,33 +18,61 @@ from nutil.common import *
 
 __STRING_CONSTANTS________________________________________________________________________ = ""
 
-# The basic Latin ranges
+# The basic Latin ranges (for regex character classes, e.g., `"[a-z]"`)
 LOWERCASE_LATIN_RANGE: str = "a-z"
 UPPERCASE_LATIN_RANGE: str = "A-Z"
 
-# The language-specific letters
+# The language-specific letters (literal characters, not regex ranges)
 LOWERCASE_DE_SPECIAL_LETTERS: str = "äöüß"
 UPPERCASE_DE_SPECIAL_LETTERS: str = "ÄÖÜẞ"
 
 LOWERCASE_FR_SPECIAL_LETTERS: str = "àâæçéèêëîïôœùûüÿ"
 UPPERCASE_FR_SPECIAL_LETTERS: str = "ÀÂÆÇÉÈÊËÎÏÔŒÙÛÜŸ"
 
-# The combined sets
+# The combined sets (intended for regex character classes, e.g., `f"[{LETTERS}]"`)
 LOWERCASE_LETTERS: str = f"{LOWERCASE_LATIN_RANGE}{LOWERCASE_DE_SPECIAL_LETTERS}{LOWERCASE_FR_SPECIAL_LETTERS}"
 UPPERCASE_LETTERS: str = f"{UPPERCASE_LATIN_RANGE}{UPPERCASE_DE_SPECIAL_LETTERS}{UPPERCASE_FR_SPECIAL_LETTERS}"
 LETTERS: str = f"{LOWERCASE_LETTERS}{UPPERCASE_LETTERS}"
 
-# The allowed digits (e.g., `"MP3"`)
+# The allowed digits (for regex character classes, e.g., `"[0-9]"`)
 DIGIT_RANGE: str = "0-9"
 
-# The combined set of alphanumeric characters
+# The combined set of alphanumeric characters (for regex character classes, e.g., `f"[{ALPHANUMERIC_CHARS}]"`)
 ALPHANUMERIC_CHARS: str = f"{LETTERS}{DIGIT_RANGE}"
 
 
 __STRING_CONVERTERS_______________________________________________________________________ = ""
 
 
-def to_string(x: Any, *, default: str = "", delimiter=",", strip: Optional[str] = None):
+def to_string(
+    x: Any,
+    *,
+    default: str = "",
+    delimiter: str = ",",
+    strip: Optional[str] = None,
+) -> Any:
+    """
+    Converts the specified object to a string-like representation.
+
+    Behavior:
+        • If `x` is null, returns `default`.
+        • If `x` is a structure:
+          - if it exposes `astype`, returns `x.astype(STRING_ELEMENT_TYPE)` (array/Series-like)
+          - otherwise collapses the structure via `collapse(…)`.
+        • Otherwise stringifies `x` via `stringify(…)`.
+
+    Notes:
+        The return type is intentionally polymorphic to preserve array/Series semantics when `astype` is available.
+
+    Args:
+        x: The object to convert.
+        default: The default string returned when `x` is null.
+        delimiter: The delimiter used for collapsing structures.
+        strip: Optional strip argument forwarded to `collapse(…)` / `stringify(…)`.
+
+    Returns:
+        A string (scalar) or a string-typed structure (when `astype` is available).
+    """
     if is_null(x):
         return default
     elif is_struct(x):
@@ -83,7 +111,7 @@ def to_greek_letter(n: int) -> str:
     # Greek lowercase letters (24 letters, excluding final sigma)
     greek_letters = "αβγδεζηθικλμνξοπρστυφχψω"
 
-    letters = []
+    letters: List[str] = []
     x = n
     while x > 0:
         x -= 1
@@ -101,7 +129,7 @@ def to_latin_letter(n: int) -> str:
     """
     if n <= 0:
         raise ValueError("'n' must be >= 1")
-    letters = []
+    letters: List[str] = []
     x = n
     while x > 0:
         x -= 1
@@ -119,7 +147,8 @@ def to_roman(n: int) -> str:
     """
     if n <= 0:
         raise ValueError("'n' must be >= 1")
-    vals = [
+
+    vals: List[Tuple[int, str]] = [
         (1000, "M"),
         (900, "CM"),
         (500, "D"),
@@ -134,7 +163,7 @@ def to_roman(n: int) -> str:
         (4, "IV"),
         (1, "I"),
     ]
-    out = []
+    out: List[str] = []
     x = n
     for v, s in vals:
         if x == 0:
@@ -147,8 +176,28 @@ def to_roman(n: int) -> str:
 __STRING_GENERATORS_______________________________________________________________________ = ""
 
 
-def generate_string(length, case_sensitive=False, include_digits=True):
-    """Generates a pseudorandom, uniformly distributed string of the specified length."""
+def generate_string(
+    length: int,
+    case_sensitive: bool = False,
+    include_digits: bool = True,
+) -> str:
+    """
+    Generates a pseudorandom, uniformly distributed string of the specified length.
+
+    Args:
+        length: The output length (must be non-negative).
+        case_sensitive: When `True`, includes lowercase letters.
+        include_digits: When `True`, includes digits.
+
+    Returns:
+        A randomly generated string.
+
+    Raises:
+        ValueError: If `length` is negative.
+    """
+    if length < 0:
+        raise ValueError("'length' must be >= 0")
+
     choices = string.ascii_uppercase
     if case_sensitive:
         choices += string.ascii_lowercase
@@ -160,19 +209,49 @@ def generate_string(length, case_sensitive=False, include_digits=True):
 __STRING_PROCESSORS_______________________________________________________________________ = ""
 
 
-def extract(s, pattern):
-    """Returns all the occurrences of the specified pattern from the specified string."""
+def extract(s: Optional[str], pattern: str) -> List[str]:
+    """
+    Returns all the occurrences of the specified pattern from the specified string.
+
+    Notes:
+        • Returns an empty list when `s` is null.
+
+    Args:
+        s: The input string.
+        pattern: The regex pattern.
+
+    Returns:
+        The list of matches (possibly empty).
+    """
+    if is_null(s):
+        return []
+
     return re.findall(pattern, s)
 
 
 ##############################
 
 
-def replace(s, pattern, replacement):
+def replace(s: Optional[str], pattern: str, replacement: str) -> Optional[str]:
     """
     Returns the string constructed by replacing the specified pattern by the specified replacement
     string in the specified string recursively (only if the length is decreasing).
+
+    Notes:
+        • Returns `None` when `s` is null.
+        • Recursion is bounded by the invariant that the string length must strictly decrease each iteration.
+
+    Args:
+        s: The input string.
+        pattern: The regex pattern to replace.
+        replacement: The replacement string.
+
+    Returns:
+        The replaced string, or `None` if `s` is null.
     """
+    if is_null(s):
+        return None
+
     count = INF
     while len(s) < count:
         count = len(s)
@@ -180,10 +259,22 @@ def replace(s, pattern, replacement):
     return s
 
 
-def replace_word(s: str, word: str, replacement: str) -> str:
+def replace_word(s: Optional[str], word: str, replacement: str) -> Optional[str]:
     """
     Returns the string constructed by replacing the specified word by the specified replacement
     string in the specified string recursively (only if the length is decreasing).
+
+    Notes:
+        • Returns `None` when `s` is null.
+        • Uses `re.escape(word)` so `word` is treated literally (e.g., `"C++"` is safe).
+
+    Args:
+        s: The input string.
+        word: The literal word to replace.
+        replacement: The replacement string.
+
+    Returns:
+        The replaced string, or `None` if `s` is null.
     """
     return replace(s, r"\b" + re.escape(word) + r"\b", replacement)
 
@@ -191,11 +282,29 @@ def replace_word(s: str, word: str, replacement: str) -> str:
 ##############################
 
 
-def split(s, delimiter=",", empty_filter=True):
+def split(
+    s: Optional[str],
+    delimiter: str = ",",
+    empty_filter: bool = True,
+) -> List[str]:
     """
     Returns all the tokens computed by splitting the specified string around the specified delimiter
     (regular expression).
+
+    Notes:
+        • Returns an empty list when `s` is null.
+
+    Args:
+        s: The input string.
+        delimiter: The regex delimiter.
+        empty_filter: When `True`, removes empty tokens.
+
+    Returns:
+        The list of tokens (possibly empty).
     """
+    if is_null(s):
+        return []
+
     if empty_filter:
         from nutil.struct.util import remove_empty
 
@@ -267,6 +376,7 @@ def strip_pair(
         • `strip_pair("{[x]}", left="{", right="}")` → `"[x]"`
 
     Notes:
+        • Returns `None` when `s` is null.
         • This function strips only when the string starts with `left` AND ends with `right`.
         • When `left == right` (e.g., quotes), it strips symmetric wrappers.
 
@@ -328,6 +438,7 @@ def strip_pairs(
     Recursively strips any of the provided wrapping pairs.
 
     Behavior:
+        • Returns `None` when `s` is null.
         • Attempts to strip one of the `pairs` from the outside.
         • If a pair matches, strips it and repeats (when `recursive=True`).
         • If no pair matches, returns the current string.
@@ -419,12 +530,13 @@ def trim(
 ##############################
 
 
-def wrap(content, left, right=None):
+def wrap(content: Any, left: Any, right: Optional[Any] = None) -> Any:
     """Returns the wrapped representative string of the specified content."""
     if is_null(left):
         return content
     elif is_null(right):
         right = left
+
     if is_struct(content):
         from nutil.struct.util import apply
 
@@ -432,26 +544,26 @@ def wrap(content, left, right=None):
     return collapse(left, content, right)
 
 
-def quote(content):
+def quote(content: Any) -> Any:
     """Returns the single-quoted representative string of the specified content."""
     return wrap(content, "'")
 
 
-def dquote(content):
+def dquote(content: Any) -> Any:
     """Returns the double-quoted representative string of the specified content."""
     return wrap(content, '"')
 
 
-def par(content):
+def par(content: Any) -> Any:
     """Returns the parenthesized representative string of the specified content."""
     return wrap(content, "(", ")")
 
 
-def sbra(content):
+def sbra(content: Any) -> Any:
     """Returns the bracketized representative string of the specified content."""
     return wrap(content, "[", "]")  # square brackets
 
 
-def cbra(content):
+def cbra(content: Any) -> Any:
     """Returns the braced representative string of the specified content."""
     return wrap(content, "{", "}")  # curly brackets
