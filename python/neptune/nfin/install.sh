@@ -19,12 +19,9 @@ set -eu
 # 1. Ensure Poetry is available
 python -m pip install --user --upgrade pip poetry
 
-# 2. Install the project dependencies and create a lockfile
-python -m poetry lock
-
-# 3. Build the package (create the `.whl` and `.tar.gz` files in the `dist` directory)
+# 2. Build the package (create the `.whl` and `.tar.gz` files in the `dist` directory)
 python -m poetry build
 
-# 4. Install the latest built wheel
+# 3. Install the latest built wheel
 LATEST_WHEEL=$(ls -1 dist/*.whl | sort | tail -n 1)
 python -m pip install --upgrade --force-reinstall "$LATEST_WHEEL"
