@@ -46,6 +46,19 @@ DEFAULT_DEBUG_INTERVAL: int = 1000
 # The default flag controlling multi-statement execution (`None` → auto-detect)
 DEFAULT_USE_MULTI_STATEMENTS: Optional[bool] = None
 
+##############################
+
+# The default per-statement fallback when the affected-row count is unknown (`None` / driver-specific)
+#
+# Notes:
+#   • Treat unknown row counts separately (see `is_unknown_row_count(…)` and per-function `*_unknown_count`)
+#   • If you still want a fallback:
+#       - DELETE/UPDATE: fallback 0 is safer to avoid overcounting
+#       - INSERT: fallback 1 is often acceptable (one INSERT per row)
+DEFAULT_UNKNOWN_DELETE_ROW_COUNT: int = 0
+DEFAULT_UNKNOWN_INSERT_ROW_COUNT: int = 1
+DEFAULT_UNKNOWN_UPDATE_ROW_COUNT: int = 0
+
 
 __DB_TYPES________________________________________________________________________________ = ""
 
@@ -382,27 +395,27 @@ def get_col_types(
 ############################################################
 
 
-def normalize_result_count(rowcount: Any) -> Optional[int]:
+def normalize_row_count(row_count: Any) -> Optional[int]:
     """
-    Normalizes DBAPI/SQLAlchemy rowcount semantics.
+    Normalizes DBAPI/SQLAlchemy row count semantics.
 
     Returns:
         • `None` when the affected-row count is unknown (`None` or negative, e.g. `-1`)
         • Otherwise the non-negative affected-row count as an `int`
     """
-    if is_null(rowcount):
+    if is_null(row_count):
         return None
     try:
-        n = int(rowcount)
+        n = int(row_count)
     except (TypeError, ValueError):
         return None
     return None if n < 0 else n
 
 
-def resolve_result_count(
+def resolve_row_count(
     result: Union[List[Any], Optional[int]],
     *,
-    default: int = 1,
+    default: int = 0,
 ) -> int:
     """
     Resolves an affected-row count from an `execute(…)` result.
@@ -410,12 +423,17 @@ def resolve_result_count(
     Notes:
         `execute(…)` returns:
           • `List[Any]` for result sets (SELECT, etc.)
-          • `Optional[int]` for DML rowcount (INSERT/UPDATE/DELETE); `None` means unknown
+          • `Optional[int]` for DML row count (INSERT/UPDATE/DELETE); `None` means unknown
+
+        Use `is_unknown_row_count(…)` to count/log unknown row counts separately.
+        Choose `default` per operation:
+          • DELETE/UPDATE: `default=0` is safer to avoid overcounting
+          • INSERT: `default=1` is often acceptable (one insert per row)
 
     Args:
         result: The raw result returned by `execute(…)`.
 
-        default: The fallback count used when the rowcount is unknown (`None`) or invalid.
+        default: The fallback count used when the row count is unknown (`None`) or invalid.
 
     Returns:
         A non-negative count suitable for best-effort DML accounting and row-level logging decisions.
@@ -425,7 +443,8 @@ def resolve_result_count(
     elif is_struct(result):
         return len(result)
     try:
-        return int(result)
+        n = int(result)
+        return 0 if n < 0 else n
     except (TypeError, ValueError):
         return int(default)
 
@@ -456,6 +475,82 @@ def resolve_use_multi_statements(
     if not is_null(use_multi_statements):
         return bool(use_multi_statements)
     return engine.dialect.name != "sqlite"
+
+
+__DB_VALIDATORS___________________________________________________________________________ = ""
+
+
+def is_unknown_row_count(result: Union[Optional[int], List[Any]]) -> bool:
+    """
+    Returns whether an `execute(…)` result has an unknown affected-row count.
+
+    Notes:
+        • `execute(…)` returns:
+            - `Optional[int]` for DML row count; `None` means unknown
+            - `List[Any]` for result sets (SELECT, etc.) → never unknown
+    """
+    if is_list(result):
+        return False
+    return is_null(result)
+
+
+############################################################
+
+
+def exists(
+    connection: db.Connection,
+    table: str,
+    *,
+    filtering_cols: Optional[ColumnLike] = None,
+    filtering_row: Optional[RowLike] = None,
+    is_mssql: bool = DEFAULT_IS_MSSQL,
+    schema: Optional[str] = DEFAULT_SCHEMA,
+) -> bool:
+    """
+    Returns whether at least one row exists in the specified table matching the given filters.
+
+    Behavior:
+        • Builds a `SELECT` query using `build_select_table_where_query(…)` with `n=1`.
+        • Selects `filtering_cols` (or `*` when empty) and applies a WHERE clause derived from `filtering_row`.
+        • Executes the query on the provided `connection` via `pd.read_sql(…)`.
+        • Returns `True` when at least one row is returned, otherwise `False`.
+
+    Notes:
+        This is a best-effort existence check. It issues a query and materializes the result into a dataframe in order
+        to test whether any row was returned.
+
+    Args:
+        connection: The SQLAlchemy connection to use.
+        table: The table name.
+
+        filtering_cols: Optional filtering columns used both for selection and WHERE clause construction.
+        filtering_row: Optional row-like mapping used by `build_where_clause(…)` to construct the WHERE clause.
+        is_mssql: Whether the target dialect is MSSQL (affects query formatting).
+        schema: The schema name (defaults to `None`).
+
+    Returns:
+        `True` if a matching row exists, otherwise `False`.
+
+    Raises:
+        Exception: Any exception raised by `pd.read_sql(…)`, SQLAlchemy, or the database driver.
+    """
+    return (
+        len(
+            pd.read_sql(
+                build_select_table_where_query(
+                    table,
+                    cols=filtering_cols,
+                    filtering_cols=filtering_cols,
+                    filtering_row=filtering_row,
+                    is_mssql=is_mssql,
+                    n=1,
+                    schema=schema,
+                ),
+                connection,
+            )
+        )
+        > 0
+    )
 
 
 __DB_BUILDERS_____________________________________________________________________________ = ""
@@ -1059,6 +1154,8 @@ def format(
     Behavior:
         • Null → `NULL`
         • Structured values (collections) -> parenthesized list of formatted elements
+          - Empty collections → `(NULL)` (so `IN (NULL)` matches nothing in WHERE contexts)
+          - Strings/bytes and mappings are treated as scalars
         • Booleans:
           - MSSQL → `1` / `0`
           - otherwise → `"TRUE"` / `"FALSE"`
@@ -1079,6 +1176,8 @@ def format(
     if is_null(value):
         return "NULL"
     elif is_struct(value):
+        if is_empty(value):
+            return par("NULL")
         return par(collist(apply(value, format, is_mssql=is_mssql)))
     elif is_boolean(value):
         if is_mssql:
@@ -1096,19 +1195,34 @@ def format(
 __DB_LOGGERS______________________________________________________________________________ = ""
 
 
-def get_query_message(verb: str, count: int, table: str) -> str:
+def get_query_message(
+    verb: str,
+    count: int,
+    table: str,
+    *,
+    unknown_count: int = 0,
+) -> str:
     """
     Builds a human-readable message describing a table-level operation.
 
     Args:
         verb: The operation verb (e.g., `"select"`, `"insert"`).
-        count: The number of affected rows.
+        count: The number of affected rows (known count).
         table: The table name.
 
+        unknown_count: The number of statements/rows for which the affected-row count was unknown.
+
     Returns:
-        A message string such as `select 100 rows in the table "MyTable"` (without capitalization).
+        A message string such as `"Select 100 rows (unknown: 5) in the table 'MyTable'"`.
     """
-    return paste(verb, count, "rows", "in the table", quote(table))
+    return paste(
+        verb,
+        count,
+        "rows",
+        par(paste("unknown:", unknown_count)) if unknown_count > 0 else "",
+        "in the table",
+        quote(table),
+    )
 
 
 ##############################
@@ -1121,6 +1235,7 @@ def debug_query(
     *,
     index_from: Optional[int] = None,
     index_to: Optional[int] = None,
+    unknown_count: int = 0,
     # Log
     verbose: bool = VERBOSE,
 ) -> None:
@@ -1133,11 +1248,12 @@ def debug_query(
 
     Args:
         verb: The operation verb.
-        count: The number of rows (or chunk size) for the message.
+        count: The number of rows (or chunk size) for the message (known count).
         table: The table name.
 
         index_from: The inclusive start row index (1-based in the message).
         index_to: The inclusive end row index (1-based in the message).
+        unknown_count: The number of statements/rows for which the affected-row count was unknown.
 
         verbose: When `True`, enables logging.
     """
@@ -1149,7 +1265,7 @@ def debug_query(
             prefix += " to " + str(index_to)
         if not is_empty(prefix):
             prefix = "processing rows" + prefix + ", "
-        logging.debug((prefix + get_query_message(verb, count, table)).capitalize())
+        logging.debug((prefix + get_query_message(verb, count, table, unknown_count=unknown_count)).capitalize())
 
 
 def warn_query(
@@ -1230,6 +1346,7 @@ def get_row_message(
     *,
     cols: Optional[ColumnLike] = None,
     row: Optional[RowLike] = None,
+    unknown_count: bool = False,
 ) -> str:
     """
     Builds a human-readable message describing a row-level operation.
@@ -1241,6 +1358,7 @@ def get_row_message(
 
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
+        unknown_count: When `True`, marks the affected-row count as unknown.
 
     Returns:
         A message string describing the row operation (without the leading dash/prefix).
@@ -1252,6 +1370,7 @@ def get_row_message(
         get_items(row, inclusion=cols) if not is_null(row) else "",
         "in the table",
         quote(table),
+        par("unknown affected-row count") if unknown_count else "",
     )
 
 
@@ -1265,6 +1384,7 @@ def debug_row(
     *,
     cols: Optional[ColumnLike] = None,
     row: Optional[RowLike] = None,
+    unknown_count: bool = False,
     # Log
     verbose: bool = VERBOSE,
 ) -> None:
@@ -1278,11 +1398,15 @@ def debug_row(
 
         cols: Optional inclusion list of columns to print from the row.
         row: Optional row-like mapping (used for message enrichment).
+        unknown_count: When `True`, marks the affected-row count as unknown.
 
         verbose: When `True`, enables logging.
     """
     if verbose:
-        logging.debug("- %s", get_row_message(verb, index, table, cols=cols, row=row).capitalize())
+        logging.debug(
+            "- %s",
+            get_row_message(verb, index, table, cols=cols, row=row, unknown_count=unknown_count).capitalize(),
+        )
 
 
 def warn_row(
@@ -1662,11 +1786,16 @@ def delete_table(
     """
     Deletes rows from a table matching each row of the dataframe.
 
+    Notes:
+        The returned count is conservative:
+          • Known affected rows are counted.
+          • Unknown affected-row counts are tracked separately and not added (safer for DELETE).
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves the filtering columns via `get_filtering_cols(…)`.
         • Builds one DELETE query per row using `build_delete_table_query(…)`.
-        • Executes each query and aggregates the deleted row counts.
+        • Executes each query and aggregates the deleted row counts (known-only).
         • Emits row-level debug/warn/error logs and periodic progress logs.
 
     Args:
@@ -1683,9 +1812,10 @@ def delete_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of deleted rows (best-effort count).
+        The number of deleted rows (known-only count).
     """
     delete_count = 0
+    delete_unknown_count = 0
 
     # Include the index in the columns
     if index:
@@ -1713,7 +1843,7 @@ def delete_table(
     debug_query("delete", len(df), table, verbose=verbose)
 
     def _transact(connection: db.Connection) -> int:
-        nonlocal delete_count
+        nonlocal delete_count, delete_unknown_count
 
         for i, (_, row) in enumerate(df.iterrows()):
             # Build the query
@@ -1729,9 +1859,12 @@ def delete_table(
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                 result = execute(engine, query, connection=connection, use_savepoint=True)
-                result_count = resolve_result_count(result)
-                if result_count > 0:
-                    delete_count += result_count
+                row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_DELETE_ROW_COUNT)
+                if is_unknown_row_count(result):
+                    delete_unknown_count += 1
+                    debug_row("delete", i, table, cols=filtering_cols, row=row, unknown_count=True, verbose=verbose)
+                elif row_count > 0:
+                    delete_count += row_count
                     debug_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
                 else:
                     warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -1745,6 +1878,7 @@ def delete_table(
                     table,
                     index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
                     index_to=i + 1,
+                    unknown_count=delete_unknown_count,
                     # Log
                     verbose=verbose,
                 )
@@ -1773,6 +1907,11 @@ def bulk_delete_table(
     """
     Bulk-deletes rows by concatenating per-row DELETE statements into larger batches.
 
+    Notes:
+        The returned count is conservative:
+          • Known affected rows are counted.
+          • Multi-statement execution yields an unknown affected-row count; these are tracked separately and not added.
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves the filtering columns via `get_filtering_cols(…)`.
@@ -1780,11 +1919,6 @@ def bulk_delete_table(
         • If `use_multi_statements` is enabled, concatenates per-row DELETE queries and executes the combined SQL
           string via `exec_driver_sql(…)`.
         • Otherwise executes one statement per row.
-
-        Notes:
-            The affected-row count is best-effort:
-              - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: sums the per-row returned counts (falls back to 1 when unknown)
 
     Args:
         engine: The SQLAlchemy engine.
@@ -1802,9 +1936,10 @@ def bulk_delete_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of bulk-deleted rows (best-effort count).
+        The number of bulk-deleted rows (known-only count).
     """
     delete_count = 0
+    delete_unknown_count = 0
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
 
     # Include the index in the columns
@@ -1834,7 +1969,7 @@ def bulk_delete_table(
         get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
     def _bulk_delete(connection: db.Connection, chunk: pd.DataFrame) -> int:
-        nonlocal delete_count
+        nonlocal delete_count, delete_unknown_count
 
         if is_empty(chunk):
             return delete_count
@@ -1870,9 +2005,11 @@ def bulk_delete_table(
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                     result = execute(engine, query, connection=connection, use_savepoint=True)
-                    result_count = resolve_result_count(result)
-                    if result_count > 0:
-                        delete_count += result_count
+                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_DELETE_ROW_COUNT)
+                    if is_unknown_row_count(result):
+                        delete_unknown_count += 1
+                    elif row_count > 0:
+                        delete_count += row_count
                     else:
                         warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
                 except Exception as e:
@@ -1897,7 +2034,7 @@ def bulk_delete_table(
         try:
             # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
             execute_on_connection(connection, query, use_savepoint=True)
-            delete_count += len(chunk)
+            delete_unknown_count += len(chunk)
         except Exception as e:
             error_query("bulk-deleted", table, exception=e, verbose=verbose)
 
@@ -1906,7 +2043,10 @@ def bulk_delete_table(
     def _transact(connection: db.Connection) -> int:
         return _bulk_delete(connection, df)
 
-    return transact(engine, _transact)
+    result = transact(engine, _transact)
+    if verbose and (delete_count > 0 or delete_unknown_count > 0):
+        debug_query("bulk-deleted", delete_count, table, unknown_count=delete_unknown_count, verbose=verbose)
+    return result
 
 
 __DB_INSERT_________________________________________________ = ""
@@ -1963,6 +2103,10 @@ def insert_table(
     """
     Inserts rows into a table by executing one INSERT statement per dataframe row.
 
+    Notes:
+        Unknown affected-row counts are tracked separately.
+        For INSERT, counting fallback 1 per successful statement is often acceptable.
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves insert columns as the intersection of dataframe and table columns.
@@ -1978,7 +2122,7 @@ def insert_table(
 
         index: When `True`, includes the dataframe index as columns.
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
-        is_mssql: Whether the target database is MSSQL.
+        is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
 
         test: When `True`, enables validation warnings.
@@ -1988,6 +2132,7 @@ def insert_table(
         The number of inserted rows (best-effort count).
     """
     insert_count = 0
+    insert_unknown_count = 0
 
     # Include the index in the columns
     if index:
@@ -2006,7 +2151,7 @@ def insert_table(
     debug_query("insert", len(df), table, verbose=verbose)
 
     def _transact(connection: db.Connection) -> int:
-        nonlocal insert_count
+        nonlocal insert_count, insert_unknown_count
 
         if insert_id:
             set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
@@ -2019,9 +2164,13 @@ def insert_table(
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                     result = execute(engine, query, connection=connection, use_savepoint=True)
-                    result_count = resolve_result_count(result)
-                    if result_count > 0:
-                        insert_count += result_count
+                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_INSERT_ROW_COUNT)
+                    if is_unknown_row_count(result):
+                        insert_unknown_count += 1
+                        insert_count += row_count
+                        debug_row("insert", i, table, cols=primary_cols, row=row, unknown_count=True, verbose=verbose)
+                    elif row_count > 0:
+                        insert_count += row_count
                         debug_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
                     else:
                         warn_row("insert", i, table, cols=primary_cols, row=row, verbose=verbose)
@@ -2035,6 +2184,7 @@ def insert_table(
                         table,
                         index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
                         index_to=i + 1,
+                        unknown_count=insert_unknown_count,
                         # Log
                         verbose=verbose,
                     )
@@ -2065,6 +2215,10 @@ def bulk_insert_table(
     """
     Bulk-inserts rows by concatenating per-row INSERT statements into larger batches.
 
+    Notes:
+        • Unknown affected-row counts are tracked separately.
+        • For INSERT, counting `len(chunk)` on successful multi-statement execution is often acceptable.
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves insert columns as the intersection of the dataframe and the table columns.
@@ -2074,11 +2228,6 @@ def bulk_insert_table(
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
         • If `use_multi_statements` is enabled, concatenates per-row INSERT queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
-
-        Notes:
-            The affected-row count is best-effort:
-              - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: increments by the returned count, falling back to 1 when unknown
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2099,6 +2248,7 @@ def bulk_insert_table(
         The number of bulk-inserted rows (best-effort count).
     """
     insert_count = 0
+    insert_unknown_count = 0
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
 
     # Include the index in the columns
@@ -2117,7 +2267,7 @@ def bulk_insert_table(
         insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
 
     def _bulk_insert(connection: db.Connection, chunk: pd.DataFrame) -> int:
-        nonlocal insert_count
+        nonlocal insert_count, insert_unknown_count
 
         if is_empty(chunk):
             return insert_count
@@ -2147,9 +2297,12 @@ def bulk_insert_table(
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                     result = execute(engine, query, connection=connection, use_savepoint=True)
-                    result_count = resolve_result_count(result)
-                    if result_count > 0:
-                        insert_count += result_count
+                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_INSERT_ROW_COUNT)
+                    if is_unknown_row_count(result):
+                        insert_unknown_count += 1
+                        insert_count += row_count
+                    elif row_count > 0:
+                        insert_count += row_count
                     else:
                         warn_row("insert", i, table, cols=cols, row=row, verbose=verbose)
                 except Exception as e:
@@ -2169,6 +2322,7 @@ def bulk_insert_table(
             # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
             execute_on_connection(connection, query, use_savepoint=True)
             insert_count += len(chunk)
+            insert_unknown_count += len(chunk)
         except Exception as e:
             error_query("bulk-inserted", table, exception=e, verbose=verbose)
 
@@ -2183,7 +2337,10 @@ def bulk_insert_table(
             if insert_id:
                 set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema)
 
-    return transact(engine, _transact)
+    result = transact(engine, _transact)
+    if verbose and (insert_count > 0 or insert_unknown_count > 0):
+        debug_query("bulk-inserted", insert_count, table, unknown_count=insert_unknown_count, verbose=verbose)
+    return result
 
 
 __DB_UPDATE_________________________________________________ = ""
@@ -2206,6 +2363,11 @@ def update_table(
     """
     Updates rows in a table by executing one UPDATE statement per dataframe row.
 
+    Notes:
+        The returned count is conservative:
+          • Known affected rows are counted.
+          • Unknown affected-row counts are tracked separately and not added (safer for UPDATE).
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves filtering columns via `get_filtering_cols(…)` (defaults to the primary key when available).
@@ -2227,9 +2389,10 @@ def update_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of updated rows (best-effort count).
+        The number of updated rows (known-only count).
     """
     update_count = 0
+    update_unknown_count = 0
 
     # Include the index in the columns
     if index:
@@ -2262,7 +2425,7 @@ def update_table(
     debug_query("update", len(df), table, verbose=verbose)
 
     def _transact(connection: db.Connection) -> int:
-        nonlocal update_count
+        nonlocal update_count, update_unknown_count
 
         for i, (_, row) in enumerate(df.iterrows()):
             # Build the query
@@ -2274,9 +2437,12 @@ def update_table(
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                 result = execute(engine, query, connection=connection, use_savepoint=True)
-                result_count = resolve_result_count(result)
-                if result_count > 0:
-                    update_count += result_count
+                row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_UPDATE_ROW_COUNT)
+                if is_unknown_row_count(result):
+                    update_unknown_count += 1
+                    debug_row("update", i, table, cols=filtering_cols, row=row, unknown_count=True, verbose=verbose)
+                elif row_count > 0:
+                    update_count += row_count
                     debug_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
                 else:
                     warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
@@ -2290,6 +2456,7 @@ def update_table(
                     table,
                     index_from=i + 1 - DEFAULT_DEBUG_INTERVAL + 1,
                     index_to=i + 1,
+                    unknown_count=update_unknown_count,
                     # Log
                     verbose=verbose,
                 )
@@ -2318,6 +2485,11 @@ def bulk_update_table(
     """
     Bulk-updates rows by concatenating per-row UPDATE statements into larger batches.
 
+    Notes:
+        The returned count is conservative:
+          • Known affected rows are counted.
+          • Multi-statement execution yields an unknown affected-row count; these are tracked separately and not added.
+
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves filtering columns via `get_filtering_cols(…)`.
@@ -2325,11 +2497,6 @@ def bulk_update_table(
         • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
         • If `use_multi_statements` is enabled, concatenates per-row UPDATE queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
-
-        Notes:
-            The affected-row count is best-effort:
-              - multi-statement execution: counts `len(chunk)` on success
-              - per-row execution: sums the per-row returned counts (falls back to 1 when unknown)
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2347,9 +2514,10 @@ def bulk_update_table(
         verbose: When `True`, enables logging.
 
     Returns:
-        The number of bulk-updated rows (best-effort count).
+        The number of bulk-updated rows (known-only count).
     """
     update_count = 0
+    update_unknown_count = 0
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
 
     # Include the index in the columns
@@ -2377,7 +2545,7 @@ def bulk_update_table(
     cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
 
     def _bulk_update(connection: db.Connection, chunk: pd.DataFrame) -> int:
-        nonlocal update_count
+        nonlocal update_count, update_unknown_count
 
         if is_empty(chunk):
             return update_count
@@ -2414,9 +2582,11 @@ def bulk_update_table(
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                     result = execute(engine, query, connection=connection, use_savepoint=True)
-                    result_count = resolve_result_count(result)
-                    if result_count > 0:
-                        update_count += result_count
+                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_UPDATE_ROW_COUNT)
+                    if is_unknown_row_count(result):
+                        update_unknown_count += 1
+                    elif row_count > 0:
+                        update_count += row_count
                     else:
                         warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
                 except Exception as e:
@@ -2442,7 +2612,7 @@ def bulk_update_table(
         try:
             # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
             execute_on_connection(connection, query, use_savepoint=True)
-            update_count += len(chunk)
+            update_unknown_count += len(chunk)
         except Exception as e:
             error_query("bulk-updated", table, exception=e, verbose=verbose)
 
@@ -2451,7 +2621,10 @@ def bulk_update_table(
     def _transact(connection: db.Connection) -> int:
         return _bulk_update(connection, df)
 
-    return transact(engine, _transact)
+    result = transact(engine, _transact)
+    if verbose and (update_count > 0 or update_unknown_count > 0):
+        debug_query("bulk-updated", update_count, table, unknown_count=update_unknown_count, verbose=verbose)
+    return result
 
 
 __DB_UPSERT_________________________________________________ = ""
@@ -2473,6 +2646,10 @@ def upsert_table(
 ) -> int:
     """
     Updates existing rows and inserts missing rows for the dataframe into the table.
+
+    Notes:
+        • Unknown UPDATE row counts are treated as unknown and verified by existence checks to avoid duplicate inserts.
+        • Unknown INSERT row counts are counted with fallback 1 (one insert per row) and tracked separately.
 
     Behavior:
         • Optionally resets the index into columns when `index=True`.
@@ -2501,6 +2678,9 @@ def upsert_table(
     insert_count = 0
     upsert_count = 0
 
+    update_unknown_count = 0
+    insert_unknown_count = 0
+
     # Include the index in the columns
     if index:
         df = df.reset_index()
@@ -2525,30 +2705,12 @@ def upsert_table(
     update_cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
     insert_cols = get_common_cols(df, table, table_cols, test=test)
 
-    def _row_exists(connection: db.Connection, row: RowLike) -> bool:
-        return (
-            len(
-                pd.read_sql(
-                    build_select_table_where_query(
-                        table,
-                        cols=filtering_cols,
-                        filtering_cols=filtering_cols,
-                        filtering_row=row,
-                        is_mssql=is_mssql,
-                        n=1,
-                        schema=schema,
-                    ),
-                    connection,
-                )
-            )
-            > 0
-        )
-
     def _transact(connection: db.Connection) -> int:
-        nonlocal update_count, insert_count, upsert_count
+        nonlocal update_count, insert_count, upsert_count, update_unknown_count, insert_unknown_count
 
         for i, (_, row) in enumerate(df.iterrows()):
             updated = 0
+            updated_unknown = False
 
             # 1) Try to update the row
             if not is_empty(update_cols):
@@ -2563,14 +2725,39 @@ def upsert_table(
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                     result = execute(engine, query, connection=connection, use_savepoint=True)
-                    updated = resolve_result_count(result)
+                    updated_unknown = is_unknown_row_count(result)
+                    updated = resolve_row_count(result, default=DEFAULT_UNKNOWN_UPDATE_ROW_COUNT)
                 except Exception as e:
                     error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+
+                # If the affected-row count is unknown, verify existence to avoid duplicate inserts
+                if updated_unknown:
+                    update_unknown_count += 1
+                    try:
+                        if exists(
+                            connection,
+                            table,
+                            filtering_cols=filtering_cols,
+                            filtering_row=row,
+                            is_mssql=is_mssql,
+                            schema=schema,
+                        ):
+                            upsert_count += 1
+                            continue
+                    except Exception as e:
+                        error_row("select", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
 
             # 2) If there is nothing to update, treat the row existence as a successful upsert
             if is_empty(update_cols):
                 try:
-                    if _row_exists(connection, row):
+                    if exists(
+                        connection,
+                        table,
+                        filtering_cols=filtering_cols,
+                        filtering_row=row,
+                        is_mssql=is_mssql,
+                        schema=schema,
+                    ):
                         updated = 1
                 except Exception as e:
                     error_row("select", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
@@ -2585,8 +2772,12 @@ def upsert_table(
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                 result = execute(engine, query, connection=connection, use_savepoint=True)
-                inserted = resolve_result_count(result)
-                if inserted > 0:
+                inserted = resolve_row_count(result, default=DEFAULT_UNKNOWN_INSERT_ROW_COUNT)
+                if is_unknown_row_count(result):
+                    insert_unknown_count += 1
+                    insert_count += inserted
+                    upsert_count += inserted
+                elif inserted > 0:
                     insert_count += inserted
                     upsert_count += inserted
                 else:
@@ -2599,10 +2790,10 @@ def upsert_table(
     transact(engine, _transact)
 
     # Log
-    if update_count > 0:
-        debug_query("update", update_count, table, verbose=verbose)
-    if insert_count > 0:
-        debug_query("insert", insert_count, table, verbose=verbose)
+    if update_count > 0 or update_unknown_count > 0:
+        debug_query("update", update_count, table, unknown_count=update_unknown_count, verbose=verbose)
+    if insert_count > 0 or insert_unknown_count > 0:
+        debug_query("insert", insert_count, table, unknown_count=insert_unknown_count, verbose=verbose)
 
     # Test
     if test and upsert_count != len(df):
@@ -2663,7 +2854,7 @@ def execute(
         • Opens a new connection via `engine.begin()` when `connection` is null.
         • Delegates execution to `execute_on_connection(…, use_savepoint=…)`.
         • If the result exposes rows, returns `fetchall()`, otherwise returns `rowcount` normalized via
-          `normalize_result_count(…)`.
+          `normalize_row_count(…)`.
 
     Args:
         engine: The SQLAlchemy engine.
@@ -2676,7 +2867,7 @@ def execute(
 
     Returns:
         A list of fetched rows when the result returns rows, otherwise an optional integer row count:
-          • `None` means "unknown" (driver returned `None` or a negative rowcount such as `-1`).
+          • `None` means "unknown" (driver returned `None` or a negative row count such as `-1`).
 
     Raises:
         SQLAlchemyError: If execution fails.
@@ -2684,10 +2875,10 @@ def execute(
     if is_null(connection):
         with engine.begin() as connection:
             result = execute_on_connection(connection, query, *args, use_savepoint=use_savepoint, **kwargs)
-            return result.fetchall() if result.returns_rows else normalize_result_count(result.rowcount)
+            return result.fetchall() if result.returns_rows else normalize_row_count(result.rowcount)
 
     result = execute_on_connection(connection, query, *args, use_savepoint=use_savepoint, **kwargs)
-    return result.fetchall() if result.returns_rows else normalize_result_count(result.rowcount)
+    return result.fetchall() if result.returns_rows else normalize_row_count(result.rowcount)
 
 
 def execute_on_connection(
