@@ -1649,7 +1649,14 @@ def select_table(
         logging.debug("Select the table '%s'", table)
     if index and is_null(index_cols):
         index_cols = get_primary_cols(engine, table)
-    chunks = pd.read_sql_table(table, engine, chunksize=chunk_size, columns=cols, index_col=index_cols, schema=schema)
+    chunks = pd.read_sql_table(
+        table,
+        engine,
+        chunksize=chunk_size,
+        columns=to_list(cols),
+        index_col=index_cols,
+        schema=schema,
+    )
     if is_null(chunk_size):
         if row_count >= 0 and len(chunks) >= row_count:
             return chunks.head(row_count)
@@ -1753,7 +1760,7 @@ def select_table_where(
         ),
         engine,
         chunksize=chunk_size,
-        columns=cols,
+        columns=to_list(cols),
         index_col=index_cols,
     )
     if is_null(chunk_size):
