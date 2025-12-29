@@ -260,7 +260,7 @@ def get_identity_cols(
     engine: db.Engine,
     table: str,
     *,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> List[str]:
@@ -288,6 +288,7 @@ def get_identity_cols(
     Raises:
         SQLAlchemyError: If the identity-columns query fails.
     """
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
     if is_mssql:
         return select_table_where(
             engine,
@@ -457,6 +458,16 @@ def normalize_row_count(row_count: Any) -> Optional[int]:
     return None if n < 0 else n
 
 
+##############################
+
+
+def resolve_is_mssql(engine: db.Engine, *, is_mssql: Optional[bool]) -> bool:
+    if not is_null(is_mssql):
+        return bool(is_mssql)
+
+    return (getattr(engine.dialect, "name", "") or "").lower() == "mssql"
+
+
 def resolve_row_count(
     result: Union[List[Any], Optional[int]],
     *,
@@ -492,9 +503,6 @@ def resolve_row_count(
         return 0 if n < 0 else n
     except (TypeError, ValueError):
         return int(default)
-
-
-##############################
 
 
 def resolve_use_multi_statements(
@@ -565,7 +573,7 @@ def exists(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> bool:
     """
@@ -622,7 +630,7 @@ def build_where_clause(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
 ) -> str:
     """
     Builds a SQL WHERE clause from a row-like mapping.
@@ -671,7 +679,7 @@ def build_select_table_where_query(
     cols: Optional[ColumnLike] = None,
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     n: Optional[int] = None,
     order_cols: Optional[ColumnLike] = None,
     order_directions: Optional[Iterable[str]] = None,
@@ -724,7 +732,7 @@ def build_delete_table_query(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
@@ -764,7 +772,7 @@ def build_insert_table_query(
     cols: ColumnLike,
     row: RowLike,
     *,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
@@ -810,7 +818,7 @@ def build_update_table_query(
     row: RowLike,
     *,
     filtering_cols: Optional[ColumnLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> str:
     """
@@ -1314,7 +1322,7 @@ def format_cols(
 def format_value(
     value: Any,
     *,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
 ) -> Union[float, int, str]:
     """
     Formats a Python value as a SQL literal.
@@ -1854,7 +1862,7 @@ def select_table_where(
     filtering_row: Optional[RowLike] = None,
     index: bool = False,
     index_cols: Optional[ColumnLike] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     n: Optional[int] = None,
     order_cols: Optional[ColumnLike] = None,
     order_directions: Optional[Iterable[str]] = None,
@@ -1898,6 +1906,7 @@ def select_table_where(
     Raises:
         Exception: Any exception raised by Pandas or the database driver.
     """
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
     if verbose:
         effective_filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
         logging.debug(
@@ -1959,7 +1968,7 @@ def delete_table(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
@@ -1999,6 +2008,7 @@ def delete_table(
     """
     delete_count = 0
     delete_unknown_count = 0
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
 
     # Include the index in the columns
     if index:
@@ -2079,7 +2089,7 @@ def bulk_delete_table(
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
@@ -2123,6 +2133,7 @@ def bulk_delete_table(
     """
     delete_count = 0
     delete_unknown_count = 0
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2244,7 +2255,7 @@ def set_id_insert(
     table: str,
     flag: str,
     *,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> None:
     """
@@ -2280,7 +2291,7 @@ def insert_table(
     *,
     index: bool = False,
     insert_id: Optional[bool] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
@@ -2320,6 +2331,7 @@ def insert_table(
     """
     insert_count = 0
     insert_unknown_count = 0
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
 
     # Include the index in the columns
     if index:
@@ -2391,7 +2403,7 @@ def bulk_insert_table(
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     index: bool = False,
     insert_id: Optional[bool] = None,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
@@ -2436,6 +2448,7 @@ def bulk_insert_table(
     """
     insert_count = 0
     insert_unknown_count = 0
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2544,7 +2557,7 @@ def update_table(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
@@ -2584,6 +2597,7 @@ def update_table(
     """
     update_count = 0
     update_unknown_count = 0
+    resolve_is_mssql(engine, is_mssql=is_mssql)
 
     # Include the index in the columns
     if index:
@@ -2665,7 +2679,7 @@ def bulk_update_table(
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
@@ -2709,6 +2723,7 @@ def bulk_update_table(
     """
     update_count = 0
     update_unknown_count = 0
+    resolve_is_mssql(engine, is_mssql=is_mssql)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2832,7 +2847,7 @@ def upsert_table(
     *,
     filtering_cols: Optional[ColumnLike] = None,
     index: bool = False,
-    is_mssql: bool = DEFAULT_IS_MSSQL,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     # Test
     test: bool = ASSERT,
@@ -2872,9 +2887,9 @@ def upsert_table(
     update_count = 0
     insert_count = 0
     upsert_count = 0
-
     update_unknown_count = 0
     insert_unknown_count = 0
+    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
 
     # Include the index in the columns
     if index:
