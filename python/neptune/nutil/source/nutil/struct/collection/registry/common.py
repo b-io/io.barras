@@ -247,7 +247,7 @@ class CollectionAdapter(Generic[T], ABC):
 
     ##########################
 
-    def to_array(self, x, element_type: Optional[ElementType] = None) -> np.ndarray:
+    def to_array(self, x, *, element_type: Optional[ElementType] = None) -> np.ndarray:
         """
         Returns an `array` built from the specified collection.
 
@@ -753,7 +753,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     @overload
     def get(self, key: K, default: D) -> Union[D, V]: ...
 
-    def get(self, key: K, default: Optional[D] = None) -> Optional[Union[D, V]]:
+    def get(self, key: K, *, default: Optional[D] = None) -> Optional[Union[D, V]]:
         """
         Returns the value associated with the specified key, or the specified default.
 
@@ -908,7 +908,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
     @overload
     def get(self, x: AbstractMappingCollection[K, V], key: K, default: D) -> Union[D, V]: ...
 
-    def get(self, x: AbstractMappingCollection[K, V], key: K, default: Optional[D] = None) -> Optional[Union[D, V]]:
+    def get(self, x: AbstractMappingCollection[K, V], key: K, *, default: Optional[D] = None) -> Optional[Union[D, V]]:
         """
         Returns the value associated with the specified key, or the specified default.
 

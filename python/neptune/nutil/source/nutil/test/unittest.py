@@ -27,13 +27,13 @@ class Test(unittest.TestCase):
         random.seed(0)
         np.random.seed(0)
 
-    def assert_true(self, expr: Any, msg: Optional[str] = None) -> None:
+    def assert_true(self, expr: Any, *, message: Optional[str] = None) -> None:
         """Asserts that `expr` is truthy."""
-        self.assertTrue(expr, msg=msg)
+        self.assertTrue(expr, msg=message)
 
-    def assert_false(self, expr: Any, msg: Optional[str] = None) -> None:
+    def assert_false(self, expr: Any, *, message: Optional[str] = None) -> None:
         """Asserts that `expr` is falsy."""
-        self.assertFalse(expr, msg=msg)
+        self.assertFalse(expr, msg=message)
 
     def assert_equals(self, first: Any, second: Any, precision: int = PRECISION, assert_order: bool = False) -> None:
         if is_struct(first):

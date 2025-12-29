@@ -308,12 +308,12 @@ def is_url(path: Union[str, Path]) -> bool:
 __FILE_BUILDERS___________________________________________________________________________ = ""
 
 
-def build_backup_path(path: Path, backup_dir: Optional[Path]) -> Path:
+def build_backup_path(path: Path, *, dir: Optional[Path] = None) -> Path:
     """
     Builds a unique timestamped backup path for `path`,
     e.g., `"cache.json.20201230-153045.bak"` (or `"….2.bak"` if needed).
     """
-    backup_dir = backup_dir if not is_null(backup_dir) else path.parent
+    backup_dir = dir if not is_null(dir) else path.parent
     backup_dir.mkdir(parents=True, exist_ok=True)
 
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -780,7 +780,7 @@ def atomic_write(
 
         # Prepare an optional backup of the existing file
         if backup and path.exists():
-            backup_path = build_backup_path(path, backup_dir)
+            backup_path = build_backup_path(path, dir=backup_dir)
 
             # Try to atomically move the current file into the backup; if cross-filesystem, fall back to a copy
             try:

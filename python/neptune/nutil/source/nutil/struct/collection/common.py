@@ -131,7 +131,7 @@ def is_iterable_type(t: Type[Any]) -> bool:
     return issubclass(t, ITERABLE_TYPE) and not is_element_type(t)
 
 
-def is_iterable_of_tuples(x: Any, size: Optional[int] = None, check_all: bool = False) -> bool:
+def is_iterable_of_tuples(x: Any, *, size: Optional[int] = None, check_all: bool = False) -> bool:
     """
     Returns whether `x` is an `Iterable` of `tuple` (optionally of a fixed `size`).
 

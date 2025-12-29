@@ -1225,7 +1225,6 @@ def escape(name: Any) -> str:
 
     Behavior:
         • Replaces single quotes with doubled single quotes.
-        • Escapes percent signs (useful for MSSQL LIKE / format strings).
 
     Args:
         name: The value to escape.
@@ -1233,7 +1232,7 @@ def escape(name: Any) -> str:
     Returns:
         The escaped string representation of `name`.
     """
-    return str(name).replace("'", "''").replace("%", "%%")
+    return str(name).replace("'", "''")
 
 
 ##############################
@@ -1245,6 +1244,7 @@ def format_name(name: str) -> str:
 
     Behavior:
         • If the name contains parentheses, treats it as a raw SQL expression and returns it unchanged.
+        • If the name contains dots, quotes each path element (e.g., `schema.table`).
         • Otherwise wraps the identifier via `dquote(…)`.
 
     Args:
@@ -1260,8 +1260,10 @@ def format_name(name: str) -> str:
         raise ValueError("The SQL identifier is null")
     elif is_empty(name):
         raise ValueError("The SQL identifier is empty")
-    if "(" in name and ")" in name:
+    elif "(" in name and ")" in name:
         return name
+    elif "." in name:
+        return collapse([dquote(part) for part in name.split(".") if not is_empty(part)], delimiter=".")
     return dquote(name)
 
 
@@ -2180,16 +2182,17 @@ def bulk_delete_table(
             return delete_count
 
         # Build the bulk query
-        query = ""
-        for _, row in chunk.iterrows():
-            query += build_delete_table_query(
+        queries = [
+            build_delete_table_query(
                 table,
                 filtering_cols=filtering_cols,
                 filtering_row=row,
                 is_mssql=is_mssql,
                 schema=schema,
             )
-
+            for _, row in chunk.iterrows()
+        ]
+        query = "".join(queries)
         if is_empty(query):
             return delete_count
 
@@ -2473,10 +2476,10 @@ def bulk_insert_table(
             return insert_count
 
         # Build the bulk query
-        query = ""
-        for _, row in chunk.iterrows():
-            query += build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
-
+        queries = [
+            build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema) for _, row in chunk.iterrows()
+        ]
+        query = "".join(queries)
         if is_empty(query):
             return insert_count
 
@@ -2757,9 +2760,8 @@ def bulk_update_table(
             return update_count
 
         # Build the bulk query
-        query = ""
-        for _, row in chunk.iterrows():
-            query += build_update_table_query(
+        queries = [
+            build_update_table_query(
                 table,
                 cols,
                 row,
@@ -2767,7 +2769,9 @@ def bulk_update_table(
                 is_mssql=is_mssql,
                 schema=schema,
             )
-
+            for _, row in chunk.iterrows()
+        ]
+        query = "".join(queries)
         if is_empty(query):
             return update_count
 

@@ -152,7 +152,7 @@ def get_path(path: str = ".") -> str:
     return os.path.abspath(path)
 
 
-def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
+def get_dir(path: str = ".", *, parent: Optional[bool] = None) -> str:
     """
     Returns the directory for `path`.
 
@@ -162,7 +162,7 @@ def get_dir(path: str = ".", parent: Optional[bool] = None) -> str:
         • If `parent` is `True`, returns the parent directory of `path`.
     """
     abs_path = get_path(path)
-    if not is_null(parent):
+    if parent:
         return os.path.dirname(abs_path)
     if os.path.isdir(abs_path):
         return abs_path  # the directory itself
@@ -325,7 +325,7 @@ def has_filter(keys: Any = None, inclusion: Any = None, exclusion: Any = None) -
 __COMMON_IO_FINDERS_______________________________________________________________________ = ""
 
 
-def find_path(filename: str, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
+def find_path(filename: str, *, dir: Optional[str] = None, subdir: Optional[str] = None) -> str:
     """
     Returns a candidate absolute path for `filename`, optionally within `dir` and `subdir`.
 

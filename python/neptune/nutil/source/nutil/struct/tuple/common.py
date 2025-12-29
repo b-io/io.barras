@@ -31,7 +31,7 @@ def is_tuple_type(t: Type[Any]) -> bool:
     return issubclass(t, TUPLE_TYPE)
 
 
-def is_valid_tuple(x: Any, size: Optional[int] = None) -> bool:
+def is_valid_tuple(x: Any, *, size: Optional[int] = None) -> bool:
     """Returns whether `x` is a `tuple` and optionally of the specified `size`."""
     if not is_tuple(x):
         return False

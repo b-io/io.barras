@@ -45,7 +45,7 @@ from nutil.struct.collection.registry.ordered_set import *
 __STRUCT_ACCESSORS________________________________________________________________________ = ""
 
 
-def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
+def get(s: Struct, index: int, *, axis: Optional[int] = 0) -> Value:
     """
     Returns the entry at the specified `index` along `axis`.
 
@@ -71,12 +71,12 @@ def get(s: Struct, index: int, axis: Optional[int] = 0) -> Value:
     return s[index]
 
 
-def get_first(s: Struct, axis: Optional[int] = 0) -> Value:
+def get_first(s: Struct, *, axis: Optional[int] = 0) -> Value:
     """Returns the first entry along `axis` (equivalent to `get(s, 0, axis=axis)`)."""
     return get(s, 0, axis=axis)
 
 
-def get_middle(s: Struct, axis: Optional[int] = 0) -> Value:
+def get_middle(s: Struct, *, axis: Optional[int] = 0) -> Value:
     """
     Returns the middle entry along `axis`.
 
@@ -95,7 +95,7 @@ def get_middle(s: Struct, axis: Optional[int] = 0) -> Value:
     return get(s, (n - 1) // 2, axis=axis)
 
 
-def get_last(s: Struct, axis: Optional[int] = 0) -> Value:
+def get_last(s: Struct, *, axis: Optional[int] = 0) -> Value:
     """Returns the last entry along `axis` (equivalent to `get(s, -1, axis=axis)`)."""
     return get(s, -1, axis=axis)
 
@@ -708,7 +708,7 @@ def set_keys(
     return s
 
 
-def set_index(s: Struct, new_index: Any, index_name: Optional[str] = None) -> Any:
+def set_index(s: Struct, new_index: Any, *, index_name: Optional[str] = None) -> Any:
     """
     Sets the index (indices/keys/index) on the specified `Struct`.
 
@@ -1656,22 +1656,22 @@ def filter_any_not_with(
 ##############################
 
 
-def filter_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_null(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are null for all selected keys."""
     return filter_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_not_null(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are not null for all selected keys."""
     return filter_not_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_any_null(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are null for at least one selected key."""
     return filter_any_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_any_not_null(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are not null for at least one selected key."""
     return filter_any_not_with(s, is_null, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
@@ -1679,22 +1679,22 @@ def filter_any_not_null(s: Struct, keys: Optional[Iterable[Key]] = None, inclusi
 ##############################
 
 
-def filter_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_empty(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are empty for all selected keys."""
     return filter_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_not_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_not_empty(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are not empty for all selected keys."""
     return filter_not_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_any_empty(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are empty for at least one selected key."""
     return filter_any_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
 
-def filter_any_not_empty(s: Struct, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
+def filter_any_not_empty(s: Struct, *, keys: Optional[Iterable[Key]] = None, inclusion=None, exclusion=None) -> Any:
     """Returns the entries whose values are not empty for at least one selected key."""
     return filter_any_not_with(s, is_empty, keys=keys, inclusion=inclusion, exclusion=exclusion)
 
@@ -2421,7 +2421,7 @@ def fill_null_with(s: Struct, value: Any, inplace: bool = False) -> Any:
 ##############################
 
 
-def flatten(s: Struct, element_type: Optional[ElementType] = None, axis: int = 0) -> np.ndarray:
+def flatten(s: Struct, *, element_type: Optional[ElementType] = None, axis: int = 0) -> np.ndarray:
     """Returns a flattened `array` view of `s` respecting the specified `axis` order."""
     if is_empty(s):
         return to_array(element_type=element_type)
@@ -2981,7 +2981,7 @@ def tally(s: Struct, boundaries: Iterable[Any]) -> Any:
 ##############################
 
 
-def unique(s: Struct, pos: Optional[Position] = POSITION) -> Any:
+def unique(s: Struct, *, pos: Optional[Position] = POSITION) -> Any:
     """
     Extracts unique elements from a container, with optional positional bias.
 
@@ -3421,7 +3421,7 @@ def pivot(df: pd.DataFrame, names: Any, index: Any, values: Any) -> pd.DataFrame
     return df.pivot(columns=names, index=index, values=values)
 
 
-def unpivot(df: pd.DataFrame, value: Key, names: Optional[Iterable[str]] = None) -> pd.DataFrame:
+def unpivot(df: pd.DataFrame, value: Key, *, names: Optional[Iterable[str]] = None) -> pd.DataFrame:
     """
     Unpivots `df` (wide→long) via `unstack+reset_index`, removing rows where `value` is null.
 

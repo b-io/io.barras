@@ -41,7 +41,7 @@ __TABLE_ACCESSORS_______________________________________________________________
 #### ROW KEYS ################
 
 
-def get_row_keys(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
+def get_row_keys(row: Row, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     """
     Returns a header-like sequence for `row`.
 
@@ -68,7 +68,7 @@ def get_row_keys(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, 
     raise TypeError(f"Unsupported row type '{type(row)!r}'")
 
 
-def get_annotations_keys(x: Any, keys: Optional[Container[str]] = None) -> Tuple[str, ...]:
+def get_annotations_keys(x: Any, *, keys: Optional[Container[str]] = None) -> Tuple[str, ...]:
     annotations = getattr(x, "__annotations__", None)
     if is_null(annotations):
         raise TypeError(f"Unsupported type '{type(x)!r}'")
@@ -106,7 +106,7 @@ def get_annotations_value(x: Any, key: str) -> Optional[Any]:
     return annotations.get(key)
 
 
-def get_row_values(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
+def get_row_values(row: Row, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     """
     Returns a value sequence for `row`.
 
@@ -133,7 +133,7 @@ def get_row_values(row: Row, keys: Optional[Container[str]] = None) -> Tuple[Any
     raise TypeError(f"Unsupported row type '{type(row)!r}'")
 
 
-def get_annotations_values(x: Any, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
+def get_annotations_values(x: Any, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     annotations = getattr(x, "__annotations__", None)
     if is_null(annotations):
         raise TypeError(f"Unsupported type '{type(x)!r}'")
@@ -148,7 +148,7 @@ __TABLE_PROCESSORS______________________________________________________________
 ### ROWS ###################################################
 
 
-def deduplicate_rows(rows: Iterable[Row], keys: Optional[Container[str]] = None) -> List[Row]:
+def deduplicate_rows(rows: Iterable[Row], *, keys: Optional[Container[str]] = None) -> List[Row]:
     """
     Strips duplicate rows while preserving the original order.
 
