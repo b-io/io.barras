@@ -2123,7 +2123,7 @@ def bulk_delete_table(
     """
     delete_count = 0
     delete_unknown_count = 0
-    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
+    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
     if index:
@@ -2436,7 +2436,7 @@ def bulk_insert_table(
     """
     insert_count = 0
     insert_unknown_count = 0
-    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
+    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
     if index:
@@ -2709,7 +2709,7 @@ def bulk_update_table(
     """
     update_count = 0
     update_unknown_count = 0
-    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements)
+    use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
     if index:
