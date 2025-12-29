@@ -717,7 +717,7 @@ def test_tally_into_intervals() -> None:
     s = [1, 2, 5, 7]
     boundaries = [3, 6]
     tallied = util.tally(s, boundaries)
-    # [1, 2) -> bin 0; [3, 6) -> bin 1; >=6 → bin 2
+    # [1, 2) → bin 0; [3, 6) → bin 1; >=6 → bin 2
     assert list(tallied) == [0, 0, 1, 2]
 
 

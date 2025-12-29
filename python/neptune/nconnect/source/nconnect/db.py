@@ -95,7 +95,7 @@ def get_full_table_name(
 
         is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
         schema: The schema name (defaults to `None`).
-        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) → str`.
             When provided, it is used to wrap each identifier part (schema and table).
             When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 
@@ -492,10 +492,10 @@ def resolve_identifier_wrapper(
 
     Args:
         is_mssql: Whether the target dialect is MSSQL (selects the MSSQL default wrapper).
-        wrapper: Optional explicit wrapper function `wrapper(identifier: str) -> str`.
+        wrapper: Optional explicit wrapper function `wrapper(identifier: str) → str`.
 
     Returns:
-        A callable `wrapper(identifier: str) -> str` to wrap identifier parts.
+        A callable `wrapper(identifier: str) → str` to wrap identifier parts.
     """
     if wrapper is not None:
         return wrapper
@@ -503,7 +503,7 @@ def resolve_identifier_wrapper(
     return DEFAULT_MSSQL_IDENTIFIER_WRAPPER if is_mssql else DEFAULT_IDENTIFIER_WRAPPER
 
 
-def resolve_is_mssql(engine: db.Engine, *, is_mssql: Optional[bool]) -> bool:
+def resolve_is_mssql(engine: db.Engine, *, is_mssql: Optional[bool] = None) -> bool:
     """
     Resolves whether an engine targets MSSQL.
 
@@ -1386,7 +1386,7 @@ def format_name(
         name: The identifier (or expression) to format.
 
         is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
-        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) → str`.
             When provided, it is used to wrap each identifier part (e.g., table, schema, column).
             When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 
@@ -1433,7 +1433,7 @@ def format_cols(
 
         is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
         suffixes: Optional suffix list aligned with the columns (e.g., `"ASC"`, `"DESC"`).
-        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) → str`.
             When provided, it is used to wrap each identifier part (e.g., table, schema, column).
             When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 

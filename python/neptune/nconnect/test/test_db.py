@@ -32,7 +32,7 @@ class TestDB(Test):
 
     @classmethod
     def setUpClass(cls) -> None:
-        # In-memory DB shared across connections (StaticPool) -> avoids Windows file locking issues
+        # In-memory DB shared across connections (StaticPool) → avoids Windows file locking issues
         cls._engine = db.create_engine(
             "sqlite+pysqlite:///:memory:",
             connect_args={"check_same_thread": False},
