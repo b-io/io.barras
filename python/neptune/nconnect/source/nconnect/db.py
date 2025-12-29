@@ -17,7 +17,14 @@ from sqlalchemy.dialects import mssql
 
 from nutil.scalar.date import DEFAULT_DATE_TIME_FORMAT
 from nutil.scalar.number import ceil
-from nutil.scalar.string import dquote, par, quote, to_lowercase
+from nutil.scalar.string import (
+    dquote,
+    par,
+    quote,
+    strip_pairs,
+    to_lowercase,
+    trim,
+)
 from nutil.struct.util import *
 
 __DB_CONSTANTS____________________________________________________________________________ = ""
@@ -264,6 +271,9 @@ def get_identity_cols(
         • For MSSQL (`is_mssql=True`), queries `"sys"."identity_columns"` for the table.
         • For non-MSSQL, returns an empty list.
 
+    Notes:
+        In MSSQL, `"TIMESTAMP"` is a `ROWVERSION` (binary) and is NOT an identity column.
+
     Args:
         engine: The SQLAlchemy engine bound to the database.
         table: The table name.
@@ -393,6 +403,41 @@ def get_col_types(
 
 
 ############################################################
+
+
+def normalize_default_text(text: str) -> str:
+    """
+    Normalizes a server-default text expression for robust matching.
+
+    Behavior:
+        • Trims whitespace (via `trim(…, replace_space=True, replace_special=True)`).
+        • Strips wrapping parentheses and quotes recursively:
+          - `"((0))"` → `"0"`
+          - `"( 'TRUE' )"` → `"TRUE"`
+
+    Notes:
+        This is intended for *classification* of simple defaults (booleans and time functions),
+        not for general SQL parsing.
+    """
+    s = trim(text, replace_space=True, replace_special=True) or ""
+    s = strip_pairs(s, pairs=[("(", ")"), ("'", "'"), ('"', '"')], recursive=True, strip_space=True) or ""
+    return s
+
+
+def normalize_function_name(name: str) -> str:
+    """
+    Normalizes a function-like default string to a comparable name.
+
+    Examples:
+        • `"getdate"` / `"getdate()"` / `"GETDATE()"` → `"getdate"`
+        • `"now"` / `"now()"` → `"now"`
+        • `"CURRENT_TIMESTAMP"` → `"current_timestamp"`
+    """
+    s = normalize_default_text(name)
+    s = (to_lowercase(s) or s).strip()
+    if s.endswith("()"):
+        s = s[:-2].strip()
+    return s
 
 
 def normalize_row_count(row_count: Any) -> Optional[int]:
@@ -891,12 +936,25 @@ def update_col_default(
 
     Behavior:
         • Operates only when `col.server_default.arg` is a `TextClause`.
-        • MSSQL → non-MSSQL:
-          - BIT defaults: `"0"`/`"1"` → `"FALSE"`/`"TRUE"`
-          - date/time defaults: `"getdate"` → `"now"`
-        • non-MSSQL → MSSQL:
-          - BOOLEAN defaults: `"FALSE"`/`"TRUE"` → `"0"`/`"1"`
-          - date/time defaults: `"now"` → `"getdate"`
+
+        • MSSQL → non-MSSQL (best-effort canonicalization):
+          - BIT defaults:
+              `"0"`, `"1"`, `"((0))"`, `"((1))"`, `"FALSE"`, `"TRUE"` → `"FALSE"` / `"TRUE"`
+          - date/time defaults (only for date/time types; NOT for MSSQL `TIMESTAMP`/`ROWVERSION`):
+              `"getdate"`, `"getdate()"`, `"sysdatetime"`, `"sysdatetime()"`, `"current_timestamp"`
+              → `"now"`
+
+        • non-MSSQL → MSSQL (best-effort canonicalization):
+          - BOOLEAN defaults:
+              `"FALSE"`, `"TRUE"`, `"0"`, `"1"` → `"0"` / `"1"`
+          - date/time defaults:
+              `"now"`, `"now()"`, `"current_timestamp"` → `"getdate"`
+
+    Notes:
+        • MSSQL `TIMESTAMP` is a `ROWVERSION` (binary) and MUST NOT be treated as a date/time default.
+        • Default expressions can be wrapped (e.g., `"((0))"`, `"(getdate())"`); wrappers are stripped for matching
+          using `strip_pairs(…)` from the string utilities.
+        • This function uses simple pattern recognition; it does not parse arbitrary SQL.
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
@@ -904,26 +962,63 @@ def update_col_default(
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
     """
-    if hasattr(col.server_default, "arg") and isinstance(col.server_default.arg, db.TextClause):
-        if is_mssql_from and not is_mssql_to:
-            if isinstance(col.type, mssql.base.BIT):
-                col.server_default.arg.text = col.server_default.arg.text.replace("0", "FALSE").replace("1", "TRUE")
-            elif (
-                isinstance(col.type, mssql.base.DATE)
-                or isinstance(col.type, mssql.base.DATETIME)
-                or isinstance(col.type, mssql.base.DATETIMEOFFSET)
-                or isinstance(col.type, mssql.base.SMALLDATETIME)
-                or isinstance(col.type, mssql.base.TIME)
-                or isinstance(col.type, mssql.base.TIMESTAMP)
-            ):
-                col.server_default.arg.text = col.server_default.arg.text.replace("getdate", "now")
-        elif not is_mssql_from and is_mssql_to:
-            if isinstance(col.type, db.BOOLEAN):
-                col.server_default.arg.text = col.server_default.arg.text.replace("FALSE", "0").replace("TRUE", "1")
-            elif (
-                isinstance(col.type, db.DATE) or isinstance(col.type, db.DATETIME) or isinstance(col.type, db.TIMESTAMP)
-            ):
-                col.server_default.arg.text = col.server_default.arg.text.replace("now", "getdate")
+    if not (hasattr(col.server_default, "arg") and isinstance(col.server_default.arg, db.TextClause)):
+        return
+
+    # Normalize the text clause for classification
+    text_clause = to_lowercase(normalize_default_text(col.server_default.arg.text))
+
+    ### BIT / BOOLEAN defaults #############################
+    # MSSQL: BIT, non-MSSQL: BOOLEAN/Boolean-ish
+    if is_mssql_from and not is_mssql_to:
+        if isinstance(col.type, mssql.BIT):
+            if text_clause in {"0", "false"}:
+                col.server_default.arg.text = "FALSE"
+            elif text_clause in {"1", "true"}:
+                col.server_default.arg.text = "TRUE"
+            return
+    elif (not is_mssql_from) and is_mssql_to:
+        if isinstance(col.type, (db.BOOLEAN, db.Boolean)):
+            if text_clause in {"false", "0"}:
+                col.server_default.arg.text = "0"
+            elif text_clause in {"true", "1"}:
+                col.server_default.arg.text = "1"
+            return
+
+    ### Date / time defaults ###############################
+    # Important: MSSQL `TIMESTAMP` is rowversion, not a date/time
+    is_mssql_rowversion = isinstance(col.type, mssql.TIMESTAMP)
+    if is_mssql_rowversion:
+        return
+
+    is_mssql_datetime = (
+        isinstance(col.type, mssql.DATE)
+        or isinstance(col.type, mssql.DATETIME)
+        or (hasattr(mssql, "DATETIME2") and isinstance(col.type, mssql.DATETIME2))
+        or isinstance(col.type, mssql.DATETIMEOFFSET)
+        or isinstance(col.type, mssql.SMALLDATETIME)
+        or isinstance(col.type, mssql.TIME)
+    )
+    is_generic_datetime = (
+        isinstance(col.type, db.DATE)
+        or isinstance(col.type, db.DATETIME)
+        or isinstance(col.type, db.TIMESTAMP)
+        or isinstance(col.type, db.DateTime)
+    )
+
+    if is_mssql_from and not is_mssql_to:
+        if is_mssql_datetime:
+            func = normalize_function_name(text_clause)
+            if func in {"getdate", "sysdatetime", "current_timestamp"}:
+                col.server_default.arg.text = "now"
+        return
+
+    if (not is_mssql_from) and is_mssql_to:
+        if is_generic_datetime:
+            func = normalize_function_name(text_clause)
+            if func in {"now", "current_timestamp"}:
+                col.server_default.arg.text = "getdate"
+        return
 
 
 def update_col_type(
@@ -936,12 +1031,27 @@ def update_col_type(
     Converts certain column types when migrating between MSSQL and non-MSSQL.
 
     Behavior:
-        • MSSQL → non-MSSQL:
+        • MSSQL → non-MSSQL (best-effort):
           - BIT → `db.BOOLEAN()`
-          - DATETIME/SMALLDATETIME/TIMESTAMP → `db.TIMESTAMP()`
-        • non-MSSQL → MSSQL:
-          - BOOLEAN → `mssql.base.BIT()`
-          - TIMESTAMP → `mssql.base.DATETIME()`
+          - DATE → `db.Date()`
+          - TIME → `db.Time()`
+          - DATETIME / DATETIME2 / SMALLDATETIME → `db.DateTime()`
+          - DATETIMEOFFSET → `db.DateTime(timezone=True)`
+          - TIMESTAMP (MSSQL `ROWVERSION`) → `db.LargeBinary(length=8)`  # corrected semantics
+          - UNIQUEIDENTIFIER (when available) → `db.String(length=36)`
+
+        • non-MSSQL → MSSQL (best-effort):
+          - BOOLEAN → `mssql.BIT()`
+          - Date/Time types:
+              `db.DateTime` / `db.TIMESTAMP` → `mssql.DATETIME2()` when available, else `mssql.DATETIME()`
+              `db.Date` → `mssql.DATE()`
+              `db.Time` → `mssql.TIME()`
+          - `db.LargeBinary(length=8)` → `mssql.TIMESTAMP()` (heuristic for `ROWVERSION`)
+
+    Notes:
+        • MSSQL `TIMESTAMP` is NOT a temporal type; it is a `ROWVERSION` (binary).
+        • This function handles the most common cross-dialect mismatches. Other types (strings, numerics) are
+          usually portable enough to leave unchanged unless you have dialect-specific constraints.
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
@@ -949,20 +1059,46 @@ def update_col_type(
         is_mssql_from: Whether the source database is MSSQL.
         is_mssql_to: Whether the target database is MSSQL.
     """
+    ### MSSQL → non-MSSQL ##################################
     if is_mssql_from and not is_mssql_to:
-        if isinstance(col.type, mssql.base.BIT):
+        if isinstance(col.type, mssql.BIT):
             col.type = db.BOOLEAN()
+        elif isinstance(col.type, mssql.DATE):
+            col.type = db.Date()
+        elif isinstance(col.type, mssql.TIME):
+            col.type = db.Time()
         elif (
-            isinstance(col.type, mssql.base.DATETIME)
-            or isinstance(col.type, mssql.base.SMALLDATETIME)
-            or isinstance(col.type, mssql.base.TIMESTAMP)
+            isinstance(col.type, mssql.DATETIME)
+            or (hasattr(mssql, "DATETIME2") and isinstance(col.type, mssql.DATETIME2))
+            or isinstance(col.type, mssql.SMALLDATETIME)
         ):
-            col.type = db.TIMESTAMP()
-    elif not is_mssql_from and is_mssql_to:
-        if isinstance(col.type, db.BOOLEAN):
-            col.type = mssql.base.BIT()
-        elif isinstance(col.type, db.TIMESTAMP):
-            col.type = mssql.base.DATETIME()
+            col.type = db.DateTime()
+        elif isinstance(col.type, mssql.DATETIMEOFFSET):
+            col.type = db.DateTime(timezone=True)
+        elif isinstance(col.type, mssql.TIMESTAMP):
+            # MSSQL `TIMESTAMP` is `ROWVERSION` (binary), not a datetime
+            col.type = db.LargeBinary(length=8)
+        elif hasattr(mssql, "UNIQUEIDENTIFIER") and isinstance(col.type, mssql.UNIQUEIDENTIFIER):
+            col.type = db.String(length=36)
+
+    ### Non-MSSQL → MSSQL ##################################
+    elif (not is_mssql_from) and is_mssql_to:
+        if isinstance(col.type, (db.BOOLEAN, db.Boolean)):
+            col.type = mssql.BIT()
+        elif isinstance(col.type, (db.DATE, db.Date)):
+            col.type = mssql.DATE()
+        elif isinstance(col.type, (db.TIME, db.Time)):
+            col.type = mssql.TIME()
+        elif isinstance(col.type, (db.DATETIME, db.TIMESTAMP, db.DateTime)):
+            if hasattr(mssql, "DATETIME2"):
+                col.type = mssql.DATETIME2()
+            else:
+                col.type = mssql.DATETIME()
+        elif isinstance(col.type, db.LargeBinary):
+            length = getattr(col.type, "length", None)
+            if length == 8:
+                # Heuristic: `LargeBinary(8)` often originates from MSSQL `ROWVERSION`
+                col.type = mssql.TIMESTAMP()
 
 
 def update_col_collation(
@@ -977,6 +1113,11 @@ def update_col_collation(
         • Sets `col.type.collation = collation` only when:
           - `collation` is not null, and
           - the column type exposes a `collation` attribute.
+
+    Notes:
+        • Not all dialects/types support collations.
+        • Collation is typically relevant for string-like types (e.g., `VARCHAR`, `NVARCHAR`), but SQLAlchemy
+          exposes `collation` on a subset of type objects. This function intentionally checks via `hasattr`.
 
     Args:
         col: The SQLAlchemy column object to mutate in-place.
@@ -1551,7 +1692,7 @@ def create_table(
         SQLAlchemyError: If the database write fails.
     """
     if index and is_null(index_cols):
-        index_cols = get_primary_cols(engine, table) if append else get_names(df.index)
+        index_cols = get_primary_cols(engine, table, schema=schema) if append else get_names(df.index)
     return df.to_sql(
         table,
         engine,
@@ -1653,7 +1794,7 @@ def select_table(
     if verbose:
         logging.debug("Select the table '%s'", table)
     if index and is_null(index_cols):
-        index_cols = get_primary_cols(engine, table)
+        index_cols = get_primary_cols(engine, table, schema=schema)
     chunks = pd.read_sql_table(
         table,
         engine,
@@ -1750,7 +1891,7 @@ def select_table_where(
             ),
         )
     if index and is_null(index_cols):
-        index_cols = get_primary_cols(engine, table)
+        index_cols = get_primary_cols(engine, table, schema=schema)
     chunks = pd.read_sql(
         build_select_table_where_query(
             table,
@@ -1765,7 +1906,6 @@ def select_table_where(
         ),
         engine,
         chunksize=chunk_size,
-        columns=to_list(cols) if not is_empty(cols) else None,
         index_col=to_list(index_cols) if not is_empty(index_cols) else None,
     )
     if is_null(chunk_size):
@@ -2439,8 +2579,8 @@ def update_table(
     cols = get_common_cols(df, table, table_cols, filtering_cols=filtering_cols, test=test)
     if is_empty(cols):
         logging.warning(
-            "The dataframe contains only the filtering columns %s or no column of the table '%s'",
-            par(filtering_cols),
+            "The dataframe contains only the filtering columns (%s) or no column of the table '%s'",
+            filtering_cols,
             table,
         )
         return 0
@@ -2839,21 +2979,21 @@ def upsert_table(
             warn_query("update/insert", table, verbose=verbose)
         elif upsert_count < len(df):
             logging.warning(
-                "Update/insert %d/%d rows in the table '%s' which is %d rows less than expected %s",
+                "Update/insert %d/%d rows in the table '%s' which is %d rows less than expected (%d)",
                 update_count,
                 insert_count,
                 table,
                 len(df) - upsert_count,
-                par(len(df)),
+                len(df),
             )
         elif upsert_count > len(df):
             logging.warning(
-                "Update/insert %d/%d rows in the table '%s' which is %d rows more than expected %s",
+                "Update/insert %d/%d rows in the table '%s' which is %d rows more than expected (%d)",
                 update_count,
                 insert_count,
                 table,
                 upsert_count - len(df),
-                par(len(df)),
+                len(df),
             )
 
     return upsert_count

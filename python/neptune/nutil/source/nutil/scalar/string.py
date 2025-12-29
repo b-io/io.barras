@@ -508,7 +508,7 @@ def trim(
         return None
 
     if replace_special:
-        # Escape tokens for regex alternation, and prefer longer matches first (e.g., CRLF before CR/LF).
+        # Escape tokens for regex alternation, and prefer longer matches first (e.g., CRLF before CR/LF)
         tokens = [
             f"{CARRIAGE_RETURN}{NEWLINE}",
             CARRIAGE_RETURN,

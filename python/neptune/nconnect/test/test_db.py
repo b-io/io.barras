@@ -32,7 +32,7 @@ class TestDB(Test):
 
     @classmethod
     def setUpClass(cls) -> None:
-        # In-memory DB shared across connections (StaticPool) -> avoids Windows file locking issues.
+        # In-memory DB shared across connections (StaticPool) -> avoids Windows file locking issues
         cls._engine = db.create_engine(
             "sqlite+pysqlite:///:memory:",
             connect_args={"check_same_thread": False},
@@ -136,7 +136,7 @@ class TestDB(Test):
         )
         self.assert_equals(n1, 2)
 
-        # SQLite DB-API often rejects multi-statement execute; keep chunk_size=1.
+        # SQLite DB-API often rejects multi-statement execute; keep chunk_size=1
         df_more = to_frame([[f"k{i:03d}", float(i)] for i in range(1000, 1010)], names=["A", "B"])
         n2 = bulk_insert_table(
             self._engine,
@@ -186,7 +186,7 @@ class TestDB(Test):
         self.assert_equals(got["A"].tolist(), ["k001", "k003"])
         self.assert_equals([float(x) for x in got["B"].tolist()], [101.0, 103.0])
 
-        # SQLite: chunk_size=1 to avoid multi-statement execute.
+        # SQLite: chunk_size=1 to avoid multi-statement execute
         df_bulk = to_frame([[f"k{i:03d}", float(i) + 1000.0] for i in range(5)], names=["A", "B"])
         n2 = bulk_update_table(
             self._engine,
@@ -220,7 +220,7 @@ class TestDB(Test):
         got = select_table(self._engine, self.TABLE, chunk_size=None, index=False, schema=None, verbose=False)
         self.assert_equals(set(got["A"].tolist()), {"k001", "k002", "k003"})
 
-        # SQLite: chunk_size=1 to avoid multi-statement execute.
+        # SQLite: chunk_size=1 to avoid multi-statement execute
         df_bulk_del = to_frame([["k001"], ["k003"]], names=["A"])
         n2 = bulk_delete_table(
             self._engine,
@@ -328,7 +328,7 @@ class TestDB(Test):
             )
             self.assert_equals(n, 60)
 
-            # If delete_table opens a new transaction/connection per row, this will blow up.
+            # If delete_table opens a new transaction/connection per row, this will blow up
             self.assert_true(counter["checkout"] <= 10)
         finally:
             event.remove(self._engine.pool, "checkout", _on_checkout)

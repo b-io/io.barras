@@ -67,14 +67,14 @@ rules:
 
   ### IF / ELIF ############################################
 
-  - id: "if-else-simple-assignment"
-    description: "Prefer a conditional expression (`x = a if cond else b`) when an `if/else` (no `elif`) assigns the same target exactly once in each branch. Allows only blank/comment lines between the assignment and `else`."
-    pattern: "^(?P<indent>[ \\t]*)if[ \\t]+(?P<cond>[^\\n]+):[ \\t]*(?:#[^\\n]*)?\\n(?P=indent)[ \\t]+(?P<target>[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)[ \\t]*=[ \\t]*(?P<val_if>[^\\n]+)\\n(?:(?P=indent)[ \\t]*(?:#[^\\n]*)?\\n){0,3}(?P=indent)else[ \\t]*:[ \\t]*(?:#[^\\n]*)?\\n(?P=indent)[ \\t]+(?P=target)[ \\t]*=[ \\t]*(?P<val_else>[^\\n]+)$"
-    include: [ "**/*.py" ]
-    exclude: [ ]
-    flags: [ "MULTILINE" ]
-    severity: "warning"
-
+#  - id: "if-else-simple-assignment"
+#    description: "Prefer a conditional expression (`x = a if cond else b`) when an `if/else` (no `elif`) assigns the same target exactly once in each branch. Allows only blank/comment lines between the assignment and `else`."
+#    pattern: "^(?P<indent>[ \\t]*)if[ \\t]+(?P<cond>[^\\n]+):[ \\t]*(?:#[^\\n]*)?\\n(?P=indent)[ \\t]+(?P<target>[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)[ \\t]*=[ \\t]*(?P<val_if>[^\\n]+)\\n(?:(?P=indent)[ \\t]*(?:#[^\\n]*)?\\n){0,3}(?P=indent)else[ \\t]*:[ \\t]*(?:#[^\\n]*)?\\n(?P=indent)[ \\t]+(?P=target)[ \\t]*=[ \\t]*(?P<val_else>[^\\n]+)$"
+#    include: [ "**/*.py" ]
+#    exclude: [ ]
+#    flags: [ "MULTILINE" ]
+#    severity: "warning"
+#
 #  - id: "elif-subject-mismatch"
 #    description: "Use \"elif\" only if the next condition refers to the same subject variable as the previous \"if\" (subject = first positional argument of the first call in the condition). Applies only when the first call is an \"is...\" predicate (e.g., isinstance/is_null) or the condition contains '==', 'is', or 'in'. Bounded scan: next sibling header within 10 lines."
 #    pattern: "^(?P<indent>[ \\t]*)if[ \\t]+(?:(?:[A-Za-z_][A-Za-z0-9_]*\\.)*is[A-Za-z0-9_]*|(?=[^\\n]*(?:==|\\bis\\b|\\bin\\b))[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)[ \\t]*\\([ \\t]*(?P<subject>[A-Za-z_][A-Za-z0-9_]*)\\b[^\\n]*:\\s*(?:#[^\\n]*)?\\n(?:(?:[ \\t]*\\n)|(?:(?P=indent)(?!(?:if|elif)\\b)[^\\n]*\\n)){0,10}(?P=indent)elif[ \\t]+(?![^\\n]*\\b(?P=subject)\\b)[^\\n]*:"
