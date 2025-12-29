@@ -32,9 +32,6 @@ __DB_CONSTANTS__________________________________________________________________
 
 ### DEFAULTS ###############################################
 
-# The default flag specifying whether the DB is Microsoft SQL Server
-DEFAULT_IS_MSSQL: bool = True
-
 # The default schema
 DEFAULT_SCHEMA: Optional[str] = None
 
@@ -923,8 +920,8 @@ def update_col(
     col: db.Column,
     *,
     collation: Optional[str] = None,
-    is_mssql_from: bool = DEFAULT_IS_MSSQL,
-    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+    is_mssql_from: Optional[bool] = None,
+    is_mssql_to: Optional[bool] = None,
 ) -> None:
     """
     Updates the column defaults, types, and collation for cross-database migrations.
@@ -953,8 +950,8 @@ def update_col(
 def update_col_default(
     col: db.Column,
     *,
-    is_mssql_from: bool = DEFAULT_IS_MSSQL,
-    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+    is_mssql_from: Optional[bool] = None,
+    is_mssql_to: Optional[bool] = None,
 ) -> None:
     """
     Rewrites certain server default expressions when migrating between MSSQL and non-MSSQL.
@@ -1049,8 +1046,8 @@ def update_col_default(
 def update_col_type(
     col: db.Column,
     *,
-    is_mssql_from: bool = DEFAULT_IS_MSSQL,
-    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+    is_mssql_from: Optional[bool] = None,
+    is_mssql_to: Optional[bool] = None,
 ) -> None:
     """
     Converts certain column types when migrating between MSSQL and non-MSSQL.
@@ -3207,8 +3204,8 @@ def migrate(
     fill: bool = True,
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
-    is_mssql_from: bool = DEFAULT_IS_MSSQL,
-    is_mssql_to: bool = DEFAULT_IS_MSSQL,
+    is_mssql_from: Optional[bool] = None,
+    is_mssql_to: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     upsert: bool = False,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
