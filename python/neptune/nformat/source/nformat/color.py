@@ -181,7 +181,7 @@ def rgb_to_hsv(*args, r=0, g=0, b=0, alpha=None, scale=None):
         h, s, v = cv2.split(to_float(image))
     else:
         r, g, b = to_rgb(*args, r=r, g=g, b=b)
-        h, s, v = mcolors.rgb_to_hsv((r, g, b))
+        h, s, v = mcolors.rgb_to_hsv(to_array(r, g, b, element_type=FLOAT_ELEMENT_TYPE))
     if not is_null(scale):
         h, s, v = unscale_color(h, s, v)
         if scale:
@@ -198,7 +198,7 @@ def hsv_to_rgb(*args, h=0, s=0, v=0, alpha=None, scale=None):
         r, g, b = cv2.split(to_float(image))
     else:
         h, s, v = to_hsv(*args, h=h, s=s, v=v)
-        r, g, b = mcolors.hsv_to_rgb((h, s, v))
+        r, g, b = mcolors.hsv_to_rgb(to_array(h, s, v, element_type=FLOAT_ELEMENT_TYPE))
     if not is_null(scale):
         r, g, b = unscale_color(r, g, b)
         if scale:

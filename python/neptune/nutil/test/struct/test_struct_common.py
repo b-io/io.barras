@@ -57,7 +57,7 @@ class _CallableProbe:
 
 
 @pytest.mark.parametrize(
-    "arg, dtype, expected, expected_dtype",
+    "arg, element_type, expected, expected_element_type",
     [
         (1, None, np.array([1]), None),
         (1.5, float, np.array([1.5]), np.float64),
@@ -65,18 +65,18 @@ class _CallableProbe:
         ([1, 2, 3], None, np.array([1, 2, 3]), None),
     ],
 )
-def test_to_array_single_argument(arg, dtype, expected, expected_dtype):
+def test_to_array_single_argument(arg, element_type, expected, expected_element_type):
     """Verifies `to_array` with a single argument across scalar, `Mapping`, and `Iterable`."""
-    a = to_array(arg, element_type=dtype)
+    a = to_array(arg, element_type=element_type)
     np.testing.assert_array_equal(a, expected)
-    if expected_dtype is not None:
-        assert a.dtype == expected_dtype
+    if expected_element_type is not None:
+        assert a.dtype == expected_element_type
 
 
-def test_to_array_existing_array_enforces_dtype_without_copy_when_possible():
-    """Verifies `to_array` preserves `ndarray` when `dtype` matches (no copy)."""
-    base = np.array([1, 2, 3], dtype=np.int64)
-    out = to_array(base, element_type=np.int64)
+def test_to_array_existing_array_enforces_element_type_without_copy_when_possible():
+    """Verifies `to_array` preserves `ndarray` when the element type matches (no copy)."""
+    base = np.array([1, 2, 3], dtype=INT_ELEMENT_TYPE)
+    out = to_array(base, element_type=INT_ELEMENT_TYPE)
     assert out is base
     np.testing.assert_array_equal(out, base)
 

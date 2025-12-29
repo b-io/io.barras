@@ -352,7 +352,7 @@ def test_create_empty_for_builtin_types_and_pandas_and_numpy() -> None:
     empty_dict = util.create_empty(dict)
     assert empty_dict == {}
 
-    empty_arr = util.create_empty(np.ndarray, element_type=np.float64)
+    empty_arr = util.create_empty(np.ndarray, element_type=FLOAT_ELEMENT_TYPE)
     assert isinstance(empty_arr, np.ndarray)
     assert empty_arr.size == 0
     assert np.issubdtype(empty_arr.dtype, np.floating)
@@ -361,7 +361,7 @@ def test_create_empty_for_builtin_types_and_pandas_and_numpy() -> None:
     assert isinstance(empty_df, pd.DataFrame)
     assert empty_df.shape == (0, 0)
 
-    empty_series = util.create_empty(pd.Series, element_type=np.float64)
+    empty_series = util.create_empty(pd.Series, element_type=FLOAT_ELEMENT_TYPE)
     assert isinstance(empty_series, pd.Series)
     assert empty_series.size == 0
     assert np.issubdtype(empty_series.dtype, np.floating)
