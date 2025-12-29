@@ -21,6 +21,7 @@ from nutil.scalar.string import (
     dquote,
     par,
     quote,
+    sbra,
     strip_pairs,
     to_lowercase,
     trim,
@@ -32,25 +33,18 @@ __DB_CONSTANTS__________________________________________________________________
 
 ### DEFAULTS ###############################################
 
-# The default schema
-DEFAULT_SCHEMA: Optional[str] = None
-
-##############################
-
 # The default chunk size
 DEFAULT_CHUNK_SIZE: int = 100
-
-##############################
 
 # The default debug interval
 DEFAULT_DEBUG_INTERVAL: int = 1000
 
-##############################
+# The default functions wrapping the identifiers
+DEFAULT_IDENTIFIER_WRAPPER: Callable[[str], str] = dquote
+DEFAULT_MSSQL_IDENTIFIER_WRAPPER: Callable[[str], str] = sbra
 
-# The default flag controlling multi-statement execution (`None` → auto-detect)
-DEFAULT_USE_MULTI_STATEMENTS: Optional[bool] = None
-
-##############################
+# The default schema
+DEFAULT_SCHEMA: Optional[str] = None
 
 # The default per-statement fallback when the affected-row count is unknown (`None` / driver-specific)
 #
@@ -62,6 +56,9 @@ DEFAULT_USE_MULTI_STATEMENTS: Optional[bool] = None
 DEFAULT_UNKNOWN_DELETE_ROW_COUNT: int = 0
 DEFAULT_UNKNOWN_INSERT_ROW_COUNT: int = 1
 DEFAULT_UNKNOWN_UPDATE_ROW_COUNT: int = 0
+
+# The default flag controlling the multi-statement execution (`None` → auto-detect)
+DEFAULT_USE_MULTI_STATEMENTS: Optional[bool] = None
 
 
 __DB_TYPES________________________________________________________________________________ = ""
@@ -77,24 +74,38 @@ __DB_ACCESSORS__________________________________________________________________
 def get_full_table_name(
     table: str,
     *,
+    is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Returns the fully-qualified table name for SQL.
 
     Behavior:
-        • Applies `format_name()` to the `schema` and `table`.
-        • If the `schema` is null, returns only the formatted `table`.
+        • Applies `format_name(…, wrapper=…)` to the `schema` and `table`.
+        • If `schema` is null, returns only the formatted `table`.
+        • Otherwise returns `<formatted_schema>.<formatted_table>`.
+
+    Notes:
+        MSSQL: if the resolved wrapper uses double quotes (`dquote`), the session must have `QUOTED_IDENTIFIER ON`.
+        Use a bracket wrapper (e.g., `sbra`) to avoid that dependency.
 
     Args:
         table: The table name.
 
+        is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+            When provided, it is used to wrap each identifier part (schema and table).
+            When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 
     Returns:
         The formatted full table name string (e.g., `"myschema"."MyTable"` or `"MyTable"` when `schema=None`).
     """
-    return collapse(collapse(format_name(schema), ".") if not is_null(schema) else "", format_name(table))
+    return collapse(
+        collapse(format_name(schema, is_mssql=is_mssql, wrapper=wrapper), ".") if not is_null(schema) else "",
+        format_name(table, is_mssql=is_mssql, wrapper=wrapper),
+    )
 
 
 def get_table_metadata(
@@ -258,6 +269,7 @@ def get_identity_cols(
     table: str,
     *,
     is_mssql: Optional[bool] = None,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> List[str]:
@@ -276,6 +288,7 @@ def get_identity_cols(
         table: The table name.
 
         is_mssql: Whether the source database is MSSQL.
+        wrapper: Optional identifier wrapper used for building the query.
 
         verbose: When `True`, enables logging.
 
@@ -285,7 +298,6 @@ def get_identity_cols(
     Raises:
         SQLAlchemyError: If the identity-columns query fails.
     """
-    is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
     if is_mssql:
         return select_table_where(
             engine,
@@ -294,7 +306,9 @@ def get_identity_cols(
             cols=["name"],
             filtering_cols="OBJECT_NAME(object_id)",
             filtering_row={"OBJECT_NAME(object_id)": table},
+            is_mssql=is_mssql,
             schema="sys",
+            wrapper=wrapper,
             # Log
             verbose=verbose,
         )["name"].tolist()
@@ -458,7 +472,53 @@ def normalize_row_count(row_count: Any) -> Optional[int]:
 ##############################
 
 
+def resolve_identifier_wrapper(
+    *,
+    is_mssql: Optional[bool] = None,
+    wrapper: Optional[Callable[[str], str]] = None,
+) -> Callable[[str], str]:
+    """
+    Resolves the identifier wrapper used by `format_name()` / `format_cols()`.
+
+    Behavior:
+        • If `wrapper` is provided, returns it unchanged.
+        • Otherwise returns:
+          - `DEFAULT_MSSQL_IDENTIFIER_WRAPPER` when `is_mssql=True`
+          - `DEFAULT_IDENTIFIER_WRAPPER` otherwise
+
+    Notes:
+        • A double-quote wrapper (`dquote`) for MSSQL requires `QUOTED_IDENTIFIER ON`.
+        • A bracket wrapper avoids that dependency.
+
+    Args:
+        is_mssql: Whether the target dialect is MSSQL (selects the MSSQL default wrapper).
+        wrapper: Optional explicit wrapper function `wrapper(identifier: str) -> str`.
+
+    Returns:
+        A callable `wrapper(identifier: str) -> str` to wrap identifier parts.
+    """
+    if wrapper is not None:
+        return wrapper
+
+    return DEFAULT_MSSQL_IDENTIFIER_WRAPPER if is_mssql else DEFAULT_IDENTIFIER_WRAPPER
+
+
 def resolve_is_mssql(engine: db.Engine, *, is_mssql: Optional[bool]) -> bool:
+    """
+    Resolves whether an engine targets MSSQL.
+
+    Behavior:
+        • If `is_mssql` is provided, returns `bool(is_mssql)`.
+        • Otherwise infers from the SQLAlchemy dialect name:
+          `engine.dialect.name == "mssql"` (case-insensitive).
+
+    Args:
+        engine: The SQLAlchemy engine.
+        is_mssql: Optional override flag.
+
+    Returns:
+        `True` if the target dialect is MSSQL, otherwise `False`.
+    """
     if not is_null(is_mssql):
         return bool(is_mssql)
 
@@ -572,6 +632,7 @@ def exists(
     filtering_row: Optional[RowLike] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> bool:
     """
     Returns whether at least one row exists in the specified table matching the given filters.
@@ -594,6 +655,7 @@ def exists(
         filtering_row: Optional row-like mapping used by `build_where_clause(…)` to construct the WHERE clause.
         is_mssql: Whether the target dialect is MSSQL (affects query formatting).
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for building the query.
 
     Returns:
         `True` if a matching row exists, otherwise `False`.
@@ -612,6 +674,7 @@ def exists(
                     is_mssql=is_mssql,
                     n=1,
                     schema=schema,
+                    wrapper=wrapper,
                 ),
                 connection,
             )
@@ -628,6 +691,7 @@ def build_where_clause(
     filtering_cols: Optional[ColumnLike] = None,
     filtering_row: Optional[RowLike] = None,
     is_mssql: Optional[bool] = None,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Builds a SQL WHERE clause from a row-like mapping.
@@ -644,6 +708,7 @@ def build_where_clause(
         filtering_cols: Optional list of columns to include.
         filtering_row: A mapping (or row-like object) from column names to values.
         is_mssql: Whether to format values for MSSQL semantics (e.g., booleans).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
     Returns:
         The WHERE clause string (without a trailing semicolon), or the empty string when no columns are selected.
@@ -656,7 +721,7 @@ def build_where_clause(
         collapse(
             [
                 collapse(
-                    format_name(col),
+                    format_name(col, is_mssql=is_mssql, wrapper=wrapper),
                     " IS " if is_null(filtering_row[col]) else " IN " if is_struct(filtering_row[col]) else "=",
                     format_value(filtering_row[col], is_mssql=is_mssql),
                 )
@@ -681,6 +746,7 @@ def build_select_table_where_query(
     order_cols: Optional[ColumnLike] = None,
     order_directions: Optional[Iterable[str]] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Builds a SQL SELECT query for a table with an optional WHERE clause and ordering.
@@ -702,6 +768,7 @@ def build_select_table_where_query(
         order_cols: Optional ORDER BY columns.
         order_directions: Optional suffixes aligned with `order_cols` (e.g., `"ASC"`, `"DESC"`).
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
     Returns:
         The SQL query string ending with `";"`.
@@ -710,11 +777,23 @@ def build_select_table_where_query(
         paste(
             "SELECT",
             paste("TOP", n) if not is_null(n) and is_mssql else "",
-            "*" if is_empty(cols) else format_cols(cols),
+            "*" if is_empty(cols) else format_cols(cols, is_mssql=is_mssql, wrapper=wrapper),
             "FROM",
-            get_full_table_name(table, schema=schema),
-            build_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql),
-            (paste("ORDER BY", format_cols(order_cols, suffixes=order_directions)) if not is_empty(order_cols) else ""),
+            get_full_table_name(table, is_mssql=is_mssql, schema=schema, wrapper=wrapper),
+            build_where_clause(
+                filtering_cols=filtering_cols,
+                filtering_row=filtering_row,
+                is_mssql=is_mssql,
+                wrapper=wrapper,
+            ),
+            (
+                paste(
+                    "ORDER BY",
+                    format_cols(order_cols, suffixes=order_directions, is_mssql=is_mssql, wrapper=wrapper),
+                )
+                if not is_empty(order_cols)
+                else ""
+            ),
             paste("LIMIT", n) if not is_null(n) and not is_mssql else "",
         )
         + ";"
@@ -731,6 +810,7 @@ def build_delete_table_query(
     filtering_row: Optional[RowLike] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Builds a SQL DELETE query for rows matching a WHERE clause.
@@ -747,6 +827,7 @@ def build_delete_table_query(
         filtering_row: Optional row-like mapping used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
     Returns:
         The SQL query string ending with `";"`.
@@ -754,8 +835,13 @@ def build_delete_table_query(
     return (
         paste(
             "DELETE FROM",
-            get_full_table_name(table, schema=schema),
-            build_where_clause(filtering_cols=filtering_cols, filtering_row=filtering_row, is_mssql=is_mssql),
+            get_full_table_name(table, is_mssql=is_mssql, schema=schema, wrapper=wrapper),
+            build_where_clause(
+                filtering_cols=filtering_cols,
+                filtering_row=filtering_row,
+                is_mssql=is_mssql,
+                wrapper=wrapper,
+            ),
         )
         + ";"
     )
@@ -771,6 +857,7 @@ def build_insert_table_query(
     *,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Builds a SQL INSERT query for a single row.
@@ -787,6 +874,7 @@ def build_insert_table_query(
 
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
     Returns:
         The SQL query string ending with `";"`.
@@ -797,8 +885,8 @@ def build_insert_table_query(
     return (
         paste(
             "INSERT INTO",
-            get_full_table_name(table, schema=schema),
-            par(format_cols(cols)),
+            get_full_table_name(table, is_mssql=is_mssql, schema=schema, wrapper=wrapper),
+            par(format_cols(cols, is_mssql=is_mssql, wrapper=wrapper)),
             "VALUES",
             par(collist([format_value(row[col], is_mssql=is_mssql) for col in cols])),
         )
@@ -817,6 +905,7 @@ def build_update_table_query(
     filtering_cols: Optional[ColumnLike] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Builds a SQL UPDATE query for a single row, matching by a WHERE clause.
@@ -834,6 +923,7 @@ def build_update_table_query(
         filtering_cols: Optional filtering columns used by `build_where_clause()`.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
     Returns:
         The SQL query string ending with `";"`.
@@ -844,10 +934,24 @@ def build_update_table_query(
     return (
         paste(
             "UPDATE",
-            get_full_table_name(table, schema=schema),
+            get_full_table_name(table, is_mssql=is_mssql, schema=schema, wrapper=wrapper),
             "SET",
-            collist([collapse(format_name(col), "=", format_value(row[col], is_mssql=is_mssql)) for col in cols]),
-            build_where_clause(filtering_cols=filtering_cols, filtering_row=row, is_mssql=is_mssql),
+            collist(
+                [
+                    collapse(
+                        format_name(col, is_mssql=is_mssql, wrapper=wrapper),
+                        "=",
+                        format_value(row[col], is_mssql=is_mssql),
+                    )
+                    for col in cols
+                ]
+            ),
+            build_where_clause(
+                filtering_cols=filtering_cols,
+                filtering_row=row,
+                is_mssql=is_mssql,
+                wrapper=wrapper,
+            ),
         )
         + ";"
     )
@@ -1260,17 +1364,31 @@ def escape(name: Any) -> str:
 ##############################
 
 
-def format_name(name: Any) -> str:
+def format_name(
+    name: Any,
+    *,
+    is_mssql: Optional[bool] = None,
+    wrapper: Optional[Callable[[str], str]] = None,
+) -> str:
     """
     Formats a SQL identifier (column/table/schema name).
 
     Behavior:
         • If the name contains parentheses, treats it as a raw SQL expression and returns it unchanged.
         • If the name contains dots, quotes each path element (e.g., `schema.table`).
-        • Otherwise wraps the identifier via `dquote(…)`.
+        • Otherwise wraps the identifier via the resolved identifier wrapper.
+
+    Notes:
+        MSSQL: if the resolved wrapper uses double quotes (`dquote`), the session must have `QUOTED_IDENTIFIER ON`.
+        Use a bracket wrapper (e.g., `sbra`) to avoid that dependency.
 
     Args:
         name: The identifier (or expression) to format.
+
+        is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+            When provided, it is used to wrap each identifier part (e.g., table, schema, column).
+            When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 
     Returns:
         The formatted identifier string.
@@ -1278,6 +1396,7 @@ def format_name(name: Any) -> str:
     Raises:
         ValueError: If `name` is null or empty.
     """
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
     if is_null(name):
         raise ValueError("The SQL identifier is null")
     elif is_empty(name):
@@ -1286,31 +1405,42 @@ def format_name(name: Any) -> str:
     if "(" in name and ")" in name:
         return name
     elif "." in name:
-        return collapse([dquote(part) for part in name.split(".") if not is_empty(part)], delimiter=".")
-    return dquote(name)
+        return collapse([wrapper(part) for part in name.split(".") if not is_empty(part)], delimiter=".")
+    return wrapper(name)
 
 
 def format_cols(
     *cols: ColumnLike,
+    is_mssql: Optional[bool] = None,
     suffixes: Optional[Iterable[str]] = None,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
     """
     Formats a list of SQL identifiers (e.g., column names), optionally adding suffixes.
 
     Behavior:
         • Removes empty values via `remove_empty(to_list(*cols))`.
-        • Applies `format_name()` to each column.
-        • When `suffixes` is provided, appends each suffix to the corresponding column.
+        • Applies `format_name(…, wrapper=…)` to each column/expression.
+        • When `suffixes` is provided, appends each suffix to the corresponding formatted column.
         • Collapses the result into a comma-separated list via `collist(…)`.
+
+    Notes:
+        MSSQL: if the resolved wrapper uses double quotes (`dquote`), the session must have `QUOTED_IDENTIFIER ON`.
+        Use a bracket wrapper (e.g., `sbra`) to avoid that dependency.
 
     Args:
         *cols: The column names (scalars and/or collections).
+
+        is_mssql: Whether the target dialect is MSSQL (used to resolve the default wrapper).
         suffixes: Optional suffix list aligned with the columns (e.g., `"ASC"`, `"DESC"`).
+        wrapper: Optional identifier wrapper function `wrapper(identifier: str) -> str`.
+            When provided, it is used to wrap each identifier part (e.g., table, schema, column).
+            When null, a default wrapper is selected based on `is_mssql` (see `resolve_identifier_wrapper(…)`).
 
     Returns:
         A comma-separated identifier list string (e.g., `"a" ASC, "b" DESC`).
     """
-    cols = [format_name(col) for col in remove_empty(to_list(*cols))]
+    cols = [format_name(col, is_mssql=is_mssql, wrapper=wrapper) for col in remove_empty(to_list(*cols))]
     if not is_null(suffixes):
         cols = [paste(col, suffix) for col, suffix in zip(cols, suffixes)]
     return collist(cols)
@@ -1470,7 +1600,7 @@ def warn_query(
     """
     if verbose:
         logging.warning(
-            "No row has been %s in the table '%s'%s",
+            "No rows were %s in the table '%s'%s",
             verb,
             table,
             " " + par(get_full_class_name(exception)) if not is_null(exception) else "",
@@ -1506,7 +1636,7 @@ def error_query(
         warn_query(verb, table, exception=exception, verbose=verbose)
     else:
         logging.error(
-            "No row has been %s in the table '%s'%s",
+            "No rows were %s in the table '%s'%s",
             verb,
             table,
             " " + par(exception) if not is_null(exception) else "",
@@ -1617,7 +1747,7 @@ def warn_row(
     """
     if verbose:
         logging.warning(
-            "- Fail to %s%s",
+            "- Failed to %s%s",
             get_row_message(verb, index, table, cols=cols, row=row),
             " " + par(get_full_class_name(exception)) if not is_null(exception) else "",
         )
@@ -1658,7 +1788,7 @@ def error_row(
         warn_row(verb, index, table, exception=exception, cols=cols, row=row, verbose=verbose)
     else:
         logging.error(
-            "- Fail to %s%s",
+            "- Failed to %s%s",
             get_row_message(verb, index, table, cols=cols, row=row),
             " " + par(exception) if not is_null(exception) else "",
         )
@@ -1865,6 +1995,7 @@ def select_table_where(
     order_directions: Optional[Iterable[str]] = None,
     row_count: int = -1,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> pd.DataFrame:
@@ -1894,6 +2025,7 @@ def select_table_where(
         order_directions: Optional suffixes aligned with `order_cols` (e.g., `"ASC"`, `"DESC"`).
         row_count: When non-negative, limits the returned number of rows.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
         verbose: When `True`, enables logging and per-chunk debug messages.
 
@@ -1904,14 +2036,16 @@ def select_table_where(
         Exception: Any exception raised by Pandas or the database driver.
     """
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
+
     if verbose:
         effective_filtering_cols = include_list(get_keys(filtering_row), filtering_cols)
         logging.debug(
             "Select the columns %s from the table '%s'%s",
-            "*" if is_empty(cols) else format_cols(cols),
+            "*" if is_empty(cols) else format_cols(cols, is_mssql=is_mssql, wrapper=wrapper),
             table,
             (
-                paste(" filtering on", format_cols(effective_filtering_cols))
+                paste(" filtering on", format_cols(effective_filtering_cols, is_mssql=is_mssql, wrapper=wrapper))
                 if not is_empty(effective_filtering_cols)
                 else ""
             ),
@@ -1929,6 +2063,7 @@ def select_table_where(
             order_cols=order_cols,
             order_directions=order_directions,
             schema=schema,
+            wrapper=wrapper,
         ),
         engine,
         chunksize=chunk_size,
@@ -1967,6 +2102,7 @@ def delete_table(
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Test
     test: bool = ASSERT,
     # Log
@@ -1996,6 +2132,7 @@ def delete_table(
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2005,7 +2142,9 @@ def delete_table(
     """
     delete_count = 0
     delete_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
 
     # Include the index in the columns
     if index:
@@ -2043,6 +2182,7 @@ def delete_table(
                 filtering_row=row,
                 is_mssql=is_mssql,
                 schema=schema,
+                wrapper=wrapper,
             )
 
             # Execute the query
@@ -2088,6 +2228,7 @@ def bulk_delete_table(
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
     test: bool = ASSERT,
@@ -2120,6 +2261,7 @@ def bulk_delete_table(
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
         use_multi_statements: Whether to execute concatenated multi-statement SQL strings. When null, auto-detects.
 
         test: When `True`, enables validation warnings.
@@ -2130,7 +2272,9 @@ def bulk_delete_table(
     """
     delete_count = 0
     delete_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2195,6 +2339,7 @@ def bulk_delete_table(
                         filtering_row=row,
                         is_mssql=is_mssql,
                         schema=schema,
+                        wrapper=wrapper,
                     )
                     try:
                         # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
@@ -2218,6 +2363,7 @@ def bulk_delete_table(
                     filtering_row=row,
                     is_mssql=is_mssql,
                     schema=schema,
+                    wrapper=wrapper,
                 )
                 for _, row in subchunk.iterrows()
             ]
@@ -2254,6 +2400,7 @@ def set_id_insert(
     *,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
 ) -> None:
     """
     Enables or disables explicit insertion into identity columns for MSSQL.
@@ -2273,9 +2420,17 @@ def set_id_insert(
 
         is_mssql: Whether the target database is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
     """
     if is_mssql:
-        connection.exec_driver_sql(paste("SET IDENTITY_INSERT", get_full_table_name(table, schema=schema), flag) + ";")
+        connection.exec_driver_sql(
+            paste(
+                "SET IDENTITY_INSERT",
+                get_full_table_name(table, is_mssql=is_mssql, schema=schema, wrapper=wrapper),
+                flag,
+            )
+            + ";"
+        )
 
 
 ############################################################
@@ -2290,6 +2445,7 @@ def insert_table(
     insert_id: Optional[bool] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2319,6 +2475,7 @@ def insert_table(
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2328,7 +2485,9 @@ def insert_table(
     """
     insert_count = 0
     insert_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
 
     # Include the index in the columns
     if index:
@@ -2342,7 +2501,9 @@ def insert_table(
     # Get the columns to insert
     cols = get_common_cols(df, table, table_cols, test=test)
     if is_null(insert_id):
-        insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
+        insert_id = not is_empty(
+            include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql, wrapper=wrapper))
+        )
 
     debug_query("insert", len(df), table, verbose=verbose)
 
@@ -2350,11 +2511,18 @@ def insert_table(
         nonlocal insert_count, insert_unknown_count
 
         if insert_id:
-            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
+            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema, wrapper=wrapper)
         try:
             for i, (_, row) in enumerate(df.iterrows()):
                 # Build the query
-                query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+                query = build_insert_table_query(
+                    table,
+                    cols,
+                    row,
+                    is_mssql=is_mssql,
+                    schema=schema,
+                    wrapper=wrapper,
+                )
 
                 # Execute the query
                 try:
@@ -2387,7 +2555,7 @@ def insert_table(
             return insert_count
         finally:
             if insert_id:
-                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema)
+                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema, wrapper=wrapper)
 
     return transact(engine, _transact)
 
@@ -2402,6 +2570,7 @@ def bulk_insert_table(
     insert_id: Optional[bool] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
     test: bool = ASSERT,
@@ -2435,6 +2604,7 @@ def bulk_insert_table(
         insert_id: When set, controls whether to enable `IDENTITY_INSERT` (MSSQL only).
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
         use_multi_statements: Whether to execute concatenated multi-statement SQL strings. When null, auto-detects.
 
         test: When `True`, enables validation warnings.
@@ -2445,7 +2615,9 @@ def bulk_insert_table(
     """
     insert_count = 0
     insert_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2461,7 +2633,9 @@ def bulk_insert_table(
     # Get the columns to insert
     cols = get_common_cols(df, table, table_cols, test=test)
     if is_null(insert_id):
-        insert_id = not is_empty(include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql)))
+        insert_id = not is_empty(
+            include_list(cols, get_identity_cols(engine, table, is_mssql=is_mssql, wrapper=wrapper))
+        )
 
     def _bulk_insert(connection: db.Connection, chunk: pd.DataFrame) -> int:
         nonlocal insert_count, insert_unknown_count
@@ -2493,7 +2667,9 @@ def bulk_insert_table(
             if not use_multi_statements:
                 for i, (_, row) in enumerate(subchunk.iterrows()):
                     n = index_from + i
-                    query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+                    query = build_insert_table_query(
+                        table, cols, row, is_mssql=is_mssql, schema=schema, wrapper=wrapper
+                    )
                     try:
                         # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                         result = execute(engine, query, connection=connection, use_savepoint=True)
@@ -2511,7 +2687,7 @@ def bulk_insert_table(
 
             # Build the bulk query
             queries = [
-                build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+                build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema, wrapper=wrapper)
                 for _, row in subchunk.iterrows()
             ]
             query = "".join(queries)
@@ -2531,12 +2707,12 @@ def bulk_insert_table(
 
     def _transact(connection: db.Connection) -> int:
         if insert_id:
-            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema)
+            set_id_insert(connection, table, "ON", is_mssql=is_mssql, schema=schema, wrapper=wrapper)
         try:
             return _bulk_insert(connection, df)
         finally:
             if insert_id:
-                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema)
+                set_id_insert(connection, table, "OFF", is_mssql=is_mssql, schema=schema, wrapper=wrapper)
 
     result = transact(engine, _transact)
     if verbose and (insert_count > 0 or insert_unknown_count > 0):
@@ -2556,6 +2732,7 @@ def update_table(
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2585,6 +2762,7 @@ def update_table(
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging.
@@ -2594,7 +2772,9 @@ def update_table(
     """
     update_count = 0
     update_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
 
     # Include the index in the columns
     if index:
@@ -2632,7 +2812,13 @@ def update_table(
         for i, (_, row) in enumerate(df.iterrows()):
             # Build the query
             query = build_update_table_query(
-                table, cols, row, filtering_cols=filtering_cols, is_mssql=is_mssql, schema=schema
+                table,
+                cols,
+                row,
+                filtering_cols=filtering_cols,
+                is_mssql=is_mssql,
+                schema=schema,
+                wrapper=wrapper,
             )
 
             # Execute the query
@@ -2678,6 +2864,7 @@ def bulk_update_table(
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
     # Test
     test: bool = ASSERT,
@@ -2710,6 +2897,7 @@ def bulk_update_table(
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
         use_multi_statements: Whether to execute concatenated multi-statement SQL strings. When null, auto-detects.
 
         test: When `True`, enables validation warnings.
@@ -2720,7 +2908,9 @@ def bulk_update_table(
     """
     update_count = 0
     update_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
     use_multi_statements = resolve_use_multi_statements(engine, use_multi_statements=use_multi_statements)
 
     # Include the index in the columns
@@ -2784,6 +2974,7 @@ def bulk_update_table(
                         filtering_cols=filtering_cols,
                         is_mssql=is_mssql,
                         schema=schema,
+                        wrapper=wrapper,
                     )
                     try:
                         # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
@@ -2808,6 +2999,7 @@ def bulk_update_table(
                     filtering_cols=filtering_cols,
                     is_mssql=is_mssql,
                     schema=schema,
+                    wrapper=wrapper,
                 )
                 for _, row in subchunk.iterrows()
             ]
@@ -2846,6 +3038,7 @@ def upsert_table(
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
+    wrapper: Optional[Callable[[str], str]] = None,
     # Test
     test: bool = ASSERT,
     # Log
@@ -2874,6 +3067,7 @@ def upsert_table(
         index: When `True`, includes the dataframe index as columns.
         is_mssql: Whether the target dialect is MSSQL.
         schema: The schema name (defaults to `None`).
+        wrapper: Optional identifier wrapper used for formatting identifiers.
 
         test: When `True`, enables validation warnings.
         verbose: When `True`, enables logging and optional verification.
@@ -2886,7 +3080,9 @@ def upsert_table(
     upsert_count = 0
     update_unknown_count = 0
     insert_unknown_count = 0
+
     is_mssql = resolve_is_mssql(engine, is_mssql=is_mssql)
+    wrapper = resolve_identifier_wrapper(is_mssql=is_mssql, wrapper=wrapper)
 
     # Include the index in the columns
     if index:
@@ -2928,6 +3124,7 @@ def upsert_table(
                     filtering_cols=filtering_cols,
                     is_mssql=is_mssql,
                     schema=schema,
+                    wrapper=wrapper,
                 )
                 try:
                     # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
@@ -2948,6 +3145,7 @@ def upsert_table(
                             filtering_row=row,
                             is_mssql=is_mssql,
                             schema=schema,
+                            wrapper=wrapper,
                         ):
                             upsert_count += 1
                             continue
@@ -2964,6 +3162,7 @@ def upsert_table(
                         filtering_row=row,
                         is_mssql=is_mssql,
                         schema=schema,
+                        wrapper=wrapper,
                     ):
                         updated = 1
                 except Exception as e:
@@ -2975,7 +3174,14 @@ def upsert_table(
                 continue
 
             # 3) Fallback: insert the row
-            query = build_insert_table_query(table, insert_cols, row, is_mssql=is_mssql, schema=schema)
+            query = build_insert_table_query(
+                table,
+                insert_cols,
+                row,
+                is_mssql=is_mssql,
+                schema=schema,
+                wrapper=wrapper,
+            )
             try:
                 # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
                 result = execute(engine, query, connection=connection, use_savepoint=True)
@@ -3013,6 +3219,7 @@ def upsert_table(
                 index=False,
                 is_mssql=is_mssql,
                 schema=schema,
+                wrapper=wrapper,
                 # Log
                 verbose=verbose,
             )
@@ -3209,6 +3416,8 @@ def migrate(
     schema: Optional[str] = DEFAULT_SCHEMA,
     upsert: bool = False,
     use_multi_statements: Optional[bool] = DEFAULT_USE_MULTI_STATEMENTS,
+    wrapper_from: Optional[Callable[[str], str]] = None,
+    wrapper_to: Optional[Callable[[str], str]] = None,
     # Test
     test: bool = ASSERT,
     # Log
@@ -3245,6 +3454,8 @@ def migrate(
         schema: The schema name (defaults to `None`).
         upsert: When `True`, performs upserts instead of bulk inserts.
         use_multi_statements: Whether to execute concatenated multi-statement SQL strings. When null, auto-detects.
+        wrapper_from: Optional identifier wrapper used for queries against `engine_from`.
+        wrapper_to: Optional identifier wrapper used for queries against `engine_to`.
 
         test: When `True`, enables validation warnings during writes.
         verbose: When `True`, enables logging.
@@ -3253,6 +3464,11 @@ def migrate(
         The number of migrated rows (best-effort count).
     """
     count = 0
+
+    is_mssql_from = resolve_is_mssql(engine_from, is_mssql=is_mssql_from)
+    is_mssql_to = resolve_is_mssql(engine_to, is_mssql=is_mssql_to)
+    wrapper_from = resolve_identifier_wrapper(is_mssql=is_mssql_from, wrapper=wrapper_from)
+    wrapper_to = resolve_identifier_wrapper(is_mssql=is_mssql_to, wrapper=wrapper_to)
 
     # Create the tables
     if drop or create:
@@ -3286,6 +3502,7 @@ def migrate(
                     filtering_row=filtering_row,
                     is_mssql=is_mssql_from,
                     schema=schema,
+                    wrapper=wrapper_from,
                     # Log
                     verbose=verbose,
                 )
@@ -3302,6 +3519,7 @@ def migrate(
                     table,
                     is_mssql=is_mssql_to,
                     schema=schema,
+                    wrapper=wrapper_to,
                     # Test
                     test=test,
                     # Log
@@ -3315,6 +3533,7 @@ def migrate(
                     chunk_size=chunk_size,
                     is_mssql=is_mssql_to,
                     schema=schema,
+                    wrapper=wrapper_to,
                     use_multi_statements=use_multi_statements,
                     # Test
                     test=test,

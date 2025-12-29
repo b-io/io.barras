@@ -28,14 +28,55 @@ class Test(unittest.TestCase):
         np.random.seed(0)
 
     def assert_true(self, expr: Any, *, message: Optional[str] = None) -> None:
-        """Asserts that `expr` is truthy."""
+        """
+        Asserts that `expr` is truthy.
+
+        Args:
+            expr: The expression to test.
+            message: Optional assertion message forwarded to `unittest.TestCase.assertTrue`.
+        """
         self.assertTrue(expr, msg=message)
 
     def assert_false(self, expr: Any, *, message: Optional[str] = None) -> None:
-        """Asserts that `expr` is falsy."""
+        """
+        Asserts that `expr` is falsy.
+
+        Args:
+            expr: The expression to test.
+            message: Optional assertion message forwarded to `unittest.TestCase.assertFalse`.
+        """
         self.assertFalse(expr, msg=message)
 
     def assert_equals(self, first: Any, second: Any, precision: int = PRECISION, assert_order: bool = False) -> None:
+        """
+        Asserts that `first` equals `second`, supporting scalars, numbers, and structured collections.
+
+        Behavior:
+            • When `first` is a struct (`is_struct(first)`):
+              - For 2D+ shapes (`len(np.shape(first)) > 1`):
+                * If `assert_order` is `True`, compares each cell in row/column order, simplifying each cell before
+                  recursing.
+                * If `assert_order` is `False`, asserts identical keys and indexes, then compares values by key/index.
+              - For 1D shapes:
+                * If `assert_order` is `True`, compares each element in order.
+                * If `assert_order` is `False`, asserts identical keys, then compares values by key.
+            • Otherwise:
+              - If both values are numbers and neither is null, compares using `assertAlmostEqual` with `places=precision`.
+              - Else compares using `assertEqual`.
+
+        Notes:
+            • Numeric nulls are treated as non-comparable numerically; they fall back to structural / exact equality rules.
+            • For unordered struct comparisons, the keys and (when present) the indexes must match exactly.
+
+        Args:
+            first: The first value to compare.
+            second: The second value to compare.
+            precision: The decimal precision used for numeric comparisons (`assertAlmostEqual(..., places=precision)`).
+            assert_order: Whether to enforce order when comparing structured values.
+
+        Raises:
+            AssertionError: When the values differ under the rules above.
+        """
         if is_struct(first):
             if len(np.shape(first)) > 1:
                 if assert_order:

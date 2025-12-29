@@ -163,6 +163,19 @@ __POETRY_UPDATER_VALIDATORS_____________________________________________________
 
 
 def is_dependency_section_header(stripped: str) -> bool:
+    """
+    Tests whether `stripped` is a Poetry dependency section header.
+
+    Behavior:
+        • Matches `[tool.poetry.dependencies]`.
+        • Matches any group dependency header of the form `[tool.poetry.group.<name>.dependencies]`.
+
+    Args:
+        stripped: The line content with surrounding whitespace already removed.
+
+    Returns:
+        `True` if `stripped` is a dependency section header, otherwise `False`.
+    """
     return bool(DEPENDENCY_SECTION_PATTERN.match(stripped) or GROUP_DEPENDENCY_SECTION_PATTERN.match(stripped))
 
 
