@@ -380,7 +380,7 @@ def get_col_types(
     """
     col_types: Dict[str, db.types.TypeEngine] = {}
     for col, col_type in concat_rows(get_element_types(df.index), get_element_types(df)).items():
-        col_type_name = str(col_type)
+        col_type_name = stringify(col_type)
         if "bool" in col_type_name:
             col_types.update({col: db.Boolean()})
         elif "datetime" in col_type_name:
@@ -1232,13 +1232,13 @@ def escape(name: Any) -> str:
     Returns:
         The escaped string representation of `name`.
     """
-    return str(name).replace("'", "''")
+    return stringify(name).replace("'", "''")
 
 
 ##############################
 
 
-def format_name(name: str) -> str:
+def format_name(name: Any) -> str:
     """
     Formats a SQL identifier (column/table/schema name).
 
@@ -1260,7 +1260,8 @@ def format_name(name: str) -> str:
         raise ValueError("The SQL identifier is null")
     elif is_empty(name):
         raise ValueError("The SQL identifier is empty")
-    elif "(" in name and ")" in name:
+    name = stringify(name)
+    if "(" in name and ")" in name:
         return name
     elif "." in name:
         return collapse([dquote(part) for part in name.split(".") if not is_empty(part)], delimiter=".")
@@ -1414,9 +1415,9 @@ def debug_query(
     if verbose:
         prefix = ""
         if not is_null(index_from):
-            prefix += " from " + str(index_from)
+            prefix += " from " + stringify(index_from)
         if not is_null(index_to):
-            prefix += " to " + str(index_to)
+            prefix += " to " + stringify(index_to)
         if not is_empty(prefix):
             prefix = "processing rows" + prefix + ", "
         logging.debug((prefix + get_query_message(verb, count, table, unknown_count=unknown_count)).capitalize())
@@ -1813,10 +1814,10 @@ def select_table(
     for i, chunk in enumerate(chunks):
         debug_query(
             "select",
-            chunk_size,
+            len(chunk),
             table,
             index_from=i * chunk_size + 1,
-            index_to=(i + 1) * chunk_size,
+            index_to=i * chunk_size + len(chunk),
             # Log
             verbose=verbose,
         )
@@ -1918,10 +1919,10 @@ def select_table_where(
     for i, chunk in enumerate(chunks):
         debug_query(
             "select",
-            chunk_size,
+            len(chunk),
             table,
             index_from=i * chunk_size + 1,
-            index_to=(i + 1) * chunk_size,
+            index_to=i * chunk_size + len(chunk),
             # Log
             verbose=verbose,
         )
@@ -2080,7 +2081,7 @@ def bulk_delete_table(
     Behavior:
         • Optionally resets the index into columns when `index=True`.
         • Resolves the filtering columns via `get_filtering_cols(…)`.
-        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • When `len(df) > chunk_size`, chunks iteratively within the same transaction/connection.
         • If `use_multi_statements` is enabled, concatenates per-row DELETE queries and executes the combined SQL
           string via `exec_driver_sql(…)`.
         • Otherwise executes one statement per row.
@@ -2139,70 +2140,73 @@ def bulk_delete_table(
         if is_empty(chunk):
             return delete_count
 
-        # Chunk the bulk query
-        if len(chunk) > chunk_size:
-            chunk_count = ceil(len(chunk) / chunk_size)
-            index_to = 0
-            for _ in range(chunk_count):
-                index_from = index_to
-                index_to = minimum(index_from + chunk_size, len(chunk))
-                if verbose:
-                    logging.debug(
-                        "Chunk the bulk-delete query from %d to %d rows",
-                        index_from + 1,
-                        index_to,
+        # Chunk the bulk query iteratively
+        chunk_count = ceil(len(chunk) / chunk_size)
+        index_to = 0
+        for _ in range(chunk_count):
+            index_from = index_to
+            index_to = minimum(index_from + chunk_size, len(chunk))
+
+            if verbose:
+                logging.debug(
+                    "Chunk the bulk-delete query from %d to %d rows",
+                    index_from + 1,
+                    index_to,
+                )
+
+            subchunk = chunk.iloc[index_from:index_to]
+            if is_empty(subchunk):
+                continue
+
+            debug_query("bulk-delete", len(subchunk), table, verbose=verbose)
+
+            # If multi-statement execution is disabled, execute one statement per row
+            if not use_multi_statements:
+                for i, (_, row) in enumerate(subchunk.iterrows()):
+                    n = index_from + i
+                    query = build_delete_table_query(
+                        table,
+                        filtering_cols=filtering_cols,
+                        filtering_row=row,
+                        is_mssql=is_mssql,
+                        schema=schema,
                     )
-                _bulk_delete(connection, chunk.iloc[index_from:index_to])
-            return delete_count
+                    try:
+                        # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                        result = execute(engine, query, connection=connection, use_savepoint=True)
+                        row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_DELETE_ROW_COUNT)
+                        if is_unknown_row_count(result):
+                            delete_unknown_count += 1
+                        elif row_count > 0:
+                            delete_count += row_count
+                        else:
+                            warn_row("delete", n, table, cols=filtering_cols, row=row, verbose=verbose)
+                    except Exception as e:
+                        error_row("delete", n, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+                continue
 
-        debug_query("bulk-delete", len(chunk), table, verbose=verbose)
-
-        # If multi-statement execution is disabled, execute one statement per row
-        if not use_multi_statements:
-            for i, (_, row) in enumerate(chunk.iterrows()):
-                query = build_delete_table_query(
+            # Build the bulk query
+            queries = [
+                build_delete_table_query(
                     table,
                     filtering_cols=filtering_cols,
                     filtering_row=row,
                     is_mssql=is_mssql,
                     schema=schema,
                 )
-                try:
-                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                    result = execute(engine, query, connection=connection, use_savepoint=True)
-                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_DELETE_ROW_COUNT)
-                    if is_unknown_row_count(result):
-                        delete_unknown_count += 1
-                    elif row_count > 0:
-                        delete_count += row_count
-                    else:
-                        warn_row("delete", i, table, cols=filtering_cols, row=row, verbose=verbose)
-                except Exception as e:
-                    error_row("delete", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-            return delete_count
+                for _, row in subchunk.iterrows()
+            ]
+            query = "".join(queries)
+            if is_empty(query):
+                continue
 
-        # Build the bulk query
-        queries = [
-            build_delete_table_query(
-                table,
-                filtering_cols=filtering_cols,
-                filtering_row=row,
-                is_mssql=is_mssql,
-                schema=schema,
-            )
-            for _, row in chunk.iterrows()
-        ]
-        query = "".join(queries)
-        if is_empty(query):
-            return delete_count
-
-        # Execute the bulk query
-        try:
-            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
-            execute_on_connection(connection, query, use_savepoint=True)
-            delete_unknown_count += len(chunk)
-        except Exception as e:
-            error_query("bulk-deleted", table, exception=e, verbose=verbose)
+            # Execute the bulk query
+            try:
+                # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+                execute_on_connection(connection, query, use_savepoint=True)
+                delete_unknown_count += len(subchunk)
+            except Exception as e:
+                error_query("bulk-deleted", table, exception=e, verbose=verbose)
 
         return delete_count
 
@@ -2391,7 +2395,7 @@ def bulk_insert_table(
         • Auto-detects identity insertion when `insert_id` is null and identity columns are present.
         • Executes the full bulk insert in one transaction on one connection.
         • If `insert_id=True`, toggles `IDENTITY_INSERT` ON/OFF on the same connection (best-effort via `finally`).
-        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • When `len(df) > chunk_size`, chunks iteratively within the same transaction/connection.
         • If `use_multi_statements` is enabled, concatenates per-row INSERT queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
 
@@ -2438,59 +2442,63 @@ def bulk_insert_table(
         if is_empty(chunk):
             return insert_count
 
-        # Chunk the bulk query
-        if len(chunk) > chunk_size:
-            chunk_count = ceil(len(chunk) / chunk_size)
-            index_to = 0
-            for _ in range(chunk_count):
-                index_from = index_to
-                index_to = minimum(index_from + chunk_size, len(chunk))
-                if verbose:
-                    logging.debug(
-                        "Chunk the bulk-insert query from %d to %d rows",
-                        index_from + 1,
-                        index_to,
-                    )
-                _bulk_insert(connection, chunk.iloc[index_from:index_to])
-            return insert_count
+        # Chunk the bulk query iteratively
+        chunk_count = ceil(len(chunk) / chunk_size)
+        index_to = 0
+        for _ in range(chunk_count):
+            index_from = index_to
+            index_to = minimum(index_from + chunk_size, len(chunk))
 
-        debug_query("bulk-insert", len(chunk), table, verbose=verbose)
+            if verbose:
+                logging.debug(
+                    "Chunk the bulk-insert query from %d to %d rows",
+                    index_from + 1,
+                    index_to,
+                )
 
-        # If multi-statement execution is disabled, execute one statement per row
-        if not use_multi_statements:
-            for i, (_, row) in enumerate(chunk.iterrows()):
-                query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
-                try:
-                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                    result = execute(engine, query, connection=connection, use_savepoint=True)
-                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_INSERT_ROW_COUNT)
-                    if is_unknown_row_count(result):
-                        insert_unknown_count += 1
-                        insert_count += row_count
-                    elif row_count > 0:
-                        insert_count += row_count
-                    else:
-                        warn_row("insert", i, table, cols=cols, row=row, verbose=verbose)
-                except Exception as e:
-                    error_row("insert", i, table, exception=e, cols=cols, row=row, verbose=verbose)
-            return insert_count
+            subchunk = chunk.iloc[index_from:index_to]
+            if is_empty(subchunk):
+                continue
 
-        # Build the bulk query
-        queries = [
-            build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema) for _, row in chunk.iterrows()
-        ]
-        query = "".join(queries)
-        if is_empty(query):
-            return insert_count
+            debug_query("bulk-insert", len(subchunk), table, verbose=verbose)
 
-        # Execute the bulk query
-        try:
-            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
-            execute_on_connection(connection, query, use_savepoint=True)
-            insert_count += len(chunk)
-            insert_unknown_count += len(chunk)
-        except Exception as e:
-            error_query("bulk-inserted", table, exception=e, verbose=verbose)
+            # If multi-statement execution is disabled, execute one statement per row
+            if not use_multi_statements:
+                for i, (_, row) in enumerate(subchunk.iterrows()):
+                    n = index_from + i
+                    query = build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+                    try:
+                        # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                        result = execute(engine, query, connection=connection, use_savepoint=True)
+                        row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_INSERT_ROW_COUNT)
+                        if is_unknown_row_count(result):
+                            insert_unknown_count += 1
+                            insert_count += row_count
+                        elif row_count > 0:
+                            insert_count += row_count
+                        else:
+                            warn_row("insert", n, table, cols=cols, row=row, verbose=verbose)
+                    except Exception as e:
+                        error_row("insert", n, table, exception=e, cols=cols, row=row, verbose=verbose)
+                continue
+
+            # Build the bulk query
+            queries = [
+                build_insert_table_query(table, cols, row, is_mssql=is_mssql, schema=schema)
+                for _, row in subchunk.iterrows()
+            ]
+            query = "".join(queries)
+            if is_empty(query):
+                continue
+
+            # Execute the bulk query
+            try:
+                # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+                execute_on_connection(connection, query, use_savepoint=True)
+                insert_count += len(subchunk)
+                insert_unknown_count += len(subchunk)
+            except Exception as e:
+                error_query("bulk-inserted", table, exception=e, verbose=verbose)
 
         return insert_count
 
@@ -2660,7 +2668,7 @@ def bulk_update_table(
         • Optionally resets the index into columns when `index=True`.
         • Resolves filtering columns via `get_filtering_cols(…)`.
         • Resolves update columns as the intersection of the dataframe and the table columns excluding filtering columns.
-        • When `len(df) > chunk_size`, chunks recursively within the same transaction/connection.
+        • When `len(df) > chunk_size`, chunks iteratively within the same transaction/connection.
         • If `use_multi_statements` is enabled, concatenates per-row UPDATE queries and executes the combined SQL string.
         • Otherwise executes one statement per row.
 
@@ -2716,28 +2724,55 @@ def bulk_update_table(
         if is_empty(chunk):
             return update_count
 
-        # Chunk the bulk query
-        if len(chunk) > chunk_size:
-            chunk_count = ceil(len(chunk) / chunk_size)
-            index_to = 0
-            for _ in range(chunk_count):
-                index_from = index_to
-                index_to = minimum(index_from + chunk_size, len(chunk))
-                if verbose:
-                    logging.debug(
-                        "Chunk the bulk-update query from %d to %d rows",
-                        index_from + 1,
-                        index_to,
+        # Chunk the bulk query iteratively
+        chunk_count = ceil(len(chunk) / chunk_size)
+        index_to = 0
+        for _ in range(chunk_count):
+            index_from = index_to
+            index_to = minimum(index_from + chunk_size, len(chunk))
+
+            if verbose:
+                logging.debug(
+                    "Chunk the bulk-update query from %d to %d rows",
+                    index_from + 1,
+                    index_to,
+                )
+
+            subchunk = chunk.iloc[index_from:index_to]
+            if is_empty(subchunk):
+                continue
+
+            debug_query("bulk-update", len(subchunk), table, verbose=verbose)
+
+            # If multi-statement execution is disabled, execute one statement per row
+            if not use_multi_statements:
+                for i, (_, row) in enumerate(subchunk.iterrows()):
+                    n = index_from + i
+                    query = build_update_table_query(
+                        table,
+                        cols,
+                        row,
+                        filtering_cols=filtering_cols,
+                        is_mssql=is_mssql,
+                        schema=schema,
                     )
-                _bulk_update(connection, chunk.iloc[index_from:index_to])
-            return update_count
+                    try:
+                        # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
+                        result = execute(engine, query, connection=connection, use_savepoint=True)
+                        row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_UPDATE_ROW_COUNT)
+                        if is_unknown_row_count(result):
+                            update_unknown_count += 1
+                        elif row_count > 0:
+                            update_count += row_count
+                        else:
+                            warn_row("update", n, table, cols=filtering_cols, row=row, verbose=verbose)
+                    except Exception as e:
+                        error_row("update", n, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
+                continue
 
-        debug_query("bulk-update", len(chunk), table, verbose=verbose)
-
-        # If multi-statement execution is disabled, execute one statement per row
-        if not use_multi_statements:
-            for i, (_, row) in enumerate(chunk.iterrows()):
-                query = build_update_table_query(
+            # Build the bulk query
+            queries = [
+                build_update_table_query(
                     table,
                     cols,
                     row,
@@ -2745,43 +2780,19 @@ def bulk_update_table(
                     is_mssql=is_mssql,
                     schema=schema,
                 )
-                try:
-                    # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
-                    result = execute(engine, query, connection=connection, use_savepoint=True)
-                    row_count = resolve_row_count(result, default=DEFAULT_UNKNOWN_UPDATE_ROW_COUNT)
-                    if is_unknown_row_count(result):
-                        update_unknown_count += 1
-                    elif row_count > 0:
-                        update_count += row_count
-                    else:
-                        warn_row("update", i, table, cols=filtering_cols, row=row, verbose=verbose)
-                except Exception as e:
-                    error_row("update", i, table, exception=e, cols=filtering_cols, row=row, verbose=verbose)
-            return update_count
+                for _, row in subchunk.iterrows()
+            ]
+            query = "".join(queries)
+            if is_empty(query):
+                continue
 
-        # Build the bulk query
-        queries = [
-            build_update_table_query(
-                table,
-                cols,
-                row,
-                filtering_cols=filtering_cols,
-                is_mssql=is_mssql,
-                schema=schema,
-            )
-            for _, row in chunk.iterrows()
-        ]
-        query = "".join(queries)
-        if is_empty(query):
-            return update_count
-
-        # Execute the bulk query
-        try:
-            # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
-            execute_on_connection(connection, query, use_savepoint=True)
-            update_unknown_count += len(chunk)
-        except Exception as e:
-            error_query("bulk-updated", table, exception=e, verbose=verbose)
+            # Execute the bulk query
+            try:
+                # Use a nested transaction (SAVEPOINT) so a bulk-chunk failure does not poison the outer transaction
+                execute_on_connection(connection, query, use_savepoint=True)
+                update_unknown_count += len(subchunk)
+            except Exception as e:
+                error_query("bulk-updated", table, exception=e, verbose=verbose)
 
         return update_count
 

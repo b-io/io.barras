@@ -460,7 +460,7 @@ class SectionedCache(Generic[V]):
             bucket: Bucket = {}
             for k, v in entries.items():
                 try:
-                    key = str(k)
+                    key = stringify(k)
                 except Exception:
                     raise ValueError(f"Non-string-coercible key in section '{section}': {k!r}")
                 bucket[key] = self.coerce_value(v) if self.coerce_value else v
