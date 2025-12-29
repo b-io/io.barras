@@ -530,7 +530,7 @@ def trim(
 ##############################
 
 
-def wrap(content: Any, left: Any, *, right: Optional[Any] = None) -> Any:
+def wrap(content: Any, left: Any, right: Optional[Any] = None) -> Any:
     """Returns the wrapped representative string of the specified content."""
     if is_null(left):
         return content

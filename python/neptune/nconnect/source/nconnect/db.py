@@ -499,7 +499,8 @@ def resolve_row_count(
 
 def resolve_use_multi_statements(
     engine: db.Engine,
-    use_multi_statements: Optional[bool],
+    *,
+    use_multi_statements: Optional[bool] = None,
 ) -> bool:
     """
     Resolves whether to execute concatenated multi-statement SQL strings.
@@ -507,11 +508,13 @@ def resolve_use_multi_statements(
     Behavior:
         • When `use_multi_statements` is not null, returns it.
         • Otherwise auto-detects:
-          - SQLite → `False` (many drivers reject multi-statement `execute`)
-          - Other dialects → `True`
+          - Hard denylist (SQLite) → `False` (many drivers reject multi-statement `execute`)
+          - Known-good allowlist (MSSQL) → `True`
+          - Other dialects → `False`
 
     Args:
         engine: The SQLAlchemy engine.
+
         use_multi_statements: Optional explicit flag.
 
     Returns:
@@ -519,7 +522,21 @@ def resolve_use_multi_statements(
     """
     if not is_null(use_multi_statements):
         return bool(use_multi_statements)
-    return engine.dialect.name != "sqlite"
+
+    drivername = (getattr(engine.url, "drivername", "") or "").lower()
+    dialect = (getattr(engine.dialect, "name", "") or "").lower()
+    driver = (getattr(engine.dialect, "driver", "") or "").lower()
+
+    # Hard denylist (multi-statement execute commonly rejected / inconsistent)
+    if dialect == "sqlite":
+        return False
+
+    # Known-good allowlist for concatenated `exec_driver_sql()` batches
+    if drivername == "mssql+pyodbc" or (dialect == "mssql" and driver == "pyodbc"):
+        return True
+
+    # Conservative default for everything else
+    return False
 
 
 __DB_VALIDATORS___________________________________________________________________________ = ""
