@@ -41,7 +41,7 @@ def get_type_hints(x: Any) -> Dict[str, Any]:
             return {}
 
 
-def flatten_expected_types(annotation: Any) -> Tuple[Any, ...]:
+def normalize_expected_types(annotation: Any) -> Tuple[Any, ...]:
     """
     Normalizes the `annotation` into a `tuple` of acceptable alternatives for display.
 
@@ -60,12 +60,40 @@ def flatten_expected_types(annotation: Any) -> Tuple[Any, ...]:
     args = get_args(annotation)
 
     if origin is Annotated:
-        return flatten_expected_types(args[0])
+        return normalize_expected_types(args[0])
     elif origin is Literal:
         return tuple(type(v) for v in args) if args else (annotation,)
     elif origin is Union:
         return tuple(args)
     return (annotation,)
+
+
+def resolve_type_hints(x: Any) -> Dict[str, Any]:
+    """
+    Returns the resolved type hints for `x`, handling forward references robustly.
+
+    Prefers `inspect.get_annotations(x, eval_str=True)` on Python 3.10+, and falls back to `typing.get_type_hints`
+    with the function globals.
+
+    Args:
+        x: The object whose annotations are to be resolved.
+
+    Returns:
+        A `dict` of parameter names (and optionally `"return"`) to resolved annotations.
+    """
+    try:
+        return inspect.get_annotations(x, eval_str=True)
+    except (AttributeError, TypeError, NameError):
+        from typing import get_type_hints
+
+        glb = getattr(x, "__globals__", None)
+        try:
+            return get_type_hints(x, globalns=glb)
+        except Exception:
+            return {}
+
+
+__TYPE_HINT_VALIDATORS____________________________________________________________________ = ""
 
 
 def matches_type_hints(
@@ -208,7 +236,7 @@ def matches_type_hints(
         if not args or not recurse:
             return True
         (elem_type,) = args
-        has_item, first_item, it = peek(value)
+        has_item, first_item, it = get_first_and_iterator(value)
         if not has_item:
             return True
         if not matches_type_hints(
@@ -229,28 +257,3 @@ def matches_type_hints(
         return isinstance(value, origin)
     except TypeError:
         return False
-
-
-def resolve_type_hints(x: Any) -> Dict[str, Any]:
-    """
-    Returns the resolved type hints for `x`, handling forward references robustly.
-
-    Prefers `inspect.get_annotations(x, eval_str=True)` on Python 3.10+, and falls back to `typing.get_type_hints`
-    with the function globals.
-
-    Args:
-        x: The object whose annotations are to be resolved.
-
-    Returns:
-        A `dict` of parameter names (and optionally `"return"`) to resolved annotations.
-    """
-    try:
-        return inspect.get_annotations(x, eval_str=True)
-    except (AttributeError, TypeError, NameError):
-        from typing import get_type_hints
-
-        glb = getattr(x, "__globals__", None)
-        try:
-            return get_type_hints(x, globalns=glb)
-        except Exception:
-            return {}

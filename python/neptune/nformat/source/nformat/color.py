@@ -35,6 +35,9 @@ RYG_SCALE = mcolormaps.get_cmap("RdYlGn")
 __COLOR_ACCESSORS_________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_alternate_colors(n, row_odd_color="white", row_even_color="lightgray"):
     return (ceil(n / 2) * [row_odd_color, row_even_color])[:n]
 

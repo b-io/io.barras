@@ -70,6 +70,9 @@ MAP_PROJECTIONS = [
 __CHART_ACCESSORS_________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_grid_size(n, row_count=None, col_count=None):
     if is_struct(n):
         n = max(1, count_cols(n))
@@ -1371,9 +1374,7 @@ def update_layout_axes(
         # Set the titles
         # - Horizontal axis
         if not is_null(title_x):
-            fig.update_xaxes(
-                title=dict(font_color=label_color, font_size=label_size, text=stringify(title_x)),
-            )
+            fig.update_xaxes(title=dict(font_color=label_color, font_size=label_size, text=stringify(title_x)))
         # - Primary vertical axis
         if not is_null(title_y):
             update_axis_y(

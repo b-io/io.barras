@@ -22,6 +22,7 @@ from io import StringIO
 
 from nutil.common import *
 from nutil.enums import Aggregation, Environment, Frequency, Position, SeverityLevel
+from nutil.typing.common import TEnum
 
 __CONFIG_CLASSES__________________________________________________________________________ = ""
 
@@ -89,7 +90,7 @@ CONFIG: ConfigParser = ConfigParser(interpolation=EnvInterpolation())
 __CONFIG_ACCESSORS________________________________________________________________________ = ""
 
 
-TEnum = TypeVar("TEnum")
+### GETTERS ################################################
 
 
 def get_config_path(filename: str, *, dir: Optional[str] = DEFAULT_ROOT, subdir: str = DEFAULT_RES_DIR) -> str:
@@ -148,7 +149,7 @@ def get_enum(section: str, option: str, enum_cls: Type[TEnum]) -> Optional[TEnum
         pass
 
     # 2) Try by value with type-aware coercion
-    coerced = _coerce_to_value_type(raw, enum_cls)
+    coerced = _parse_enum_value(raw, enum_cls)
     try:
         return enum_cls(coerced)
     except Exception:
@@ -199,7 +200,7 @@ def get_str(section: str, option: str) -> Optional[str]:
 #### HELPERS #################
 
 
-def _coerce_to_value_type(raw: str, enum_cls: Type[TEnum]) -> Any:
+def _parse_enum_value(raw: str, enum_cls: Type[TEnum]) -> Any:
     """
     Coerces `raw` to the enum's underlying value type.
 

@@ -63,10 +63,11 @@ MUTABLE_SET_TYPE = ABCMutableSet
 __COMMON_COLLECTION_ACCESSORS_____________________________________________________________ = ""
 
 
-def peek(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
-    """
-    Returns a `tuple` `(has_item, first_or_none, iterator)` without consuming the first element.
-    """
+### GETTERS ################################################
+
+
+def get_first_and_iterator(iterable: Iterable[Any]) -> Tuple[bool, Optional[Any], Iterator[Any]]:
+    """Returns a `tuple` `(has_item, first_or_none, iterator)` without consuming the first element."""
     it1, it2 = itertools.tee(create_iterator(iterable), 2)
     try:
         return True, next(it1), it2
@@ -145,7 +146,7 @@ def is_iterable_of_tuples(x: Any, *, size: Optional[int] = None, check_all: bool
         return False
 
     # Check if the `Iterable` is empty
-    has_item, first_item, it = peek(x)
+    has_item, first_item, it = get_first_and_iterator(x)
     if not has_item:
         return True
 

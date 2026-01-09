@@ -44,6 +44,13 @@ from nutil.io.file import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.string import ALPHANUMERIC_CHARS, LOWERCASE_LETTERS, UPPERCASE_LETTERS
 
+__STYLE_FIXER_TYPES_______________________________________________________________________ = ""
+
+
+FixerType = Callable[[str, StyleRule], Tuple[str, bool]]
+TextFixerType = Callable[[str, StyleRule], Tuple[str, int]]
+
+
 __STYLE_FIXER_CONSTANTS___________________________________________________________________ = ""
 
 
@@ -615,10 +622,7 @@ def fix_logging_message_trailing_period(line: str, rule: StyleRule) -> Tuple[str
 __STYLE_FIXER_REGISTRIES__________________________________________________________________ = ""
 
 
-Fixer = Callable[[str, StyleRule], Tuple[str, bool]]
-TextFixer = Callable[[str, StyleRule], Tuple[str, int]]
-
-FIXERS: Dict[str, Fixer] = {
+FIXERS: Dict[str, FixerType] = {
     # Banners
     "hash-banner-length": fix_hash_banner_length,
     "underscore-banner-length": fix_underscore_banner_length,
@@ -631,7 +635,7 @@ FIXERS: Dict[str, Fixer] = {
     "logging-message-trailing-period": fix_logging_message_trailing_period,
 }
 
-TEXT_FIXERS: Dict[str, TextFixer] = {
+TEXT_FIXERS: Dict[str, TextFixerType] = {
     # IF / ELIF
     "elif-subject-mismatch": fix_elif_subject_mismatch,
     "if-missing-elif": fix_if_missing_elif,

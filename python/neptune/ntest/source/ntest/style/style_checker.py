@@ -28,7 +28,7 @@ import logging
 from ntest.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
-
+from nutil.scalar.string import LETTERS
 
 __STYLE_CHECKER_CONSTANTS_________________________________________________________________ = ""
 
@@ -144,7 +144,7 @@ def _is_line_anchored_pattern(pattern: str) -> bool:
     Returns:
         `True` if the pattern begins with optional inline flags followed by `^`, otherwise `False`.
     """
-    return re.match(r"^(?:\(\?[a-zA-Z]+\))*\^", pattern) is not None
+    return re.match(rf"^(?:\(\?[{LETTERS}]+\))*\^", pattern) is not None
 
 
 def _is_multiline_rule(rule: StyleRule) -> bool:

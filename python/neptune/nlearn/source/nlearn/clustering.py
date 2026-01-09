@@ -72,7 +72,10 @@ def create_gaussian_mixture(points, n=1, covariance_type="full", max_iteration_c
 
 
 def create_bayesian_gaussian_mixture(
-    points, n=1, covariance_type="full", max_iteration_count=DEFAULT_MAX_ITERATION_COUNT
+    points,
+    n=1,
+    covariance_type="full",
+    max_iteration_count=DEFAULT_MAX_ITERATION_COUNT,
 ):
     """
     Creates a Dirichlet process Gaussian mixture with the specified number of components and fits the specified points
@@ -80,7 +83,9 @@ def create_bayesian_gaussian_mixture(
     components automatically.
     """
     model = mixture.BayesianGaussianMixture(
-        n_components=n, covariance_type=covariance_type, max_iter=max_iteration_count
+        n_components=n,
+        covariance_type=covariance_type,
+        max_iter=max_iteration_count,
     )
     return model.fit(points)
 
@@ -432,7 +437,12 @@ def plot_detector(
     """
     if is_null(fig):
         fig = charts.create_figure(
-            title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin
+            title=title,
+            title_x=title_x,
+            title_y=title_y,
+            width=width,
+            height=height,
+            margin=margin,
         )
     if is_null(index) and is_frame(points):
         index = to_array(get_index(points))

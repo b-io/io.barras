@@ -38,6 +38,7 @@ from typing import (
     Set,
     Tuple,
     Type,
+    TypeVar,
     Union,
     ValuesView,
 )
@@ -92,13 +93,25 @@ def adapts(*target_types: Type[Any], priority: int = 0, override: bool = False):
     return _adapts
 
 
-__COMMON_COLLECTION_REGISTRY_CLASSES______________________________________________________ = ""
+__COMMON_COLLECTION_REGISTRY_TYPES________________________________________________________ = ""
 
-
-# The typing alias for any supported element types across `Struct`
-ElementType = Union[Type[Any], DTypeLike]
 
 T = TypeVar("T")
+
+TKey = TypeVar("KeyType")
+TValue = TypeVar("ValueType", covariant=True)
+TDefaultValue = TypeVar("DefaultValueType")
+
+TAbstractCollection = TypeVar("AbstractCollectionType", bound="AbstractCollection")
+TAbstractMappingCollection = TypeVar("AbstractMappingCollectionType", bound="AbstractMappingCollection")
+
+##############################
+
+# The typing alias for any supported element types across `StructType`
+ElementType = Union[Type[Any], DTypeLike]
+
+
+__COMMON_COLLECTION_REGISTRY_CLASSES______________________________________________________ = ""
 
 
 class CollectionAdapter(Generic[T], ABC):
@@ -384,8 +397,6 @@ class CollectionRegistry(metaclass=FinalSingletonMeta):
 
 ### ABSTRACT COLLECTION ####################################
 
-C = TypeVar("C", bound="AbstractCollection")
-
 
 class AbstractCollection(Collection[T], Generic[T], ABC):
     """
@@ -456,7 +467,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
     ### CONVERTERS #########################################
 
     @classmethod
-    def from_iterable(cls: Type[C], iterable: Iterable[T]) -> C:
+    def from_iterable(cls: Type[TAbstractCollection], iterable: Iterable[T]) -> TAbstractCollection:
         """
         Returns an instance of this collection type built from the specified `Iterable`.
 
@@ -479,7 +490,7 @@ class AbstractCollection(Collection[T], Generic[T], ABC):
         """
         # 1) Idempotent fast-path: if already an instance of this class, return as-is
         if isinstance(iterable, cls):
-            return cast(C, iterable)
+            return cast(TAbstractCollection, iterable)
 
         # Duplicate the single-pass `Iterable` so the fallback sees the full stream
         it1, it2 = create_safe_iterables(iterable, 2)
@@ -712,13 +723,8 @@ class AbstractSequentialCollectionAdapter(AbstractCollectionAdapter[T]):
 
 ##############################
 
-D = TypeVar("D")
-K = TypeVar("K")
-V = TypeVar("V", covariant=True)
-CMap = TypeVar("CMap", bound="AbstractMappingCollection")
 
-
-class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K, V], ABC):
+class AbstractMappingCollection(AbstractCollection[TKey], Mapping[TKey, TValue], Generic[TKey, TValue], ABC):
     """
     An abstract base class for mapping collections.
 
@@ -743,17 +749,17 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
     ### MAPPING ############################################
 
     @abstractmethod
-    def __getitem__(self, key: K) -> V:
+    def __getitem__(self, key: TKey) -> TValue:
         """Returns the value associated with the specified key."""
         raise NotImplementedError
 
     @overload
-    def get(self, key: K) -> Optional[V]: ...
+    def get(self, key: TKey) -> Optional[TValue]: ...
 
     @overload
-    def get(self, key: K, default: D) -> Union[D, V]: ...
+    def get(self, key: TKey, default: TDefaultValue) -> Union[TDefaultValue, TValue]: ...
 
-    def get(self, key: K, *, default: Optional[D] = None) -> Optional[Union[D, V]]:
+    def get(self, key: TKey, *, default: Optional[TDefaultValue] = None) -> Optional[Union[TDefaultValue, TValue]]:
         """
         Returns the value associated with the specified key, or the specified default.
 
@@ -764,27 +770,30 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
 
     ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
-    def put(self, key: K, value: V) -> None:
+    def put(self, key: TKey, value: TValue) -> None:
         """
         Associates the specified value with the specified key in this mapping collection,
         replacing any existing entry.
         """
         raise TypeError("Mapping collection is immutable")
 
-    def discard_key(self, key: K) -> None:
+    def discard_key(self, key: TKey) -> None:
         """
         Discards the specified key and its associated value from this mapping collection if present.
         """
         raise TypeError("Mapping collection is immutable")
 
-    def update_pairs(self, pairs: Iterable[Tuple[K, V]]) -> None:
+    def update_pairs(self, pairs: Iterable[Tuple[TKey, TValue]]) -> None:
         """Updates this mapping collection with the specified key-value pairs."""
         raise TypeError("Mapping collection is immutable")
 
     ### CONVERTERS (VALUES BY DEFAULT) #####################
 
     @classmethod
-    def from_iterable(cls: Type[CMap], iterable: Union[Iterable[Tuple[K, V]], Mapping[K, V]]) -> CMap:
+    def from_iterable(
+        cls: Type[TAbstractMappingCollection],
+        iterable: Union[Iterable[Tuple[TKey, TValue]], Mapping[TKey, TValue]],
+    ) -> TAbstractMappingCollection:
         """
         Returns an instance of this mapping collection type built from the specified `Iterable` of
         pairs or from the specified mapping. Class-level converter.
@@ -808,7 +817,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         # 1) Idempotent fast-path: if already an instance of this class, return as-is
         if isinstance(iterable, cls):
-            return cast(CMap, iterable)
+            return cast(TAbstractMappingCollection, iterable)
 
         # 2) Try the constructor directly with the `Iterable`
         try:
@@ -836,7 +845,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         return np.array(self.values(), dtype=element_type)
 
-    def to_list(self) -> List[V]:
+    def to_list(self) -> List[TValue]:
         """
         Returns a `list` built from the values of this mapping collection.
 
@@ -845,7 +854,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         return list(self.values())
 
-    def to_set(self) -> Set[V]:
+    def to_set(self) -> Set[TValue]:
         """
         Returns a `set` built from the values of this mapping collection.
 
@@ -854,7 +863,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
         """
         return set(self.values())
 
-    def to_tuple(self) -> Tuple[V, ...]:
+    def to_tuple(self) -> Tuple[TValue, ...]:
         """
         Returns a `tuple` built from the values of this mapping collection.
 
@@ -891,7 +900,7 @@ class AbstractMappingCollection(AbstractCollection[K], Mapping[K, V], Generic[K,
 
 
 @adapts(AbstractMappingCollection, priority=3)
-class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, V]):
+class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[TKey], Generic[TKey, TValue]):
     """
     An adapter that delegates to an `AbstractMappingCollection` implementation with mapping-aware
     helpers.
@@ -903,12 +912,23 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
     ### MAPPING ############################################
 
     @overload
-    def get(self, x: AbstractMappingCollection[K, V], key: K) -> Optional[V]: ...
+    def get(self, x: AbstractMappingCollection[TKey, TValue], key: TKey) -> Optional[TValue]: ...
 
     @overload
-    def get(self, x: AbstractMappingCollection[K, V], key: K, default: D) -> Union[D, V]: ...
+    def get(
+        self,
+        x: AbstractMappingCollection[TKey, TValue],
+        key: TKey,
+        default: TDefaultValue,
+    ) -> Union[TDefaultValue, TValue]: ...
 
-    def get(self, x: AbstractMappingCollection[K, V], key: K, *, default: Optional[D] = None) -> Optional[Union[D, V]]:
+    def get(
+        self,
+        x: AbstractMappingCollection[TKey, TValue],
+        key: TKey,
+        *,
+        default: Optional[TDefaultValue] = None,
+    ) -> Optional[Union[TDefaultValue, TValue]]:
         """
         Returns the value associated with the specified key, or the specified default.
 
@@ -919,7 +939,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
 
     ##########################
 
-    def keys(self, x: AbstractMappingCollection[K, V]) -> KeysView[K]:
+    def keys(self, x: AbstractMappingCollection[TKey, TValue]) -> KeysView[TKey]:
         """
         Returns a keys view of the specified mapping collection.
 
@@ -928,7 +948,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         """
         return x.keys()
 
-    def values(self, x: AbstractMappingCollection[K, V]) -> ValuesView[V]:
+    def values(self, x: AbstractMappingCollection[TKey, TValue]) -> ValuesView[TValue]:
         """
         Returns a values view of the specified mapping collection.
 
@@ -937,7 +957,7 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
         """
         return x.values()
 
-    def items(self, x: AbstractMappingCollection[K, V]) -> ItemsView[K, V]:
+    def items(self, x: AbstractMappingCollection[TKey, TValue]) -> ItemsView[TKey, TValue]:
         """
         Returns an items view of the specified mapping collection.
 
@@ -948,21 +968,21 @@ class AbstractMappingCollectionAdapter(AbstractCollectionAdapter[K], Generic[K, 
 
     ### OPTIONAL MUTATORS (IMMUTABLE BY DEFAULT) ###########
 
-    def put(self, x: AbstractMappingCollection[K, V], key: K, value: V) -> None:
+    def put(self, x: AbstractMappingCollection[TKey, TValue], key: TKey, value: TValue) -> None:
         """
         Associates the specified value with the specified key in the specified mapping collection,
         replacing any existing entry.
         """
         x.put(key, value)
 
-    def discard_key(self, x: AbstractMappingCollection[K, V], key: K) -> None:
+    def discard_key(self, x: AbstractMappingCollection[TKey, TValue], key: TKey) -> None:
         """
         Discards the specified key and its associated value from the specified mapping collection if
         present.
         """
         x.discard_key(key)
 
-    def update_pairs(self, x: AbstractMappingCollection[K, V], pairs: Iterable[Tuple[K, V]]) -> None:
+    def update_pairs(self, x: AbstractMappingCollection[TKey, TValue], pairs: Iterable[Tuple[TKey, TValue]]) -> None:
         """Updates the specified mapping collection with the specified key-value pairs."""
         x.update_pairs(pairs)
 

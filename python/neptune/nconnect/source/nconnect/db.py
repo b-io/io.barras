@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import logging
+from typing import Callable
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
@@ -64,11 +65,14 @@ DEFAULT_USE_MULTI_STATEMENTS: Optional[bool] = None
 __DB_TYPES________________________________________________________________________________ = ""
 
 
-ColumnLike = Union[str, Iterable[str]]
-RowLike = Union[Mapping[str, Any], pd.Series]
+ColumnLikeType = Union[str, Iterable[str]]
+RowLikeType = Union[Mapping[str, Any], pd.Series]
 
 
 __DB_ACCESSORS____________________________________________________________________________ = ""
+
+
+### GETTERS ################################################
 
 
 def get_full_table_name(
@@ -177,9 +181,9 @@ def get_cols(
 def get_common_cols(
     df: pd.DataFrame,
     table: str,
-    table_cols: ColumnLike,
+    table_cols: ColumnLikeType,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     # Test
     test: bool = ASSERT,
 ) -> List[str]:
@@ -215,7 +219,7 @@ def get_filtering_cols(
     df: pd.DataFrame,
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     metadata: Optional[db.MetaData] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     use_only_primary: bool = True,
@@ -319,7 +323,7 @@ def get_primary_cols(
     engine: db.Engine,
     table: str,
     *,
-    cols: Optional[ColumnLike] = None,
+    cols: Optional[ColumnLikeType] = None,
     metadata: Optional[db.MetaData] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
 ) -> List[str]:
@@ -414,7 +418,7 @@ def get_col_types(
     return col_types
 
 
-############################################################
+### NORMALIZERS ############################################
 
 
 def normalize_default_text(text: str) -> str:
@@ -469,7 +473,7 @@ def normalize_row_count(row_count: Any) -> Optional[int]:
     return None if n < 0 else n
 
 
-##############################
+### RESOLVERS ##############################################
 
 
 def resolve_identifier_wrapper(
@@ -628,8 +632,8 @@ def exists(
     connection: db.Connection,
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     wrapper: Optional[Callable[[str], str]] = None,
@@ -688,8 +692,8 @@ __DB_BUILDERS___________________________________________________________________
 
 def build_where_clause(
     *,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     is_mssql: Optional[bool] = None,
     wrapper: Optional[Callable[[str], str]] = None,
 ) -> str:
@@ -738,12 +742,12 @@ __DB_SELECT_________________________________________________ = ""
 def build_select_table_where_query(
     table: str,
     *,
-    cols: Optional[ColumnLike] = None,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     is_mssql: Optional[bool] = None,
     n: Optional[int] = None,
-    order_cols: Optional[ColumnLike] = None,
+    order_cols: Optional[ColumnLikeType] = None,
     order_directions: Optional[Iterable[str]] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     wrapper: Optional[Callable[[str], str]] = None,
@@ -806,8 +810,8 @@ __DB_DELETE_________________________________________________ = ""
 def build_delete_table_query(
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     wrapper: Optional[Callable[[str], str]] = None,
@@ -852,8 +856,8 @@ __DB_INSERT_________________________________________________ = ""
 
 def build_insert_table_query(
     table: str,
-    cols: ColumnLike,
-    row: RowLike,
+    cols: ColumnLikeType,
+    row: RowLikeType,
     *,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -899,10 +903,10 @@ __DB_UPDATE_________________________________________________ = ""
 
 def build_update_table_query(
     table: str,
-    cols: ColumnLike,
-    row: RowLike,
+    cols: ColumnLikeType,
+    row: RowLikeType,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
     wrapper: Optional[Callable[[str], str]] = None,
@@ -1410,7 +1414,7 @@ def format_name(
 
 
 def format_cols(
-    *cols: ColumnLike,
+    *cols: ColumnLikeType,
     is_mssql: Optional[bool] = None,
     suffixes: Optional[Iterable[str]] = None,
     wrapper: Optional[Callable[[str], str]] = None,
@@ -1651,8 +1655,8 @@ def get_row_message(
     index: int,
     table: str,
     *,
-    cols: Optional[ColumnLike] = None,
-    row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    row: Optional[RowLikeType] = None,
     unknown_count: bool = False,
 ) -> str:
     """
@@ -1689,8 +1693,8 @@ def debug_row(
     index: int,
     table: str,
     *,
-    cols: Optional[ColumnLike] = None,
-    row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    row: Optional[RowLikeType] = None,
     unknown_count: bool = False,
     # Log
     verbose: bool = VERBOSE,
@@ -1722,8 +1726,8 @@ def warn_row(
     table: str,
     *,
     exception: Optional[BaseException] = None,
-    cols: Optional[ColumnLike] = None,
-    row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    row: Optional[RowLikeType] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> None:
@@ -1761,8 +1765,8 @@ def error_row(
     table: str,
     *,
     exception: Optional[BaseException] = None,
-    cols: Optional[ColumnLike] = None,
-    row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    row: Optional[RowLikeType] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> None:
@@ -1807,7 +1811,7 @@ def create_table(
     append: bool = False,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
     index: bool = False,
-    index_cols: Optional[ColumnLike] = None,
+    index_cols: Optional[ColumnLikeType] = None,
     method: Optional[str] = None,
     replace: bool = False,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -1869,7 +1873,7 @@ def select_query(
     query: Any,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
-    index_cols: Optional[ColumnLike] = None,
+    index_cols: Optional[ColumnLikeType] = None,
     # Log
     verbose: bool = VERBOSE,
 ) -> Union[pd.DataFrame, Iterator[pd.DataFrame]]:
@@ -1910,9 +1914,9 @@ def select_table(
     table: str,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
-    cols: Optional[ColumnLike] = None,
+    cols: Optional[ColumnLikeType] = None,
     index: bool = False,
-    index_cols: Optional[ColumnLike] = None,
+    index_cols: Optional[ColumnLikeType] = None,
     row_count: int = -1,
     schema: Optional[str] = DEFAULT_SCHEMA,
     # Log
@@ -1984,14 +1988,14 @@ def select_table_where(
     table: str,
     *,
     chunk_size: Optional[int] = DEFAULT_CHUNK_SIZE,
-    cols: Optional[ColumnLike] = None,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    cols: Optional[ColumnLikeType] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     index: bool = False,
-    index_cols: Optional[ColumnLike] = None,
+    index_cols: Optional[ColumnLikeType] = None,
     is_mssql: Optional[bool] = None,
     n: Optional[int] = None,
-    order_cols: Optional[ColumnLike] = None,
+    order_cols: Optional[ColumnLikeType] = None,
     order_directions: Optional[Iterable[str]] = None,
     row_count: int = -1,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -2098,7 +2102,7 @@ def delete_table(
     df: pd.DataFrame,
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -2224,7 +2228,7 @@ def bulk_delete_table(
     table: str,
     *,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -2668,7 +2672,12 @@ def bulk_insert_table(
                 for i, (_, row) in enumerate(subchunk.iterrows()):
                     n = index_from + i
                     query = build_insert_table_query(
-                        table, cols, row, is_mssql=is_mssql, schema=schema, wrapper=wrapper
+                        table,
+                        cols,
+                        row,
+                        is_mssql=is_mssql,
+                        schema=schema,
+                        wrapper=wrapper,
                     )
                     try:
                         # Use a nested transaction (SAVEPOINT) so a single-row failure does not poison the outer transaction
@@ -2728,7 +2737,7 @@ def update_table(
     df: pd.DataFrame,
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -2860,7 +2869,7 @@ def bulk_update_table(
     table: str,
     *,
     chunk_size: int = DEFAULT_CHUNK_SIZE,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -3034,7 +3043,7 @@ def upsert_table(
     df: pd.DataFrame,
     table: str,
     *,
-    filtering_cols: Optional[ColumnLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
     index: bool = False,
     is_mssql: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,
@@ -3409,8 +3418,8 @@ def migrate(
     create: bool = True,
     drop: bool = False,
     fill: bool = True,
-    filtering_cols: Optional[ColumnLike] = None,
-    filtering_row: Optional[RowLike] = None,
+    filtering_cols: Optional[ColumnLikeType] = None,
+    filtering_row: Optional[RowLikeType] = None,
     is_mssql_from: Optional[bool] = None,
     is_mssql_to: Optional[bool] = None,
     schema: Optional[str] = DEFAULT_SCHEMA,

@@ -19,26 +19,29 @@ from nutil.struct.tuple.common import *
 __COMMON_STRUCT_TYPES_____________________________________________________________________ = ""
 
 
-# Typing alias for any supported `Struct`:
+# Typing alias for any supported structures:
 #   • collection: `Collection` (e.g., `np.ndarray`, `list`, `dict`, `set`)
 #   • table: `pd.Series` or `pd.DataFrame`
 #   • tuple: `tuple`
-Struct = Iterable[Any]
+StructType = Iterable[Any]
 
-# The typing alias for any supported keys across `Struct`
-Key = Hashable
+# The typing alias for any supported keys across `StructType`
+KeyType = Hashable
 
-# The typing alias for any supported values across `Struct`
-Value = Any
+# The typing alias for any supported values across `StructType`
+ValueType = Any
 
-# The typing alias for any supported axes across `Struct`
-Axis = Union[int, str]  # `{0, 1, "index", "columns"}`
+# The typing alias for any supported axes across `StructType`
+AxisType = Union[int, str]  # `{0, 1, "index", "columns"}`
 
 
 __COMMON_STRUCT_ACCESSORS_________________________________________________________________ = ""
 
 
-def normalize_axis(axis: Optional[Axis]) -> Optional[int]:
+### NORMALIZERS ############################################
+
+
+def normalize_axis(axis: Optional[AxisType]) -> Optional[int]:
     """
     Normalizes an axis specifier to its integer form.
 
@@ -340,7 +343,7 @@ def unset(s: Any) -> Union[Any, Tuple[Any, ...]]:
 __COMMON_TABLE_CONVERTERS___________________________________ = ""
 
 
-def ungroup(x: Any, *, axis: Optional[Axis] = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
+def ungroup(x: Any, *, axis: Optional[AxisType] = 0, mode: Literal["auto", "obj", "groups"] = "auto") -> Any:
     """
     Returns the ungrouped Pandas object or the groups mapping from a `GroupBy`.
 

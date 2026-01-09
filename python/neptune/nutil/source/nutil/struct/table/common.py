@@ -18,7 +18,7 @@ __COMMON_TABLE_TYPES____________________________________________________________
 
 
 # The typing alias for any supported tables
-Table = Union["pd.Series", "pd.DataFrame"]
+TableType = Union["pd.Series", "pd.DataFrame"]
 
 
 __COMMON_DATAFRAME_TYPES____________________________________ = ""
@@ -40,6 +40,9 @@ __COMMON_TABLE_ACCESSORS________________________________________________________
 
 
 __COMMON_DATAFRAME_ACCESSORS________________________________ = ""
+
+
+### COUNTERS ###############################################
 
 
 def count_rows(df):

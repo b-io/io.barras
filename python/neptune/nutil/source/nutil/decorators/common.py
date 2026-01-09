@@ -10,12 +10,9 @@
 
 from __future__ import annotations
 
-from typing import Any, Callable, TypeVar
+from typing import Any
 
 __COMMON_DECORATORS_______________________________________________________________________ = ""
-
-
-F = TypeVar("F", bound=Callable[..., Any])
 
 
 class classproperty:

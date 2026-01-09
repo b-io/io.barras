@@ -201,7 +201,8 @@ class WordEmbeddings:
         for i, sentence in enumerate(sentences):
             # Get the word indices of the sentence
             (sentence_word_indices, sentence_unknown_words) = self.sentence_to_word_indices(
-                sentence, max_word_count=max_word_count
+                sentence,
+                max_word_count=max_word_count,
             )
             word_indices[i, : min(len(sentence_word_indices), max_word_count)] = sentence_word_indices
             unknown_words = unknown_words.union(sentence_unknown_words)
@@ -241,7 +242,8 @@ class WordEmbeddings:
         for i, sentence in enumerate(sentences):
             # Get the word vectors of the sentence
             (sentence_word_vectors, sentence_unknown_words) = self.sentence_to_word_vectors(
-                sentence, max_word_count=max_word_count
+                sentence,
+                max_word_count=max_word_count,
             )
             word_vectors.append(sentence_word_vectors)
             unknown_words = unknown_words.union(sentence_unknown_words)
@@ -281,7 +283,8 @@ class WordEmbeddings:
         for i, sentence in enumerate(sentences):
             # Get the single word vector of the sentence
             (sentence_word_vector, sentence_unknown_words) = self.sentence_to_single_word_vector(
-                sentence, max_word_count=max_word_count
+                sentence,
+                max_word_count=max_word_count,
             )
             word_vectors.append(sentence_word_vector)
             unknown_words = unknown_words.union(sentence_unknown_words)

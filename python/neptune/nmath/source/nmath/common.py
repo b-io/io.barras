@@ -13,7 +13,7 @@ from __future__ import annotations
 from scipy import stats
 
 from nutil.math import *
-from nutil.struct.util import Axis
+from nutil.struct.util import AxisType
 
 __COMMON_MATH_CONSTANTS___________________________________________________________________ = ""
 
@@ -108,7 +108,7 @@ __COMMON_MATH_PROCESSORS________________________________________________________
 __COMMON_STAT_PROCESSORS____________________________________ = ""
 
 
-def mode(*args, axis: Optional[Axis] = None):
+def mode(*args, axis: Optional[AxisType] = None):
     s = forward(*args)
     return calculate(s, f=stats.mode, axis=axis)
 
@@ -125,7 +125,7 @@ def cov(c1, c2, dof=1):
     return np.cov(c1, c2, ddof=dof)[0, 1]
 
 
-def skew(*args, axis: Optional[Axis] = 0):
+def skew(*args, axis: Optional[AxisType] = 0):
     s = forward(*args)
     if is_group_by(s):
         return s.skew()
@@ -134,12 +134,12 @@ def skew(*args, axis: Optional[Axis] = 0):
     return stats.skew(get_values(s), axis=axis)
 
 
-def kurtosis(*args, axis: Optional[Axis] = 0):
+def kurtosis(*args, axis: Optional[AxisType] = 0):
     s = forward(*args)
     return calculate(s, f=stats.kurtosis, axis=axis)
 
 
-def entropy(*args, axis: Optional[Axis] = 0):
+def entropy(*args, axis: Optional[AxisType] = 0):
     s = forward(*args)
     return calculate(s, f=stats.entropy, axis=axis)
 

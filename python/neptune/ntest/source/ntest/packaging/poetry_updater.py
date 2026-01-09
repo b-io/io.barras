@@ -70,14 +70,14 @@ PINNER_USER_AGENT = "poetry-py310-pin/1.0"
 
 DEPENDENCY_SECTION_PATTERN: re.Pattern[str] = re.compile(r"^\[tool\.poetry\.dependencies\]\s*$")
 GROUP_DEPENDENCY_SECTION_PATTERN: re.Pattern[str] = re.compile(
-    r"^\[tool\.poetry\.group\.[A-Za-z0-9_.-]+\.dependencies\]\s*$"
+    rf"^\[tool\.poetry\.group\.[{ALPHANUMERIC_CHARS}_.\-+]+\.dependencies\]\s*$"
 )
 SECTION_HEADER_PATTERN: re.Pattern[str] = re.compile(r"^\[.*\]\s*$")
 
 DEPENDENCY_LINE_PATTERN: re.Pattern[str] = re.compile(
     rf"""
     ^
-    (?P<name>[{ALPHANUMERIC_CHARS}_.-]+)
+    (?P<name>[{ALPHANUMERIC_CHARS}_.\-+]+)
     \s*=\s*
     (?P<value>.+?)
     (?P<comment>\s+\#.*)?
@@ -93,7 +93,7 @@ SIMPLE_VERSION_SPEC_PATTERN: re.Pattern[str] = re.compile(
     ^
     (?P<op>\^|~|==|!=|~=|>=|<=|>|<)?
     (?P<ws>\s*)
-    (?P<version>[{ALPHANUMERIC_CHARS}][{ALPHANUMERIC_CHARS}.\-_+]*)
+    (?P<version>[{ALPHANUMERIC_CHARS}][{ALPHANUMERIC_CHARS}_.\-+]*)
     (?P<trail>\s*)
     $
     """,
@@ -113,6 +113,9 @@ class Pin:
 
 
 __POETRY_UPDATER_ACCESSORS________________________________________________________________ = ""
+
+
+### GETTERS ################################################
 
 
 def get_latest_compatible_version(

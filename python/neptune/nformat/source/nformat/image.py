@@ -44,6 +44,13 @@ def is_svg(
     return is_string(x) and x[1:4] == FileType.SVG.encode(encoding)
 
 
+__IMAGE_GENERATORS________________________________________________________________________ = ""
+
+
+def generate_image(*shape):
+    return create_random_short_array(255, *shape)
+
+
 __IMAGE_PROCESSORS________________________________________________________________________ = ""
 
 
@@ -120,13 +127,6 @@ def image_to_html(
         # Read
         encoding=encoding,
     )
-
-
-############################################################
-
-
-def generate_image(*shape):
-    return create_random_short_array(255, *shape)
 
 
 ############################################################

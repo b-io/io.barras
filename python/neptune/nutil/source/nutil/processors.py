@@ -17,7 +17,6 @@ from multiprocess.pool import Pool
 
 from nutil.common import *
 from nutil.scalar.number import ceil
-from nutil.scalar.string import quote
 from nutil.struct.util import apply
 
 __PROCESSORS______________________________________________________________________________ = ""

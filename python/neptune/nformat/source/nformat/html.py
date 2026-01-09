@@ -17,6 +17,9 @@ from bs4 import NavigableString, Tag
 __HTML_ACCESSORS__________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_tag_classes(container: Tag) -> List[str]:
     """Returns the `"class"` attribute of the tag as a list of strings (empty list when absent)."""
     classes = container.get("class", [])

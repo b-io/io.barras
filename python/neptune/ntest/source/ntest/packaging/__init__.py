@@ -5,20 +5,12 @@
 
 ########################################################################################################################
 # Goal
-#   Provide connectivity utilities.
+#   Provide packaging utilities.
 ########################################################################################################################
 
 from __future__ import annotations
 
-__CONNECT_CONSTANTS_______________________________________________________________________ = ""
+__PACKAGING_CONSTANTS_____________________________________________________________________ = ""
 
 
 __all__ = [s for s in dir() if not s.startswith("_")]
-__version__ = "1.0.1a1"
-
-
-### GLOBALS ################################################
-
-NAME = "nconnect"
-VERSION = __version__
-DESCRIPTION = "Connectivity utility library"

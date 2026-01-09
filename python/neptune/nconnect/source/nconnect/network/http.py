@@ -15,6 +15,7 @@ import logging
 import random
 import time
 from dataclasses import dataclass
+from typing import Callable
 
 import requests
 from requests import sessions

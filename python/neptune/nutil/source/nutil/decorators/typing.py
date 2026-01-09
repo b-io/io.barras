@@ -15,7 +15,8 @@
 # Behavior
 #   • the decorator validates only annotated parameters; unannotated parameters are ignored.
 #   • the validation supports `Annotated[T, …]`, `Union[…]` / `X | Y`, `Literal[…]`, `Type[T]`, and containers.
-#   • the iterable validation samples up to `sample_limit` elements via `peek(…)` to avoid exhausting one-shot iterators.
+#   • the iterable validation samples up to `sample_limit` elements via `get_first_and_iterator(…)` to avoid exhausting
+#     one-shot iterators.
 #   • the recursion depth is controlled by `max_depth` (0 → unlimited). When the limit is reached, the validator checks
 #     only the outer container type at that level.
 ########################################################################################################################
@@ -25,12 +26,13 @@ from __future__ import annotations
 import inspect
 import logging
 from functools import wraps
+from typing import Callable
 
 from nutil.common import *
-from nutil.decorators import F
 from nutil.exceptions import create_type_error, ErrorList, ExpectedTypeList, get_function_name
 from nutil.struct.util import simplify
-from nutil.typing.hints import flatten_expected_types, matches_type_hints, resolve_type_hints
+from nutil.typing.common import TFunc
+from nutil.typing.hints import matches_type_hints, normalize_expected_types, resolve_type_hints
 
 __TYPING_DECORATORS_______________________________________________________________________ = ""
 
@@ -40,7 +42,7 @@ def typesafe(
     mode: str = "raise",
     sample_limit: int = 1,
     max_depth: int = 0,
-) -> Callable[[F], F]:
+) -> Callable[[TFunc], TFunc]:
     """
     Decorates a function to enforce its type annotations at runtime.
 
@@ -64,7 +66,7 @@ def typesafe(
     if mode not in ("raise", "suggest"):
         raise ValueError("'mode' must be 'raise' or 'suggest'")
 
-    def _typesafe(func: F) -> F:
+    def _typesafe(func: TFunc) -> TFunc:
         sig = inspect.signature(func)
         type_hints: Dict[str, Any] = resolve_type_hints(func)
 
@@ -85,7 +87,7 @@ def typesafe(
                 if not matches_type_hints(value, annotation, sample_limit=sample_limit, max_depth=max_depth):
                     bad_names.append(name)
                     bad_values.append(value)
-                    bad_expected.append(simplify(flatten_expected_types(annotation)))
+                    bad_expected.append(simplify(normalize_expected_types(annotation)))
 
             if not is_empty(bad_names):
                 type_error = create_type_error(

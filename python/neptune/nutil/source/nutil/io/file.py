@@ -19,12 +19,12 @@ import shutil
 from dataclasses import is_dataclass
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import IO, Protocol
+from typing import Callable, IO, Protocol
 from urllib.parse import urlparse
 from urllib.request import urlopen
 
 from nutil.common import *
-from nutil.struct.table.util import get_row_keys, get_row_values, Row
+from nutil.struct.table.util import get_row_keys, get_row_values, RowType
 from nutil.struct.util import set_index_name
 
 __FILE_CONSTANTS__________________________________________________________________________ = ""
@@ -50,6 +50,9 @@ class HasHeaders(Protocol):
 __FILE_ACCESSORS__________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_encoding(file_handler: HasHeaders, *, default: str = DEFAULT_ENCODING) -> str:
     """
     Returns the response encoding derived from the HTTP headers.
@@ -66,7 +69,7 @@ def get_encoding(file_handler: HasHeaders, *, default: str = DEFAULT_ENCODING) -
     return normalize_encoding(encoding, default=default)
 
 
-##############################
+### NORMALIZERS ############################################
 
 
 def normalize_encoding(encoding: Any, *, default: str = DEFAULT_ENCODING) -> str:
@@ -958,13 +961,13 @@ def write_bytes(
 
 def write_csv(
     path: Union[str, Path],
-    content: Union[Row, Iterable[Row]],
+    content: Union[RowType, Iterable[RowType]],
     *,
     # Write
     append: bool = False,
     dialect: str = "excel",
     encoding: str = DEFAULT_ENCODING,
-    header: Optional[Row] = None,
+    header: Optional[RowType] = None,
     ignore: bool = False,
     lineterminator: str = NEWLINE,
     # Save
@@ -980,7 +983,7 @@ def write_csv(
     Writes CSV rows to `path`.
 
     Behavior:
-        • Accepts a single `Row` or an iterable of `Row`.
+        • Accepts a single `RowType` or an iterable of `RowType`.
         • If `append=True`, writes in append mode (non-atomic).
         • Otherwise, writes atomically by default (`atomic=True`), with optional backups.
         • When `header` is provided, writes a header row using `get_row_keys(header)`.
@@ -1014,7 +1017,7 @@ def write_csv(
     path = Path(path)
     encoding = normalize_encoding(encoding)
 
-    def _iter_rows(x: Union[Row, Iterable[Row]]) -> Iterator[Row]:
+    def _iter_rows(x: Union[RowType, Iterable[RowType]]) -> Iterator[RowType]:
         if is_dict(x) or is_dataclass(x):
             yield x
             return
@@ -1135,7 +1138,12 @@ def write_json(
             json.dump(payload, fh, ensure_ascii=False, separators=(",", ":"), default=str, **kwargs)
         else:
             json.dump(
-                payload, fh, ensure_ascii=False, indent=indent if not is_null(indent) else 2, default=str, **kwargs
+                payload,
+                fh,
+                ensure_ascii=False,
+                indent=indent if not is_null(indent) else 2,
+                default=str,
+                **kwargs,
             )
 
     if not atomic:

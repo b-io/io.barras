@@ -167,6 +167,9 @@ DAY_COUNT_TO_FREQUENCY = {v: k for k, v in FREQUENCY_TO_DAY_COUNT.items()}
 __DATE_ACCESSORS__________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_date():
     return date.today()
 

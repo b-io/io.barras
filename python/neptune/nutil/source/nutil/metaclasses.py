@@ -15,24 +15,13 @@ from threading import RLock
 from types import MappingProxyType
 from typing import Any, cast, Dict, List, NoReturn, Optional, Tuple, Type, TypeVar
 
-__METACLASS_BUILDERS______________________________________________________________________ = ""
-
-
-def combine_metaclasses(*metas: Type[type]) -> type:
-    """
-    Returns a new metaclass that inherits from the specified metaclasses in left-to-right order.
-    If no metaclasses are specified, returns the built-in `type`.
-    """
-    if not metas:
-        return type
-    name = "".join(m.__name__ for m in metas) or "CombinedMeta"
-    return type(name, metas, {})
-
-
-__METACLASSES_____________________________________________________________________________ = ""
+__METACLASS_TYPES_________________________________________________________________________ = ""
 
 
 T = TypeVar("T")
+
+
+__METACLASSES_____________________________________________________________________________ = ""
 
 
 ### NO PUBLIC CONSTRUCTOR ##################################
@@ -519,3 +508,17 @@ class TempSingletonMeta(type):
         from nutil.scalar.date import get_stamp
 
         return int(get_stamp())
+
+
+__METACLASS_BUILDERS______________________________________________________________________ = ""
+
+
+def combine_metaclasses(*metas: Type[type]) -> type:
+    """
+    Returns a new metaclass that inherits from the specified metaclasses in left-to-right order.
+    If no metaclasses are specified, returns the built-in `type`.
+    """
+    if not metas:
+        return type
+    name = "".join(m.__name__ for m in metas) or "CombinedMeta"
+    return type(name, metas, {})

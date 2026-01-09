@@ -15,6 +15,9 @@ import socket
 __COMMON_NETWORK_ACCESSORS________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_host_ip():
     """Returns the IP of the host."""
     return socket.gethostbyname(get_host_name())

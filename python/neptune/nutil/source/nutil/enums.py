@@ -14,12 +14,16 @@ import enum
 from enum import Enum, EnumMeta
 from typing import cast, Dict, Iterator, Tuple, Type, TypeVar, Union
 
+__ENUM_TYPES______________________________________________________________________________ = ""
+
+TIntEnum = TypeVar("TIntEnum", bound="IntEnum")
+TStrEnum = TypeVar("TStrEnum", bound="StrEnum")
+
+
 __ENUMS___________________________________________________________________________________ = ""
 
 
 ### INTEGER ################################################
-
-I = TypeVar("I", bound="IntEnum")
 
 
 class IntEnumMeta(EnumMeta):
@@ -46,7 +50,7 @@ class IntEnumMeta(EnumMeta):
 
     ### ACCESSORS ##########################################
 
-    def from_name_or_value(cls, name_or_value: str) -> I:
+    def from_name_or_value(cls, name_or_value: str) -> TIntEnum:
         """
         Retrieves the enum member matching the given string as either a `name` or a `value`.
 
@@ -67,7 +71,7 @@ class IntEnumMeta(EnumMeta):
         except ValueError:
             return cls.from_value(name_or_value)
 
-    def from_name(cls: Type[I], name: str) -> I:
+    def from_name(cls: Type[TIntEnum], name: str) -> TIntEnum:
         """
         Retrieves the enum member with the specified `name`.
 
@@ -83,9 +87,9 @@ class IntEnumMeta(EnumMeta):
         member = cls.__members__.get(name)
         if member is None:
             raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'")
-        return cast(I, member)
+        return cast(TIntEnum, member)
 
-    def from_value(cls: Type[I], value: int) -> I:
+    def from_value(cls: Type[TIntEnum], value: int) -> TIntEnum:
         """
         Retrieves the enum member with the specified `value`.
 
@@ -99,13 +103,13 @@ class IntEnumMeta(EnumMeta):
             ValueError: If the `value` is not valid for the enum.
         """
         try:
-            return cast(I, cls._value2member_map_[value])  # o(1)
+            return cast(TIntEnum, cls._value2member_map_[value])  # o(1)
         except KeyError:
             raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'")
 
     ##########################
 
-    def names(cls: Type[I]) -> Tuple[str, ...]:
+    def names(cls: Type[TIntEnum]) -> Tuple[str, ...]:
         """
         Lists all the names of the enum members as a `tuple`.
 
@@ -114,7 +118,7 @@ class IntEnumMeta(EnumMeta):
         """
         return tuple(member.name for member in cls)
 
-    def values(cls: Type[I]) -> Tuple[int, ...]:
+    def values(cls: Type[TIntEnum]) -> Tuple[int, ...]:
         """
         Lists all the values of the enum members as a `tuple`.
 
@@ -123,7 +127,7 @@ class IntEnumMeta(EnumMeta):
         """
         return tuple(member.value for member in cls)
 
-    def items(cls: Type[I]) -> Iterator[Tuple[str, int]]:
+    def items(cls: Type[TIntEnum]) -> Iterator[Tuple[str, int]]:
         """
         Iterates over all the `(name, value)` pairs of the enum.
 
@@ -134,7 +138,7 @@ class IntEnumMeta(EnumMeta):
 
     ##########################
 
-    def by_name(cls: Type[I]) -> Dict[str, I]:
+    def by_name(cls: Type[TIntEnum]) -> Dict[str, TIntEnum]:
         """
         Maps the names of the enum members to the corresponding enum members.
 
@@ -143,18 +147,18 @@ class IntEnumMeta(EnumMeta):
         """
         return dict(cls.__members__)
 
-    def by_value(cls: Type[I]) -> Dict[int, I]:
+    def by_value(cls: Type[TIntEnum]) -> Dict[int, TIntEnum]:
         """
         Maps the values of the enum members to the corresponding enum members.
 
         Returns:
             The dictionary mapping the member values to the members.
         """
-        return {member.value: cast(I, member) for member in cls}
+        return {member.value: cast(TIntEnum, member) for member in cls}
 
     ### OPERATORS ##########################################
 
-    def __contains__(cls: Type[I], item: Union[int, str, I]) -> bool:
+    def __contains__(cls: Type[TIntEnum], item: Union[int, str, TIntEnum]) -> bool:
         """
         Returns whether the specified `name` or `value` corresponds to an enum member.
 
@@ -182,20 +186,20 @@ class IntEnumMeta(EnumMeta):
             return value in cls._value2member_map_  # o(1)
         return False
 
-    def __str__(cls: Type[I]) -> str:
+    def __str__(cls: Type[TIntEnum]) -> str:
         """
         Returns the `name` of the enum class.
         """
         return cls.__name__
 
-    def __repr__(cls: Type[I]) -> str:
+    def __repr__(cls: Type[TIntEnum]) -> str:
         """Returns the canonical representation of the enum class as `(name=value)` pairs."""
         members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
         return f"{cls.__name__}({members})"
 
     ### VALIDATORS #########################################
 
-    def is_valid_name(cls: Type[I], name: str) -> bool:
+    def is_valid_name(cls: Type[TIntEnum], name: str) -> bool:
         """
         Validates whether the specified string is the `name` of an enum member.
 
@@ -207,7 +211,7 @@ class IntEnumMeta(EnumMeta):
         """
         return name in cls.__members__  # o(1)
 
-    def is_valid_value(cls: Type[I], value: int) -> bool:
+    def is_valid_value(cls: Type[TIntEnum], value: int) -> bool:
         """
         Validates whether the specified integer is the `value` of an enum member.
 
@@ -231,8 +235,6 @@ class IntEnum(enum.IntEnum, metaclass=IntEnumMeta):
 
 
 ### STRING #################################################
-
-S = TypeVar("S", bound="StrEnum")
 
 
 class StrEnumMeta(EnumMeta):
@@ -259,7 +261,7 @@ class StrEnumMeta(EnumMeta):
 
     ### ACCESSORS ##########################################
 
-    def from_name_or_value(cls, name_or_value: str) -> S:
+    def from_name_or_value(cls, name_or_value: str) -> TStrEnum:
         """
         Retrieves the enum member matching the given string as either a `name` or a `value`.
 
@@ -280,7 +282,7 @@ class StrEnumMeta(EnumMeta):
         except ValueError:
             return cls.from_value(name_or_value)
 
-    def from_name(cls: Type[S], name: str) -> S:
+    def from_name(cls: Type[TStrEnum], name: str) -> TStrEnum:
         """
         Retrieves the enum member with the specified `name`.
 
@@ -296,9 +298,9 @@ class StrEnumMeta(EnumMeta):
         member = cls.__members__.get(name)
         if member is None:
             raise ValueError(f"'{name}' is not a valid name for '{cls.__name__}'")
-        return cast(S, member)
+        return cast(TStrEnum, member)
 
-    def from_value(cls: Type[S], value: str) -> S:
+    def from_value(cls: Type[TStrEnum], value: str) -> TStrEnum:
         """
         Retrieves the enum member with the specified `value`.
 
@@ -312,13 +314,13 @@ class StrEnumMeta(EnumMeta):
             ValueError: If the `value` is not valid for the enum.
         """
         try:
-            return cast(S, cls._value2member_map_[value])  # o(1)
+            return cast(TStrEnum, cls._value2member_map_[value])  # o(1)
         except KeyError:
             raise ValueError(f"'{value}' is not a valid value for '{cls.__name__}'")
 
     ##########################
 
-    def names(cls: Type[S]) -> Tuple[str, ...]:
+    def names(cls: Type[TStrEnum]) -> Tuple[str, ...]:
         """
         Lists all the names of the enum members as a `tuple`.
 
@@ -327,7 +329,7 @@ class StrEnumMeta(EnumMeta):
         """
         return tuple(member.name for member in cls)
 
-    def values(cls: Type[S]) -> Tuple[str, ...]:
+    def values(cls: Type[TStrEnum]) -> Tuple[str, ...]:
         """
         Lists all the values of the enum members as a `tuple`.
 
@@ -336,7 +338,7 @@ class StrEnumMeta(EnumMeta):
         """
         return tuple(member.value for member in cls)
 
-    def items(cls: Type[S]) -> Iterator[Tuple[str, str]]:
+    def items(cls: Type[TStrEnum]) -> Iterator[Tuple[str, str]]:
         """
         Iterates over all the `(name, value)` pairs of the enum.
 
@@ -347,7 +349,7 @@ class StrEnumMeta(EnumMeta):
 
     ##########################
 
-    def by_name(cls: Type[S]) -> Dict[str, S]:
+    def by_name(cls: Type[TStrEnum]) -> Dict[str, TStrEnum]:
         """
         Maps the names of the enum members to the corresponding enum members.
 
@@ -356,18 +358,18 @@ class StrEnumMeta(EnumMeta):
         """
         return dict(cls.__members__)
 
-    def by_value(cls: Type[S]) -> Dict[str, S]:
+    def by_value(cls: Type[TStrEnum]) -> Dict[str, TStrEnum]:
         """
         Maps the values of the enum members to the corresponding enum members.
 
         Returns:
             The dictionary mapping the member values to the members.
         """
-        return {member.value: cast(S, member) for member in cls}
+        return {member.value: cast(TStrEnum, member) for member in cls}
 
     ### OPERATORS ##########################################
 
-    def __contains__(cls: Type[S], item: Union[str, S]) -> bool:
+    def __contains__(cls: Type[TStrEnum], item: Union[str, TStrEnum]) -> bool:
         """
         Returns whether the specified `name` or `value` corresponds to an enum member.
 
@@ -386,20 +388,20 @@ class StrEnumMeta(EnumMeta):
             return (item in cls.__members__) or (item in cls._value2member_map_)  # o(1)
         return False
 
-    def __str__(cls: Type[S]) -> str:
+    def __str__(cls: Type[TStrEnum]) -> str:
         """
         Returns the `name` of the enum class.
         """
         return cls.__name__
 
-    def __repr__(cls: Type[S]) -> str:
+    def __repr__(cls: Type[TStrEnum]) -> str:
         """Returns the canonical representation of the enum class as `(name=value)` pairs."""
         members = ", ".join(f"{member.name}={repr(member.value)}" for member in cls)
         return f"{cls.__name__}({members})"
 
     ### VALIDATORS #########################################
 
-    def is_valid_name(cls: Type[S], name: str) -> bool:
+    def is_valid_name(cls: Type[TStrEnum], name: str) -> bool:
         """
         Validates whether the specified string is the `name` of an enum member.
 
@@ -411,7 +413,7 @@ class StrEnumMeta(EnumMeta):
         """
         return name in cls.__members__  # o(1)
 
-    def is_valid_value(cls: Type[S], value: str) -> bool:
+    def is_valid_value(cls: Type[TStrEnum], value: str) -> bool:
         """
         Validates whether the specified string is the `value` of an enum member.
 
@@ -709,291 +711,291 @@ class FileType(StrEnum):
 class LanguageCode(StrEnum):
     """The ISO 639-1 language codes (https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)."""
 
-    AF = "af"  # afrikaans
-    SQ = "sq"  # albanian
-    AR = "ar"  # arabic
-    HY = "hy"  # armenian
-    BN = "bn"  # bengali
-    BS = "bs"  # bosnian
-    BG = "bg"  # bulgarian
-    CA = "ca"  # catalan
-    HR = "hr"  # croatian
-    CS = "cs"  # czech
-    DA = "da"  # danish
-    NL = "nl"  # dutch
-    EN = "en"  # english
-    EO = "eo"  # esperanto
-    ET = "et"  # estonian
-    TL = "tl"  # filipino
-    FI = "fi"  # finnish
-    FR = "fr"  # french
-    DE = "de"  # german
-    EL = "el"  # greek
-    HI = "hi"  # hindi
-    HU = "hu"  # hungarian
-    IS = "is"  # icelandic
-    ID = "id"  # indonesian
-    IT = "it"  # italian
-    JA = "ja"  # japanese
-    KO = "ko"  # korean
-    LA = "la"  # latin
-    LV = "lv"  # latvian
-    LT = "lt"  # lithuanian
-    MK = "mk"  # macedonian
-    NO = "no"  # norwegian
-    PL = "pl"  # polish
-    PT = "pt"  # portuguese
-    RO = "ro"  # romanian
-    RU = "ru"  # russian
-    SR = "sr"  # serbian
-    SK = "sk"  # slovak
-    SL = "sl"  # slovenian
-    ES = "es"  # spanish
-    SV = "sv"  # swedish
-    TR = "tr"  # turkish
-    UK = "uk"  # ukrainian
-    ZH = "zh"  # chinese
+    AF = "af"  # • Afrikaans
+    SQ = "sq"  # • Albanian
+    AR = "ar"  # • Arabic
+    HY = "hy"  # • Armenian
+    BN = "bn"  # • Bengali
+    BS = "bs"  # • Bosnian
+    BG = "bg"  # • Bulgarian
+    CA = "ca"  # • Catalan
+    HR = "hr"  # • Croatian
+    CS = "cs"  # • Czech
+    DA = "da"  # • Danish
+    NL = "nl"  # • Dutch
+    EN = "en"  # • English
+    EO = "eo"  # • Esperanto
+    ET = "et"  # • Estonian
+    TL = "tl"  # • Filipino
+    FI = "fi"  # • Finnish
+    FR = "fr"  # • French
+    DE = "de"  # • German
+    EL = "el"  # • Greek
+    HI = "hi"  # • Hindi
+    HU = "hu"  # • Hungarian
+    IS = "is"  # • Icelandic
+    ID = "id"  # • Indonesian
+    IT = "it"  # • Italian
+    JA = "ja"  # • Japanese
+    KO = "ko"  # • Korean
+    LA = "la"  # • Latin
+    LV = "lv"  # • Latvian
+    LT = "lt"  # • Lithuanian
+    MK = "mk"  # • Macedonian
+    NO = "no"  # • Norwegian
+    PL = "pl"  # • Polish
+    PT = "pt"  # • Portuguese
+    RO = "ro"  # • Romanian
+    RU = "ru"  # • Russian
+    SR = "sr"  # • Serbian
+    SK = "sk"  # • Slovak
+    SL = "sl"  # • Slovenian
+    ES = "es"  # • Spanish
+    SV = "sv"  # • Swedish
+    TR = "tr"  # • Turkish
+    UK = "uk"  # • Ukrainian
+    ZH = "zh"  # • Chinese
 
 
 class RegionCode(StrEnum):
     """The ISO 3166-1 country/region codes (https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes)."""
 
-    AF = "AF"  # afghanistan
-    AL = "AL"  # albania
-    DZ = "DZ"  # algeria
-    AS = "AS"  # american Samoa
-    AD = "AD"  # andorra
-    AO = "AO"  # angola
-    AI = "AI"  # anguilla
-    AQ = "AQ"  # antarctica
-    AR = "AR"  # argentina
-    AM = "AM"  # armenia
-    AW = "AW"  # aruba
-    AU = "AU"  # australia
-    AT = "AT"  # austria
-    AZ = "AZ"  # azerbaijan
-    BS = "BS"  # bahamas
-    BH = "BH"  # bahrain
-    BD = "BD"  # bangladesh
-    BB = "BB"  # barbados
-    BY = "BY"  # belarus
-    BE = "BE"  # belgium
-    BZ = "BZ"  # belize
-    BJ = "BJ"  # benin
-    BM = "BM"  # bermuda
-    BT = "BT"  # bhutan
-    BO = "BO"  # bolivia
-    BA = "BA"  # bosnia and Herzegovina
-    BW = "BW"  # botswana
-    BR = "BR"  # brazil
-    IO = "IO"  # british Indian Ocean Territory
-    BN = "BN"  # brunei
-    BG = "BG"  # bulgaria
-    BF = "BF"  # burkina Faso
-    BI = "BI"  # burundi
-    KH = "KH"  # cambodia
-    CM = "CM"  # cameroon
-    CA = "CA"  # canada
-    CV = "CV"  # cape Verde
-    KY = "KY"  # cayman Islands
-    CF = "CF"  # central African Republic
-    TD = "TD"  # chad
-    CL = "CL"  # chile
-    CN = "CN"  # china
-    CO = "CO"  # colombia
-    KM = "KM"  # comoros
-    CG = "CG"  # congo
-    CD = "CD"  # democratic Republic of the Congo
-    CK = "CK"  # cook Islands
-    CR = "CR"  # costa Rica
-    HR = "HR"  # croatia
-    CU = "CU"  # cuba
-    CW = "CW"  # curaçao
-    CY = "CY"  # cyprus
-    CZ = "CZ"  # czech Republic
-    DK = "DK"  # denmark
-    DJ = "DJ"  # djibouti
-    DM = "DM"  # dominica
-    DO = "DO"  # dominican Republic
-    EC = "EC"  # ecuador
-    EG = "EG"  # egypt
-    SV = "SV"  # el Salvador
-    GQ = "GQ"  # equatorial Guinea
-    ER = "ER"  # eritrea
-    EE = "EE"  # estonia
-    ET = "ET"  # ethiopia
-    FK = "FK"  # falkland Islands
-    FO = "FO"  # faroe Islands
-    FJ = "FJ"  # fiji
-    FI = "FI"  # finland
-    FR = "FR"  # france
-    GF = "GF"  # french Guiana
-    PF = "PF"  # french Polynesia
-    TF = "TF"  # french Southern and Antarctic Lands
-    GA = "GA"  # gabon
-    GM = "GM"  # gambia
-    GE = "GE"  # georgia
-    DE = "DE"  # germany
-    GH = "GH"  # ghana
-    GI = "GI"  # gibraltar
-    GR = "GR"  # greece
-    GL = "GL"  # greenland
-    GD = "GD"  # grenada
-    GP = "GP"  # guadeloupe
-    GU = "GU"  # guam
-    GT = "GT"  # guatemala
-    GG = "GG"  # guernsey
-    GN = "GN"  # guinea
-    GW = "GW"  # guinea-Bissau
-    GY = "GY"  # guyana
-    HT = "HT"  # haiti
-    HM = "HM"  # heard Island and McDonald Islands
-    HN = "HN"  # honduras
-    HK = "HK"  # hong Kong
-    HU = "HU"  # hungary
-    IS = "IS"  # iceland
-    IN = "IN"  # india
-    ID = "ID"  # indonesia
-    IR = "IR"  # iran
-    IQ = "IQ"  # iraq
-    IE = "IE"  # ireland
-    IL = "IL"  # israel
-    IT = "IT"  # italy
-    JM = "JM"  # jamaica
-    JP = "JP"  # japan
-    JE = "JE"  # jersey
-    JO = "JO"  # jordan
-    KZ = "KZ"  # kazakhstan
-    KE = "KE"  # kenya
-    KI = "KI"  # kiribati
-    KP = "KP"  # north Korea
-    KR = "KR"  # south Korea
-    KW = "KW"  # kuwait
-    KG = "KG"  # kyrgyzstan
-    LA = "LA"  # laos
-    LV = "LV"  # latvia
-    LB = "LB"  # lebanon
-    LS = "LS"  # lesotho
-    LR = "LR"  # liberia
-    LY = "LY"  # libya
-    LI = "LI"  # liechtenstein
-    LT = "LT"  # lithuania
-    LU = "LU"  # luxembourg
-    MO = "MO"  # macao
-    MK = "MK"  # north Macedonia
-    MG = "MG"  # madagascar
-    MW = "MW"  # malawi
-    MY = "MY"  # malaysia
-    MV = "MV"  # maldives
-    ML = "ML"  # mali
-    MT = "MT"  # malta
-    MH = "MH"  # marshall Islands
-    MQ = "MQ"  # martinique
-    MR = "MR"  # mauritania
-    MU = "MU"  # mauritius
-    YT = "YT"  # mayotte
-    MX = "MX"  # mexico
-    FM = "FM"  # micronesia
-    MD = "MD"  # moldova
-    MC = "MC"  # monaco
-    MN = "MN"  # mongolia
-    ME = "ME"  # montenegro
-    MS = "MS"  # montserrat
-    MA = "MA"  # morocco
-    MZ = "MZ"  # mozambique
-    MM = "MM"  # myanmar
-    NA = "NA"  # namibia
-    NR = "NR"  # nauru
-    NP = "NP"  # nepal
-    NL = "NL"  # netherlands
-    NC = "NC"  # new Caledonia
-    NZ = "NZ"  # new Zealand
-    NI = "NI"  # nicaragua
-    NE = "NE"  # niger
-    NG = "NG"  # nigeria
-    NU = "NU"  # niue
-    NF = "NF"  # norfolk Island
-    MP = "MP"  # northern Mariana Islands
-    NO = "NO"  # norway
-    OM = "OM"  # oman
-    PK = "PK"  # pakistan
-    PW = "PW"  # palau
-    PA = "PA"  # panama
-    PG = "PG"  # papua New Guinea
-    PY = "PY"  # paraguay
-    PE = "PE"  # peru
-    PH = "PH"  # philippines
-    PN = "PN"  # pitcairn Islands
-    PL = "PL"  # poland
-    PT = "PT"  # portugal
-    PR = "PR"  # puerto Rico
-    QA = "QA"  # qatar
-    RO = "RO"  # romania
-    RU = "RU"  # russia
-    RW = "RW"  # rwanda
-    RE = "RE"  # réunion
-    BL = "BL"  # saint Barthélemy
-    SH = "SH"  # saint Helena
-    KN = "KN"  # saint Kitts and Nevis
-    LC = "LC"  # saint Lucia
-    MF = "MF"  # saint Martin
-    PM = "PM"  # saint Pierre and Miquelon
-    VC = "VC"  # saint Vincent and the Grenadines
-    WS = "WS"  # samoa
-    SM = "SM"  # san Marino
-    ST = "ST"  # são Tomé and Príncipe
-    SA = "SA"  # saudi Arabia
-    SN = "SN"  # senegal
-    RS = "RS"  # serbia
-    SC = "SC"  # seychelles
-    SL = "SL"  # sierra Leone
-    SG = "SG"  # singapore
-    SX = "SX"  # sint Maarten
-    SK = "SK"  # slovakia
-    SI = "SI"  # slovenia
-    SB = "SB"  # solomon Islands
-    SO = "SO"  # somalia
-    ZA = "ZA"  # south Africa
-    GS = "GS"  # south Georgia and the South Sandwich Islands
-    ES = "ES"  # spain
-    LK = "LK"  # sri Lanka
-    SD = "SD"  # sudan
-    SR = "SR"  # suriname
-    SJ = "SJ"  # svalbard and Jan Mayen
-    SE = "SE"  # sweden
-    CH = "CH"  # switzerland
-    SY = "SY"  # syria
-    TW = "TW"  # taiwan
-    TJ = "TJ"  # tajikistan
-    TZ = "TZ"  # tanzania
-    TH = "TH"  # thailand
-    TL = "TL"  # timor-Leste
-    TG = "TG"  # togo
-    TK = "TK"  # tokelau
-    TO = "TO"  # tonga
-    TT = "TT"  # trinidad and Tobago
-    TN = "TN"  # tunisia
-    TR = "TR"  # turkey
-    TM = "TM"  # turkmenistan
-    TC = "TC"  # turks and Caicos Islands
-    TV = "TV"  # tuvalu
-    UG = "UG"  # uganda
-    UA = "UA"  # ukraine
-    AE = "AE"  # united Arab Emirates
-    GB = "GB"  # united Kingdom
-    US = "US"  # united States
-    UY = "UY"  # uruguay
-    UZ = "UZ"  # uzbekistan
-    VU = "VU"  # vanuatu
-    VE = "VE"  # venezuela
-    VN = "VN"  # vietnam
-    VG = "VG"  # british Virgin Islands
-    VI = "VI"  # u.S. Virgin Islands
-    WF = "WF"  # wallis and Futuna
-    EH = "EH"  # western Sahara
-    YE = "YE"  # yemen
-    ZM = "ZM"  # zambia
-    ZW = "ZW"  # zimbabwe
+    AF = "AF"  # • Afghanistan
+    AL = "AL"  # • Albania
+    DZ = "DZ"  # • Algeria
+    AS = "AS"  # • American Samoa
+    AD = "AD"  # • Andorra
+    AO = "AO"  # • Angola
+    AI = "AI"  # • Anguilla
+    AQ = "AQ"  # • Antarctica
+    AR = "AR"  # • Argentina
+    AM = "AM"  # • Armenia
+    AW = "AW"  # • Aruba
+    AU = "AU"  # • Australia
+    AT = "AT"  # • Austria
+    AZ = "AZ"  # • Azerbaijan
+    BS = "BS"  # • Bahamas
+    BH = "BH"  # • Bahrain
+    BD = "BD"  # • Bangladesh
+    BB = "BB"  # • Barbados
+    BY = "BY"  # • Belarus
+    BE = "BE"  # • Belgium
+    BZ = "BZ"  # • Belize
+    BJ = "BJ"  # • Benin
+    BM = "BM"  # • Bermuda
+    BT = "BT"  # • Bhutan
+    BO = "BO"  # • Bolivia
+    BA = "BA"  # • Bosnia and Herzegovina
+    BW = "BW"  # • Botswana
+    BR = "BR"  # • Brazil
+    IO = "IO"  # • British Indian Ocean Territory
+    BN = "BN"  # • Brunei
+    BG = "BG"  # • Bulgaria
+    BF = "BF"  # • Burkina Faso
+    BI = "BI"  # • Burundi
+    KH = "KH"  # • Cambodia
+    CM = "CM"  # • Cameroon
+    CA = "CA"  # • Canada
+    CV = "CV"  # • Cape Verde
+    KY = "KY"  # • Cayman Islands
+    CF = "CF"  # • Central African Republic
+    TD = "TD"  # • Chad
+    CL = "CL"  # • Chile
+    CN = "CN"  # • China
+    CO = "CO"  # • Colombia
+    KM = "KM"  # • Comoros
+    CG = "CG"  # • Congo
+    CD = "CD"  # • Democratic Republic of the Congo
+    CK = "CK"  # • Cook Islands
+    CR = "CR"  # • Costa Rica
+    HR = "HR"  # • Croatia
+    CU = "CU"  # • Cuba
+    CW = "CW"  # • Curaçao
+    CY = "CY"  # • Cyprus
+    CZ = "CZ"  # • Czech Republic
+    DK = "DK"  # • Denmark
+    DJ = "DJ"  # • Djibouti
+    DM = "DM"  # • Dominica
+    DO = "DO"  # • Dominican Republic
+    EC = "EC"  # • Ecuador
+    EG = "EG"  # • Egypt
+    SV = "SV"  # • El Salvador
+    GQ = "GQ"  # • Equatorial Guinea
+    ER = "ER"  # • Eritrea
+    EE = "EE"  # • Estonia
+    ET = "ET"  # • Ethiopia
+    FK = "FK"  # • Falkland Islands
+    FO = "FO"  # • Faroe Islands
+    FJ = "FJ"  # • Fiji
+    FI = "FI"  # • Finland
+    FR = "FR"  # • France
+    GF = "GF"  # • French Guiana
+    PF = "PF"  # • French Polynesia
+    TF = "TF"  # • French Southern and Antarctic Lands
+    GA = "GA"  # • Gabon
+    GM = "GM"  # • Gambia
+    GE = "GE"  # • Georgia
+    DE = "DE"  # • Germany
+    GH = "GH"  # • Ghana
+    GI = "GI"  # • Gibraltar
+    GR = "GR"  # • Greece
+    GL = "GL"  # • Greenland
+    GD = "GD"  # • Grenada
+    GP = "GP"  # • Guadeloupe
+    GU = "GU"  # • Guam
+    GT = "GT"  # • Guatemala
+    GG = "GG"  # • Guernsey
+    GN = "GN"  # • Guinea
+    GW = "GW"  # • Guinea-Bissau
+    GY = "GY"  # • Guyana
+    HT = "HT"  # • Haiti
+    HM = "HM"  # • Heard Island and McDonald Islands
+    HN = "HN"  # • Honduras
+    HK = "HK"  # • Hong Kong
+    HU = "HU"  # • Hungary
+    IS = "IS"  # • Iceland
+    IN = "IN"  # • India
+    ID = "ID"  # • Indonesia
+    IR = "IR"  # • Iran
+    IQ = "IQ"  # • Iraq
+    IE = "IE"  # • Ireland
+    IL = "IL"  # • Israel
+    IT = "IT"  # • Italy
+    JM = "JM"  # • Jamaica
+    JP = "JP"  # • Japan
+    JE = "JE"  # • Jersey
+    JO = "JO"  # • Jordan
+    KZ = "KZ"  # • Kazakhstan
+    KE = "KE"  # • Kenya
+    KI = "KI"  # • Kiribati
+    KP = "KP"  # • North Korea
+    KR = "KR"  # • South Korea
+    KW = "KW"  # • Kuwait
+    KG = "KG"  # • Kyrgyzstan
+    LA = "LA"  # • Laos
+    LV = "LV"  # • Latvia
+    LB = "LB"  # • Lebanon
+    LS = "LS"  # • Lesotho
+    LR = "LR"  # • Liberia
+    LY = "LY"  # • Libya
+    LI = "LI"  # • Liechtenstein
+    LT = "LT"  # • Lithuania
+    LU = "LU"  # • Luxembourg
+    MO = "MO"  # • Macao
+    MK = "MK"  # • North Macedonia
+    MG = "MG"  # • Madagascar
+    MW = "MW"  # • Malawi
+    MY = "MY"  # • Malaysia
+    MV = "MV"  # • Maldives
+    ML = "ML"  # • Mali
+    MT = "MT"  # • Malta
+    MH = "MH"  # • Marshall Islands
+    MQ = "MQ"  # • Martinique
+    MR = "MR"  # • Mauritania
+    MU = "MU"  # • Mauritius
+    YT = "YT"  # • Mayotte
+    MX = "MX"  # • Mexico
+    FM = "FM"  # • Micronesia
+    MD = "MD"  # • Moldova
+    MC = "MC"  # • Monaco
+    MN = "MN"  # • Mongolia
+    ME = "ME"  # • Montenegro
+    MS = "MS"  # • Montserrat
+    MA = "MA"  # • Morocco
+    MZ = "MZ"  # • Mozambique
+    MM = "MM"  # • Myanmar
+    NA = "NA"  # • Namibia
+    NR = "NR"  # • Nauru
+    NP = "NP"  # • Nepal
+    NL = "NL"  # • Netherlands
+    NC = "NC"  # • New Caledonia
+    NZ = "NZ"  # • New Zealand
+    NI = "NI"  # • Nicaragua
+    NE = "NE"  # • Niger
+    NG = "NG"  # • Nigeria
+    NU = "NU"  # • Niue
+    NF = "NF"  # • Norfolk Island
+    MP = "MP"  # • Northern Mariana Islands
+    NO = "NO"  # • Norway
+    OM = "OM"  # • Oman
+    PK = "PK"  # • Pakistan
+    PW = "PW"  # • Palau
+    PA = "PA"  # • Panama
+    PG = "PG"  # • Papua New Guinea
+    PY = "PY"  # • Paraguay
+    PE = "PE"  # • Peru
+    PH = "PH"  # • Philippines
+    PN = "PN"  # • Pitcairn Islands
+    PL = "PL"  # • Poland
+    PT = "PT"  # • Portugal
+    PR = "PR"  # • Puerto Rico
+    QA = "QA"  # • Qatar
+    RO = "RO"  # • Romania
+    RU = "RU"  # • Russia
+    RW = "RW"  # • Rwanda
+    RE = "RE"  # • Réunion
+    BL = "BL"  # • Saint Barthélemy
+    SH = "SH"  # • Saint Helena
+    KN = "KN"  # • Saint Kitts and Nevis
+    LC = "LC"  # • Saint Lucia
+    MF = "MF"  # • Saint Martin
+    PM = "PM"  # • Saint Pierre and Miquelon
+    VC = "VC"  # • Saint Vincent and the Grenadines
+    WS = "WS"  # • Samoa
+    SM = "SM"  # • San Marino
+    ST = "ST"  # • São Tomé and Príncipe
+    SA = "SA"  # • Saudi Arabia
+    SN = "SN"  # • Senegal
+    RS = "RS"  # • Serbia
+    SC = "SC"  # • Seychelles
+    SL = "SL"  # • Sierra Leone
+    SG = "SG"  # • Singapore
+    SX = "SX"  # • Sint Maarten
+    SK = "SK"  # • Slovakia
+    SI = "SI"  # • Slovenia
+    SB = "SB"  # • Solomon Islands
+    SO = "SO"  # • Somalia
+    ZA = "ZA"  # • South Africa
+    GS = "GS"  # • South Georgia and the South Sandwich Islands
+    ES = "ES"  # • Spain
+    LK = "LK"  # • Sri Lanka
+    SD = "SD"  # • Sudan
+    SR = "SR"  # • Suriname
+    SJ = "SJ"  # • Svalbard and Jan Mayen
+    SE = "SE"  # • Sweden
+    CH = "CH"  # • Switzerland
+    SY = "SY"  # • Syria
+    TW = "TW"  # • Taiwan
+    TJ = "TJ"  # • Tajikistan
+    TZ = "TZ"  # • Tanzania
+    TH = "TH"  # • Thailand
+    TL = "TL"  # • Timor-Leste
+    TG = "TG"  # • Togo
+    TK = "TK"  # • Tokelau
+    TO = "TO"  # • Tonga
+    TT = "TT"  # • Trinidad and Tobago
+    TN = "TN"  # • Tunisia
+    TR = "TR"  # • Turkey
+    TM = "TM"  # • Turkmenistan
+    TC = "TC"  # • Turks and Caicos Islands
+    TV = "TV"  # • Tuvalu
+    UG = "UG"  # • Uganda
+    UA = "UA"  # • Ukraine
+    AE = "AE"  # • United Arab Emirates
+    GB = "GB"  # • United Kingdom
+    US = "US"  # • United States
+    UY = "UY"  # • Uruguay
+    UZ = "UZ"  # • Uzbekistan
+    VU = "VU"  # • Vanuatu
+    VE = "VE"  # • Venezuela
+    VN = "VN"  # • Vietnam
+    VG = "VG"  # • British Virgin Islands
+    VI = "VI"  # • U.S. Virgin Islands
+    WF = "WF"  # • Wallis and Futuna
+    EH = "EH"  # • Western Sahara
+    YE = "YE"  # • Yemen
+    ZM = "ZM"  # • Zambia
+    ZW = "ZW"  # • Zimbabwe
 
 
 ### MIME ###################################################
@@ -1013,7 +1015,7 @@ class MimeCategory(StrEnum):
     VIDEO = "video"
 
 
-############################################################
+##############################
 
 
 class AudioType(StrEnum):
@@ -1149,7 +1151,7 @@ class CloudProvider(StrEnum):
     GCP = "gcp"
 
 
-############################################################
+##############################
 
 
 class HttpContentEncoding(StrEnum):

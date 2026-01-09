@@ -10,9 +10,22 @@
 
 from __future__ import annotations
 
+from enum import Enum
+from typing import Callable
+
 from nutil.common import *
 
+__TYPING_TYPES____________________________________________________________________________ = ""
+
+
+TEnum = TypeVar("TEnum", bound=Enum)
+TFunc = TypeVar("TFunc", bound=Callable[..., Any])
+
+
 __COMMON_TYPING_ACCESSORS_________________________________________________________________ = ""
+
+
+### GETTERS ################################################
 
 
 def get_type_name(t: Type[Any]) -> str:

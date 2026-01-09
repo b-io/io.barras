@@ -29,7 +29,7 @@ class Dataclass(Protocol):
 
 
 # The typing alias for any supported rows
-Row = Union[Dataclass, Iterable[Any], Mapping[str, Any], type]
+RowType = Union[Dataclass, Iterable[Any], Mapping[str, Any], type]
 
 
 __TABLE_ACCESSORS_________________________________________________________________________ = ""
@@ -41,7 +41,7 @@ __TABLE_ACCESSORS_______________________________________________________________
 #### ROW KEYS ################
 
 
-def get_row_keys(row: Row, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
+def get_row_keys(row: RowType, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     """
     Returns a header-like sequence for `row`.
 
@@ -80,7 +80,7 @@ def get_annotations_keys(x: Any, *, keys: Optional[Container[str]] = None) -> Tu
 #### ROW VALUES ##############
 
 
-def get_row_value(row: Row, key: str) -> Optional[Any]:
+def get_row_value(row: RowType, key: str) -> Optional[Any]:
     """
     Selects the value identified by `key` from `row`, supporting multiple row shapes.
 
@@ -118,7 +118,7 @@ def get_row_value(row: Row, key: str) -> Optional[Any]:
     raise TypeError(f"Unsupported row type '{type(row)!r}'")
 
 
-def get_row_string(row: Row, key: str) -> str:
+def get_row_string(row: RowType, key: str) -> str:
     """
     Converts `get_row_value(row, key)` to a string using `to_string`.
 
@@ -152,7 +152,7 @@ def get_annotations_value(x: Any, key: str) -> Optional[Any]:
     return annotations.get(key)
 
 
-def get_row_values(row: Row, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
+def get_row_values(row: RowType, *, keys: Optional[Container[str]] = None) -> Tuple[Any, ...]:
     """
     Returns a value sequence for `row`.
 
@@ -194,7 +194,7 @@ __TABLE_PROCESSORS______________________________________________________________
 ### ROWS ###################################################
 
 
-def deduplicate_rows(rows: Iterable[Row], *, keys: Optional[Container[str]] = None) -> List[Row]:
+def deduplicate_rows(rows: Iterable[RowType], *, keys: Optional[Container[str]] = None) -> List[RowType]:
     """
     Strips duplicate rows while preserving the original order.
 
@@ -215,7 +215,7 @@ def deduplicate_rows(rows: Iterable[Row], *, keys: Optional[Container[str]] = No
     Returns:
         The deduplicated rows with the preserved order.
     """
-    out: List[Row] = []
+    out: List[RowType] = []
     seen: Set[Tuple[Any, ...]] = set()
 
     for row in rows:

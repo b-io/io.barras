@@ -13,11 +13,14 @@ from __future__ import annotations
 import difflib
 import logging
 import re
-from typing import Match
+from typing import Callable, Match
 
 from nutil.common import *
 
 __COMMON_COMPARATOR_ACCESSORS_____________________________________________________________ = ""
+
+
+### GETTERS ################################################
 
 
 def get_text_window(

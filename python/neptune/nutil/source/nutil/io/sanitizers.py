@@ -209,26 +209,6 @@ def normalize_text(text: str) -> str:
     return clean_text(text).casefold()
 
 
-def to_ascii(text: str) -> str:
-    """
-    Folds the diacritics to ASCII by removing the combining marks (best-effort).
-
-    Example:
-        `"Straße"` → `"Strasse"`, `"Curaçao"` → `"Curacao"`.
-
-    Args:
-        text: The input string.
-
-    Returns:
-        An ASCII-ish representation useful for the search keys or filenames.
-    """
-    if not text:
-        return ""
-    s = unicodedata.normalize("NFKD", text)
-    s = "".join(ch for ch in s if not unicodedata.combining(ch))
-    return s.encode("ascii", "ignore").decode("ascii")
-
-
 ### HTML ###################################################
 
 

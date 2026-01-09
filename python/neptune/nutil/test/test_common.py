@@ -185,7 +185,7 @@ class TestCommon(Test):
 
     ##########################
 
-    def apply(self, s, f, *args, axis: Optional[Axis] = None, inplace=False, **kwargs):
+    def apply(self, s, f, *args, axis: Optional[AxisType] = None, inplace=False, **kwargs):
         t = timeit.timeit(stmt=lambda: apply(s, f, *args, axis=axis, inplace=inplace, **kwargs), number=TEST_COUNT)
         logging.info(
             "Applied",

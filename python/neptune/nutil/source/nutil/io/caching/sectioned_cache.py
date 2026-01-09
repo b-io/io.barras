@@ -27,7 +27,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Pattern
+from typing import Callable, Pattern
 
 from typing_extensions import TypeAlias
 
@@ -35,23 +35,28 @@ from nutil.common import *
 from nutil.io.caching.common import *
 from nutil.io.file import write_json
 
+__SECTIONED_CACHE_TYPES___________________________________________________________________ = ""
+
+
+TValue = TypeVar("TValue")
+
+##############################
+
+SectionType: TypeAlias = str
+SectionsType: TypeAlias = Tuple[SectionType, ...]
+
+BucketType: TypeAlias = Dict[str, TValue]
+StoreType: TypeAlias = Dict[SectionType, BucketType]
+
+
 __SECTIONED_CACHE_CLASSES_________________________________________________________________ = ""
 
 
-V = TypeVar("V")
-
-Section: TypeAlias = str
-Sections: TypeAlias = Tuple[Section, ...]
-
-Bucket: TypeAlias = Dict[str, V]
-Store: TypeAlias = Dict[Section, Bucket]
-
-
 @dataclass
-class SectionedCache(Generic[V]):
+class SectionedCache(Generic[TValue]):
     """
-    A sectioned on-disk JSON cache, where a section is a top-level JSON key. Each section maps the `str` keys to the `V`
-    values (must be JSON-serializable).
+    A sectioned on-disk JSON cache, where a section is a top-level JSON key. Each section maps the `str` keys to the
+    `TValue` values (must be JSON-serializable).
 
     Notes:
         • The `policy` is fixed for the lifetime of the instance. If the file has the top-level `POLICY_KEY` string,
@@ -73,38 +78,38 @@ class SectionedCache(Generic[V]):
     POLICY_KEY: ClassVar[str] = "policy"
 
     path: Path
-    sections: Optional[Sections] = None
+    sections: Optional[SectionsType] = None
 
     policy: CachePolicy = field(default_factory=lambda: CachePolicy.WRITE_MISS_ONLY)
     persistence_frequency: int = 0
-    coerce_value: Optional[Callable[[Any], V]] = None
+    coerce_value: Optional[Callable[[Any], TValue]] = None
 
-    _store: Store = field(default_factory=dict, init=False, repr=False)
+    _store: StoreType = field(default_factory=dict, init=False, repr=False)
     _since_save: int = field(default=0, init=False, repr=False)
 
     ### QUERIES ############################################
 
-    def get_sections(self) -> Sections:
+    def get_sections(self) -> SectionsType:
         """Returns the declared section names (the contract order)."""
         return self.sections or tuple(self._store.keys())
 
-    def resolve_sections(self, sections: Optional[Sections] = None) -> Sections:
+    def resolve_sections(self, sections: Optional[SectionsType] = None) -> SectionsType:
         """Returns the `sections` if provided; otherwise the declared section names."""
         return sections if not is_null(sections) else self.get_sections()
 
-    def has(self, section: Section, key: str) -> bool:
+    def has(self, section: SectionType, key: str) -> bool:
         """Reports whether the `section/key` exists (including the negative-cached empties)."""
         bucket = self._store.get(section)
         return not is_null(bucket) and key in bucket
 
-    def get(self, section: Section, key: str) -> Optional[V]:
+    def get(self, section: SectionType, key: str) -> Optional[TValue]:
         """Selects the cached value for the `section/key`, returning `None` on a cache miss."""
         bucket = self._store.get(section)
         if is_null(bucket):
             return None
         return bucket.get(key)
 
-    def get_list(self, section: Section, key: str, *, allow_scalar: bool = False) -> List[Any]:
+    def get_list(self, section: SectionType, key: str, *, allow_scalar: bool = False) -> List[Any]:
         """
         Returns the value as a list copy when stored as a `list`; otherwise:
         • `[]` if the key is missing or the stored value is null;
@@ -117,7 +122,7 @@ class SectionedCache(Generic[V]):
             return list(v)  # make the shallow copy to avoid the accidental in-place mutation
         return [v] if allow_scalar else []
 
-    def map(self, section: Section) -> Bucket:
+    def map(self, section: SectionType) -> BucketType:
         """
         Returns the mutable map for the `section`, creating it if missing.
 
@@ -126,20 +131,20 @@ class SectionedCache(Generic[V]):
         """
         return self._require_section(section)
 
-    def counts(self, sections: Optional[Sections] = None) -> Dict[Section, int]:
+    def counts(self, sections: Optional[SectionsType] = None) -> Dict[SectionType, int]:
         """Returns the entry counts per section for the selected sections."""
-        out: Dict[Section, int] = {}
+        out: Dict[SectionType, int] = {}
         for sec in self.resolve_sections(sections):
             out[sec] = len(self.map(sec))
         return out
 
     def items(
         self,
-        section: Section,
+        section: SectionType,
         *,
         prefix: Optional[str] = None,
         pattern: Optional[Union[str, Pattern[str]]] = None,
-    ) -> List[Tuple[str, V]]:
+    ) -> List[Tuple[str, TValue]]:
         """
         Returns the `(key, value)` pairs in the `section`, filtered by the `prefix` and/or the regex `pattern`.
         """
@@ -148,7 +153,7 @@ class SectionedCache(Generic[V]):
         if isinstance(pattern, str) and pattern:
             pattern = re.compile(pattern, flags=re.I)
 
-        out: List[Tuple[str, V]] = []
+        out: List[Tuple[str, TValue]] = []
         for k, v in bucket.items():
             if prefix and not k.startswith(prefix):
                 continue
@@ -159,7 +164,7 @@ class SectionedCache(Generic[V]):
 
     ### EDITIONS ###########################################
 
-    def set(self, section: Section, key: str, value: V) -> bool:
+    def set(self, section: SectionType, key: str, value: TValue) -> bool:
         """
         Sets the `section/key` to the `value` in memory while respecting the instance write policy.
 
@@ -186,11 +191,11 @@ class SectionedCache(Generic[V]):
             self.save()
         return True
 
-    def set_list(self, section: Section, key: str, values: Iterable[Any]) -> bool:
+    def set_list(self, section: SectionType, key: str, values: Iterable[Any]) -> bool:
         """Sets the value as a list (shallow-copies the iterable; no type coercion)."""
         return self.set(section, key, list(values))
 
-    def rename_key(self, section: Section, old: str, new: str) -> bool:
+    def rename_key(self, section: SectionType, old: str, new: str) -> bool:
         """
         Renames a key within the `section`. If the `new` already exists, keeps the `new` and removes the `old`.
         Returns `True` if changed.
@@ -208,7 +213,7 @@ class SectionedCache(Generic[V]):
             return self.delete(section, old) or True
         return False
 
-    def merge_lists(self, section: Section, target: str, sources: Iterable[str]) -> int:
+    def merge_lists(self, section: SectionType, target: str, sources: Iterable[str]) -> int:
         """
         Merges the list-valued entries from the `sources` into the `target` within the `section`.
 
@@ -256,7 +261,7 @@ class SectionedCache(Generic[V]):
 
     ### DELETIONS ##########################################
 
-    def delete(self, section: Section, key: str) -> bool:
+    def delete(self, section: SectionType, key: str) -> bool:
         """
         Deletes a `section/key` entry when present.
 
@@ -277,7 +282,7 @@ class SectionedCache(Generic[V]):
             return True
         return False
 
-    def delete_keys(self, section: Section, keys: Iterable[str]) -> int:
+    def delete_keys(self, section: SectionType, keys: Iterable[str]) -> int:
         """Deletes the exact `keys` from the `section` and returns the number removed."""
         removed = 0
         for key in keys or ():
@@ -286,7 +291,7 @@ class SectionedCache(Generic[V]):
                 removed += 1
         return removed
 
-    def delete_prefixes(self, section: Section, prefixes: Iterable[str]) -> int:
+    def delete_prefixes(self, section: SectionType, prefixes: Iterable[str]) -> int:
         """Deletes the keys that start with any of the `prefixes` in the `section` and returns the number removed."""
         prefs = [p for p in (s.strip() for s in (prefixes or ())) if p]
         if not prefs:
@@ -300,7 +305,7 @@ class SectionedCache(Generic[V]):
 
     def delete_empty(
         self,
-        section: Section,
+        section: SectionType,
         *,
         delete_list_empty: bool = True,
         delete_str_empty: bool = True,
@@ -345,14 +350,14 @@ class SectionedCache(Generic[V]):
     def load(
         cls,
         path: Path,
-        sections: Optional[Sections] = None,
+        sections: Optional[SectionsType] = None,
         *,
         policy: CachePolicy = CachePolicy.WRITE_MISS_ONLY,
         persistence_frequency: int = 0,
-        coerce_value: Optional[Callable[[Any], V]] = None,
+        coerce_value: Optional[Callable[[Any], TValue]] = None,
         # Read
         encoding: str = DEFAULT_ENCODING,
-    ) -> "SectionedCache[V]":
+    ) -> "SectionedCache[TValue]":
         """
         Loads the cache from the `path`, returning a ready-to-use instance.
 
@@ -391,7 +396,7 @@ class SectionedCache(Generic[V]):
 
         # Derive the declared sections from the user input and the file (preserve the order, drop the duplicates)
         file_sections = [k for k in store.keys() if k != cls.POLICY_KEY]
-        declared_sections: Sections = tuple(dict.fromkeys([*(sections or ()), *file_sections]))
+        declared_sections: SectionsType = tuple(dict.fromkeys([*(sections or ()), *file_sections]))
 
         # Coerce the policy from the file when present (accept the value or the name; fall back to the default)
         detected_policy: Optional[CachePolicy] = None
@@ -443,9 +448,9 @@ class SectionedCache(Generic[V]):
 
     ### INTERNALS ##########################################
 
-    def _coerce_and_validate(self, store: Dict[str, Any]) -> Store:
+    def _coerce_and_validate(self, store: Dict[str, Any]) -> StoreType:
         """Coerces and validates the parsed JSON object into the internal store structure."""
-        out: Store = {name: {} for name in (self.sections or ())}
+        out: StoreType = {name: {} for name in (self.sections or ())}
         if not store:
             return out
 
@@ -457,7 +462,7 @@ class SectionedCache(Generic[V]):
                 raise ValueError(
                     f"Invalid section '{section}' in '{self.path}': expected an object map, got {type(entries).__name__}"
                 )
-            bucket: Bucket = {}
+            bucket: BucketType = {}
             for k, v in entries.items():
                 try:
                     key = stringify(k)
@@ -471,7 +476,7 @@ class SectionedCache(Generic[V]):
             out.setdefault(name, {})
         return out
 
-    def _require_section(self, section: Section) -> Bucket:
+    def _require_section(self, section: SectionType) -> BucketType:
         """Selects the mutable bucket for the `section`, creating it if missing, and validating the contract."""
         if self.sections and (section not in self.sections):
             raise KeyError(f"'{section}' is not a valid name for '{self.__class__.__name__}.sections'")

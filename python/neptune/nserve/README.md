@@ -12,7 +12,7 @@
 * ntest, and
 * nutil.
 
-The library **nserve** contains financial utility functions; among them:
+The library **nserve** contains Web-serving utilities built around FastAPI; among them:
 
 * time series manipulation and
 * pricing engine (including Black-Scholes model).

@@ -11,15 +11,15 @@
 from __future__ import annotations
 
 import functools
-from typing import OrderedDict
+from typing import Callable, OrderedDict
 
 from nutil.common import *
-from nutil.decorators import F
+from nutil.typing.common import TFunc
 
 __CACHING_DECORATORS______________________________________________________________________ = ""
 
 
-def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
+def hash_cache(maxsize: int = 10) -> Callable[[TFunc], TFunc]:
     """
     Decorates a function with an LRU cache keyed by `deep_hash(args, kwargs)`.
 
@@ -35,7 +35,7 @@ def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
         A decorator that wraps the function with a hash-based LRU cache.
     """
 
-    def decorator(func: F) -> F:
+    def decorator(func: TFunc) -> TFunc:
         cache: OrderedDict[int, Any] = OrderedDict()
 
         @functools.wraps(func)
@@ -56,6 +56,6 @@ def hash_cache(maxsize: int = 10) -> Callable[[F], F]:
                     cache.popitem(last=False)
                 return result
 
-        return cast(F, wrapper)
+        return cast(TFunc, wrapper)
 
     return decorator

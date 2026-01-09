@@ -46,6 +46,9 @@ class Transformation(StrEnum):
 __TIME_SERIES_ACCESSORS___________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_average_duration(series: pd.Series, per: Union[timedelta, np.timedelta64, pd.Timedelta] = DAY) -> float:
     """
     Computes the average spacing between consecutive index timestamps normalized by `per`.
@@ -87,7 +90,7 @@ def get_frequency_and_position(series, freq=FREQUENCY, pos=POSITION):
     return freq, pos
 
 
-############################################################
+### SETTERS ################################################
 
 
 def set_freq(series, freq=FREQUENCY, pos=POSITION):
@@ -134,7 +137,12 @@ def plot_decomposition(
 ):
     if is_null(fig):
         fig = charts.create_figure(
-            title=title, title_x=title_x, title_y=title_y, width=width, height=height, margin=margin
+            title=title,
+            title_x=title_x,
+            title_y=title_y,
+            width=width,
+            height=height,
+            margin=margin,
         )
     if is_null(stackgroup):
         stackgroup = generate_string(10)

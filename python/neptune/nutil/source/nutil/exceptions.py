@@ -10,6 +10,8 @@
 
 from __future__ import annotations
 
+from typing import Callable
+
 from nutil.common import *
 from nutil.typing import get_type_name
 

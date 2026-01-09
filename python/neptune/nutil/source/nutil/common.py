@@ -42,6 +42,9 @@ class Object:
 __COMMON_ACCESSORS________________________________________________________________________ = ""
 
 
+### GETTERS ################################################
+
+
 def get_exec_info() -> Optional[Type[BaseException]]:
     """Returns the exception type from the current exception info, or `None`."""
     return sys.exc_info()[0]
@@ -145,6 +148,9 @@ def get_all_attributes(x: Any) -> List[str]:
 
 
 __COMMON_IO_ACCESSORS_______________________________________ = ""
+
+
+### GETTERS ################################################
 
 
 def get_path(path: str = ".") -> str:
