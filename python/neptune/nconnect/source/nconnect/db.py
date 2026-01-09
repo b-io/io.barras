@@ -11,7 +11,6 @@
 from __future__ import annotations
 
 import logging
-from typing import Callable
 
 import sqlalchemy as db
 from sqlalchemy.dialects import mssql
