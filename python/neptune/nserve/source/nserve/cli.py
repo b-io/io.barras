@@ -14,7 +14,7 @@ import argparse
 import logging
 
 from nserve.app import create_app, ServeAppOptions
-from nserve.uvicorn import UvicornOptions
+from nserve.uvicorn import run_uvicorn, UvicornOptions
 from nutil.io.logging import configure_logging
 
 __CLI_RUNNERS_____________________________________________________________________________ = ""

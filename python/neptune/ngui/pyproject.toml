@@ -39,7 +39,7 @@ xhtml2pdf = "^0.2.17"         # HTML/CSS to PDF generation (ReportLab-based)
 ### Visualization ##########################################
 kaleido = "^1.2.0"            # Headless engine for Plotly static image export
 matplotlib = "^3.10.8"        # 2D plotting and figures
-plotly = "^6.5.0"             # Interactive charts
+plotly = "^6.5.1"             # Interactive charts
 seaborn = "^0.13.2"           # Statistical data visualizations
 tqdm = "^4.67.1"              # Terminal progress bars
 
@@ -48,7 +48,8 @@ tqdm = "^4.67.1"              # Terminal progress bars
 
 [tool.poetry.group.docs.dependencies]
 ### Documentation ##########################################
-docutils = ">=0.20,<0.22"         # reStructuredText parsing and rendering
+docutils = ">=0.21,<0.22"         # reStructuredText parsing and rendering
+markdown-it-py = ">=3.0,<4.0"     # Markdown engine used by myst-parser (pinned for compatibility)
 myst-parser = "^4.0.1"            # Markdown parser for Sphinx
 sphinx = "^8.1.3"                 # Static documentation generation
 
@@ -59,13 +60,13 @@ black = "^25.12.0"                # Automatic code formatting
 flake8 = "^7.3.0"                 # Style and quality checks
 flake8-bugbear = "^25.11.29"      # Detection of likely bugs and design issues
 flake8-comprehensions = "^3.17.0" # Comprehension style simplification
-flake8-simplify = "^0.22.0"       # Simplification of overly complex constructs
+flake8-simplify = "^0.30.0"       # Simplification of overly complex constructs
 isort = "^7.0.0"                  # Import sorting and grouping
 mypy = "^1.19.1"                  # Static type checking
 
 [tool.poetry.group.test.dependencies]
 ### Testing ################################################
-coverage = "^7.13.0"              # Code coverage reporting
+coverage = "^7.13.1"              # Code coverage reporting
 
 
 ## 4. PACKAGE SOURCES ####################################################################
