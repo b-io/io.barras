@@ -1,41 +1,64 @@
-# ♆ NEPTUNE
+# ♆ NEPTUNE — nconnect #################################################################################################
 
-**NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+**nconnect** — Connecting utility library for Python.
 
-* nconnect,
-* nfin,
-* nformat,
-* ngui,
-* nlearn,
-* nmath,
-* nserve,
-* ntest, and
-* nutil.
+* Version: `1.0.1a1`
+* Python: `>=3.10,<4.0`
+* Repository: https://github.com/b-io/io.barras/tree/master/python/neptune/nconnect
 
-The library **nconnect** contains connectivity utility functions; among them:
+## 🎯 Goal ################################################################################
 
-* time series manipulation and
-* pricing engine (including Black-Scholes model).
-
-NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
-
----
+* Provide pragmatic connectivity helpers for HTTP and databases.
 
 ## 🚀 Installation ########################################################################
 
-Launch the following commands in a shell:
+This repository is a monorepo. Each NEPTUNE package is a Poetry project under `neptune/<package>`.
+
+Developer install (editable, recommended):
 
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/python/neptune/
-mvn clean install
+python -m pip install --user --upgrade pip poetry
+poetry install
 ```
 
----
+Wheel install (build + install the latest wheel):
+
+```bash
+sh install.sh
+```
+
+## ⚡ Quickstart ##########################################################################
+
+```python
+from nconnect.network.http import create_session_with_retries, request_json
+
+session = create_session_with_retries()
+payload = request_json("https://httpbin.org/json", session=session, api_name="httpbin", )
+print(type(payload), payload.keys() if isinstance(payload, dict) else len(payload))
+```
+
+## 🗂️ Package layout #####################################################################
+
+The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
+
+* `nconnect.db` — SQLAlchemy helpers for table reads/writes (select/insert/update/upsert, procedures, migrations)
+* `nconnect.network` — network helpers (host info, HTTP requests with retries/throttling, downloads)
+
+## 🧩 Dependencies ########################################################################
+
+Local NEPTUNE dependencies:
+
+* `nutil`
+
+Key external dependencies:
+
+* `sqlalchemy` ^2.0.45
+* `httpcore` ^1.0.9
+* `httpx` ^0.28.1
+* `python-multipart` ^0.0.21
+* `requests` ^2.32.5
+* `urllib3` ^2.6.3
 
 ## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
-
-[license]: <LICENSE>
+Released under the [MIT License](LICENSE).

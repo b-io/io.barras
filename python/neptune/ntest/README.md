@@ -1,41 +1,60 @@
-# ♆ NEPTUNE
+# ♆ NEPTUNE — ntest ####################################################################################################
 
-**NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+**ntest** — Testing utility library for Python.
 
-* nconnect,
-* nfin,
-* nformat,
-* ngui,
-* nlearn,
-* nmath,
-* nserve,
-* ntest, and
-* nutil.
+* Version: `1.0.1a1`
+* Python: `>=3.10,<4.0`
+* Repository: https://github.com/b-io/io.barras/tree/master/python/neptune/ntest
 
-The library **nutil** contains utility functions; among them:
+## 🎯 Goal ################################################################################
 
-* handlers of main types (including array, dataframe, date/time, dictionary, list and string) and
-* database interface (including the CRUD and upsert operations).
-
-NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
-
----
+* Provide test and tooling utilities (style checks/fixes, packaging helpers, assertions).
 
 ## 🚀 Installation ########################################################################
 
-Launch the following commands in a shell:
+This repository is a monorepo. Each NEPTUNE package is a Poetry project under `neptune/<package>`.
+
+Developer install (editable, recommended):
 
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/python/neptune/
-mvn clean install
+python -m pip install --user --upgrade pip poetry
+poetry install
 ```
 
----
+Wheel install (build + install the latest wheel):
+
+```bash
+sh install.sh
+```
+
+## ⚡ Quickstart ##########################################################################
+
+```bash
+# Check style rules (regex-based)
+python -m ntest.style.style_checker --root . --config STYLE.yml
+
+# Fix simple issues in-place (or use --dry-run)
+python -m ntest.style.style_fixer --root . --config STYLE.yml --dry-run
+```
+
+## 🗂️ Package layout #####################################################################
+
+The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
+
+* `ntest.style` — regex-based style checker + in-place fixer (banner rules, comment rules, etc.)
+* `ntest.packaging` — Poetry dependency updater for `pyproject.toml`
+* `ntest.common` — assertion helpers + timed iteration utilities
+
+## 🧩 Dependencies ########################################################################
+
+Local NEPTUNE dependencies:
+
+* `nutil`
+
+Key external dependencies:
+
+* `packaging` ^25.0
 
 ## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
-
-[license]: <LICENSE>
+Released under the [MIT License](LICENSE).

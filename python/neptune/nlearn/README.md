@@ -1,42 +1,66 @@
-# ♆ NEPTUNE
+# ♆ NEPTUNE — nlearn ###################################################################################################
 
-**NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+**nlearn** — Machine learning utility library for Python.
 
-* nconnect,
-* nfin,
-* nformat,
-* ngui,
-* nlearn,
-* nmath,
-* nserve,
-* ntest, and
-* nutil.
+* Version: `1.0.1a1`
+* Python: `>=3.10,<4.0`
+* Repository: https://github.com/b-io/io.barras/tree/master/python/neptune/nlearn
 
-The library **nlearn** contains machine learning utility functions; among them:
+## 🎯 Goal ################################################################################
 
-* Gaussian mixture models,
-* regression models and
-* NLP models (including a handler for Global Vectors for Word Representation).
-
-NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
-
----
+* Provide small machine-learning helpers (clustering, regression, and basic NLP utilities).
 
 ## 🚀 Installation ########################################################################
 
-Launch the following commands in a shell:
+This repository is a monorepo. Each NEPTUNE package is a Poetry project under `neptune/<package>`.
+
+Developer install (editable, recommended):
 
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/python/neptune/
-mvn clean install
+python -m pip install --user --upgrade pip poetry
+poetry install
 ```
 
----
+Wheel install (build + install the latest wheel):
+
+```bash
+sh install.sh
+```
+
+## ⚡ Quickstart ##########################################################################
+
+```python
+import numpy as np
+
+from nlearn.clustering import create_clustering
+
+points = np.random.normal(size=(200, 2))
+model = create_clustering(points, n=3, random_state=42)
+print(model.n_clusters)
+```
+
+## 🗂️ Package layout #####################################################################
+
+The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
+
+* `nlearn.clustering` — clustering factories (KMeans / MiniBatchKMeans, Gaussian mixture)
+* `nlearn.regression` — regression helpers
+* `nlearn.nlp` — NLP utilities (tokenization/vectorization helpers)
+
+## 🧩 Dependencies ########################################################################
+
+Local NEPTUNE dependencies:
+
+* `ngui`, `nmath`, `nutil`
+
+Key external dependencies:
+
+* `statsmodels` ^0.14.6
+* `gensim` ^4.4.0
+* `scikit-learn` ^1.7.2
+* `scikit-lego` ^0.9.6
+* `tensorflow` ^2.20.0
 
 ## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
-
-[license]: <LICENSE>
+Released under the [MIT License](LICENSE).

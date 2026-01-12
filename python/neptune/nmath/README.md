@@ -1,40 +1,62 @@
-# ♆ NEPTUNE
+# ♆ NEPTUNE — nmath ####################################################################################################
 
-**NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+**nmath** — Mathematical utility library for Python.
 
-* nconnect,
-* nfin,
-* nformat,
-* ngui,
-* nlearn,
-* nmath,
-* nserve,
-* ntest, and
-* nutil.
+* Version: `1.0.1a1`
+* Python: `>=3.10,<4.0`
+* Repository: https://github.com/b-io/io.barras/tree/master/python/neptune/nmath
 
-The library **nmath** contains mathematical utility functions; among them:
+## 🎯 Goal ################################################################################
 
-* wrappers around common statistical distributions (including normal, binomial and poisson).
-
-NEPTUNE is based on popular libraries like numpy, pandas, plotly and scipy.
-
----
+* Provide statistical helpers and distribution utilities used across NEPTUNE.
 
 ## 🚀 Installation ########################################################################
 
-Launch the following commands in a shell:
+This repository is a monorepo. Each NEPTUNE package is a Poetry project under `neptune/<package>`.
+
+Developer install (editable, recommended):
 
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/python/neptune/
-mvn clean install
+python -m pip install --user --upgrade pip poetry
+poetry install
 ```
 
----
+Wheel install (build + install the latest wheel):
+
+```bash
+sh install.sh
+```
+
+## ⚡ Quickstart ##########################################################################
+
+```python
+import numpy as np
+
+from nmath.stats.normal import Normal
+
+d = Normal(mu=0.0, sigma=1.0)
+x = np.array([0.0, 1.0, 2.0])
+print(d.pdf(x))
+print(d.cdf(x))
+```
+
+## 🗂️ Package layout #####################################################################
+
+The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
+
+* `nmath.stats.descriptive` — descriptive statistics helpers
+* `nmath.stats.normal` / `lognormal` / `binomial` / `poisson` — distribution helpers and thin wrappers
+
+## 🧩 Dependencies ########################################################################
+
+Local NEPTUNE dependencies:
+
+* `ngui`, `nutil`
+
+Key external dependencies:
+
+* `scipy` ^1.15.3
 
 ## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
-
-[license]: <LICENSE>
+Released under the [MIT License](LICENSE).

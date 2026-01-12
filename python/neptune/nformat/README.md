@@ -1,41 +1,65 @@
-# ♆ NEPTUNE
+# ♆ NEPTUNE — nformat ##################################################################################################
 
-**NEPTUNE** is a set of decoupled **Python libraries** intended to facilitate Python development:
+**nformat** — Formatting utility library for Python.
 
-* nconnect,
-* nfin,
-* nformat,
-* ngui,
-* nlearn,
-* nmath,
-* nserve,
-* ntest, and
-* nutil.
+* Version: `1.0.1a1`
+* Python: `>=3.10,<4.0`
+* Repository: https://github.com/b-io/io.barras/tree/master/python/neptune/nformat
 
-The library **nformat** contains formatting utility functions; among them:
+## 🎯 Goal ################################################################################
 
-* color format, conversion, and utilities and
-* image formatting, conversion, and utilities
-
-NEPTUNE is based on popular libraries like numpy, pandas, plotly, and scipy.
-
----
+* Provide small formatting helpers for colors, HTML, images, and bulleted output.
 
 ## 🚀 Installation ########################################################################
 
-Launch the following commands in a shell:
+This repository is a monorepo. Each NEPTUNE package is a Poetry project under `neptune/<package>`.
+
+Developer install (editable, recommended):
 
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/python/neptune/
-mvn clean install
+python -m pip install --user --upgrade pip poetry
+poetry install
 ```
 
----
+Wheel install (build + install the latest wheel):
+
+```bash
+sh install.sh
+```
+
+## ⚡ Quickstart ##########################################################################
+
+```python
+from nformat.color import to_rgb, scale_color
+from nformat.struct import format_bulleted_dict
+
+print(to_rgb("tab:blue"))
+print(scale_color((0.1, 0.2, 0.3)))
+print(format_bulleted_dict({"a": 1, "b": 2}))
+```
+
+## 🗂️ Package layout #####################################################################
+
+The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
+
+* `nformat.color` — color naming/conversion utilities (RGB/HSV, scaling)
+* `nformat.html` — lightweight tag parsing helpers
+* `nformat.image` — OpenCV-based image helpers + Base64/HTML encoding
+* `nformat.struct` — formatting helpers for bulleted output
+
+## 🧩 Dependencies ########################################################################
+
+Local NEPTUNE dependencies:
+
+* `nutil`
+
+Key external dependencies:
+
+* `opencv-python` ^4.12.0.88
+* `beautifulsoup4` ^4.14.3
+* `scipy` ^1.15.3
+* `matplotlib` ^3.10.8
 
 ## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
-
-[license]: <LICENSE>
+Released under the [MIT License](LICENSE).
