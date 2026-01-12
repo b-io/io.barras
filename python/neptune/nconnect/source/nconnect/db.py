@@ -48,7 +48,7 @@ DEFAULT_SCHEMA: Optional[str] = None
 
 # The default per-statement fallback when the affected-row count is unknown (`None` / driver-specific)
 #
-# Notes:
+# Notes
 #   • Treat unknown row counts separately (see `is_unknown_row_count(…)` and per-function `*_unknown_count`)
 #   • If you still want a fallback:
 #       - DELETE/UPDATE: fallback 0 is safer to avoid overcounting
