@@ -70,3 +70,9 @@ poetry run pytest
 ## 📄 License #############################################################################
 
 Released under the [MIT License](LICENSE).
+
+## ☕ Support #############################################################################
+
+If you find NEPTUNE useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o

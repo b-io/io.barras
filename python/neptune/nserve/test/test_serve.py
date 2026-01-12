@@ -273,7 +273,7 @@ def test_run_uvicorn_validates_port_and_calls_uvicorn(monkeypatch: Any) -> None:
     assert calls["kwargs"]["reload"] is True
 
 
-#### HELPERS #################
+### HELPERS ################################################
 
 
 def _encode_headers(headers: Optional[Mapping[str, str]]) -> List[Tuple[bytes, bytes]]:

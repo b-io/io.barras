@@ -104,7 +104,7 @@ def scan_file(
     return violations
 
 
-#### HELPERS #################
+### HELPERS ################################################
 
 
 def _get_match_last_line(text: str, match: Any) -> Tuple[int, str]:

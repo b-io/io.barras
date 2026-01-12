@@ -160,7 +160,7 @@ def test_fix_line_comment_trailing_period() -> None:
     assert fixed == "# Hello\n"
 
 
-#### HELPERS ###############################################
+### HELPERS ################################################
 
 
 def _rule(rule_id: str, pattern: str) -> StyleRule:
