@@ -8,7 +8,7 @@
 
 ## 🎯 Goal ################################################################################
 
-* Provide the shared core utilities used by the other NEPTUNE packages.
+* Provide the core utilities used by the other NEPTUNE packages.
 
 ## 🚀 Installation ########################################################################
 
@@ -57,14 +57,14 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `multiprocess` ^0.70.18
-* `psutil` ^7.2.1
-* `numpy` ^2.2.6
-* `pandas` ^2.3.3
-* `tabulate` ^0.9.0
-* `chardet` ^5.2.0
-* `openpyxl` ^3.1.5
-* `orjson` ^3.11.5
+* `multiprocess`
+* `psutil`
+* `numpy`
+* `pandas`
+* `tabulate`
+* `chardet`
+* `openpyxl`
+* `orjson`
 * … (+16 more)
 
 ## 📄 License #############################################################################

@@ -58,7 +58,7 @@ def get_average_duration(series: pd.Series, per: Union[timedelta, np.timedelta64
         per: The normalization period (`np.timedelta64`, `datetime.timedelta`, or `pd.Timedelta`).
 
     Returns:
-        The average spacing as a float multiple of `per` (0.0 if fewer than two valid timestamps).
+        The average spacing as a float multiple of `per` (`0` if fewer than two valid timestamps).
 
     Raises:
         ValueError: If `per` is non-positive.
@@ -69,7 +69,7 @@ def get_average_duration(series: pd.Series, per: Union[timedelta, np.timedelta64
     )
     index = index[~index.isna()]
     if len(index) < 2:
-        return 0.0  # not enough points to form a difference
+        return 0  # not enough points to form a difference
 
     # Compute the mean delta as a `pd.Timedelta`
     average_delta: pd.Timedelta = (index[1:] - index[:-1]).mean()

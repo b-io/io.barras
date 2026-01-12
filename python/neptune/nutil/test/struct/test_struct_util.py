@@ -10,16 +10,13 @@
 
 from __future__ import annotations
 
-import logging
 import math
-import unittest
 from collections import OrderedDict
 
 from pandas.api.types import is_datetime64_any_dtype
 
 from nutil.config import *
 from nutil.enums import Aggregation, Position
-from nutil.io.logging import configure_logging
 from nutil.struct import util
 from nutil.struct.collection.registry.ordered_set import OrderedSet
 
@@ -949,19 +946,3 @@ def test_sum_rows_and_sum_cols_and_product_rows_and_cols() -> None:
     prod_c = util.product_cols(df)
     pd.testing.assert_series_equal(prod_r, df.product(axis=0))
     pd.testing.assert_series_equal(prod_c, df.product(axis=1))
-
-
-__STRUCT_UTIL_TEST_RUNNERS________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the structure utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

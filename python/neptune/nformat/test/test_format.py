@@ -11,11 +11,9 @@
 from __future__ import annotations
 
 import logging
-import unittest
 
 from nformat.color import *
 from nformat.image import *
-from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 from nutil.test.util import TEST_COUNT, timed
 
@@ -99,19 +97,3 @@ class TestFormat(Test):
     def evaluate_blurriness(self, image):
         t = timed(stmt=lambda: evaluate_blurriness(image), number=TEST_COUNT)
         logging.info("Evaluate the blurriness of an image", TEST_COUNT, "times in", round(t), "[s]")
-
-
-__FORMAT_TEST_RUNNERS_____________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the formatting utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

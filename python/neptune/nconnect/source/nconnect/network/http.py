@@ -35,9 +35,7 @@ __HTTP_CONSTANTS________________________________________________________________
 ### DEFAULTS ###############################################
 
 # The default user agent per the common API policy (e.g., Wikimedia)
-DEFAULT_USER_AGENT: str = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119 Safari/537.36"
-)
+DEFAULT_USER_AGENT: str = "python-requests"
 # The default `Accept` header used across the HTTP helpers (the output format negotiation)
 DEFAULT_ACCEPT: str = "*/*"
 # The default OK HTTP statuses

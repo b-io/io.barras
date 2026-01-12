@@ -20,8 +20,9 @@ Each subdirectory under `neptune/` is an installable Poetry package:
 | `nlearn`   | Machine learning utility library for Python | `statsmodels`, `gensim`, `scikit-learn`, `scikit-lego`, … |
 | `nmath`    | Mathematical utility library for Python     | `scipy`                                                   |
 | `nserve`   | Web-serving utility library for Python      | `asgiref`, `fastapi`, `uvicorn`                           |
-| `ntest`    | Testing utility library for Python          | `packaging`                                               |
-| `nutil`    | Shared utility library for Python           | `multiprocess`, `psutil`, `numpy`, `pandas`, …            |
+| `ntest`    | Testing utility library for Python          | `pytest`                                                  |
+| `ntool`    | Tooling utility library for Python          | `packaging`                                               |
+| `nutil`    | Core utility library for Python             | `multiprocess`, `psutil`, `numpy`, `pandas`, …            |
 
 ## 🗂️ Repository layout ##################################################################
 

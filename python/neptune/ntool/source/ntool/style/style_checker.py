@@ -25,7 +25,7 @@ from __future__ import annotations
 import argparse
 import logging
 
-from ntest.style.common import *
+from ntool.style.common import *
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.string import LETTERS

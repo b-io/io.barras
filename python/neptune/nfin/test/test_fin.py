@@ -11,10 +11,8 @@
 from __future__ import annotations
 
 import logging
-import unittest
 
 from nfin.time_series import *
-from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
 __FIN_TEST_CONSTANTS______________________________________________________________________ = ""
@@ -112,19 +110,3 @@ class TestFin(Test):
             color="orange",
         )
         fig.show()
-
-
-__FIN_TEST_RUNNERS________________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the financial utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

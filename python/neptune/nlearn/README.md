@@ -55,11 +55,11 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `statsmodels` ^0.14.6
-* `gensim` ^4.4.0
-* `scikit-learn` ^1.7.2
-* `scikit-lego` ^0.9.6
-* `tensorflow` ^2.20.0
+* `statsmodels`
+* `gensim`
+* `scikit-learn`
+* `scikit-lego`
+* `tensorflow`
 
 ## 📄 License #############################################################################
 

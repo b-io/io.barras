@@ -55,7 +55,7 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `scipy` ^1.15.3
+* `scipy`
 
 ## 📄 License #############################################################################
 

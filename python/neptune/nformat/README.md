@@ -55,10 +55,10 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `opencv-python` ^4.12.0.88
-* `beautifulsoup4` ^4.14.3
-* `scipy` ^1.15.3
-* `matplotlib` ^3.10.8
+* `opencv-python`
+* `beautifulsoup4`
+* `scipy`
+* `matplotlib`
 
 ## 📄 License #############################################################################
 

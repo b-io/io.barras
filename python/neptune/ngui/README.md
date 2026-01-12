@@ -55,12 +55,12 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `xhtml2pdf` ^0.2.17
-* `kaleido` ^1.2.0
-* `matplotlib` ^3.10.8
-* `plotly` ^6.5.1
-* `seaborn` ^0.13.2
-* `tqdm` ^4.67.1
+* `xhtml2pdf`
+* `kaleido`
+* `matplotlib`
+* `plotly`
+* `seaborn`
+* `tqdm`
 
 ## 📄 License #############################################################################
 

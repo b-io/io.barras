@@ -52,12 +52,12 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `sqlalchemy` ^2.0.45
-* `httpcore` ^1.0.9
-* `httpx` ^0.28.1
-* `python-multipart` ^0.0.21
-* `requests` ^2.32.5
-* `urllib3` ^2.6.3
+* `sqlalchemy`
+* `httpcore`
+* `httpx`
+* `python-multipart`
+* `requests`
+* `urllib3`
 
 ## 📄 License #############################################################################
 

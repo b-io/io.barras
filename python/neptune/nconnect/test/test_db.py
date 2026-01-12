@@ -10,13 +10,10 @@
 
 from __future__ import annotations
 
-import unittest
-
 from sqlalchemy import event
 from sqlalchemy.pool import StaticPool
 
 from nconnect.db import *
-from nutil.io.logging import configure_logging
 from nutil.struct.util import to_frame
 from nutil.test.unittest import Test
 
@@ -359,19 +356,3 @@ class TestDB(Test):
             self.assert_true(counter["checkout"] <= 10)
         finally:
             event.remove(self._engine.pool, "checkout", _on_checkout)
-
-
-__DB_TEST_RUNNERS_________________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the DB utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

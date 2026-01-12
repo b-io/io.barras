@@ -2,7 +2,7 @@
 [tool.poetry]
 name = "nutil"
 version = "1.0.1a1"
-description = "NEPTUNE is a collection of decoupled Python modules for robust application development"
+description = "Core utility library for Python"
 authors = ["Florian Barras <florian@barras.io>"]
 maintainers = ["Florian Barras <florian@barras.io>"]
 license = "MIT"

@@ -16,7 +16,7 @@ from pathlib import Path
 
 import yaml
 
-from ntest.common import DEFAULT_EXCLUDES
+from ntool.common import DEFAULT_EXCLUDES
 from nutil.common import *
 from nutil.io.file import get_dirnames_from_globs
 from nutil.struct.collection.list import deduplicate

@@ -28,6 +28,7 @@
 		<module>nmath</module>
 		<module>nserve</module>
 		<module>ntest</module>
+		<module>ntool</module>
 		<module>nutil</module>
 	</modules>
 </project>

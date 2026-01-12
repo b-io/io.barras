@@ -12,9 +12,7 @@ from __future__ import annotations
 
 import logging
 import timeit
-import unittest
 
-from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.scalar.string import *
 from nutil.test.unittest import Test
@@ -247,19 +245,3 @@ class TestMath(Test):
             round(t),
             "[s]",
         )
-
-
-__COMMON_TEST_RUNNERS_____________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the common utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

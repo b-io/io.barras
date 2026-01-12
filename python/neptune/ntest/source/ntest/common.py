@@ -13,22 +13,11 @@ from __future__ import annotations
 import logging
 import timeit
 
+import pytest
+
 from nutil.struct.util import *
 
 __COMMON_TEST_CONSTANTS___________________________________________________________________ = ""
-
-
-### DEFAULTS ###############################################
-
-DEFAULT_EXCLUDES: List[str] = [
-    "**/__pycache__/**",
-    "**/.git/**",
-    "**/.venv/**",
-    "**/build/**",
-    "**/dist/**",
-    "**/node_modules/**",
-    "**/venv/**",
-]
 
 
 ### GLOBALS ################################################
@@ -81,7 +70,7 @@ def assert_equals(first, second, precision=PRECISION, assert_order=False):
         if is_number(first) and is_number(second):
             if not is_null(first) and not is_null(second):
                 # Use pytest's approx for clear diffs
-                assert first == pytest.approx(second, abs=0, rel=0, ndigits=precision)
+                assert first == pytest.approx(second, abs=10 ** (-precision), rel=0)
         else:
             assert first == second
 

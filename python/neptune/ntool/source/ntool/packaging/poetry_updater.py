@@ -42,7 +42,7 @@ from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 
 from nconnect.network import http
-from ntest.common import DEFAULT_EXCLUDES
+from ntool.common import DEFAULT_EXCLUDES
 from nutil.io.file import *
 from nutil.io.logging import configure_logging
 from nutil.scalar.string import ALPHANUMERIC_CHARS, split_line, strip_line

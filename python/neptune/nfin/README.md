@@ -55,7 +55,7 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `statsmodels` ^0.14.6
+* `statsmodels`
 
 ## 📄 License #############################################################################
 

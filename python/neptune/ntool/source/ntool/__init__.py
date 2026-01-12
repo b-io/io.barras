@@ -5,25 +5,20 @@
 
 ########################################################################################################################
 # Goal
-#   Test the test utilities.
+#   Provide tooling utilities.
 ########################################################################################################################
 
 from __future__ import annotations
 
-import logging
-
-from nutil.io.logging import configure_logging
-
-__TESTING_TEST_RUNNERS____________________________________________________________________ = ""
+__TOOL_CONSTANTS__________________________________________________________________________ = ""
 
 
-### MAIN ###################################################
+__all__ = [s for s in dir() if not s.startswith("_")]
+__version__ = "1.0.1a1"
 
 
-def main() -> None:
-    """Tests the test utilities."""
-    configure_logging(level=logging.DEBUG)
+### GLOBALS ################################################
 
-
-if __name__ == "__main__":
-    main()
+NAME = "ntool"
+VERSION = __version__
+DESCRIPTION = "Tooling utility library"

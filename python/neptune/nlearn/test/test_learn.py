@@ -10,14 +10,11 @@
 
 from __future__ import annotations
 
-import unittest
-
 import matplotlib
 from sklearn.datasets import make_blobs
 
 from nlearn.clustering import *
 from nlearn.nlp import *
-from nutil.io.logging import configure_logging
 from nutil.test.unittest import Test
 
 __LEARN_TEST_SETTINGS_____________________________________________________________________ = ""
@@ -142,19 +139,3 @@ class TestLearn(Test):
     def test_nlp(self):
         logging.info("Create a handler for word embeddings")
         _ = WordEmbeddings()
-
-
-__LEARN_TEST_RUNNERS______________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the machine learning utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

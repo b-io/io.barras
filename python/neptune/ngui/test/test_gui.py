@@ -10,14 +10,10 @@
 
 from __future__ import annotations
 
-import logging
-import unittest
-
 import plotly.express as px
 
 from nformat.image import *
 from ngui import charts
-from nutil.io.logging import configure_logging
 from nutil.struct.util import sum
 from nutil.test.unittest import Test
 
@@ -61,19 +57,3 @@ class TestGui(Test):
         self.assert_equals(charts.fig_to_png_html(fig)[-42:-10], "4QAAAAEOn/AKmlt7PIJQ5AAAAAAElFTk")
         self.assert_equals(charts.fig_to_svg_html(fig)[-42:-10], 'g-xtitle"/><g class="g-ytitle"/>')
         self.assert_equals(charts.fig_to_webp_html(fig)[-42:-10], "/Uf+o/9Z/6T/2n/lP/qf/Uf+o/9Z/6T/")
-
-
-__GUI_TEST_RUNNERS________________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the graphical utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

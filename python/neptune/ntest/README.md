@@ -8,7 +8,7 @@
 
 ## 🎯 Goal ################################################################################
 
-* Provide test and tooling utilities (style checks/fixes, packaging helpers, assertions).
+* Provide test utilities (assertions).
 
 ## 🚀 Installation ########################################################################
 
@@ -30,19 +30,24 @@ sh install.sh
 ## ⚡ Quickstart ##########################################################################
 
 ```bash
-# Check style rules (regex-based)
-python -m ntest.style.style_checker --root . --config STYLE.yml
+from __future__ import annotations
 
-# Fix simple issues in-place (or use --dry-run)
-python -m ntest.style.style_fixer --root . --config STYLE.yml --dry-run
+import numpy as np
+
+from ntest.common import assert_equals
+
+
+def test_assert_equals_numpy() -> None:
+    first = np.array([[1.0, 2.0], [3.0, 4.0]])
+    second = first.copy()
+    second[0, 0] += 4e-7
+    assert_equals(first, second, precision=6)
 ```
 
 ## 🗂️ Package layout #####################################################################
 
 The source code lives under `source/` (not `src/`), and the unit tests live under `test/`.
 
-* `ntest.style` — regex-based style checker + in-place fixer (banner rules, comment rules, etc.)
-* `ntest.packaging` — Poetry dependency updater for `pyproject.toml`
 * `ntest.common` — assertion helpers + timed iteration utilities
 
 ## 🧩 Dependencies ########################################################################
@@ -53,7 +58,7 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `packaging` ^25.0
+* `pytest`
 
 ## 📄 License #############################################################################
 

@@ -10,11 +10,8 @@
 
 from __future__ import annotations
 
-import unittest
-
 import pytest
 
-from nutil.io.logging import configure_logging
 from nutil.metaclasses import *
 
 __METACLASS_TEST_CASES____________________________________________________________________ = ""
@@ -370,19 +367,3 @@ def test_temp_singleton_meta_rejects_negative_lifespan() -> None:
 
     with pytest.raises(ValueError, match="Lifespan must be non-negative"):
         TempService.set(1, _lifespan=-1)
-
-
-__METACLASS_TEST_RUNNERS__________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the metaclasses."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

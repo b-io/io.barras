@@ -11,12 +11,10 @@
 from __future__ import annotations
 
 import logging
-import unittest
 
 from ngui import charts
 from nmath.common import *
 from nmath.stats import binomial, descriptive, lognormal, normal, poisson
-from nutil.io.logging import configure_logging
 from nutil.math import *
 from nutil.scalar.string import par
 from nutil.struct.util import concat_cols, get_col, to_series
@@ -177,19 +175,3 @@ class TestStats(Test):
         logging.info("- Standard deviation confidence interval (with arrays):", interval_a)
         logging.info("- Standard deviation confidence interval (with series):", interval_s)
         self.assert_equals(interval_a, interval_s)
-
-
-__MATH_TEST_RUNNERS_______________________________________________________________________ = ""
-
-
-### MAIN ###################################################
-
-
-def main() -> None:
-    """Tests the mathematical utilities."""
-    configure_logging(level=logging.DEBUG)
-    unittest.main()
-
-
-if __name__ == "__main__":
-    main()

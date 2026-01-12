@@ -53,9 +53,9 @@ Local NEPTUNE dependencies:
 
 Key external dependencies:
 
-* `asgiref` ^3.11.0
-* `fastapi` ^0.128.0
-* `uvicorn` ^0.40.0
+* `asgiref`
+* `fastapi`
+* `uvicorn`
 
 ## 📄 License #############################################################################
 
