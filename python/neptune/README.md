@@ -39,27 +39,18 @@ This repository supports two common workflows.
 Installs all NEPTUNE packages in a single Poetry environment (useful for development across modules):
 
 ```bash
-mvn -DskipTests install
+mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
 ### 🧩 Install a single package #############################
 
 ```bash
-mvn -pl <package> -am -DskipTests install
+mvn -pl <package> -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
 To build and install a wheel for a single package, run `sh install.sh` inside that package directory.
 
 ## 🧰 Development #########################################################################
-
-A small Makefile is provided at `neptune/Makefile` for common tasks (run it from `neptune/`):
-
-```bash
-make help
-make format
-make lint
-make mypy
-```
 
 Run unit tests per package:
 

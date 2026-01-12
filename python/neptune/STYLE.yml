@@ -42,7 +42,7 @@ rules:
 
   - id: "inline-comment-lowercase"
     description: "Inline comments (after code) must start with a lowercase letter."
-    pattern: "^(?!\\s*#).*?\\S[ \\t]{2,}#[ \\t]+(?!noqa\\b|type:\\s*ignore\\b|pylint:|mypy:|pyright:|isort:|fmt:|pragma\\b|TODO\\b|FIXME\\b|NOTE\\b)(?-i:[A-Z])"
+    pattern: "^(?!\\s*#)(?:(?:[rRuUbBfF]{0,2}\"(?:\\\\.|[^\"\\\\])*\"|[rRuUbBfF]{0,2}'(?:\\\\.|[^'\\\\])*'|[^\"'#])*)\\S[ \\t]{2,}#[ \\t]+(?!(?i:noqa\\b|type:\\s*ignore\\b|pylint:|mypy:|pyright:|isort:|fmt:|pragma\\b|todo\\b|fixme\\b|note\\b))(?-i:[A-Z])"
     include: [ "**/*.py" ]
     exclude: [ ]
     flags: [ ]

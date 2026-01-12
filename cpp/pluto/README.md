@@ -13,7 +13,7 @@ Launch the following commands in a shell:
 ```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/cpp/pluto/
-mvn -Dhttps.protocols=TLSv1.2 clean install
+mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
 ---

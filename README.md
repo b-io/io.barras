@@ -47,7 +47,7 @@ Clone the repository and build the project:
 ```bash
 git clone https://github.com/b-io/io.barras.git
 cd io.barras/
-mvn -Dhttps.protocols=TLSv1.2 clean install
+mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
 Or add the public Maven repository to your `pom.xml`:
@@ -82,9 +82,12 @@ pre-commit run --all-files
 
 ---
 
-## 📄 License
+## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+Released under the [MIT License](LICENSE).
 
-[license]: <LICENSE>
+## ☕ Support #############################################################################
+
+If you find NEPTUNE useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o
