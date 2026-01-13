@@ -163,7 +163,7 @@ _RELEASE(a);
 
 ## 📄 License #############################################################################
 
-Released under the [MIT License](../../LICENSE).
+Released under the [MIT License](LICENSE).
 
 ## ☕ Support #############################################################################
 

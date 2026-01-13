@@ -39,7 +39,7 @@ mvn -pl scala/saturn -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 
 ## 📄 License #############################################################################
 
-Released under the [MIT License](../../LICENSE).
+Released under the [MIT License](LICENSE).
 
 ## ☕ Support #############################################################################
 
