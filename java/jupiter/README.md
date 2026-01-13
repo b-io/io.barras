@@ -1,35 +1,59 @@
-# ♃ JUPITER
+# ♃ JUPITER ############################################################################################################
 
-**JUPITER** is a **Java library** intended to facilitate software development and particularly
-scientific computing. The library contains utility functions; among them:
+**JUPITER** is the Java family of **io.barras**: a set of core libraries intended to facilitate software development,
+with an emphasis on scientific computing.
 
-  * useful operators (like map/reduce),
-  * simple and complex statistical functions (like Normal distribution or Bayesian inference),
-  * a multithreaded matrix calculator (supporting broadcasting) and
-  * several machine learning models (like logistic regression or deep neural networks).
+* Version: `1.8.0`
+* Java: targets Java 8 bytecode by default (see `java/pom.xml` properties)
+* Repository: https://github.com/b-io/io.barras/tree/master/java/jupiter
 
-JUPITER is fully compliant with Java 6 (release-java-6), Java 8 (release-java-8) or Java 11
-(release-java-11).
+## 🧩 Modules #############################################################################
 
-Please do not hesitate to leave your comments for further improvement or for which applications
-you may use it. Enjoy!
+JUPITER is a multi-module Maven project:
 
----
+| Module      | Description                                       |
+|-------------|---------------------------------------------------|
+| `common`    | Common utilities                                  |
+| `connect`   | Connectors                                        |
+| `execution` | Execution handlers                                |
+| `gui`       | Graphical user interfaces                         |
+| `hardware`  | Hardware interfaces                               |
+| `lang`      | Programming language interfaces                   |
+| `learn`     | Machine learning algorithms                       |
+| `log`       | Log handlers                                      |
+| `math`      | Mathematical functions                            |
+| `media`     | Media interfaces                                  |
+| `mobile`    | Mobile interfaces                                 |
+| `network`   | Network libraries                                 |
+| `security`  | Asymmetric and symmetric cryptographic algorithms |
 
-## 🚀 Installation
+## 🗂️ Repository layout ##################################################################
 
-Launch the following commands in a shell:
+* `jupiter/<module>/source/...` — implementation
+* `jupiter/<module>/test/...` — unit tests (when present)
+
+## 🚀 Installation ########################################################################
+
+### 🧱 Install the full workspace ###########################
+
+From the repository root:
+
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/java/jupiter/
 mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
----
+### 🧩 Build only JUPITER ###################################
 
-## 📄 License
+```bash
+mvn -pl java/jupiter -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
+```
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+## 📄 License #############################################################################
 
-[license]: <LICENSE>
+Released under the [MIT License](../../LICENSE).
+
+## ☕ Support #############################################################################
+
+If you find JUPITER useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o

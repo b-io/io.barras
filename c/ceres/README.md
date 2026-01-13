@@ -1,39 +1,47 @@
-# ⚳ CERES
+# ⚳ CERES ##############################################################################################################
 
-**CERES** is an ANSI C library whose goal is to have a higher level of abstraction than the standard
-library without losing the efficiency and the portability of C. Its syntax is very easy to learn
-(similar to Java) and it contains a set of structures that are easy to handle; each structure
-inherits a set of core structures that offer numerous functionalities; among them:
+**CERES** is the C family of **io.barras**: an ANSI C library whose goal is to provide a higher level of abstraction
+than the standard library without losing the efficiency and portability of C.
 
-  * handlers of basic types (character, digit, natural, integer and real),
-  * string operations (including safe copy, concatenate, find and replace),
-  * mathematical operations (including vector calculations) and
-  * iterable structures (array, collection, array list, linked list, sorted list) that can generate
-    an iterator over the elements.
+* Version: `1.0.1a1`
+* C: ANSI C (compiled with `-ansi` / `-pedantic`)
+* Repository: https://github.com/b-io/io.barras/tree/master/c/ceres
 
-CERES is based on the ANSI C standard library and does not require any other library.
+## ✨ Highlights ##########################################################################
 
-Please do not hesitate to leave your comments for further improvement!
+* Handlers of basic types (character, digit, natural, integer, real)
+* String operations (safe copy, concatenate, find, replace)
+* Mathematical operations (including vector calculations)
+* Iterable structures (array, collection, array list, linked list, sorted list) with iterators
 
----
+CERES is based on the ANSI C standard library and does not require any other third-party dependency.
 
-## 🚀 Installation
+## 🗂️ Repository layout ##################################################################
 
-Launch the following commands in a shell:
+* `source/ceres/...` — implementation (headers and sources)
+
+## 🚀 Installation ########################################################################
+
+### 🧱 Install the full workspace ###########################
+
+From the repository root:
+
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/c/ceres/
 mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
----
+### 🧩 Build only CERES #####################################
 
-## 💡 Examples
+```bash
+mvn -pl c/ceres -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
+```
+
+## 💡 Examples ############################################################################
 
 > *"Talk is cheap. Show me the code."*  
 > — Linus Torvalds
 
-#### 1. Number and Object
+### 1. Number and Object
 
 ```c
 /* Create a Number able to change its base from 2 to _NUMBER_BASE_MAX (36) */
@@ -58,7 +66,7 @@ n.changeBase(&n, 16);
 printn(_S("%O"), &o); /* 14 */
 ```
 
-#### 2. Array
+### 2. Array
 
 ```c
 /* Define the constant(s) */
@@ -99,7 +107,7 @@ printn(_S("%s %s%s"), a->get(a, 0).value, a->get(a, 1).value, a->get(a, 2).value
 _RELEASE(a);
 ```
 
-#### 3. Time
+### 3. Time
 
 ```c
 const tick t = chrono_start();
@@ -124,7 +132,7 @@ printn(_S("Hexavigesimal: %N"), &n); /* DGEHTYM or KMLUXINKECOJO */
 chrono_end(t); /* #Ticks: ... | Elapsed time: ... [ms] */
 ```
 
-4. Sort
+### 4. Sort
 
 ```c
 /* Fill the Array with integers (full copy) */
@@ -153,9 +161,12 @@ _RELEASE(a);
 
 ---
 
-## 📄 License
+## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+Released under the [MIT License](../../LICENSE).
 
-[license]: <LICENSE>
+## ☕ Support #############################################################################
+
+If you find CERES useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o

@@ -1,29 +1,43 @@
-# ♅ URANUS
+# ♅ URANUS #############################################################################################################
 
-**URANUS** is a **Shell library** intended to facilitate POSIX Shell development.
-The library contains utility functions; among them:
+**URANUS** is the POSIX Shell family of **io.barras**: a library intended to facilitate shell scripting and automation.
 
-  * create POSIX-compliant arrays that are simple to use,
-  * store arguments and parameterized options in an array,
-  * package any project in a structured way (RPM or Solaris package) and
-  * generate, start and stop Linux containers (LXC).
+* Version: `1.0.1a1`
+* Shell: POSIX-compliant
+* Repository: https://github.com/b-io/io.barras/tree/master/shell/uranus
 
-URANUS is fully compliant with POSIX and does not require any other library.
+## ✨ Highlights ##########################################################################
 
----
+* POSIX-compliant arrays that are simple to use
+* Argument and option handling
+* Packaging utilities (RPM / Solaris package)
+* Linux container helpers (LXC)
 
-## 🚀 Installation
+URANUS is fully compliant with POSIX and does not require any other third-party dependency.
 
-Launch the following commands in a shell:
+## 🗂️ Repository layout ##################################################################
+
+* `uranus/uranus/` — shell functions
+* `uranus/uranus/pms/` — package management system helpers
+* `uranus/uranus/vms/` — virtualization management system helpers
+
+## 🚀 Installation ########################################################################
+
+### 🧱 Install the full workspace ###########################
+
+From the repository root:
+
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/shell/uranus/
 mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
----
+### 🧩 Build only URANUS ####################################
 
-## 💡 Examples
+```bash
+mvn -pl shell/uranus -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
+```
+
+## 💡 Examples ############################################################################
 
 > *"Talk is cheap. Show me the code."*  
 > — Linus Torvalds
@@ -75,6 +89,7 @@ printArray "$ARGS"
 
 Package on Red-Hat or Solaris operating systems thanks to the PMS library.
 Have a look to **ura-package**:
+
 ```bash
 startList 'Prepare'
 	preparePackage "$SOURCE_DIR"
@@ -92,25 +107,33 @@ endList
 #### 4. Virtualization Management System (VMS)
 
 Manage Linux containers conveniently thanks to the VMS library. Have a look to:
+
 - **ura-create** for creating a LXC container:
+
 ```bash
 createContainer "$NAME"
 ```
+
 - **ura-start** for starting a LXC container:
+
 ```bash
 startContainer "$NAME"
 ```
 
 - **ura-stop** for stopping a LXC container:
+
 ```bash
 stopContainer "$NAME"
 ```
 
 ---
 
-## 📄 License
+## 📄 License #############################################################################
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+Released under the [MIT License](../../LICENSE).
 
-[license]: <LICENSE>
+## ☕ Support #############################################################################
+
+If you find URANUS useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o

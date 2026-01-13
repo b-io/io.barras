@@ -1,26 +1,41 @@
-# ♇ PLUTO
+# ♇ PLUTO ##############################################################################################################
 
-**PLUTO** is a standard C++ 11 library intended to facilitate software development and particularly
-scientific computing.
+**PLUTO** is the C++ family of **io.barras**: a standard **C++11** library intended to facilitate software development,
+with an emphasis on scientific computing.
 
-PLUTO is based on the standard C++ 11 library and does not require any other library.
+* Version: `1.0.1a1`
+* C++: `>=11`
+* Repository: https://github.com/b-io/io.barras/tree/master/cpp/pluto
 
----
+PLUTO is based on the standard C++ library and does not require any other third-party dependency.
 
-## 🚀 Installation
+## 🗂️ Repository layout ##################################################################
 
-Launch the following commands in a shell:
+* `source/pluto/...` — implementation
+* `test/` — small test / sample programs
+
+## 🚀 Installation ########################################################################
+
+### 🧱 Install the full workspace ###########################
+
+From the repository root:
+
 ```bash
-git clone https://github.com/b-io/io.barras.git
-cd io.barras/cpp/pluto/
 mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
----
+### 🧩 Build only PLUTO #####################################
 
-## 📄 License
+```bash
+mvn -pl cpp/pluto -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
+```
 
-The libraries are released under the [MIT License](LICENSE).  
-You are free to download, use, and share suggestions — contribute if you'd like to get involved.
+## 📄 License #############################################################################
 
-[license]: <LICENSE>
+Released under the [MIT License](../../LICENSE).
+
+## ☕ Support #############################################################################
+
+If you find PLUTO useful, you can support the development here:
+
+* Ko-fi: https://ko-fi.com/b_i_o
