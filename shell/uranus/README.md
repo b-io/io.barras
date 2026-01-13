@@ -37,6 +37,29 @@ mvn -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 mvn -pl shell/uranus -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 ```
 
+## 🧩 Usage ###############################################################################
+
+URANUS can be used either by installing system-wide (via `ura-install`) or by sourcing it directly.
+
+### 📦 Source directly from the repository ##################
+
+```bash
+# From the repository root
+export URA_DIR="$(pwd)/shell/uranus/uranus"
+. "$URA_DIR/profile"
+. "$URA_DIR/ura.sh"
+
+# Example: basic printing
+printn "hello from uranus"
+```
+
+### 🧰 Install system-wide ##################################
+
+```bash
+# From the repository root (requires root permissions)
+sudo ./shell/uranus/ura-install
+```
+
 ## 💡 Examples ############################################################################
 
 > *"Talk is cheap. Show me the code."*  
@@ -132,8 +155,10 @@ stopContainer "$NAME"
 
 Released under the [MIT License](LICENSE).
 
-## ☕ Support #############################################################################
+## 📫 Support and feedback ################################################################
 
-If you find URANUS useful, you can support the development here:
+If you use URANUS and want to report an issue or share feedback:
 
+* Email: florian@barras.io
+* Issues: https://github.com/b-io/io.barras/issues
 * Ko-fi: https://ko-fi.com/b_i_o

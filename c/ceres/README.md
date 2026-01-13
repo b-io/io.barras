@@ -165,8 +165,10 @@ _RELEASE(a);
 
 Released under the [MIT License](LICENSE).
 
-## ☕ Support #############################################################################
+## 📫 Support and feedback ################################################################
 
-If you find CERES useful, you can support the development here:
+If you use CERES and want to report an issue or share feedback:
 
+* Email: florian@barras.io
+* Issues: https://github.com/b-io/io.barras/issues
 * Ko-fi: https://ko-fi.com/b_i_o

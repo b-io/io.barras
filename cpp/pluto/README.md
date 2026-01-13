@@ -9,6 +9,30 @@ with an emphasis on scientific computing.
 
 PLUTO is based on the standard C++ library and does not require any other third-party dependency.
 
+## ✨ Highlights ##########################################################################
+
+* Console I/O helpers (severity-style messages and progress bars)
+* File utilities (basic file handling helpers)
+* Math helpers and small reusable utilities (strings, formats, arguments)
+* Lightweight base types (exceptions, copyable entities)
+
+## 💡 Example #############################################################################
+
+```cpp
+#include "pluto/io/ConsoleHandler.h"
+
+int main()
+{
+    const double n = 100;
+    for (double i = 0; i <= n; ++i)
+    {
+        // Prints a one-line loading bar when progress increases
+        ConsoleHandler::printLoadingBar(i, n);
+    }
+    return 0;
+}
+```
+
 ## 🗂️ Repository layout ##################################################################
 
 * `source/pluto/...` — implementation
@@ -34,8 +58,10 @@ mvn -pl cpp/pluto -am -Dhttps.protocols=TLSv1.2 -DskipTests clean install
 
 Released under the [MIT License](LICENSE).
 
-## ☕ Support #############################################################################
+## 📫 Support and feedback ################################################################
 
-If you find PLUTO useful, you can support the development here:
+If you use PLUTO and want to report an issue or share feedback:
 
+* Email: florian@barras.io
+* Issues: https://github.com/b-io/io.barras/issues
 * Ko-fi: https://ko-fi.com/b_i_o

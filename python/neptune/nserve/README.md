@@ -60,3 +60,11 @@ Key external dependencies:
 ## 📄 License #############################################################################
 
 Released under the [MIT License](LICENSE).
+
+## 📫 Support and feedback ################################################################
+
+If you use nserve and want to report an issue or share feedback:
+
+* Email: florian@barras.io
+* Issues: https://github.com/b-io/io.barras/issues
+* Ko-fi: https://ko-fi.com/b_i_o

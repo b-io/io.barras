@@ -52,6 +52,14 @@ To build and install a wheel for a single package, run `sh install.sh` inside th
 
 ## 🧰 Development #########################################################################
 
+Optional pre-commit hooks (NEPTUNE only):
+
+```bash
+python -m pip install --user pre-commit
+pre-commit install --config python/neptune/.pre-commit-config.yaml --install-hooks --overwrite
+pre-commit run --all-files --config python/neptune/.pre-commit-config.yaml
+```
+
 Run unit tests per package:
 
 ```bash
@@ -62,8 +70,10 @@ poetry run pytest
 
 Released under the [MIT License](LICENSE).
 
-## ☕ Support #############################################################################
+## 📫 Support and feedback ################################################################
 
-If you find NEPTUNE useful, you can support the development here:
+If you use NEPTUNE and want to report an issue or share feedback:
 
+* Email: florian@barras.io
+* Issues: https://github.com/b-io/io.barras/issues
 * Ko-fi: https://ko-fi.com/b_i_o
